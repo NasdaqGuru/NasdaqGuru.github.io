@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Narissara Khomkhai | Executive Data Analytics Resume</title>
+
+    <!-- SEO & Social Preview (Open Graph) -->
+    <meta name="description" content="Narissara Khomkhai — Data Architect & Strategist with 15+ years transforming institutional data into strategic assets at Harvard, Phillips Academy, and UAMS.">
+    <meta property="og:title" content="Narissara Khomkhai | Executive Data Analytics Resume">
+    <meta property="og:description" content="Data Architect & Strategist | Harvard FAS DataHub Pioneer | $775M Campaign Reporting | Oracle BI, SQL, Power BI">
+    <meta property="og:type" content="website">
+
+    <!-- Font Awesome for icons (fixed) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --primary:      #2c3e50;
+            --accent:       #75bceb;
+            --accent-dark:  #4a9fd4;
+            --text:         #333;
+            --light-bg:     #f4f7f6;
+            --sidebar-text: #ecf0f1;
+            --border:       #e2e8f0;
+            --muted:        #64748b;
+        }
+
+        body {
+            font-family: 'Cambria', Georgia, serif;
+            line-height: 1.6;       /* fixed from 1 — much more readable */
+            color: var(--text);
+            background-color: #cbd5e1;
+            margin: 0;
+            padding: 20px 15px 40px;
+        }
+
+        /* ── Layout Container ── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #fff;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.18);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* ══════════════════════════
+           SIDEBAR
+        ══════════════════════════ */
+        .sidebar {
+            background-color: var(--primary);
+            color: var(--sidebar-text);
+            padding: 40px 25px;
+        }
+
+        /* Profile picture — gracefully hidden if image missing */
+        .profile-pic {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            margin: 0 auto 20px;
+            display: block;
+            background: #3d5166; /* fallback colour while image loads */
+        }
+        /* Hide broken-image icon if src is missing */
+        .profile-pic[src="profile-pic.jpg"]::after {
+            content: '';
+        }
+
+        .sidebar h1 {
+            font-family: 'Cambria', Georgia, serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-align: center;
+            color: #fff;
+            letter-spacing: 1.5px;
+            margin-bottom: 4px;
+        }
+
+        .sidebar .title-tag {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--accent);
+            letter-spacing: 1px;
+            margin-bottom: 0;
+        }
+
+        /* Contact */
+        .contact-box { margin-top: 25px; font-size: 0.85rem; }
+
+        .contact-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            word-break: break-word;
+        }
+
+        .contact-item i { color: var(--accent); width: 16px; flex-shrink: 0; }
+
+        .sidebar a {
+            color: var(--sidebar-text);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+        .sidebar a:hover { border-bottom-color: var(--accent); }
+
+        /* Sidebar Sections */
+        .sidebar-section { margin-top: 35px; }
+
+        .sidebar-section h3 {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 6px;
+            text-transform: uppercase;
+            font-size: 0.78rem;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+
+        .skill-group { margin-bottom: 14px; font-size: 0.8rem; line-height: 1.55; }
+        .skill-label {
+            font-weight: bold;
+            display: block;
+            color: var(--accent);
+            margin-bottom: 3px;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ══════════════════════════
+           MAIN CONTENT
+        ══════════════════════════ */
+        .main-content { padding: 40px 40px 50px; }
+
+        /* Summary */
+        .summary-box {
+            background: var(--light-bg);
+            padding: 22px 25px;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            margin-bottom: 35px;
+            font-size: 0.95rem;
+            line-height: 1.75;
+        }
+        .summary-box p + p { margin-top: 10px; }
+
+        /* Section headings */
+        h2 {
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+            font-size: 1.2rem;
+            margin-top: 40px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2 i { color: var(--accent); font-size: 1rem; }
+
+        .section-hint {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+            font-style: italic;
+        }
+
+        /* ── Experience Tiles ── */
+        .exp-tile {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            transition: box-shadow 0.2s;
+            overflow: hidden;
+        }
+        .exp-tile:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.07); }
+
+        summary {
+            padding: 14px 20px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            user-select: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+
+        .header-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .company { font-weight: 800; color: var(--primary); font-size: 0.95rem; }
+        .office  { font-size: 0.85rem; color: var(--muted); }
+        .date    { font-size: 0.78rem; color: var(--accent-dark); font-weight: 700; white-space: nowrap; }
+        .role    { font-weight: 600; font-size: 0.88rem; color: #a91515; margin-top: 2px; }
+
+        .details-body {
+            padding: 16px 20px 20px;
+            font-size: 0.88rem;
+            color: var(--text);
+            border-top: 1px solid #f1f5f9;
+            line-height: 1.7;
+        }
+
+        .details-body h4 {
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--muted);
+            margin: 14px 0 8px;
+        }
+        .details-body h4:first-child { margin-top: 0; }
+
+        .details-body ul { padding-left: 18px; }
+        .details-body li { margin-bottom: 7px; }
+
+        /* ── Impact Metric Cards ── */
+        .imp-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin: 14px 0 4px;
+        }
+        .imp-card {
+            background: var(--light-bg);
+            border-radius: 8px;
+            padding: 14px 12px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+            text-align: center;
+            user-select: none;
+        }
+        .imp-card:hover {
+            border-color: var(--accent-dark);
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(74,159,212,0.12);
+        }
+        .imp-card.active {
+            border-color: var(--accent-dark);
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(74,159,212,0.18);
+        }
+        .imp-num {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--accent-dark);
+            line-height: 1.1;
+            margin-bottom: 6px;
+        }
+        .imp-label {
+            font-size: 0.72rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+        .imp-detail {
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--accent-dark);
+            border-radius: 0 0 8px 8px;
+            background: #fff;
+            padding: 18px 20px 16px;
+            margin-top: -2px;
+            display: none;
+        }
+        .imp-detail.open { display: block; }
+        .imp-detail h3 {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+        .imp-detail ul { padding-left: 18px; margin: 0; }
+        .imp-detail li {
+            font-size: 0.85rem;
+            color: var(--text);
+            line-height: 1.65;
+            margin-bottom: 6px;
+        }
+        .imp-close-row { display: flex; justify-content: flex-end; margin-top: 10px; }
+        .imp-close-btn {
+            font-size: 0.75rem;
+            color: var(--muted);
+            cursor: pointer;
+            padding: 3px 8px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background: none;
+            font-family: inherit;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .imp-close-btn:hover { color: var(--primary); border-color: var(--muted); }
+
+        /* ── Print Styles ── */
+        @media print {
+            body { background: #fff; padding: 0; font-size: 11pt; }
+            .container { box-shadow: none; border-radius: 0; grid-template-columns: 220px 1fr; }
+            .imp-detail { display: block !important; border-top: 1px solid #ccc; }
+            details { open: true; }
+            details > summary { pointer-events: none; }
+            .details-body { display: block !important; }
+            h2 { page-break-after: avoid; }
+            .exp-tile { page-break-inside: avoid; }
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 860px) {
+            .container { grid-template-columns: 1fr; }
+            .sidebar { text-align: center; }
+            .contact-item { justify-content: center; }
+            .skill-label { text-align: left; }
+            .main-content { padding: 28px 22px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ════════ SIDEBAR ════════ -->
+    <aside class="sidebar">
+
+        <!--
+            PHOTO: Replace 'profile-pic.jpg' with your actual image filename.
+            Upload the image to the same folder as this HTML file in your GitHub repo.
+            If you don't have a photo ready, delete the <img> tag entirely.
+        -->
+        <img src="profile-pic.jpg" alt="Narissara Khomkhai" class="profile-pic">
+
+        <h1>NARISSARA KHOMKHAI</h1>
+        <p class="title-tag">Data Architect &amp; Strategist</p>
+
+        <div class="contact-box">
+            <div class="contact-item">
+                <i class="fas fa-map-marker-alt"></i> Cambridge, MA 02139
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-phone"></i> 617-852-9805
+            </div>
+            <div class="contact-item">
+                <i class="fas fa-envelope"></i>
+                <a href="mailto:Narissa.K9@proton.me">Narissa.K9@proton.me</a>
+            </div>
+            <div class="contact-item">
+                <i class="fab fa-linkedin"></i>
+                <!-- Verify this is your correct LinkedIn URL -->
+                <a href="https://www.linkedin.com/in/narissara/" target="_blank" rel="noopener">LinkedIn Profile</a>
+            </div>
+        </div><!-- /.contact-box -->
+
+        <div class="sidebar-section">
+            <h3>Core Competencies</h3>
+            <div class="skill-group">
+                <span class="skill-label">Program Management</span>
+                SDLC, Strategic Planning, Governance, Needs Assessment &amp; SWOT Analysis, M&amp;E, 360° Feedback, IRB &amp; Regulatory Compliance, Grant Writing
+            </div>
+            <div class="skill-group">
+                <span class="skill-label">Data &amp; Analytics</span>
+                Big Data Analytics, Biometrics Data Pipeline, SQL (Oracle / Microsoft), ETL, Data Modeling
+            </div>
+            <div class="skill-group">
+                <span class="skill-label">Business Intelligence</span>
+                Oracle BI (HART), Power BI, Tableau, SPSS, Crystal Reports, Dashboard Design
+            </div>
+            <div class="skill-group">
+                <span class="skill-label">Stakeholder Leadership</span>
+                Cross-functional liaison, Executive Reporting (C-level), Global Team Collaboration
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h3>Technical Expertise</h3>
+            <div class="skill-group">
+                <span class="skill-label">BI &amp; Visualization</span>
+                Power BI, Tableau, OBIEE, SSRS, Crystal Reports, Oracle BI / HART, SAP
+            </div>
+            <div class="skill-group">
+                <span class="skill-label">Data &amp; SQL</span>
+                Oracle SQL, Microsoft SQL Server (Queries, Views, Stored Procedures), SQL Developer
+            </div>
+            <div class="skill-group">
+                <span class="skill-label">Enterprise Systems</span>
+                Workday, PeopleSoft, Oracle Financials, Ellucian Advance (BSR), Raiser's Edge, Blackbaud, Agilon
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <h3>Education</h3>
+            <div class="skill-group">
+                <span class="skill-label">B.A. English &amp; Linguistics</span>
+                Payap University, Chiang Mai, Thailand
+            </div>
+            <div class="skill-group">
+                <span class="skill-label">Non-profit Management (MPA Graduate Program)</span>
+                University of Arkansas at Little Rock
+            </div>
+        </div>
+
+    </aside><!-- /.sidebar -->
+
+    <!-- ════════ MAIN CONTENT ════════ -->
+    <main class="main-content">
+
+        <!-- Summary -->
+        <section class="summary-box" aria-label="Professional Summary">
+            <p>
+                <strong>Dynamic Data Architect &amp; Strategist</strong> with over 15 years of experience transforming complex institutional data into high-stakes strategic assets. From an English major to a self-taught programmer, I bring a unique perspective to bridging technical architecture with human impact — having pioneered the Harvard FAS DataHub to integrate massive cross-departmental datasets.
+            </p>
+            <p>
+                A proven catalyst for growth: piloted the needs assessment that scaled a regional telemedicine program from $5M to $112M in federal grants and expanded healthcare to 500+ sites. Facilitated $775M across two major capital campaigns. Expert in data governance and board-level reporting using Oracle SQL, SAP, and Power BI.
+            </p>
+        </section>
+
+        <!-- Interactive Impact Metric Cards -->
+        <section aria-label="Leadership and Infrastructure Impact">
+            <h2><i class="fas fa-rocket"></i> Leadership &amp; Infrastructure Impact</h2>
+            <p class="section-hint">Click any card to expand details</p>
+
+            <div class="imp-grid" id="impGrid">
+
+                <div class="imp-card" data-id="imp1">
+                    <div class="imp-num">$1.8B</div>
+                    <div class="imp-label">Harvard FAS<br>operation scale</div>
+                </div>
+
+                <div class="imp-card" data-id="imp2">
+                    <div class="imp-num">400 &rarr; &lt;100</div>
+                    <div class="imp-label">Ad-hoc requests<br>reduced annually</div>
+                </div>
+
+                <div class="imp-card" data-id="imp3">
+                    <div class="imp-num">$775M</div>
+                    <div class="imp-label">Capital campaigns<br>facilitated</div>
+                </div>
+
+                <div class="imp-card" data-id="imp4">
+                    <div class="imp-num">$112M</div>
+                    <div class="imp-label">Federal grants<br>catalyzed</div>
+                </div>
+
+                <div class="imp-card" data-id="imp5">
+                    <div class="imp-num">500+</div>
+                    <div class="imp-label">Healthcare sites<br>expanded</div>
+                </div>
+
+                <div class="imp-card" data-id="imp6">
+                    <div class="imp-num">3</div>
+                    <div class="imp-label">Major enterprise<br>migrations</div>
+                </div>
+
+            </div>
+
+            <!-- Detail panels — expand inline below the grid -->
+            <div class="imp-detail" id="imp1">
+                <h3>Data architecture &amp; institutional impact</h3>
+                <ul>
+                    <li><strong>Harvard Board of Overseers Blueprint:</strong> Architected the reporting governance and data blueprints used directly by the Harvard Board of Overseers for strategic decision-making.</li>
+                    <li><strong>$1.8B operations oversight:</strong> Provided direct oversight for data integrity and reporting across $1.8B in annual institutional operations.</li>
+                    <li><strong>Standardization of metrics:</strong> Reduced ad-hoc reporting requests from 400+ to under 100 annually by pioneering the FAS DataHub and standardizing metrics in Oracle BI and HART.</li>
+                    <li><strong>FAS DataHub pilot:</strong> Served as a founding member of the FAS DataHub pilot group, establishing foundational data integrity standards for the institution.</li>
+                </ul>
+                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp1">close ✕</button></div>
+            </div>
+
+            <div class="imp-detail" id="imp2">
+                <h3>Operational efficiency &amp; scalability</h3>
+                <ul>
+                    <li><strong>75% reduction in ad-hoc requests:</strong> Reduced reporting requests from 400+ to under 100 annually by pioneering the FAS DataHub and standardizing metrics in Oracle BI and HART.</li>
+                    <li><strong>Self-service culture shift:</strong> Transformed the organizational culture toward data-driven autonomy, reducing dependency on manual report generation.</li>
+                    <li><strong>Standardized frameworks:</strong> Built repeatable metric frameworks with documented lineage and GL tie-outs, ensuring all outputs remain audit-ready under institutional scrutiny.</li>
+                </ul>
+                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp2">close ✕</button></div>
+            </div>
+
+            <div class="imp-detail" id="imp3">
+                <h3>Fundraising &amp; systems modernization</h3>
+                <ul>
+                    <li><strong>$775M capital campaign orchestration:</strong> Facilitated two major capital campaigns — $400M at Phillips Academy and $375M+ at UAMS — through strategic reporting, donor profiling, and data governance.</li>
+                    <li><strong>GL-reconciled campaign reporting:</strong> Delivered leadership-ready financial analysis directly reconciled to the General Ledger for both campaigns.</li>
+                    <li><strong>Seamless data migrations:</strong> Successfully navigated 3 major enterprise data conversions since 2008, maintaining 100% data integrity and zero system downtime throughout each transition.</li>
+                </ul>
+                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp3">close ✕</button></div>
+            </div>
+
+            <div class="imp-detail" id="imp4">
+                <h3>Grant scaling &amp; healthcare expansion</h3>
+                <ul>
+                    <li><strong>$112M federal grant catalyst:</strong> Piloted the initial needs assessment for a regional telemedicine program, scaling a $5M foundation into $112M in federal grant funding.</li>
+                    <li><strong>$11.1M in initial awards:</strong> The SWOT analysis and needs assessment secured $5.25M (2007) and $5.84M (2008) in ANGELS program funding.</li>
+                    <li><strong>Center of Distance Health:</strong> Work directly contributed to the establishment of the Center of Distance Health, a major federal healthcare initiative serving rural communities.</li>
+                </ul>
+                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp4">close ✕</button></div>
+            </div>
+
+            <div class="imp-detail" id="imp5">
+                <h3>Regional healthcare access expansion</h3>
+                <ul>
+                    <li><strong>500+ rural sites reached:</strong> Engineered the data strategy and needs assessment that expanded telemedicine access across Arkansas and the South Mississippi River Delta.</li>
+                    <li><strong>60,000+ constituents managed:</strong> Led Information Services &amp; Reporting for 60,000+ constituents and 20,000+ annual gift transactions at UAMS Institutional Advancement.</li>
+                    <li><strong>Community impact:</strong> Work directly addressed healthcare disparities in underserved rural communities, improving accessibility, quality, and cost-effectiveness of care.</li>
+                </ul>
+                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp5">close ✕</button></div>
+            </div>
+
+            <div class="imp-detail" id="imp6">
+                <h3>Enterprise migrations &amp; zero downtime</h3>
+                <ul>
+                    <li><strong>3 major data conversions since 2008:</strong> Successfully navigated three enterprise-level system migrations, maintaining 100% data integrity and zero system downtime throughout each transition.</li>
+                    <li><strong>Legacy-to-modern transitions:</strong> Mastered maintaining complex legacy systems while simultaneously architecting and migrating to modern database infrastructures.</li>
+                    <li><strong>CRM system administration:</strong> Integrated and administered Ellucian Advance (BSR), CyberSource, iModules, Raiser's Edge, and PeopleSoft across multiple institutions.</li>
+                </ul>
+                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp6">close ✕</button></div>
+            </div>
+
+        </section>
+
+        <script>
+            (function() {
+                var cards = document.querySelectorAll('.imp-card');
+                var panels = document.querySelectorAll('.imp-detail');
+                cards.forEach(function(card) {
+                    card.addEventListener('click', function() {
+                        var id = card.getAttribute('data-id');
+                        var panel = document.getElementById(id);
+                        var isOpen = panel.classList.contains('open');
+                        panels.forEach(function(p) { p.classList.remove('open'); });
+                        cards.forEach(function(c) { c.classList.remove('active'); });
+                        if (!isOpen) {
+                            panel.classList.add('open');
+                            card.classList.add('active');
+                        }
+                    });
+                });
+                document.querySelectorAll('.imp-close-btn').forEach(function(btn) {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        var id = btn.getAttribute('data-close');
+                        document.getElementById(id).classList.remove('open');
+                        document.querySelector('[data-id="' + id + '"]').classList.remove('active');
+                    });
+                });
+            })();
+        </script>
+
+        <!-- Professional Experience -->
+        <section aria-label="Professional Experience">
+            <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
+            <p class="section-hint">Click any role to expand details</p>
+
+            <details class="exp-tile" open>
+                <summary>
+                    <div class="header-group">
+                        <span class="company">Harvard University, Cambridge MA</span>
+                        <span class="date">04/2019 – 11/2025</span>
+                    </div>
+                    <span class="office">Faculty of Arts &amp; Sciences — Office for Faculty Affairs</span>
+                    <span class="role">IT Reporting &amp; Data Analyst Professional III</span>
+                </summary>
+                <div class="details-body">
+                    <ul>
+                        <li><strong>Strategic Reporting &amp; Governance:</strong> Architected custom reporting frameworks serving as the primary blueprint for strategic data delivered to the <strong>Harvard Board of Overseers</strong> to drive institutional decision-making.</li>
+                        <li><strong>Executive Advisory &amp; Decision Support:</strong> Served as the primary technical advisor for 50+ Department Chairs and the Office of Harvard Governing Boards. Led the creation of strategic planning materials and complex C-level analytics for a $1.8 billion operation.</li>
+                        <li><strong>Enterprise Digital Transformation:</strong> Pioneered the Harvard DataHub — an integrated self-service ecosystem merging Business, Finance, HR, and Academic databases — shifting the culture toward data-driven autonomy.</li>
+                        <li><strong>Operational Efficiency &amp; Scalability:</strong> Reduced high-touch ad-hoc reporting by 75% (from 400+ to &lt;100 annually) by architecting standardized metric frameworks in Oracle BI / HART.</li>
+                        <li><strong>Institutional Quality &amp; Trust:</strong> Established rigorous internal controls including QA sampling and documented lineage, ensuring all mission-critical data remains audit-ready.</li>
+                        <li><strong>Global &amp; Diversity Liaison:</strong> Represented FAS as a Technical Liaison for Ivy League Plus, COFHE, and Harvard EDIB, aligning technology strategies with affirmative action and diversity mandates.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="exp-tile">
+                <summary>
+                    <div class="header-group">
+                        <span class="company">Phillips Academy, Andover MA</span>
+                        <span class="date">08/2016 – 04/2019</span>
+                    </div>
+                    <span class="office">Office of Academy Resources</span>
+                    <span class="role">Assistant Director of Gift Services &amp; Reporting</span>
+                </summary>
+                <div class="details-body">
+                    <h4>Campaign Operations &amp; Financial Leadership</h4>
+                    <ul>
+                        <li><strong>$400M Campaign Oversight:</strong> Directed leadership reporting and financial analysis for a $400M comprehensive campaign, delivering reconciled data directly to the General Ledger.</li>
+                        <li><strong>Financial Integrity:</strong> Partnered with the Comptroller's office to manage bridge reconciliations and established SOPs that significantly reduced reporting discrepancies.</li>
+                        <li><strong>Audit-Ready Compliance:</strong> Ensured 100% accuracy of revenue streams in compliance with IRS regulations, FASB/GASB, and institutional accounting standards.</li>
+                        <li><strong>Workflow Optimization:</strong> Designed automated gift acknowledgment and pledge-tracking workflows that reduced manual errors and improved stewardship turnaround time.</li>
+                    </ul>
+                    <h4>Data Engineering &amp; Analytics Architecture</h4>
+                    <ul>
+                        <li><strong>BI Solution Architect:</strong> Engineered enterprise-level analytics solutions using Crystal Reports, SSRS, and Tableau to provide revenue projections and capital campaign pacing dashboards.</li>
+                        <li><strong>SQL Development:</strong> Developed and maintained complex database objects and stored procedures in SQL Server Management Studio 2014, managing deployments across test and production environments.</li>
+                        <li><strong>Advanced Prospect Intelligence:</strong> Built donor/prospect profiles utilizing RFM (Recency, Frequency, Monetary) modeling and capacity indicators to drive segmented stewardship strategies.</li>
+                        <li><strong>Data Governance:</strong> Led data hygiene and conversion projects, maintaining the integrity of large-scale datasets across the database and data warehouse.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="exp-tile">
+                <summary>
+                    <div class="header-group">
+                        <span class="company">University of Arkansas for Medical Sciences (UAMS), Little Rock, AR</span>
+                        <span class="date">05/2008 – 07/2016</span>
+                    </div>
+                    <span class="office">Office of Institutional Advancement</span>
+                    <span class="role">Associate Director of Donor Records &amp; Information Services</span>
+                </summary>
+                <div class="details-body">
+                    <h4>Strategic Campaign Leadership</h4>
+                    <ul>
+                        <li><strong>Campaign Surpassing Performance:</strong> Championed data-driven initiatives for UAMS and the Winthrop P. Rockefeller Cancer Institute foundations, contributing to campaigns that raised over $385 million, surpassing the $325 million goal.</li>
+                        <li><strong>High-Volume Operations:</strong> Led Information Services &amp; Reporting for 60,000+ constituents and 20,000+ annual gift transactions.</li>
+                        <li><strong>Fundraising Integrity:</strong> Supported a comprehensive campaign closing at $375 million through audit-ready reporting and rigorous reconciliation practices.</li>
+                    </ul>
+                    <h4>Data Engineering &amp; Business Intelligence</h4>
+                    <ul>
+                        <li><strong>BI Development:</strong> Engineered a comprehensive Crystal Reports catalog with documented logic and automated refresh cycles for leadership and alumni relations teams.</li>
+                        <li><strong>Database Architecture:</strong> Leveraged Oracle SQL Developer to build complex views, stored procedures, and queries for biographical extracts, duplicate detection, and campaign pacing.</li>
+                        <li><strong>System Integration:</strong> Integrated and administered Ellucian Advance (BSR), CyberSource, and iModules to streamline record reconciliation and online giving.</li>
+                        <li><strong>Advanced Analytics:</strong> Developed SQL-based target analytics, ROI dashboards, and prospect segmentation (RFM) to measure performance and optimize mailing lists.</li>
+                    </ul>
+                    <h4>Governance, Compliance &amp; Finance</h4>
+                    <ul>
+                        <li><strong>Financial Reconciliation:</strong> Managed monthly GL tie-outs and operational reconciliation routines, ensuring audit-ready documentation for external reviews.</li>
+                        <li><strong>Regulatory Compliance:</strong> Authored and implemented policies for gift processing and reporting to comply with HIPAA, IRS regulations, FASB/GASB, and CASE/VSE standards.</li>
+                        <li><strong>Process Improvement:</strong> Engineered the end-to-end online giving pipeline, reducing service escalations through improved intake training and predictable turnaround expectations.</li>
+                        <li><strong>Data Stewardship:</strong> Maintained institutional database integrity through continuous QA, data cleansing, and stewardship tracking of gift proposals and agreements.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="exp-tile">
+                <summary>
+                    <div class="header-group">
+                        <span class="company">UAMS College of Medicine, Little Rock, AR</span>
+                        <span class="date">04/2006 – 05/2008</span>
+                    </div>
+                    <span class="role">Program Specialist</span>
+                </summary>
+                <div class="details-body">
+                    <ul>
+                        <li><strong>Grant Writing &amp; Funding Success:</strong> Pioneered a comprehensive needs assessment and SWOT analysis that identified critical healthcare disparities, resulting in <strong>$11.1 million in initial funding</strong> (2007–2008) and a subsequent <strong>$102 million federal grant</strong> to establish the Center of Distance Health.</li>
+                        <li><strong>Telemedicine Scaling:</strong> Orchestrated the data strategy and needs assessment that expanded the Telemedicine program from a $5 million pilot to over 500 sites across Arkansas and the South Mississippi Delta.</li>
+                        <li><strong>360° Evaluation Leadership:</strong> Implemented 360° Program Evaluations for residency programs, faculty performance, and research surveys, enhancing the institution's ability to measure program effectiveness.</li>
+                        <li><strong>Data Visualization &amp; Research:</strong> Created complex data visualizations and graphics for publication in medical journals, posters, and executive presentations.</li>
+                        <li><strong>Regulatory &amp; System Management:</strong> Managed IRB submissions and HRAC activities via ARIA and web-based systems, ensuring full compliance with federal research regulations.</li>
+                        <li><strong>Advanced Statistical Analysis:</strong> Applied qualitative and quantitative research methods using SPSS to determine statistical analysis techniques and interpret key research findings.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="exp-tile">
+                <summary>
+                    <div class="header-group">
+                        <span class="company">UAMS College of Pharmacy, Little Rock, AR</span>
+                        <span class="date">08/2005 – 04/2006</span>
+                    </div>
+                    <span class="office">Academic Affairs</span>
+                    <!-- Fixed typo: "ManagementProgram" → "Management Program" -->
+                    <span class="role">Management Program Analyst II</span>
+                </summary>
+                <div class="details-body">
+                    <ul>
+                        <li><strong>Executive Support:</strong> Served as a strategic partner to the Dean of Continuing Education and the Academic Dean, streamlining administrative operations and departmental workflows.</li>
+                        <li><strong>Program Evaluation &amp; Quality Assurance:</strong> Managed comprehensive program evaluation processes, collecting and analyzing data to ensure academic excellence and institutional compliance.</li>
+                        <li><strong>Course &amp; Curriculum Management:</strong> Oversaw course management operations, coordinating between faculty and leadership to maintain accurate academic records and scheduling.</li>
+                        <li><strong>Administrative Strategy:</strong> Supported the implementation of strategic initiatives within the Dean's Office, including tracking academic requirements and supporting faculty-led educational research.</li>
+                    </ul>
+                </div>
+            </details>
+
+            <details class="exp-tile">
+                <summary>
+                    <div class="header-group">
+                        <span class="company">United Nations Conference on Trade and Development (UNCTAD)</span>
+                        <span class="date">09/2002 – 02/2005</span>
+                    </div>
+                    <span class="office">Import / Export Division — Trade Point Chiang Mai, Thailand</span>
+                    <span class="role">International Coordinator</span>
+                </summary>
+                <div class="details-body">
+                    <ul>
+                        <li><strong>Global Collaboration:</strong> Provided strategic communications and technical expertise for Global Trade Point Network (GTPNet) and eCommerce initiatives for import/export SMEs.</li>
+                        <li><strong>Multicultural Leadership:</strong> Facilitated international trade fairs and workshops, providing translation and interpretation services across global markets.</li>
+                    </ul>
+                </div>
+            </details>
+
+        </section>
+    </main><!-- /.main-content -->
+
+</div><!-- /.container -->
+
+</body>
+</html>
