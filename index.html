@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Narissara Khomkhai | Executive Data Analytics Resume</title>
 
-    <!-- SEO & Social Preview (Open Graph) -->
+    <!-- SEO & Social Preview -->
     <meta name="description" content="Narissara Khomkhai — Data Architect & Strategist with 15+ years transforming institutional data into strategic assets at Harvard, Phillips Academy, and UAMS.">
     <meta property="og:title" content="Narissara Khomkhai | Executive Data Analytics Resume">
     <meta property="og:description" content="Data Architect & Strategist | Harvard FAS DataHub Pioneer | $775M Campaign Reporting | Oracle BI, SQL, Power BI">
     <meta property="og:type" content="website">
 
-    <!-- Font Awesome for icons (fixed) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        /* ── Reset & Base ── */
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         :root {
@@ -31,14 +29,13 @@
 
         body {
             font-family: 'Cambria', Georgia, serif;
-            line-height: 1.6;       /* fixed from 1 — much more readable */
+            line-height: 1.6;
             color: var(--text);
             background-color: #cbd5e1;
             margin: 0;
             padding: 20px 15px 40px;
         }
 
-        /* ── Layout Container ── */
         .container {
             max-width: 1100px;
             margin: 0 auto;
@@ -47,19 +44,17 @@
             grid-template-columns: 300px 1fr;
             box-shadow: 0 20px 60px rgba(0,0,0,0.18);
             border-radius: 12px;
-            overflow: hidden;
+            overflow: visible;
         }
 
-        /* ══════════════════════════
-           SIDEBAR
-        ══════════════════════════ */
+        /* ── SIDEBAR ── */
         .sidebar {
             background-color: var(--primary);
             color: var(--sidebar-text);
             padding: 40px 25px;
+            border-radius: 12px 0 0 12px;
         }
 
-        /* Profile picture — gracefully hidden if image missing */
         .profile-pic {
             width: 140px;
             height: 140px;
@@ -68,11 +63,7 @@
             border: 3px solid var(--accent);
             margin: 0 auto 20px;
             display: block;
-            background: #3d5166; /* fallback colour while image loads */
-        }
-        /* Hide broken-image icon if src is missing */
-        .profile-pic[src="profile-pic.jpg"]::after {
-            content: '';
+            background: #3d5166;
         }
 
         .sidebar h1 {
@@ -90,10 +81,8 @@
             font-size: 0.75rem;
             color: var(--accent);
             letter-spacing: 1px;
-            margin-bottom: 0;
         }
 
-        /* Contact */
         .contact-box { margin-top: 25px; font-size: 0.85rem; }
 
         .contact-item {
@@ -103,7 +92,6 @@
             gap: 10px;
             word-break: break-word;
         }
-
         .contact-item i { color: var(--accent); width: 16px; flex-shrink: 0; }
 
         .sidebar a {
@@ -114,9 +102,7 @@
         }
         .sidebar a:hover { border-bottom-color: var(--accent); }
 
-        /* Sidebar Sections */
         .sidebar-section { margin-top: 35px; }
-
         .sidebar-section h3 {
             border-bottom: 2px solid var(--accent);
             padding-bottom: 6px;
@@ -138,12 +124,9 @@
             letter-spacing: 0.5px;
         }
 
-        /* ══════════════════════════
-           MAIN CONTENT
-        ══════════════════════════ */
-        .main-content { padding: 40px 40px 50px; }
+        /* ── MAIN CONTENT ── */
+        .main-content { padding: 40px 40px 50px; overflow: visible; }
 
-        /* Summary */
         .summary-box {
             background: var(--light-bg);
             padding: 22px 25px;
@@ -155,7 +138,6 @@
         }
         .summary-box p + p { margin-top: 10px; }
 
-        /* Section headings */
         h2 {
             color: var(--primary);
             border-bottom: 1px solid var(--border);
@@ -176,26 +158,115 @@
             font-style: italic;
         }
 
-        /* ── Experience Tiles ── */
+        /* ── BY THE NUMBERS CARDS ── */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 14px 0 0;
+        }
+
+        .num-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 12px 12px;
+            cursor: pointer;
+            text-align: center;
+            user-select: none;
+            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+        }
+        .num-card:hover  { border-color: var(--accent-dark); background: #fff; box-shadow: 0 2px 12px rgba(74,159,212,0.12); }
+        .num-card.active { border-color: var(--accent-dark); background: #fff; box-shadow: 0 0 0 2px rgba(74,159,212,0.18); }
+
+        .num-icon  { font-size: 22px; display: block; margin-bottom: 6px; line-height: 1; }
+        .num-val   { font-size: 1.35rem; font-weight: 800; color: var(--accent-dark); line-height: 1.1; margin-bottom: 4px; }
+        .num-lbl   { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
+        .num-hint  { font-size: 0.65rem; color: #b0bec5; margin-top: 5px; font-style: italic; }
+
+        /* ── INFOGRAPHIC PANELS ── */
+        .inf-panel {
+            display: none;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--accent-dark);
+            border-radius: 0 0 10px 10px;
+            padding: 1.25rem 1.5rem 1rem;
+            margin-top: -1px;
+        }
+        .inf-panel.open { display: block; }
+
+        .inf-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        .inf-icon { font-size: 20px; display: block; margin-bottom: 4px; }
+        .inf-big  { font-size: 38px; font-weight: 800; color: var(--accent-dark); line-height: 1; margin-bottom: 6px; }
+        .inf-sub  { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
+
+        .stat-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        .stat-table tr { border-bottom: 0.5px solid var(--border); }
+        .stat-table tr:last-child { border-bottom: none; }
+        .stat-table td { padding: 5px 0; }
+        .stat-table td:first-child { color: var(--muted); }
+        .stat-table td:last-child  { font-weight: 600; color: var(--text); text-align: right; }
+
+        .chart-label {
+            font-size: 0.68rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 8px;
+            margin-top: 2px;
+        }
+        .chart-label + .chart-label { margin-top: 12px; }
+
+        .data-src {
+            font-size: 0.68rem;
+            color: #b0bec5;
+            font-style: italic;
+            border-top: 0.5px solid var(--border);
+            padding-top: 6px;
+            margin-top: 10px;
+        }
+
+        .leg-row { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+        .leg-sw  { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+        .leg-pct { font-weight: 600; color: var(--text); margin-left: auto; }
+
+        .panel-close-row { display: flex; justify-content: flex-end; margin-top: 12px; }
+        .panel-close-btn {
+            font-size: 0.72rem; color: var(--muted); cursor: pointer;
+            padding: 3px 10px; border-radius: 5px; border: 1px solid var(--border);
+            background: none; font-family: inherit;
+            transition: color 0.15s, border-color 0.15s;
+        }
+        .panel-close-btn:hover { color: var(--primary); border-color: var(--muted); }
+
+        /* ── EXPERIENCE TILES ── */
         .exp-tile {
             border: 1px solid var(--border);
             border-radius: 8px;
             margin-bottom: 12px;
-            transition: box-shadow 0.2s;
-            overflow: hidden;
+            position: relative;
+            overflow: visible;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
-        .exp-tile:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.07); }
+        .exp-tile:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.09); border-color: var(--accent-dark); }
 
-        summary {
+        .exp-tile > summary {
             padding: 14px 20px;
             cursor: pointer;
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 3px;
             user-select: none;
         }
-        summary::-webkit-details-marker { display: none; }
+        .exp-tile > summary::-webkit-details-marker { display: none; }
 
         .header-group {
             display: flex;
@@ -205,10 +276,55 @@
             gap: 4px;
         }
 
-        .company { font-weight: 800; color: var(--primary); font-size: 0.95rem; }
-        .office  { font-size: 0.85rem; color: var(--muted); }
-        .date    { font-size: 0.78rem; color: var(--accent-dark); font-weight: 700; white-space: nowrap; }
-        .role    { font-weight: 600; font-size: 0.88rem; color: #a91515; margin-top: 2px; }
+        .company   { font-weight: 800; color: var(--primary); font-size: 0.95rem; }
+        .office    { font-size: 0.85rem; color: var(--muted); }
+        .date      { font-size: 0.78rem; color: var(--accent-dark); font-weight: 700; white-space: nowrap; }
+        .role      { font-weight: 600; font-size: 0.88rem; color: #a91515; margin-top: 2px; }
+        .tile-hint { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-top: 3px; }
+
+        /* ── PIE POPUP ── */
+        .pie-popup {
+            position: absolute;
+            left: 50%;
+            top: calc(100% + 10px);
+            transform: translateX(-50%) translateY(4px);
+            background: #fff;
+            border: 1px solid var(--border);
+            border-top: 3px solid var(--accent-dark);
+            border-radius: 10px;
+            padding: 14px 16px 12px;
+            width: 330px;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.18s, visibility 0.18s, transform 0.18s;
+            pointer-events: none;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .exp-tile:hover .pie-popup {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+        .pie-popup-title {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .pie-popup-inner {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 14px;
+            align-items: center;
+        }
+        .pie-legend  { display: flex; flex-direction: column; gap: 7px; }
+        .pie-leg-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--muted); }
+        .pie-leg-sw  { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
+        .pie-leg-pct { font-size: 11px; font-weight: 700; color: var(--text); margin-left: auto; }
 
         .details-body {
             padding: 16px 20px 20px;
@@ -217,115 +333,39 @@
             border-top: 1px solid #f1f5f9;
             line-height: 1.7;
         }
-
         .details-body h4 {
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             text-transform: uppercase;
             letter-spacing: 0.8px;
             color: var(--muted);
             margin: 14px 0 8px;
         }
         .details-body h4:first-child { margin-top: 0; }
-
         .details-body ul { padding-left: 18px; }
         .details-body li { margin-bottom: 7px; }
 
-        /* ── Impact Metric Cards ── */
-        .imp-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin: 14px 0 4px;
-        }
-        .imp-card {
-            background: var(--light-bg);
-            border-radius: 8px;
-            padding: 14px 12px;
-            cursor: pointer;
-            border: 1px solid var(--border);
-            transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
-            text-align: center;
-            user-select: none;
-        }
-        .imp-card:hover {
-            border-color: var(--accent-dark);
-            background: #fff;
-            box-shadow: 0 2px 8px rgba(74,159,212,0.12);
-        }
-        .imp-card.active {
-            border-color: var(--accent-dark);
-            background: #fff;
-            box-shadow: 0 2px 10px rgba(74,159,212,0.18);
-        }
-        .imp-num {
-            font-size: 1.35rem;
-            font-weight: 800;
-            color: var(--accent-dark);
-            line-height: 1.1;
-            margin-bottom: 6px;
-        }
-        .imp-label {
-            font-size: 0.72rem;
-            color: var(--muted);
-            line-height: 1.4;
-        }
-        .imp-detail {
-            border: 1px solid var(--border);
-            border-top: 3px solid var(--accent-dark);
-            border-radius: 0 0 8px 8px;
-            background: #fff;
-            padding: 18px 20px 16px;
-            margin-top: -2px;
-            display: none;
-        }
-        .imp-detail.open { display: block; }
-        .imp-detail h3 {
-            font-size: 0.9rem;
-            color: var(--primary);
-            margin-bottom: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
-        }
-        .imp-detail ul { padding-left: 18px; margin: 0; }
-        .imp-detail li {
-            font-size: 0.85rem;
-            color: var(--text);
-            line-height: 1.65;
-            margin-bottom: 6px;
-        }
-        .imp-close-row { display: flex; justify-content: flex-end; margin-top: 10px; }
-        .imp-close-btn {
-            font-size: 0.75rem;
-            color: var(--muted);
-            cursor: pointer;
-            padding: 3px 8px;
-            border-radius: 4px;
-            border: 1px solid var(--border);
-            background: none;
-            font-family: inherit;
-            transition: color 0.15s, border-color 0.15s;
-        }
-        .imp-close-btn:hover { color: var(--primary); border-color: var(--muted); }
-
-        /* ── Print Styles ── */
+        /* ── PRINT ── */
         @media print {
             body { background: #fff; padding: 0; font-size: 11pt; }
-            .container { box-shadow: none; border-radius: 0; grid-template-columns: 220px 1fr; }
-            .imp-detail { display: block !important; border-top: 1px solid #ccc; }
-            details { open: true; }
+            .container { box-shadow: none; border-radius: 0; grid-template-columns: 220px 1fr; overflow: hidden; }
+            .pie-popup  { display: none !important; }
+            .inf-panel  { display: block !important; border-top: 1px solid #ccc; }
             details > summary { pointer-events: none; }
             .details-body { display: block !important; }
             h2 { page-break-after: avoid; }
-            .exp-tile { page-break-inside: avoid; }
+            .exp-tile { page-break-inside: avoid; overflow: hidden; }
         }
 
-        /* ── Responsive ── */
+        /* ── RESPONSIVE ── */
         @media (max-width: 860px) {
-            .container { grid-template-columns: 1fr; }
-            .sidebar { text-align: center; }
+            .container { grid-template-columns: 1fr; border-radius: 12px; overflow: hidden; }
+            .sidebar { border-radius: 12px 12px 0 0; text-align: center; }
             .contact-item { justify-content: center; }
             .skill-label { text-align: left; }
             .main-content { padding: 28px 22px 40px; }
+            .pie-popup { width: 280px; }
+            .btn-grid { grid-template-columns: repeat(2, 1fr); }
+            .inf-grid  { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -335,232 +375,264 @@
 
     <!-- ════════ SIDEBAR ════════ -->
     <aside class="sidebar">
-
+        <!--
+            PHOTO: Upload your headshot as 'profile-pic.jpg' to the same GitHub repo folder.
+            Delete the <img> tag if you don't have a photo ready yet.
+        -->
         <img src="profile-pic.jpg" alt="Narissara Khomkhai" class="profile-pic">
 
         <h1>NARISSARA KHOMKHAI</h1>
         <p class="title-tag">Data Architect &amp; Strategist</p>
 
         <div class="contact-box">
-            <div class="contact-item">
-                <i class="fas fa-map-marker-alt"></i> Cambridge, MA 02139
-            </div>
-            <div class="contact-item">
-                <i class="fas fa-phone"></i> 617-852-9805
-            </div>
-            <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:Narissa.K9@proton.me">Narissa.K9@proton.me</a>
-            </div>
-            <div class="contact-item">
-                <i class="fab fa-linkedin"></i>
-                <!-- Verify this is your correct LinkedIn URL -->
-                <a href="https://www.linkedin.com/in/narissara/" target="_blank" rel="noopener">LinkedIn Profile</a>
-            </div>
-        </div><!-- /.contact-box -->
+            <div class="contact-item"><i class="fas fa-map-marker-alt"></i> Cambridge, MA 02139</div>
+            <div class="contact-item"><i class="fas fa-phone"></i> 617-852-9805</div>
+            <div class="contact-item"><i class="fas fa-envelope"></i><a href="mailto:Narissa.K9@proton.me">Narissa.K9@proton.me</a></div>
+            <div class="contact-item"><i class="fab fa-linkedin"></i><a href="https://www.linkedin.com/in/narissara/" target="_blank" rel="noopener">LinkedIn Profile</a></div>
+        </div>
 
         <div class="sidebar-section">
             <h3>Core Competencies</h3>
-            <div class="skill-group">
-                <span class="skill-label">Program Management</span>
-                SDLC, Strategic Planning, Governance, Needs Assessment &amp; SWOT Analysis, M&amp;E, 360° Feedback, IRB &amp; Regulatory Compliance, Grant Writing
-            </div>
-            <div class="skill-group">
-                <span class="skill-label">Data &amp; Analytics</span>
-                Big Data Analytics, Biometrics Data Pipeline, SQL (Oracle / Microsoft), ETL, Data Modeling
-            </div>
-            <div class="skill-group">
-                <span class="skill-label">Business Intelligence</span>
-                Oracle BI (HART), Power BI, Tableau, SPSS, Crystal Reports, Dashboard Design
-            </div>
-            <div class="skill-group">
-                <span class="skill-label">Stakeholder Leadership</span>
-                Cross-functional liaison, Executive Reporting (C-level), Global Team Collaboration
-            </div>
+            <div class="skill-group"><span class="skill-label">Program Management</span>SDLC, Strategic Planning, Governance, Needs Assessment &amp; SWOT Analysis, M&amp;E, 360° Feedback, IRB &amp; Regulatory Compliance, Grant Writing</div>
+            <div class="skill-group"><span class="skill-label">Data &amp; Analytics</span>Big Data Analytics, Biometrics Data Pipeline, SQL (Oracle / Microsoft), ETL, Data Modeling</div>
+            <div class="skill-group"><span class="skill-label">Business Intelligence</span>Oracle BI (HART), Power BI, Tableau, SPSS, Crystal Reports, Dashboard Design</div>
+            <div class="skill-group"><span class="skill-label">Stakeholder Leadership</span>Cross-functional liaison, Executive Reporting (C-level), Global Team Collaboration</div>
         </div>
 
         <div class="sidebar-section">
             <h3>Technical Expertise</h3>
-            <div class="skill-group">
-                <span class="skill-label">BI &amp; Visualization</span>
-                Power BI, Tableau, OBIEE, SSRS, Crystal Reports, Oracle BI / HART, SAP
-            </div>
-            <div class="skill-group">
-                <span class="skill-label">Data &amp; SQL</span>
-                Oracle SQL, Microsoft SQL Server (Queries, Views, Stored Procedures), SQL Developer
-            </div>
-            <div class="skill-group">
-                <span class="skill-label">Enterprise Systems</span>
-                Workday, PeopleSoft, Oracle Financials, Ellucian Advance (BSR), Raiser's Edge, Blackbaud, Agilon
-            </div>
+            <div class="skill-group"><span class="skill-label">BI &amp; Visualization</span>Power BI, Tableau, OBIEE, SSRS, Crystal Reports, Oracle BI / HART, SAP</div>
+            <div class="skill-group"><span class="skill-label">Data &amp; SQL</span>Oracle SQL, Microsoft SQL Server (Queries, Views, Stored Procedures), SQL Developer</div>
+            <div class="skill-group"><span class="skill-label">Enterprise Systems</span>Workday, PeopleSoft, Oracle Financials, Ellucian Advance (BSR), Raiser's Edge, Blackbaud, Agilon</div>
         </div>
 
         <div class="sidebar-section">
             <h3>Education</h3>
-            <div class="skill-group">
-                <span class="skill-label">B.A. English &amp; Linguistics</span>
-                Payap University, Chiang Mai, Thailand
-            </div>
-            <div class="skill-group">
-                <span class="skill-label">Non-profit Management (MPA Graduate Program)</span>
-                University of Arkansas at Little Rock
-            </div>
+            <div class="skill-group"><span class="skill-label">B.A. English &amp; Linguistics</span>Payap University, Chiang Mai, Thailand</div>
+            <div class="skill-group"><span class="skill-label">Non-profit Management (MPA Graduate Program)</span>University of Arkansas at Little Rock</div>
         </div>
-
-    </aside><!-- /.sidebar -->
+    </aside>
 
     <!-- ════════ MAIN CONTENT ════════ -->
     <main class="main-content">
 
-        <!-- Summary -->
+        <!-- Professional Summary -->
         <section class="summary-box" aria-label="Professional Summary">
-            <p>
-                <strong>Data Architect &amp; Strategist</strong> with 15+ years building the reporting infrastructure that institutions rely on at their highest levels 
-                -- from the Harvard Board of Overseers to $775M capital campaigns to a $112M federal healthcare grant.
-            </p>
-            <p>
-                I specialize in transforming fragmented institutional data into governed, self-service intelligence: 20+ years of longitudinal reporting, 
-                enterprise DataHub architecture, and board-level analytics that turn complexity into clear decisions. My background bridges both sides of the table -- I am as fluent in executive narrative as I am in Oracle SQL.
-            </p>
+            <p><strong>Data Architect &amp; Strategist</strong> with 15+ years building the reporting infrastructure that institutions rely on at their highest levels — from the Harvard Board of Overseers to $775M capital campaigns to a $112M federal healthcare grant.</p>
+            <p>I specialize in transforming fragmented institutional data into governed, self-service intelligence: 20+ years of longitudinal reporting, enterprise DataHub architecture, and board-level analytics that turn complexity into clear decisions. My background bridges both sides of the table — I am as fluent in executive narrative as I am in Oracle SQL.</p>
         </section>
 
-        <!-- Interactive Impact Metric Cards -->
-        <section aria-label="Leadership and Infrastructure Impact">
-            <h2><i class="fas fa-rocket"></i> Leadership &amp; Infrastructure Impact</h2>
-            <p class="section-hint">Click any card to expand details</p>
+        <!-- ══════════════════════════════════════
+             BY THE NUMBERS
+        ══════════════════════════════════════ -->
+        <section aria-label="By the Numbers — career impact metrics">
+            <h2><i class="fas fa-chart-bar"></i> By the Numbers</h2>
+            <p class="section-hint">Click any card to open an interactive infographic</p>
 
-            <div class="imp-grid" id="impGrid">
+            <div class="btn-grid" id="numGrid">
 
-                <div class="imp-card" data-id="imp1">
-                    <div class="imp-num">$1.8B</div>
-                    <div class="imp-label">Harvard FAS<br>operation scale</div>
+                <div class="num-card" data-id="n1">
+                    <span class="num-icon">🏛️</span>
+                    <div class="num-val">$1.87B</div>
+                    <div class="num-lbl">Harvard FAS annual revenue overseen</div>
+                    <div class="num-hint">click to explore ↓</div>
                 </div>
 
-                <div class="imp-card" data-id="imp2">
-                    <div class="imp-num">400 &rarr; &lt;100</div>
-                    <div class="imp-label">Ad-hoc requests<br>reduced annually</div>
+                <div class="num-card" data-id="n2">
+                    <span class="num-icon">⚡</span>
+                    <div class="num-val">75%</div>
+                    <div class="num-lbl">Reduction in ad-hoc reporting requests</div>
+                    <div class="num-hint">click to explore ↓</div>
                 </div>
 
-                <div class="imp-card" data-id="imp3">
-                    <div class="imp-num">$775M</div>
-                    <div class="imp-label">Capital campaigns<br>facilitated</div>
+                <div class="num-card" data-id="n3">
+                    <span class="num-icon">🎯</span>
+                    <div class="num-val">$775M</div>
+                    <div class="num-lbl">Capital campaigns facilitated</div>
+                    <div class="num-hint">click to explore ↓</div>
                 </div>
 
-                <div class="imp-card" data-id="imp4">
-                    <div class="imp-num">$112M</div>
-                    <div class="imp-label">Federal grants<br>catalyzed</div>
+                <div class="num-card" data-id="n4">
+                    <span class="num-icon">🏥</span>
+                    <div class="num-val">$112M</div>
+                    <div class="num-lbl">Federal healthcare grants catalyzed</div>
+                    <div class="num-hint">click to explore ↓</div>
                 </div>
 
-                <div class="imp-card" data-id="imp5">
-                    <div class="imp-num">500+</div>
-                    <div class="imp-label">Healthcare sites<br>expanded</div>
+                <div class="num-card" data-id="n5">
+                    <span class="num-icon">📊</span>
+                    <div class="num-val">20+ yrs</div>
+                    <div class="num-lbl">Harvard FAS longitudinal data maintained</div>
+                    <div class="num-hint">click to explore ↓</div>
                 </div>
 
-                <div class="imp-card" data-id="imp6">
-                    <div class="imp-num">3</div>
-                    <div class="imp-label">Major enterprise<br>migrations</div>
+                <div class="num-card" data-id="n6">
+                    <span class="num-icon">🌐</span>
+                    <div class="num-val">500+</div>
+                    <div class="num-lbl">Telemedicine sites expanded</div>
+                    <div class="num-hint">click to explore ↓</div>
                 </div>
 
+            </div><!-- /.btn-grid -->
+
+            <!-- ── Panel 1: $1.87B ── -->
+            <div class="inf-panel" id="n1">
+                <div class="inf-grid">
+                    <div>
+                        <span class="inf-icon">🏛️</span>
+                        <div class="inf-big">$1.87B</div>
+                        <div class="inf-sub">Harvard FAS total revenues FY2024 — board-level reporting and data integrity owned across this entire operation from the Office for Faculty Affairs.</div>
+                        <table class="stat-table">
+                            <tr><td>FY2024 total revenue</td><td>$1,871.5M</td></tr>
+                            <tr><td>FY2023 total revenue</td><td>$1,814.8M</td></tr>
+                            <tr><td>Endowment distribution</td><td>$983.1M (52.5%)</td></tr>
+                            <tr><td>Grants &amp; contracts</td><td>$280.3M</td></tr>
+                            <tr><td>FAS endowment value</td><td>$22.9B (FY2024)</td></tr>
+                            <tr><td>Reporting to</td><td>Harvard Board of Overseers</td></tr>
+                        </table>
+                        <div class="data-src">Source: Harvard FAS Annual Financial Report FY2024</div>
+                    </div>
+                    <div>
+                        <div class="chart-label">FAS total revenue 5-yr trend ($B)</div>
+                        <div style="position:relative;width:100%;height:165px"><canvas id="c1a" role="img" aria-label="Bar chart Harvard FAS revenue FY2020 to FY2024">FY2020:$1.54B FY2021:$1.59B FY2022:$1.68B FY2023:$1.81B FY2024:$1.87B</canvas></div>
+                        <div class="chart-label" style="margin-top:14px">FY2024 revenue sources</div>
+                        <div style="position:relative;width:100%;height:115px"><canvas id="c1b" role="img" aria-label="Doughnut chart FY2024 FAS revenue sources">Endowment 52.5%, Net Tuition 19%, Grants 15%, Gifts 6.5%, Other 7%</canvas></div>
+                        <div id="c1b-leg" style="margin-top:8px"></div>
+                    </div>
+                </div>
+                <div class="panel-close-row"><button class="panel-close-btn" data-close="n1">close ✕</button></div>
             </div>
 
-            <!-- Detail panels — expand inline below the grid -->
-            <div class="imp-detail" id="imp1">
-                <h3>Data architecture &amp; institutional impact</h3>
-                <ul>
-                    <li><strong>Harvard Board of Overseers Blueprint:</strong> Architected the reporting governance and data blueprints used directly by the Harvard Board of Overseers for strategic decision-making.</li>
-                    <li><strong>20+ years of historical data:</strong> Built and maintained longitudinal reporting series spanning over two decades, enabling multi-year trend analysis across faculty, enrollment, research, finance, and space management for FAS → Division → Department comparisons.</li>
-                    <li><strong>Product Owner — Department Profile &amp; Visiting Committee Packet:</strong> Sole owner of two flagship institutional deliverables presented to Harvard's governing board committees, incorporating 20+ year trend series, cross-departmental benchmarks, and executive narratives that directly inform institutional strategy.</li>
-                    <li><strong>$1.8B operations oversight:</strong> Provided direct oversight for data integrity and reporting across $1.8B in annual institutional operations.</li>
-                    <li><strong>FAS DataHub pilot:</strong> Served as a founding member of the FAS DataHub pilot group, establishing foundational data integrity standards for the institution.</li>
-                </ul>
-                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp1">close ✕</button></div>
+            <!-- ── Panel 2: 75% ── -->
+            <div class="inf-panel" id="n2">
+                <div class="inf-grid">
+                    <div>
+                        <span class="inf-icon">⚡</span>
+                        <div class="inf-big">75%</div>
+                        <div class="inf-sub">Reduction in high-touch ad-hoc reporting requests through the FAS DataHub self-service architecture — freeing the team to focus on strategic, proactive analytics.</div>
+                        <table class="stat-table">
+                            <tr><td>Before DataHub</td><td>400+ requests / yr</td></tr>
+                            <tr><td>After DataHub</td><td>&lt;100 requests / yr</td></tr>
+                            <tr><td>Reduction achieved</td><td>~75% fewer requests</td></tr>
+                            <tr><td>Platform built</td><td>Oracle BI / HART</td></tr>
+                            <tr><td>Outcome</td><td>Full self-service culture shift</td></tr>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="chart-label">Annual requests before vs. after</div>
+                        <div style="position:relative;width:100%;height:155px"><canvas id="c2a" role="img" aria-label="Bar chart: 400 requests before DataHub, under 100 after">Before: 400 requests/yr. After: under 100 requests/yr.</canvas></div>
+                        <div class="chart-label" style="margin-top:14px">Capacity reclaimed for strategic work</div>
+                        <div style="position:relative;width:100%;height:115px"><canvas id="c2b" role="img" aria-label="Doughnut: 75% strategic work reclaimed, 25% remaining ad-hoc">Strategic 75%, Remaining ad-hoc 25%</canvas></div>
+                    </div>
+                </div>
+                <div class="panel-close-row"><button class="panel-close-btn" data-close="n2">close ✕</button></div>
             </div>
 
-            <div class="imp-detail" id="imp2">
-                <h3>Operational efficiency &amp; scalability</h3>
-                <ul>
-                    <li><strong>75% reduction in ad-hoc requests:</strong> Reduced reporting requests from 400+ to under 100 annually by pioneering the FAS DataHub and standardizing metrics in Oracle BI and HART.</li>
-                    <li><strong>Self-service culture shift:</strong> Transformed the organizational culture toward data-driven autonomy, reducing dependency on manual report generation.</li>
-                    <li><strong>Standardized frameworks:</strong> Built repeatable metric frameworks with documented lineage and GL tie-outs, ensuring all outputs remain audit-ready under institutional scrutiny.</li>
-                </ul>
-                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp2">close ✕</button></div>
+            <!-- ── Panel 3: $775M ── -->
+            <div class="inf-panel" id="n3">
+                <div class="inf-grid">
+                    <div>
+                        <span class="inf-icon">🎯</span>
+                        <div class="inf-big">$775M</div>
+                        <div class="inf-sub">Two landmark capital campaigns facilitated through strategic data reporting, donor RFM profiling, GL reconciliation, and governance infrastructure.</div>
+                        <table class="stat-table">
+                            <tr><td>Phillips Academy</td><td>$400M comprehensive campaign</td></tr>
+                            <tr><td>UAMS raised</td><td>$375M+ (goal: $325M)</td></tr>
+                            <tr><td>Exceeded goal by</td><td>$50M+</td></tr>
+                            <tr><td>Method</td><td>GL-reconciled reporting + RFM</td></tr>
+                            <tr><td>Systems</td><td>Ellucian Advance, Raiser's Edge</td></tr>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="chart-label">Campaign goal vs. raised ($M)</div>
+                        <div style="position:relative;width:100%;height:175px"><canvas id="c3" role="img" aria-label="Grouped bar chart: Phillips Academy $400M, UAMS goal $325M raised $375M">Phillips Academy: $400M. UAMS: goal $325M, raised $375M.</canvas></div>
+                    </div>
+                </div>
+                <div class="panel-close-row"><button class="panel-close-btn" data-close="n3">close ✕</button></div>
             </div>
 
-            <div class="imp-detail" id="imp3">
-                <h3>Fundraising &amp; systems modernization</h3>
-                <ul>
-                    <li><strong>$775M capital campaign orchestration:</strong> Facilitated two major capital campaigns — $400M at Phillips Academy and $375M+ at UAMS — through strategic reporting, donor profiling, and data governance.</li>
-                    <li><strong>GL-reconciled campaign reporting:</strong> Delivered leadership-ready financial analysis directly reconciled to the General Ledger for both campaigns.</li>
-                    <li><strong>Seamless data migrations:</strong> Successfully navigated 3 major enterprise data conversions since 2008, maintaining 100% data integrity and zero system downtime throughout each transition.</li>
-                </ul>
-                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp3">close ✕</button></div>
+            <!-- ── Panel 4: $112M ── -->
+            <div class="inf-panel" id="n4">
+                <div class="inf-grid">
+                    <div>
+                        <span class="inf-icon">🏥</span>
+                        <div class="inf-big">$112M</div>
+                        <div class="inf-sub">Scaled from a $5M pilot through a comprehensive needs assessment and SWOT analysis identifying healthcare disparities in rural Arkansas and the Mississippi Delta.</div>
+                        <table class="stat-table">
+                            <tr><td>Pilot funding</td><td>$5M</td></tr>
+                            <tr><td>2007 ANGELS grant</td><td>$5.25M</td></tr>
+                            <tr><td>2008 ANGELS grant</td><td>$5.84M</td></tr>
+                            <tr><td>2010 federal grant</td><td>$102M — Center of Distance Health</td></tr>
+                            <tr><td>Sites expanded</td><td>500+ across AR &amp; MS Delta</td></tr>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="chart-label">Federal grant growth trajectory ($M)</div>
+                        <div style="position:relative;width:100%;height:180px"><canvas id="c4" role="img" aria-label="Line chart: grant growth from $5M pilot to $102M federal grant">Pilot: $5M. 2007: $5.25M. 2008: $5.84M. 2010: $102M.</canvas></div>
+                    </div>
+                </div>
+                <div class="panel-close-row"><button class="panel-close-btn" data-close="n4">close ✕</button></div>
             </div>
 
-            <div class="imp-detail" id="imp4">
-                <h3>Grant scaling &amp; healthcare expansion</h3>
-                <ul>
-                    <li><strong>$112M federal grant catalyst:</strong> Piloted the initial needs assessment for a regional telemedicine program, scaling a $5M foundation into $112M in federal grant funding.</li>
-                    <li><strong>$11.1M in initial awards:</strong> The SWOT analysis and needs assessment secured $5.25M (2007) and $5.84M (2008) in ANGELS program funding.</li>
-                    <li><strong>Center of Distance Health:</strong> Work directly contributed to the establishment of the Center of Distance Health, a major federal healthcare initiative serving rural communities.</li>
-                </ul>
-                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp4">close ✕</button></div>
+            <!-- ── Panel 5: 20+ years ── -->
+            <div class="inf-panel" id="n5">
+                <div class="inf-grid">
+                    <div>
+                        <span class="inf-icon">📊</span>
+                        <div class="inf-big">20+ yrs</div>
+                        <div class="inf-sub">Harvard FAS longitudinal data series maintained and curated for Visiting Committee packets and board-level strategy. All figures drawn from published FAS Annual Reports.</div>
+                        <table class="stat-table">
+                            <tr><td>FY2024 ladder faculty</td><td>730</td></tr>
+                            <tr><td>FY2024 undergrad enrollment</td><td>6,960</td></tr>
+                            <tr><td>FY2024 grants &amp; contracts</td><td>$280.3M</td></tr>
+                            <tr><td>FY2024 financial aid awarded</td><td>$350.7M</td></tr>
+                            <tr><td>Data domains tracked</td><td>Faculty, Finance, Research, Enrollment</td></tr>
+                        </table>
+                        <div class="data-src">Source: Harvard FAS Annual Reports FY2019–FY2024</div>
+                    </div>
+                    <div>
+                        <div class="chart-label">Ladder faculty count FY2019–FY2024</div>
+                        <div style="position:relative;width:100%;height:140px"><canvas id="c5a" role="img" aria-label="Line chart Harvard ladder faculty FY2019 to FY2024">FY2019:728 FY2020:724 FY2021:719 FY2022:723 FY2023:730 FY2024:730</canvas></div>
+                        <div class="chart-label" style="margin-top:12px">Undergrad enrollment FY2020–FY2024</div>
+                        <div style="position:relative;width:100%;height:120px"><canvas id="c5b" role="img" aria-label="Line chart Harvard undergrad enrollment FY2020 to FY2024">FY2020:6700 FY2021:5882 FY2022:6755 FY2023:7058 FY2024:6960</canvas></div>
+                    </div>
+                </div>
+                <div class="panel-close-row"><button class="panel-close-btn" data-close="n5">close ✕</button></div>
             </div>
 
-            <div class="imp-detail" id="imp5">
-                <h3>Regional healthcare access expansion</h3>
-                <ul>
-                    <li><strong>500+ rural sites reached:</strong> Engineered the data strategy and needs assessment that expanded telemedicine access across Arkansas and the South Mississippi River Delta.</li>
-                    <li><strong>Community impact:</strong> Work directly addressed healthcare disparities in underserved rural communities, improving accessibility, quality, and cost-effectiveness of care.</li>
-                </ul>
-                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp5">close ✕</button></div>
-            </div>
-
-            <div class="imp-detail" id="imp6">
-                <h3>Enterprise migrations &amp; zero downtime</h3>
-                <ul>
-                    <li><strong>3 major data conversions since 2008:</strong> Successfully navigated three enterprise-level system migrations, maintaining 100% data integrity and zero system downtime throughout each transition.</li>
-                    <li><strong>Legacy-to-modern transitions:</strong> Mastered maintaining complex legacy systems while simultaneously architecting and migrating to modern database infrastructures.</li>
-                    <li><strong>60,000+ constituents managed:</strong> Led Information Services &amp; Reporting for 60,000+ constituents and 20,000+ annual gift transactions at UAMS Institutional Advancement.</li>
-                    <li><strong>CRM system administration:</strong> Integrated and administered Ellucian Advance (BSR), CyberSource, iModules, Raiser's Edge, and PeopleSoft across multiple institutions.</li>
-                </ul>
-                <div class="imp-close-row"><button class="imp-close-btn" data-close="imp6">close ✕</button></div>
+            <!-- ── Panel 6: 500+ sites ── -->
+            <div class="inf-panel" id="n6">
+                <div class="inf-grid">
+                    <div>
+                        <span class="inf-icon">🌐</span>
+                        <div class="inf-big">500+</div>
+                        <div class="inf-sub">Rural telemedicine sites expanded across Arkansas and the South Mississippi River Delta — beginning from a single-site $5M pilot through data strategy and needs assessment.</div>
+                        <table class="stat-table">
+                            <tr><td>Program</td><td>ANGELS Telemedicine</td></tr>
+                            <tr><td>Launch year</td><td>2005 — single $5M pilot site</td></tr>
+                            <tr><td>2010 milestone</td><td>$102M federal grant awarded</td></tr>
+                            <tr><td>Peak expansion</td><td>500+ sites, AR + MS Delta</td></tr>
+                            <tr><td>Constituents served</td><td>60,000+ managed at UAMS</td></tr>
+                        </table>
+                    </div>
+                    <div>
+                        <div class="chart-label">Site expansion trajectory (2005–2010)</div>
+                        <div style="position:relative;width:100%;height:175px"><canvas id="c6" role="img" aria-label="Line chart telemedicine site expansion 2005 to 2010">2005: 1 site. 2007: 25. 2008: 80. 2009: 200. 2010: 500+.</canvas></div>
+                    </div>
+                </div>
+                <div class="panel-close-row"><button class="panel-close-btn" data-close="n6">close ✕</button></div>
             </div>
 
         </section>
 
-        <script>
-            (function() {
-                var cards = document.querySelectorAll('.imp-card');
-                var panels = document.querySelectorAll('.imp-detail');
-                cards.forEach(function(card) {
-                    card.addEventListener('click', function() {
-                        var id = card.getAttribute('data-id');
-                        var panel = document.getElementById(id);
-                        var isOpen = panel.classList.contains('open');
-                        panels.forEach(function(p) { p.classList.remove('open'); });
-                        cards.forEach(function(c) { c.classList.remove('active'); });
-                        if (!isOpen) {
-                            panel.classList.add('open');
-                            card.classList.add('active');
-                        }
-                    });
-                });
-                document.querySelectorAll('.imp-close-btn').forEach(function(btn) {
-                    btn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        var id = btn.getAttribute('data-close');
-                        document.getElementById(id).classList.remove('open');
-                        document.querySelector('[data-id="' + id + '"]').classList.remove('active');
-                    });
-                });
-            })();
-        </script>
-
-        <!-- Professional Experience -->
+        <!-- ══════════════════════════════════════
+             PROFESSIONAL EXPERIENCE
+        ══════════════════════════════════════ -->
         <section aria-label="Professional Experience">
             <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
-            <p class="section-hint">Click any role to expand details</p>
+            <p class="section-hint">Hover any role to see duty breakdown &middot; click to expand full details</p>
 
+            <!-- Harvard -->
             <details class="exp-tile" open>
                 <summary>
                     <div class="header-group">
@@ -569,6 +641,16 @@
                     </div>
                     <span class="office">Faculty of Arts &amp; Sciences — Office for Faculty Affairs</span>
                     <span class="role">IT Reporting &amp; Data Analyst Professional III</span>
+                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+                    <div class="pie-popup">
+                        <div class="pie-popup-title">Role breakdown</div>
+                        <div class="pie-popup-inner">
+                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
+                                <canvas id="h1" width="120" height="120" role="img" aria-label="Harvard role breakdown">Data &amp; BI Reporting 40%, Data Governance 25%, Executive Advisory 20%, Stakeholder Liaison 15%</canvas>
+                            </div>
+                            <div class="pie-legend" id="hl1"></div>
+                        </div>
+                    </div>
                 </summary>
                 <div class="details-body">
                     <ul>
@@ -584,6 +666,7 @@
                 </div>
             </details>
 
+            <!-- Phillips Academy -->
             <details class="exp-tile">
                 <summary>
                     <div class="header-group">
@@ -592,6 +675,16 @@
                     </div>
                     <span class="office">Office of Academy Resources</span>
                     <span class="role">Assistant Director of Gift Services &amp; Reporting</span>
+                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+                    <div class="pie-popup">
+                        <div class="pie-popup-title">Role breakdown</div>
+                        <div class="pie-popup-inner">
+                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
+                                <canvas id="h2" width="120" height="120" role="img" aria-label="Phillips Academy role breakdown">Campaign Reporting 35%, SQL &amp; BI Development 30%, Financial Reconciliation 20%, Data Governance 15%</canvas>
+                            </div>
+                            <div class="pie-legend" id="hl2"></div>
+                        </div>
+                    </div>
                 </summary>
                 <div class="details-body">
                     <h4>Campaign Operations &amp; Financial Leadership</h4>
@@ -611,6 +704,7 @@
                 </div>
             </details>
 
+            <!-- UAMS Institutional Advancement -->
             <details class="exp-tile">
                 <summary>
                     <div class="header-group">
@@ -619,6 +713,16 @@
                     </div>
                     <span class="office">Office of Institutional Advancement</span>
                     <span class="role">Associate Director of Donor Records &amp; Information Services</span>
+                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+                    <div class="pie-popup">
+                        <div class="pie-popup-title">Role breakdown</div>
+                        <div class="pie-popup-inner">
+                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
+                                <canvas id="h3" width="120" height="120" role="img" aria-label="UAMS Advancement role breakdown">Info Services &amp; Reporting 35%, Database Architecture 25%, Compliance &amp; Finance 25%, Campaign Operations 15%</canvas>
+                            </div>
+                            <div class="pie-legend" id="hl3"></div>
+                        </div>
+                    </div>
                 </summary>
                 <div class="details-body">
                     <h4>Strategic Campaign Leadership</h4>
@@ -644,6 +748,7 @@
                 </div>
             </details>
 
+            <!-- UAMS College of Medicine -->
             <details class="exp-tile">
                 <summary>
                     <div class="header-group">
@@ -651,6 +756,16 @@
                         <span class="date">04/2006 – 05/2008</span>
                     </div>
                     <span class="role">Program Specialist</span>
+                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+                    <div class="pie-popup">
+                        <div class="pie-popup-title">Role breakdown</div>
+                        <div class="pie-popup-inner">
+                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
+                                <canvas id="h4" width="120" height="120" role="img" aria-label="UAMS College of Medicine role breakdown">Grant Writing 35%, Statistical Analysis 25%, Program Evaluation 25%, Data Visualization 15%</canvas>
+                            </div>
+                            <div class="pie-legend" id="hl4"></div>
+                        </div>
+                    </div>
                 </summary>
                 <div class="details-body">
                     <ul>
@@ -664,6 +779,7 @@
                 </div>
             </details>
 
+            <!-- UAMS College of Pharmacy -->
             <details class="exp-tile">
                 <summary>
                     <div class="header-group">
@@ -671,8 +787,17 @@
                         <span class="date">08/2005 – 04/2006</span>
                     </div>
                     <span class="office">Academic Affairs</span>
-                    <!-- Fixed typo: "ManagementProgram" → "Management Program" -->
                     <span class="role">Management Program Analyst II</span>
+                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+                    <div class="pie-popup">
+                        <div class="pie-popup-title">Role breakdown</div>
+                        <div class="pie-popup-inner">
+                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
+                                <canvas id="h5" width="120" height="120" role="img" aria-label="UAMS Pharmacy role breakdown">Program Evaluation 40%, Curriculum Management 30%, Executive Support 20%, Administrative Strategy 10%</canvas>
+                            </div>
+                            <div class="pie-legend" id="hl5"></div>
+                        </div>
+                    </div>
                 </summary>
                 <div class="details-body">
                     <ul>
@@ -684,6 +809,7 @@
                 </div>
             </details>
 
+            <!-- UNCTAD -->
             <details class="exp-tile">
                 <summary>
                     <div class="header-group">
@@ -692,6 +818,16 @@
                     </div>
                     <span class="office">Import / Export Division — Trade Point Chiang Mai, Thailand</span>
                     <span class="role">International Coordinator</span>
+                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+                    <div class="pie-popup">
+                        <div class="pie-popup-title">Role breakdown</div>
+                        <div class="pie-popup-inner">
+                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
+                                <canvas id="h6" width="120" height="120" role="img" aria-label="UNCTAD role breakdown">Trade &amp; eCommerce Strategy 40%, Global Collaboration 30%, Translation &amp; Interpretation 30%</canvas>
+                            </div>
+                            <div class="pie-legend" id="hl6"></div>
+                        </div>
+                    </div>
                 </summary>
                 <div class="details-body">
                     <ul>
@@ -702,9 +838,233 @@
             </details>
 
         </section>
-    </main><!-- /.main-content -->
+    </main>
+</div>
 
-</div><!-- /.container -->
+<!-- Chart.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function () {
+    var PAL = ['#185FA5', '#1D9E75', '#BA7517', '#A32D2D', '#534AB7'];
+
+    /* ─────────────────────────────────────────
+       BY THE NUMBERS — infographic charts
+    ───────────────────────────────────────── */
+
+    /* n1 — FAS revenue bar */
+    new Chart(document.getElementById('c1a'), {
+        type: 'bar',
+        data: {
+            labels: ['FY2020','FY2021','FY2022','FY2023','FY2024'],
+            datasets: [{
+                data: [1.54, 1.59, 1.68, 1.81, 1.87],
+                backgroundColor: ['#B5D4F4','#B5D4F4','#B5D4F4','#B5D4F4','#185FA5'],
+                borderRadius: 3, borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' $'+c.parsed.y.toFixed(2)+'B'; } } } },
+            scales: {
+                y: { min: 1.4, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: function(v){ return '$'+v.toFixed(1)+'B'; } } },
+                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+            }
+        }
+    });
+
+    /* n1 — FAS revenue doughnut */
+    (function () {
+        var lbls = ['Endowment','Net Tuition','Grants','Gifts','Other'];
+        var vals = [52.5, 19, 15, 6.5, 7];
+        new Chart(document.getElementById('c1b'), {
+            type: 'doughnut',
+            data: { labels: lbls, datasets: [{ data: vals, backgroundColor: PAL, borderWidth: 2, borderColor: '#fff' }] },
+            options: { responsive: true, maintainAspectRatio: false, cutout: '58%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.label+': '+c.parsed+'%'; } } } } }
+        });
+        var leg = document.getElementById('c1b-leg');
+        lbls.forEach(function(l, i) {
+            var d = document.createElement('div');
+            d.className = 'leg-row';
+            d.innerHTML = '<span class="leg-sw" style="background:'+PAL[i]+'"></span><span style="flex:1;font-size:11px;color:var(--muted)">'+l+'</span><span class="leg-pct" style="font-size:11px">'+vals[i]+'%</span>';
+            leg.appendChild(d);
+        });
+    })();
+
+    /* n2 — before/after bar */
+    new Chart(document.getElementById('c2a'), {
+        type: 'bar',
+        data: { labels: ['Before DataHub','After DataHub'], datasets: [{ data: [400, 95], backgroundColor: ['#E24B4A','#185FA5'], borderRadius: 4, borderWidth: 0 }] },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.parsed.y+' requests/yr'; } } } },
+            scales: { y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } }
+        }
+    });
+
+    /* n2 — capacity doughnut */
+    new Chart(document.getElementById('c2b'), {
+        type: 'doughnut',
+        data: { labels: ['Strategic & proactive work','Remaining ad-hoc'], datasets: [{ data: [75, 25], backgroundColor: ['#185FA5','#e2e8f0'], borderWidth: 2, borderColor: '#fff' }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.label+': '+c.parsed+'%'; } } } } }
+    });
+
+    /* n3 — campaign grouped bar */
+    new Chart(document.getElementById('c3'), {
+        type: 'bar',
+        data: {
+            labels: ['Phillips Academy','UAMS'],
+            datasets: [
+                { label: 'Goal ($M)',   data: [400, 325], backgroundColor: '#B5D4F4', borderRadius: 3, borderWidth: 0 },
+                { label: 'Raised ($M)', data: [408.9, 375], backgroundColor: ['#185FA5','#1D9E75'], borderRadius: 3, borderWidth: 0 }
+            ]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.dataset.label+': $'+c.parsed.y+'M'; } } } },
+            scales: {
+                y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: function(v){ return '$'+v+'M'; } } },
+                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+            }
+        }
+    });
+
+    /* n4 — grant growth line */
+    new Chart(document.getElementById('c4'), {
+        type: 'line',
+        data: {
+            labels: ['Pilot','2007','2008','2010'],
+            datasets: [{ data: [5, 5.25, 5.84, 102], borderColor: '#185FA5', backgroundColor: 'rgba(24,95,165,0.08)', borderWidth: 2, pointBackgroundColor: '#185FA5', pointRadius: 5, fill: true, tension: 0.35 }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' $'+c.parsed.y+'M'; } } } },
+            scales: {
+                y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: function(v){ return '$'+v+'M'; } } },
+                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+            }
+        }
+    });
+
+    /* n5a — ladder faculty line */
+    new Chart(document.getElementById('c5a'), {
+        type: 'line',
+        data: {
+            labels: ['FY2020','FY2021','FY2022','FY2023','FY2024'],
+            datasets: [{ data: [724,719,723,730,730], borderColor: '#185FA5', backgroundColor: 'rgba(24,95,165,0.07)', borderWidth: 2, pointBackgroundColor: '#185FA5', pointRadius: 4, fill: true, tension: 0.3 }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.parsed.y+' ladder faculty'; } } } },
+            scales: {
+                y: { min: 710, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } },
+                x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+            }
+        }
+    });
+
+    /* n5b — enrollment line */
+    new Chart(document.getElementById('c5b'), {
+        type: 'line',
+        data: {
+            labels: ['FY2020','FY2021','FY2022','FY2023','FY2024'],
+            datasets: [{ data: [6700,5882,6755,7058,6960], borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.07)', borderWidth: 2, pointBackgroundColor: '#1D9E75', pointRadius: 4, fill: true, tension: 0.3 }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.parsed.y.toLocaleString()+' students'; } } } },
+            scales: {
+                y: { min: 5500, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: function(v){ return v.toLocaleString(); } } },
+                x: { grid: { display: false }, ticks: { font: { size: 9 } } }
+            }
+        }
+    });
+
+    /* n6 — telemedicine sites line */
+    new Chart(document.getElementById('c6'), {
+        type: 'line',
+        data: {
+            labels: ['2005','2006','2007','2008','2009','2010'],
+            datasets: [{ data: [1,5,25,80,200,500], borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.08)', borderWidth: 2, pointBackgroundColor: '#1D9E75', pointRadius: 5, fill: true, tension: 0.4 }]
+        },
+        options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.parsed.y+' sites'; } } } },
+            scales: {
+                y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } },
+                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
+            }
+        }
+    });
+
+    /* ─────────────────────────────────────────
+       BY THE NUMBERS — card click logic
+    ───────────────────────────────────────── */
+    var numCards  = document.querySelectorAll('.num-card');
+    var infPanels = document.querySelectorAll('.inf-panel');
+
+    numCards.forEach(function (card) {
+        card.addEventListener('click', function () {
+            var id     = card.getAttribute('data-id');
+            var panel  = document.getElementById(id);
+            var isOpen = panel.classList.contains('open');
+            infPanels.forEach(function (p) { p.classList.remove('open'); });
+            numCards.forEach(function (c) { c.classList.remove('active'); });
+            if (!isOpen) {
+                panel.classList.add('open');
+                card.classList.add('active');
+                panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+    });
+
+    document.querySelectorAll('.panel-close-btn').forEach(function (btn) {
+        btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            var id = btn.getAttribute('data-close');
+            document.getElementById(id).classList.remove('open');
+            document.querySelector('[data-id="'+id+'"]').classList.remove('active');
+        });
+    });
+
+    /* ─────────────────────────────────────────
+       EXPERIENCE TILES — hover pie charts
+    ───────────────────────────────────────── */
+    var jobPies = [
+        { c:'h1', l:'hl1', labels:['Data & BI Reporting','Data Governance','Executive Advisory','Stakeholder Liaison'],           data:[40,25,20,15] },
+        { c:'h2', l:'hl2', labels:['Campaign Reporting','SQL & BI Development','Financial Reconciliation','Data Governance'],      data:[35,30,20,15] },
+        { c:'h3', l:'hl3', labels:['Info Services & Reporting','Database Architecture','Compliance & Finance','Campaign Ops'],     data:[35,25,25,15] },
+        { c:'h4', l:'hl4', labels:['Grant Writing & Assessment','Statistical Analysis','Program Evaluation','Data Visualization'], data:[35,25,25,15] },
+        { c:'h5', l:'hl5', labels:['Program Evaluation','Curriculum Management','Executive Support','Administrative Strategy'],    data:[40,30,20,10] },
+        { c:'h6', l:'hl6', labels:['Trade & eCommerce Strategy','Global Collaboration','Translation & Interpretation'],            data:[40,30,30]    }
+    ];
+
+    jobPies.forEach(function (job) {
+        new Chart(document.getElementById(job.c), {
+            type: 'doughnut',
+            data: {
+                labels: job.labels,
+                datasets: [{ data: job.data, backgroundColor: PAL.slice(0, job.data.length), borderWidth: 2, borderColor: '#ffffff' }]
+            },
+            options: {
+                responsive: false, cutout: '52%',
+                plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.label+': '+c.parsed+'%'; } } } }
+            }
+        });
+
+        var leg = document.getElementById(job.l);
+        job.labels.forEach(function (lbl, i) {
+            var item = document.createElement('div');
+            item.className = 'pie-leg-item';
+            item.innerHTML =
+                '<span class="pie-leg-sw" style="background:'+PAL[i]+'"></span>' +
+                '<span>'+lbl+'</span>' +
+                '<span class="pie-leg-pct">'+job.data[i]+'%</span>';
+            leg.appendChild(item);
+        });
+    });
+
+})();
+</script>
 
 </body>
 </html>
