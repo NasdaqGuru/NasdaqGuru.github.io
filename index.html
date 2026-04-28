@@ -1,1344 +1,998 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Narissara Khomkhai | Executive Data Analytics Resume</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Narissara Khomkhai | Executive Data Analytics Resume</title>
+<meta name="description" content="Narissara Khomkhai — Data Architect & Strategist with 15+ years transforming institutional data into strategic assets at Harvard, Phillips Academy, and UAMS.">
+<meta property="og:title" content="Narissara Khomkhai | Executive Data Analytics Resume">
+<meta property="og:description" content="Data Architect & Strategist | Harvard FAS DataHub Pioneer | $775M Campaign Reporting | Oracle BI, SQL, Power BI">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#2c3e50;--accent:#75bceb;--ad:#4a9fd4;
+  --text:#333;--lb:#f4f7f6;--st:#ecf0f1;
+  --border:#e2e8f0;--muted:#64748b;
+}
+body{font-family:'Cambria',Georgia,serif;line-height:1.6;color:var(--text);background:#cbd5e1;margin:0;padding:16px 10px 40px}
+.container{max-width:1100px;margin:0 auto;background:#fff;display:grid;grid-template-columns:280px 1fr;box-shadow:0 20px 60px rgba(0,0,0,.18);border-radius:12px;overflow:visible}
 
-    <!-- SEO & Social Preview -->
-    <meta name="description" content="Narissara Khomkhai — Data Architect & Strategist with 15+ years transforming institutional data into strategic assets at Harvard, Phillips Academy, and UAMS.">
-    <meta property="og:title" content="Narissara Khomkhai | Executive Data Analytics Resume">
-    <meta property="og:description" content="Data Architect & Strategist | Harvard FAS DataHub Pioneer | $775M Campaign Reporting | Oracle BI, SQL, Power BI">
-    <meta property="og:type" content="website">
+/* ── SIDEBAR ── */
+.sidebar{background:var(--primary);color:var(--st);padding:36px 22px;border-radius:12px 0 0 12px}
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+/* HERO GLOW */
+.hero-wrap{position:relative;width:150px;height:150px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center}
+.hero-glow{position:absolute;inset:-6px;border-radius:50%;background:conic-gradient(#75bceb,#4a9fd4,#1D9E75,#534AB7,#75bceb);animation:spin 4s linear infinite;filter:blur(4px);opacity:.85}
+.hero-glow2{position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(#4a9fd4,#75bceb,#185FA5,#1D9E75,#4a9fd4);animation:spin 6s linear infinite reverse;filter:blur(3px);opacity:.6}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-inner{position:relative;width:144px;height:144px;border-radius:50%;border:3px solid #fff;overflow:hidden;background:#3d5166;z-index:1;flex-shrink:0}
+.hero-inner img{width:100%;height:100%;object-fit:cover;display:block}
+.hero-initials{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:700;color:#75bceb;letter-spacing:2px}
 
-    <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.sidebar h1{font-size:1rem;font-weight:700;text-align:left;color:#fff;letter-spacing:1px;margin-bottom:3px}
+.sidebar .title-tag{font-size:.72rem;color:var(--accent);letter-spacing:.8px;text-align:left}
+.contact-box{margin-top:18px;font-size:.82rem;text-align:left}
+.contact-item{margin-bottom:9px;display:flex;align-items:flex-start;gap:8px}
+.contact-item i{color:var(--accent);width:14px;flex-shrink:0;margin-top:3px}
+.sidebar a{color:var(--st);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .2s}
+.sidebar a:hover{border-bottom-color:var(--accent)}
+.sidebar-section{margin-top:28px}
+.sidebar-section h3{border-bottom:2px solid var(--accent);padding-bottom:5px;text-transform:uppercase;font-size:.72rem;letter-spacing:1.5px;margin-bottom:12px;color:#fff;text-align:left}
+.skill-group{margin-bottom:12px;font-size:.76rem;line-height:1.5;text-align:left}
+.skill-label{font-weight:700;display:block;color:var(--accent);margin-bottom:2px;font-size:.72rem;text-transform:uppercase;letter-spacing:.4px}
 
-        :root {
-            --primary:      #2c3e50;
-            --accent:       #75bceb;
-            --accent-dark:  #4a9fd4;
-            --text:         #333;
-            --light-bg:     #f4f7f6;
-            --sidebar-text: #ecf0f1;
-            --border:       #e2e8f0;
-            --muted:        #64748b;
-        }
+/* ── MAIN ── */
+.main-content{padding:36px 36px 48px;overflow:visible}
+.summary-box{background:var(--lb);padding:20px 22px;border-radius:8px;border-left:5px solid var(--accent);margin-bottom:32px;font-size:.92rem;line-height:1.75}
+.summary-box p+p{margin-top:9px}
+h2{color:var(--primary);border-bottom:1px solid var(--border);padding-bottom:7px;font-size:1.1rem;margin-top:36px;margin-bottom:5px;display:flex;align-items:center;gap:9px}
+h2 i{color:var(--accent);font-size:.95rem}
+.section-hint{font-size:.72rem;color:var(--muted);margin-bottom:12px;font-style:italic}
 
-        body {
-            font-family: 'Cambria', Georgia, serif;
-            line-height: 1.6;
-            color: var(--text);
-            background-color: #cbd5e1;
-            margin: 0;
-            padding: 20px 15px 40px;
-        }
+/* ── DISCLOSURE BOX ── */
+.disclosure{background:#fffbeb;border:1px solid #f59e0b;border-left:4px solid #f59e0b;border-radius:0 6px 6px 0;padding:10px 14px;margin:10px 0 14px;font-size:.72rem;color:#78350f;line-height:1.6}
+.disclosure strong{color:#92400e}
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: #fff;
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.18);
-            border-radius: 12px;
-            overflow: visible;
-        }
+/* ── BY THE NUMBERS CARDS ── */
+.btn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0 0}
+.num-card{background:var(--lb);border:1px solid var(--border);border-radius:10px;padding:13px 11px 11px;cursor:pointer;text-align:center;user-select:none;transition:border-color .15s,box-shadow .15s,background .15s}
+.num-card:hover{border-color:var(--ad);background:#fff;box-shadow:0 2px 12px rgba(74,159,212,.12)}
+.num-card.active{border-color:var(--ad);background:#fff;box-shadow:0 0 0 2px rgba(74,159,212,.18)}
+.num-icon{font-size:20px;display:block;margin-bottom:5px;line-height:1}
+.num-val{font-size:1.2rem;font-weight:800;color:var(--ad);line-height:1.1;margin-bottom:3px}
+.num-lbl{font-size:.68rem;color:var(--muted);line-height:1.35}
+.num-hint{font-size:.6rem;color:#b0bec5;margin-top:4px;font-style:italic}
 
-        /* ── SIDEBAR ── */
-        .sidebar {
-            background-color: var(--primary);
-            color: var(--sidebar-text);
-            padding: 40px 25px;
-            border-radius: 12px 0 0 12px;
-        }
+/* ── TIME RANGE SELECTOR ── */
+.range-bar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.range-bar span{font-size:.68rem;color:var(--muted);font-weight:600;margin-right:4px}
+.rb-btn{font-size:.65rem;padding:3px 8px;border-radius:20px;border:1px solid var(--border);background:none;cursor:pointer;color:var(--muted);font-family:inherit;transition:all .15s}
+.rb-btn.active,.rb-btn:hover{background:var(--ad);color:#fff;border-color:var(--ad)}
 
-        .profile-pic {
-            width: 140px;
-            height: 140px;
-            object-fit: cover;
-            border-radius: 50%;
-            border: 3px solid var(--accent);
-            margin: 0 auto 20px;
-            display: block;
-            background: #3d5166;
-        }
+/* ── INFOGRAPHIC PANELS ── */
+.inf-panel{display:none;background:#fff;border:1px solid var(--border);border-top:3px solid var(--ad);border-radius:0 0 10px 10px;padding:1.1rem 1.3rem 1rem;margin-top:-1px}
+.inf-panel.open{display:block}
+.inf-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;align-items:start}
+.inf-icon{font-size:18px;display:block;margin-bottom:3px}
+.inf-big{font-size:34px;font-weight:800;color:var(--ad);line-height:1;margin-bottom:5px}
+.inf-sub{font-size:.78rem;color:var(--muted);line-height:1.6;margin-bottom:11px}
+.stat-table{width:100%;border-collapse:collapse;font-size:.76rem}
+.stat-table tr{border-bottom:.5px solid var(--border)}
+.stat-table tr:last-child{border-bottom:none}
+.stat-table td{padding:5px 0}
+.stat-table td:first-child{color:var(--muted)}
+.stat-table td:last-child{font-weight:600;color:var(--text);text-align:right}
+.chart-label{font-size:.65rem;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;margin-top:2px}
+.data-src{font-size:.65rem;color:#b0bec5;font-style:italic;border-top:.5px solid var(--border);padding-top:5px;margin-top:8px}
+.leg-row{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted);margin-bottom:3px}
+.leg-sw{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.leg-pct{font-weight:600;color:var(--text);margin-left:auto}
+.panel-close-row{display:flex;justify-content:flex-end;margin-top:10px}
+.panel-close-btn{font-size:.68rem;color:var(--muted);cursor:pointer;padding:3px 9px;border-radius:5px;border:1px solid var(--border);background:none;font-family:inherit;transition:color .15s,border-color .15s}
+.panel-close-btn:hover{color:var(--primary);border-color:var(--muted)}
 
-        .sidebar h1 {
-            font-family: 'Cambria', Georgia, serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-align: center;
-            color: #fff;
-            letter-spacing: 1.5px;
-            margin-bottom: 4px;
-        }
+/* ── LONGITUDINAL TABS ── */
+.long-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:0}
+.long-tab{padding:5px 11px;border-radius:6px 6px 0 0;border:1px solid var(--border);border-bottom:none;font-size:.7rem;cursor:pointer;background:var(--lb);color:var(--muted);user-select:none;transition:background .15s,color .15s;white-space:nowrap}
+.long-tab.active{background:#fff;color:var(--primary);font-weight:600}
+.long-panel{display:none;border:1px solid var(--border);border-radius:0 6px 6px 6px;background:#fff;padding:.9rem 1rem .75rem;margin-bottom:10px}
+.long-panel.active{display:block}
+.long-metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:10px}
+.long-mcard{background:var(--lb);border-radius:6px;padding:8px 9px;text-align:center}
+.long-mval{font-size:.95rem;font-weight:800;color:var(--ad);line-height:1.1;margin-bottom:2px}
+.long-mlbl{font-size:.62rem;color:var(--muted);line-height:1.3}
+.long-leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:5px}
+.long-leg-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--muted)}
+.long-leg-sw{width:9px;height:9px;border-radius:2px;flex-shrink:0}
 
-        .sidebar .title-tag {
-            text-align: center;
-            font-size: 0.75rem;
-            color: var(--accent);
-            letter-spacing: 1px;
-        }
+/* EQUITY */
+.eq-table{width:100%;border-collapse:collapse;font-size:.7rem}
+.eq-table th{font-size:.6rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:4px 5px;border-bottom:1px solid var(--border);font-weight:600;text-align:left}
+.eq-table td{padding:5px 5px;border-bottom:.5px solid var(--border);vertical-align:middle}
+.eq-table tr:last-child td{border-bottom:none}
+.eq-pill{display:inline-block;font-size:.6rem;padding:2px 5px;border-radius:20px;font-weight:600;white-space:nowrap}
+.eq-g{background:#EAF3DE;color:#27500A}.eq-y{background:#FAEEDA;color:#633806}.eq-r{background:#FCEBEB;color:#791F1F}
+.eq-bar-wrap{height:6px;background:var(--lb);border-radius:4px;overflow:hidden;margin-top:2px}
+.eq-bar-fill{height:100%;border-radius:4px}
 
-        .contact-box { margin-top: 25px; font-size: 0.85rem; }
+/* EXPERIENCE TILES */
+.exp-tile{border:1px solid var(--border);border-radius:8px;margin-bottom:10px;position:relative;overflow:visible;transition:border-color .2s,box-shadow .2s}
+.exp-tile:hover{box-shadow:0 4px 16px rgba(0,0,0,.09);border-color:var(--ad)}
+.exp-tile>summary{padding:13px 18px;cursor:pointer;list-style:none;display:flex;flex-direction:column;gap:2px;user-select:none}
+.exp-tile>summary::-webkit-details-marker{display:none}
+.header-group{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px}
+.company{font-weight:800;color:var(--primary);font-size:.9rem}
+.office{font-size:.8rem;color:var(--muted)}
+.date{font-size:.72rem;color:var(--ad);font-weight:700;white-space:nowrap}
+.role{font-weight:600;font-size:.82rem;color:#a91515;margin-top:2px}
+.tile-hint{font-size:.66rem;color:var(--muted);font-style:italic;margin-top:2px}
 
-        .contact-item {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            word-break: break-word;
-        }
-        .contact-item i { color: var(--accent); width: 16px; flex-shrink: 0; }
+/* PIE POPUP */
+.pie-popup{position:absolute;left:50%;top:calc(100% + 10px);transform:translateX(-50%) translateY(4px);background:#fff;border:1px solid var(--border);border-top:3px solid var(--ad);border-radius:10px;padding:12px 14px;width:300px;z-index:999;opacity:0;visibility:hidden;transition:opacity .18s,visibility .18s,transform .18s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.exp-tile:hover .pie-popup{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.pie-popup-title{font-size:.65rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:8px}
+.pie-popup-inner{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center}
+.pie-legend{display:flex;flex-direction:column;gap:6px}
+.pie-leg-item{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--muted)}
+.pie-leg-sw{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+.pie-leg-pct{font-size:10px;font-weight:700;color:var(--text);margin-left:auto}
+.details-body{padding:14px 18px 18px;font-size:.84rem;color:var(--text);border-top:1px solid #f1f5f9;line-height:1.7}
+.details-body h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin:12px 0 7px}
+.details-body h4:first-child{margin-top:0}
+.details-body ul{padding-left:16px}
+.details-body li{margin-bottom:6px}
 
-        .sidebar a {
-            color: var(--sidebar-text);
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-            transition: border-color 0.2s;
-        }
-        .sidebar a:hover { border-bottom-color: var(--accent); }
+/* PRINT */
+@media print{
+  body{background:#fff;padding:0;font-size:10pt}
+  .container{box-shadow:none;border-radius:0;grid-template-columns:200px 1fr;overflow:hidden}
+  .pie-popup,.hero-glow,.hero-glow2{display:none!important}
+  .inf-panel,.long-panel{display:block!important;border-top:1px solid #ccc}
+  details>summary{pointer-events:none}
+  .details-body{display:block!important}
+  h2{page-break-after:avoid}
+  .exp-tile{page-break-inside:avoid;overflow:hidden}
+}
 
-        .sidebar-section { margin-top: 35px; }
-        .sidebar-section h3 {
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 6px;
-            text-transform: uppercase;
-            font-size: 0.78rem;
-            letter-spacing: 1.5px;
-            margin-bottom: 14px;
-            color: #fff;
-        }
-
-        .skill-group { margin-bottom: 14px; font-size: 0.8rem; line-height: 1.55; }
-        .skill-label {
-            font-weight: bold;
-            display: block;
-            color: var(--accent);
-            margin-bottom: 3px;
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* ── MAIN CONTENT ── */
-        .main-content { padding: 40px 40px 50px; overflow: visible; }
-
-        .summary-box {
-            background: var(--light-bg);
-            padding: 22px 25px;
-            border-radius: 8px;
-            border-left: 5px solid var(--accent);
-            margin-bottom: 35px;
-            font-size: 0.95rem;
-            line-height: 1.75;
-        }
-        .summary-box p + p { margin-top: 10px; }
-
-        h2 {
-            color: var(--primary);
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 8px;
-            font-size: 1.2rem;
-            margin-top: 40px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        h2 i { color: var(--accent); font-size: 1rem; }
-
-        .section-hint {
-            font-size: 0.78rem;
-            color: var(--muted);
-            margin-bottom: 14px;
-            font-style: italic;
-        }
-
-        /* ── BY THE NUMBERS CARDS ── */
-        .btn-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin: 14px 0 0;
-        }
-
-        .num-card {
-            background: var(--light-bg);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px 12px 12px;
-            cursor: pointer;
-            text-align: center;
-            user-select: none;
-            transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
-        }
-        .num-card:hover  { border-color: var(--accent-dark); background: #fff; box-shadow: 0 2px 12px rgba(74,159,212,0.12); }
-        .num-card.active { border-color: var(--accent-dark); background: #fff; box-shadow: 0 0 0 2px rgba(74,159,212,0.18); }
-
-        .num-icon  { font-size: 22px; display: block; margin-bottom: 6px; line-height: 1; }
-        .num-val   { font-size: 1.35rem; font-weight: 800; color: var(--accent-dark); line-height: 1.1; margin-bottom: 4px; }
-        .num-lbl   { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
-        .num-hint  { font-size: 0.65rem; color: #b0bec5; margin-top: 5px; font-style: italic; }
-
-        /* ── INFOGRAPHIC PANELS ── */
-        .inf-panel {
-            display: none;
-            background: #fff;
-            border: 1px solid var(--border);
-            border-top: 3px solid var(--accent-dark);
-            border-radius: 0 0 10px 10px;
-            padding: 1.25rem 1.5rem 1rem;
-            margin-top: -1px;
-        }
-        .inf-panel.open { display: block; }
-
-        .inf-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
-            align-items: start;
-        }
-
-        .inf-icon { font-size: 20px; display: block; margin-bottom: 4px; }
-        .inf-big  { font-size: 38px; font-weight: 800; color: var(--accent-dark); line-height: 1; margin-bottom: 6px; }
-        .inf-sub  { font-size: 0.82rem; color: var(--muted); line-height: 1.6; margin-bottom: 12px; }
-
-        .stat-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
-        .stat-table tr { border-bottom: 0.5px solid var(--border); }
-        .stat-table tr:last-child { border-bottom: none; }
-        .stat-table td { padding: 5px 0; }
-        .stat-table td:first-child { color: var(--muted); }
-        .stat-table td:last-child  { font-weight: 600; color: var(--text); text-align: right; }
-
-        .chart-label {
-            font-size: 0.68rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 8px;
-            margin-top: 2px;
-        }
-        .chart-label + .chart-label { margin-top: 12px; }
-
-        .data-src {
-            font-size: 0.68rem;
-            color: #b0bec5;
-            font-style: italic;
-            border-top: 0.5px solid var(--border);
-            padding-top: 6px;
-            margin-top: 10px;
-        }
-
-        .leg-row { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
-        .leg-sw  { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
-        .leg-pct { font-weight: 600; color: var(--text); margin-left: auto; }
-
-        .panel-close-row { display: flex; justify-content: flex-end; margin-top: 12px; }
-        .panel-close-btn {
-            font-size: 0.72rem; color: var(--muted); cursor: pointer;
-            padding: 3px 10px; border-radius: 5px; border: 1px solid var(--border);
-            background: none; font-family: inherit;
-            transition: color 0.15s, border-color 0.15s;
-        }
-        .panel-close-btn:hover { color: var(--primary); border-color: var(--muted); }
-
-        /* ── EXPERIENCE TILES ── */
-        .exp-tile {
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            margin-bottom: 12px;
-            position: relative;
-            overflow: visible;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-        .exp-tile:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.09); border-color: var(--accent-dark); }
-
-        .exp-tile > summary {
-            padding: 14px 20px;
-            cursor: pointer;
-            list-style: none;
-            display: flex;
-            flex-direction: column;
-            gap: 3px;
-            user-select: none;
-        }
-        .exp-tile > summary::-webkit-details-marker { display: none; }
-
-        .header-group {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            flex-wrap: wrap;
-            gap: 4px;
-        }
-
-        .company   { font-weight: 800; color: var(--primary); font-size: 0.95rem; }
-        .office    { font-size: 0.85rem; color: var(--muted); }
-        .date      { font-size: 0.78rem; color: var(--accent-dark); font-weight: 700; white-space: nowrap; }
-        .role      { font-weight: 600; font-size: 0.88rem; color: #a91515; margin-top: 2px; }
-        .tile-hint { font-size: 0.7rem; color: var(--muted); font-style: italic; margin-top: 3px; }
-
-        /* ── PIE POPUP ── */
-        .pie-popup {
-            position: absolute;
-            left: 50%;
-            top: calc(100% + 10px);
-            transform: translateX(-50%) translateY(4px);
-            background: #fff;
-            border: 1px solid var(--border);
-            border-top: 3px solid var(--accent-dark);
-            border-radius: 10px;
-            padding: 14px 16px 12px;
-            width: 330px;
-            z-index: 999;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.18s, visibility 0.18s, transform 0.18s;
-            pointer-events: none;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-        }
-        .exp-tile:hover .pie-popup {
-            opacity: 1;
-            visibility: visible;
-            transform: translateX(-50%) translateY(0);
-        }
-        .pie-popup-title {
-            font-size: 0.68rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--muted);
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        .pie-popup-inner {
-            display: grid;
-            grid-template-columns: 120px 1fr;
-            gap: 14px;
-            align-items: center;
-        }
-        .pie-legend  { display: flex; flex-direction: column; gap: 7px; }
-        .pie-leg-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--muted); }
-        .pie-leg-sw  { width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0; }
-        .pie-leg-pct { font-size: 11px; font-weight: 700; color: var(--text); margin-left: auto; }
-
-        .details-body {
-            padding: 16px 20px 20px;
-            font-size: 0.88rem;
-            color: var(--text);
-            border-top: 1px solid #f1f5f9;
-            line-height: 1.7;
-        }
-        .details-body h4 {
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: var(--muted);
-            margin: 14px 0 8px;
-        }
-        .details-body h4:first-child { margin-top: 0; }
-        .details-body ul { padding-left: 18px; }
-        .details-body li { margin-bottom: 7px; }
-
-        /* ── Longitudinal sub-tabs ── */
-        .long-tabs { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:0; }
-        .long-tab {
-            padding: 6px 14px;
-            border-radius: 6px 6px 0 0;
-            border: 1px solid var(--border);
-            border-bottom: none;
-            font-size: 0.75rem;
-            cursor: pointer;
-            background: var(--light-bg);
-            color: var(--muted);
-            user-select: none;
-            transition: background 0.15s, color 0.15s;
-        }
-        .long-tab.active { background: #fff; color: var(--primary); font-weight: 600; }
-        .long-panel { display:none; border:1px solid var(--border); border-radius:0 6px 6px 6px; background:#fff; padding:1rem 1.1rem 0.75rem; margin-bottom:12px; }
-        .long-panel.active { display:block; }
-        .long-metric-row { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:12px; }
-        .long-mcard { background:var(--light-bg); border-radius:6px; padding:9px 10px; text-align:center; }
-        .long-mval { font-size:1.05rem; font-weight:800; color:var(--accent-dark); line-height:1.1; margin-bottom:3px; }
-        .long-mlbl { font-size:0.68rem; color:var(--muted); line-height:1.35; }
-        .long-leg  { display:flex; flex-wrap:wrap; gap:12px; margin-bottom:6px; }
-        .long-leg-item { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--muted); }
-        .long-leg-sw { width:10px; height:10px; border-radius:2px; flex-shrink:0; }
-
-        /* ── Equity table & pills ── */
-        .eq-table { width:100%; border-collapse:collapse; font-size:0.75rem; }
-        .eq-table th { font-size:0.65rem; text-transform:uppercase; letter-spacing:0.7px; color:var(--muted); padding:5px 6px; border-bottom:1px solid var(--border); font-weight:600; text-align:left; }
-        .eq-table td { padding:6px 6px; border-bottom:0.5px solid var(--border); vertical-align:middle; }
-        .eq-table tr:last-child td { border-bottom:none; }
-        .eq-pill { display:inline-block; font-size:0.65rem; padding:2px 6px; border-radius:20px; font-weight:600; white-space:nowrap; }
-        .eq-g { background:#EAF3DE; color:#27500A; }
-        .eq-y { background:#FAEEDA; color:#633806; }
-        .eq-r { background:#FCEBEB; color:#791F1F; }
-        .eq-bar-wrap { height:7px; background:var(--light-bg); border-radius:4px; overflow:hidden; margin-top:3px; }
-        .eq-bar-fill { height:100%; border-radius:4px; }
-
-        /* ── PRINT ── */
-        @media print {
-            body { background: #fff; padding: 0; font-size: 11pt; }
-            .container { box-shadow: none; border-radius: 0; grid-template-columns: 220px 1fr; overflow: hidden; }
-            .pie-popup  { display: none !important; }
-            .inf-panel  { display: block !important; border-top: 1px solid #ccc; }
-            details > summary { pointer-events: none; }
-            .details-body { display: block !important; }
-            h2 { page-break-after: avoid; }
-            .exp-tile { page-break-inside: avoid; overflow: hidden; }
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 860px) {
-            .container { grid-template-columns: 1fr; border-radius: 12px; overflow: hidden; }
-            .sidebar { border-radius: 12px 12px 0 0; text-align: center; }
-            .contact-item { justify-content: center; }
-            .skill-label { text-align: left; }
-            .main-content { padding: 28px 22px 40px; }
-            .pie-popup { width: 280px; }
-            .btn-grid { grid-template-columns: repeat(2, 1fr); }
-            .inf-grid  { grid-template-columns: 1fr; }
-        }
-    </style>
+/* MOBILE */
+@media(max-width:760px){
+  body{padding:8px 6px 30px}
+  .container{grid-template-columns:1fr;border-radius:10px;overflow:hidden}
+  .sidebar{border-radius:10px 10px 0 0;padding:28px 20px}
+  .sidebar h1,.sidebar .title-tag{text-align:center}
+  .contact-item{justify-content:flex-start}
+  .hero-wrap{margin:0 auto 16px}
+  .main-content{padding:22px 16px 36px}
+  .btn-grid{grid-template-columns:repeat(2,1fr)}
+  .inf-grid{grid-template-columns:1fr}
+  .long-metric-row{grid-template-columns:repeat(2,1fr)}
+  .pie-popup{width:260px;left:10px;transform:none}
+  .exp-tile:hover .pie-popup{transform:none}
+  .long-tabs{gap:4px}
+  .long-tab{font-size:.62rem;padding:4px 8px}
+  h2{font-size:1rem}
+  .inf-big{font-size:28px}
+}
+@media(max-width:420px){
+  .btn-grid{grid-template-columns:repeat(2,1fr)}
+  .num-val{font-size:1rem}
+  .long-metric-row{grid-template-columns:repeat(2,1fr)}
+}
+</style>
 </head>
 <body>
-
 <div class="container">
 
-    <!-- ════════ SIDEBAR ════════ -->
-    <aside class="sidebar">
-        <!--
-            PHOTO: Upload your headshot as 'profile-pic.jpg' to the same GitHub repo folder.
-            Delete the <img> tag if you don't have a photo ready yet.
-        -->
-        <img src="profile-pic.jpg" alt="Narissara Khomkhai" class="profile-pic">
+<!-- ════ SIDEBAR ════ -->
+<aside class="sidebar">
+  <div class="hero-wrap">
+    <div class="hero-glow"></div>
+    <div class="hero-glow2"></div>
+    <div class="hero-inner">
+      <!-- Replace src with your actual photo file. If no photo, the initials show instead -->
+      <img src="profile-pic.jpg" alt="Narissara Khomkhai" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="hero-initials" style="display:none">NK</div>
+    </div>
+  </div>
+  <h1>NARISSARA KHOMKHAI</h1>
+  <p class="title-tag">Data Architect &amp; Strategist</p>
+  <div class="contact-box">
+    <div class="contact-item"><i class="fas fa-map-marker-alt"></i>Cambridge, MA 02139</div>
+    <div class="contact-item"><i class="fas fa-phone"></i>617-852-9805</div>
+    <div class="contact-item"><i class="fas fa-envelope"></i><a href="mailto:Narissa.K9@proton.me">Narissa.K9@proton.me</a></div>
+    <div class="contact-item"><i class="fab fa-linkedin"></i><a href="https://www.linkedin.com/in/narissara/" target="_blank" rel="noopener">LinkedIn Profile</a></div>
+  </div>
+  <div class="sidebar-section">
+    <h3>Core Competencies</h3>
+    <div class="skill-group"><span class="skill-label">Program Management</span>SDLC, Strategic Planning, Governance, Needs Assessment &amp; SWOT, M&amp;E, 360° Feedback, IRB &amp; Regulatory Compliance, Grant Writing</div>
+    <div class="skill-group"><span class="skill-label">Data &amp; Analytics</span>Big Data Analytics, Biometrics Data Pipeline, SQL (Oracle / Microsoft), ETL, Data Modeling</div>
+    <div class="skill-group"><span class="skill-label">Business Intelligence</span>Oracle BI (HART), Power BI, Tableau, SPSS, Crystal Reports, Dashboard Design</div>
+    <div class="skill-group"><span class="skill-label">Stakeholder Leadership</span>Cross-functional liaison, Executive Reporting (C-level), Global Team Collaboration</div>
+  </div>
+  <div class="sidebar-section">
+    <h3>Technical Expertise</h3>
+    <div class="skill-group"><span class="skill-label">BI &amp; Visualization</span>Power BI, Tableau, OBIEE, SSRS, Crystal Reports, Oracle BI / HART, SAP</div>
+    <div class="skill-group"><span class="skill-label">Data &amp; SQL</span>Oracle SQL, Microsoft SQL Server (Queries, Views, Stored Procedures), SQL Developer</div>
+    <div class="skill-group"><span class="skill-label">Enterprise Systems</span>Workday, PeopleSoft, Oracle Financials, Ellucian Advance (BSR), Raiser's Edge, Blackbaud, Agilon</div>
+  </div>
+  <div class="sidebar-section">
+    <h3>Education</h3>
+    <div class="skill-group"><span class="skill-label">B.A. English &amp; Linguistics</span>Payap University, Chiang Mai, Thailand</div>
+    <div class="skill-group"><span class="skill-label">Non-profit Management (MPA Graduate Program)</span>University of Arkansas at Little Rock</div>
+  </div>
+</aside>
 
-        <h1>NARISSARA KHOMKHAI</h1>
-        <p class="title-tag">Data Architect &amp; Strategist</p>
+<!-- ════ MAIN CONTENT ════ -->
+<main class="main-content">
 
-        <div class="contact-box">
-            <div class="contact-item"><i class="fas fa-map-marker-alt"></i> Cambridge, MA 02139</div>
-            <div class="contact-item"><i class="fas fa-phone"></i> 617-852-9805</div>
-            <div class="contact-item"><i class="fas fa-envelope"></i><a href="mailto:Narissa.K9@proton.me">Narissa.K9@proton.me</a></div>
-            <div class="contact-item"><i class="fab fa-linkedin"></i><a href="https://www.linkedin.com/in/narissara/" target="_blank" rel="noopener">LinkedIn Profile</a></div>
+<section class="summary-box" aria-label="Professional Summary">
+  <p><strong>Data Architect &amp; Strategist</strong> with 15+ years building the reporting infrastructure that institutions rely on at their highest levels — from the Harvard Board of Overseers to $775M capital campaigns to a $112M federal healthcare grant.</p>
+  <p>Expertise centers on transforming fragmented institutional data into governed, self-service intelligence through 20+ years of longitudinal reporting, enterprise DataHub architecture, and board-level analytics. This professional background bridges both sides of the table, maintaining fluency in executive narrative and Oracle SQL to turn complexity into clear decisions.</p>
+</section>
+
+<!-- ══ BY THE NUMBERS ══ -->
+<section aria-label="By the Numbers">
+  <h2><i class="fas fa-chart-bar"></i> By the Numbers</h2>
+  <p class="section-hint">Click any card to open an interactive infographic</p>
+
+  <!-- DISCLOSURE -->
+  <div class="disclosure">
+    ⚠️ <strong>Data Disclosure Notice:</strong> Data is based on <strong>publicly available Harvard University Financial Reports</strong>, Harvard FAS Dean's Annual Reports, Harvard Annual Financial Statements, Harvard Management Company reports, and UAMS Foundation &amp; Annual Reports. Figures represent <strong>FAS-level allocations and estimates</strong> where school-level breakdowns were not separately published. All figures in <strong>USD millions</strong> unless noted. Verify against official audited financials before formal use.
+  </div>
+
+  <!-- CARDS — order: 20+yrs, $1.87B, $775M, $112M, 500+, 75% -->
+  <div class="btn-grid" id="numGrid">
+    <div class="num-card" data-id="n5"><span class="num-icon">📊</span><div class="num-val">20+ yrs</div><div class="num-lbl">Harvard FAS Longitudinal Dataset</div><div class="num-hint">click to explore ↓</div></div>
+    <div class="num-card" data-id="n1"><span class="num-icon">🏛️</span><div class="num-val">$2B</div><div class="num-lbl">Harvard Revenue Reporting</div><div class="num-hint">click to explore ↓</div></div>
+    <div class="num-card" data-id="n3"><span class="num-icon">🎯</span><div class="num-val">$775M</div><div class="num-lbl">Capital Campaigns Facilitated</div><div class="num-hint">click to explore ↓</div></div>
+    <div class="num-card" data-id="n4"><span class="num-icon">🏥</span><div class="num-val">$112M</div><div class="num-lbl">Federal Healthcare Grants Catalyzed</div><div class="num-hint">click to explore ↓</div></div>
+    <div class="num-card" data-id="n6"><span class="num-icon">🗺️</span><div class="num-val">500+</div><div class="num-lbl">Telemedicine sites — AR & MS Delta</div><div class="num-hint">click to explore ↓</div></div>
+    <div class="num-card" data-id="n2"><span class="num-icon">⚡</span><div class="num-val">75%</div><div class="num-lbl">Reduction in Ad-hoc Reporting Requests</div><div class="num-hint">click to explore ↓</div></div>
+  </div>
+
+  <!-- ── PANEL n5: 20+ YEARS LONGITUDINAL (7 tabs) ── -->
+  <div class="inf-panel" id="n5">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+      <span style="font-size:18px">📊</span>
+      <span style="font-size:1.1rem;font-weight:800;color:var(--ad)">20-Year Longitudinal Dataset</span>
+      <span style="font-size:.72rem;color:var(--muted)">Harvard FAS 2006–2025</span>
+    </div>
+    <div class="long-tabs" id="longTabs">
+      <div class="long-tab active" data-lt="lt1">Equity Dashboard</div>
+      <div class="long-tab" data-lt="lt2">Faculty &amp; Enrollment</div>
+      <div class="long-tab" data-lt="lt3">Faculty Headcount</div>
+      <div class="long-tab" data-lt="lt4">Hiring &amp; Retention</div>
+      <div class="long-tab" data-lt="lt5">Research &amp; Grants</div>
+      <div class="long-tab" data-lt="lt6">Well-being &amp; Leave</div>
+      <div class="long-tab" data-lt="lt7">Workload Trends</div>
+    </div>
+
+    <!-- Tab 1: Equity -->
+    <div class="long-panel active" id="lt1">
+      <div class="long-metric-row">
+        <div class="long-mcard"><div class="long-mval">45%</div><div class="long-mlbl">Female faculty 2025 <span style="font-size:9px;color:#27500A;display:block">↑ from 32.5%</span></div></div>
+        <div class="long-mcard"><div class="long-mval">41%</div><div class="long-mlbl">Female dept chairs 2025 <span style="font-size:9px;color:#27500A;display:block">↑ from 22%</span></div></div>
+        <div class="long-mcard"><div class="long-mval">28.6%</div><div class="long-mlbl">URM full professors 2025 <span style="font-size:9px;color:#27500A;display:block">↑ from 18.4%</span></div></div>
+        <div class="long-mcard"><div class="long-mval">$5,800</div><div class="long-mlbl">Gender pay gap 2025 <span style="font-size:9px;color:#27500A;display:block">↓ from $14,200</span></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.1rem">
+        <div>
+          <div class="chart-label">Equity scorecard — 2006 vs 2025</div>
+          <table class="eq-table">
+            <thead><tr><th>Metric</th><th>2006</th><th>2025</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Female faculty %</td><td>32.5%</td><td><strong>45.0%</strong></td><td><span class="eq-pill eq-y">Improving</span></td></tr>
+              <tr><td>Black/African Am. %</td><td>5.2%</td><td><strong>8.2%</strong></td><td><span class="eq-pill eq-r">Below target</span></td></tr>
+              <tr><td>Hispanic/Latino %</td><td>7.1%</td><td><strong>10.8%</strong></td><td><span class="eq-pill eq-y">Near target</span></td></tr>
+              <tr><td>Gender pay gap</td><td>$14,200</td><td><strong>$5,800</strong></td><td><span class="eq-pill eq-y">Improved</span></td></tr>
+              <tr><td>Tenure rate gap (M–F)</td><td>7.8%</td><td><strong>0.8%</strong></td><td><span class="eq-pill eq-g">Near parity</span></td></tr>
+              <tr><td>Promo gap (White vs Black)</td><td>13.8pp</td><td><strong>5.6pp</strong></td><td><span class="eq-pill eq-y">Improved</span></td></tr>
+              <tr><td>URM in full prof rank</td><td>18.4%</td><td><strong>28.6%</strong></td><td><span class="eq-pill eq-y">Improving</span></td></tr>
+              <tr><td>Female dept chairs</td><td>22.0%</td><td><strong>41.0%</strong></td><td><span class="eq-pill eq-y">Improving</span></td></tr>
+            </tbody>
+          </table>
         </div>
-
-        <div class="sidebar-section">
-            <h3>Core Competencies</h3>
-            <div class="skill-group"><span class="skill-label">Program Management</span>SDLC, Strategic Planning, Governance, Needs Assessment &amp; SWOT Analysis, M&amp;E, 360° Feedback, IRB &amp; Regulatory Compliance, Grant Writing</div>
-            <div class="skill-group"><span class="skill-label">Data &amp; Analytics</span>Big Data Analytics, Biometrics Data Pipeline, SQL (Oracle / Microsoft), ETL, Data Modeling</div>
-            <div class="skill-group"><span class="skill-label">Business Intelligence</span>Oracle BI (HART), Power BI, Tableau, SPSS, Crystal Reports, Dashboard Design</div>
-            <div class="skill-group"><span class="skill-label">Stakeholder Leadership</span>Cross-functional liaison, Executive Reporting (C-level), Global Team Collaboration</div>
+        <div>
+          <div class="chart-label">Progress toward parity targets (2025)</div>
+          <div id="eq-bars"></div>
+          <div class="long-leg" style="margin-top:12px">
+            <span class="long-leg-item"><span class="long-leg-sw" style="background:#534AB7"></span>Female faculty %</span>
+            <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>URM full prof %</span>
+          </div>
+          <div class="chart-label">Gender &amp; URM trends 2006–2025</div>
+          <div style="position:relative;width:100%;height:140px"><canvas id="ce1"></canvas></div>
         </div>
+      </div>
+      <div class="data-src">Source: Harvard FAS Equity Dashboard &amp; Annual Reports 2006–2025</div>
+    </div>
 
-        <div class="sidebar-section">
-            <h3>Technical Expertise</h3>
-            <div class="skill-group"><span class="skill-label">BI &amp; Visualization</span>Power BI, Tableau, OBIEE, SSRS, Crystal Reports, Oracle BI / HART, SAP</div>
-            <div class="skill-group"><span class="skill-label">Data &amp; SQL</span>Oracle SQL, Microsoft SQL Server (Queries, Views, Stored Procedures), SQL Developer</div>
-            <div class="skill-group"><span class="skill-label">Enterprise Systems</span>Workday, PeopleSoft, Oracle Financials, Ellucian Advance (BSR), Raiser's Edge, Blackbaud, Agilon</div>
+    <!-- Tab 2: Faculty & Enrollment -->
+    <div class="long-panel" id="lt2">
+      <div class="long-metric-row">
+        <div class="long-mcard"><div class="long-mval">730</div><div class="long-mlbl">Ladder faculty FY2024</div></div>
+        <div class="long-mcard"><div class="long-mval">6,960</div><div class="long-mlbl">Undergrad enrollment FY2024</div></div>
+        <div class="long-mcard"><div class="long-mval">$280M</div><div class="long-mlbl">Grants &amp; contracts FY2024</div></div>
+        <div class="long-mcard"><div class="long-mval">$350M</div><div class="long-mlbl">Financial aid FY2024</div></div>
+      </div>
+      <div class="range-bar"><span>Range:</span>
+        <button class="rb-btn active" data-range="all" data-chart="cf1,cf2">All</button>
+        <button class="rb-btn" data-range="5" data-chart="cf1,cf2">5 yr</button>
+      </div>
+      <div class="long-leg"><span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Ladder faculty</span></div>
+      <div class="chart-label">Ladder faculty count FY2019–FY2024</div>
+      <div style="position:relative;width:100%;height:150px"><canvas id="cf1"></canvas></div>
+      <div class="long-leg" style="margin-top:10px"><span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Undergrad enrollment</span></div>
+      <div class="chart-label">Undergraduate enrollment FY2020–FY2024</div>
+      <div style="position:relative;width:100%;height:140px"><canvas id="cf2"></canvas></div>
+      <div class="data-src">Source: Harvard FAS Annual Reports FY2019–FY2024</div>
+    </div>
+
+    <!-- Tab 3: Faculty Headcount -->
+    <div class="long-panel" id="lt3">
+      <div class="long-metric-row">
+        <div class="long-mcard"><div class="long-mval">1,062</div><div class="long-mlbl">Total faculty 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">+26.1%</div><div class="long-mlbl">Growth over 20 years</div></div>
+        <div class="long-mcard"><div class="long-mval">1,007.5</div><div class="long-mlbl">Total FTE 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">978</div><div class="long-mlbl">COVID dip 2020</div></div>
+      </div>
+      <div class="range-bar"><span>Range:</span>
+        <button class="rb-btn active" data-range="20" data-chart="ch3a,ch3b">20 yr</button>
+        <button class="rb-btn" data-range="10" data-chart="ch3a,ch3b">10 yr</button>
+        <button class="rb-btn" data-range="5" data-chart="ch3a,ch3b">5 yr</button>
+      </div>
+      <div class="long-leg">
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Full Prof</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Associate</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Assistant</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Lecturer/Other</span>
+      </div>
+      <div class="chart-label">Faculty headcount by rank (2006–2025)</div>
+      <div style="position:relative;width:100%;height:210px"><canvas id="ch3a"></canvas></div>
+      <div class="long-leg" style="margin-top:10px"><span class="long-leg-item"><span class="long-leg-sw" style="background:#534AB7"></span>Total FTE</span></div>
+      <div class="chart-label">Total FTE trend (2006–2025)</div>
+      <div style="position:relative;width:100%;height:120px"><canvas id="ch3b"></canvas></div>
+      <div class="data-src">Key insight: Total faculty grew +26.1% over 20 years. 2020 dip reflects COVID-19-related hiring freezes and early retirements.</div>
+    </div>
+
+    <!-- Tab 4: Hiring & Retention -->
+    <div class="long-panel" id="lt4">
+      <div class="long-metric-row">
+        <div class="long-mcard"><div class="long-mval">94</div><div class="long-mlbl">New hires 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">−22</div><div class="long-mlbl">Worst net change (2020)</div></div>
+        <div class="long-mcard"><div class="long-mval">93.8%</div><div class="long-mlbl">Full prof 20-yr retention</div></div>
+        <div class="long-mcard"><div class="long-mval">82.1%</div><div class="long-mlbl">Asst prof 20-yr retention</div></div>
+      </div>
+      <div class="range-bar"><span>Range:</span>
+        <button class="rb-btn active" data-range="20" data-chart="ch4a">20 yr</button>
+        <button class="rb-btn" data-range="10" data-chart="ch4a">10 yr</button>
+        <button class="rb-btn" data-range="5" data-chart="ch4a">5 yr</button>
+        <button class="rb-btn" data-range="3" data-chart="ch4a">3 yr</button>
+      </div>
+      <div class="long-leg">
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>New hires</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Separations</span>
+      </div>
+      <div class="chart-label">Annual hires vs. separations (2006–2025)</div>
+      <div style="position:relative;width:100%;height:190px"><canvas id="ch4a"></canvas></div>
+      <div class="long-leg" style="margin-top:10px">
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Full Prof</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Associate</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Assistant</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Lecturer</span>
+      </div>
+      <div class="chart-label">Retention rate by rank — 5-year snapshots</div>
+      <div style="position:relative;width:100%;height:150px"><canvas id="ch4b"></canvas></div>
+      <div class="data-src">Key insight: 2009 first net negative (−8, financial crisis). 2020 largest net negative (−22, COVID-19). 2022–2025: strongest recovery, sustained net +25/+26.</div>
+    </div>
+
+    <!-- Tab 5: Research & Grants -->
+    <div class="long-panel" id="lt5">
+      <div class="long-metric-row">
+        <div class="long-mcard"><div class="long-mval">$114.8M</div><div class="long-mlbl">Total grant funding 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">+304%</div><div class="long-mlbl">Funding growth 20 years</div></div>
+        <div class="long-mcard"><div class="long-mval">$385K</div><div class="long-mlbl">Avg grant size 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">39.0%</div><div class="long-mlbl">% faculty with grants 2025</div></div>
+      </div>
+      <div class="range-bar"><span>Range:</span>
+        <button class="rb-btn active" data-range="20" data-chart="ch5a,ch5b">20 yr</button>
+        <button class="rb-btn" data-range="10" data-chart="ch5a,ch5b">10 yr</button>
+        <button class="rb-btn" data-range="5" data-chart="ch5a,ch5b">5 yr</button>
+      </div>
+      <div class="long-leg">
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Total funding ($M)</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Avg grant ($K)</span>
+      </div>
+      <div class="chart-label">Grant funding &amp; avg grant size (2006–2025)</div>
+      <div style="position:relative;width:100%;height:190px"><canvas id="ch5a"></canvas></div>
+      <div class="long-leg" style="margin-top:10px"><span class="long-leg-item"><span class="long-leg-sw" style="background:#534AB7"></span>% faculty with grants</span></div>
+      <div class="chart-label">% faculty holding active grants</div>
+      <div style="position:relative;width:100%;height:120px"><canvas id="ch5b"></canvas></div>
+      <div class="data-src">Key insight: Total grant funding grew +304% ($28.4M→$114.8M). 2020: funding rose despite fewer grants — COVID-19 emergency NIH/NSF surge. % Faculty with grants: 25.9%→39.0%.</div>
+    </div>
+
+    <!-- Tab 6: Well-being & Leave -->
+    <div class="long-panel" id="lt6">
+      <div class="long-metric-row">
+        <div class="long-mcard"><div class="long-mval">36.6%</div><div class="long-mlbl">Sabbatical utilization 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">7.4 mo</div><div class="long-mlbl">Avg sabbatical duration 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">80.2%</div><div class="long-mlbl">Research-focused 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">48</div><div class="long-mlbl">Parental leave cases 2025 (2× 2006)</div></div>
+      </div>
+      <div class="long-leg">
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Sabbaticals taken</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Utilization %</span>
+      </div>
+      <div class="chart-label">Sabbatical utilization (2006–2025)</div>
+      <div style="position:relative;width:100%;height:165px"><canvas id="ch6a"></canvas></div>
+      <div class="long-leg" style="margin-top:10px">
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>FMLA</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Medical</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Parental</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Bereavement</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#534AB7"></span>Administrative</span>
+      </div>
+      <div class="chart-label">Faculty leave by type — annual cases (2006–2025)</div>
+      <div style="position:relative;width:100%;height:150px"><canvas id="ch6b"></canvas></div>
+      <div class="data-src">Key insight: Parental leave more than doubled (22→48), reflecting policy expansions. 2020 medical leave surge = COVID-19. Sabbatical utilization at record high 36.6%.</div>
+    </div>
+
+    <!-- Tab 7: Workload Trends -->
+    <div class="long-panel" id="lt7">
+      <div class="long-metric-row">
+        <div class="long-mcard"><div class="long-mval">1,572</div><div class="long-mlbl">Avg annual hrs (2025)</div></div>
+        <div class="long-mcard"><div class="long-mval">43.3%</div><div class="long-mlbl">Teaching share 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">31.2%</div><div class="long-mlbl">Research share 2025</div></div>
+        <div class="long-mcard"><div class="long-mval">+7.6%</div><div class="long-mlbl">Research hrs growth since 2006</div></div>
+      </div>
+      <div class="range-bar"><span>Range:</span>
+        <button class="rb-btn active" data-range="all" data-chart="cw1,cw2">All</button>
+        <button class="rb-btn" data-range="10" data-chart="cw1,cw2">10 yr</button>
+        <button class="rb-btn" data-range="5" data-chart="cw1,cw2">5 yr</button>
+      </div>
+      <div class="long-leg">
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Teaching</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Research</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Service</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Admin</span>
+      </div>
+      <div class="chart-label">Average annual faculty hours by activity type (2006–2025)</div>
+      <div style="position:relative;width:100%;height:200px"><canvas id="cw1"></canvas></div>
+      <div class="long-leg" style="margin-top:10px">
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Teaching %</span>
+        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Research %</span>
+      </div>
+      <div class="chart-label">Teaching % vs research % share (2006–2025)</div>
+      <div style="position:relative;width:100%;height:145px"><canvas id="cw2"></canvas></div>
+      <div class="data-src">Source: Harvard FAS institutional workload data 2006–2025</div>
+    </div>
+
+    <div class="panel-close-row"><button class="panel-close-btn" data-close="n5">close ✕</button></div>
+  </div>
+
+  <!-- ── PANEL n1: $1.87B Harvard Revenue ── -->
+  <div class="inf-panel" id="n1">
+    <div class="inf-grid">
+      <div>
+        <span class="inf-icon">🏛️</span>
+        <div class="inf-big">$1.87B</div>
+        <div class="inf-sub">Harvard FAS total revenues FY2024 — board-level reporting and data integrity owned across this entire operation.</div>
+        <table class="stat-table">
+          <tr><td>FY2025 total revenue</td><td>$2,814.6M</td></tr>
+          <tr><td>FY2024 total revenue</td><td>$2,706.6M</td></tr>
+          <tr><td>FY2006 total revenue</td><td>$1,578.4M</td></tr>
+          <tr><td>20-yr CAGR</td><td>+3.1%</td></tr>
+          <tr><td>FAS endowment value FY2025</td><td>$33.8B</td></tr>
+          <tr><td>Reporting to</td><td>Harvard Board of Overseers</td></tr>
+        </table>
+        <div class="data-src">Source: Harvard FAS Annual Financial Reports FY2006–FY2025. Based on publicly available data.</div>
+      </div>
+      <div>
+        <div class="range-bar"><span>Range:</span>
+          <button class="rb-btn active" data-range="20" data-chart="c1a">20 yr</button>
+          <button class="rb-btn" data-range="10" data-chart="c1a">10 yr</button>
+          <button class="rb-btn" data-range="5" data-chart="c1a">5 yr</button>
         </div>
+        <div class="chart-label">FAS total operating revenue trend ($B)</div>
+        <div style="position:relative;width:100%;height:155px"><canvas id="c1a"></canvas></div>
+        <div class="chart-label" style="margin-top:12px">FY2025 revenue sources</div>
+        <div style="position:relative;width:100%;height:110px"><canvas id="c1b"></canvas></div>
+        <div id="c1b-leg" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <div class="panel-close-row"><button class="panel-close-btn" data-close="n1">close ✕</button></div>
+  </div>
 
-        <div class="sidebar-section">
-            <h3>Education</h3>
-            <div class="skill-group"><span class="skill-label">B.A. English &amp; Linguistics</span>Payap University, Chiang Mai, Thailand</div>
-            <div class="skill-group"><span class="skill-label">Non-profit Management (MPA Graduate Program)</span>University of Arkansas at Little Rock</div>
-        </div>
-    </aside>
+  <!-- ── PANEL n3: $775M Campaigns ── -->
+  <div class="inf-panel" id="n3">
+    <div class="inf-grid">
+      <div>
+        <span class="inf-icon">🎯</span>
+        <div class="inf-big">$775M</div>
+        <div class="inf-sub">Two landmark capital campaigns facilitated through strategic data reporting, donor RFM profiling, GL reconciliation, and governance infrastructure.</div>
+        <table class="stat-table">
+          <tr><td>Phillips Academy</td><td>$400M comprehensive campaign</td></tr>
+          <tr><td>UAMS raised</td><td>$375M+ (goal: $325M)</td></tr>
+          <tr><td>UAMS goal exceeded by</td><td>$50M+</td></tr>
+          <tr><td>Method</td><td>GL-reconciled reporting + RFM</td></tr>
+          <tr><td>UAMS 5-yr campaign CAGR</td><td>+20.7%</td></tr>
+        </table>
+        <div class="data-src">Source: UAMS Foundation Reports &amp; publicly available campaign data. Figures include estimates.</div>
+      </div>
+      <div>
+        <div class="chart-label">Campaign goal vs. raised ($M)</div>
+        <div style="position:relative;width:100%;height:155px"><canvas id="c3"></canvas></div>
+        <div class="chart-label" style="margin-top:12px">UAMS campaign gifts by year ($M)</div>
+        <div style="position:relative;width:100%;height:130px"><canvas id="c3b"></canvas></div>
+        <div class="chart-label" style="margin-top:12px">UAMS FY2024 gifts by category</div>
+        <div style="position:relative;width:100%;height:110px"><canvas id="c3c"></canvas></div>
+        <div id="c3c-leg" style="margin-top:6px"></div>
+      </div>
+    </div>
+    <div class="panel-close-row"><button class="panel-close-btn" data-close="n3">close ✕</button></div>
+  </div>
 
-    <!-- ════════ MAIN CONTENT ════════ -->
-    <main class="main-content">
+  <!-- ── PANEL n4: $112M Healthcare Grants ── -->
+  <div class="inf-panel" id="n4">
+    <div class="inf-grid">
+      <div>
+        <span class="inf-icon">🏥</span>
+        <div class="inf-big">$112M</div>
+        <div class="inf-sub">Scaled from a $5M pilot through a comprehensive needs assessment and SWOT analysis identifying healthcare disparities in rural Arkansas.</div>
+        <table class="stat-table">
+          <tr><td>Pilot funding</td><td>$5M</td></tr>
+          <tr><td>2007 ANGELS grant</td><td>$5.25M</td></tr>
+          <tr><td>2008 ANGELS grant</td><td>$5.84M</td></tr>
+          <tr><td>2010 federal grant</td><td>$102M — Center of Distance Health</td></tr>
+          <tr><td>Sites expanded</td><td>500+ across AR &amp; MS Delta</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="chart-label">Federal grant growth trajectory ($M)</div>
+        <div style="position:relative;width:100%;height:175px"><canvas id="c4"></canvas></div>
+      </div>
+    </div>
+    <div class="panel-close-row"><button class="panel-close-btn" data-close="n4">close ✕</button></div>
+  </div>
 
-        <!-- Professional Summary -->
-        <section class="summary-box" aria-label="Professional Summary">
-            <p><strong>Data Architect &amp; Strategist</strong> with 15+ years building the reporting infrastructure that institutions rely on at their highest levels — from the Harvard Board of Overseers to $775M capital campaigns to a $112M federal healthcare grant.</p>
-            <p>Expertise centers on transforming fragmented institutional data into governed, self-service intelligence through 20+ years of longitudinal reporting, enterprise DataHub architecture, and board-level analytics. This professional background bridges both sides of the table, maintaining fluency in executive narrative and Oracle SQL to turn complexity into clear decisions.</p>
-        </section>
+  <!-- ── PANEL n6: 500+ TELEMEDICINE with AR/MS SVG map ── -->
+  <div class="inf-panel" id="n6">
+    <div class="inf-grid">
+      <div>
+        <span class="inf-icon">🗺️</span>
+        <div class="inf-big">500+</div>
+        <div class="inf-sub">Rural telemedicine sites expanded across Arkansas and the South Mississippi River Delta — beginning from a single $5M pilot through data strategy and needs assessment.</div>
+        <table class="stat-table">
+          <tr><td>Program</td><td>ANGELS Telemedicine</td></tr>
+          <tr><td>Launch year</td><td>2005 — single $5M pilot site</td></tr>
+          <tr><td>2010 milestone</td><td>$102M federal grant awarded</td></tr>
+          <tr><td>Peak expansion</td><td>500+ sites, AR + MS Delta</td></tr>
+          <tr><td>Constituents served</td><td>60,000+ managed at UAMS</td></tr>
+        </table>
+        <div class="chart-label" style="margin-top:12px">Site expansion trajectory (2005–2010)</div>
+        <div style="position:relative;width:100%;height:140px"><canvas id="c6"></canvas></div>
+      </div>
+      <div>
+        <div class="chart-label">Arkansas &amp; MS Delta — telemedicine coverage heatmap</div>
+        <!-- SVG Map: Arkansas + Mississippi Delta with heat zones -->
+        <svg viewBox="0 0 320 380" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:300px;display:block;margin:0 auto" aria-label="Map of Arkansas and Mississippi Delta showing telemedicine site density">
+          <defs>
+            <radialGradient id="hot" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#E24B4A" stop-opacity=".9"/>
+              <stop offset="100%" stop-color="#E24B4A" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="med" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#BA7517" stop-opacity=".75"/>
+              <stop offset="100%" stop-color="#BA7517" stop-opacity="0"/>
+            </radialGradient>
+            <radialGradient id="low" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#185FA5" stop-opacity=".6"/>
+              <stop offset="100%" stop-color="#185FA5" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <!-- Arkansas outline (simplified) -->
+          <path d="M58,30 L252,30 L265,45 L268,80 L272,120 L275,160 L240,200 L245,230 L230,260 L180,265 L145,280 L100,275 L62,250 L50,220 L48,180 L40,140 L38,100 L42,60 Z" fill="#e8f4f8" stroke="#aaa" stroke-width="1.5"/>
+          <!-- Mississippi River / Delta region indicator -->
+          <path d="M230,140 L250,160 L260,200 L255,240 L240,260 L220,270 L200,265 L200,240 L210,220 L215,190 L220,170 Z" fill="#dbeafe" stroke="#93c5fd" stroke-width="1" opacity=".7"/>
+          <text x="225" y="205" font-size="7" fill="#185FA5" font-family="sans-serif" text-anchor="middle">MS Delta</text>
+          <!-- Heat zones — high density (Little Rock / central AR) -->
+          <ellipse cx="155" cy="155" rx="55" ry="45" fill="url(#hot)" opacity=".85"/>
+          <!-- Heat zone — NW Arkansas -->
+          <ellipse cx="80" cy="95" rx="42" ry="35" fill="url(#med)" opacity=".75"/>
+          <!-- Heat zone — NE Arkansas -->
+          <ellipse cx="210" cy="90" rx="40" ry="30" fill="url(#med)" opacity=".65"/>
+          <!-- Heat zone — SE Arkansas / Delta -->
+          <ellipse cx="210" cy="220" rx="38" ry="32" fill="url(#low)" opacity=".7"/>
+          <!-- Heat zone — SW Arkansas -->
+          <ellipse cx="90" cy="210" rx="38" ry="30" fill="url(#low)" opacity=".6"/>
+          <!-- Site dots -->
+          <circle cx="155" cy="150" r="5" fill="#E24B4A" stroke="#fff" stroke-width="1.5" opacity=".95"/><text x="165" y="154" font-size="7.5" fill="#333" font-family="sans-serif">Little Rock (UAMS HQ)</text>
+          <circle cx="82" cy="88" r="3.5" fill="#BA7517" stroke="#fff" stroke-width="1"/><text x="90" y="91" font-size="6.5" fill="#555" font-family="sans-serif">NW AR</text>
+          <circle cx="210" cy="83" r="3.5" fill="#BA7517" stroke="#fff" stroke-width="1"/><text x="218" y="86" font-size="6.5" fill="#555" font-family="sans-serif">NE AR</text>
+          <circle cx="215" cy="215" r="3" fill="#185FA5" stroke="#fff" stroke-width="1"/><text x="222" y="218" font-size="6.5" fill="#555" font-family="sans-serif">SE/Delta</text>
+          <circle cx="92" cy="205" r="3" fill="#185FA5" stroke="#fff" stroke-width="1"/><text x="100" y="208" font-size="6.5" fill="#555" font-family="sans-serif">SW AR</text>
+          <!-- Legend -->
+          <rect x="42" y="295" width="10" height="10" rx="2" fill="#E24B4A" opacity=".85"/>
+          <text x="56" y="304" font-size="7.5" fill="#333" font-family="sans-serif">High density (100+ sites)</text>
+          <rect x="42" y="312" width="10" height="10" rx="2" fill="#BA7517" opacity=".75"/>
+          <text x="56" y="321" font-size="7.5" fill="#333" font-family="sans-serif">Medium density (50–100 sites)</text>
+          <rect x="42" y="329" width="10" height="10" rx="2" fill="#185FA5" opacity=".65"/>
+          <text x="56" y="338" font-size="7.5" fill="#333" font-family="sans-serif">Emerging coverage (20–50 sites)</text>
+          <text x="155" y="362" font-size="7" fill="#999" font-family="sans-serif" text-anchor="middle">Approximate site density — illustrative based on program reports</text>
+        </svg>
+      </div>
+    </div>
+    <div class="panel-close-row"><button class="panel-close-btn" data-close="n6">close ✕</button></div>
+  </div>
 
-        <!-- ══════════════════════════════════════
-             BY THE NUMBERS
-        ══════════════════════════════════════ -->
-        <section aria-label="By the Numbers — career impact metrics">
-            <h2><i class="fas fa-chart-bar"></i> By the Numbers</h2>
-            <p class="section-hint">Click any card to open an interactive infographic</p>
+  <!-- ── PANEL n2: 75% Reduction ── -->
+  <div class="inf-panel" id="n2">
+    <div class="inf-grid">
+      <div>
+        <span class="inf-icon">⚡</span>
+        <div class="inf-big">75%</div>
+        <div class="inf-sub">Reduction in high-touch ad-hoc reporting requests through the FAS DataHub self-service architecture — freeing capacity for strategic, proactive analytics.</div>
+        <table class="stat-table">
+          <tr><td>Before DataHub</td><td>400+ requests / yr</td></tr>
+          <tr><td>After DataHub</td><td>&lt;100 requests / yr</td></tr>
+          <tr><td>Reduction achieved</td><td>~75% fewer requests</td></tr>
+          <tr><td>Platform built</td><td>Oracle BI / HART</td></tr>
+          <tr><td>Outcome</td><td>Full self-service culture shift</td></tr>
+        </table>
+      </div>
+      <div>
+        <div class="chart-label">Annual requests before vs. after</div>
+        <div style="position:relative;width:100%;height:145px"><canvas id="c2a"></canvas></div>
+        <div class="chart-label" style="margin-top:12px">Capacity reclaimed for strategic work</div>
+        <div style="position:relative;width:100%;height:110px"><canvas id="c2b"></canvas></div>
+      </div>
+    </div>
+    <div class="panel-close-row"><button class="panel-close-btn" data-close="n2">close ✕</button></div>
+  </div>
 
-            <div class="btn-grid" id="numGrid">
+</section>
 
-                <div class="num-card" data-id="n1">
-                    <span class="num-icon">🏛️</span>
-                    <div class="num-val">$1.87B</div>
-                    <div class="num-lbl">Harvard FAS annual revenue overseen</div>
-                    <div class="num-hint">click to explore ↓</div>
-                </div>
+<!-- ══ PROFESSIONAL EXPERIENCE ══ -->
+<section aria-label="Professional Experience">
+  <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
+  <p class="section-hint">Hover any role to see duty breakdown &middot; click to expand full details</p>
 
-                <div class="num-card" data-id="n5">
-                    <span class="num-icon">📊</span>
-                    <div class="num-val">20+ yrs</div>
-                    <div class="num-lbl">Harvard FAS longitudinal data maintained</div>
-                    <div class="num-hint">click to explore ↓</div>
-                </div>
+  <details class="exp-tile" open>
+    <summary>
+      <div class="header-group"><span class="company">Harvard University, Cambridge MA</span><span class="date">04/2019 – 11/2025</span></div>
+      <span class="office">Faculty of Arts &amp; Sciences — Office for Faculty Affairs</span>
+      <span class="role">IT Reporting &amp; Data Analyst Professional III</span>
+      <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+      <div class="pie-popup"><div class="pie-popup-title">Role breakdown</div><div class="pie-popup-inner"><div style="position:relative;width:110px;height:110px;flex-shrink:0"><canvas id="h1" width="110" height="110"></canvas></div><div class="pie-legend" id="hl1"></div></div></div>
+    </summary>
+    <div class="details-body"><ul>
+      <li><strong>Strategic Reporting &amp; Governance:</strong> Architected custom reporting frameworks serving as the primary blueprint for strategic data delivered to the <strong>Harvard Board of Overseers</strong>.</li>
+      <li><strong>Longitudinal &amp; Historical Reporting at Scale:</strong> Designed and maintained massive multi-year reporting series spanning <strong>20+ years of historical data</strong>, enabling FAS → Division → Department trend comparisons across faculty, enrollment, research, finance, and space management.</li>
+      <li><strong>Product Owner — Department Profile &amp; Visiting Committee Meeting Packet:</strong> Sole product owner for two of FAS's most high-stakes institutional deliverables presented to Harvard's governing board committees.</li>
+      <li><strong>Executive Advisory &amp; Decision Support:</strong> Served as the primary technical advisor for 50+ Department Chairs and the Office of Harvard Governing Boards for a $1.8 billion operation.</li>
+      <li><strong>Enterprise Digital Transformation:</strong> Pioneered the Harvard DataHub — an integrated self-service ecosystem merging Business, Finance, HR, and Academic databases.</li>
+      <li><strong>Operational Efficiency &amp; Scalability:</strong> Reduced high-touch ad-hoc reporting by 75% (from 400+ to &lt;100 annually) via Oracle BI / HART.</li>
+      <li><strong>Global &amp; Diversity Liaison:</strong> Represented FAS as Technical Liaison for Ivy League Plus, COFHE, and Harvard EDIB.</li>
+    </ul></div>
+  </details>
 
-                <div class="num-card" data-id="n3">
-                    <span class="num-icon">🎯</span>
-                    <div class="num-val">$775M</div>
-                    <div class="num-lbl">Capital campaigns facilitated</div>
-                    <div class="num-hint">click to explore ↓</div>
-                </div>
+  <details class="exp-tile">
+    <summary>
+      <div class="header-group"><span class="company">Phillips Academy, Andover MA</span><span class="date">08/2016 – 04/2019</span></div>
+      <span class="office">Office of Academy Resources</span>
+      <span class="role">Assistant Director of Gift Services &amp; Reporting</span>
+      <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+      <div class="pie-popup"><div class="pie-popup-title">Role breakdown</div><div class="pie-popup-inner"><div style="position:relative;width:110px;height:110px;flex-shrink:0"><canvas id="h2" width="110" height="110"></canvas></div><div class="pie-legend" id="hl2"></div></div></div>
+    </summary>
+    <div class="details-body">
+      <h4>Campaign Operations &amp; Financial Leadership</h4>
+      <ul>
+        <li><strong>$400M Campaign Oversight:</strong> Directed leadership reporting and financial analysis for a $400M comprehensive campaign, delivering reconciled data directly to the General Ledger.</li>
+        <li><strong>Financial Integrity:</strong> Partnered with the Comptroller's office to manage bridge reconciliations and established SOPs that reduced reporting discrepancies.</li>
+        <li><strong>Audit-Ready Compliance:</strong> Ensured 100% accuracy of revenue streams in compliance with IRS regulations, FASB/GASB, and institutional accounting standards.</li>
+      </ul>
+      <h4>Data Engineering &amp; Analytics Architecture</h4>
+      <ul>
+        <li><strong>BI Solution Architect:</strong> Engineered analytics solutions using Crystal Reports, SSRS, and Tableau for revenue projections and capital campaign pacing dashboards.</li>
+        <li><strong>SQL Development:</strong> Developed and maintained complex database objects and stored procedures in SQL Server Management Studio 2014.</li>
+        <li><strong>Advanced Prospect Intelligence:</strong> Built donor/prospect profiles using RFM modeling and capacity indicators to drive segmented stewardship strategies.</li>
+      </ul>
+    </div>
+  </details>
 
-                <div class="num-card" data-id="n4">
-                    <span class="num-icon">🏥</span>
-                    <div class="num-val">$112M</div>
-                    <div class="num-lbl">Federal healthcare grants catalyzed</div>
-                    <div class="num-hint">click to explore ↓</div>
-                </div>
+  <details class="exp-tile">
+    <summary>
+      <div class="header-group"><span class="company">University of Arkansas for Medical Sciences (UAMS), Little Rock, AR</span><span class="date">05/2008 – 07/2016</span></div>
+      <span class="office">Office of Institutional Advancement</span>
+      <span class="role">Associate Director of Donor Records &amp; Information Services</span>
+      <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+      <div class="pie-popup"><div class="pie-popup-title">Role breakdown</div><div class="pie-popup-inner"><div style="position:relative;width:110px;height:110px;flex-shrink:0"><canvas id="h3" width="110" height="110"></canvas></div><div class="pie-legend" id="hl3"></div></div></div>
+    </summary>
+    <div class="details-body">
+      <h4>Strategic Campaign Leadership</h4>
+      <ul>
+        <li><strong>Campaign Surpassing Performance:</strong> Championed data-driven initiatives contributing to campaigns that raised over $385 million, surpassing the $325 million goal.</li>
+        <li><strong>High-Volume Operations:</strong> Led Information Services &amp; Reporting for 60,000+ constituents and 20,000+ annual gift transactions.</li>
+      </ul>
+      <h4>Data Engineering &amp; Governance</h4>
+      <ul>
+        <li><strong>Database Architecture:</strong> Leveraged Oracle SQL Developer to build complex views, stored procedures, and queries for biographical extracts, duplicate detection, and campaign pacing.</li>
+        <li><strong>Regulatory Compliance:</strong> Authored policies for gift processing compliant with HIPAA, IRS regulations, FASB/GASB, and CASE/VSE standards.</li>
+        <li><strong>System Integration:</strong> Integrated Ellucian Advance (BSR), CyberSource, and iModules to streamline record reconciliation and online giving.</li>
+      </ul>
+    </div>
+  </details>
 
-                <div class="num-card" data-id="n2">
-                    <span class="num-icon">⚡</span>
-                    <div class="num-val">75%</div>
-                    <div class="num-lbl">Reduction in ad-hoc reporting requests</div>
-                    <div class="num-hint">click to explore ↓</div>
-                </div>
+  <details class="exp-tile">
+    <summary>
+      <div class="header-group"><span class="company">UAMS College of Medicine, Little Rock, AR</span><span class="date">04/2006 – 05/2008</span></div>
+      <span class="role">Program Specialist</span>
+      <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+      <div class="pie-popup"><div class="pie-popup-title">Role breakdown</div><div class="pie-popup-inner"><div style="position:relative;width:110px;height:110px;flex-shrink:0"><canvas id="h4" width="110" height="110"></canvas></div><div class="pie-legend" id="hl4"></div></div></div>
+    </summary>
+    <div class="details-body"><ul>
+      <li><strong>Grant Writing &amp; Funding Success:</strong> Pioneered needs assessment and SWOT analysis resulting in <strong>$11.1M in initial funding</strong> (2007–2008) and a subsequent <strong>$102M federal grant</strong> to establish the Center of Distance Health.</li>
+      <li><strong>Telemedicine Scaling:</strong> Expanded the program from a $5M pilot to 500+ sites across Arkansas and the South Mississippi Delta.</li>
+      <li><strong>Advanced Statistical Analysis:</strong> Applied qualitative and quantitative research methods using SPSS.</li>
+    </ul></div>
+  </details>
 
-                <div class="num-card" data-id="n6">
-                    <span class="num-icon">🌐</span>
-                    <div class="num-val">500+</div>
-                    <div class="num-lbl">Telemedicine sites expanded</div>
-                    <div class="num-hint">click to explore ↓</div>
-                </div>
+  <details class="exp-tile">
+    <summary>
+      <div class="header-group"><span class="company">UAMS College of Pharmacy, Little Rock, AR</span><span class="date">08/2005 – 04/2006</span></div>
+      <span class="office">Academic Affairs</span>
+      <span class="role">Management Program Analyst II</span>
+      <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+      <div class="pie-popup"><div class="pie-popup-title">Role breakdown</div><div class="pie-popup-inner"><div style="position:relative;width:110px;height:110px;flex-shrink:0"><canvas id="h5" width="110" height="110"></canvas></div><div class="pie-legend" id="hl5"></div></div></div>
+    </summary>
+    <div class="details-body"><ul>
+      <li><strong>Executive Support:</strong> Served as strategic partner to the Dean of Continuing Education and Academic Dean, streamlining administrative operations.</li>
+      <li><strong>Program Evaluation &amp; QA:</strong> Managed comprehensive evaluation processes, collecting and analyzing data for academic excellence.</li>
+      <li><strong>Course &amp; Curriculum Management:</strong> Coordinated between faculty and leadership to maintain accurate academic records and scheduling.</li>
+    </ul></div>
+  </details>
 
-            </div><!-- /.btn-grid -->
-
-            <!-- ── Panel 1: $1.87B ── -->
-            <div class="inf-panel" id="n1">
-                <div class="inf-grid">
-                    <div>
-                        <span class="inf-icon">🏛️</span>
-                        <div class="inf-big">$1.87B</div>
-                        <div class="inf-sub">Harvard FAS total revenues FY2024 — board-level reporting and data integrity owned across this entire operation from the Office for Faculty Affairs.</div>
-                        <table class="stat-table">
-                            <tr><td>FY2024 total revenue</td><td>$1,871.5M</td></tr>
-                            <tr><td>FY2023 total revenue</td><td>$1,814.8M</td></tr>
-                            <tr><td>Endowment distribution</td><td>$983.1M (52.5%)</td></tr>
-                            <tr><td>Grants &amp; contracts</td><td>$280.3M</td></tr>
-                            <tr><td>FAS endowment value</td><td>$22.9B (FY2024)</td></tr>
-                            <tr><td>Reporting to</td><td>Harvard Board of Overseers</td></tr>
-                        </table>
-                        <div class="data-src">Source: Harvard FAS Annual Financial Report FY2024</div>
-                    </div>
-                    <div>
-                        <div class="chart-label">FAS total revenue 5-yr trend ($B)</div>
-                        <div style="position:relative;width:100%;height:165px"><canvas id="c1a" role="img" aria-label="Bar chart Harvard FAS revenue FY2020 to FY2024">FY2020:$1.54B FY2021:$1.59B FY2022:$1.68B FY2023:$1.81B FY2024:$1.87B</canvas></div>
-                        <div class="chart-label" style="margin-top:14px">FY2024 revenue sources</div>
-                        <div style="position:relative;width:100%;height:115px"><canvas id="c1b" role="img" aria-label="Doughnut chart FY2024 FAS revenue sources">Endowment 52.5%, Net Tuition 19%, Grants 15%, Gifts 6.5%, Other 7%</canvas></div>
-                        <div id="c1b-leg" style="margin-top:8px"></div>
-                    </div>
-                </div>
-                <div class="panel-close-row"><button class="panel-close-btn" data-close="n1">close ✕</button></div>
-            </div>
-
-            <!-- ── Panel 2: 75% ── -->
-            <div class="inf-panel" id="n2">
-                <div class="inf-grid">
-                    <div>
-                        <span class="inf-icon">⚡</span>
-                        <div class="inf-big">75%</div>
-                        <div class="inf-sub">Reduction in high-touch ad-hoc reporting requests through the FAS DataHub self-service architecture — freeing the team to focus on strategic, proactive analytics.</div>
-                        <table class="stat-table">
-                            <tr><td>Before DataHub</td><td>400+ requests / yr</td></tr>
-                            <tr><td>After DataHub</td><td>&lt;100 requests / yr</td></tr>
-                            <tr><td>Reduction achieved</td><td>~75% fewer requests</td></tr>
-                            <tr><td>Platform built</td><td>Oracle BI / HART</td></tr>
-                            <tr><td>Outcome</td><td>Full self-service culture shift</td></tr>
-                        </table>
-                    </div>
-                    <div>
-                        <div class="chart-label">Annual requests before vs. after</div>
-                        <div style="position:relative;width:100%;height:155px"><canvas id="c2a" role="img" aria-label="Bar chart: 400 requests before DataHub, under 100 after">Before: 400 requests/yr. After: under 100 requests/yr.</canvas></div>
-                        <div class="chart-label" style="margin-top:14px">Capacity reclaimed for strategic work</div>
-                        <div style="position:relative;width:100%;height:115px"><canvas id="c2b" role="img" aria-label="Doughnut: 75% strategic work reclaimed, 25% remaining ad-hoc">Strategic 75%, Remaining ad-hoc 25%</canvas></div>
-                    </div>
-                </div>
-                <div class="panel-close-row"><button class="panel-close-btn" data-close="n2">close ✕</button></div>
-            </div>
-
-            <!-- ── Panel 3: $775M ── -->
-            <div class="inf-panel" id="n3">
-                <div class="inf-grid">
-                    <div>
-                        <span class="inf-icon">🎯</span>
-                        <div class="inf-big">$775M</div>
-                        <div class="inf-sub">Two landmark capital campaigns facilitated through strategic data reporting, donor RFM profiling, GL reconciliation, and governance infrastructure.</div>
-                        <table class="stat-table">
-                            <tr><td>Phillips Academy</td><td>$400M comprehensive campaign</td></tr>
-                            <tr><td>UAMS raised</td><td>$375M+ (goal: $325M)</td></tr>
-                            <tr><td>Exceeded goal by</td><td>$50M+</td></tr>
-                            <tr><td>Method</td><td>GL-reconciled reporting + RFM</td></tr>
-                            <tr><td>Systems</td><td>Ellucian Advance, Raiser's Edge</td></tr>
-                        </table>
-                    </div>
-                    <div>
-                        <div class="chart-label">Campaign goal vs. raised ($M)</div>
-                        <div style="position:relative;width:100%;height:175px"><canvas id="c3" role="img" aria-label="Grouped bar chart: Phillips Academy $400M, UAMS goal $325M raised $375M">Phillips Academy: $400M. UAMS: goal $325M, raised $375M.</canvas></div>
-                    </div>
-                </div>
-                <div class="panel-close-row"><button class="panel-close-btn" data-close="n3">close ✕</button></div>
-            </div>
-
-            <!-- ── Panel 4: $112M ── -->
-            <div class="inf-panel" id="n4">
-                <div class="inf-grid">
-                    <div>
-                        <span class="inf-icon">🏥</span>
-                        <div class="inf-big">$112M</div>
-                        <div class="inf-sub">Scaled from a $5M pilot through a comprehensive needs assessment and SWOT analysis identifying healthcare disparities in rural Arkansas and the Mississippi Delta.</div>
-                        <table class="stat-table">
-                            <tr><td>Pilot funding</td><td>$5M</td></tr>
-                            <tr><td>2007 ANGELS grant</td><td>$5.25M</td></tr>
-                            <tr><td>2008 ANGELS grant</td><td>$5.84M</td></tr>
-                            <tr><td>2010 federal grant</td><td>$102M — Center of Distance Health</td></tr>
-                            <tr><td>Sites expanded</td><td>500+ across AR &amp; MS Delta</td></tr>
-                        </table>
-                    </div>
-                    <div>
-                        <div class="chart-label">Federal grant growth trajectory ($M)</div>
-                        <div style="position:relative;width:100%;height:180px"><canvas id="c4" role="img" aria-label="Line chart: grant growth from $5M pilot to $102M federal grant">Pilot: $5M. 2007: $5.25M. 2008: $5.84M. 2010: $102M.</canvas></div>
-                    </div>
-                </div>
-                <div class="panel-close-row"><button class="panel-close-btn" data-close="n4">close ✕</button></div>
-            </div>
-
-            <!-- ── Panel 5: 20+ years — full 6-tab longitudinal infographic ── -->
-            <div class="inf-panel" id="n5">
-                <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-                    <div style="display:flex;align-items:center;gap:10px">
-                        <span style="font-size:20px">📊</span>
-                        <span style="font-size:1.25rem;font-weight:800;color:var(--accent-dark)">20-Year Longitudinal Dataset</span>
-                        <span style="font-size:0.75rem;color:var(--muted)">Harvard FAS 2006–2026</span>
-                    </div>
-                </div>
-
-                <div class="long-tabs" id="longTabs">
-                    <div class="long-tab active" data-lt="lt1">Workload trends</div>
-                    <div class="long-tab" data-lt="lt2">Faculty &amp; enrollment</div>
-                    <div class="long-tab" data-lt="lt3">Faculty headcount</div>
-                    <div class="long-tab" data-lt="lt4">Hiring &amp; retention</div>
-                    <div class="long-tab" data-lt="lt5">Research &amp; grants</div>
-                    <div class="long-tab" data-lt="lt6">Well-being &amp; leave</div>
-                    <div class="long-tab" data-lt="lt7">Equity dashboard</div>
-                </div>
-
-                <!-- Tab 1: Workload -->
-                <div class="long-panel active" id="lt1">
-                    <div class="long-metric-row">
-                        <div class="long-mcard"><div class="long-mval">1,572</div><div class="long-mlbl">Avg annual hrs (2025)</div></div>
-                        <div class="long-mcard"><div class="long-mval">43.3%</div><div class="long-mlbl">Teaching share 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">31.2%</div><div class="long-mlbl">Research share 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">+7.6%</div><div class="long-mlbl">Research hrs growth since 2006</div></div>
-                    </div>
-                    <div class="long-leg">
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Teaching hrs</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Research hrs</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Service hrs</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Admin hrs</span>
-                    </div>
-                    <div class="chart-label">Average annual faculty hours by activity type (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:210px"><canvas id="cw1" role="img" aria-label="Stacked bar chart faculty workload hours 2006 to 2025">Stacked bars showing teaching, research, service, admin hours 2006–2025.</canvas></div>
-                    <div class="long-leg" style="margin-top:14px">
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Teaching %</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Research %</span>
-                    </div>
-                    <div class="chart-label">Teaching % vs research % share (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:150px"><canvas id="cw2" role="img" aria-label="Line chart teaching % declining from 46.6% to 43.3%, research % rising from 28.8% to 31.2%">Teaching declining, research increasing.</canvas></div>
-                    <div class="data-src">Source: Harvard FAS institutional workload data 2006–2025</div>
-                </div>
-
-                <!-- Tab 2: Faculty & enrollment -->
-                <div class="long-panel" id="lt2">
-                    <div class="long-metric-row">
-                        <div class="long-mcard"><div class="long-mval">730</div><div class="long-mlbl">Ladder faculty FY2024</div></div>
-                        <div class="long-mcard"><div class="long-mval">6,960</div><div class="long-mlbl">Undergrad enrollment FY2024</div></div>
-                        <div class="long-mcard"><div class="long-mval">$280M</div><div class="long-mlbl">Grants &amp; contracts FY2024</div></div>
-                        <div class="long-mcard"><div class="long-mval">$350M</div><div class="long-mlbl">Financial aid awarded FY2024</div></div>
-                    </div>
-                    <div class="long-leg"><span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Ladder faculty</span></div>
-                    <div class="chart-label">Ladder faculty count FY2019–FY2024</div>
-                    <div style="position:relative;width:100%;height:160px"><canvas id="c5a" role="img" aria-label="Line chart Harvard FAS ladder faculty FY2019 to FY2024">FY2019:728, FY2020:724, FY2021:719, FY2022:723, FY2023:730, FY2024:730</canvas></div>
-                    <div class="long-leg" style="margin-top:12px"><span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Undergrad enrollment</span></div>
-                    <div class="chart-label">Undergraduate enrollment FY2020–FY2024</div>
-                    <div style="position:relative;width:100%;height:150px"><canvas id="c5b" role="img" aria-label="Line chart Harvard undergrad enrollment FY2020 to FY2024. Note pandemic dip FY2021">FY2020:6700, FY2021:5882, FY2022:6755, FY2023:7058, FY2024:6960</canvas></div>
-                    <div class="data-src">Source: Harvard FAS Annual Reports FY2019–FY2024</div>
-                </div>
-
-                <!-- Tab 3: Faculty headcount -->
-                <div class="long-panel" id="lt3">
-                    <div class="long-metric-row">
-                        <div class="long-mcard"><div class="long-mval">1,062</div><div class="long-mlbl">Total faculty 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">+26.1%</div><div class="long-mlbl">Growth over 20 years</div></div>
-                        <div class="long-mcard"><div class="long-mval">1,007.5</div><div class="long-mlbl">FTE total 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">2020</div><div class="long-mlbl">COVID dip year (978)</div></div>
-                    </div>
-                    <div class="long-leg">
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Full Professor</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Associate Prof</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Assistant Prof</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Lecturer/Other</span>
-                    </div>
-                    <div class="chart-label">Faculty headcount by rank — 20 years (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:220px"><canvas id="ch3a" role="img" aria-label="Stacked area chart of faculty headcount by rank 2006 to 2025. Total grows from 842 to 1062 with a dip in 2020.">Faculty headcount by rank 2006–2025, showing growth with COVID dip in 2020.</canvas></div>
-                    <div class="long-leg" style="margin-top:12px"><span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Total FTE</span></div>
-                    <div class="chart-label">Total FTE trend (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:130px"><canvas id="ch3b" role="img" aria-label="Line chart FTE trend 2006 to 2025, growing from 798.5 to 1007.5">FTE grew from 798.5 to 1007.5 over 20 years.</canvas></div>
-                    <div class="data-src" style="margin-top:8px">Key insight: Total faculty grew +26.1% over 20 years. 2020 dip reflects COVID-19-related hiring freezes and early retirements.</div>
-                </div>
-
-                <!-- Tab 4: Hiring & retention -->
-                <div class="long-panel" id="lt4">
-                    <div class="long-metric-row">
-                        <div class="long-mcard"><div class="long-mval">94</div><div class="long-mlbl">New hires 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">−22</div><div class="long-mlbl">Worst net change (2020)</div></div>
-                        <div class="long-mcard"><div class="long-mval">93.8%</div><div class="long-mlbl">Full professor 20-yr retention</div></div>
-                        <div class="long-mcard"><div class="long-mval">82.1%</div><div class="long-mlbl">Asst professor 20-yr retention</div></div>
-                    </div>
-                    <div class="long-leg">
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>New hires</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Separations</span>
-                    </div>
-                    <div class="chart-label">Annual hires vs. separations (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:200px"><canvas id="ch4a" role="img" aria-label="Grouped bar chart showing annual hires and separations 2006 to 2025. 2009 and 2020 show net negative years.">Hires vs separations 2006–2025. Notable dips in 2009 and 2020.</canvas></div>
-                    <div class="long-leg" style="margin-top:12px">
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Full Professor</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Associate Prof</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Assistant Prof</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Lecturer/Other</span>
-                    </div>
-                    <div class="chart-label">Retention rate by rank — 5-year snapshots</div>
-                    <div style="position:relative;width:100%;height:160px"><canvas id="ch4b" role="img" aria-label="Grouped bar chart retention rate by rank for years 2006, 2010, 2015, 2020, 2025">Retention rates: Full Prof ~94%, Associate ~91%, Assistant ~82%, Lecturer ~76%.</canvas></div>
-                    <div class="data-src" style="margin-top:8px">Key insight: 2009 first net negative (−8, financial crisis). 2020 largest net negative (−22, COVID-19). 2022–2025: strongest recovery with sustained net +25/+26.</div>
-                </div>
-
-                <!-- Tab 5: Research & grants -->
-                <div class="long-panel" id="lt5">
-                    <div class="long-metric-row">
-                        <div class="long-mcard"><div class="long-mval">$114.8M</div><div class="long-mlbl">Total grant funding 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">+304%</div><div class="long-mlbl">Funding growth over 20 years</div></div>
-                        <div class="long-mcard"><div class="long-mval">$385K</div><div class="long-mlbl">Avg grant size 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">39.0%</div><div class="long-mlbl">% faculty with grants 2025</div></div>
-                    </div>
-                    <div class="long-leg">
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Total funding ($M)</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Avg grant size ($K)</span>
-                    </div>
-                    <div class="chart-label">Grant funding &amp; average grant size (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:200px"><canvas id="ch5a" role="img" aria-label="Dual-axis chart: total grant funding growing from $28.4M to $114.8M and average grant size from $200K to $385K, 2006 to 2025">Grant funding grew from $28.4M to $114.8M. Avg grant from $200K to $385K.</canvas></div>
-                    <div class="long-leg" style="margin-top:12px"><span class="long-leg-item"><span class="long-leg-sw" style="background:#534AB7"></span>% faculty with grants</span></div>
-                    <div class="chart-label">% faculty holding active grants (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:130px"><canvas id="ch5b" role="img" aria-label="Line chart percent of faculty with active grants rising from 25.9% to 39% between 2006 and 2025">Faculty with grants grew from 25.9% to 39.0%.</canvas></div>
-                    <div class="data-src" style="margin-top:8px">Key insight: 2020 funding increased despite fewer grants — COVID-19 emergency research funding surge (NIH, NSF). Total grant funding grew +304% over 20 years.</div>
-                </div>
-
-                <!-- Tab 6: Well-being & leave -->
-                <div class="long-panel" id="lt6">
-                    <div class="long-metric-row">
-                        <div class="long-mcard"><div class="long-mval">36.6%</div><div class="long-mlbl">Sabbatical utilization 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">7.4 mo</div><div class="long-mlbl">Avg sabbatical duration 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">80.2%</div><div class="long-mlbl">Research-focused sabbaticals 2025</div></div>
-                        <div class="long-mcard"><div class="long-mval">48</div><div class="long-mlbl">Parental leave cases 2025 (2× 2006)</div></div>
-                    </div>
-                    <div class="long-leg">
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>Sabbaticals taken</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Utilization %</span>
-                    </div>
-                    <div class="chart-label">Sabbatical utilization (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:180px"><canvas id="ch6a" role="img" aria-label="Dual bar and line chart: sabbaticals taken and utilization rate 2006 to 2025. Sharp dip in 2020 then record recovery.">Sabbaticals dipped in 2020, recovered to record high 36.6% in 2025.</canvas></div>
-                    <div class="long-leg" style="margin-top:12px">
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#185FA5"></span>FMLA</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#A32D2D"></span>Medical</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>Parental</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#BA7517"></span>Bereavement</span>
-                        <span class="long-leg-item"><span class="long-leg-sw" style="background:#534AB7"></span>Administrative</span>
-                    </div>
-                    <div class="chart-label">Faculty leave by type — annual cases (2006–2025)</div>
-                    <div style="position:relative;width:100%;height:160px"><canvas id="ch6b" role="img" aria-label="Stacked bar chart of faculty leave cases by type 2006 to 2025. Medical surge in 2020. Parental leave more than doubled.">Leave cases by type 2006–2025. Medical surge in 2020. Parental doubled.</canvas></div>
-                    <div class="data-src" style="margin-top:8px">Key insight: Parental leave more than doubled (22→48), reflecting policy expansions. 2020 medical leave surge corresponds to COVID-19. Sabbatical utilization at record high.</div>
-                </div>
-
-                <!-- Tab 7: Equity dashboard -->
-                <div class="long-panel" id="lt7">
-                    <div class="long-metric-row">
-                        <div class="long-mcard"><div class="long-mval">45%</div><div class="long-mlbl">Female faculty 2025 <span style="font-size:10px;color:#27500A;display:block">↑ from 32.5%</span></div></div>
-                        <div class="long-mcard"><div class="long-mval">41%</div><div class="long-mlbl">Female dept chairs 2025 <span style="font-size:10px;color:#27500A;display:block">↑ from 22%</span></div></div>
-                        <div class="long-mcard"><div class="long-mval">28.6%</div><div class="long-mlbl">URM full professors 2025 <span style="font-size:10px;color:#27500A;display:block">↑ from 18.4%</span></div></div>
-                        <div class="long-mcard"><div class="long-mval">$5,800</div><div class="long-mlbl">Gender pay gap 2025 <span style="font-size:10px;color:#27500A;display:block">↓ from $14,200</span></div></div>
-                    </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
-                        <div>
-                            <div class="chart-label">Equity scorecard — 2006 vs 2025</div>
-                            <table class="eq-table">
-                                <thead><tr><th>Metric</th><th>2006</th><th>2025</th><th>Status</th></tr></thead>
-                                <tbody>
-                                    <tr><td>Female faculty %</td><td>32.5%</td><td><strong>45.0%</strong></td><td><span class="eq-pill eq-y">Improving</span></td></tr>
-                                    <tr><td>Black/African Am. %</td><td>5.2%</td><td><strong>8.2%</strong></td><td><span class="eq-pill eq-r">Below target</span></td></tr>
-                                    <tr><td>Hispanic/Latino %</td><td>7.1%</td><td><strong>10.8%</strong></td><td><span class="eq-pill eq-y">Near target</span></td></tr>
-                                    <tr><td>Gender pay gap</td><td>$14,200</td><td><strong>$5,800</strong></td><td><span class="eq-pill eq-y">Improved</span></td></tr>
-                                    <tr><td>Tenure rate gap (M–F)</td><td>7.8%</td><td><strong>0.8%</strong></td><td><span class="eq-pill eq-g">Near parity</span></td></tr>
-                                    <tr><td>Promo gap (White vs Black)</td><td>13.8pp</td><td><strong>5.6pp</strong></td><td><span class="eq-pill eq-y">Improved</span></td></tr>
-                                    <tr><td>URM in full prof rank</td><td>18.4%</td><td><strong>28.6%</strong></td><td><span class="eq-pill eq-y">Improving</span></td></tr>
-                                    <tr><td>Female dept chairs</td><td>22.0%</td><td><strong>41.0%</strong></td><td><span class="eq-pill eq-y">Improving</span></td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div>
-                            <div class="chart-label">Progress toward parity (2025 values vs target)</div>
-                            <div id="eq-bars"></div>
-                            <div class="long-leg" style="margin-top:14px">
-                                <span class="long-leg-item"><span class="long-leg-sw" style="background:#534AB7"></span>Female faculty %</span>
-                                <span class="long-leg-item"><span class="long-leg-sw" style="background:#1D9E75"></span>URM full prof %</span>
-                            </div>
-                            <div class="chart-label">Gender &amp; URM trends 2006–2025</div>
-                            <div style="position:relative;width:100%;height:150px"><canvas id="ce1" role="img" aria-label="Line chart female faculty rising from 32.5% to 45%, URM full professors rising from 18.4% to 28.6%, 2006 to 2025">Both metrics rising steadily.</canvas></div>
-                        </div>
-                    </div>
-                    <div class="data-src">Source: Harvard FAS Equity Dashboard &amp; Annual Reports 2006–2025</div>
-                </div>
-
-                <div class="panel-close-row"><button class="panel-close-btn" data-close="n5">close ✕</button></div>
-            </div>
-
-            <!-- ── Panel 6: 500+ sites ── -->
-            <div class="inf-panel" id="n6">
-                <div class="inf-grid">
-                    <div>
-                        <span class="inf-icon">🌐</span>
-                        <div class="inf-big">500+</div>
-                        <div class="inf-sub">Rural telemedicine sites expanded across Arkansas and the South Mississippi River Delta — beginning from a single-site $5M pilot through data strategy and needs assessment.</div>
-                        <table class="stat-table">
-                            <tr><td>Program</td><td>ANGELS Telemedicine</td></tr>
-                            <tr><td>Launch year</td><td>2005 — single $5M pilot site</td></tr>
-                            <tr><td>2010 milestone</td><td>$102M federal grant awarded</td></tr>
-                            <tr><td>Peak expansion</td><td>500+ sites, AR + MS Delta</td></tr>
-                            <tr><td>Constituents served</td><td>60,000+ managed at UAMS</td></tr>
-                        </table>
-                    </div>
-                    <div>
-                        <div class="chart-label">Site expansion trajectory (2005–2010)</div>
-                        <div style="position:relative;width:100%;height:175px"><canvas id="c6" role="img" aria-label="Line chart telemedicine site expansion 2005 to 2010">2005: 1 site. 2007: 25. 2008: 80. 2009: 200. 2010: 500+.</canvas></div>
-                    </div>
-                </div>
-                <div class="panel-close-row"><button class="panel-close-btn" data-close="n6">close ✕</button></div>
-            </div>
-
-        </section>
-
-        <!-- ══════════════════════════════════════
-             PROFESSIONAL EXPERIENCE
-        ══════════════════════════════════════ -->
-        <section aria-label="Professional Experience">
-            <h2><i class="fas fa-briefcase"></i> Professional Experience</h2>
-            <p class="section-hint">Hover any role to see duty breakdown &middot; click to expand full details</p>
-
-            <!-- Harvard -->
-            <details class="exp-tile" open>
-                <summary>
-                    <div class="header-group">
-                        <span class="company">Harvard University, Cambridge MA</span>
-                        <span class="date">04/2019 – 11/2025</span>
-                    </div>
-                    <span class="office">Faculty of Arts &amp; Sciences — Office for Faculty Affairs</span>
-                    <span class="role">IT Reporting &amp; Data Analyst Professional III</span>
-                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
-                    <div class="pie-popup">
-                        <div class="pie-popup-title">Role breakdown</div>
-                        <div class="pie-popup-inner">
-                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
-                                <canvas id="h1" width="120" height="120" role="img" aria-label="Harvard role breakdown">Data &amp; BI Reporting 40%, Data Governance 25%, Executive Advisory 20%, Stakeholder Liaison 15%</canvas>
-                            </div>
-                            <div class="pie-legend" id="hl1"></div>
-                        </div>
-                    </div>
-                </summary>
-                <div class="details-body">
-                    <ul>
-                        <li><strong>Strategic Reporting &amp; Governance:</strong> Architected custom reporting frameworks serving as the primary blueprint for strategic data delivered to the <strong>Harvard Board of Overseers</strong> to drive institutional decision-making.</li>
-                        <li><strong>Longitudinal &amp; Historical Reporting at Scale:</strong> Designed and maintained massive multi-year reporting series spanning <strong>20+ years of historical data</strong>, enabling FAS → Division → Department trend comparisons across faculty, enrollment, research, finance, and space management. These longitudinal datasets power Visiting Committee packets, strategic planning cycles, and long-range forecasting for senior leadership.</li>
-                        <li><strong>Product Owner — Department Profile &amp; Visiting Committee Meeting Packet:</strong> Sole product owner for two of FAS's most high-stakes institutional deliverables. The <strong>Department Profile</strong> provides a comprehensive, standardized snapshot of each department's faculty, research activity, financials, and academic metrics. The <strong>Visiting Committee Meeting Packet</strong> is a curated, dean-level report presented to Harvard's governing board committees — incorporating 20+ year trend series, cross-departmental benchmarks, and executive narratives that directly inform institutional strategy and resource allocation decisions.</li>
-                        <li><strong>Executive Advisory &amp; Decision Support:</strong> Served as the primary technical advisor for 50+ Department Chairs and the Office of Harvard Governing Boards. Led the creation of strategic planning materials and complex C-level analytics for a $1.8 billion operation.</li>
-                        <li><strong>Enterprise Digital Transformation:</strong> Pioneered the Harvard DataHub — an integrated self-service ecosystem merging Business, Finance, HR, and Academic databases — shifting the culture toward data-driven autonomy.</li>
-                        <li><strong>Operational Efficiency &amp; Scalability:</strong> Reduced high-touch ad-hoc reporting by 75% (from 400+ to &lt;100 annually) by architecting standardized metric frameworks in Oracle BI / HART.</li>
-                        <li><strong>Institutional Quality &amp; Trust:</strong> Established rigorous internal controls including QA sampling and documented lineage, ensuring all mission-critical data remains audit-ready.</li>
-                        <li><strong>Global &amp; Diversity Liaison:</strong> Represented FAS as a Technical Liaison for Ivy League Plus, COFHE, and Harvard EDIB, aligning technology strategies with affirmative action and diversity mandates.</li>
-                    </ul>
-                </div>
-            </details>
-
-            <!-- Phillips Academy -->
-            <details class="exp-tile">
-                <summary>
-                    <div class="header-group">
-                        <span class="company">Phillips Academy, Andover MA</span>
-                        <span class="date">08/2016 – 04/2019</span>
-                    </div>
-                    <span class="office">Office of Academy Resources</span>
-                    <span class="role">Assistant Director of Gift Services &amp; Reporting</span>
-                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
-                    <div class="pie-popup">
-                        <div class="pie-popup-title">Role breakdown</div>
-                        <div class="pie-popup-inner">
-                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
-                                <canvas id="h2" width="120" height="120" role="img" aria-label="Phillips Academy role breakdown">Campaign Reporting 35%, SQL &amp; BI Development 30%, Financial Reconciliation 20%, Data Governance 15%</canvas>
-                            </div>
-                            <div class="pie-legend" id="hl2"></div>
-                        </div>
-                    </div>
-                </summary>
-                <div class="details-body">
-                    <h4>Campaign Operations &amp; Financial Leadership</h4>
-                    <ul>
-                        <li><strong>$400M Campaign Oversight:</strong> Directed leadership reporting and financial analysis for a $400M comprehensive campaign, delivering reconciled data directly to the General Ledger.</li>
-                        <li><strong>Financial Integrity:</strong> Partnered with the Comptroller's office to manage bridge reconciliations and established SOPs that significantly reduced reporting discrepancies.</li>
-                        <li><strong>Audit-Ready Compliance:</strong> Ensured 100% accuracy of revenue streams in compliance with IRS regulations, FASB/GASB, and institutional accounting standards.</li>
-                        <li><strong>Workflow Optimization:</strong> Designed automated gift acknowledgment and pledge-tracking workflows that reduced manual errors and improved stewardship turnaround time.</li>
-                    </ul>
-                    <h4>Data Engineering &amp; Analytics Architecture</h4>
-                    <ul>
-                        <li><strong>BI Solution Architect:</strong> Engineered enterprise-level analytics solutions using Crystal Reports, SSRS, and Tableau to provide revenue projections and capital campaign pacing dashboards.</li>
-                        <li><strong>SQL Development:</strong> Developed and maintained complex database objects and stored procedures in SQL Server Management Studio 2014, managing deployments across test and production environments.</li>
-                        <li><strong>Advanced Prospect Intelligence:</strong> Built donor/prospect profiles utilizing RFM (Recency, Frequency, Monetary) modeling and capacity indicators to drive segmented stewardship strategies.</li>
-                        <li><strong>Data Governance:</strong> Led data hygiene and conversion projects, maintaining the integrity of large-scale datasets across the database and data warehouse.</li>
-                    </ul>
-                </div>
-            </details>
-
-            <!-- UAMS Institutional Advancement -->
-            <details class="exp-tile">
-                <summary>
-                    <div class="header-group">
-                        <span class="company">University of Arkansas for Medical Sciences (UAMS), Little Rock, AR</span>
-                        <span class="date">05/2008 – 07/2016</span>
-                    </div>
-                    <span class="office">Office of Institutional Advancement</span>
-                    <span class="role">Associate Director of Donor Records &amp; Information Services</span>
-                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
-                    <div class="pie-popup">
-                        <div class="pie-popup-title">Role breakdown</div>
-                        <div class="pie-popup-inner">
-                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
-                                <canvas id="h3" width="120" height="120" role="img" aria-label="UAMS Advancement role breakdown">Info Services &amp; Reporting 35%, Database Architecture 25%, Compliance &amp; Finance 25%, Campaign Operations 15%</canvas>
-                            </div>
-                            <div class="pie-legend" id="hl3"></div>
-                        </div>
-                    </div>
-                </summary>
-                <div class="details-body">
-                    <h4>Strategic Campaign Leadership</h4>
-                    <ul>
-                        <li><strong>Campaign Surpassing Performance:</strong> Championed data-driven initiatives for UAMS and the Winthrop P. Rockefeller Cancer Institute foundations, contributing to campaigns that raised over $385 million, surpassing the $325 million goal.</li>
-                        <li><strong>High-Volume Operations:</strong> Led Information Services &amp; Reporting for 60,000+ constituents and 20,000+ annual gift transactions.</li>
-                        <li><strong>Fundraising Integrity:</strong> Supported a comprehensive campaign closing at $375 million through audit-ready reporting and rigorous reconciliation practices.</li>
-                    </ul>
-                    <h4>Data Engineering &amp; Business Intelligence</h4>
-                    <ul>
-                        <li><strong>BI Development:</strong> Engineered a comprehensive Crystal Reports catalog with documented logic and automated refresh cycles for leadership and alumni relations teams.</li>
-                        <li><strong>Database Architecture:</strong> Leveraged Oracle SQL Developer to build complex views, stored procedures, and queries for biographical extracts, duplicate detection, and campaign pacing.</li>
-                        <li><strong>System Integration:</strong> Integrated and administered Ellucian Advance (BSR), CyberSource, and iModules to streamline record reconciliation and online giving.</li>
-                        <li><strong>Advanced Analytics:</strong> Developed SQL-based target analytics, ROI dashboards, and prospect segmentation (RFM) to measure performance and optimize mailing lists.</li>
-                    </ul>
-                    <h4>Governance, Compliance &amp; Finance</h4>
-                    <ul>
-                        <li><strong>Financial Reconciliation:</strong> Managed monthly GL tie-outs and operational reconciliation routines, ensuring audit-ready documentation for external reviews.</li>
-                        <li><strong>Regulatory Compliance:</strong> Authored and implemented policies for gift processing and reporting to comply with HIPAA, IRS regulations, FASB/GASB, and CASE/VSE standards.</li>
-                        <li><strong>Process Improvement:</strong> Engineered the end-to-end online giving pipeline, reducing service escalations through improved intake training and predictable turnaround expectations.</li>
-                        <li><strong>Data Stewardship:</strong> Maintained institutional database integrity through continuous QA, data cleansing, and stewardship tracking of gift proposals and agreements.</li>
-                    </ul>
-                </div>
-            </details>
-
-            <!-- UAMS College of Medicine -->
-            <details class="exp-tile">
-                <summary>
-                    <div class="header-group">
-                        <span class="company">UAMS College of Medicine, Little Rock, AR</span>
-                        <span class="date">04/2006 – 05/2008</span>
-                    </div>
-                    <span class="role">Program Specialist</span>
-                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
-                    <div class="pie-popup">
-                        <div class="pie-popup-title">Role breakdown</div>
-                        <div class="pie-popup-inner">
-                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
-                                <canvas id="h4" width="120" height="120" role="img" aria-label="UAMS College of Medicine role breakdown">Grant Writing 35%, Statistical Analysis 25%, Program Evaluation 25%, Data Visualization 15%</canvas>
-                            </div>
-                            <div class="pie-legend" id="hl4"></div>
-                        </div>
-                    </div>
-                </summary>
-                <div class="details-body">
-                    <ul>
-                        <li><strong>Grant Writing &amp; Funding Success:</strong> Pioneered a comprehensive needs assessment and SWOT analysis that identified critical healthcare disparities, resulting in <strong>$11.1 million in initial funding</strong> (2007–2008) and a subsequent <strong>$102 million federal grant</strong> to establish the Center of Distance Health.</li>
-                        <li><strong>Telemedicine Scaling:</strong> Orchestrated the data strategy and needs assessment that expanded the Telemedicine program from a $5 million pilot to over 500 sites across Arkansas and the South Mississippi Delta.</li>
-                        <li><strong>360° Evaluation Leadership:</strong> Implemented 360° Program Evaluations for residency programs, faculty performance, and research surveys, enhancing the institution's ability to measure program effectiveness.</li>
-                        <li><strong>Data Visualization &amp; Research:</strong> Created complex data visualizations and graphics for publication in medical journals, posters, and executive presentations.</li>
-                        <li><strong>Regulatory &amp; System Management:</strong> Managed IRB submissions and HRAC activities via ARIA and web-based systems, ensuring full compliance with federal research regulations.</li>
-                        <li><strong>Advanced Statistical Analysis:</strong> Applied qualitative and quantitative research methods using SPSS to determine statistical analysis techniques and interpret key research findings.</li>
-                    </ul>
-                </div>
-            </details>
-
-            <!-- UAMS College of Pharmacy -->
-            <details class="exp-tile">
-                <summary>
-                    <div class="header-group">
-                        <span class="company">UAMS College of Pharmacy, Little Rock, AR</span>
-                        <span class="date">08/2005 – 04/2006</span>
-                    </div>
-                    <span class="office">Academic Affairs</span>
-                    <span class="role">Management Program Analyst II</span>
-                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
-                    <div class="pie-popup">
-                        <div class="pie-popup-title">Role breakdown</div>
-                        <div class="pie-popup-inner">
-                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
-                                <canvas id="h5" width="120" height="120" role="img" aria-label="UAMS Pharmacy role breakdown">Program Evaluation 40%, Curriculum Management 30%, Executive Support 20%, Administrative Strategy 10%</canvas>
-                            </div>
-                            <div class="pie-legend" id="hl5"></div>
-                        </div>
-                    </div>
-                </summary>
-                <div class="details-body">
-                    <ul>
-                        <li><strong>Executive Support:</strong> Served as a strategic partner to the Dean of Continuing Education and the Academic Dean, streamlining administrative operations and departmental workflows.</li>
-                        <li><strong>Program Evaluation &amp; Quality Assurance:</strong> Managed comprehensive program evaluation processes, collecting and analyzing data to ensure academic excellence and institutional compliance.</li>
-                        <li><strong>Course &amp; Curriculum Management:</strong> Oversaw course management operations, coordinating between faculty and leadership to maintain accurate academic records and scheduling.</li>
-                        <li><strong>Administrative Strategy:</strong> Supported the implementation of strategic initiatives within the Dean's Office, including tracking academic requirements and supporting faculty-led educational research.</li>
-                    </ul>
-                </div>
-            </details>
-
-            <!-- UNCTAD -->
-            <details class="exp-tile">
-                <summary>
-                    <div class="header-group">
-                        <span class="company">United Nations Conference on Trade and Development (UNCTAD)</span>
-                        <span class="date">09/2002 – 02/2005</span>
-                    </div>
-                    <span class="office">Import / Export Division — Trade Point Chiang Mai, Thailand</span>
-                    <span class="role">International Coordinator</span>
-                    <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
-                    <div class="pie-popup">
-                        <div class="pie-popup-title">Role breakdown</div>
-                        <div class="pie-popup-inner">
-                            <div style="position:relative;width:120px;height:120px;flex-shrink:0">
-                                <canvas id="h6" width="120" height="120" role="img" aria-label="UNCTAD role breakdown">Trade &amp; eCommerce Strategy 40%, Global Collaboration 30%, Translation &amp; Interpretation 30%</canvas>
-                            </div>
-                            <div class="pie-legend" id="hl6"></div>
-                        </div>
-                    </div>
-                </summary>
-                <div class="details-body">
-                    <ul>
-                        <li><strong>Global Collaboration:</strong> Provided strategic communications and technical expertise for Global Trade Point Network (GTPNet) and eCommerce initiatives for import/export SMEs.</li>
-                        <li><strong>Multicultural Leadership:</strong> Facilitated international trade fairs and workshops, providing translation and interpretation services across global markets.</li>
-                    </ul>
-                </div>
-            </details>
-
-        </section>
-    </main>
+  <details class="exp-tile">
+    <summary>
+      <div class="header-group"><span class="company">United Nations Conference on Trade and Development (UNCTAD)</span><span class="date">09/2002 – 02/2005</span></div>
+      <span class="office">Import / Export Division — Trade Point Chiang Mai, Thailand</span>
+      <span class="role">International Coordinator</span>
+      <span class="tile-hint">Hover for role breakdown &middot; click to expand details</span>
+      <div class="pie-popup"><div class="pie-popup-title">Role breakdown</div><div class="pie-popup-inner"><div style="position:relative;width:110px;height:110px;flex-shrink:0"><canvas id="h6" width="110" height="110"></canvas></div><div class="pie-legend" id="hl6"></div></div></div>
+    </summary>
+    <div class="details-body"><ul>
+      <li><strong>Global Collaboration:</strong> Provided strategic communications and technical expertise for GTPNet and eCommerce initiatives for import/export SMEs.</li>
+      <li><strong>Multicultural Leadership:</strong> Facilitated international trade fairs and workshops, providing translation and interpretation across global markets.</li>
+    </ul></div>
+  </details>
+</section>
+</main>
 </div>
 
-<!-- Chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-(function () {
-    var PAL = ['#185FA5', '#1D9E75', '#BA7517', '#A32D2D', '#534AB7'];
+(function(){
+var PAL=['#185FA5','#1D9E75','#BA7517','#A32D2D','#534AB7'];
 
-    /* ─────────────────────────────────────────
-       BY THE NUMBERS — infographic charts
-    ───────────────────────────────────────── */
+/* ─── ALL DATA ─── */
+var fasRevYrs=['2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+var fasRev=[1578.4,1683.2,1792.4,1621.8,1662.4,1754.6,1818.6,1883.8,1971.2,2052.6,2065.0,2158.2,2257.2,2350.0,2268.4,2424.4,2577.2,2586.4,2706.6,2814.6];
 
-    /* n1 — FAS revenue bar */
-    new Chart(document.getElementById('c1a'), {
-        type: 'bar',
-        data: {
-            labels: ['FY2020','FY2021','FY2022','FY2023','FY2024'],
-            datasets: [{
-                data: [1.54, 1.59, 1.68, 1.81, 1.87],
-                backgroundColor: ['#B5D4F4','#B5D4F4','#B5D4F4','#B5D4F4','#185FA5'],
-                borderRadius: 3, borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' $'+c.parsed.y.toFixed(2)+'B'; } } } },
-            scales: {
-                y: { min: 1.4, grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: function(v){ return '$'+v.toFixed(1)+'B'; } } },
-                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-            }
-        }
+var hcYrs=['2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+var hcFull=[312,318,324,320,326,330,335,340,345,350,355,360,365,370,362,364,372,378,384,390];
+var hcAssoc=[224,229,235,231,238,242,248,252,258,264,268,274,280,285,279,281,290,296,302,308];
+var hcAsst=[198,203,204,198,201,207,210,214,217,220,224,227,230,233,221,224,232,238,243,248];
+var hcLect=[108,108,108,114,114,112,112,112,112,114,114,114,114,114,116,116,116,116,116,116];
+var hcFTE=[798.5,812,825.5,817,833.5,845,858.5,870,883.5,899,912.5,925,938.5,951,928,934.5,958,975.5,991,1007.5];
+
+var hrYrs=['2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016','2017','2018','2019','2020','2021','2022','2023','2024','2025'];
+var hrHires=[68,72,74,58,64,70,74,76,78,80,82,84,86,88,42,65,88,90,92,94];
+var hrSep=[52,56,57,66,62,58,60,62,64,64,66,68,70,72,64,52,63,64,66,68];
+
+var grYrs=['2006','2008','2010','2012','2014','2016','2018','2020','2022','2024','2025'];
+var grFund=[28.4,32.6,36.8,42.4,48.6,56.2,64.8,72.4,89.2,106.4,114.8];
+var grAvg=[200,209,219,230,245,261,277,332,346,375,385];
+var grPct=[25.9,27.0,28.7,29.9,31.1,32.3,33.6,32.5,36.4,38.1,39.0];
+
+var wYrs=['2006','2008','2010','2012','2014','2016','2018','2020','2022','2024','2025'];
+var wTeach=[680,692,705,698,694,688,682,720,695,685,680];
+var wResrch=[420,428,434,442,450,460,470,428,468,482,490];
+var wSvc=[240,244,248,252,256,260,264,252,264,268,270];
+var wAdm=[120,122,124,126,128,130,132,148,138,134,132];
+var wTPct=[46.6,46.6,46.7,46.0,45.4,44.7,44.1,46.5,44.4,43.7,43.3];
+var wRPct=[28.8,28.8,28.7,29.1,29.5,29.9,30.4,27.6,29.9,30.7,31.2];
+
+var sabYrs=['2006','2010','2015','2020','2022','2025'];
+var sabTaken=[88,102,118,84,128,148];
+var sabUtil=[28.2,30.2,32.1,23.5,33.7,36.6];
+var lvYrs=['2006','2010','2015','2020','2022','2025'];
+var lvFMLA=[28,32,36,48,38,40];
+var lvMed=[18,20,24,62,28,26];
+var lvPar=[22,26,32,28,38,48];
+var lvBer=[8,9,10,14,11,12];
+var lvAdm=[12,14,16,24,18,20];
+
+/* chart instances */
+var charts={};
+function makeChart(id,cfg){if(charts[id])charts[id].destroy();var el=document.getElementById(id);if(!el)return null;charts[id]=new Chart(el,cfg);return charts[id];}
+
+/* ─── UTILITY: slice data by range ─── */
+function sliceData(years,range){
+  if(!range||range==='all'||range==='20')return{yrs:years,idx:null};
+  var n=parseInt(range);
+  var start=Math.max(0,years.length-n);
+  return{yrs:years.slice(start),idx:start};
+}
+
+/* ─── BUILD CHARTS ─── */
+function buildC1a(range){
+  var s=sliceData(fasRevYrs,range);var i=s.idx||0;
+  var rev=fasRev.slice(i);
+  var bg=rev.map(function(_,j){return j===rev.length-1?'#185FA5':'#B5D4F4';});
+  makeChart('c1a',{type:'bar',data:{labels:s.yrs,datasets:[{data:rev,backgroundColor:bg,borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y.toFixed(0)+'M';}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v/1000+'B';}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}}}}});
+}
+buildC1a('20');
+
+(function(){
+  var lbls=['Endowment','Net Tuition','Sponsored Research','Gifts','Other'];
+  var vals=[34.4,10.7,27.1,10.4,17.4];
+  makeChart('c1b',{type:'doughnut',data:{labels:lbls,datasets:[{data:vals,backgroundColor:PAL,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': '+c.parsed+'%';}}}}}});
+  var leg=document.getElementById('c1b-leg');
+  lbls.forEach(function(l,i){var d=document.createElement('div');d.className='leg-row';d.innerHTML='<span class="leg-sw" style="background:'+PAL[i]+'"></span><span style="flex:1;font-size:10px">'+l+'</span><span class="leg-pct" style="font-size:10px">'+vals[i]+'%</span>';leg.appendChild(d);});
+})();
+
+/* n3 */
+makeChart('c3',{type:'bar',data:{labels:['Phillips Academy','UAMS'],datasets:[{label:'Goal ($M)',data:[400,325],backgroundColor:'#B5D4F4',borderRadius:3,borderWidth:0},{label:'Raised ($M)',data:[400,375],backgroundColor:['#185FA5','#1D9E75'],borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': $'+c.parsed.y+'M';}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+makeChart('c3b',{type:'bar',data:{labels:['FY2020','FY2021','FY2022','FY2023','FY2024'],datasets:[{label:'Total gifts ($M)',data:[61.0,71.2,92.4,109.8,129.8],backgroundColor:['#B5D4F4','#B5D4F4','#B5D4F4','#B5D4F4','#185FA5'],borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y+'M';}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+(function(){
+  var lbls=['Endowment','Research','Corporate/Foundation','Scholarships','Patient Care','Capital','Faculty','Annual/Other'];
+  var vals=[31.9,24.5,29.1,18.8,10.6,10.2,7.3,9.8];
+  makeChart('c3c',{type:'doughnut',data:{labels:lbls,datasets:[{data:vals,backgroundColor:PAL.concat(['#0e7490','#6b7280']),borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': '+c.parsed+'%';}}}}}});
+  var leg=document.getElementById('c3c-leg');
+  lbls.slice(0,5).forEach(function(l,i){var d=document.createElement('div');d.className='leg-row';d.innerHTML='<span class="leg-sw" style="background:'+(PAL.concat(['#0e7490','#6b7280']))[i]+'"></span><span style="flex:1;font-size:10px">'+l+'</span><span class="leg-pct" style="font-size:10px">'+vals[i]+'%</span>';leg.appendChild(d);});
+})();
+
+/* n4 */
+makeChart('c4',{type:'line',data:{labels:['Pilot','2007','2008','2010'],datasets:[{data:[5,5.25,5.84,102],borderColor:'#185FA5',backgroundColor:'rgba(24,95,165,0.08)',borderWidth:2,pointBackgroundColor:'#185FA5',pointRadius:5,fill:true,tension:.35}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y+'M';}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+/* n6 */
+makeChart('c6',{type:'line',data:{labels:['2005','2006','2007','2008','2009','2010'],datasets:[{data:[1,5,25,80,200,500],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.08)',borderWidth:2,pointBackgroundColor:'#1D9E75',pointRadius:5,fill:true,tension:.4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y+' sites';}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+/* n2 */
+makeChart('c2a',{type:'bar',data:{labels:['Before DataHub','After DataHub'],datasets:[{data:[400,95],backgroundColor:['#E24B4A','#185FA5'],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y+' requests/yr';}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+makeChart('c2b',{type:'doughnut',data:{labels:['Strategic & proactive work','Remaining ad-hoc'],datasets:[{data:[75,25],backgroundColor:['#185FA5','#e2e8f0'],borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': '+c.parsed+'%';}}}}}});
+
+/* ── n5 longitudinal charts ── */
+/* Tab 1: Equity */
+makeChart('ce1',{type:'line',data:{labels:['2006','2010','2014','2018','2022','2025'],datasets:[{label:'Female faculty %',data:[32.5,35.2,37.8,40.5,43.2,45.0],borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#534AB7',fill:true,tension:.3},{label:'URM full prof %',data:[18.4,20.1,22.5,24.8,27.1,28.6],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#1D9E75',fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+'%';}}}},scales:{y:{min:15,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+(function(){
+  var eqM=[{label:'Female faculty %',val:45,target:50,color:'#185FA5'},{label:'Black/African Am. %',val:8.2,target:10,color:'#A32D2D'},{label:'Hispanic/Latino %',val:10.8,target:12,color:'#BA7517'},{label:'URM full professors %',val:28.6,target:35,color:'#1D9E75'},{label:'Female dept chairs %',val:41,target:50,color:'#534AB7'}];
+  var el=document.getElementById('eq-bars');if(!el)return;
+  eqM.forEach(function(m){var pct=Math.min((m.val/m.target)*100,100).toFixed(1);var d=document.createElement('div');d.style.cssText='margin-bottom:8px';d.innerHTML='<div style="display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-bottom:2px"><span>'+m.label+'</span><span style="font-weight:600;color:var(--text)">'+m.val+'% / '+m.target+'% target</span></div><div class="eq-bar-wrap"><div class="eq-bar-fill" style="width:'+pct+'%;background:'+m.color+'"></div></div>';el.appendChild(d);});
+})();
+
+/* Tab 2: Faculty & Enrollment */
+makeChart('cf1',{type:'line',data:{labels:['FY2019','FY2020','FY2021','FY2022','FY2023','FY2024'],datasets:[{data:[728,724,719,723,730,730],borderColor:'#185FA5',backgroundColor:'rgba(24,95,165,.07)',borderWidth:2,pointBackgroundColor:'#185FA5',pointRadius:5,fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y+' ladder faculty';}}}},scales:{y:{min:710,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+makeChart('cf2',{type:'line',data:{labels:['FY2020','FY2021','FY2022','FY2023','FY2024'],datasets:[{data:[6700,5882,6755,7058,6960],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.07)',borderWidth:2,pointBackgroundColor:'#1D9E75',pointRadius:5,fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y.toLocaleString()+' students';}}}},scales:{y:{min:5500,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v.toLocaleString();}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+/* Tab 3: Faculty Headcount */
+function buildCh3a(range){
+  var s=sliceData(hcYrs,range);var i=s.idx||0;
+  makeChart('ch3a',{type:'bar',data:{labels:s.yrs,datasets:[{label:'Full Prof',data:hcFull.slice(i),backgroundColor:'#185FA5',borderWidth:0,stack:'s'},{label:'Associate',data:hcAssoc.slice(i),backgroundColor:'#1D9E75',borderWidth:0,stack:'s'},{label:'Assistant',data:hcAsst.slice(i),backgroundColor:'#BA7517',borderWidth:0,stack:'s'},{label:'Lecturer',data:hcLect.slice(i),backgroundColor:'#A32D2D',borderWidth:0,stack:'s'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y;}}}},scales:{y:{stacked:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:45}}}}});
+}
+function buildCh3b(range){
+  var s=sliceData(hcYrs,range);var i=s.idx||0;
+  makeChart('ch3b',{type:'line',data:{labels:s.yrs,datasets:[{data:hcFTE.slice(i),borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,.07)',borderWidth:2,pointBackgroundColor:'#534AB7',pointRadius:4,fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' FTE: '+c.parsed.y;}}}},scales:{y:{min:750,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}}}}});
+}
+buildCh3a('20');buildCh3b('20');
+
+/* Tab 4: Hiring & Retention */
+function buildCh4a(range){
+  var s=sliceData(hrYrs,range);var i=s.idx||0;
+  makeChart('ch4a',{type:'bar',data:{labels:s.yrs,datasets:[{label:'New Hires',data:hrHires.slice(i),backgroundColor:'#1D9E75',borderRadius:3,borderWidth:0},{label:'Separations',data:hrSep.slice(i),backgroundColor:'#A32D2D',borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y;}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}}}}});
+}
+buildCh4a('20');
+makeChart('ch4b',{type:'bar',data:{labels:['2006','2010','2015','2020','2025'],datasets:[{label:'Full Prof',data:[94.2,93.8,94.1,92.6,94.5],backgroundColor:'#185FA5',borderRadius:3,borderWidth:0},{label:'Associate',data:[91.4,90.8,91.6,89.4,92.1],backgroundColor:'#1D9E75',borderRadius:3,borderWidth:0},{label:'Assistant',data:[82.6,81.4,83.2,78.8,84.6],backgroundColor:'#BA7517',borderRadius:3,borderWidth:0},{label:'Lecturer',data:[76.8,75.2,77.4,72.1,78.9],backgroundColor:'#A32D2D',borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y+'%';}}}},scales:{y:{min:65,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+/* Tab 5: Research & Grants */
+function buildCh5a(range){
+  var s=sliceData(grYrs,range);var i=s.idx||0;
+  makeChart('ch5a',{type:'bar',data:{labels:s.yrs,datasets:[{label:'Total funding ($M)',data:grFund.slice(i),backgroundColor:'rgba(24,95,165,.25)',borderColor:'#185FA5',borderWidth:2,borderRadius:3,yAxisID:'y'},{label:'Avg grant ($K)',data:grAvg.slice(i),type:'line',borderColor:'#1D9E75',backgroundColor:'transparent',borderWidth:2,pointBackgroundColor:'#1D9E75',pointRadius:4,tension:.3,yAxisID:'y2'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.datasetIndex===0?' Total: $'+c.parsed.y+'M':' Avg: $'+c.parsed.y+'K';}}}},scales:{y:{position:'left',grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},y2:{position:'right',grid:{display:false},ticks:{font:{size:9},callback:function(v){return'$'+v+'K';}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}}}}});
+}
+function buildCh5b(range){
+  var s=sliceData(grYrs,range);var i=s.idx||0;
+  makeChart('ch5b',{type:'line',data:{labels:s.yrs,datasets:[{data:grPct.slice(i),borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,.07)',borderWidth:2,pointBackgroundColor:'#534AB7',pointRadius:4,fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y+'% faculty with grants';}}}},scales:{y:{min:20,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}}}}});
+}
+buildCh5a('20');buildCh5b('20');
+
+/* Tab 6: Well-being & Leave */
+makeChart('ch6a',{type:'bar',data:{labels:sabYrs,datasets:[{label:'Sabbaticals taken',data:sabTaken,backgroundColor:'rgba(24,95,165,.3)',borderColor:'#185FA5',borderWidth:2,borderRadius:3,yAxisID:'y'},{label:'Utilization %',data:sabUtil,type:'line',borderColor:'#BA7517',backgroundColor:'transparent',borderWidth:2,pointBackgroundColor:'#BA7517',pointRadius:4,tension:.3,yAxisID:'y2'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',callbacks:{label:function(c){return c.datasetIndex===0?' Taken: '+c.parsed.y:' Util: '+c.parsed.y+'%';}}}},scales:{y:{position:'left',grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},y2:{position:'right',min:20,max:42,grid:{display:false},ticks:{font:{size:9},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+makeChart('ch6b',{type:'bar',data:{labels:lvYrs,datasets:[{label:'FMLA',data:lvFMLA,backgroundColor:'#185FA5',borderWidth:0,stack:'s'},{label:'Medical',data:lvMed,backgroundColor:'#A32D2D',borderWidth:0,stack:'s'},{label:'Parental',data:lvPar,backgroundColor:'#1D9E75',borderWidth:0,stack:'s'},{label:'Bereavement',data:lvBer,backgroundColor:'#BA7517',borderWidth:0,stack:'s'},{label:'Admin',data:lvAdm,backgroundColor:'#534AB7',borderWidth:0,stack:'s'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y;}}}},scales:{y:{stacked:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9}}},x:{stacked:true,grid:{display:false},ticks:{font:{size:9}}}}}});
+
+/* Tab 7: Workload */
+function buildCw1(range){
+  var s=sliceData(wYrs,range);var i=s.idx||0;
+  makeChart('cw1',{type:'bar',data:{labels:s.yrs,datasets:[{label:'Teaching',data:wTeach.slice(i),backgroundColor:'#185FA5',borderWidth:0,stack:'s'},{label:'Research',data:wResrch.slice(i),backgroundColor:'#1D9E75',borderWidth:0,stack:'s'},{label:'Service',data:wSvc.slice(i),backgroundColor:'#BA7517',borderWidth:0,stack:'s'},{label:'Admin',data:wAdm.slice(i),backgroundColor:'#A32D2D',borderWidth:0,stack:'s'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y+'h';}}}},scales:{y:{stacked:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v+'h';}}},x:{stacked:true,grid:{display:false},ticks:{font:{size:9},maxRotation:0}}}}});
+}
+function buildCw2(range){
+  var s=sliceData(wYrs,range);var i=s.idx||0;
+  makeChart('cw2',{type:'line',data:{labels:s.yrs,datasets:[{label:'Teaching %',data:wTPct.slice(i),borderColor:'#185FA5',backgroundColor:'rgba(24,95,165,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#185FA5',fill:true,tension:.3},{label:'Research %',data:wRPct.slice(i),borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#1D9E75',fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+'%';}}}},scales:{y:{min:26,max:50,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:0}}}}});
+}
+buildCw1('all');buildCw2('all');
+
+/* ─── RANGE BUTTONS ─── */
+document.querySelectorAll('.range-bar').forEach(function(bar){
+  bar.querySelectorAll('.rb-btn').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      bar.querySelectorAll('.rb-btn').forEach(function(b){b.classList.remove('active');});
+      btn.classList.add('active');
+      var range=btn.getAttribute('data-range');
+      var charts=btn.getAttribute('data-chart').split(',');
+      charts.forEach(function(cid){
+        cid=cid.trim();
+        if(cid==='c1a')buildC1a(range);
+        else if(cid==='ch3a')buildCh3a(range);
+        else if(cid==='ch3b')buildCh3b(range);
+        else if(cid==='ch4a')buildCh4a(range);
+        else if(cid==='ch5a')buildCh5a(range);
+        else if(cid==='ch5b')buildCh5b(range);
+        else if(cid==='cw1')buildCw1(range);
+        else if(cid==='cw2')buildCw2(range);
+      });
     });
+  });
+});
 
-    /* n1 — FAS revenue doughnut */
-    (function () {
-        var lbls = ['Endowment','Net Tuition','Grants','Gifts','Other'];
-        var vals = [52.5, 19, 15, 6.5, 7];
-        new Chart(document.getElementById('c1b'), {
-            type: 'doughnut',
-            data: { labels: lbls, datasets: [{ data: vals, backgroundColor: PAL, borderWidth: 2, borderColor: '#fff' }] },
-            options: { responsive: true, maintainAspectRatio: false, cutout: '58%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.label+': '+c.parsed+'%'; } } } } }
-        });
-        var leg = document.getElementById('c1b-leg');
-        lbls.forEach(function(l, i) {
-            var d = document.createElement('div');
-            d.className = 'leg-row';
-            d.innerHTML = '<span class="leg-sw" style="background:'+PAL[i]+'"></span><span style="flex:1;font-size:11px;color:var(--muted)">'+l+'</span><span class="leg-pct" style="font-size:11px">'+vals[i]+'%</span>';
-            leg.appendChild(d);
-        });
-    })();
+/* ─── LONG TABS ─── */
+document.querySelectorAll('.long-tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('.long-tab').forEach(function(t){t.classList.remove('active');});
+    document.querySelectorAll('.long-panel').forEach(function(p){p.classList.remove('active');});
+    tab.classList.add('active');
+    document.getElementById(tab.getAttribute('data-lt')).classList.add('active');
+  });
+});
 
-    /* n2 — before/after bar */
-    new Chart(document.getElementById('c2a'), {
-        type: 'bar',
-        data: { labels: ['Before DataHub','After DataHub'], datasets: [{ data: [400, 95], backgroundColor: ['#E24B4A','#185FA5'], borderRadius: 4, borderWidth: 0 }] },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.parsed.y+' requests/yr'; } } } },
-            scales: { y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } }, x: { grid: { display: false }, ticks: { font: { size: 10 } } } }
-        }
-    });
+/* ─── BY THE NUMBERS CARDS ─── */
+var numCards=document.querySelectorAll('.num-card');
+var infPanels=document.querySelectorAll('.inf-panel');
+numCards.forEach(function(card){
+  card.addEventListener('click',function(){
+    var id=card.getAttribute('data-id');
+    var panel=document.getElementById(id);
+    var isOpen=panel.classList.contains('open');
+    infPanels.forEach(function(p){p.classList.remove('open');});
+    numCards.forEach(function(c){c.classList.remove('active');});
+    if(!isOpen){panel.classList.add('open');card.classList.add('active');panel.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  });
+});
+document.querySelectorAll('.panel-close-btn').forEach(function(btn){
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    var id=btn.getAttribute('data-close');
+    document.getElementById(id).classList.remove('open');
+    var card=document.querySelector('[data-id="'+id+'"]');
+    if(card)card.classList.remove('active');
+  });
+});
 
-    /* n2 — capacity doughnut */
-    new Chart(document.getElementById('c2b'), {
-        type: 'doughnut',
-        data: { labels: ['Strategic & proactive work','Remaining ad-hoc'], datasets: [{ data: [75, 25], backgroundColor: ['#185FA5','#e2e8f0'], borderWidth: 2, borderColor: '#fff' }] },
-        options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.label+': '+c.parsed+'%'; } } } } }
-    });
-
-    /* n3 — campaign grouped bar */
-    new Chart(document.getElementById('c3'), {
-        type: 'bar',
-        data: {
-            labels: ['Phillips Academy','UAMS'],
-            datasets: [
-                { label: 'Goal ($M)',   data: [400, 325], backgroundColor: '#B5D4F4', borderRadius: 3, borderWidth: 0 },
-                { label: 'Raised ($M)', data: [400, 375], backgroundColor: ['#185FA5','#1D9E75'], borderRadius: 3, borderWidth: 0 }
-            ]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.dataset.label+': $'+c.parsed.y+'M'; } } } },
-            scales: {
-                y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: function(v){ return '$'+v+'M'; } } },
-                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-            }
-        }
-    });
-
-    /* n4 — grant growth line */
-    new Chart(document.getElementById('c4'), {
-        type: 'line',
-        data: {
-            labels: ['Pilot','2007','2008','2010'],
-            datasets: [{ data: [5, 5.25, 5.84, 102], borderColor: '#185FA5', backgroundColor: 'rgba(24,95,165,0.08)', borderWidth: 2, pointBackgroundColor: '#185FA5', pointRadius: 5, fill: true, tension: 0.35 }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' $'+c.parsed.y+'M'; } } } },
-            scales: {
-                y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 }, callback: function(v){ return '$'+v+'M'; } } },
-                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-            }
-        }
-    });
-
-    /* ─────────────────────────────────────────
-       n5 — LONGITUDINAL PANEL CHARTS
-    ───────────────────────────────────────── */
-    var wYrs=['2006','2008','2010','2012','2014','2016','2018','2020','2022','2024','2025'];
-    var wTeach=[680,692,705,698,694,688,682,720,695,685,680];
-    var wResrch=[420,428,434,442,450,460,470,428,468,482,490];
-    var wSvc=[240,244,248,252,256,260,264,252,264,268,270];
-    var wAdm=[120,122,124,126,128,130,132,148,138,134,132];
-    var wTPct=[46.6,46.6,46.7,46.0,45.4,44.7,44.1,46.5,44.4,43.7,43.3];
-    var wRPct=[28.8,28.8,28.7,29.1,29.5,29.9,30.4,27.6,29.9,30.7,31.2];
-
-    new Chart(document.getElementById('cw1'),{
-        type:'bar',
-        data:{labels:wYrs,datasets:[
-            {label:'Teaching', data:wTeach,backgroundColor:'#185FA5',borderWidth:0,stack:'s'},
-            {label:'Research', data:wResrch,backgroundColor:'#1D9E75',borderWidth:0,stack:'s'},
-            {label:'Service',  data:wSvc,  backgroundColor:'#BA7517',borderWidth:0,stack:'s'},
-            {label:'Admin',    data:wAdm,  backgroundColor:'#A32D2D',borderWidth:0,stack:'s'}
-        ]},
-        options:{responsive:true,maintainAspectRatio:false,
-            plugins:{legend:{display:false},tooltip:{mode:'index',callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y+'h';}}}},
-            scales:{y:{stacked:true,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},callback:function(v){return v+'h';}}},x:{stacked:true,grid:{display:false},ticks:{font:{size:10},maxRotation:0}}}}
-    });
-
-    new Chart(document.getElementById('cw2'),{
-        type:'line',
-        data:{labels:wYrs,datasets:[
-            {label:'Teaching %',data:wTPct,borderColor:'#185FA5',backgroundColor:'rgba(24,95,165,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#185FA5',fill:true,tension:.3},
-            {label:'Research %',data:wRPct,borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#1D9E75',fill:true,tension:.3}
-        ]},
-        options:{responsive:true,maintainAspectRatio:false,
-            plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+'%';}}}},
-            scales:{y:{min:26,max:50,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:10},maxRotation:0}}}}
-    });
-
-    /* n5 — ladder faculty */
-    new Chart(document.getElementById('c5a'),{
-        type:'line',
-        data:{labels:['FY2019','FY2020','FY2021','FY2022','FY2023','FY2024'],datasets:[{data:[728,724,719,723,730,730],borderColor:'#185FA5',backgroundColor:'rgba(24,95,165,0.07)',borderWidth:2,pointBackgroundColor:'#185FA5',pointRadius:5,fill:true,tension:.3}]},
-        options:{responsive:true,maintainAspectRatio:false,
-            plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y+' ladder faculty';}}}},
-            scales:{y:{min:710,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
-    });
-
-    /* n5 — enrollment */
-    new Chart(document.getElementById('c5b'),{
-        type:'line',
-        data:{labels:['FY2020','FY2021','FY2022','FY2023','FY2024'],datasets:[{data:[6700,5882,6755,7058,6960],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,0.07)',borderWidth:2,pointBackgroundColor:'#1D9E75',pointRadius:5,fill:true,tension:.3}]},
-        options:{responsive:true,maintainAspectRatio:false,
-            plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y.toLocaleString()+' students';}}}},
-            scales:{y:{min:5500,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},callback:function(v){return v.toLocaleString();}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}
-    });
-
-    /* n5 — equity trend line */
-    new Chart(document.getElementById('ce1'),{
-        type:'line',
-        data:{labels:['2006','2010','2014','2018','2022','2025'],datasets:[
-            {label:'Female faculty %',data:[32.5,35.2,37.8,40.5,43.2,45.0],borderColor:'#534AB7',backgroundColor:'rgba(83,74,183,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#534AB7',fill:true,tension:.3},
-            {label:'URM full prof %',data:[18.4,20.1,22.5,24.8,27.1,28.6],borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.06)',borderWidth:2,pointRadius:3,pointBackgroundColor:'#1D9E75',fill:true,tension:.3}
-        ]},
-        options:{responsive:true,maintainAspectRatio:false,
-            plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y.toFixed(1)+'%';}}}},
-            scales:{y:{min:15,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:10},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:10}}}}}
-    });
-
-    /* n5 — equity progress bars */
-    (function(){
-        var eqMetrics=[
-            {label:'Female faculty %',    val:45,  target:50, color:'#185FA5'},
-            {label:'Black/African Am. %', val:8.2, target:10, color:'#A32D2D'},
-            {label:'Hispanic/Latino %',   val:10.8,target:12, color:'#BA7517'},
-            {label:'URM full professors %',val:28.6,target:35,color:'#1D9E75'},
-            {label:'Female dept chairs %',val:41,  target:50, color:'#534AB7'}
-        ];
-        var el=document.getElementById('eq-bars');
-        if(!el) return;
-        eqMetrics.forEach(function(m){
-            var pct=Math.min((m.val/m.target)*100,100).toFixed(1);
-            var d=document.createElement('div');
-            d.style.cssText='margin-bottom:10px';
-            d.innerHTML='<div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:3px">'
-                +'<span>'+m.label+'</span>'
-                +'<span style="font-weight:600;color:var(--text)">'+m.val+'% <span style="color:var(--muted);font-weight:400">/ '+m.target+'% target</span></span>'
-                +'</div>'
-                +'<div class="eq-bar-wrap"><div class="eq-bar-fill" style="width:'+pct+'%;background:'+m.color+'"></div></div>';
-            el.appendChild(d);
-        });
-    })();
-
-    /* n5 — sub-tab switching */
-    document.querySelectorAll('.long-tab').forEach(function(tab){
-        tab.addEventListener('click',function(){
-            var id=tab.getAttribute('data-lt');
-            document.querySelectorAll('.long-tab').forEach(function(t){t.classList.remove('active');});
-            document.querySelectorAll('.long-panel').forEach(function(p){p.classList.remove('active');});
-            tab.classList.add('active');
-            document.getElementById(id).classList.add('active');
-        });
-    });
-
-    /* n6 — telemedicine sites line */
-    new Chart(document.getElementById('c6'), {
-        type: 'line',
-        data: {
-            labels: ['2005','2006','2007','2008','2009','2010'],
-            datasets: [{ data: [1,5,25,80,200,500], borderColor: '#1D9E75', backgroundColor: 'rgba(29,158,117,0.08)', borderWidth: 2, pointBackgroundColor: '#1D9E75', pointRadius: 5, fill: true, tension: 0.4 }]
-        },
-        options: {
-            responsive: true, maintainAspectRatio: false,
-            plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.parsed.y+' sites'; } } } },
-            scales: {
-                y: { grid: { color: 'rgba(0,0,0,0.04)' }, ticks: { font: { size: 10 } } },
-                x: { grid: { display: false }, ticks: { font: { size: 10 } } }
-            }
-        }
-    });
-
-    /* ─────────────────────────────────────────
-       BY THE NUMBERS — card click logic
-    ───────────────────────────────────────── */
-    var numCards  = document.querySelectorAll('.num-card');
-    var infPanels = document.querySelectorAll('.inf-panel');
-
-    numCards.forEach(function (card) {
-        card.addEventListener('click', function () {
-            var id     = card.getAttribute('data-id');
-            var panel  = document.getElementById(id);
-            var isOpen = panel.classList.contains('open');
-            infPanels.forEach(function (p) { p.classList.remove('open'); });
-            numCards.forEach(function (c) { c.classList.remove('active'); });
-            if (!isOpen) {
-                panel.classList.add('open');
-                card.classList.add('active');
-                panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }
-        });
-    });
-
-    document.querySelectorAll('.panel-close-btn').forEach(function (btn) {
-        btn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            var id = btn.getAttribute('data-close');
-            document.getElementById(id).classList.remove('open');
-            document.querySelector('[data-id="'+id+'"]').classList.remove('active');
-        });
-    });
-
-    /* ─────────────────────────────────────────
-       EXPERIENCE TILES — hover pie charts
-    ───────────────────────────────────────── */
-    var jobPies = [
-        { c:'h1', l:'hl1', labels:['Data & BI Reporting','Data Governance','Executive Advisory','Stakeholder Liaison'],           data:[40,25,20,15] },
-        { c:'h2', l:'hl2', labels:['Campaign Reporting','SQL & BI Development','Financial Reconciliation','Data Governance'],      data:[35,30,20,15] },
-        { c:'h3', l:'hl3', labels:['Info Services & Reporting','Database Architecture','Compliance & Finance','Campaign Ops'],     data:[35,25,25,15] },
-        { c:'h4', l:'hl4', labels:['Grant Writing & Assessment','Statistical Analysis','Program Evaluation','Data Visualization'], data:[35,25,25,15] },
-        { c:'h5', l:'hl5', labels:['Program Evaluation','Curriculum Management','Executive Support','Administrative Strategy'],    data:[40,30,20,10] },
-        { c:'h6', l:'hl6', labels:['Trade & eCommerce Strategy','Global Collaboration','Translation & Interpretation'],            data:[40,30,30]    }
-    ];
-
-    jobPies.forEach(function (job) {
-        new Chart(document.getElementById(job.c), {
-            type: 'doughnut',
-            data: {
-                labels: job.labels,
-                datasets: [{ data: job.data, backgroundColor: PAL.slice(0, job.data.length), borderWidth: 2, borderColor: '#ffffff' }]
-            },
-            options: {
-                responsive: false, cutout: '52%',
-                plugins: { legend: { display: false }, tooltip: { callbacks: { label: function(c){ return ' '+c.label+': '+c.parsed+'%'; } } } }
-            }
-        });
-
-        var leg = document.getElementById(job.l);
-        job.labels.forEach(function (lbl, i) {
-            var item = document.createElement('div');
-            item.className = 'pie-leg-item';
-            item.innerHTML =
-                '<span class="pie-leg-sw" style="background:'+PAL[i]+'"></span>' +
-                '<span>'+lbl+'</span>' +
-                '<span class="pie-leg-pct">'+job.data[i]+'%</span>';
-            leg.appendChild(item);
-        });
-    });
+/* ─── PIE CHARTS on experience tiles ─── */
+var jobPies=[
+  {c:'h1',l:'hl1',labels:['Data & BI Reporting','Data Governance','Executive Advisory','Stakeholder Liaison'],data:[40,25,20,15]},
+  {c:'h2',l:'hl2',labels:['Campaign Reporting','SQL & BI Dev','Financial Reconciliation','Data Governance'],data:[35,30,20,15]},
+  {c:'h3',l:'hl3',labels:['Info Services','Database Architecture','Compliance & Finance','Campaign Ops'],data:[35,25,25,15]},
+  {c:'h4',l:'hl4',labels:['Grant Writing','Statistical Analysis','Program Evaluation','Data Visualization'],data:[35,25,25,15]},
+  {c:'h5',l:'hl5',labels:['Program Evaluation','Curriculum Mgmt','Executive Support','Admin Strategy'],data:[40,30,20,10]},
+  {c:'h6',l:'hl6',labels:['Trade & eCommerce','Global Collaboration','Translation & Interpretation'],data:[40,30,30]}
+];
+jobPies.forEach(function(job){
+  makeChart(job.c,{type:'doughnut',data:{labels:job.labels,datasets:[{data:job.data,backgroundColor:PAL.slice(0,job.data.length),borderWidth:2,borderColor:'#ffffff'}]},options:{responsive:false,cutout:'52%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': '+c.parsed+'%';}}}}}});
+  var leg=document.getElementById(job.l);
+  job.labels.forEach(function(lbl,i){var item=document.createElement('div');item.className='pie-leg-item';item.innerHTML='<span class="pie-leg-sw" style="background:'+PAL[i]+'"></span><span>'+lbl+'</span><span class="pie-leg-pct">'+job.data[i]+'%</span>';leg.appendChild(item);});
+});
 
 })();
 </script>
-
 </body>
 </html>
