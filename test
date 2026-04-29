@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HKS Development Office — Gift Fund & Philanthropic Stewardship Report</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --crimson:#A41034;--crimson-dark:#7B0C27;--crimson-light:#C4384E;
+  --gold:#C69214;--gold-light:#E8B84B;
+  --navy:#1B2A4A;--navy-mid:#2C3E6B;
+  --text:#1a202c;--muted:#64748b;--light:#f8f9fc;
+  --border:#e2e8f0;
+  --green:#1D9E75;--amber:#BA7517;--red:#A32D2D;--blue:#185FA5;--purple:#534AB7;
+  /* EXECUTIVE BLACK THEME */
+  --ex-bg:#0a0a0c;--ex-surface:#111114;--ex-card:rgba(255,255,255,.04);
+  --ex-border:rgba(255,255,255,.1);--ex-gold:#C69214;--ex-gold-l:#E8B84B;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-height:1.6;min-height:100vh}
+
+/* ════════ COVER PAGE — EXECUTIVE BLACK ════════ */
+#cover{
+  position:fixed;inset:0;z-index:2000;
+  background:var(--ex-bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:40px 24px;text-align:center;overflow-y:auto
+}
+/* Subtle noise texture via SVG background */
+#cover::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%,rgba(198,146,20,.08) 0%,transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%,rgba(255,255,255,.02) 0%,transparent 60%);
+  pointer-events:none
+}
+/* Thin gold top bar accent */
+#cover::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ex-gold),transparent)}
+
+/* HKS text button (no logo) */
+.cover-hks-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--ex-card);border:1px solid var(--ex-border);
+  border-radius:6px;padding:8px 18px;margin:0 auto 28px;
+  font-family:'Playfair Display',serif;font-size:.75rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:var(--ex-gold);
+}
+.cover-hks-dot{width:6px;height:6px;border-radius:50%;background:var(--ex-gold);opacity:.8}
+
+.cover-eyebrow{font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.45);margin-bottom:12px;position:relative}
+.cover-title{font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:900;color:#fff;line-height:1.15;margin-bottom:10px;max-width:680px;position:relative}
+.cover-title span{color:var(--ex-gold)}
+.cover-sub{font-size:.85rem;color:rgba(255,255,255,.5);margin-bottom:32px;max-width:520px;position:relative;line-height:1.7}
+.cover-divider{width:40px;height:1px;background:var(--ex-gold);margin:0 auto 32px;border-radius:1px;opacity:.6;position:relative}
+
+/* ATTRIBUTION CARD */
+.cover-attr{
+  background:var(--ex-card);border:1px solid var(--ex-border);
+  border-radius:12px;padding:20px 24px;max-width:520px;width:100%;
+  margin:0 auto 24px;display:flex;align-items:center;gap:18px;text-align:left;
+  position:relative
+}
+.attr-hero{position:relative;width:68px;height:68px;flex-shrink:0}
+.attr-glow{position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(var(--gold-light),var(--gold),#fff,var(--gold-light));animation:spin 4s linear infinite;filter:blur(3px);opacity:.8}
+.attr-glow2{position:absolute;inset:-2px;border-radius:50%;background:conic-gradient(var(--gold),#fff,var(--gold));animation:spin 7s linear infinite reverse;filter:blur(2px);opacity:.5}
+@keyframes spin{to{transform:rotate(360deg)}}
+.attr-img-wrap{position:relative;z-index:1;width:64px;height:64px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.3);background:#1a1a20}
+.attr-img-wrap img{width:100%;height:100%;object-fit:cover}
+.attr-initials{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:var(--gold);font-family:'Playfair Display',serif}
+.attr-name{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:2px}
+.attr-role{font-size:.7rem;color:rgba(255,255,255,.5);line-height:1.5}
+.attr-link{display:inline-flex;align-items:center;gap:5px;margin-top:7px;font-size:.68rem;color:var(--ex-gold-l);text-decoration:none;font-weight:600;transition:opacity .15s}
+.attr-link:hover{opacity:.75}
+
+.cover-disclaimer-btn{
+  background:transparent;color:rgba(255,255,255,.45);
+  border:1px solid rgba(255,255,255,.12);padding:7px 18px;border-radius:20px;
+  font-size:.7rem;font-family:inherit;cursor:pointer;transition:all .2s;
+  margin-bottom:20px;position:relative;letter-spacing:.5px
+}
+.cover-disclaimer-btn:hover{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.25)}
+.cover-enter{
+  background:linear-gradient(135deg,var(--ex-gold),#9A6E0C);
+  color:#0a0a0c;border:none;padding:14px 40px;border-radius:6px;
+  font-size:.92rem;font-weight:700;font-family:inherit;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:9px;
+  margin:0 auto;position:relative;letter-spacing:.5px
+}
+.cover-enter:hover{filter:brightness(1.1);transform:translateY(-1px);box-shadow:0 8px 24px rgba(198,146,20,.25)}
+.cover-copy{font-size:.6rem;color:rgba(255,255,255,.25);margin-top:20px;position:relative}
+
+/* ════════ DISCLAIMER MODAL ════════ */
+.modal-bg{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.modal-bg.open{opacity:1;visibility:visible}
+.modal-box{background:#fff;border-radius:14px;max-width:560px;width:100%;padding:28px;box-shadow:0 20px 60px rgba(0,0,0,.4);transform:translateY(10px);transition:transform .25s}
+.modal-bg.open .modal-box{transform:translateY(0)}
+.modal-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+.modal-header h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);line-height:1.3}
+.modal-close-x{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--muted);padding:0;line-height:1;flex-shrink:0}
+.modal-body{font-size:.82rem;color:var(--text);line-height:1.7}
+.modal-body p+p{margin-top:10px}
+.modal-footer{margin-top:18px;padding-top:14px;border-top:1px solid var(--border);font-size:.68rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+.modal-ok{background:var(--navy);color:#fff;border:none;padding:8px 20px;border-radius:6px;font-family:inherit;font-size:.8rem;font-weight:600;cursor:pointer}
+.modal-ok:hover{background:var(--navy-mid)}
+
+/* ════════ MAIN APP ════════ */
+#app{display:none}
+
+/* ════════ STICKY HEADER ════════ */
+.site-header{background:linear-gradient(135deg,#0d0d10 0%,#14141a 50%,#0d0d10 100%);border-bottom:1px solid rgba(198,146,20,.2);position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,.4)}
+.header-inner{max-width:1240px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:58px;gap:12px}
+.header-brand{display:flex;align-items:center;gap:12px;min-width:0}
+.header-seal{
+  padding:5px 12px;border-radius:4px;
+  background:rgba(198,146,20,.12);border:1px solid rgba(198,146,20,.3);
+  font-family:'Playfair Display',serif;font-size:.72rem;font-weight:700;
+  color:var(--gold);letter-spacing:2px;flex-shrink:0;white-space:nowrap
+}
+.header-title{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;color:#fff;letter-spacing:.3px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header-sub{font-size:.62rem;color:rgba(255,255,255,.4);letter-spacing:.8px;text-transform:uppercase}
+.header-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.header-badge-link{
+  font-size:.62rem;background:rgba(255,255,255,.06);
+  color:rgba(255,255,255,.6);border:1px solid rgba(255,255,255,.12);
+  padding:4px 10px;border-radius:20px;letter-spacing:.5px;
+  text-decoration:none;transition:all .15s;white-space:nowrap
+}
+.header-badge-link:hover{background:rgba(255,255,255,.12);color:#fff}
+.header-avatar{position:relative;width:32px;height:32px;flex-shrink:0;cursor:pointer}
+.hav-glow{position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(var(--gold-light),var(--gold),var(--gold-light));animation:spin 4s linear infinite;filter:blur(2px);opacity:.8}
+.hav-inner{position:relative;z-index:1;width:30px;height:30px;border-radius:50%;overflow:hidden;border:2px solid rgba(255,255,255,.3);background:#1a1a20}
+.hav-inner img{width:100%;height:100%;object-fit:cover}
+.hav-init{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:var(--gold)}
+
+/* ════════ DATA NOTICE BAR ════════ */
+.data-notice{background:#FFF7ED;border-bottom:2px solid var(--gold);padding:8px 24px}
+.data-notice-inner{max-width:1240px;margin:0 auto;display:flex;align-items:flex-start;gap:8px;font-size:.72rem;color:#92400e;line-height:1.5}
+.data-notice-inner i{color:var(--gold);margin-top:2px;flex-shrink:0;font-size:.82rem}
+
+/* ════════ PAGE LAYOUT ════════ */
+.page{max-width:1240px;margin:0 auto;padding:24px 18px 60px}
+
+/* ════════ SECTION SELECTOR ════════ */
+.section-selector{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px;border-bottom:2px solid var(--border)}
+.ss-btn{padding:8px 15px;border-radius:8px 8px 0 0;border:1px solid transparent;border-bottom:none;font-size:.72rem;font-weight:500;cursor:pointer;color:var(--muted);background:none;font-family:inherit;transition:all .15s;white-space:nowrap;position:relative;bottom:-2px}
+.ss-btn:hover{color:var(--crimson);background:#fdf2f4}
+.ss-btn.active{color:var(--crimson);background:#fff;border-color:var(--border);border-bottom-color:#fff;font-weight:600}
+.section-panel{display:none;background:#fff;border:1px solid var(--border);border-top:none;border-radius:0 0 12px 12px;padding:26px}
+.section-panel.active{display:block}
+
+/* ════════ INNER TABS ════════ */
+.inner-tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:0;border-bottom:1px solid var(--border)}
+.inner-tab{padding:7px 13px;border-radius:6px 6px 0 0;border:1px solid transparent;border-bottom:none;font-size:.7rem;font-weight:500;cursor:pointer;color:var(--muted);background:none;font-family:inherit;transition:all .15s;white-space:nowrap;position:relative;bottom:-1px}
+.inner-tab:hover{color:var(--crimson);background:#fdf2f4}
+.inner-tab.active{color:var(--crimson);background:var(--light);border-color:var(--border);border-bottom-color:var(--light);font-weight:600}
+.inner-panel{display:none;background:var(--light);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:18px}
+.inner-panel.active{display:block}
+
+/* ════════ SCORE CARDS ════════ */
+.score-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
+.s-card{background:var(--light);border:1px solid var(--border);border-radius:10px;padding:15px 13px;position:relative;overflow:hidden}
+.s-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.s-card.cr::before{background:var(--crimson)}.s-card.go::before{background:var(--gold)}.s-card.nv::before{background:var(--navy)}.s-card.gn::before{background:var(--green)}
+.s-val{font-family:'Playfair Display',serif;font-size:1.45rem;font-weight:700;line-height:1;margin-bottom:3px}
+.s-val.cr{color:var(--crimson)}.s-val.go{color:var(--gold)}.s-val.nv{color:var(--navy)}.s-val.gn{color:var(--green)}
+.s-lbl{font-size:.68rem;color:var(--muted);line-height:1.3}
+.s-delta{font-size:.64rem;font-weight:600;margin-top:3px}
+.s-delta.up{color:var(--green)}.s-delta.dn{color:var(--red)}.s-delta.ne{color:var(--amber)}
+
+/* ════════ SECTION HEADERS ════════ */
+.sec-hdr{display:flex;align-items:center;gap:9px;margin-bottom:14px;margin-top:24px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.sec-hdr:first-child{margin-top:0}
+.sec-hdr h3{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;color:var(--navy)}
+.sec-hdr i{color:var(--crimson);font-size:.85rem}
+.sec-badge{font-size:.58rem;background:#fdf2f4;color:var(--crimson);border:1px solid #fccdd4;padding:2px 7px;border-radius:20px;font-weight:600;margin-left:auto;white-space:nowrap}
+
+/* ════════ CHARTS ════════ */
+.chart-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.chart-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.chart-box{background:var(--light);border:1px solid var(--border);border-radius:10px;padding:14px}
+.chart-box-full{background:var(--light);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:14px}
+.chart-title{font-size:.67rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:9px}
+.leg{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:7px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:.65rem;color:var(--muted)}
+.leg-sw{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+
+/* ════════ DATA TABLE ════════ */
+.data-table{width:100%;border-collapse:collapse;font-size:.73rem}
+.data-table th{font-size:.62rem;text-transform:uppercase;letter-spacing:.6px;color:var(--muted);padding:7px 9px;border-bottom:2px solid var(--border);font-weight:600;text-align:left;background:#fff;white-space:nowrap}
+.data-table td{padding:7px 9px;border-bottom:.5px solid var(--border);vertical-align:middle}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:hover td{background:#fdf8f8}
+.data-table thead th:not(:first-child){text-align:right}
+.data-table td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.sp{display:inline-block;font-size:.58rem;padding:2px 6px;border-radius:20px;font-weight:600}
+.sp-g{background:#EAF3DE;color:#27500A}.sp-y{background:#FAEEDA;color:#633806}.sp-r{background:#FCEBEB;color:#791F1F}.sp-b{background:#EEF6FF;color:#185FA5}.sp-p{background:#F0EFFE;color:#3C3489}
+
+/* ════════ RANGE SELECTOR ════════ */
+.range-bar{display:flex;align-items:center;gap:5px;margin-bottom:9px;flex-wrap:wrap}
+.range-bar span{font-size:.65rem;color:var(--muted);font-weight:600}
+.rb{font-size:.62rem;padding:3px 8px;border-radius:20px;border:1px solid var(--border);background:none;cursor:pointer;color:var(--muted);font-family:inherit;transition:all .15s}
+.rb.active,.rb:hover{background:var(--crimson);color:#fff;border-color:var(--crimson)}
+
+/* ════════ PROGRESS BAR ════════ */
+.prog-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:.5px solid var(--border);font-size:.73rem;gap:10px}
+.prog-row:last-child{border-bottom:none}
+.prog-label{color:var(--text);flex:1;min-width:0}
+.prog-val{font-weight:600;color:var(--navy);white-space:nowrap;min-width:52px;text-align:right}
+.prog-bar-wrap{width:90px;height:6px;background:var(--border);border-radius:4px;overflow:hidden;flex-shrink:0}
+.prog-bar-fill{height:100%;border-radius:4px}
+
+/* ════════ INSIGHT ════════ */
+.insight{background:linear-gradient(135deg,#fdf2f4,#fff8f8);border:1px solid #fccdd4;border-left:4px solid var(--crimson);border-radius:0 8px 8px 0;padding:11px 13px;margin:12px 0;font-size:.74rem;line-height:1.65;color:var(--text)}
+.insight strong{color:var(--crimson)}
+.insight.gold{background:linear-gradient(135deg,#fffbeb,#fefce8);border-color:#fde68a;border-left-color:var(--gold)}
+.insight.gold strong{color:#92400e}
+.insight.green{background:linear-gradient(135deg,#f0fdf4,#f0fdf4);border-color:#a7f3d0;border-left-color:var(--green)}
+.insight.green strong{color:#14532d}
+.insight.navy{background:linear-gradient(135deg,#f0f4ff,#eef2ff);border-color:#c7d2fe;border-left-color:var(--navy)}
+.insight.navy strong{color:var(--navy)}
+
+/* ════════ PROJECT CARDS ════════ */
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px}
+.proj-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:#fff}
+.proj-card-hdr{padding:14px 14px 10px;background:linear-gradient(135deg,var(--crimson-dark),var(--crimson))}
+.proj-card-hdr.gold{background:linear-gradient(135deg,#78460a,var(--gold))}
+.proj-card-hdr.navy{background:linear-gradient(135deg,var(--navy-mid),var(--navy))}
+.proj-icon{font-size:20px;margin-bottom:5px;display:block}
+.proj-name{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;color:#fff;line-height:1.2;margin-bottom:3px}
+.proj-type{font-size:.6rem;color:rgba(255,255,255,.7);letter-spacing:.8px;text-transform:uppercase}
+.proj-body{padding:12px 14px}
+.proj-stat-row{display:flex;justify-content:space-between;font-size:.7rem;padding:4px 0;border-bottom:.5px solid var(--border)}
+.proj-stat-row:last-child{border-bottom:none}
+.proj-stat-label{color:var(--muted)}
+.proj-stat-val{font-weight:600;color:var(--navy)}
+.proj-pct-bar{height:5px;background:var(--border);border-radius:3px;margin-top:8px;overflow:hidden}
+.proj-pct-fill{height:100%;border-radius:3px}
+
+/* ════════ REPORTING TIER CARDS ════════ */
+.tier-card{border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:16px;background:#fff}
+.tier-card-hdr{display:flex;align-items:center;gap:10px;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.tier-badge{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;color:#fff;flex-shrink:0}
+.tier-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--navy)}
+.tier-sub{font-size:.7rem;color:var(--muted)}
+.tier-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.tier-meta-item{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:10px;text-align:center}
+.tier-meta-val{font-size:.88rem;font-weight:700;color:var(--crimson);line-height:1.1;margin-bottom:2px}
+.tier-meta-lbl{font-size:.62rem;color:var(--muted)}
+.content-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.content-item{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:10px 12px}
+.content-item-title{font-size:.72rem;font-weight:600;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.content-item-desc{font-size:.68rem;color:var(--muted);line-height:1.5}
+
+/* ════════ GIFT OFFICER METRICS ════════ */
+.metric-area{background:var(--light);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px}
+.metric-area-title{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--crimson);margin-bottom:12px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.metric-item{background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 12px;border-left:3px solid transparent}
+.metric-item.cr{border-left-color:var(--crimson)}.metric-item.go{border-left-color:var(--gold)}.metric-item.nv{border-left-color:var(--navy)}.metric-item.gn{border-left-color:var(--green)}
+.metric-name{font-size:.74rem;font-weight:600;color:var(--navy);margin-bottom:2px}
+.metric-desc{font-size:.68rem;color:var(--muted);line-height:1.45}
+.metric-target{font-size:.65rem;color:var(--crimson);font-weight:600;margin-top:3px}
+
+/* ════════ GEO MAP ════════ */
+.geo-wrap{position:relative;width:100%;background:#0a1628;border-radius:12px;overflow:hidden;min-height:420px}
+.geo-overlay{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(10,22,40,.2) 0%,rgba(5,10,20,.7) 100%);pointer-events:none;z-index:2}
+.geo-title-overlay{position:absolute;top:14px;left:18px;z-index:4;color:#fff;font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+.geo-sub-overlay{font-size:.65rem;color:rgba(255,255,255,.6);font-family:'DM Sans',sans-serif;font-weight:400;margin-top:2px}
+.geo-legend{position:absolute;bottom:14px;left:18px;z-index:4;display:flex;flex-direction:column;gap:5px}
+.geo-leg-item{display:flex;align-items:center;gap:6px;font-size:.62rem;color:rgba(255,255,255,.75)}
+.geo-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;box-shadow:0 0 6px currentColor}
+.geo-popup{position:absolute;background:rgba(255,255,255,.95);color:var(--navy);border-radius:8px;padding:10px 13px;font-size:.7rem;box-shadow:0 6px 20px rgba(0,0,0,.35);pointer-events:none;z-index:10;min-width:160px;display:none;transform:translate(-50%,-110%)}
+.geo-popup-name{font-weight:700;font-size:.78rem;margin-bottom:4px;color:var(--crimson)}
+.geo-popup-row{display:flex;justify-content:space-between;gap:16px;padding:2px 0}
+.geo-popup-arrow{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:6px solid transparent;border-right:6px solid transparent;border-top:6px solid rgba(255,255,255,.95)}
+
+/* ════════ PLEDGE ROW ════════ */
+.pledge-row{display:grid;grid-template-columns:1fr auto auto auto;gap:10px;align-items:center;padding:9px 0;border-bottom:.5px solid var(--border);font-size:.73rem}
+.pledge-row:last-child{border-bottom:none}
+.pledge-name{font-weight:500;color:var(--navy)}
+.pledge-detail{font-size:.65rem;color:var(--muted);margin-top:2px}
+
+/* ════════ CASE STUDY ════════ */
+.case-card{border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px;background:#fff}
+.case-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.case-title{font-family:'Playfair Display',serif;font-size:.9rem;font-weight:700;color:var(--navy)}
+.case-tag{font-size:.6rem;padding:3px 8px;border-radius:20px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.case-body{font-size:.73rem;color:var(--text);line-height:1.65}
+.case-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.case-metric{background:var(--light);border:1px solid var(--border);border-radius:8px;padding:9px;text-align:center}
+.case-metric-val{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--crimson);line-height:1;margin-bottom:2px}
+.case-metric-lbl{font-size:.62rem;color:var(--muted)}
+
+/* ════════ APPENDIX TABLE ════════ */
+.app-section{margin-bottom:24px}
+.app-section-title{font-family:'Playfair Display',serif;font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
+
+/* ════════ MARKETING FUNNEL ════════ */
+.funnel-wrap{display:flex;flex-direction:column;align-items:center;gap:0;margin:10px 0}
+.funnel-stage{width:100%;max-width:600px;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;border-radius:0;font-size:.78rem;font-weight:500;margin:1px 0;transition:transform .15s;cursor:default}
+.funnel-stage:first-child{border-radius:8px 8px 0 0}
+.funnel-stage:last-child{border-radius:0 0 8px 8px}
+.funnel-stage:hover{transform:scaleX(1.01)}
+.funnel-label{color:#fff;font-weight:600}
+.funnel-meta{color:rgba(255,255,255,.8);font-size:.68rem}
+
+/* ════════ COPYRIGHT ════════ */
+.copyright-footer{text-align:center;padding:20px;font-size:.65rem;color:var(--muted);border-top:1px solid var(--border);margin-top:30px}
+
+/* ════════ MOBILE ════════ */
+@media(max-width:700px){
+  .score-grid{grid-template-columns:repeat(2,1fr)}
+  .chart-grid-2,.chart-grid-3{grid-template-columns:1fr}
+  .proj-grid{grid-template-columns:1fr}
+  .page{padding:14px 10px 40px}
+  .section-panel{padding:16px 12px}
+  .cover-attr{flex-direction:column;text-align:center}
+  .cover-title{font-size:1.5rem}
+  .tier-meta{grid-template-columns:repeat(2,1fr)}
+  .content-grid{grid-template-columns:1fr}
+  .metric-grid{grid-template-columns:1fr}
+  .case-metrics{grid-template-columns:repeat(2,1fr)}
+  .pledge-row{grid-template-columns:1fr auto auto;font-size:.68rem}
+}
+
+/* ════════ PRINT ════════ */
+/* ── SWIMLANE FUNNEL ── */
+.fl-row{display:grid;grid-template-columns:160px 1fr 80px 80px;gap:10px;align-items:center;padding:8px 10px;border-radius:6px;background:var(--light);border:1px solid var(--border)}
+.fl-row:hover{background:#fff}
+.fl-stage{display:flex;align-items:center;gap:6px}
+.fl-icon{font-size:14px;flex-shrink:0}
+.fl-name{font-size:.72rem;font-weight:600;color:var(--navy)}
+.fl-bar-wrap{position:relative;height:28px;background:rgba(0,0,0,.04);border-radius:4px;overflow:hidden;display:flex;align-items:center}
+.fl-bar{height:100%;border-radius:4px;opacity:.7;position:absolute;left:0;top:0}
+.fl-tactics{position:relative;z-index:1;font-size:.63rem;color:var(--text);padding:0 8px;line-height:1.35}
+.fl-num{font-size:.78rem;font-weight:700;color:var(--navy);text-align:right}
+.fl-conv{font-size:.72rem;font-weight:600;text-align:right}
+/* Appendix left-align */
+.app-left td,.app-left th{text-align:left!important}
+
+@media print{
+  #cover,.modal-bg,.site-header,.section-selector{display:none!important}
+  #app{display:block!important}
+  .section-panel{display:block!important;page-break-inside:avoid}
+  .inner-panel{display:block!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     COVER PAGE
+═══════════════════════════════════════ -->
+<div id="cover">
+  <!-- HKS text button — no logo -->
+  <div class="cover-hks-btn"><span class="cover-hks-dot"></span>HKS<span class="cover-hks-dot"></span></div>
+
+  <div class="cover-eyebrow">Harvard Kennedy School · Development Office</div>
+  <h1 class="cover-title">Gift Fund &amp; <span>Philanthropic</span><br>Stewardship Report</h1>
+  <p class="cover-sub">Management &amp; Financial Stewardship · Donor Analysis · Strategic Planning · Campaign Intelligence · FY2006–FY2025</p>
+  <div class="cover-divider"></div>
+
+  <!-- ATTRIBUTION CARD -->
+  <div class="cover-attr">
+    <div class="attr-hero">
+      <div class="attr-glow"></div>
+      <div class="attr-glow2"></div>
+      <div class="attr-img-wrap">
+        <img src="profile-pic.jpg" alt="Narissara Khomkhai"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="attr-initials" style="display:none">NK</div>
+      </div>
+    </div>
+    <div class="attr-text">
+      <div class="attr-name">Narissara Khomkhai</div>
+      <div class="attr-role">Data Architect &amp; Strategist · Gift Fund Reporting Specialist<br>Harvard FAS · Phillips Academy · UAMS Institutional Advancement</div>
+      <a class="attr-link" href="https://nasdaqguru.github.io" target="_blank" rel="noopener">
+        <i class="fas fa-external-link-alt" style="font-size:.55rem"></i> nasdaqguru.github.io
+      </a>
+    </div>
+  </div>
+
+  <button class="cover-disclaimer-btn" id="openDisclaimer">
+    <i class="fas fa-info-circle" style="margin-right:5px;opacity:.7"></i>Disclaimer &amp; Data Attribution
+  </button>
+  <button class="cover-enter" id="enterBtn">
+    Enter Report &nbsp;<i class="fas fa-arrow-right" style="font-size:.8rem"></i>
+  </button>
+  <div class="cover-copy">© 2025 Narissara Khomkhai · Portfolio Case Study · Not an official Harvard University document</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     DISCLAIMER MODAL
+═══════════════════════════════════════ -->
+<div class="modal-bg" id="disclaimerModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3><i class="fas fa-shield-halved" style="margin-right:7px;color:var(--crimson)"></i>Disclaimer &amp; Data Attribution</h3>
+      <button class="modal-close-x" id="closeDisclaimer">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>This page was created by <strong>Narissara Khomkhai</strong> solely as a <strong>portfolio piece</strong> for a Gift Fund &amp; Philanthropic Stewardship Report. All data presented is sourced directly from <strong>Harvard Published Data</strong> (Harvard FAS Annual Reports, HKS Annual Reports, Harvard Management Company reports, and publicly available campaign figures). I do not claim ownership of this data, and it is used here for illustrative data-presenting purposes only.</p>
+      <p>Where official published figures were not available at the fund level, <strong>illustrative sample data</strong> has been used — clearly marked throughout the report — to demonstrate reporting architecture, dashboard design, and analytical methodology.</p>
+      <p>This report should <strong>not be cited as an official source</strong> of information. It is not affiliated with, endorsed by, or produced by Harvard University or Harvard Kennedy School.</p>
+    </div>
+    <div class="modal-footer">
+      <span>© 2025 Narissara Khomkhai · All rights reserved</span>
+      <button class="modal-ok" id="disclaimerOk">Understood</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN APP
+═══════════════════════════════════════ -->
+<div id="app">
+
+<!-- STICKY HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-seal">HKS</div>
+      <div>
+        <div class="header-title">Harvard Kennedy School — Development Office</div>
+        <div class="header-sub">Gift Fund &amp; Philanthropic Stewardship Report · FY2006–FY2025</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <a class="header-badge-link" href="https://nasdaqguru.github.io" target="_blank" rel="noopener">
+        <i class="fas fa-external-link-alt" style="margin-right:4px;font-size:.55rem"></i>Portfolio
+      </a>
+      <div class="header-avatar" title="Narissara Khomkhai · nasdaqguru.github.io" onclick="window.open('https://nasdaqguru.github.io','_blank')">
+        <div class="hav-glow"></div>
+        <div class="hav-inner">
+          <img src="profile-pic.jpg" alt="NK" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="hav-init" style="display:none">NK</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DATA NOTICE BAR -->
+<div class="data-notice">
+  <div class="data-notice-inner">
+    <i class="fas fa-triangle-exclamation"></i>
+    <div><strong>Data Attribution:</strong> Where published HKS/Harvard figures exist they are used as anchors. Fund-level and gift-level data is <strong>illustrative sample data</strong> created to demonstrate reporting blueprint design. This is a portfolio piece by Narissara Khomkhai — not an official Harvard document. <a href="#" id="openDisclaimerInner" style="color:#92400e;font-weight:700">Read full disclaimer</a>.</div>
+  </div>
+</div>
+
+<div class="page">
+
+<!-- ════════ EXECUTIVE SUMMARY PANEL ════════ -->
+<div style="background:#fff;border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--crimson)">
+    <div style="width:28px;height:28px;background:var(--crimson);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0"><i class="fas fa-file-lines" style="color:#fff;font-size:.7rem"></i></div>
+    <div>
+      <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--navy)">Executive Summary</div>
+      <div style="font-size:.68rem;color:var(--muted)">Purpose · Audience · Key Findings · Strategic Insights</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px">
+    <div>
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--crimson);margin-bottom:7px">Purpose of the Report</div>
+      <div style="font-size:.76rem;color:var(--text);line-height:1.65">This report provides a comprehensive analytical framework for managing Harvard Kennedy School's philanthropic portfolio — covering gift fund stewardship, donor analysis, pledge tracking, budget oversight, and multi-year strategic planning. It is designed to serve as a decision-support instrument for development leadership, finance officers, and gift services staff.</div>
+    </div>
+    <div>
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--crimson);margin-bottom:7px">Audience Overview</div>
+      <div style="font-size:.76rem;color:var(--text);line-height:1.65">
+        <strong>Primary:</strong> Dean's Office, Chief Development Officer, Major Gift Officers, Finance &amp; Gift Services<br><br>
+        <strong>Secondary:</strong> Campaign Cabinet, Board of Dean's Advisors, Littauer Society leadership, Faculty Directors of research programs<br><br>
+        <strong>Tertiary:</strong> Alumni relations, stewardship communications team
+      </div>
+    </div>
+    <div>
+      <div style="font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--crimson);margin-bottom:7px">Key Findings &amp; Strategic Insights</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="background:#fdf2f4;border-left:3px solid var(--crimson);border-radius:0 6px 6px 0;padding:6px 9px;font-size:.7rem;color:var(--text)"><strong>$300M campaign</strong> on track for FY2026 close at 87.1% of goal</div>
+        <div style="background:#fffbeb;border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:6px 9px;font-size:.7rem;color:var(--text)"><strong>6.7:1 ROI</strong> on development spending exceeds 5:1 institutional target</div>
+        <div style="background:#f0fdf4;border-left:3px solid var(--green);border-radius:0 6px 6px 0;padding:6px 9px;font-size:.7rem;color:var(--text)"><strong>Planned giving</strong> program offers 35:1 projected ROI — highest opportunity</div>
+        <div style="background:#eef2ff;border-left:3px solid var(--blue);border-radius:0 6px 6px 0;padding:6px 9px;font-size:.7rem;color:var(--text)"><strong>74.8% donor retention</strong> — up 16.4pp since FY2006, above peer median</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ MAIN SECTION SELECTOR ════════ -->
+<div class="section-selector" id="mainNav">
+  <button class="ss-btn active" data-sec="s0">📊 Master Dashboard</button>
+  <button class="ss-btn" data-sec="s1">📁 Gift Fund Reports</button>
+  <button class="ss-btn" data-sec="s2">👥 Donor Analysis</button>
+  <button class="ss-btn" data-sec="s3">🤝 Pledge Tracking</button>
+  <button class="ss-btn" data-sec="s4">💼 Budget &amp; Expense</button>
+  <button class="ss-btn" data-sec="s5">📋 Reporting Tiers</button>
+  <button class="ss-btn" data-sec="s6">📣 Marketing Funnel</button>
+  <button class="ss-btn" data-sec="s7">🎯 Gift Officer KPIs</button>
+  <button class="ss-btn" data-sec="s8">📚 Case Studies</button>
+  <button class="ss-btn" data-sec="s9">🌍 Global Donor Map</button>
+  <button class="ss-btn" data-sec="s10">📈 Strategic Plan</button>
+  <button class="ss-btn" data-sec="s11">📎 Appendix</button>
+</div>
+
+<!-- ══════════ SECTION 0: MASTER DASHBOARD ══════════ -->
+<div class="section-panel active" id="s0">
+  <div class="score-grid">
+    <div class="s-card cr"><div class="s-val cr">$892.4M</div><div class="s-lbl">Total gifts raised FY2006–FY2025</div><div class="s-delta up">↑ +6.2% CAGR over 20 years</div></div>
+    <div class="s-card go"><div class="s-val go">4,284</div><div class="s-lbl">Active gift funds under management</div><div class="s-delta up">↑ +38% vs FY2006 baseline</div></div>
+    <div class="s-card nv"><div class="s-val nv">$124.6M</div><div class="s-lbl">FY2025 total gifts received</div><div class="s-delta up">↑ +9.2% YoY</div></div>
+    <div class="s-card gn"><div class="s-val gn">87.1%</div><div class="s-lbl">Campaign goal progress ($300M target)</div><div class="s-delta ne">On track · projected FY2026 close</div></div>
+  </div>
+
+  <!-- IMPACT PILLS -->
+  <div class="sec-hdr" style="margin-top:8px"><i class="fas fa-rocket"></i><h3>Key Impact Metrics — Click to expand</h3><span class="sec-badge">FY2006–FY2025</span></div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px" id="pillGrid">
+    <div class="s-card cr" style="cursor:pointer;transition:box-shadow .15s" onclick="togglePill('pv1',this)">
+      <div class="s-val cr">$300M</div><div class="s-lbl">Capital Campaign — $300M target, 87.1% achieved</div>
+      <div id="pv1" style="display:none;margin-top:10px;font-size:.72rem;color:var(--text);line-height:1.6;border-top:1px solid var(--border);padding-top:8px">Cumulative total stands at <strong>$287.4M</strong> through Q3 FY2025. Campaign is projected to close in Q2 FY2026. Planned giving pipeline ($186.4M notional) provides full coverage of remaining $12.6M gap if 8% realizes in FY2026. Dean's Council recruitment is 26 members behind pace — accelerated outreach recommended.</div>
+    </div>
+    <div class="s-card go" style="cursor:pointer;transition:box-shadow .15s" onclick="togglePill('pv2',this)">
+      <div class="s-val go">6.7:1</div><div class="s-lbl">ROI — gifts raised per $1 of development spend</div>
+      <div id="pv2" style="display:none;margin-top:10px;font-size:.72rem;color:var(--text);line-height:1.6;border-top:1px solid var(--border);padding-top:8px">Exceeds 5:1 institutional target and 5.4:1 peer median. Marginal cost per dollar raised: <strong>$0.149</strong>. Best channel: planned gifts ($0.04/dollar). Major gift officer channel: $0.08/dollar. Proposed 2-FTE investment of $480K projected to generate $3.2M incremental over 3 years at 6.7:1.</div>
+    </div>
+    <div class="s-card nv" style="cursor:pointer;transition:box-shadow .15s" onclick="togglePill('pv3',this)">
+      <div class="s-val nv">74.8%</div><div class="s-lbl">Donor retention rate — up 16.4pp since FY2006</div>
+      <div id="pv3" style="display:none;margin-top:10px;font-size:.72rem;color:var(--text);line-height:1.6;border-top:1px solid var(--border);padding-top:8px">Retention has improved steadily from 58.4% in FY2006 to 74.8% in FY2025 — a 16.4 percentage point gain. Major donor retention (gifts ≥$100K): <strong>82.4%</strong>. Loyalty Society streak preservation: <strong>88.6%</strong>. RFM analysis flagged 124 lapsed donors with high reactivation potential.</div>
+    </div>
+    <div class="s-card gn" style="cursor:pointer;transition:box-shadow .15s" onclick="togglePill('pv4',this)">
+      <div class="s-val gn">$186.4M</div><div class="s-lbl">Outstanding pledge receivables — 284 agreements</div>
+      <div id="pv4" style="display:none;margin-top:10px;font-size:.72rem;color:var(--text);line-height:1.6;border-top:1px solid var(--border);padding-top:8px">Total pledge receivable portfolio of $186.4M across 284 active agreements. FY2025 collection rate: <strong>98.4%</strong> — well above 95% benchmark. 4 pledges at risk (&gt;90 days overdue, $1.84M total exposure). Historical write-off rate: 0.8% vs 2.1% peer average.</div>
+    </div>
+    <div class="s-card cr" style="cursor:pointer;transition:box-shadow .15s;--before-bg:var(--purple)" onclick="togglePill('pv5',this)">
+      <div class="s-val" style="color:var(--purple)">342</div><div class="s-lbl">Planned giving commitments (Leave a Legacy)</div>
+      <div id="pv5" style="display:none;margin-top:10px;font-size:.72rem;color:var(--text);line-height:1.6;border-top:1px solid var(--border);padding-top:8px">342 confirmed bequest and deferred gift commitments with estimated estate value of <strong>$186.4M</strong>. FY2025 realized planned gifts: $18.6M. 48 new commitments secured in FY2025. Prospect pipeline: 124 identified. Planned giving program offers the highest projected ROI at <strong>35:1</strong>.</div>
+    </div>
+    <div class="s-card go" style="cursor:pointer;transition:box-shadow .15s" onclick="togglePill('pv6',this)">
+      <div class="s-val go">$1.84B</div><div class="s-lbl">Total gift fund balance under management</div>
+      <div id="pv6" style="display:none;margin-top:10px;font-size:.72rem;color:var(--text);line-height:1.6;border-top:1px solid var(--border);padding-top:8px">Total market value of all 4,284 active gift funds: <strong>$1.84B</strong> — up 12.4% YoY. Annual endowment income distributed: $68.4M. 94.2% of endowed funds meeting or exceeding minimum distribution thresholds. 284 new funds established in FY2025 — a record year.</div>
+    </div>
+  </div>
+
+  <div class="chart-grid-2">
+    <div class="chart-box">
+      <div class="range-bar" id="rb0"><span>Range:</span><button class="rb active" data-range="20">20yr</button><button class="rb" data-range="10">10yr</button><button class="rb" data-range="5">5yr</button></div>
+      <div class="chart-title">Total gifts received ($M) — historical + 3-yr forecast</div>
+      <div class="leg"><div class="leg-item"><span class="leg-sw" style="background:#A41034"></span>Actual</div><div class="leg-item"><span class="leg-sw" style="background:#C69214"></span>Forecast</div></div>
+      <div style="position:relative;width:100%;height:210px"><canvas id="rev1"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Revenue stream breakdown — FY2025 ($M)</div>
+      <div style="position:relative;width:100%;height:240px"><canvas id="prog1"></canvas></div>
+      <div id="prog1-leg" style="margin-top:8px"></div>
+    </div>
+  </div>
+
+  <!-- PROGRAM OVERVIEW TABLE -->
+  <div class="sec-hdr"><i class="fas fa-list-check"></i><h3>Current Fundraising Programs — At a Glance</h3><span class="sec-badge">5 Active Programs</span></div>
+  <table class="data-table">
+    <thead><tr><th>Program</th><th>Type</th><th>Members / Donors</th><th>FY2025 Giving</th><th>Key Metric</th><th>Target</th><th>Trend</th></tr></thead>
+    <tbody>
+      <tr><td><strong>🏛️ Dean's Council</strong></td><td>Leadership Society ($10K+/yr)</td><td>842 members</td><td>$38.4M</td><td>78.4% retention</td><td>80% retention</td><td><span class="sp sp-y">Near target</span></td></tr>
+      <tr><td><strong>⭐ Littauer Society</strong></td><td>Named Society ($100K+ lifetime)</td><td>1,284 members</td><td>$42.8M</td><td>85% multi-yr rate</td><td>80% multi-yr</td><td><span class="sp sp-g">Exceeding</span></td></tr>
+      <tr><td><strong>🎖️ Loyalty Society</strong></td><td>Consecutive Giving (5+ yrs)</td><td>2,486 members</td><td>$14.2M</td><td>88.6% streak kept</td><td>90% preservation</td><td><span class="sp sp-y">Near target</span></td></tr>
+      <tr><td><strong>🕊️ Leave a Legacy</strong></td><td>Planned Giving / Bequests</td><td>342 commitments</td><td>$18.6M realized</td><td>62% pipeline ID'd</td><td>80% by FY2027</td><td><span class="sp sp-y">Building</span></td></tr>
+      <tr><td><strong>🎓 Graduating Class Campaign</strong></td><td>Senior Annual Gift</td><td>42.8% participation</td><td>$486K</td><td>42.8% participation</td><td>50% participation</td><td><span class="sp sp-g">Best in 8 yrs</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ══════════ SECTION 1: GIFT FUND REPORTS ══════════ -->
+<div class="section-panel" id="s1">
+  <div class="score-grid">
+    <div class="s-card cr"><div class="s-val cr">$1.84B</div><div class="s-lbl">Total gift fund balance (market value)</div><div class="s-delta up">↑ +12.4% YoY</div></div>
+    <div class="s-card go"><div class="s-val go">$68.4M</div><div class="s-lbl">Annual endowment income distributed</div><div class="s-delta up">↑ +6.8% vs FY2024</div></div>
+    <div class="s-card nv"><div class="s-val nv">$42.6M</div><div class="s-lbl">New contributions to existing funds</div><div class="s-delta up">↑ +8.2% YoY</div></div>
+    <div class="s-card gn"><div class="s-val gn">284</div><div class="s-lbl">New funds established FY2025</div><div class="s-delta up">Record year</div></div>
+  </div>
+  <div class="chart-grid-2">
+    <div class="chart-box">
+      <div class="chart-title">Fund balance by purpose (FY2025, $M)</div>
+      <div style="position:relative;width:100%;height:185px"><canvas id="fund1"></canvas></div>
+      <div id="fund1-leg" style="margin-top:8px"></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Endowment income distribution trend ($M)</div>
+      <div style="position:relative;width:100%;height:185px"><canvas id="fund2"></canvas></div>
+    </div>
+  </div>
+  <div class="sec-hdr"><i class="fas fa-list"></i><h3>Top Gift Funds — Balance, Contributions, Income &amp; Historical Activity</h3></div>
+  <table class="data-table">
+    <thead><tr><th>Fund Name</th><th>Type</th><th>Balance FY2025</th><th>YTD Contributions</th><th>YTD Income</th><th>Inception Total</th><th>Est.</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Leadership &amp; Public Policy Chair</strong></td><td>Named Chair</td><td>$12.4M</td><td>$480K</td><td>$496K</td><td>$18.6M</td><td>2008</td><td><span class="sp sp-g">Active</span></td></tr>
+      <tr><td><strong>Global Health Initiative Fund</strong></td><td>Program Endow.</td><td>$8.6M</td><td>$320K</td><td>$344K</td><td>$11.2M</td><td>2010</td><td><span class="sp sp-g">Active</span></td></tr>
+      <tr><td><strong>Environmental Policy Research</strong></td><td>Research Fund</td><td>$7.2M</td><td>$284K</td><td>$288K</td><td>$9.8M</td><td>2012</td><td><span class="sp sp-g">Active</span></td></tr>
+      <tr><td><strong>Mid-Career Fellows Program</strong></td><td>Scholarship</td><td>$6.8M</td><td>$248K</td><td>$272K</td><td>$8.4M</td><td>2006</td><td><span class="sp sp-g">Active</span></td></tr>
+      <tr><td><strong>Democracy &amp; Governance Fund</strong></td><td>Program Endow.</td><td>$5.4M</td><td>$196K</td><td>$216K</td><td>$7.2M</td><td>2014</td><td><span class="sp sp-g">Active</span></td></tr>
+      <tr><td><strong>Economic Development Chair</strong></td><td>Named Chair</td><td>$4.8M</td><td>$180K</td><td>$192K</td><td>$6.4M</td><td>2016</td><td><span class="sp sp-g">Active</span></td></tr>
+      <tr><td><strong>Social Innovation Lab</strong></td><td>Program Fund</td><td>$3.6M</td><td>$148K</td><td>$144K</td><td>$4.8M</td><td>2018</td><td><span class="sp sp-y">Under review</span></td></tr>
+      <tr><td><strong>Kennedy School Annual Fund</strong></td><td>Unrestricted</td><td>$2.8M</td><td>$1.24M</td><td>$112K</td><td>$24.6M</td><td>2006</td><td><span class="sp sp-g">Active</span></td></tr>
+      <tr><td><strong>International Security Program</strong></td><td>Research Fund</td><td>$2.4M</td><td>$96K</td><td>$96K</td><td>$3.8M</td><td>2020</td><td><span class="sp sp-g">Active</span></td></tr>
+      <tr><td><strong>Urban Planning Initiative</strong></td><td>Program Fund</td><td>$1.8M</td><td>$72K</td><td>$72K</td><td>$2.6M</td><td>2022</td><td><span class="sp sp-b">New fund</span></td></tr>
+    </tbody>
+  </table>
+  <div class="insight gold" style="margin-top:14px"><strong>Gift Fund Stewardship Note:</strong> 94.2% of endowed funds meeting or exceeding minimum distribution thresholds. All 4,284 fund reports distributed on schedule with full GL reconciliation and documented lineage. Annual fund stewardship cycle includes fund balance report, impact summary, and donor acknowledgment distributed within 30-day SLA.</div>
+</div>
+
+<!-- ══════════ SECTION 2: DONOR ANALYSIS ══════════ -->
+<div class="section-panel" id="s2">
+  <div class="score-grid">
+    <div class="s-card cr"><div class="s-val cr">8,642</div><div class="s-lbl">Total active donors FY2025</div><div class="s-delta up">↑ +54.6% since FY2006</div></div>
+    <div class="s-card go"><div class="s-val go">$14,420</div><div class="s-lbl">Average gift size FY2025</div><div class="s-delta up">↑ +8.4% vs FY2024</div></div>
+    <div class="s-card nv"><div class="s-val nv">74.8%</div><div class="s-lbl">Donor retention rate FY2025</div><div class="s-delta up">↑ +16.4pp since FY2006</div></div>
+    <div class="s-card gn"><div class="s-val gn">68</div><div class="s-lbl">Major gifts ($1M+) in pipeline</div><div class="s-delta up">↑ Record pipeline year</div></div>
+  </div>
+  <div class="chart-grid-2">
+    <div class="chart-box">
+      <div class="range-bar" id="rb2"><span>Range:</span><button class="rb active" data-range="20">20yr</button><button class="rb" data-range="10">10yr</button><button class="rb" data-range="5">5yr</button></div>
+      <div class="chart-title">Donor count trend (FY2006–FY2025)</div>
+      <div style="position:relative;width:100%;height:165px"><canvas id="don1"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Donor type segmentation FY2025</div>
+      <div style="position:relative;width:100%;height:185px"><canvas id="don3"></canvas></div>
+      <div id="don3-leg" style="margin-top:6px"></div>
+    </div>
+  </div>
+  <div class="sec-hdr"><i class="fas fa-layer-group"></i><h3>Pareto Analysis — Gift Range Segmentation</h3></div>
+  <table class="data-table">
+    <thead><tr><th>Gift Range</th><th># Donors</th><th>% Donors</th><th>Total Value</th><th>% Revenue</th><th>Avg Gift</th><th>Retention</th><th>Segment</th></tr></thead>
+    <tbody>
+      <tr><td>$5M+</td><td>6</td><td>0.07%</td><td>$38.4M</td><td>30.8%</td><td>$6.4M</td><td>82.4%</td><td><span class="sp sp-r">Transformational</span></td></tr>
+      <tr><td>$1M–$4.99M</td><td>22</td><td>0.25%</td><td>$24.8M</td><td>19.9%</td><td>$1.13M</td><td>78.6%</td><td><span class="sp sp-r">Principal</span></td></tr>
+      <tr><td>$250K–$999K</td><td>84</td><td>0.97%</td><td>$16.4M</td><td>13.2%</td><td>$195K</td><td>74.2%</td><td><span class="sp sp-g">Major</span></td></tr>
+      <tr><td>$100K–$249K</td><td>186</td><td>2.15%</td><td>$14.2M</td><td>11.4%</td><td>$76.3K</td><td>70.8%</td><td><span class="sp sp-b">Leadership</span></td></tr>
+      <tr><td>$25K–$99K</td><td>842</td><td>9.74%</td><td>$18.6M</td><td>14.9%</td><td>$22.1K</td><td>68.4%</td><td><span class="sp sp-b">Mid-level</span></td></tr>
+      <tr><td>$10K–$24.9K</td><td>1,284</td><td>14.86%</td><td>$8.4M</td><td>6.7%</td><td>$6.5K</td><td>62.4%</td><td><span class="sp sp-y">Annual Major</span></td></tr>
+      <tr><td>$1K–$9.9K</td><td>2,842</td><td>32.89%</td><td>$4.6M</td><td>3.7%</td><td>$1,619</td><td>58.6%</td><td><span class="sp sp-y">Annual</span></td></tr>
+      <tr><td>&lt;$1K</td><td>3,376</td><td>39.07%</td><td>$0.8M</td><td>0.6%</td><td>$237</td><td>42.6%</td><td><span class="sp sp-y">Community</span></td></tr>
+    </tbody>
+  </table>
+  <div class="insight" style="margin-top:14px"><strong>RFM Analysis Note:</strong> RFM scoring has identified 124 donors with high upgrade potential (Recency &lt;12 months, Frequency ≥3 gifts, Monetary gap &gt;$50K vs capacity estimate). Recommended: targeted major gift cultivation visits for this segment in FY2026. Top 0.32% of donors generate 50.7% of total revenue — classic 80/20 Pareto confirmed.</div>
+</div>
+
+<!-- ══════════ SECTION 3: PLEDGE TRACKING ══════════ -->
+<div class="section-panel" id="s3">
+  <div class="score-grid">
+    <div class="s-card cr"><div class="s-val cr">$186.4M</div><div class="s-lbl">Total outstanding pledge receivables</div><div class="s-delta up">284 active agreements</div></div>
+    <div class="s-card go"><div class="s-val go">$42.8M</div><div class="s-lbl">Pledge payments received FY2025</div><div class="s-delta up">↑ 98.4% collection rate</div></div>
+    <div class="s-card nv"><div class="s-val nv">$8.4M</div><div class="s-lbl">New pledges secured FY2025</div><div class="s-delta up">↑ 62 new agreements</div></div>
+    <div class="s-card gn"><div class="s-val gn">4</div><div class="s-lbl">Pledges at risk (&gt;90 days overdue)</div><div class="s-delta ne">Under active stewardship</div></div>
+  </div>
+  <div class="chart-grid-2">
+    <div class="chart-box"><div class="chart-title">Pledge receivables by maturity ($M)</div><div style="position:relative;width:100%;height:185px"><canvas id="pled1"></canvas></div></div>
+    <div class="chart-box"><div class="chart-title">Annual pledge collection rate (%)</div><div style="position:relative;width:100%;height:185px"><canvas id="pled2"></canvas></div></div>
+  </div>
+  <div class="sec-hdr"><i class="fas fa-list-check"></i><h3>Active Pledge Register</h3></div>
+  <div style="display:grid;gap:6px">
+    <div class="pledge-row" style="font-size:.65rem;font-weight:600;color:var(--muted);border-bottom:2px solid var(--border)"><div>Donor / Fund</div><div>Total Pledge</div><div>Balance Due</div><div>Status</div></div>
+    <div class="pledge-row"><div><div class="pledge-name">Anonymous — Leadership Chair Endowment</div><div class="pledge-detail">5-year · FY2022–FY2027 · $1.2M/yr</div></div><div style="font-size:.8rem;font-weight:600;color:var(--navy)">$6.0M</div><div style="font-size:.8rem;font-weight:600;color:var(--crimson)">$2.4M</div><div><span class="sp sp-g">On Schedule</span></div></div>
+    <div class="pledge-row"><div><div class="pledge-name">Family Foundation — Global Health Fund</div><div class="pledge-detail">3-year · FY2024–FY2026 · $800K/yr</div></div><div style="font-size:.8rem;font-weight:600;color:var(--navy)">$2.4M</div><div style="font-size:.8rem;font-weight:600;color:var(--crimson)">$1.6M</div><div><span class="sp sp-g">On Schedule</span></div></div>
+    <div class="pledge-row"><div><div class="pledge-name">Alumni — Democracy &amp; Governance Fund</div><div class="pledge-detail">5-year · FY2023–FY2027 · $400K/yr</div></div><div style="font-size:.8rem;font-weight:600;color:var(--navy)">$2.0M</div><div style="font-size:.8rem;font-weight:600;color:var(--crimson)">$1.2M</div><div><span class="sp sp-g">On Schedule</span></div></div>
+    <div class="pledge-row"><div><div class="pledge-name">Corporate Partner — Research Program</div><div class="pledge-detail">3-year · FY2023–FY2025 · $600K/yr</div></div><div style="font-size:.8rem;font-weight:600;color:var(--navy)">$1.8M</div><div style="font-size:.8rem;font-weight:600;color:var(--crimson)">$600K</div><div><span class="sp sp-y">Final payment pending</span></div></div>
+    <div class="pledge-row"><div><div class="pledge-name">Alumni Pair — Annual Fund Endowment</div><div class="pledge-detail">3-year · FY2023–FY2025 · $250K/yr</div></div><div style="font-size:.8rem;font-weight:600;color:var(--navy)">$750K</div><div style="font-size:.8rem;font-weight:600;color:var(--crimson)">$250K</div><div><span class="sp sp-r">90+ days overdue</span></div></div>
+  </div>
+  <div class="insight gold" style="margin-top:14px"><strong>Pledge System Architecture:</strong> All pledge agreements tracked through <strong>Ellucian Advance</strong> with automated reminder cadence, GL reconciliation, and stewardship triggers. Historical write-off rate: 0.8% — well below peer institution average of 2.1%.</div>
+</div>
+
+<!-- ══════════ SECTION 4: BUDGET & EXPENSE ══════════ -->
+<div class="section-panel" id="s4">
+  <div class="score-grid">
+    <div class="s-card cr"><div class="s-val cr">$18.6M</div><div class="s-lbl">Development operating budget FY2025</div><div class="s-delta up">↑ +4.2% vs FY2024</div></div>
+    <div class="s-card go"><div class="s-val go">$16.8M</div><div class="s-lbl">YTD actual expenses (Q3 close)</div><div class="s-delta ne">90.3% of annual budget</div></div>
+    <div class="s-card nv"><div class="s-val nv">6.7:1</div><div class="s-lbl">ROI — gifts raised per $ spent</div><div class="s-delta up">↑ Exceeds 5:1 target</div></div>
+    <div class="s-card gn"><div class="s-val gn">$1.8M</div><div class="s-lbl">Projected year-end surplus</div><div class="s-delta up">9.7% under budget</div></div>
+  </div>
+  <div class="chart-grid-2">
+    <div class="chart-box"><div class="chart-title">Budget vs. actuals by category (FY2025, $K)</div><div style="position:relative;width:100%;height:200px"><canvas id="bud1"></canvas></div></div>
+    <div class="chart-box"><div class="chart-title">Monthly expense run rate vs. forecast ($K)</div><div style="position:relative;width:100%;height:200px"><canvas id="bud2"></canvas></div></div>
+  </div>
+  <table class="data-table" style="margin-top:10px">
+    <thead><tr><th>Category</th><th>FY2025 Budget</th><th>YTD Actual</th><th>Forecast</th><th>Variance $</th><th>Variance %</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>Personnel &amp; Benefits</td><td>$9,840K</td><td>$8,964K</td><td>$9,680K</td><td>+$160K</td><td>+1.6%</td><td><span class="sp sp-g">Under budget</span></td></tr>
+      <tr><td>Major Gift Cultivation</td><td>$2,480K</td><td>$2,246K</td><td>$2,420K</td><td>+$60K</td><td>+2.4%</td><td><span class="sp sp-g">Under budget</span></td></tr>
+      <tr><td>Events &amp; Donor Relations</td><td>$1,840K</td><td>$1,984K</td><td>$1,960K</td><td>-$120K</td><td>-6.5%</td><td><span class="sp sp-y">Over — approved</span></td></tr>
+      <tr><td>Stewardship &amp; Reporting</td><td>$1,240K</td><td>$1,082K</td><td>$1,180K</td><td>+$60K</td><td>+4.8%</td><td><span class="sp sp-g">Under budget</span></td></tr>
+      <tr><td>Technology &amp; Systems</td><td>$980K</td><td>$892K</td><td>$924K</td><td>+$56K</td><td>+5.7%</td><td><span class="sp sp-g">Under budget</span></td></tr>
+      <tr><td>Research &amp; Analytics</td><td>$648K</td><td>$584K</td><td>$624K</td><td>+$24K</td><td>+3.7%</td><td><span class="sp sp-g">Under budget</span></td></tr>
+    </tbody>
+  </table>
+  <div class="insight green" style="margin-top:14px"><strong>Financial Feasibility:</strong> At current structure, the development office operates at <strong>6.7:1 ROI</strong> — above the 5:1 target and peer median of 5.4:1. Marginal cost per dollar raised: <strong>$0.149</strong>. Proposed investment of $480K in 2 FTEs projected to generate $3.2M incremental over 3 years.</div>
+</div>
+
+<!-- ══════════ SECTION 5: REPORTING TIERS ══════════ -->
+<div class="section-panel" id="s5">
+
+  <div class="insight navy" style="margin-bottom:18px">
+    <strong>📋 About This Section — Audience &amp; Purpose:</strong> This section is designed for <strong>Development Leadership, the Chief Development Officer, and Dean's Office staff</strong> who need to understand the reporting infrastructure supporting HKS philanthropy. It outlines what reports exist, who receives them, how often, and what data they contain — so any new team member, board member, or external reviewer can orient quickly. <em>All figures below are illustrative sample data created to demonstrate reporting blueprint design.</em>
+  </div>
+
+  <!-- TIER SUMMARY SCORECARD -->
+  <div class="score-grid" style="margin-bottom:20px">
+    <div class="s-card cr"><div class="s-val cr">2</div><div class="s-lbl">Reporting tiers in use</div><div class="s-delta up">Executive + Operational</div></div>
+    <div class="s-card go"><div class="s-val go">14</div><div class="s-lbl">Report types produced annually</div><div class="s-delta up">Monthly, quarterly, annual</div></div>
+    <div class="s-card nv"><div class="s-val nv">100%</div><div class="s-lbl">On-time delivery rate FY2025</div><div class="s-delta up">All SLAs met</div></div>
+    <div class="s-card gn"><div class="s-val gn">48 hrs</div><div class="s-lbl">Avg donor acknowledgment turnaround</div><div class="s-delta up">↑ vs 72-hr target</div></div>
+  </div>
+
+  <!-- TIER 1 -->
+  <div class="tier-card">
+    <div class="tier-card-hdr">
+      <div class="tier-badge" style="background:var(--crimson)">T1</div>
+      <div>
+        <div class="tier-name">Tier 1: Executive Strategy Suite</div>
+        <div class="tier-sub">📌 Audience: Dean's Office · Chief Development Officer · Campaign Cabinet · Board of Dean's Advisors · Littauer Society Leadership</div>
+      </div>
+    </div>
+
+    <div class="insight" style="margin-bottom:14px;font-size:.72rem"><strong>Audience Note:</strong> Tier 1 reports are written for senior non-technical leaders who set strategic direction. Language is plain English. Charts are summary-level. Every report leads with a one-paragraph executive narrative before any data. Distributed as PDF + interactive dashboard link. Average read time target: 8–12 minutes.</div>
+
+    <div class="tier-meta">
+      <div class="tier-meta-item"><div class="tier-meta-val">Monthly</div><div class="tier-meta-lbl">Primary cadence</div></div>
+      <div class="tier-meta-item"><div class="tier-meta-val">Quarterly</div><div class="tier-meta-lbl">Full board report</div></div>
+      <div class="tier-meta-item"><div class="tier-meta-val">Annual</div><div class="tier-meta-lbl">Strategic planning cycle</div></div>
+    </div>
+
+    <!-- SAMPLE MOCK DATA TABLE -->
+    <div class="sec-hdr" style="margin-top:14px"><i class="fas fa-table"></i><h3>Sample Tier 1 — Monthly Scorecard (FY2025, Q3)</h3><span class="sec-badge">Illustrative data</span></div>
+    <table class="data-table">
+      <thead><tr><th>KPI</th><th>FY2025 Goal</th><th>Q3 YTD Actual</th><th>Q3 YTD % of Goal</th><th>Prior Year Same Period</th><th>YoY Δ</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Total gifts raised</strong></td><td>$124.6M</td><td>$99.2M</td><td>79.6%</td><td>$88.4M</td><td>+$10.8M (+12.2%)</td><td><span class="sp sp-g">On track</span></td></tr>
+        <tr><td><strong>Major gifts ($1M+) closed</strong></td><td>28</td><td>22</td><td>78.6%</td><td>18</td><td>+4 (+22.2%)</td><td><span class="sp sp-g">On track</span></td></tr>
+        <tr><td><strong>New pledges secured</strong></td><td>62</td><td>46</td><td>74.2%</td><td>38</td><td>+8 (+21.1%)</td><td><span class="sp sp-g">On track</span></td></tr>
+        <tr><td><strong>Donor retention rate</strong></td><td>75.0%</td><td>74.8%</td><td>99.7%</td><td>72.4%</td><td>+2.4pp</td><td><span class="sp sp-y">Near target</span></td></tr>
+        <tr><td><strong>New Dean's Council members</strong></td><td>90</td><td>64</td><td>71.1%</td><td>58</td><td>+6 (+10.3%)</td><td><span class="sp sp-y">Slight lag</span></td></tr>
+        <tr><td><strong>Planned giving commitments</strong></td><td>48</td><td>38</td><td>79.2%</td><td>28</td><td>+10 (+35.7%)</td><td><span class="sp sp-g">On track</span></td></tr>
+        <tr><td><strong>Campaign goal progress</strong></td><td>$300M cumulative</td><td>$287.4M</td><td>95.8%</td><td>$248.2M</td><td>+$39.2M</td><td><span class="sp sp-g">Exceeding</span></td></tr>
+        <tr><td><strong>Development office ROI</strong></td><td>5.0:1</td><td>6.7:1</td><td>134%</td><td>6.1:1</td><td>+0.6</td><td><span class="sp sp-g">Exceeding</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="chart-grid-2" style="margin-top:14px">
+      <div class="chart-box">
+        <div class="chart-title">Tier 1 report — goals vs. actuals radar (FY2025 Q3)</div>
+        <div style="position:relative;width:100%;height:200px"><canvas id="t1radar"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Investment efficiency — cost per $1 raised by channel</div>
+        <div style="position:relative;width:100%;height:200px"><canvas id="t1eff"></canvas></div>
+      </div>
+    </div>
+
+    <div class="content-grid" style="margin-top:14px">
+      <div class="content-item"><div class="content-item-title"><i class="fas fa-fire" style="color:var(--crimson);font-size:.7rem"></i>Liquidity &amp; Risk Heatmap</div><div class="content-item-desc">Pledge default risk matrix (4 at-risk = $1.84M exposure). Fund concentration: top 10 funds = 38.6% of AUM. Endowment payout stress-test: sustainable at 4.5%–5.2% range.</div></div>
+      <div class="content-item"><div class="content-item-title"><i class="fas fa-chart-line" style="color:var(--crimson);font-size:.7rem"></i>Strategic Opportunity Gap</div><div class="content-item-desc">Gap to $300M: $12.6M remaining. Planned giving pipeline ($186.4M notional) fully covers gap if 8% realizes in FY2026. 124 high-upgrade donors identified via RFM — represent $48M+ in untapped capacity.</div></div>
+      <div class="content-item"><div class="content-item-title"><i class="fas fa-lightbulb" style="color:var(--crimson);font-size:.7rem"></i>Q3 Recommendations</div><div class="content-item-desc">1. Accelerate Dean's Council recruitment — 26 behind pace. 2. Advance 3 planned gift conversations before Dec 31. 3. Approve $180K digital platform investment for FY2026 pipeline.</div></div>
+      <div class="content-item"><div class="content-item-title"><i class="fas fa-star" style="color:var(--crimson);font-size:.7rem"></i>Q3 Performance Highlights</div><div class="content-item-desc">Largest gift of the year: $4.2M for the Leadership &amp; Public Policy Chair (anonymous). Loyalty Society reached 2,500 members milestone. Class of 2025 gift campaign: 42.8% participation — best in 8 years.</div></div>
+    </div>
+  </div>
+
+  <!-- TIER 2 -->
+  <div class="tier-card">
+    <div class="tier-card-hdr">
+      <div class="tier-badge" style="background:var(--navy)">T2</div>
+      <div>
+        <div class="tier-name">Tier 2: Operational Team Dashboard</div>
+        <div class="tier-sub">📌 Audience: Gift Officers · Annual Giving Staff · Development Coordinators · Gift Services · Stewardship Team</div>
+      </div>
+    </div>
+
+    <div class="insight navy" style="margin-bottom:14px;font-size:.72rem"><strong>Audience Note:</strong> Tier 2 reports are built for front-line staff who execute day-to-day development work. They are data-dense, CRM-integrated, and updated in near real-time. Gift officers use these to manage their portfolios, track activity goals, and prioritize outreach. Distributed via Oracle BI / HART dashboard and weekly PDF digest.</div>
+
+    <div class="tier-meta">
+      <div class="tier-meta-item"><div class="tier-meta-val">Weekly</div><div class="tier-meta-lbl">Activity review</div></div>
+      <div class="tier-meta-item"><div class="tier-meta-val">Monthly</div><div class="tier-meta-lbl">Full operational report</div></div>
+      <div class="tier-meta-item"><div class="tier-meta-val">Real-time</div><div class="tier-meta-lbl">CRM dashboard</div></div>
+    </div>
+
+    <!-- MOCK GIFT OFFICER ACTIVITY TABLE -->
+    <div class="sec-hdr" style="margin-top:14px"><i class="fas fa-users"></i><h3>Sample Tier 2 — Gift Officer Activity Dashboard (FY2025 Q3 YTD)</h3><span class="sec-badge">Illustrative data · Names anonymized</span></div>
+    <table class="data-table">
+      <thead><tr><th>Officer</th><th>Portfolio Size</th><th>Visits YTD</th><th>Visit Goal</th><th>Proposals Out</th><th>Gifts Closed</th><th>$ Raised YTD</th><th>Ask-to-Close</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Officer A</strong> (Major Gifts)</td><td>148 prospects</td><td>96</td><td>90</td><td>12</td><td>9</td><td>$8.4M</td><td>75.0%</td><td><span class="sp sp-g">Exceeding</span></td></tr>
+        <tr><td><strong>Officer B</strong> (Major Gifts)</td><td>162 prospects</td><td>78</td><td>90</td><td>14</td><td>8</td><td>$6.2M</td><td>57.1%</td><td><span class="sp sp-y">Near target</span></td></tr>
+        <tr><td><strong>Officer C</strong> (Principal Gifts)</td><td>48 prospects</td><td>44</td><td>45</td><td>6</td><td>5</td><td>$22.4M</td><td>83.3%</td><td><span class="sp sp-g">Exceeding</span></td></tr>
+        <tr><td><strong>Officer D</strong> (Mid-Level)</td><td>284 prospects</td><td>112</td><td>120</td><td>28</td><td>18</td><td>$1.8M</td><td>64.3%</td><td><span class="sp sp-g">On track</span></td></tr>
+        <tr><td><strong>Officer E</strong> (Annual Giving)</td><td>1,248 prospects</td><td>48</td><td>60</td><td>—</td><td>342</td><td>$4.2M</td><td>—</td><td><span class="sp sp-y">Behind pace</span></td></tr>
+        <tr><td><strong>Officer F</strong> (Planned Gifts)</td><td>86 prospects</td><td>58</td><td>60</td><td>18</td><td>12</td><td>$14.6M</td><td>66.7%</td><td><span class="sp sp-g">On track</span></td></tr>
+      </tbody>
+    </table>
+
+    <div class="chart-grid-2" style="margin-top:14px">
+      <div class="chart-box">
+        <div class="chart-title">Portfolio health segmentation — team aggregate</div>
+        <div style="position:relative;width:100%;height:190px"><canvas id="t2seg"></canvas></div>
+        <div id="t2seg-leg" style="margin-top:6px"></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Pipeline stage distribution — $ value by stage ($M)</div>
+        <div style="position:relative;width:100%;height:190px"><canvas id="t2pipe"></canvas></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SECTION 6: FULL-FUNNEL MARKETING ══════════ -->
+<div class="section-panel" id="s6">
+  <div class="sec-hdr"><i class="fas fa-filter"></i><h3>Full-Funnel Philanthropic Marketing Strategy</h3><span class="sec-badge">7 Stages · Awareness → Legacy</span></div>
+
+  <div class="insight navy" style="margin-bottom:16px"><strong>How to read this section:</strong> The pipeline card grid below shows how 42,800 prospects narrow to 1,119 retained donors across 7 stages. Each card shows the stage pool, conversion rate to the next stage, and key tactics. Below the cards, four charts show channel attribution, cultivation velocity, touchpoint analysis, and year-over-year conversion trends. <em>All figures are illustrative sample benchmarks.</em></div>
+
+  <!-- PIPELINE STAGE CARDS — 7 in 2 rows (4 + 3) -->
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px" id="funnelCards">
+
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:10px;overflow:hidden;position:relative">
+      <div style="background:#A41034;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.72rem;font-weight:700;color:#fff">1 · Awareness</span>
+        <span style="font-size:16px">🔍</span>
+      </div>
+      <div style="padding:10px 12px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#A41034;line-height:1;margin-bottom:2px">42,800</div>
+        <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px">Total addressable alumni pool</div>
+        <div style="font-size:.65rem;color:var(--text);line-height:1.55">HKS brand content · Alumni magazine · Research publications · Social media · Events</div>
+        <div style="margin-top:8px;background:#fdf2f4;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.62rem;color:var(--muted)">Conv. to next stage</span>
+          <span style="font-size:.75rem;font-weight:700;color:#A41034">28%</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="background:#B82340;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.72rem;font-weight:700;color:#fff">2 · Engagement</span>
+        <span style="font-size:16px">💡</span>
+      </div>
+      <div style="padding:10px 12px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#B82340;line-height:1;margin-bottom:2px">12,000</div>
+        <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px">Engaged alumni prospects</div>
+        <div style="font-size:.65rem;color:var(--text);line-height:1.55">Email cultivation · Webinars · Class notes · Faculty spotlights · Event invitations</div>
+        <div style="margin-top:8px;background:#fdf2f4;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.62rem;color:var(--muted)">Conv. to next stage</span>
+          <span style="font-size:.75rem;font-weight:700;color:#B82340">42%</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="background:#7B0C27;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.72rem;font-weight:700;color:#fff">3 · Cultivation</span>
+        <span style="font-size:16px">🤝</span>
+      </div>
+      <div style="padding:10px 12px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#7B0C27;line-height:1;margin-bottom:2px">5,040</div>
+        <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px">Active cultivation prospects</div>
+        <div style="font-size:.65rem;color:var(--text);line-height:1.55">Gift officer visits · Campus tours · Stewardship events · RFM scoring · Wealth screening</div>
+        <div style="margin-top:8px;background:#fdf2f4;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.62rem;color:var(--muted)">Conv. to next stage</span>
+          <span style="font-size:.75rem;font-weight:700;color:#7B0C27">55%</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="background:#C69214;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.72rem;font-weight:700;color:#fff">4 · Solicitation</span>
+        <span style="font-size:16px">🎯</span>
+      </div>
+      <div style="padding:10px 12px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#C69214;line-height:1;margin-bottom:2px">2,772</div>
+        <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px">Proposals or asks in progress</div>
+        <div style="font-size:.65rem;color:var(--text);line-height:1.55">Formal proposal · Gift range discussion · Naming opportunity · Multi-year pledge structure</div>
+        <div style="margin-top:8px;background:#fffbeb;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.62rem;color:var(--muted)">Conv. to next stage</span>
+          <span style="font-size:.75rem;font-weight:700;color:#C69214">62%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px">
+
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="background:#1B2A4A;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.72rem;font-weight:700;color:#fff">5 · Gift Closure</span>
+        <span style="font-size:16px">✅</span>
+      </div>
+      <div style="padding:10px 12px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#1B2A4A;line-height:1;margin-bottom:2px">1,718</div>
+        <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px">Closed gifts booked</div>
+        <div style="font-size:.65rem;color:var(--text);line-height:1.55">Gift processing · Fund establishment · 48-hr acknowledgment · Pledge docs · GL posting</div>
+        <div style="margin-top:8px;background:#eef2ff;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.62rem;color:var(--muted)">Conv. to stewardship</span>
+          <span style="font-size:.75rem;font-weight:700;color:#1B2A4A">88%</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="background:#1D9E75;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.72rem;font-weight:700;color:#fff">6 · Stewardship</span>
+        <span style="font-size:16px">📋</span>
+      </div>
+      <div style="padding:10px 12px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#1D9E75;line-height:1;margin-bottom:2px">1,512</div>
+        <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px">Active stewardship relationships</div>
+        <div style="font-size:.65rem;color:var(--text);line-height:1.55">Fund balance reports · Impact stories · Named events · Annual reports · Recognition wall</div>
+        <div style="margin-top:8px;background:#f0fdf4;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.62rem;color:var(--muted)">Renewal rate</span>
+          <span style="font-size:.75rem;font-weight:700;color:#1D9E75">74%</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="background:#185FA5;padding:8px 12px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:.72rem;font-weight:700;color:#fff">7 · Renewal &amp; Legacy</span>
+        <span style="font-size:16px">🔄</span>
+      </div>
+      <div style="padding:10px 12px">
+        <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#185FA5;line-height:1;margin-bottom:2px">1,119</div>
+        <div style="font-size:.65rem;color:var(--muted);margin-bottom:8px">Loyal &amp; legacy-stage donors</div>
+        <div style="font-size:.65rem;color:var(--text);line-height:1.55">Loyalty Society renewal · Dean's Council upgrade · Leave a Legacy cultivation · Referrals</div>
+        <div style="margin-top:8px;background:#EEF6FF;border-radius:6px;padding:5px 8px;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-size:.62rem;color:var(--muted)">Retained long-term</span>
+          <span style="font-size:.75rem;font-weight:700;color:#185FA5">74.8%</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PIPELINE DROP VISUAL -->
+  <div class="chart-box-full" style="margin-bottom:16px">
+    <div class="chart-title">Prospect pool drop-off across 7 stages (illustrative sample data)</div>
+    <div style="position:relative;width:100%;height:200px"><canvas id="funnelBar"></canvas></div>
+  </div>
+
+  <div class="chart-grid-2">
+    <div class="chart-box">
+      <div class="chart-title">Channel attribution — FY2025 gifts by first-touch ($M)</div>
+      <div style="position:relative;width:100%;height:200px"><canvas id="mkt1"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Avg cultivation-to-close time (months) by gift segment</div>
+      <div style="position:relative;width:100%;height:200px"><canvas id="mkt2"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-grid-2" style="margin-top:0">
+    <div class="chart-box">
+      <div class="chart-title">Multi-touch attribution — avg touchpoints before gift close</div>
+      <div style="position:relative;width:100%;height:180px"><canvas id="mkt3"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Stage conversion rate trend (FY2021–FY2025)</div>
+      <div style="position:relative;width:100%;height:180px"><canvas id="mkt4"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SECTION 7: GIFT OFFICER KPIs ══════════ -->
+<div class="section-panel" id="s7">
+  <div class="sec-hdr"><i class="fas fa-user-tie"></i><h3>Gift Officer Performance Measurement</h3><span class="sec-badge">Core · Activity · Relationship · Advanced</span></div>
+
+  <div class="insight" style="margin-bottom:16px"><strong>📌 Audience Note:</strong> This section is designed for the <strong>Chief Development Officer, Director of Major Gifts, and direct supervisors</strong> who manage gift officer performance reviews. It is also useful for <strong>gift officers themselves</strong> to self-assess against benchmarks. All targets and sample data below are illustrative — actual targets should be calibrated to individual portfolio characteristics, seniority level, and institution size. <em>Sample officer data is anonymized and fabricated for blueprint demonstration.</em></div>
+
+  <!-- TEAM SCORECARD MOCK DATA -->
+  <div class="score-grid" style="margin-bottom:18px">
+    <div class="s-card cr"><div class="s-val cr">$99.2M</div><div class="s-lbl">Team total raised YTD (Q3 FY2025)</div><div class="s-delta up">↑ +12.2% vs prior year</div></div>
+    <div class="s-card go"><div class="s-val go">62.4%</div><div class="s-lbl">Team ask-to-close ratio</div><div class="s-delta up">↑ vs 55.8% team avg FY2024</div></div>
+    <div class="s-card nv"><div class="s-val nv">436</div><div class="s-lbl">Meaningful visits completed YTD</div><div class="s-delta ne">96.9% of Q3 pace target</div></div>
+    <div class="s-card gn"><div class="s-val gn">78</div><div class="s-lbl">Proposals submitted YTD</div><div class="s-delta up">↑ +14.7% vs Q3 FY2024</div></div>
+  </div>
+
+  <div class="chart-grid-2" style="margin-bottom:18px">
+    <div class="chart-box">
+      <div class="chart-title">Gift officer dollars raised YTD — FY2025 Q3 ($M)</div>
+      <div style="position:relative;width:100%;height:190px"><canvas id="go1"></canvas></div>
+    </div>
+    <div class="chart-box">
+      <div class="chart-title">Activity metrics — visits vs. proposals vs. goal (% of pace)</div>
+      <div style="position:relative;width:100%;height:190px"><canvas id="go2"></canvas></div>
+    </div>
+  </div>
+  <div class="metric-area">
+    <div class="metric-area-title">A. Core Performance Areas</div>
+    <div class="metric-grid">
+      <div class="metric-item cr"><div class="metric-name">Dollars Raised</div><div class="metric-desc">Total gifts closed (booked) by assigned portfolio. Primary measure of productivity. Weighted by gift type: outright > pledge > planned.</div><div class="metric-target">Target: $3.5M–$8M annually (varies by portfolio tier)</div></div>
+      <div class="metric-item go"><div class="metric-name">Gifts Closed</div><div class="metric-desc">Number of closed gifts at or above ask amount. Tracks conversion efficiency from proposal to close across all gift ranges.</div><div class="metric-target">Target: 18–30 closed gifts/year depending on portfolio</div></div>
+      <div class="metric-item nv"><div class="metric-name">Pipeline Value (12-month)</div><div class="metric-desc">Total expected value of cultivation prospects rated probable or imminent within the next 12 months. Validated quarterly against CRM activity.</div><div class="metric-target">Target: 3× annual goal in active pipeline</div></div>
+      <div class="metric-item gn"><div class="metric-name">Ask-to-Close Ratio</div><div class="metric-desc">% of formal proposals resulting in a gift. Tracks proposal quality and cultivation depth. Distinguishes between full-ask, partial, and declined outcomes.</div><div class="metric-target">Target: ≥60% ask-to-close rate</div></div>
+    </div>
+  </div>
+
+  <!-- Activity Metrics -->
+  <div class="metric-area">
+    <div class="metric-area-title">B. Activity &amp; Engagement Metrics</div>
+    <div class="metric-grid">
+      <div class="metric-item cr"><div class="metric-name">Meaningful Visits</div><div class="metric-desc">Substantive in-person or virtual meetings advancing cultivation: qualification, discovery, cultivation, solicitation, or stewardship purpose. Not social calls.</div><div class="metric-target">Target: 120–180 meaningful visits/year</div></div>
+      <div class="metric-item go"><div class="metric-name">Proposals Submitted</div><div class="metric-desc">Formal written asks delivered to rated prospects. Includes gift range, purpose, impact, and multi-year structure. Reviewed by CDO before submission.</div><div class="metric-target">Target: 24–40 proposals/year</div></div>
+      <div class="metric-item nv"><div class="metric-name">New Prospects Identified</div><div class="metric-desc">Net new donors added to assigned portfolio through discovery visits, alumni event attendance, referrals, or predictive modeling output.</div><div class="metric-target">Target: 40–60 new qualified prospects/year</div></div>
+      <div class="metric-item gn"><div class="metric-name">Upgrades Secured</div><div class="metric-desc">Donors moved to a higher giving level: annual → mid-level, mid-level → major, major → principal. Tracks effectiveness of cultivation strategy.</div><div class="metric-target">Target: 15–25 upgrades/year</div></div>
+    </div>
+  </div>
+
+  <!-- Relationship Metrics -->
+  <div class="metric-area">
+    <div class="metric-area-title">C. Relationship &amp; Strategic Metrics</div>
+    <div class="metric-grid">
+      <div class="metric-item cr"><div class="metric-name">Portfolio Engagement Score</div><div class="metric-desc">Composite score (1–100) measuring depth of relationship: visit frequency, communication responsiveness, event attendance, and giving history. Updated monthly via CRM.</div><div class="metric-target">Target: Avg portfolio score ≥65/100</div></div>
+      <div class="metric-item go"><div class="metric-name">Donor Intent Clarity</div><div class="metric-desc">% of top-rated prospects with documented philanthropic interest, giving capacity, and affinity scores on file. Ensures proposals are aligned with donor values.</div><div class="metric-target">Target: 90% of rated prospects have documented intent</div></div>
+      <div class="metric-item nv"><div class="metric-name">Multi-Year Commitment Rate</div><div class="metric-desc">% of closed gifts with multi-year pledge or recurring commitment attached. Indicates depth of relationship and revenue predictability.</div><div class="metric-target">Target: ≥40% of closed gifts are multi-year</div></div>
+      <div class="metric-item gn"><div class="metric-name">Legacy Identification Rate</div><div class="metric-desc">% of portfolio rated $1M+ capacity who have been introduced to planned giving. Tracks pipeline for Leave a Legacy program from frontline officers.</div><div class="metric-target">Target: 25% of $1M+ prospects discussed planned gifts</div></div>
+    </div>
+  </div>
+
+  <!-- Advanced Metrics -->
+  <div class="metric-area">
+    <div class="metric-area-title">D. Advanced Metrics — Relationship Velocity &amp; Predictive Indicators</div>
+    <div class="metric-grid">
+      <div class="metric-item cr"><div class="metric-name">Cultivation Velocity (days)</div><div class="metric-desc">Average number of days from first meaningful contact to gift closure by gift range. Tracked by officer and compared to team median. Shorter = stronger cultivation depth.</div><div class="metric-target">Best practice: &lt;18 months for $100K–$499K; &lt;36 months for $1M+</div></div>
+      <div class="metric-item go"><div class="metric-name">RFM-Based Capacity Gap</div><div class="metric-desc">Difference between actual giving and estimated giving capacity (from wealth screening). Identifies where officers are under-soliciting relative to donor potential.</div><div class="metric-target">Flag: donors giving &lt;10% of estimated capacity for 2+ years</div></div>
+      <div class="metric-item nv"><div class="metric-name">Reactivation Rate</div><div class="metric-desc">% of lapsed donors (18+ months no gift) successfully reengaged with a new gift. Measures effectiveness of win-back strategies and relationship longevity.</div><div class="metric-target">Target: ≥25% reactivation within 24 months of lapse</div></div>
+      <div class="metric-item gn"><div class="metric-name">Matching Gift Capture Rate</div><div class="metric-desc">% of gifts where employee matching gift was identified and successfully claimed. Unclaimed matching gifts represent unrealized revenue — tracked by officer and by employer.</div><div class="metric-target">Target: ≥85% matching gift capture for eligible donors</div></div>
+    </div>
+  </div>
+
+  <div class="insight" style="margin-top:4px"><strong>Best Practices for Measurement:</strong> KPIs should be reviewed weekly at team huddles (activity metrics), monthly in 1:1s (pipeline and dollars), and quarterly in formal performance reviews (all dimensions). No single metric tells the full story — a high visit count with low conversion rate signals cultivation quality issues, while high dollars with low visits may indicate heavy reliance on a few relationships.</div>
+</div>
+
+<!-- ══════════ SECTION 8: CASE STUDIES ══════════ -->
+<div class="section-panel" id="s8">
+  <div class="sec-hdr"><i class="fas fa-book-open"></i><h3>Anonymized Performance Case Studies — HKS-Themed</h3><span class="sec-badge">Blueprint Examples</span></div>
+
+  <div class="case-card">
+    <div class="case-hdr"><div class="case-title">Case Study A: Major Gift Upgrade via Multi-Year Cultivation — Mid-Career Fellow to Endowed Chair</div><span class="case-tag sp sp-r">Transformational Gift</span></div>
+    <div class="case-body">
+      <p>A Mid-Career Master in Public Policy alumnus (MPP '04) had been a consistent Annual Fund donor at the $2,500–$5,000 level for 12 consecutive years. Standard RFM scoring flagged this donor as high-frequency, high-recency — but wealth screening estimated capacity at $2M–$5M, suggesting a significant solicitation gap.</p>
+      <p style="margin-top:8px">The assigned gift officer initiated a discovery visit to understand the donor's philanthropic priorities. Over 18 months, three cultivation visits and two dean's roundtable invitations deepened the relationship. A formal proposal for a $2M endowed Faculty Chair in Public Leadership was submitted, aligning with the donor's expressed interest in developing future public servants.</p>
+      <p style="margin-top:8px">The gift closed at <strong>$2.2M over 5 years</strong>, establishing a named chair. The matching gift program added an additional $880K. Total impact: $3.08M. The donor joined the <strong>Littauer Society</strong> and has since referred two colleagues who are now in active cultivation at the $250K+ level.</p>
+    </div>
+    <div class="case-metrics">
+      <div class="case-metric"><div class="case-metric-val">$3.08M</div><div class="case-metric-lbl">Total impact (gift + match)</div></div>
+      <div class="case-metric"><div class="case-metric-val">18 mo</div><div class="case-metric-lbl">Cultivation to close</div></div>
+      <div class="case-metric"><div class="case-metric-val">2</div><div class="case-metric-lbl">Referrals generated</div></div>
+    </div>
+  </div>
+
+  <div class="case-card">
+    <div class="case-hdr"><div class="case-title">Case Study B: Donor Retention &amp; Streak Recovery — Loyalty Society Reactivation</div><span class="case-tag sp sp-b">Retention Strategy</span></div>
+    <div class="case-body">
+      <p>A Loyalty Society member with an 11-year giving streak (annual gifts of $1,000–$1,500) missed their FY2023 gift — the first gap in over a decade. Standard automated LYBUNT (Last Year But Unfortunately Not This Year) outreach was sent with no response.</p>
+      <p style="margin-top:8px">The annual giving team flagged this donor to the assigned gift officer due to the streak length and loyalty pattern. A personalized phone call from the officer — acknowledging the streak and asking if there was anything they could do better — revealed the donor had experienced a family health event and felt disconnected from HKS.</p>
+      <p style="margin-top:8px">The team arranged a personal note from a faculty member whose research the donor had previously funded. The donor reactivated in FY2024 at <strong>$2,500</strong> — an upgrade — and their streak was preserved with a notation. They are now in the <strong>Dean's Council discovery pipeline</strong> following a campus visit.</p>
+    </div>
+    <div class="case-metrics">
+      <div class="case-metric"><div class="case-metric-val">11+ yr</div><div class="case-metric-lbl">Streak preserved</div></div>
+      <div class="case-metric"><div class="case-metric-val">+67%</div><div class="case-metric-lbl">Gift upgrade on reactivation</div></div>
+      <div class="case-metric"><div class="case-metric-val">1</div><div class="case-metric-lbl">Faculty touchpoint deployed</div></div>
+    </div>
+  </div>
+
+  <div class="case-card">
+    <div class="case-hdr"><div class="case-title">Case Study C: Matching Gift Program — Unclaimed Revenue Recovery</div><span class="case-tag sp sp-g">Matching Gifts</span></div>
+    <div class="case-body">
+      <p>A data audit of FY2022 and FY2023 gifts revealed that <strong>$1.84M in potential matching gifts</strong> had gone unclaimed — donors who worked for matching-eligible employers had not submitted match requests. This represented 68 distinct employers across 214 individual gifts.</p>
+      <p style="margin-top:8px">The development analytics team built a targeted outreach campaign using employer data from the CRM. Personalized emails walked donors through the matching gift submission process, including direct links to their employer's matching portal. A follow-up stewardship call was made for gifts over $5,000.</p>
+      <p style="margin-top:8px">Within 90 days, <strong>$1.24M in matching gifts</strong> were recovered — a 67.4% capture rate on the identified pool. The team also identified 42 donors whose employers had changed matching policies, enabling proactive outreach for FY2024 gifts. Annual matching gift capture rate increased from 64% to 82% following the program implementation.</p>
+    </div>
+    <div class="case-metrics">
+      <div class="case-metric"><div class="case-metric-val">$1.24M</div><div class="case-metric-lbl">Matching gifts recovered</div></div>
+      <div class="case-metric"><div class="case-metric-val">67.4%</div><div class="case-metric-lbl">Capture rate on identified pool</div></div>
+      <div class="case-metric"><div class="case-metric-val">82%</div><div class="case-metric-lbl">New matching capture rate</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SECTION 9: GLOBAL DONOR MAP ══════════ -->
+<div class="section-panel" id="s9">
+  <div class="sec-hdr"><i class="fas fa-earth-americas"></i><h3>Global Alum &amp; Donor Distribution — City Lights Visualization</h3><span class="sec-badge">Interactive · Hover regions for details</span></div>
+
+  <div class="insight navy" style="margin-bottom:14px"><strong>Visualization Concept:</strong> Inspired by NASA's "Night Lights" satellite imagery, this map overlays glowing donor concentrations on a dark world map to show where HKS alumni and philanthropic support is most concentrated. Country and continent outlines are visible. Hover any glow region to see donor count and total giving. <strong>Blueprint design — all donor counts are illustrative sample data.</strong></div>
+
+  <div class="geo-wrap" id="geoWrap">
+    <div class="geo-overlay"></div>
+    <div class="geo-title-overlay">Harvard Kennedy School · Global Alumni &amp; Donor Network<div class="geo-sub-overlay">Hover glow regions for donor details · Intensity = donor concentration</div></div>
+
+    <svg id="geoSvg" viewBox="0 0 900 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;position:relative;z-index:3" aria-label="World map with country outlines and donor concentration glow overlays">
+      <defs>
+        <radialGradient id="gHot" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#FFC200" stop-opacity="1"/><stop offset="45%" stop-color="#FF6B00" stop-opacity=".65"/><stop offset="100%" stop-color="#FF6B00" stop-opacity="0"/></radialGradient>
+        <radialGradient id="gWarm" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4FC3F7" stop-opacity=".9"/><stop offset="50%" stop-color="#0288D1" stop-opacity=".45"/><stop offset="100%" stop-color="#0288D1" stop-opacity="0"/></radialGradient>
+        <radialGradient id="gCool" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#81C784" stop-opacity=".75"/><stop offset="55%" stop-color="#2E7D32" stop-opacity=".35"/><stop offset="100%" stop-color="#2E7D32" stop-opacity="0"/></radialGradient>
+        <filter id="softglow"><feGaussianBlur in="SourceGraphic" stdDeviation="7"/></filter>
+        <filter id="glowfine"><feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+
+      <!-- OCEAN -->
+      <rect width="900" height="500" fill="#060f1e"/>
+
+      <!-- ══ CONTINENT + COUNTRY OUTLINES ══
+           Land = dark blue-grey fill, lighter stroke for country borders
+           Simplified but recognizable Mercator-approximate coordinates -->
+
+      <!-- ── NORTH AMERICA ── -->
+      <!-- Canada -->
+      <path d="M68,45 L220,38 L245,55 L248,80 L230,90 L210,85 L190,95 L175,88 L155,92 L135,85 L115,90 L95,85 L75,75 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".6"/>
+      <!-- USA (contiguous) -->
+      <path d="M75,90 L220,85 L245,100 L248,130 L235,145 L220,155 L200,165 L180,168 L155,165 L130,162 L105,158 L85,150 L72,138 L68,118 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".6"/>
+      <!-- Alaska (simplified) -->
+      <path d="M25,55 L68,50 L72,65 L58,75 L40,72 L24,65 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Mexico -->
+      <path d="M78,158 L148,155 L162,168 L158,185 L145,195 L125,198 L105,190 L88,178 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Central America -->
+      <path d="M122,196 L158,184 L165,200 L155,215 L135,218 L118,210 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+      <!-- Cuba & Caribbean -->
+      <path d="M155,188 L185,185 L190,192 L178,198 L158,196 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+
+      <!-- ── SOUTH AMERICA ── -->
+      <path d="M135,215 L195,205 L222,215 L240,235 L248,265 L245,300 L235,335 L220,365 L200,390 L178,405 L158,400 L140,382 L125,355 L118,320 L120,285 L128,255 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".6"/>
+      <!-- Brazil border hint -->
+      <path d="M165,220 L225,218 L240,240 L238,280 L222,310 L200,330 L178,335 L158,320 L148,295 L150,265 L158,240 Z" fill="none" stroke="#1a2e4a" stroke-width=".4" stroke-dasharray="3,2"/>
+
+      <!-- ── EUROPE ── -->
+      <!-- UK -->
+      <path d="M358,68 L372,65 L378,75 L372,85 L360,88 L354,78 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Ireland -->
+      <path d="M348,72 L358,70 L360,80 L352,84 L345,78 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+      <!-- Iberia (Spain/Portugal) -->
+      <path d="M340,98 L378,95 L385,108 L380,122 L362,128 L342,125 L335,112 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- France -->
+      <path d="M360,88 L398,85 L410,98 L405,112 L385,115 L368,108 L358,98 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Germany/Benelux -->
+      <path d="M388,72 L418,70 L428,82 L422,95 L405,98 L392,90 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Scandinavia -->
+      <path d="M385,42 L432,38 L445,52 L440,68 L428,72 L415,68 L398,58 L385,52 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Italy -->
+      <path d="M398,102 L422,98 L435,110 L432,128 L420,140 L405,142 L395,130 L390,115 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Poland/E Europe -->
+      <path d="M422,68 L465,65 L475,80 L468,98 L448,102 L425,98 L418,82 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Balkans/Greece -->
+      <path d="M430,110 L468,105 L478,118 L472,135 L455,142 L435,138 L425,125 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+
+      <!-- ── AFRICA ── -->
+      <!-- North Africa -->
+      <path d="M338,130 L480,125 L492,140 L488,162 L462,168 L428,165 L395,168 L365,162 L338,155 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- West Africa -->
+      <path d="M338,155 L395,152 L405,168 L398,195 L380,215 L358,225 L338,218 L325,200 L325,178 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Central Africa -->
+      <path d="M400,168 L462,165 L478,182 L475,215 L458,238 L432,248 L408,242 L395,225 L392,200 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- East Africa (Horn + Great Lakes) -->
+      <path d="M462,162 L498,158 L515,172 L518,198 L508,225 L488,242 L465,240 L452,222 L448,195 L455,175 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Southern Africa -->
+      <path d="M368,240 L478,238 L490,258 L482,298 L462,328 L435,348 L408,352 L382,340 L360,318 L350,285 L355,258 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Madagascar -->
+      <path d="M492,268 L505,262 L515,278 L512,305 L500,315 L488,305 L485,285 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+
+      <!-- ── MIDDLE EAST ── -->
+      <path d="M480,128 L548,122 L565,138 L558,162 L535,175 L508,178 L488,168 L480,150 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Arabian Peninsula -->
+      <path d="M490,168 L552,160 L565,175 L558,208 L540,228 L515,232 L495,220 L488,198 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+
+      <!-- ── RUSSIA / CENTRAL ASIA ── -->
+      <path d="M460,28 L700,18 L730,35 L728,72 L695,88 L645,92 L590,88 L545,82 L500,78 L462,68 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Kazakhstan/Central Asia -->
+      <path d="M548,88 L655,82 L668,102 L658,128 L625,138 L575,135 L548,122 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+
+      <!-- ── SOUTH ASIA ── -->
+      <!-- India -->
+      <path d="M558,128 L638,122 L658,138 L652,168 L635,198 L608,225 L582,232 L558,218 L545,192 L542,162 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Sri Lanka -->
+      <path d="M608,228 L618,225 L622,238 L612,242 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+      <!-- Pakistan/Afghanistan -->
+      <path d="M520,118 L562,112 L572,128 L562,150 L538,158 L515,148 L510,132 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Bangladesh -->
+      <path d="M638,148 L658,145 L662,162 L648,168 L635,162 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+
+      <!-- ── EAST ASIA ── -->
+      <!-- China -->
+      <path d="M638,72 L748,62 L768,82 L762,118 L738,138 L708,148 L668,145 L645,132 L635,108 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".6"/>
+      <!-- Japan -->
+      <path d="M762,88 L778,82 L788,95 L782,112 L768,118 L758,108 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Korean peninsula -->
+      <path d="M745,88 L762,85 L765,102 L752,112 L742,105 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+      <!-- Taiwan -->
+      <path d="M748,132 L758,128 L762,138 L752,145 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+      <!-- Mongolia -->
+      <path d="M648,55 L748,48 L758,65 L748,78 L688,82 L648,75 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+
+      <!-- ── SOUTHEAST ASIA ── -->
+      <!-- Indochina/Thailand/Vietnam -->
+      <path d="M668,148 L718,142 L738,158 L732,188 L715,205 L695,208 L675,195 L662,175 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <!-- Malaysia/Indonesia (Sumatra/Java) -->
+      <path d="M688,215 L748,208 L768,222 L762,238 L738,245 L712,242 L692,232 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".5"/>
+      <path d="M745,240 L808,235 L825,248 L818,262 L795,268 L768,262 L748,252 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+      <!-- Philippines -->
+      <path d="M752,158 L768,152 L778,165 L772,182 L758,188 L748,175 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+
+      <!-- ── AUSTRALIA / OCEANIA ── -->
+      <path d="M698,302 L808,295 L840,318 L845,368 L825,405 L785,418 L742,415 L712,398 L692,368 L688,335 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".6"/>
+      <!-- New Zealand -->
+      <path d="M852,388 L865,382 L868,398 L858,412 L848,408 L845,395 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+      <!-- Papua New Guinea -->
+      <path d="M772,258 L818,252 L828,268 L818,285 L795,288 L772,278 Z" fill="#0d1f3a" stroke="#1e3a5f" stroke-width=".4"/>
+
+      <!-- ══ GLOW HEAT OVERLAYS (rendered on top of country outlines) ══ -->
+      <!-- Northeast USA / Boston -->
+      <ellipse class="geo-dot" data-region="Northeast USA (Boston/NYC)" data-donors="3,128" data-total="$63.4M" cx="185" cy="138" rx="36" ry="26" fill="url(#gHot)" filter="url(#softglow)" opacity=".9" style="cursor:pointer"/>
+      <!-- Washington DC -->
+      <ellipse class="geo-dot" data-region="Washington D.C." data-donors="984" data-total="$18.4M" cx="192" cy="155" rx="22" ry="16" fill="url(#gHot)" filter="url(#softglow)" opacity=".75" style="cursor:pointer"/>
+      <!-- California -->
+      <ellipse class="geo-dot" data-region="California" data-donors="842" data-total="$14.2M" cx="98" cy="148" rx="22" ry="16" fill="url(#gWarm)" filter="url(#softglow)" opacity=".72" style="cursor:pointer"/>
+      <!-- London / UK -->
+      <ellipse class="geo-dot" data-region="United Kingdom" data-donors="486" data-total="$9.6M" cx="364" cy="76" rx="18" ry="13" fill="url(#gWarm)" filter="url(#softglow)" opacity=".78" style="cursor:pointer"/>
+      <!-- Western Europe -->
+      <ellipse class="geo-dot" data-region="Western Europe (France/Germany/Benelux)" data-donors="542" data-total="$8.4M" cx="405" cy="88" rx="26" ry="16" fill="url(#gWarm)" filter="url(#softglow)" opacity=".68" style="cursor:pointer"/>
+      <!-- Middle East -->
+      <ellipse class="geo-dot" data-region="Middle East" data-donors="284" data-total="$12.6M" cx="518" cy="148" rx="24" ry="15" fill="url(#gWarm)" filter="url(#softglow)" opacity=".68" style="cursor:pointer"/>
+      <!-- South Asia India -->
+      <ellipse class="geo-dot" data-region="South Asia (India)" data-donors="368" data-total="$4.8M" cx="592" cy="172" rx="24" ry="16" fill="url(#gCool)" filter="url(#softglow)" opacity=".68" style="cursor:pointer"/>
+      <!-- East Asia -->
+      <ellipse class="geo-dot" data-region="East Asia (China/Japan/Korea)" data-donors="428" data-total="$6.2M" cx="710" cy="108" rx="32" ry="20" fill="url(#gCool)" filter="url(#softglow)" opacity=".7" style="cursor:pointer"/>
+      <!-- Australia -->
+      <ellipse class="geo-dot" data-region="Australia / Pacific" data-donors="186" data-total="$3.4M" cx="762" cy="362" rx="28" ry="18" fill="url(#gCool)" filter="url(#softglow)" opacity=".62" style="cursor:pointer"/>
+      <!-- Sub-Saharan Africa -->
+      <ellipse class="geo-dot" data-region="Sub-Saharan Africa" data-donors="142" data-total="$2.8M" cx="425" cy="268" rx="22" ry="14" fill="url(#gCool)" filter="url(#softglow)" opacity=".58" style="cursor:pointer"/>
+      <!-- Latin America -->
+      <ellipse class="geo-dot" data-region="Latin America" data-donors="216" data-total="$3.6M" cx="185" cy="305" rx="22" ry="16" fill="url(#gCool)" filter="url(#softglow)" opacity=".6" style="cursor:pointer"/>
+      <!-- Canada -->
+      <ellipse class="geo-dot" data-region="Canada" data-donors="248" data-total="$4.2M" cx="148" cy="68" rx="28" ry="16" fill="url(#gCool)" filter="url(#softglow)" opacity=".58" style="cursor:pointer"/>
+
+      <!-- Fine city light dots -->
+      <g fill="#FFC200" opacity=".22" filter="url(#glowfine)">
+        <circle cx="185" cy="138" r="2"/><circle cx="190" cy="142" r="1.2"/><circle cx="180" cy="135" r="1"/>
+        <circle cx="192" cy="155" r="1.8"/><circle cx="188" cy="158" r="1"/>
+        <circle cx="364" cy="76" r="1.5"/><circle cx="368" cy="80" r="1"/>
+        <circle cx="405" cy="88" r="1.2"/><circle cx="415" cy="85" r="1"/>
+        <circle cx="710" cy="108" r="1.5"/><circle cx="718" cy="112" r="1"/>
+        <circle cx="592" cy="172" r="1.2"/><circle cx="598" cy="168" r="1"/>
+        <circle cx="518" cy="148" r="1.2"/>
+      </g>
+    </svg>
+
+    <!-- Popup -->
+    <div class="geo-popup" id="geoPopup">
+      <div class="geo-popup-name" id="popRegion">Region</div>
+      <div class="geo-popup-row"><span>Alumni &amp; donors</span><span id="popDonors" style="font-weight:700;color:var(--navy)">—</span></div>
+      <div class="geo-popup-row"><span>Total giving (illustrative)</span><span id="popTotal" style="font-weight:700;color:var(--crimson)">—</span></div>
+      <div class="geo-popup-arrow"></div>
+    </div>
+
+    <!-- Legend -->
+    <div class="geo-legend">
+      <div class="geo-leg-item"><span class="geo-leg-dot" style="color:#FFC200;background:#FFC200"></span>High ($10M+)</div>
+      <div class="geo-leg-item"><span class="geo-leg-dot" style="color:#4FC3F7;background:#4FC3F7"></span>Medium ($3M–$10M)</div>
+      <div class="geo-leg-item"><span class="geo-leg-dot" style="color:#81C784;background:#81C784"></span>Emerging (&lt;$3M)</div>
+      <div class="geo-leg-item" style="margin-top:4px"><span style="width:20px;height:1px;background:#1e3a5f;display:inline-block;margin-right:4px"></span>Country outline</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px">
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.2rem;font-weight:700;color:var(--crimson);font-family:'Playfair Display',serif">8,642</div><div style="font-size:.68rem;color:var(--muted)">Total alumni donors globally (illustrative)</div></div>
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.2rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif">84</div><div style="font-size:.68rem;color:var(--muted)">Countries represented</div></div>
+    <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center"><div style="font-size:1.2rem;font-weight:700;color:var(--green);font-family:'Playfair Display',serif">42%</div><div style="font-size:.68rem;color:var(--muted)">International donors (non-US)</div></div>
+  </div>
+</div>
+  <!-- stats row already included in new section above -->
+</div>
+
+<!-- ══════════ SECTION 10: STRATEGIC PLAN ══════════ -->
+<div class="section-panel" id="s10">
+  <div class="chart-box-full">
+    <div class="range-bar" id="rb10"><span>Range:</span><button class="rb active" data-range="10">10yr</button><button class="rb" data-range="5">5yr</button><button class="rb" data-range="3">3yr</button></div>
+    <div class="chart-title">Revenue forecast scenarios FY2025–FY2030 ($M)</div>
+    <div class="leg"><div class="leg-item"><span class="leg-sw" style="background:#A41034"></span>Base (+6.2%)</div><div class="leg-item"><span class="leg-sw" style="background:#1D9E75"></span>Accelerated (+8.5%)</div><div class="leg-item"><span class="leg-sw" style="background:#64748b"></span>Conservative (+3.8%)</div></div>
+    <div style="position:relative;width:100%;height:220px"><canvas id="strat1"></canvas></div>
+  </div>
+  <div class="chart-grid-2">
+    <div class="chart-box"><div class="chart-title">$300M campaign pacing (cumulative $M)</div><div style="position:relative;width:100%;height:175px"><canvas id="strat2"></canvas></div></div>
+    <div class="chart-box"><div class="chart-title">Revenue diversification FY2006 vs FY2025</div><div style="position:relative;width:100%;height:175px"><canvas id="strat3"></canvas></div></div>
+  </div>
+  <div class="sec-hdr"><i class="fas fa-road"></i><h3>Strategic Initiative Feasibility Assessment</h3></div>
+  <table class="data-table">
+    <thead><tr><th>Initiative</th><th>Investment</th><th>3-yr Return</th><th>ROI</th><th>Timeline</th><th>Risk</th><th>Recommendation</th></tr></thead>
+    <tbody>
+      <tr><td>Major Gift Officer Expansion (+2 FTE)</td><td>$480K</td><td>$3.2M</td><td>6.7:1</td><td>FY2026</td><td><span class="sp sp-g">Low</span></td><td><span class="sp sp-g">Strongly recommended</span></td></tr>
+      <tr><td>Planned Giving Program Launch</td><td>$240K</td><td>$8.4M</td><td>35:1</td><td>FY2026–FY2028</td><td><span class="sp sp-y">Medium</span></td><td><span class="sp sp-g">Recommended</span></td></tr>
+      <tr><td>CRM Analytics Upgrade (AI scoring)</td><td>$380K</td><td>$2.8M</td><td>7.4:1</td><td>FY2026</td><td><span class="sp sp-y">Medium</span></td><td><span class="sp sp-g">Recommended</span></td></tr>
+      <tr><td>International Alumni Campaign</td><td>$480K</td><td>$2.4M</td><td>5.0:1</td><td>FY2027</td><td><span class="sp sp-r">Higher</span></td><td><span class="sp sp-y">Phased approach</span></td></tr>
+      <tr><td>Digital / Small-Dollar Platform</td><td>$180K</td><td>$0.8M</td><td>4.4:1</td><td>FY2026</td><td><span class="sp sp-g">Low</span></td><td><span class="sp sp-b">Engagement driver</span></td></tr>
+    </tbody>
+  </table>
+  <div class="insight" style="margin-top:14px"><strong>Strategic Recommendation:</strong> Prioritize <strong>Planned Giving Program Launch</strong> (35:1 ROI) and <strong>Major Gift Officer Expansion</strong> as the highest-yield FY2026 investments. Combined $720K investment projected to generate $11.6M over 3 years. Campaign is on course for <strong>$300M close by Q2 FY2026</strong>. Post-campaign strategy should focus on endowment deepening, annual fund renewal, and international donor diversification.</div>
+</div>
+
+<!-- ══════════ SECTION 11: APPENDIX ══════════ -->
+<div class="section-panel" id="s11">
+  <div class="inner-tabs" id="appendixTabs">
+    <button class="inner-tab active" data-ip="a1">Channel-Level Data</button>
+    <button class="inner-tab" data-ip="a2">Raw Metrics</button>
+    <button class="inner-tab" data-ip="a3">Glossary</button>
+    <button class="inner-tab" data-ip="a4">Data Sources</button>
+  </div>
+
+  <div class="inner-panel active" id="a1">
+    <div class="app-section-title">Detailed Channel-Level Gift Data — FY2025</div>
+    <table class="data-table">
+      <thead><tr><th>Channel</th><th>Gifts (#)</th><th>Total ($M)</th><th>Avg Gift</th><th>% of Revenue</th><th>YoY Growth</th><th>Cost/$ Raised</th></tr></thead>
+      <tbody>
+        <tr><td>Major Gift Officer (personal)</td><td>142</td><td>$68.4M</td><td>$481.7K</td><td>54.9%</td><td>+12.4%</td><td>$0.08</td></tr>
+        <tr><td>Direct Mail / Annual Fund</td><td>4,842</td><td>$8.6M</td><td>$1,776</td><td>6.9%</td><td>+4.2%</td><td>$0.32</td></tr>
+        <tr><td>Email Campaign</td><td>2,284</td><td>$4.8M</td><td>$2,102</td><td>3.9%</td><td>+18.6%</td><td>$0.12</td></tr>
+        <tr><td>Events &amp; Stewardship</td><td>486</td><td>$14.2M</td><td>$29,218</td><td>11.4%</td><td>+8.4%</td><td>$0.18</td></tr>
+        <tr><td>Planned / Deferred Gifts (realized)</td><td>28</td><td>$18.6M</td><td>$664.3K</td><td>14.9%</td><td>+24.6%</td><td>$0.04</td></tr>
+        <tr><td>Online / Digital Platform</td><td>1,842</td><td>$3.4M</td><td>$1,846</td><td>2.7%</td><td>+32.4%</td><td>$0.09</td></tr>
+        <tr><td>Corporate / Foundation</td><td>84</td><td>$6.6M</td><td>$78.6K</td><td>5.3%</td><td>+6.8%</td><td>$0.14</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="inner-panel" id="a2">
+    <div class="app-section-title">Raw Performance Metrics — FY2025 Summary</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+      <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-size:.68rem;font-weight:700;color:var(--crimson);text-transform:uppercase;margin-bottom:8px">Revenue Metrics</div>
+        <div class="prog-row"><span class="prog-label">Total gifts received</span><span class="prog-val">$124.6M</span></div>
+        <div class="prog-row"><span class="prog-label">Total donors</span><span class="prog-val">8,642</span></div>
+        <div class="prog-row"><span class="prog-label">Avg gift size</span><span class="prog-val">$14,420</span></div>
+        <div class="prog-row"><span class="prog-label">Median gift size</span><span class="prog-val">$1,250</span></div>
+        <div class="prog-row"><span class="prog-label">Largest single gift</span><span class="prog-val">$12.4M</span></div>
+      </div>
+      <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-size:.68rem;font-weight:700;color:var(--navy);text-transform:uppercase;margin-bottom:8px">Efficiency Metrics</div>
+        <div class="prog-row"><span class="prog-label">Cost per dollar raised</span><span class="prog-val">$0.149</span></div>
+        <div class="prog-row"><span class="prog-label">ROI (gifts / budget)</span><span class="prog-val">6.7:1</span></div>
+        <div class="prog-row"><span class="prog-label">Cost per donor acquired</span><span class="prog-val">$284</span></div>
+        <div class="prog-row"><span class="prog-label">Proposal close rate</span><span class="prog-val">62.4%</span></div>
+        <div class="prog-row"><span class="prog-label">Matching gift capture</span><span class="prog-val">82.0%</span></div>
+      </div>
+      <div style="background:var(--light);border:1px solid var(--border);border-radius:8px;padding:12px">
+        <div style="font-size:.68rem;font-weight:700;color:var(--green);text-transform:uppercase;margin-bottom:8px">Retention Metrics</div>
+        <div class="prog-row"><span class="prog-label">Overall retention rate</span><span class="prog-val">74.8%</span></div>
+        <div class="prog-row"><span class="prog-label">Major donor retention</span><span class="prog-val">82.4%</span></div>
+        <div class="prog-row"><span class="prog-label">Lapsed donor rate</span><span class="prog-val">11.2%</span></div>
+        <div class="prog-row"><span class="prog-label">Reactivation rate</span><span class="prog-val">28.4%</span></div>
+        <div class="prog-row"><span class="prog-label">Pledge collection rate</span><span class="prog-val">98.4%</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inner-panel" id="a3">
+    <div class="app-section-title">Glossary of Key Terms</div>
+    <table class="data-table" style="text-align:left">
+      <thead><tr><th style="width:22%;text-align:left">Term</th><th style="text-align:left">Definition</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:left"><strong>Gift Fund</strong></td><td style="text-align:left">A restricted or endowed account established to hold and invest donor contributions for a specific purpose (e.g., named scholarship, research program, endowed chair).</td></tr>
+        <tr><td style="text-align:left"><strong>Endowment Distribution</strong></td><td style="text-align:left">The annual spend from invested endowed funds, typically calculated as a % of the trailing 12-quarter average market value (commonly 4.5–5.5%).</td></tr>
+        <tr><td style="text-align:left"><strong>RFM Analysis</strong></td><td style="text-align:left">Recency-Frequency-Monetary scoring model that ranks donors by how recently they gave, how often they give, and how much they give — used for targeting and upgrade identification.</td></tr>
+        <tr><td style="text-align:left"><strong>LYBUNT</strong></td><td style="text-align:left">Last Year But Unfortunately Not This Year — donors who gave in the prior fiscal year but have not yet given in the current year. Key reactivation target group.</td></tr>
+        <tr><td style="text-align:left"><strong>SYBUNT</strong></td><td style="text-align:left">Some Year But Unfortunately Not This Year — donors who gave at some point historically but not in the recent cycle. Broader lapsed cohort.</td></tr>
+        <tr><td style="text-align:left"><strong>Pledge Receivable</strong></td><td style="text-align:left">A multi-year commitment by a donor to make a gift in the future, recorded as a receivable on the institution's balance sheet per FASB accounting standards.</td></tr>
+        <tr><td style="text-align:left"><strong>Planned Gift / Bequest</strong></td><td style="text-align:left">A deferred charitable gift arranged during a donor's lifetime but realized at death (e.g., bequest in a will, charitable remainder trust, life insurance designation).</td></tr>
+        <tr><td style="text-align:left"><strong>Major Gift</strong></td><td style="text-align:left">Defined at HKS as a gift or pledge of $100,000 or more. Typically managed by assigned major gift officers through personalized cultivation and solicitation.</td></tr>
+        <tr><td style="text-align:left"><strong>CASE/VSE</strong></td><td style="text-align:left">Council for Advancement and Support of Education / Voluntary Support of Education — the industry standard for counting, reporting, and benchmarking philanthropic gifts in higher education.</td></tr>
+        <tr><td style="text-align:left"><strong>Ask-to-Close Ratio</strong></td><td style="text-align:left">The percentage of formal solicitations (proposals) that result in a closed gift at any level. Industry best practice: ≥60%.</td></tr>
+        <tr><td style="text-align:left"><strong>Cultivation Velocity</strong></td><td style="text-align:left">The average number of months from first meaningful contact with a gift officer to gift closure. Shorter cycles indicate stronger relationship depth and proposal readiness.</td></tr>
+        <tr><td style="text-align:left"><strong>Littauer Society</strong></td><td style="text-align:left">HKS named giving society for donors who have made cumulative lifetime contributions of $100,000 or more to Harvard Kennedy School.</td></tr>
+        <tr><td style="text-align:left"><strong>Dean's Council</strong></td><td style="text-align:left">HKS leadership giving society recognizing donors who contribute $10,000 or more annually. Members receive enhanced stewardship and senior leadership access.</td></tr>
+        <tr><td style="text-align:left"><strong>Loyalty Society</strong></td><td style="text-align:left">HKS recognition program for donors who have given for 5 or more consecutive fiscal years, regardless of gift size. Celebrates consistency and institutional commitment.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="inner-panel" id="a4">
+    <div class="app-section-title">Data Sources &amp; Attribution</div>
+    <div class="insight gold"><strong>Reminder:</strong> This is a portfolio case study. Fund-level and gift-level data is illustrative. The following sources were used for anchoring publicly available figures.</div>
+    <table class="data-table" style="margin-top:12px;text-align:left">
+      <thead><tr><th style="text-align:left">Source</th><th style="text-align:left">Data Used</th><th style="text-align:left">Accessibility</th></tr></thead>
+      <tbody>
+        <tr><td style="text-align:left">Harvard Kennedy School Annual Reports</td><td style="text-align:left">Enrollment, program overviews, campaign milestones</td><td style="text-align:left">Publicly available at hks.harvard.edu</td></tr>
+        <tr><td style="text-align:left">Harvard University Financial Report (FY2024)</td><td style="text-align:left">FAS total revenues, endowment value, distribution rates</td><td style="text-align:left">Publicly available at finance.harvard.edu</td></tr>
+        <tr><td style="text-align:left">Harvard Management Company Annual Report</td><td style="text-align:left">HMC returns, endowment total, investment philosophy</td><td style="text-align:left">Publicly available at hmc.harvard.edu</td></tr>
+        <tr><td style="text-align:left">CASE Voluntary Support of Education Survey</td><td style="text-align:left">Peer benchmarking, industry retention and ROI averages</td><td style="text-align:left">Subscription / summary publicly available</td></tr>
+        <tr><td style="text-align:left">Illustrative sample data (all fund/gift-level)</td><td style="text-align:left">Gift fund balances, donor counts, pledge details, budgets</td><td style="text-align:left">Blueprint design — not real data</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:16px;padding:14px;background:#fdf2f4;border:1px solid #fccdd4;border-radius:8px;font-size:.76rem;line-height:1.65;color:var(--text)">
+      <strong style="color:var(--crimson)">© 2025 Narissara Khomkhai</strong><br>
+      This report was created by Narissara Khomkhai solely as a portfolio piece demonstrating gift fund reporting architecture, dashboard design, and philanthropic analytics methodology. All rights reserved. Not affiliated with, endorsed by, or produced by Harvard University or Harvard Kennedy School. This document should not be cited as an official source of information.
+    </div>
+  </div>
+</div>
+
+<!-- COPYRIGHT -->
+<div class="copyright-footer">
+  © 2025 Narissara Khomkhai · Portfolio Case Study · <a href="https://nasdaqguru.github.io" target="_blank" rel="noopener" style="color:var(--crimson)">NasdaqGuru.github.io</a> · Not an official Harvard University document · All data at fund/gift level is illustrative
+</div>
+
+</div><!-- /.page -->
+</div><!-- /#app -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+(function(){
+var C={cr:'#A41034',go:'#C69214',nv:'#1B2A4A',gn:'#1D9E75',am:'#BA7517',rd:'#A32D2D',bl:'#185FA5',pu:'#534AB7',mu:'#64748b'};
+var charts={};
+function mk(id,cfg){if(charts[id])charts[id].destroy();var el=document.getElementById(id);if(!el)return null;charts[id]=new Chart(el,cfg);return charts[id];}
+
+/* ─── PILL TOGGLE ─── */
+function togglePill(id,card){
+  var el=document.getElementById(id);
+  var open=el.style.display!=='none';
+  el.style.display=open?'none':'block';
+  card.style.boxShadow=open?'':'0 0 0 2px rgba(164,16,52,.2)';
+}
+
+/* ─── COVER / MODAL logic ─── */
+document.getElementById('openDisclaimer').onclick=function(){document.getElementById('disclaimerModal').classList.add('open');};
+document.getElementById('closeDisclaimer').onclick=function(){document.getElementById('disclaimerModal').classList.remove('open');};
+document.getElementById('disclaimerOk').onclick=function(){document.getElementById('disclaimerModal').classList.remove('open');};
+document.getElementById('openDisclaimerInner').onclick=function(e){e.preventDefault();document.getElementById('disclaimerModal').classList.add('open');};
+document.getElementById('enterBtn').onclick=function(){
+  document.getElementById('cover').style.display='none';
+  document.getElementById('app').style.display='block';
+  setTimeout(function(){initCharts();},100);
+};
+
+/* ─── SECTION NAV ─── */
+document.querySelectorAll('#mainNav .ss-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    document.querySelectorAll('#mainNav .ss-btn').forEach(function(b){b.classList.remove('active');});
+    document.querySelectorAll('.section-panel').forEach(function(p){p.classList.remove('active');});
+    btn.classList.add('active');
+    document.getElementById(btn.getAttribute('data-sec')).classList.add('active');
+  });
+});
+
+/* ─── APPENDIX TABS ─── */
+document.querySelectorAll('#appendixTabs .inner-tab').forEach(function(tab){
+  tab.addEventListener('click',function(){
+    document.querySelectorAll('#appendixTabs .inner-tab').forEach(function(t){t.classList.remove('active');});
+    document.querySelectorAll('.inner-panel').forEach(function(p){p.classList.remove('active');});
+    tab.classList.add('active');
+    document.getElementById(tab.getAttribute('data-ip')).classList.add('active');
+  });
+});
+
+/* ─── GEO MAP POPUP ─── */
+var popup=document.getElementById('geoPopup');
+document.querySelectorAll('.geo-dot').forEach(function(dot){
+  dot.addEventListener('mouseenter',function(e){
+    var rect=document.getElementById('geoWrap').getBoundingClientRect();
+    var svgRect=document.getElementById('geoSvg').getBoundingClientRect();
+    var svgX=parseFloat(dot.getAttribute('cx'));
+    var svgY=parseFloat(dot.getAttribute('cy'));
+    var scaleX=svgRect.width/900;
+    var scaleY=svgRect.height/500;
+    var px=svgRect.left-rect.left+svgX*scaleX;
+    var py=svgRect.top-rect.top+svgY*scaleY;
+    popup.style.left=px+'px';
+    popup.style.top=py+'px';
+    popup.style.display='block';
+    document.getElementById('popRegion').textContent=dot.getAttribute('data-region');
+    document.getElementById('popDonors').textContent=dot.getAttribute('data-donors');
+    document.getElementById('popTotal').textContent=dot.getAttribute('data-total');
+  });
+  dot.addEventListener('mouseleave',function(){popup.style.display='none';});
+});
+
+/* ─── ALL CHART DATA ─── */
+var revYrs=['FY06','FY07','FY08','FY09','FY10','FY11','FY12','FY13','FY14','FY15','FY16','FY17','FY18','FY19','FY20','FY21','FY22','FY23','FY24','FY25'];
+var revAct=[48.2,54.6,62.4,48.8,49.2,56.4,62.8,68.4,74.6,82.6,88.4,94.8,98.6,106.4,94.2,102.8,116.8,118.4,114.1,124.6];
+var donYrs=['FY06','FY08','FY10','FY12','FY14','FY16','FY18','FY20','FY22','FY24','FY25'];
+var donCnt=[5584,6124,6482,6948,7284,7642,8042,7624,8124,8448,8642];
+
+function buildRev1(range){
+  var n=range==='20'?20:parseInt(range);
+  var start=Math.max(0,revYrs.length-n);
+  var yrs=revYrs.slice(start);var act=revAct.slice(start);
+  var allLbls=yrs.concat(['FY26','FY27','FY28']);
+  var actData=act.concat([null,null,null]);
+  var fcast=act.map(function(){return null;}).concat([133.2,142.4,151.8]);
+  mk('rev1',{type:'bar',data:{labels:allLbls,datasets:[{label:'Actual',data:actData,backgroundColor:allLbls.map(function(_,i){return i<act.length?C.cr:'rgba(198,146,20,.3)';}),borderRadius:3,borderWidth:0},{label:'Forecast',data:fcast,backgroundColor:'rgba(198,146,20,.45)',borderColor:C.go,borderWidth:1.5,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.parsed.y!=null?' $'+c.parsed.y.toFixed(1)+'M':'';}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}}}}});
+}
+
+function buildDon1(range){
+  var n=parseInt(range);var start=Math.max(0,donYrs.length-n/2);
+  mk('don1',{type:'line',data:{labels:donYrs.slice(start),datasets:[{data:donCnt.slice(start),borderColor:C.cr,backgroundColor:'rgba(164,16,52,.07)',borderWidth:2,pointBackgroundColor:C.cr,pointRadius:4,fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y.toLocaleString()+' donors';}}}},scales:{y:{min:5000,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v.toLocaleString();}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+}
+
+function buildStrat1(range){
+  var n=parseInt(range);
+  var allY=['FY21','FY22','FY23','FY24','FY25','FY26','FY27','FY28','FY29','FY30'];
+  var allA=[102.8,116.8,118.4,114.1,124.6];
+  var base=allA.concat([133.2,142.4,151.8,162.2,173.4]);
+  var accel=allA.concat([135.2,146.8,159.2,172.8,187.4]);
+  var cons=allA.concat([129.4,134.2,139.2,144.4,150.0]);
+  var start=Math.max(0,allY.length-n);
+  mk('strat1',{type:'line',data:{labels:allY.slice(start),datasets:[{label:'Base',data:base.slice(start),borderColor:C.cr,backgroundColor:'rgba(164,16,52,.06)',borderWidth:2,pointRadius:3,fill:true,tension:.3},{label:'Accelerated',data:accel.slice(start),borderColor:C.gn,backgroundColor:'transparent',borderWidth:2,borderDash:[6,3],pointRadius:3,fill:false,tension:.3},{label:'Conservative',data:cons.slice(start),borderColor:C.mu,backgroundColor:'transparent',borderWidth:1.5,borderDash:[4,4],pointRadius:3,fill:false,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': $'+c.parsed.y.toFixed(1)+'M';}}}},scales:{y:{min:90,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+}
+
+function initCharts(){
+  buildRev1('20');
+
+  /* prog1 — program breakdown */
+  (function(){
+    var lbls=["Dean's Council","Littauer Society","Loyalty Society","Leave a Legacy","Class Campaign","Annual Fund","Other"];
+    var vals=[38.4,42.8,14.2,18.6,0.5,6.8,3.3];
+    var bg=[C.cr,C.go,C.nv,C.pu,C.bl,C.gn,C.am];
+    mk('prog1',{type:'doughnut',data:{labels:lbls,datasets:[{data:vals,backgroundColor:bg,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'52%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': $'+c.parsed.toFixed(1)+'M';}}}}}});
+    var leg=document.getElementById('prog1-leg');
+    lbls.forEach(function(l,i){var d=document.createElement('div');d.className='leg-item';d.innerHTML='<span class="leg-sw" style="background:'+bg[i]+'"></span><span>'+l+'</span>';leg.appendChild(d);});
+  })();
+
+  /* fund1 */
+  (function(){
+    var lbls=['Named Chairs','Scholarship/Fellows','Research Programs','Program Endow.','Annual/Unrestricted','Capital/Facilities'];
+    var vals=[486.4,362.8,284.6,248.2,296.6,165.4];
+    var bg=[C.cr,C.nv,C.go,C.gn,C.am,C.bl];
+    mk('fund1',{type:'doughnut',data:{labels:lbls,datasets:[{data:vals,backgroundColor:bg,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': $'+c.parsed.toFixed(1)+'M';}}}}}});
+    var leg=document.getElementById('fund1-leg');
+    lbls.forEach(function(l,i){var d=document.createElement('div');d.className='leg-item';d.innerHTML='<span class="leg-sw" style="background:'+bg[i]+'"></span><span>'+l+'</span>';leg.appendChild(d);});
+  })();
+
+  mk('fund2',{type:'line',data:{labels:['FY18','FY19','FY20','FY21','FY22','FY23','FY24','FY25'],datasets:[{data:[44.2,48.6,42.8,58.4,64.2,60.8,64.0,68.4],borderColor:C.cr,backgroundColor:'rgba(164,16,52,.07)',borderWidth:2,pointBackgroundColor:C.cr,pointRadius:4,fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y.toFixed(1)+'M distribution';}}}},scales:{y:{min:35,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+  buildDon1('20');
+
+  (function(){
+    var lbls=['Alumni (MPP/MPA)','Alumni (PhD/Other)','Faculty & Staff','Foundations','Corporations','Individual/Friend'];
+    var vals=[38.4,18.6,12.4,14.8,10.2,5.6];
+    var bg=[C.cr,C.nv,C.go,C.gn,C.am,C.bl];
+    mk('don3',{type:'doughnut',data:{labels:lbls,datasets:[{data:vals,backgroundColor:bg,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': '+c.parsed.toFixed(1)+'%';}}}}}});
+    var leg=document.getElementById('don3-leg');
+    lbls.forEach(function(l,i){var d=document.createElement('div');d.className='leg-item';d.innerHTML='<span class="leg-sw" style="background:'+bg[i]+'"></span><span>'+l+'</span>';leg.appendChild(d);});
+  })();
+
+  mk('pled1',{type:'bar',data:{labels:['Due FY25','Due FY26','Due FY27','Due FY28','Due FY29+'],datasets:[{data:[42.8,48.6,38.4,32.2,24.4],backgroundColor:[C.rd,C.am,C.go,C.bl,C.nv],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y.toFixed(1)+'M';}}}}  ,scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  mk('pled2',{type:'line',data:{labels:['FY18','FY19','FY20','FY21','FY22','FY23','FY24','FY25'],datasets:[{data:[96.2,97.4,94.8,97.2,98.1,98.6,97.8,98.4],borderColor:C.gn,backgroundColor:'rgba(29,158,117,.08)',borderWidth:2,pointBackgroundColor:C.gn,pointRadius:5,fill:true,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y.toFixed(1)+'%';}}}},scales:{y:{min:93,max:100,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+  mk('bud1',{type:'bar',data:{labels:['Personnel','Major Gift','Events','Stewardship','Tech','Research','Travel','Marketing'],datasets:[{label:'Budget',data:[9840,2480,1840,1240,980,648,484,604],backgroundColor:'rgba(27,42,74,.2)',borderColor:C.nv,borderWidth:1,borderRadius:3},{label:'Actual',data:[8964,2246,1984,1082,892,584,496,542],backgroundColor:C.cr,borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': $'+c.parsed.y.toLocaleString()+'K';}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:8},callback:function(v){return'$'+v/1000+'M';}}},x:{grid:{display:false},ticks:{font:{size:8},maxRotation:45}}}}});
+  mk('bud2',{type:'line',data:{labels:['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'],datasets:[{label:'Actuals',data:[1240,1380,1420,1560,1640,1720,1480,1380,1440,1520,1580,null],borderColor:C.cr,backgroundColor:'rgba(164,16,52,.07)',borderWidth:2,pointBackgroundColor:C.cr,pointRadius:4,fill:true,tension:.3},{label:'Forecast',data:[null,null,null,null,null,null,null,null,null,null,1580,1620],borderColor:C.go,backgroundColor:'transparent',borderWidth:2,borderDash:[5,5],pointBackgroundColor:C.go,pointRadius:4,fill:false,tension:.3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return c.parsed.y?' $'+c.parsed.y.toLocaleString()+'K':null;}}}},scales:{y:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v/1000+'M';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+  /* ─── TIER 1 CHARTS ─── */
+  mk('t1radar',{type:'radar',data:{labels:['Gifts Raised','Major Gifts','Pledges','Retention','Dean\'s Council','Planned Giving','Campaign Pacing'],datasets:[{label:'Goal',data:[100,100,100,100,100,100,100],borderColor:'rgba(198,146,20,.45)',backgroundColor:'rgba(198,146,20,.06)',borderWidth:1.5,pointRadius:2,borderDash:[4,3]},{label:'Q3 Actual',data:[79.6,78.6,74.2,99.7,71.1,79.2,95.8],borderColor:C.cr,backgroundColor:'rgba(164,16,52,.14)',borderWidth:2,pointBackgroundColor:C.cr,pointRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:9},color:C.mu}}},scales:{r:{min:0,max:110,ticks:{font:{size:8},stepSize:25},grid:{color:'rgba(0,0,0,.08)'},angleLines:{color:'rgba(0,0,0,.08)'},pointLabels:{font:{size:8}}}}}});
+  mk('t1eff',{type:'bar',data:{labels:['Major Gifts','Planned','Events','Email','Digital','Direct Mail','Corporate'],datasets:[{data:[0.08,0.04,0.18,0.12,0.09,0.32,0.14],backgroundColor:function(ctx){return ctx.parsed.y<=0.10?C.gn:ctx.parsed.y<=0.18?C.am:C.rd;},borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y.toFixed(2)+' per $1 raised';}}}},scales:{y:{min:0,max:0.4,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v.toFixed(2);}}},x:{grid:{display:false},ticks:{font:{size:8},maxRotation:45}}}}});
+
+  /* ─── TIER 2 CHARTS ─── */
+  (function(){
+    var lbls=['Active cultivation','Solicitation ready','Stewardship','Reactivation needed','Discovery','Lapsed/transition'];
+    var vals=[28,12,22,15,14,9];var bg=[C.cr,C.go,C.gn,C.am,C.nv,C.mu];
+    mk('t2seg',{type:'doughnut',data:{labels:lbls,datasets:[{data:vals,backgroundColor:bg,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'52%',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.label+': '+c.parsed+'%';}}}}}});
+    var leg=document.getElementById('t2seg-leg');if(!leg)return;
+    lbls.forEach(function(l,i){var d=document.createElement('div');d.className='leg-item';d.innerHTML='<span class="leg-sw" style="background:'+bg[i]+'"></span><span>'+l+' ('+vals[i]+'%)</span>';leg.appendChild(d);});
+  })();
+  mk('t2pipe',{type:'bar',data:{labels:['Identification','Qualification','Discovery','Cultivation','Solicitation','Stewardship'],datasets:[{data:[48.6,38.4,32.2,58.4,24.8,86.4],backgroundColor:[C.mu,C.nv,C.bl,C.am,C.go,C.cr],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y.toFixed(1)+'M';}}}},scales:{y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:8},maxRotation:30}}}}});
+
+  /* ─── GIFT OFFICER CHARTS ─── */
+  mk('go1',{type:'bar',data:{labels:['Officer A','Officer B','Officer C','Officer D','Officer E','Officer F'],datasets:[{data:[8.4,6.2,22.4,1.8,4.2,14.6],backgroundColor:[C.gn,C.am,C.cr,C.am,C.am,C.gn],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y.toFixed(1)+'M';}}}},scales:{y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  mk('go2',{type:'bar',data:{labels:['A','B','C','D','E','F'],datasets:[{label:'Visits % of goal',data:[107,87,98,93,80,97],backgroundColor:C.cr,borderRadius:3,borderWidth:0},{label:'Proposals % of goal',data:[100,117,100,93,0,113],backgroundColor:C.nv,borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:9},color:C.mu}},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y+'%';}}}},scales:{y:{min:0,max:135,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+  /* ─── MARKETING FUNNEL CHARTS ─── */
+  mk('funnelBar',{type:'bar',data:{labels:['1·Awareness','2·Engagement','3·Cultivation','4·Solicitation','5·Gift Closure','6·Stewardship','7·Renewal'],datasets:[{label:'Prospects',data:[42800,12000,5040,2772,1718,1512,1119],backgroundColor:['#A41034','#B82340','#7B0C27','#C69214','#1B2A4A','#1D9E75','#185FA5'],borderRadius:4,borderWidth:0}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.x.toLocaleString()+' prospects';}}}},scales:{x:{grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return v>=1000?v/1000+'K':v;}}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+  mk('mkt1',{type:'bar',data:{labels:['Major Gift Officer','Planned Gifts','Events','Direct Mail','Email','Digital','Corporate'],datasets:[{data:[68.4,18.6,14.2,8.6,4.8,3.4,6.6],backgroundColor:[C.cr,C.pu,C.nv,C.go,C.am,C.bl,C.gn],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y.toFixed(1)+'M';}}}},scales:{y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:8},maxRotation:45}}}}});
+  mk('mkt2',{type:'bar',data:{labels:['$5M+','$1M+','$250K+','$100K+','$25K+'],datasets:[{data:[42,28,18,14,8],backgroundColor:[C.cr,C.nv,C.go,C.gn,C.am],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.x+' months avg';}}}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:function(v){return v+' mo';}}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  mk('mkt3',{type:'bar',data:{labels:['$5M+','$1M–$5M','$250K–$1M','$100K–$250K','$25K–$99K'],datasets:[{data:[32,22,14,9,5],backgroundColor:[C.cr,C.nv,C.go,C.gn,C.am],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.parsed.y+' touchpoints';}}}},scales:{y:{grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  mk('mkt4',{type:'line',data:{labels:['FY2021','FY2022','FY2023','FY2024','FY2025'],datasets:[{label:'Ask-to-close %',data:[48,52,56,60,62],borderColor:C.cr,borderWidth:2,pointBackgroundColor:C.cr,pointRadius:4,tension:.3},{label:'Overall funnel conv. %',data:[2.1,2.4,2.6,2.8,3.1],borderColor:C.go,borderWidth:2,pointBackgroundColor:C.go,pointRadius:4,tension:.3,yAxisID:'y2'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' '+c.dataset.label+': '+c.parsed.y+'%';}}}},scales:{y:{min:40,grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{size:9},callback:function(v){return v+'%';}}},y2:{position:'right',min:1,max:5,grid:{display:false},ticks:{font:{size:9},callback:function(v){return v+'%';}}},x:{grid:{display:false},ticks:{font:{size:9}}}}}}});
+
+  buildStrat1('10');
+  mk('strat2',{type:'bar',data:{labels:['FY21','FY22','FY23','FY24','FY25','FY26 proj'],datasets:[{data:[58.4,125.2,184.6,248.2,287.4,300],backgroundColor:['#A41034','#A41034','#A41034','#A41034','#A41034','rgba(198,146,20,.6)'],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:function(c){return' $'+c.parsed.y.toFixed(1)+'M cumulative';}}}},scales:{y:{max:320,grid:{color:'rgba(0,0,0,0.04)'},ticks:{font:{size:9},callback:function(v){return'$'+v+'M';}}},x:{grid:{display:false},ticks:{font:{size:9},maxRotation:45}}}}});
+  mk('strat3',{type:'radar',data:{labels:['Endowment','Major Gifts','Annual Fund','Planned Gifts','Corporate','Research'],datasets:[{label:'FY2006',data:[42,58,28,12,14,30],borderColor:'rgba(198,146,20,.8)',backgroundColor:'rgba(198,146,20,.15)',borderWidth:2,pointBackgroundColor:C.go},{label:'FY2025',data:[68,78,52,58,46,62],borderColor:C.cr,backgroundColor:'rgba(164,16,52,.15)',borderWidth:2,pointBackgroundColor:C.cr}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:100,ticks:{font:{size:8},stepSize:25},grid:{color:'rgba(0,0,0,0.08)'},angleLines:{color:'rgba(0,0,0,0.08)'}}}}});
+}
+
+/* ─── RANGE BUTTONS ─── */
+document.querySelectorAll('#rb0 .rb').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#rb0 .rb').forEach(function(x){x.classList.remove('active');});b.classList.add('active');buildRev1(b.getAttribute('data-range'));});});
+document.querySelectorAll('#rb2 .rb').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#rb2 .rb').forEach(function(x){x.classList.remove('active');});b.classList.add('active');buildDon1(b.getAttribute('data-range'));});});
+document.querySelectorAll('#rb10 .rb').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#rb10 .rb').forEach(function(x){x.classList.remove('active');});b.classList.add('active');buildStrat1(b.getAttribute('data-range'));});});
+
+})();
+</script>
+</body>
+</html>
