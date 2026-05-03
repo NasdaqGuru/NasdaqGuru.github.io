@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Codex Command Code Sheet</title>
+<style>
+:root{--cr:#A51C30;--gold:#B58900;--ink:#171717;--mid:#5D5A55;--paper:#FDFAF5;--bdr:#D8D0C2}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--ink);line-height:1.55}
+header{background:var(--ink);color:#fff;border-top:6px solid var(--cr);padding:32px 24px}
+.wrap{max-width:920px;margin:0 auto}
+.eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#E0C070;font-weight:800}
+h1{font-family:Georgia,serif;font-size:clamp(2rem,5vw,3.3rem);line-height:1.05;margin:10px 0}
+.dek{max-width:720px;color:rgba(255,255,255,.82)}
+main{padding:28px 24px 60px}
+.note{background:#fff8e8;border:1px solid #e4cc83;border-left:4px solid var(--gold);border-radius:4px;padding:14px 16px;color:#5b4b19;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.card{background:#fff;border:1px solid var(--bdr);border-left:4px solid var(--cr);border-radius:4px;padding:15px}
+.card:nth-child(2n){border-left-color:var(--gold)}
+.code{font-family:Consolas,Menlo,monospace;background:#f4efe5;border:1px solid var(--bdr);padding:3px 7px;border-radius:3px;color:var(--cr);font-weight:800}
+h2{font-family:Georgia,serif;margin:24px 0 10px}
+h3{margin:0 0 6px;font-size:1rem}
+p{margin:0;color:var(--mid)}
+table{width:100%;border-collapse:collapse;background:#fff;margin-top:10px}
+th{background:var(--cr);color:#fff;text-align:left;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:9px}
+td{border-bottom:1px solid var(--bdr);padding:10px;vertical-align:top}
+td:first-child{white-space:nowrap;font-family:Consolas,Menlo,monospace;color:var(--cr);font-weight:800}
+@media(max-width:720px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+<div class="eyebrow">Quick Paste Commands</div>
+<h1>Codex Command Code Sheet</h1>
+<p class="dek">Use these short codes when you want me to edit the report suite without writing a long explanation.</p>
+</div></header>
+<main><div class="wrap">
+<div class="note"><strong>How to use:</strong> paste the code, then add the section name if needed. Example: <span class="code">/exec Section XIII</span> or <span class="code">/popup pipeline charts</span>.</div>
+
+<h2>Most Useful Codes</h2>
+<div class="grid">
+<div class="card"><h3><span class="code">/exec</span> Executive-ready</h3><p>Make the wording polished for VP/President review.</p></div>
+<div class="card"><h3><span class="code">/simple</span> Simplify</h3><p>Reduce overwhelm, shorten text, and make the layout easier to scan.</p></div>
+<div class="card"><h3><span class="code">/clean</span> Clean design</h3><p>Fix clutter, spacing, odd colors, crowded charts, or messy cards.</p></div>
+<div class="card"><h3><span class="code">/popup</span> Move to popup</h3><p>Keep the page clean and put large charts/tables behind a click.</p></div>
+<div class="card"><h3><span class="code">/stay</span> Keep reader here</h3><p>Remove links that send the reader away too early.</p></div>
+<div class="card"><h3><span class="code">/explain</span> Explain metric</h3><p>Clarify a number, percentage, label, or chart title.</p></div>
+<div class="card"><h3><span class="code">/sync</span> Apply everywhere</h3><p>Make the same fix across the whole report suite.</p></div>
+<div class="card"><h3><span class="code">/decide</span> Use best judgment</h3><p>Let Codex choose the best strategy and implement it.</p></div>
+</div>
+
+<h2>Report-Specific Codes</h2>
+<table>
+<thead><tr><th>Code</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td>/cover</td><td>Fix the opening, masthead, first impression, or CV landing experience.</td></tr>
+<tr><td>/nav</td><td>Fix navigation, tabs, current indicators, links, or reading order.</td></tr>
+<tr><td>/chart</td><td>Fix graph size, chart labels, chart overlap, or chart popups.</td></tr>
+<tr><td>/metric</td><td>Clarify numbers like 84%, $63M, 5 of 7, pipeline values, or targets.</td></tr>
+<tr><td>/section</td><td>Redesign one section. Add the section name or number after the code.</td></tr>
+<tr><td>/schools</td><td>Improve school reports, school comparison, alumni/donor geography, or 12-school proof reports.</td></tr>
+<tr><td>/foresight</td><td>Merge, split, de-duplicate, or reposition foresight content.</td></tr>
+<tr><td>/finalpass</td><td>Do a final executive polish pass for clarity, confidence, and less clutter.</td></tr>
+</tbody>
+</table>
+
+<h2>Power Commands</h2>
+<table>
+<thead><tr><th>Paste This</th><th>What It Tells Codex</th></tr></thead>
+<tbody>
+<tr><td>/decide finalpass</td><td>Use best judgment and make the whole suite feel ready for VP/President review.</td></tr>
+<tr><td>/simple nav</td><td>Make the navigation less confusing.</td></tr>
+<tr><td>/chart popup sync</td><td>Make charts cleaner across the suite and use popups where needed.</td></tr>
+<tr><td>/exec section XIII</td><td>Make Section XIII executive-ready.</td></tr>
+<tr><td>/stay outline</td><td>Remove links from the outline that distract the reader from finishing the portfolio.</td></tr>
+</tbody>
+</table>
+</div></main>
+</body>
+</html>

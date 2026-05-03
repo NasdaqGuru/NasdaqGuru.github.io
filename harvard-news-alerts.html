@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Automated News Track Alerts | Campaign Opportunity Monitor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cr:#A51C30;
+  --cr2:#7A1223;
+  --gold:#B58900;
+  --gold2:#E0C070;
+  --ink:#171717;
+  --mid:#5D5A55;
+  --paper:#FDFAF5;
+  --cream:#F7F2E8;
+  --bdr:#D8D0C2;
+  --ok:#2E7D32;
+  --blue:#1E5B8E;
+  --display:'Playfair Display',Georgia,serif;
+  --sans:'Inter','Segoe UI',sans-serif;
+  --mono:'Inter','Segoe UI',sans-serif;
+  --r:4px;
+  --shadow:0 8px 28px rgba(23,23,23,.12);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:auto}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.65}
+a{color:inherit}
+.masthead{
+  background:var(--ink);
+  color:#fff;
+  border-top:6px solid var(--cr);
+  padding:36px 28px 26px;
+  position:relative;
+  overflow:hidden;
+}
+.masthead:after{
+  content:'VERITAS';
+  position:absolute;
+  right:34px;
+  bottom:12px;
+  color:rgba(255,255,255,.14);
+  font-family:var(--display);
+  font-size:2.8rem;
+  letter-spacing:.46em;
+  pointer-events:none;
+}
+.mast-inner{max-width:1120px;margin:0 auto;position:relative;z-index:1}
+.series-label{font-family:var(--mono);font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;font-weight:800}
+.mast-title{font-family:var(--display);font-size:clamp(2rem,4vw,3.35rem);line-height:1.05;margin:0 0 14px}
+.mast-title em{color:var(--gold2);font-style:italic}
+.mast-subtitle{max-width:850px;color:rgba(255,255,255,.84);font-size:1.02rem;margin:0 0 18px}
+.mast-meta{display:flex;flex-wrap:wrap;gap:16px 28px;border-top:1px solid rgba(255,255,255,.14);padding-top:14px}
+.mast-meta div{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.58)}
+.mast-meta strong{display:block;color:#fff;font-size:.88rem;letter-spacing:0;text-transform:none;margin-top:2px}
+.companion-banner{
+  background:#1f1714;
+  color:#fff;
+  border-bottom:2px solid var(--gold);
+  padding:10px 28px;
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.companion-label{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:800}
+.companion-title{font-family:var(--display);font-weight:700;color:#fff;flex:1;min-width:240px}
+.companion-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  background:var(--cr);
+  color:#fff;
+  border-radius:3px;
+  padding:7px 12px;
+  font-family:var(--mono);
+  font-size:.62rem;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  font-weight:800;
+}
+.companion-btn.gold{background:var(--gold);color:var(--ink)}
+.layout{display:flex;align-items:flex-start;min-height:100vh}
+.sidebar{
+  width:238px;
+  flex-shrink:0;
+  position:sticky;
+  top:0;
+  height:100vh;
+  overflow-y:auto;
+  background:#fff;
+  border-right:1px solid var(--bdr);
+  padding:18px 10px 28px;
+}
+.sb-title{font-family:var(--display);font-size:1.22rem;line-height:1.08;margin:0 0 4px}
+.sb-sub{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:16px}
+.nav-section-label{font-family:var(--mono);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800;padding:10px 7px 5px}
+.nav-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  text-align:left;
+  border:0;
+  background:transparent;
+  color:var(--mid);
+  padding:7px 8px;
+  border-radius:3px;
+  font-family:var(--sans);
+  font-size:.8rem;
+  cursor:pointer;
+}
+.nav-item:hover,.nav-item.active{background:var(--ink);color:#fff}
+.nav-item-num{font-family:var(--mono);font-size:.58rem;color:var(--gold);min-width:24px;font-weight:800}
+.main{flex:1;min-width:0}
+.section{display:none;padding:36px 28px 72px}
+.section.active{display:block}
+.wrap{max-width:1120px;margin:0 auto}
+.section-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:8px}
+.section-heading{font-family:var(--display);font-size:clamp(1.75rem,3vw,2.45rem);line-height:1.12;margin:0 0 10px}
+.section-heading em{color:var(--cr);font-style:italic}
+.section-rule{height:2px;background:linear-gradient(90deg,var(--cr),var(--gold),transparent);margin:0 0 14px}
+.section-dek{font-size:1rem;color:var(--mid);max-width:860px;margin:0 0 22px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}
+.card{
+  background:#fff;
+  border:1px solid var(--bdr);
+  border-radius:var(--r);
+  padding:18px;
+  box-shadow:var(--shadow);
+}
+.card h3{font-family:var(--display);font-size:1.12rem;margin:0 0 8px;color:var(--ink)}
+.card p{margin:0;color:var(--mid);font-size:.88rem}
+.metric{border-top:4px solid var(--cr)}
+.metric.gold{border-top-color:var(--gold)}
+.metric.blue{border-top-color:var(--blue)}
+.metric strong{display:block;font-family:var(--display);font-size:2rem;line-height:1;color:var(--cr);margin-bottom:5px}
+.metric.gold strong{color:var(--gold)}
+.metric.blue strong{color:var(--blue)}
+.dark-band{
+  background:var(--ink);
+  color:#fff;
+  border-radius:var(--r);
+  padding:22px;
+  margin:20px 0;
+}
+.dark-band h3,.dark-band strong,.dark-band p,.dark-band li,.dark-band div{color:#fff}
+.workflow{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:18px 0}
+.step{background:#fff;border:1px solid var(--bdr);border-top:4px solid var(--gold);border-radius:var(--r);padding:14px}
+.step-num{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cr);font-weight:800;margin-bottom:5px}
+.step h3{font-family:var(--display);font-size:1rem;margin:0 0 6px}
+.step p{font-size:.8rem;color:var(--mid);margin:0}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin:18px 0}
+th{background:var(--ink);color:#fff;text-align:left;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;padding:10px 12px}
+td{border-top:1px solid var(--bdr);padding:11px 12px;vertical-align:top;font-size:.82rem;color:var(--mid)}
+td strong{display:block;color:var(--ink);font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.pill{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;text-transform:uppercase;background:var(--cream);border:1px solid var(--bdr);border-radius:3px;padding:4px 7px;color:var(--ink);font-weight:800}
+.disclaimer{background:#fff8e8;border:1px solid #e4cc83;border-left:4px solid var(--gold);border-radius:var(--r);padding:12px 14px;color:#5b4b19;font-size:.82rem;margin-top:20px}
+.mobile-bar{display:none;background:var(--ink);color:#fff;padding:10px 14px;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.mobile-bar button{background:var(--gold);color:var(--ink);border:0;border-radius:3px;padding:7px 10px;font-family:var(--mono);font-size:.62rem;text-transform:uppercase;font-weight:800}
+@media(max-width:900px){
+  .layout{display:block}
+  .sidebar{display:none}
+  .mobile-bar{display:flex}
+  .grid-3,.grid-2,.workflow{grid-template-columns:1fr}
+  table{display:block;overflow-x:auto}
+  .masthead:after{display:none}
+}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="mast-inner">
+    <div class="series-label">Harvard UD&amp;AS Foresight Series · Separate Signal Report</div>
+    <h1 class="mast-title">AI Automated News Track Alerts: <em>Campaign Opportunity Monitor</em></h1>
+    <p class="mast-subtitle">A standalone monitoring layer for external events that may affect any project, campaign opportunity, donor strategy, proposal timing, or advancement operating decision.</p>
+    <div class="mast-meta">
+      <div>Report Role<strong>Signal monitor</strong></div>
+      <div>Cadence<strong>Daily scan · Weekly AVP review</strong></div>
+      <div>Data Status<strong>Synthetic examples + public-source design</strong></div>
+      <div>Series Link<strong>Foresight + Portfolio + Alerts</strong></div>
+    </div>
+  </div>
+</header>
+
+<div class="companion-banner">
+  <div class="companion-label">Companion Reports</div>
+  <div class="companion-title">Use this alerts report with the strategic foresight console, matrix-first portfolio proposal, and HKS school-level stewardship report.</div>
+  <a href="executive-cover-brief.html" target="_blank" class="companion-btn gold">Executive Brief</a>
+  <a href="advancement-navigation-portal.html" target="_blank" class="companion-btn gold">Open Portal</a>
+  <a href="harvard-foresight.html" target="_blank" class="companion-btn gold">Open Foresight</a>
+  <a href="harvard-portfolio.html" target="_blank" class="companion-btn">Open Portfolio</a>
+  <a href="HKS.html" target="_blank" class="companion-btn">Open HKS</a>
+</div>
+
+<div class="mobile-bar">
+  <span>News Track Alerts</span>
+  <button onclick="document.querySelector('.sidebar').style.display=document.querySelector('.sidebar').style.display==='block'?'none':'block'">Sections</button>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" aria-label="Report navigation">
+    <div class="sb-title">News Track Alerts</div>
+    <div class="sb-sub">Project + Campaign Monitor</div>
+    <div class="nav-section-label">Report</div>
+    <button class="nav-item active" data-tab="s-overview" onclick="goTab('s-overview',this)"><span class="nav-item-num">I</span>Alert Overview</button>
+    <button class="nav-item" data-tab="s-taxonomy" onclick="goTab('s-taxonomy',this)"><span class="nav-item-num">II</span>Signal Taxonomy</button>
+    <button class="nav-item" data-tab="s-workflow" onclick="goTab('s-workflow',this)"><span class="nav-item-num">III</span>Automation Workflow</button>
+    <button class="nav-item" data-tab="s-routing" onclick="goTab('s-routing',this)"><span class="nav-item-num">IV</span>Routing Matrix</button>
+    <button class="nav-item" data-tab="s-samples" onclick="goTab('s-samples',this)"><span class="nav-item-num">V</span>Sample Alerts</button>
+    <button class="nav-item" data-tab="s-sources" onclick="goTab('s-sources',this)"><span class="nav-item-num">VI</span>Data Sources</button>
+  </nav>
+
+  <main class="main">
+    <section id="s-overview" class="section active">
+      <div class="wrap">
+        <div class="section-eyebrow">Section I · Executive Overview</div>
+        <h1 class="section-heading">From Static Reports to <em>Live Strategic Awareness</em></h1>
+        <div class="section-rule"></div>
+        <p class="section-dek">This report adds a separate alert layer to the foresight, portfolio, and HKS stewardship reports. It is designed to identify news or public-data changes that should trigger a project review, campaign opportunity review, donor-risk check, pledge follow-up, or proposal-timing adjustment.</p>
+        <div class="grid-3">
+          <div class="card metric"><strong>24 hrs</strong><h3>Initial Triage</h3><p>High-materiality signals are reviewed within one business day and routed to the right owner.</p></div>
+          <div class="card metric gold"><strong>6</strong><h3>Signal Families</h3><p>Policy, markets, AI regulation, reputation, research, and peer campaign activity.</p></div>
+          <div class="card metric blue"><strong>4</strong><h3>Action Paths</h3><p>Advance, pause, reframe, or steward based on impact, confidence, urgency, and owner fit.</p></div>
+        </div>
+        <div class="dark-band">
+          <h3>Operating thesis</h3>
+          <p>An opportunity can become campaign-ready because of an external event: a federal budget change, a liquidity window, a research breakthrough, a peer institution move, or a reputational moment. AI-assisted news tracking makes those moments visible early enough for advancement leaders to act.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="s-taxonomy" class="section">
+      <div class="wrap">
+        <div class="section-eyebrow">Section II · Signal Taxonomy</div>
+        <h1 class="section-heading">Alert Families Tied to <em>Project and Campaign Decisions</em></h1>
+        <div class="section-rule"></div>
+        <p class="section-dek">Each news item is classified by its likely effect on campaign priorities, project feasibility, donor timing, prospect risk, student/alumni engagement, or proposal language.</p>
+        <div class="grid-3">
+          <div class="card"><h3>Federal Funding</h3><p>NIH, NSF, DOE, and congressional budget moves that affect research urgency, matching-gift language, or philanthropic replacement needs.</p><div class="pill-row"><span class="pill">Research</span><span class="pill">Gap funding</span></div></div>
+          <div class="card"><h3>Market Liquidity</h3><p>IPO windows, M&amp;A events, private-market valuations, interest rates, and stock volatility that affect gift timing and ask structure.</p><div class="pill-row"><span class="pill">Liquidity</span><span class="pill">Ask timing</span></div></div>
+          <div class="card"><h3>AI Regulation</h3><p>Privacy, model-risk, procurement, vendor, and university AI governance changes that affect automation design and data controls.</p><div class="pill-row"><span class="pill">Governance</span><span class="pill">Risk</span></div></div>
+          <div class="card"><h3>Reputation and ESG</h3><p>Donor, industry, legal, and public-trust events that should trigger stewardship review or proposal reframing.</p><div class="pill-row"><span class="pill">Reputation</span><span class="pill">Stewardship</span></div></div>
+          <div class="card"><h3>Research Breakthroughs</h3><p>Faculty publications, grant awards, clinical milestones, climate work, AI advances, and public-health discoveries that create new case moments.</p><div class="pill-row"><span class="pill">Opportunity</span><span class="pill">Faculty nexus</span></div></div>
+          <div class="card"><h3>Peer Campaign Moves</h3><p>Other universities' campaign launches, naming gifts, donor announcements, and priority language that affect competitive positioning.</p><div class="pill-row"><span class="pill">Benchmark</span><span class="pill">Campaign</span></div></div>
+          <div class="card"><h3>Alumni + Current Student News</h3><p>Alumni leadership moves, awards, public service appointments, student research wins, student entrepreneurship, fellowships, and campus stories that create timely engagement moments.</p><div class="pill-row"><span class="pill">Alumni</span><span class="pill">Students</span><span class="pill">Engagement</span></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="s-workflow" class="section">
+      <div class="wrap">
+        <div class="section-eyebrow">Section III · Automation Workflow</div>
+        <h1 class="section-heading">How the Alert Engine <em>Moves From News to Action</em></h1>
+        <div class="section-rule"></div>
+        <p class="section-dek">The workflow is designed for human review at decision points. AI accelerates reading, classification, scoring, and draft routing; leadership still owns judgment.</p>
+        <div class="workflow">
+          <div class="step"><div class="step-num">01 · Ingest</div><h3>Public Signals</h3><p>RSS, APIs, public filings, grant notices, market data, school news, and peer campaign releases.</p></div>
+          <div class="step"><div class="step-num">02 · Classify</div><h3>Topic Match</h3><p>NLP tags each item by project theme, school, donor segment, region, and campaign priority.</p></div>
+          <div class="step"><div class="step-num">03 · Score</div><h3>Materiality</h3><p>Urgency, confidence, impact, opportunity/risk direction, and recommended action.</p></div>
+          <div class="step"><div class="step-num">04 · Route</div><h3>Owner Queue</h3><p>AVP, VP, gift officer, prospect research, school partner, or campaign strategy team.</p></div>
+          <div class="step"><div class="step-num">05 · Act</div><h3>Decision</h3><p>Advance, pause, reframe, steward, or watch based on owner review.</p></div>
+        </div>
+        <table>
+          <thead><tr><th>Score</th><th>Meaning</th><th>Expected Action</th></tr></thead>
+          <tbody>
+            <tr><td><strong>80-100</strong>Material signal</td><td>Likely to affect a major opportunity, donor strategy, proposal language, or project timing.</td><td>Route within 24 hours; create briefing note; assign owner.</td></tr>
+            <tr><td><strong>50-79</strong>Watch signal</td><td>Relevant but not immediately decisive; useful for weekly portfolio review.</td><td>Include in weekly digest; monitor for follow-up signals.</td></tr>
+            <tr><td><strong>0-49</strong>Reference signal</td><td>Contextual background with low direct impact.</td><td>Archive to searchable signal library.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="s-routing" class="section">
+      <div class="wrap">
+        <div class="section-eyebrow">Section IV · Routing Matrix</div>
+        <h1 class="section-heading">Who Receives Which <em>Alert</em></h1>
+        <div class="section-rule"></div>
+        <p class="section-dek">Routing keeps alert volume useful. Not every signal goes to everyone; each alert is sent to the role most likely to act.</p>
+        <table>
+          <thead><tr><th>Alert Type</th><th>Primary Owner</th><th>Secondary Owner</th><th>Decision Trigger</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Federal research funding</strong>NIH/NSF/DOE changes, grant pauses, budget language.</td><td>AVP UD&amp;AS</td><td>School development lead</td><td>Reframe restricted research proposal or escalate matching-gift opportunity.</td></tr>
+            <tr><td><strong>Market liquidity</strong>IPO, M&amp;A, valuation, insider transaction, liquidity event.</td><td>Prospect research</td><td>Principal gift officer</td><td>Update capacity, timing, and ask range.</td></tr>
+            <tr><td><strong>AI policy</strong>Privacy, procurement, vendor, model governance, data-risk update.</td><td>Data governance lead</td><td>Gift admin operations</td><td>Review automation controls or pause deployment until compliance is clear.</td></tr>
+            <tr><td><strong>Peer campaign</strong>Competitor naming gift, campaign launch, public donor move.</td><td>Campaign strategy</td><td>VP/President briefing team</td><td>Update benchmark, positioning, and donor conversation narrative.</td></tr>
+            <tr><td><strong>Reputation event</strong>Donor, industry, legal, geopolitical, or public-trust issue.</td><td>Gift officer</td><td>Communications / legal review</td><td>Steward carefully, pause ask, or reframe proposal language.</td></tr>
+            <tr><td><strong>Alumni or student news</strong>Awards, appointments, founder milestones, student research, public-service recognition.</td><td>Alumni engagement</td><td>Donor relations / events</td><td>Send congratulations, invite to convening, update profile, or create stewardship story.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="s-samples" class="section">
+      <div class="wrap">
+        <div class="section-eyebrow">Section V · Sample Alerts</div>
+        <h1 class="section-heading">Synthetic Examples of <em>Actionable Alerts</em></h1>
+        <div class="section-rule"></div>
+        <p class="section-dek">These examples are illustrative. They show the form of an alert, not live Harvard data or real donor intelligence.</p>
+        <table>
+          <thead><tr><th>Alert</th><th>Why It Matters</th><th>Recommended Action</th></tr></thead>
+          <tbody>
+            <tr><td><strong>NIH budget uncertainty increases</strong>Federal language signals delayed awards in biomedical research.</td><td>Raises urgency for bridge funding and unrestricted research-flexibility proposals.</td><td>Route to HMS/HSPH leads; draft donor-facing case for continuity funding.</td></tr>
+            <tr><td><strong>AI privacy bill advances</strong>New language affects automated profile enrichment and model audit obligations.</td><td>May require governance update before expanding prospect-intelligence automation.</td><td>Route to data governance; review vendor contracts and model documentation.</td></tr>
+            <tr><td><strong>Major regional IPO window reopens</strong>High-growth technology sector shows renewed liquidity.</td><td>Could affect timing for prospects with concentrated private equity holdings.</td><td>Refresh liquidity scores; advance cultivation for top aligned prospects.</td></tr>
+            <tr><td><strong>Peer university announces climate gift</strong>Public gift reframes donor expectations around sustainability capital projects.</td><td>Creates competitive positioning moment for Harvard sustainability and campus resilience proposals.</td><td>Update benchmark slide; prepare campaign-priority comparison language.</td></tr>
+            <tr><td><strong>Faculty breakthrough receives public coverage</strong>Research result aligns with known donor interest in public health AI.</td><td>Creates a timely faculty-donor nexus opportunity.</td><td>Generate briefing card; ask gift officer whether to request faculty meeting.</td></tr>
+            <tr><td><strong>Alumnus appointed to public leadership role</strong>Public service milestone aligns with HKS policy and civic-leadership themes.</td><td>Creates a warm stewardship and event-invitation moment, especially for alumni councils or regional convenings.</td><td>Route to alumni engagement; draft congratulations note and update volunteer pathway.</td></tr>
+            <tr><td><strong>Current student team wins fellowship or venture award</strong>Student story aligns with entrepreneurship, public service, or research-impact priorities.</td><td>Creates donor-relations content and an event story that connects current student impact to philanthropic support.</td><td>Route to donor relations and events; add as stewardship story for relevant funds.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="s-sources" class="section">
+      <div class="wrap">
+        <div class="section-eyebrow">Section VI · Public Source Design</div>
+        <h1 class="section-heading">Data Sources for a <em>Production Alert Layer</em></h1>
+        <div class="section-rule"></div>
+        <p class="section-dek">A real implementation would use approved institutional systems, public data, licensed data sources, and governance review. This static report demonstrates the monitoring design only.</p>
+        <div class="grid-2">
+          <div class="card"><h3>Public and Government</h3><p>NIH RePORTER, NSF award data, Federal Register, Congressional budget materials, FRED, SEC filings, IRS nonprofit filings, and public university news releases.</p></div>
+          <div class="card"><h3>Market and Wealth Signals</h3><p>Public IPO calendars, M&amp;A announcements, public-company filings, rates and market data, and licensed enrichment tools such as PitchBook, CB Insights, iWave, or DonorSearch where approved.</p></div>
+          <div class="card"><h3>Research and Academic Signals</h3><p>Harvard public school news, faculty publications, grant announcements, clinical trial milestones, lab websites, and public scholarly indexes.</p></div>
+          <div class="card"><h3>Governance and Reputation</h3><p>NIST AI Risk Management Framework updates, state privacy laws, higher-education AI policies, public legal records, news sources, and communications review queues.</p></div>
+          <div class="card"><h3>School-Level Stewardship Signals</h3><p>Public school priorities, program announcements, HKS campaign moments, donor stewardship windows, and pledge/payment timing cues that affect fund reporting.</p></div>
+        </div>
+        <div class="grid-3">
+          <div class="card"><h3>Prospect Research</h3><p><a href="prospect-research-planning.html" target="_blank">Open unit report</a> for capacity, relationship, and signal-validation planning.</p></div>
+          <div class="card"><h3>Donor Relations</h3><p><a href="donor-relations.html" target="_blank">Open unit report</a> for stewardship, recognition, and student-story routing.</p></div>
+          <div class="card"><h3>Corp/Foundation</h3><p><a href="corporate-foundation-relations.html" target="_blank">Open unit report</a> for institutional funder and partner alerts.</p></div>
+          <div class="card"><h3>Alumni Engagement</h3><p><a href="alumni-engagement.html" target="_blank">Open unit report</a> for alumni/current-student news activation.</p></div>
+          <div class="card"><h3>Event Planning</h3><p><a href="advancement-event-planning.html" target="_blank">Open unit report</a> for events triggered by news moments.</p></div>
+          <div class="card"><h3>Masterplan</h3><p><a href="harvard-portfolio.html" target="_blank">Open masterplan</a> for the advancement unit map and portfolio hub.</p></div>
+        </div>
+        <div class="disclaimer"><strong>Synthetic data note:</strong> This is a static portfolio artifact. It does not run live news collection, does not contain real donor data, and is not affiliated with or endorsed by Harvard University. Any production use would require official source validation, security review, and data-governance approval. © 2026 Narissara Khomkhai.</div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const labels = {
+  's-overview':'I. Alert Overview',
+  's-taxonomy':'II. Signal Taxonomy',
+  's-workflow':'III. Automation Workflow',
+  's-routing':'IV. Routing Matrix',
+  's-samples':'V. Sample Alerts',
+  's-sources':'VI. Data Sources'
+};
+function goTab(id,btn){
+  document.querySelectorAll('.nav-item').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));
+  window.scrollTo({top:document.querySelector('.main').offsetTop,behavior:'auto'});
+}
+</script>
+</body>
+</html>

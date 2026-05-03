@@ -357,6 +357,24 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
 .fl-conv{font-size:.72rem;font-weight:600;text-align:right}
 /* Appendix left-align */
 .app-left td,.app-left th{text-align:left!important}
+.series-banner{background:#1f1714;border-top:1px solid rgba(255,255,255,.08);border-bottom:2px solid var(--gold);padding:10px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.series-label{font-size:.62rem;text-transform:uppercase;letter-spacing:1.6px;color:#E0C070;font-weight:800;white-space:nowrap}
+.series-title{font-family:'Playfair Display',serif;font-size:.9rem;color:#fff;font-weight:700;flex:1;min-width:240px}
+.series-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--crimson);color:#fff;text-decoration:none;border-radius:4px;padding:7px 11px;font-size:.62rem;text-transform:uppercase;letter-spacing:.8px;font-weight:800}
+.series-btn.gold{background:var(--gold);color:#171717}
+.system-panel{background:#fff;border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:22px;box-shadow:var(--shadow)}
+.system-heading{font-family:'Playfair Display',serif;font-size:1.25rem;color:#111;margin-bottom:8px}
+.system-dek{font-size:.82rem;color:var(--muted);line-height:1.7;max-width:900px;margin-bottom:16px}
+.system-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.system-card{border:1px solid var(--border);border-top:4px solid var(--crimson);border-radius:8px;padding:12px;background:#fff}
+.system-card:nth-child(2){border-top-color:var(--gold)}.system-card:nth-child(3){border-top-color:var(--navy)}.system-card:nth-child(4){border-top-color:var(--green)}
+.system-card h4{font-family:'Playfair Display',serif;font-size:.92rem;color:#111;margin-bottom:5px}
+.system-card p{font-size:.72rem;color:var(--muted);line-height:1.55}
+.system-table{width:100%;border-collapse:collapse;font-size:.74rem;background:#fff;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.system-table th{background:#171717;color:#fff;text-align:left;font-size:.6rem;text-transform:uppercase;letter-spacing:1px;padding:9px 10px}
+.system-table td{border-top:1px solid var(--border);padding:9px 10px;color:var(--text);line-height:1.5;vertical-align:top;text-align:left!important}
+.system-table strong{display:block;color:#111;font-size:.62rem;text-transform:uppercase;letter-spacing:.8px;margin-bottom:2px}
+@media(max-width:900px){.system-grid{grid-template-columns:1fr}.series-banner{padding:10px 14px}}
 
 @media print{
   #cover,.modal-bg,.site-header,.section-selector{display:none!important}
@@ -459,6 +477,16 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
     </div>
   </div>
 </header>
+
+<div class="series-banner">
+  <div class="series-label">Synchronized Report Set</div>
+  <div class="series-title">HKS school-level stewardship report connected to the foresight, portfolio, and news-alerts reports.</div>
+  <a href="executive-cover-brief.html" target="_blank" class="series-btn gold">Executive Brief</a>
+  <a href="advancement-navigation-portal.html" target="_blank" class="series-btn gold">Open Portal</a>
+  <a href="harvard-foresight.html" target="_blank" class="series-btn gold">Open Foresight</a>
+  <a href="harvard-portfolio.html" target="_blank" class="series-btn">Open Portfolio</a>
+  <a href="harvard-news-alerts.html" target="_blank" class="series-btn">Open Alerts</a>
+</div>
 
 <!-- DATA NOTICE BAR -->
 <div class="data-notice">
@@ -565,6 +593,7 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
   <button class="ss-btn" data-sec="s9">🌍 Global Donor Map</button>
   <button class="ss-btn" data-sec="s10">📈 Strategic Plan</button>
   <button class="ss-btn" data-sec="s11">📎 Appendix</button>
+  <button class="ss-btn" data-sec="s12">Report System Map</button>
 </div>
 
 <!-- ══════════ SECTION 0: MASTER DASHBOARD ══════════ -->
@@ -1488,6 +1517,69 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
       </div>
     </div>
     <div class="kpi-modal-body" id="kpiModalBody"></div>
+  </div>
+</div>
+
+<div class="section-panel" id="s12">
+  <div class="system-panel">
+    <div class="system-heading">HKS as the School-Level Implementation Layer</div>
+    <div class="system-dek">This report now sits inside the same synchronized report set. The foresight report explains the long-range disruption, the portfolio report defines the UD&amp;AS operating architecture, the alerts report monitors external signals, and the HKS report shows how the architecture becomes a school-level stewardship, fund, pledge, donor, and campaign management dashboard.</div>
+    <div class="system-grid">
+      <div class="system-card">
+        <h4>Strategic Foresight</h4>
+        <p>AI transition, economic resilience, demographic futures, planned giving, and campaign architecture.</p>
+        <a href="harvard-foresight.html" target="_blank" class="series-btn gold" style="margin-top:10px">Open Foresight</a>
+      </div>
+      <div class="system-card">
+        <h4>Portfolio Operations</h4>
+        <p>Central data spine, gift admin automation, matrix governance, dashboards, and solutions ecosystem.</p>
+        <a href="harvard-portfolio.html" target="_blank" class="series-btn" style="margin-top:10px">Open Portfolio</a>
+      </div>
+      <div class="system-card">
+        <h4>AI News Alerts</h4>
+        <p>Public signal monitoring for policy, markets, AI regulation, peer campaigns, and proposal timing.</p>
+        <a href="harvard-news-alerts.html" target="_blank" class="series-btn" style="margin-top:10px">Open Alerts</a>
+      </div>
+      <div class="system-card">
+        <h4>HKS Stewardship</h4>
+        <p>School-level proof of use: fund reporting, pledge follow-up, donor analysis, budget review, and campaign execution.</p>
+      </div>
+    </div>
+    <div class="system-grid">
+      <div class="system-card"><h4>Prospect Research</h4><p>Capacity, relationship, alumni news, and timing validation.</p><a href="prospect-research-planning.html" target="_blank" class="series-btn" style="margin-top:10px">Open report</a></div>
+      <div class="system-card"><h4>Donor Relations</h4><p>Recognition, pledge care, stewardship, and student impact stories.</p><a href="donor-relations.html" target="_blank" class="series-btn" style="margin-top:10px">Open report</a></div>
+      <div class="system-card"><h4>Corp/Foundation</h4><p>Institutional funders, corporate partners, RFPs, and proposal timing.</p><a href="corporate-foundation-relations.html" target="_blank" class="series-btn" style="margin-top:10px">Open report</a></div>
+      <div class="system-card"><h4>Alumni + Events</h4><p>Alumni engagement and events that convert news moments into relationship movement.</p><a href="alumni-engagement.html" target="_blank" class="series-btn" style="margin-top:10px">Open alumni</a> <a href="advancement-event-planning.html" target="_blank" class="series-btn" style="margin-top:10px">Open events</a></div>
+    </div>
+    <table class="system-table">
+      <thead><tr><th>HKS Report Area</th><th>Portfolio Capability</th><th>Foresight Topic</th><th>Alert Watchlist</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Gift fund reports</strong>Fund balances, distribution status, donor restrictions, and stewardship readiness.</td>
+          <td><strong>Data Models</strong>Central Master ID, fund coding, and cross-school reporting standards.</td>
+          <td><strong>Sustainable model</strong>Endowment-first philanthropy and durable donor trust.</td>
+          <td><strong>Policy and market</strong>Payout pressure, endowment-market movement, and restricted-fund compliance changes.</td>
+        </tr>
+        <tr>
+          <td><strong>Donor analysis</strong>Retention, segmentation, donor value, and relationship movement.</td>
+          <td><strong>Gift Pipeline</strong>Principal-gift stages, portfolio prioritization, and prospect intelligence.</td>
+          <td><strong>Demographic futures</strong>Depth over volume as the long-term donor pool contracts.</td>
+          <td><strong>Reputation and region</strong>Donor reputation, alumni mobility, regional giving shifts, and peer moves.</td>
+        </tr>
+        <tr>
+          <td><strong>Pledge tracking</strong>Receivables, payment risk, collection pace, and pledge stewardship.</td>
+          <td><strong>Dashboards</strong>Leadership-ready finance and campaign pacing views.</td>
+          <td><strong>Economic resilience</strong>Liquidity timing, donor fragility, and volatility playbooks.</td>
+          <td><strong>Liquidity signals</strong>IPO/M&amp;A windows, rates, market stress, and donor capacity changes.</td>
+        </tr>
+        <tr>
+          <td><strong>Strategic plan</strong>Campaign gap, planned giving, ROI, and school-level execution priorities.</td>
+          <td><strong>Roadmap</strong>S.M.A.R.T.E.R goals, lifecycle planning, and solutions ecosystem deployment.</td>
+          <td><strong>Campaign architecture</strong>FY26-FY75 roadmap and planned-giving acceleration.</td>
+          <td><strong>Opportunity alerts</strong>Research breakthroughs, policy windows, alumni leadership news, current-student achievements, and case-for-support timing.</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>
 
