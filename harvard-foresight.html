@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Harvard UD&AS · Strategic Foresight Console · 2026–2075</title>
+<title>Harvard UD&AS · Strategic Intelligence Console · 2026–2075</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Source+Code+Pro:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Source+Code+Pro:wght@400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 /* ═══════════════════════════════════════════
-   HARVARD FORESIGHT CONSOLE — DESIGN SYSTEM
+   HARVARD STRATEGIC INTELLIGENCE CONSOLE — DESIGN SYSTEM
 ═══════════════════════════════════════════ */
 :root{
   --cr:#A41034;--cr2:#7B0D25;--cr3:#5A0A1C;
@@ -855,6 +855,65 @@ h4 { font-size: .97rem; }
 }
 .companion-btn.gold-btn:hover { background: #9A7010; color: #fff; }
 
+
+
+/* ═══════════════════════════════════════
+   MAIN SUITE FORMAT PATCH — Strategic Intelligence Console
+   Matches the latest Master Blueprint suite while preserving this report's charts and sections.
+═══════════════════════════════════════ */
+:root{
+  --suite-cr:#A41034;--suite-cr2:#7B0D25;--suite-gold:#B6862C;
+  --suite-ink:#151515;--suite-paper:#FDFAF5;--suite-cream:#F7F2E8;
+  --suite-border:#D8D0C2;--suite-blue:#1A4D82;--suite-green:#25623A;
+  --body:'EB Garamond',Georgia,serif;--sans:'Inter',Arial,sans-serif;
+}
+body{font-family:var(--body);background:var(--suite-paper);font-size:17px;color:var(--suite-ink)}
+p,.section-panel p,.card p,.callout p,.acc-body p,.plan-body p{font-family:var(--body);font-size:.92rem;line-height:1.72;color:#4b4238}
+.sidebar{background:#fffdf8;border-right:1px solid var(--suite-border);box-shadow:2px 0 18px rgba(24,24,24,.05)}
+.sb-brand{background:linear-gradient(180deg,#fff,#fbf5e8);border-bottom:1px solid var(--suite-border)}
+.sb-harvard{color:var(--suite-cr)}
+.sb-title{font-size:.95rem;color:var(--suite-ink)}
+.nav-item{font-family:var(--body);font-size:.82rem;color:#4e463c;border-left:3px solid transparent}
+.nav-item.active{background:linear-gradient(135deg,var(--suite-ink),#2a2020);color:#fff;border-left-color:var(--suite-gold)}
+.nav-item.active .nav-item-num{color:#f1d88a}
+.masthead{background:linear-gradient(135deg,#101820 0%,#171717 55%,#351019 100%);border-top:0;border-bottom:3px solid var(--suite-gold);padding:30px 0 20px}
+.mast-seal{background:rgba(255,255,255,.08);border-color:rgba(182,134,44,.55)}
+.mast-title{color:#fff}.mast-title span{color:rgba(255,255,255,.78)}
+.companion-banner{background:linear-gradient(90deg,#101820,#351019);border-bottom:2px solid var(--suite-gold)}
+.section-panel{padding:38px 0 72px}.section-heading{font-size:clamp(1.65rem,3vw,2.35rem)}
+.card,.kpi-card,.chart-wrap,.source-card,.sync-card,.end-panel{border-radius:10px;box-shadow:0 8px 24px rgba(24,24,24,.07)}
+.kpi-card{border-top-width:4px}.hero-strip{border-radius:14px;box-shadow:0 14px 40px rgba(24,24,24,.14)}
+.data-table thead th,.sync-table th{background:#151515;color:#fff}.modal-box{border-radius:14px;overflow:hidden}.modal-hdr{background:#151515}
+
+/* New opening page */
+.console-opening-shell{max-width:1280px;margin:0 auto;padding:28px clamp(18px,3vw,42px) 46px}
+.console-hero{background:#101820;border-radius:18px;overflow:hidden;box-shadow:0 24px 70px rgba(24,24,24,.22);border:1px solid rgba(255,255,255,.12)}
+.console-hero-top{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr);align-items:stretch}
+.console-hero-copy{padding:38px clamp(26px,3vw,52px);background:linear-gradient(135deg,#111923 0%,#1b222b 58%,#351019 100%);color:#fff;position:relative;overflow:hidden}
+.console-hero-copy:after{content:'';position:absolute;right:-90px;bottom:-120px;width:330px;height:330px;border-radius:50%;background:rgba(198,146,20,.14);filter:blur(10px)}
+.console-kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#d7b45d;font-weight:800;margin-bottom:12px;position:relative;z-index:1}
+.console-hero-copy h1{font-family:var(--display);font-size:clamp(2rem,4.4vw,4rem);line-height:.98;letter-spacing:-.035em;color:#fff;margin:0 0 18px;position:relative;z-index:1}
+.console-hero-copy h1 em{font-style:italic;color:#f1d88a}
+.console-thesis{font-size:1.03rem;line-height:1.72;color:rgba(255,255,255,.82);max-width:760px;margin:0 0 20px;position:relative;z-index:1}
+.console-thesis strong{color:#fff}
+.console-actions{display:flex;gap:10px;flex-wrap:wrap;position:relative;z-index:1;margin-top:18px}
+.console-btn{border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:10px 15px;background:rgba(255,255,255,.08);color:#fff;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;cursor:pointer;text-decoration:none}
+.console-btn.primary{background:#A41034;border-color:#A41034}.console-btn:hover{background:#f1d88a;color:#1a1008;text-decoration:none}
+.console-side{background:#fff;color:#171717;padding:30px;display:flex;flex-direction:column;justify-content:center}
+.console-side h2{font-size:1.25rem;color:#A41034;margin:0 0 12px}.console-side p{font-family:var(--body);font-size:.9rem;line-height:1.66;color:#333;margin:0 0 14px}
+.console-chip{background:#fbf5e8;border:1px solid #e1c980;border-left:4px solid #B6862C;border-radius:10px;padding:14px 16px;margin-top:5px}
+.console-chip b{display:block;font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:#7A5A00;margin-bottom:5px}.console-chip span{display:block;font-size:.86rem;line-height:1.52;color:#2b241b}
+.console-metrics{display:grid;grid-template-columns:repeat(4,1fr);background:#fff;border-top:1px solid #ddd}
+.console-metric{padding:18px 20px;border-right:1px solid #e2d8c8}.console-metric:last-child{border-right:0}.console-metric b{display:block;font-family:var(--display);font-size:1.55rem;line-height:1;color:#A41034;margin-bottom:5px}.console-metric span{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#5A5A5A;font-weight:800;line-height:1.35}
+.console-triad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}.console-card{background:#fff;border:1px solid #D8D0C2;border-radius:14px;padding:18px 20px;box-shadow:0 8px 18px rgba(24,24,24,.06)}.console-card .num{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:#B6862C;font-weight:900;margin-bottom:6px}.console-card h3{font-family:var(--display);font-size:1.1rem;color:#181818;margin:0 0 8px}.console-card p{font-size:.86rem;line-height:1.58;color:#4b5563;margin:0}
+@media(max-width:980px){.console-hero-top{grid-template-columns:1fr}.console-metrics{grid-template-columns:1fr 1fr}.console-triad{grid-template-columns:1fr}.console-side{border-top:1px solid #ddd}}
+
+
+/* Final 0.0 opening-console contrast fix */
+#s-console-opening .console-hero-copy .console-thesis,
+#s-console-opening .console-hero-copy .console-thesis strong {
+  color: #ffffff !important;
+}
 </style>
 </head>
 <body>
@@ -895,11 +954,11 @@ h4 { font-size: .97rem; }
     <div class="mast-inner">
       <div class="mast-title-row">
         <div class="mast-seal" aria-hidden="true">H</div>
-        <h1 class="mast-title">AI Transition & Foresight Console<br>
-          <span style="font-size:.55em;font-weight:400;font-style:italic;opacity:.78">University Development & Advancement Solutions · Strategic Leadership Report</span>
+        <h1 class="mast-title">AI Transition &amp; Strategic Intelligence Console<br>
+          <span style="font-size:.55em;font-weight:400;font-style:italic;opacity:.78">University Development &amp; Advancement Solutions · Strategic Leadership Report</span>
         </h1>
       </div>
-      <p class="mast-subtitle">A leadership foresight framework connecting AI automation transition, economic resilience, and the long-term demographic shifts reshaping university philanthropy through 2075.</p>
+      <p class="mast-subtitle">A leadership strategic intelligence framework connecting AI automation transition, economic resilience, and the long-term demographic shifts reshaping university philanthropy through 2075.</p>
       <div class="mast-meta">
         <div class="mast-meta-item">Prepared by<strong>Narissara Khomkhai — Candidate, AVP UD&AS</strong></div>
         <div class="mast-meta-item">For<strong>VP Jim Husson · AA&D Leadership · President Garber</strong></div>
@@ -917,7 +976,7 @@ h4 { font-size: .97rem; }
 
 <!-- ════ MOBILE NAVIGATION BAR ════ -->
 <div class="mobile-bar no-print" id="mobileBar">
-  <span style="font-family:var(--mono);font-size:.7rem;letter-spacing:.08em">Harvard UD&AS · Foresight Console</span>
+  <span style="font-family:var(--mono);font-size:.7rem;letter-spacing:.08em">Harvard UD&AS · Strategic Intelligence Console</span>
   <button class="hamburger" onclick="document.getElementById('mDrawer').classList.add('open')">☰ Sections</button>
 </div>
 <div style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;display:none" id="mDrawer" onclick="if(event.target===this)this.classList.remove('open')">
@@ -932,8 +991,6 @@ h4 { font-size: .97rem; }
 <div class="companion-banner no-print">
   <div class="companion-label">Companion Report</div>
   <div class="companion-title">Comprehensive Advancement Masterplan — Portfolio Hub, Unit Playbooks &amp; Operations Console</div>
-  <a href="first-time-reader-guide.html" target="_blank" class="companion-btn gold-btn">Start Guide ↗</a>
-  <a href="advancement-navigation-portal.html" target="_blank" class="companion-btn gold-btn">Open Portal ↗</a>
   <a href="harvard-portfolio.html" target="_blank" class="companion-btn gold-btn">Open Portfolio ↗</a>
   <a href="harvard-news-alerts.html" target="_blank" class="companion-btn">Open News Alerts ↗</a>
   <a href="HKS.html" target="_blank" class="companion-btn">Open HKS Report ↗</a>
@@ -946,13 +1003,16 @@ h4 { font-size: .97rem; }
 <nav class="sidebar no-print" id="sidebar">
   <div class="sb-brand">
     <div class="sb-harvard">Harvard University · AA&D</div>
-    <div class="sb-title">Foresight Console</div>
+    <div class="sb-title">Strategic Intelligence Console</div>
     <div class="sb-sub">UD&AS · 2026–2075</div>
   </div>
 
   <div class="nav-group">
     <div class="nav-section-label">Command Brief</div>
-    <button class="nav-item active" data-tab="s-overview" onclick="goTab('s-overview',this)">
+    <button class="nav-item active" data-tab="s-console-opening" onclick="goTab('s-console-opening',this)">
+      <span class="nav-item-num">0.0</span>Opening Console
+    </button>
+    <button class="nav-item" data-tab="s-overview" onclick="goTab('s-overview',this)">
       <span class="nav-item-num">I</span>Strategic Overview
     </button>
   </div>
@@ -1026,10 +1086,51 @@ h4 { font-size: .97rem; }
 <!-- ════ MAIN CONTENT ════ -->
 <div class="main-content" id="mainContent">
 
+
+<!-- ═══════════════════════════════════════
+     SECTION 0.0 — STRATEGIC INTELLIGENCE CONSOLE OPENING
+═══════════════════════════════════════ -->
+<section id="s-console-opening" class="section-panel active">
+  <div class="console-opening-shell">
+    <div class="console-hero">
+      <div class="console-hero-top">
+        <div class="console-hero-copy">
+          <div class="console-kicker">Harvard UD&amp;AS · Companion Console</div>
+          <h1>Strategic Intelligence <em>Console</em></h1>
+          <p class="console-thesis" style="color:#fff!important"><strong style="color:#fff!important">This companion report translates long-range change into an executive decision environment.</strong> It connects AI transition, donor-market resilience, demographic futures, and advancement operations so leadership can see earlier, prioritize faster, and help schools move with clearer signals.</p>
+          <p class="console-thesis" style="color:#fff!important">The purpose is not to predict one future. It is to give Harvard a structured way to monitor multiple futures, protect time for high-value relationship work, and turn public trends plus internal signals into mission-aligned fundraising strategy.</p>
+          <div class="console-actions">
+            <button class="console-btn primary" onclick="goTab('s-overview',document.querySelector('[data-tab=s-overview]'))">Start console brief</button>
+            <button class="console-btn" onclick="goTab('s-ai-transition',document.querySelector('[data-tab=s-ai-transition]'))">AI transition plan</button>
+            <button class="console-btn" onclick="goTab('s-demo-futures',document.querySelector('[data-tab=s-demo-futures]'))">Demographic futures</button>
+          </div>
+        </div>
+        <div class="console-side">
+          <h2>What the console is designed to do</h2>
+          <p>Surface the signals that matter before they become late-stage surprises: AI workflow adoption, federal funding pressure, donor liquidity, regional wealth movement, and long-horizon population shifts.</p>
+          <div class="console-chip"><b>Executive use case</b><span>Give leaders a single strategic lens for decisions that cross schools, fundraisers, data teams, and long-range campaign planning.</span></div>
+          <div class="console-chip"><b>Operating principle</b><span>Use AI to buy back time, improve clarity, and strengthen human judgment — not to flatten Harvard’s school-specific advancement model.</span></div>
+        </div>
+      </div>
+      <div class="console-metrics">
+        <div class="console-metric"><b>2026→2075</b><span>Long-range advancement horizon</span></div>
+        <div class="console-metric"><b>3</b><span>Disruption fields tracked</span></div>
+        <div class="console-metric"><b>14</b><span>Console sections and playbooks</span></div>
+        <div class="console-metric"><b>100%</b><span>Synthetic demonstration data</span></div>
+      </div>
+    </div>
+    <div class="console-triad">
+      <div class="console-card"><div class="num">01 · AI Transition</div><h3>Make AI operationally useful</h3><p>Clarify which work can be accelerated, which roles need support, and where human judgment remains essential.</p></div>
+      <div class="console-card"><div class="num">02 · Economic Resilience</div><h3>See donor capacity earlier</h3><p>Track liquidity, volatility, and sector-specific donor risk so leadership can act before campaign timing becomes constrained.</p></div>
+      <div class="console-card"><div class="num">03 · Demographic Futures</div><h3>Prepare for a smaller donor pool</h3><p>Map population, wealth-transfer, and global donor-market shifts that will shape philanthropy beyond the current campaign cycle.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- ═══════════════════════════════════════
      SECTION I — STRATEGIC OVERVIEW
 ═══════════════════════════════════════ -->
-<section id="s-overview" class="section-panel active">
+<section id="s-overview" class="section-panel">
 <div class="wrap">
   <div style="margin-bottom:20px">
     <div class="section-eyebrow">Section I · Command Brief</div>
@@ -1123,7 +1224,7 @@ h4 { font-size: .97rem; }
   <div class="g2" style="margin-bottom:20px">
     <div class="callout callout-gold">
       <h4>How Leadership Should Use This Console</h4>
-      <p style="font-size:.83rem">Each section is self-contained: read the first card for the 30-second version, expand for the full model. Every section ends with a specific decision the AVP must make. Use the roadmap (Section XI) to connect all three foresight horizons into a single operating plan.</p>
+      <p style="font-size:.83rem">Each section is self-contained: read the first card for the 30-second version, expand for the full model. Every section ends with a specific decision the AVP must make. Use the roadmap (Section XI) to connect all three strategic intelligence horizons into a single operating plan.</p>
     </div>
     <div class="callout callout-cr">
       <h4>The Central Argument</h4>
@@ -1140,7 +1241,7 @@ h4 { font-size: .97rem; }
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
       <div style="background:var(--cream);border:1px solid var(--bdr);border-radius:3px;padding:9px 10px"><strong style="display:block;font-family:var(--mono);font-size:.59rem;text-transform:uppercase;color:var(--ink);letter-spacing:.05em;margin-bottom:3px">Campaign + AI</strong><span style="font-size:.76rem;color:var(--mid)">Next campaign architecture, ethical AI champion, CRM governance as accountable executive.</span></div>
       <div style="background:var(--cream);border:1px solid var(--bdr);border-radius:3px;padding:9px 10px"><strong style="display:block;font-family:var(--mono);font-size:.59rem;text-transform:uppercase;color:var(--ink);letter-spacing:.05em;margin-bottom:3px">Resilience + Data</strong><span style="font-size:.76rem;color:var(--mid)">Donor fragility mapping, shadow endowment strategy, scenario-based forecasting.</span></div>
-      <div style="background:var(--cream);border:1px solid var(--bdr);border-radius:3px;padding:9px 10px"><strong style="display:block;font-family:var(--mono);font-size:.59rem;text-transform:uppercase;color:var(--ink);letter-spacing:.05em;margin-bottom:3px">Long-Term Foresight</strong><span style="font-size:.76rem;color:var(--mid)">Demographic decline planning, planned giving acceleration, new market development.</span></div>
+      <div style="background:var(--cream);border:1px solid var(--bdr);border-radius:3px;padding:9px 10px"><strong style="display:block;font-family:var(--mono);font-size:.59rem;text-transform:uppercase;color:var(--ink);letter-spacing:.05em;margin-bottom:3px">Long-Term Strategic Intelligence Console</strong><span style="font-size:.76rem;color:var(--mid)">Demographic decline planning, planned giving acceleration, new market development.</span></div>
     </div>
   </div>
 
@@ -1484,7 +1585,7 @@ h4 { font-size: .97rem; }
 <section id="s-demo-futures" class="section-panel">
 <div class="wrap">
   <div style="margin-bottom:20px">
-    <div class="section-eyebrow">Section VI · Long-Term Foresight · 2025–2075</div>
+    <div class="section-eyebrow">Section VI · Long-Term Strategic Intelligence Console · 2025–2075</div>
     <h1 class="section-heading">Population Decline & <em>The Philanthropy Horizon</em></h1>
     <div class="section-rule"></div>
     <p class="section-dek">The most important strategic fact about university fundraising in the next 50 years is one that almost no advancement office is planning for: the world's population will peak around 2086 and begin to decline. High-income donor markets decline first. Harvard must design its philanthropy infrastructure for a world with fewer potential donors — not more.</p>
@@ -1881,7 +1982,7 @@ h4 { font-size: .97rem; }
     <div class="section-eyebrow">Section XI · Master Roadmap · FY2026–FY2075</div>
     <h1 class="section-heading">The 50-Year <em>Advancement Roadmap</em></h1>
     <div class="section-rule"></div>
-    <p class="section-dek">Connecting the three foresight horizons — AI transition, economic resilience, and demographic futures — into a single integrated action plan. Each era has distinct leadership priorities and measurable milestones.</p>
+    <p class="section-dek">Connecting the three strategic intelligence horizons — AI transition, economic resilience, and demographic futures — into a single integrated action plan. Each era has distinct leadership priorities and measurable milestones.</p>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:0">
@@ -1952,7 +2053,7 @@ h4 { font-size: .97rem; }
   </div>
 
   <div class="close-band" style="margin-top:16px">
-    <div class="close-band-label">The Foresight Console · Summary for Leadership</div>
+    <div class="close-band-label">The Strategic Intelligence Console · Summary for Leadership</div>
     <div class="close-band-title">The decisions made in FY2026 determine whether Harvard's advancement operation is <em>positioned for 2075 or caught unprepared by it.</em></div>
     <div class="close-band-metrics">
       <div class="cbm"><div class="cbm-v">FY28</div><div class="cbm-l">AI-native campaign launch</div></div>
@@ -1963,7 +2064,7 @@ h4 { font-size: .97rem; }
     </div>
   </div>
 
-  <div class="disclaimer" style="margin-top:18px">⚠ <strong>Foresight Methodology:</strong> Long-horizon projections (2040–2075) are necessarily speculative and provided for strategic framing purposes only. Population data: UN World Population Prospects 2024 Medium Variant. Wealth transfer: Cerulli Associates 2024 / Federal Reserve SCF. All advancement figures are synthetic illustrative data. © 2026 Narissara Khomkhai · All rights reserved.</div>
+  <div class="disclaimer" style="margin-top:18px">⚠ <strong>Strategic Intelligence Console Methodology:</strong> Long-horizon projections (2040–2075) are necessarily speculative and provided for strategic framing purposes only. Population data: UN World Population Prospects 2024 Medium Variant. Wealth transfer: Cerulli Associates 2024 / Federal Reserve SCF. All advancement figures are synthetic illustrative data. © 2026 Narissara Khomkhai · All rights reserved.</div>
 </div>
 </section>
 
@@ -1976,12 +2077,12 @@ h4 { font-size: .97rem; }
     <div class="section-eyebrow">Section XII · Report System Map · Synchronized Portfolio Series</div>
     <h1 class="section-heading">One Topic Spine Across <em>Three Reports</em></h1>
     <div class="section-rule"></div>
-    <p class="section-dek">The foresight console sets the strategic horizon, the portfolio report translates the horizon into operating architecture, the AI news-alerts report monitors external signals, and the HKS report demonstrates the school-level stewardship layer.</p>
+    <p class="section-dek">The strategic intelligence console sets the strategic horizon, the portfolio report translates the horizon into operating architecture, the AI news-alerts report monitors external signals, and the HKS report demonstrates the school-level stewardship layer.</p>
   </div>
 
   <div class="sync-map">
     <div class="sync-card">
-      <h3>Foresight Console</h3>
+      <h3>Strategic Intelligence Console</h3>
       <p>Defines the long-range thesis: AI transition, economic volatility, demographic contraction, donor-market shifts, planned giving, and campaign resilience through FY2075.</p>
     </div>
     <div class="sync-card">
@@ -2006,7 +2107,7 @@ h4 { font-size: .97rem; }
 
   <table class="sync-table" aria-label="Synchronized topic map">
     <thead>
-      <tr><th>Strategic Foresight Topic</th><th>Portfolio Operating Match</th><th>AI News Alert Watchlist</th></tr>
+      <tr><th>Strategic Strategic Intelligence Console Topic</th><th>Portfolio Operating Match</th><th>AI News Alert Watchlist</th></tr>
     </thead>
     <tbody>
       <tr>
@@ -2126,7 +2227,7 @@ h4 { font-size: .97rem; }
 <div class="wrap end-page">
   <div class="end-panel">
     <div class="end-eyebrow">Section XIV · Proposal Next Step</div>
-    <h1 class="end-title">Want the operating detail behind this foresight console?</h1>
+    <h1 class="end-title">Want the operating detail behind this strategic intelligence console?</h1>
     <p class="end-copy">This page is the strategic view. For the full implementation logic, portfolio architecture, and proposal-level operating plan, continue to the companion report proposal.</p>
     <div class="report-link-row">
       <a href="harvard-portfolio.html" target="_blank" class="gold">View Report Proposal</a>
@@ -2145,7 +2246,7 @@ h4 { font-size: .97rem; }
       <div class="source-card">
         <h3>Recommended use</h3>
         <ul>
-          <li>Use this foresight console for leadership orientation.</li>
+          <li>Use this strategic intelligence console for leadership orientation.</li>
           <li>Use the proposal report for implementation depth and discussion.</li>
           <li>Treat both documents as synthetic portfolio artifacts unless validated with official institutional data.</li>
         </ul>
