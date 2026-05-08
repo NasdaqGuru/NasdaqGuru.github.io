@@ -12807,9 +12807,6 @@ window.openUnopenedPatch=function(){
 .uaad-5g-grid div{border:1px solid #dbe7f5;border-radius:8px;background:#fff;padding:12px}
 .uaad-5g-grid b{display:block;font-family:var(--display);font-size:.98rem;color:var(--ink);margin-bottom:5px}
 .uaad-5g-grid span{display:block;font-size:.78rem;line-height:1.45;color:var(--slate)}
-.uaad-veritas-image-mark{position:absolute;left:18px;bottom:18px;z-index:8;pointer-events:none;background:rgba(10,14,20,.84);color:#fff;border:1px solid rgba(241,216,138,.55);border-left:5px solid #f1d88a;border-radius:10px;padding:10px 13px;box-shadow:0 12px 30px rgba(0,0,0,.3);backdrop-filter:blur(5px)}
-.uaad-veritas-image-mark b{display:block;font-family:var(--display);font-size:1.05rem;letter-spacing:.04em;color:#fff;line-height:1}
-.uaad-veritas-image-mark span{display:block;font-family:var(--mono);font-size:.48rem;letter-spacing:.1em;text-transform:uppercase;color:#f1d88a;margin-top:4px;font-weight:900}
 .uaad-live-signal{position:absolute;right:8%;top:14%;z-index:7;pointer-events:none;width:min(180px,28%);height:min(150px,26%)}
 .uaad-signal-ring{position:absolute;right:8px;top:0;width:72px;height:72px;border:2px solid rgba(26,77,130,.9);border-radius:999px;animation:uaadSignalPulse 2.2s ease-out infinite}
 .uaad-signal-ring:nth-child(2){animation-delay:.55s;border-color:rgba(164,16,52,.82)}
@@ -12818,7 +12815,7 @@ window.openUnopenedPatch=function(){
 @keyframes uaadSignalPulse{0%{transform:scale(.35);opacity:.95}80%{transform:scale(1.7);opacity:0}100%{transform:scale(1.7);opacity:0}}
 @keyframes uaadBeam{0%,100%{opacity:.45;filter:saturate(.9)}50%{opacity:1;filter:saturate(1.4)}}
 @media(max-width:1120px){.uaad-hierarchy-clusters{grid-template-columns:repeat(2,1fr)}.uaad-hierarchy-root{grid-template-columns:1fr}.uaad-hierarchy-metrics{min-width:0;max-width:none;width:100%}}
-@media(max-width:720px){.uaad-hierarchy-v24{padding:18px}.uaad-hierarchy-clusters,.uaad-hierarchy-metrics,.uaad-modal-grid,.uaad-modal-columns,.uaad-5g-grid{grid-template-columns:1fr}.uaad-hierarchy-dialog-inner{padding:20px}.uaad-veritas-image-mark{left:10px;bottom:10px}.uaad-live-signal{right:4%;top:8%;width:34%;height:22%}}
+@media(max-width:720px){.uaad-hierarchy-v24{padding:18px}.uaad-hierarchy-clusters,.uaad-hierarchy-metrics,.uaad-modal-grid,.uaad-modal-columns,.uaad-5g-grid{grid-template-columns:1fr}.uaad-hierarchy-dialog-inner{padding:20px}.uaad-live-signal{right:4%;top:8%;width:34%;height:22%}}
 @media(prefers-reduced-motion:reduce){.uaad-signal-ring,.uaad-signal-beam{animation:none!important}}
 </style>
 <script id="uaad-veritas-hierarchy-v24-script">
@@ -12936,13 +12933,13 @@ window.openUnopenedPatch=function(){
 
   function addTrainSignals(){
     [
-      {selector:"#s-fundraising-future .uaad-train-image-wrap",label:"VERITAS",note:"live signal layer"},
+      {selector:"#s-fundraising-future .uaad-train-image-wrap",label:"VERITAS",note:"signal priority"},
       {selector:"#s-redesign-services .rd54-train-image-wrap",label:"VERITAS",note:"5G-Advanced signal priority"}
     ].forEach(function(item){
       document.querySelectorAll(item.selector).forEach(function(wrap){
-        if(wrap.querySelector(".uaad-veritas-image-mark")) return;
+        if(wrap.querySelector(".")) return;
         wrap.style.position = "relative";
-        wrap.insertAdjacentHTML("beforeend", '<div class="uaad-live-signal" aria-hidden="true"><div class="uaad-signal-ring"></div><div class="uaad-signal-ring"></div><div class="uaad-signal-ring"></div><div class="uaad-signal-beam"></div></div><div class="uaad-veritas-image-mark" aria-hidden="true"><b>'+esc(item.label)+'</b><span>'+esc(item.note)+'</span></div>');
+        wrap.insertAdjacentHTML("beforeend", '<div class="uaad-live-signal" aria-hidden="true"><div class="uaad-signal-ring"></div><div class="uaad-signal-ring"></div><div class="uaad-signal-ring"></div><div class="uaad-signal-beam"></div></div><div class="" aria-hidden="true"><b>'+esc(item.label)+'</b><span>'+esc(item.note)+'</span></div>');
       });
     });
   }
@@ -13167,178 +13164,125 @@ window.openUnopenedPatch=function(){
 <!-- UAAD V25 LIVE TRAIN END -->
 
 
-
-
-
-
-
-
-
-
-<style id="uaad-v27-operations-redesign-css">
-/* V27: clearer operating model, VP/Leadership dashboard, Section 2.0 authority tree, and train overlay cleanup. */
-.v27-shell{background:#fff;border:1px solid var(--bdr);border-radius:6px;box-shadow:0 16px 44px rgba(24,24,24,.08);overflow:hidden;margin:18px 0 28px;color:#18202b}
-.v27-top{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:end;padding:22px 24px;border-bottom:1px solid #e6dcc8;background:linear-gradient(180deg,#fff 0,#fbf7ee 100%)}
-.v27-kicker{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:900;margin-bottom:7px}
-.v27-top h3,.v27-top h2{font-family:var(--display);font-size:clamp(1.35rem,2.4vw,2rem);line-height:1.08;margin:0;color:#161a22;letter-spacing:-.015em}
-.v27-top p{margin:9px 0 0;color:#4a5568;font-size:.92rem;line-height:1.55;max-width:850px}
-.v27-toggle{display:flex;align-items:center;gap:7px;background:#f7f2e8;border:1px solid #e0d3b8;border-radius:999px;padding:5px;white-space:nowrap}
-.v27-toggle button{border:0;border-radius:999px;background:transparent;color:#5b4a2c;font-family:var(--mono);font-size:.58rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;padding:9px 13px;cursor:pointer}
-.v27-toggle button.is-active{background:#a41034;color:#fff;box-shadow:0 8px 18px rgba(164,16,52,.22)}
-.v27-grid{display:grid;grid-template-columns:1.22fr .78fr;gap:0}
-.v27-main{padding:20px 22px 24px;border-right:1px solid #ebe1cf}
-.v27-side{padding:20px;background:#fcfaf6}
-.v27-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:16px}
-.v27-kpi{border:1px solid #e7ddcb;background:#fff;border-radius:5px;padding:13px 14px;min-height:92px}
-.v27-kpi span{display:block;font-family:var(--mono);font-size:.53rem;letter-spacing:.08em;text-transform:uppercase;color:#687487;font-weight:900;line-height:1.25}
-.v27-kpi b{display:block;font-family:var(--display);font-size:1.42rem;color:#a41034;line-height:1.04;margin:7px 0 4px}
-.v27-kpi em{display:block;font-style:normal;color:#4a5568;font-size:.68rem;line-height:1.25}
-.v27-lanes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;margin:15px 0}
-.v27-lane{border:1px solid #e5d9c5;border-radius:5px;background:#fff;padding:13px;position:relative;overflow:hidden}
-.v27-lane:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#a41034}
-.v27-lane.gold:before{background:#b6862c}.v27-lane.blue:before{background:#1a4d82}.v27-lane.green:before{background:#25623a}
-.v27-lane span{font-family:var(--mono);font-size:.52rem;letter-spacing:.09em;text-transform:uppercase;color:#6b7280;font-weight:900}
-.v27-lane b{display:block;font-family:var(--display);font-size:1rem;color:#111827;margin:6px 0 5px}
-.v27-lane p{font-size:.75rem;color:#4b5563;line-height:1.45;margin:0}
-.v27-progress{display:grid;gap:9px;border:1px solid #eadfcc;border-radius:5px;background:#fff;padding:14px;margin-top:15px}
-.v27-progress h4,.v27-panel-title{font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#6f5b36;font-weight:900;margin:0 0 6px}
-.v27-row{display:grid;grid-template-columns:132px minmax(0,1fr) 46px;gap:9px;align-items:center;font-size:.7rem;color:#2d3748}
-.v27-bar{height:12px;background:#eceff3;border-radius:999px;overflow:hidden}
-.v27-bar i{display:block;height:100%;background:linear-gradient(90deg,#a41034,#d8a73f);border-radius:999px}
-.v27-peer-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #e6dcc8;border-radius:5px;overflow:hidden;font-size:.68rem}
-.v27-peer-table th{background:#171d27;color:#fff;font-family:var(--mono);font-size:.52rem;text-transform:uppercase;letter-spacing:.08em;text-align:left;padding:8px}
-.v27-peer-table td{padding:8px;border-top:1px solid #eee3d3;color:#2d3748;vertical-align:top}
-.v27-peer-table b{color:#a41034}
-.v27-alerts{display:grid;gap:9px;margin-top:12px}
-.v27-alert{display:grid;grid-template-columns:9px minmax(0,1fr);gap:10px;padding:11px;border:1px solid #eadfcc;background:#fff;border-radius:5px}
-.v27-alert i{width:9px;height:9px;border-radius:50%;background:#a41034;margin-top:4px;box-shadow:0 0 0 4px rgba(164,16,52,.08)}
-.v27-alert.good i{background:#25623a;box-shadow:0 0 0 4px rgba(37,98,58,.1)}.v27-alert.watch i{background:#b6862c;box-shadow:0 0 0 4px rgba(182,134,44,.12)}
-.v27-alert b{display:block;font-size:.76rem;color:#111827;margin-bottom:3px}.v27-alert span{display:block;font-size:.68rem;color:#4b5563;line-height:1.38}
-.v27-alert small{display:block;margin-top:5px;font-family:var(--mono);font-size:.49rem;letter-spacing:.06em;text-transform:uppercase;color:#7b8797}
-.v27-source-note{margin-top:12px;padding-top:10px;border-top:1px solid #e5d9c5;color:#667085;font-size:.64rem;line-height:1.45}
-.v27-source-note a{color:#8f1534;text-decoration:underline;text-underline-offset:2px}
-.v27-panel[hidden]{display:none!important}
-.v27-org{background:#fff;border:1px solid #e5d9c5;border-radius:6px;box-shadow:0 12px 34px rgba(24,24,24,.07);overflow:hidden;margin-bottom:28px}
-.v27-org-head{padding:20px 24px;background:linear-gradient(135deg,#171d27,#4b1022);color:#fff}
-.v27-org-head span{font-family:var(--mono);font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:#f1d88a;font-weight:900}.v27-org-head h2{font-family:var(--display);font-size:clamp(1.35rem,2.5vw,2.05rem);margin:7px 0 6px}.v27-org-head p{margin:0;color:rgba(255,255,255,.78);line-height:1.55;max-width:880px}
-.v27-authority-tree{padding:22px;display:grid;gap:18px;background:#fcfaf6}
-.v27-command-row{display:grid;grid-template-columns:1fr 44px 1fr 44px 1.2fr;gap:10px;align-items:center}
-.v27-command-card{background:#fff;border:1px solid #e2d6c3;border-radius:5px;padding:14px;text-align:center;min-height:112px}
-.v27-command-card.lead{border-color:#a41034;box-shadow:inset 0 4px 0 #a41034}.v27-command-card.vp{border-color:#b6862c;box-shadow:inset 0 4px 0 #b6862c}.v27-command-card.deans{border-color:#1a4d82;box-shadow:inset 0 4px 0 #1a4d82}
-.v27-command-card span{font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:#6b7280;font-weight:900}.v27-command-card b{display:block;font-family:var(--display);font-size:1.08rem;color:#111827;margin:6px 0}.v27-command-card p{font-size:.72rem;color:#4b5563;line-height:1.35;margin:0}
-.v27-arrow{font-family:var(--display);font-size:1.8rem;color:#a41034;text-align:center}
-.v27-spine{display:grid;grid-template-columns:1fr 1.25fr;gap:14px}
-.v27-spine-card{background:#111827;color:#fff;border-radius:5px;padding:16px;border:1px solid #303747}
-.v27-spine-card span{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;text-transform:uppercase;color:#f1d88a;font-weight:900}.v27-spine-card b{display:block;font-family:var(--display);font-size:1.25rem;margin:7px 0}.v27-spine-card p{font-size:.78rem;line-height:1.5;color:rgba(255,255,255,.78);margin:0}
-.v27-comms-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
-.v27-comms{background:#fff;border:1px solid #e1d5c2;border-radius:5px;padding:12px;min-height:106px}
-.v27-comms span{font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;color:#8f1534;font-weight:900}.v27-comms b{display:block;font-size:.8rem;color:#111827;margin:5px 0}.v27-comms p{font-size:.68rem;line-height:1.36;color:#4b5563;margin:0}
-.v27-school-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}
-.v27-school{background:#fff;border:1px solid #e5d9c5;border-radius:4px;padding:8px;text-align:center}
-.v27-school b{display:block;font-family:var(--mono);font-size:.64rem;color:#a41034}.v27-school span{display:block;font-size:.58rem;color:#4b5563;line-height:1.18;margin-top:3px}
-.v27-control-diagram{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:15px}
-.v27-control-step{background:#fff;border:1px solid #eadfcc;border-radius:5px;padding:13px}.v27-control-step span{font-family:var(--mono);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:#6f5b36;font-weight:900}.v27-control-step b{display:block;font-size:.82rem;color:#111827;margin:5px 0}.v27-control-step p{font-size:.7rem;color:#4b5563;line-height:1.4;margin:0}
-@media(max-width:1100px){.v27-grid,.v27-spine{grid-template-columns:1fr}.v27-main{border-right:0;border-bottom:1px solid #ebe1cf}.v27-command-row{grid-template-columns:1fr}.v27-arrow{transform:rotate(90deg)}.v27-kpi-grid,.v27-lanes,.v27-comms-grid,.v27-control-diagram{grid-template-columns:1fr 1fr}.v27-school-grid{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:680px){.v27-top{grid-template-columns:1fr}.v27-toggle{width:100%;justify-content:space-between}.v27-toggle button{flex:1}.v27-kpi-grid,.v27-lanes,.v27-comms-grid,.v27-control-diagram{grid-template-columns:1fr}.v27-row{grid-template-columns:1fr}.v27-school-grid{grid-template-columns:repeat(2,1fr)}.v27-peer-table{font-size:.62rem}}
+<style id="uaad-v28-restore-enhance-css">
+/* V28: restore richer baseline, add complexity without flattening the original dashboard/tree. */
+.v28-suite{margin:22px 0 30px;background:#fff;border:1px solid var(--bdr);border-radius:7px;box-shadow:0 16px 42px rgba(24,24,24,.08);overflow:hidden;color:#18202b}
+.v28-suite-head{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:end;padding:22px 24px;background:linear-gradient(180deg,#fff,#fbf6ea);border-bottom:1px solid #e5d9c5}
+.v28-kicker{font-family:var(--mono);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:900;margin-bottom:7px}
+.v28-suite h3,.v28-tree h3{font-family:var(--display);font-size:clamp(1.3rem,2.4vw,2rem);line-height:1.1;margin:0;color:#151922;letter-spacing:-.015em}
+.v28-suite-head p{margin:9px 0 0;color:#526071;line-height:1.55;font-size:.9rem;max-width:850px}
+.v28-source-pill{border:1px solid #d8c69f;background:#fff;border-radius:999px;padding:9px 13px;font-family:var(--mono);font-size:.54rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:#6e5520;white-space:nowrap}
+.v28-suite-body{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(310px,.65fr);gap:0}
+.v28-map-wrap{padding:22px;border-right:1px solid #eadfcc}
+.v28-report-map{min-height:520px;position:relative;border:1px solid #e7dcc9;border-radius:6px;background:radial-gradient(circle at 50% 45%,rgba(164,16,52,.09),transparent 28%),linear-gradient(180deg,#fff,#fcfaf6);overflow:hidden}
+.v28-report-map:before{content:"";position:absolute;left:50%;top:50%;width:68%;height:68%;border:1px dashed rgba(164,16,52,.2);border-radius:50%;transform:translate(-50%,-50%)}
+.v28-report-map:after{content:"";position:absolute;left:50%;top:50%;width:44%;height:44%;border:1px dashed rgba(182,134,44,.24);border-radius:50%;transform:translate(-50%,-50%)}
+.v28-hub{position:absolute;left:50%;top:50%;width:210px;min-height:118px;transform:translate(-50%,-50%);z-index:2;background:#171d27;color:#fff;border:1px solid #394151;border-top:5px solid #a41034;border-radius:6px;padding:16px;text-align:center;box-shadow:0 18px 36px rgba(24,24,24,.24)}
+.v28-hub span{display:block;font-family:var(--mono);font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:#f1d88a;font-weight:900}.v28-hub b{display:block;font-family:var(--display);font-size:1.24rem;margin:7px 0 5px}.v28-hub em{display:block;font-style:normal;font-size:.67rem;color:rgba(255,255,255,.75);line-height:1.35}
+.v28-report-node{position:absolute;z-index:3;width:148px;min-height:64px;border:1px solid #e0d2bd;background:#fff;border-radius:5px;box-shadow:0 8px 18px rgba(24,24,24,.08);padding:10px;text-align:left;cursor:pointer;color:#1f2937}
+.v28-report-node:before{content:"";position:absolute;left:50%;top:50%;width:1px;height:150px;background:rgba(164,16,52,.18);transform-origin:top;z-index:-1}
+.v28-report-node:hover,.v28-report-node.is-active{border-color:#a41034;box-shadow:0 12px 28px rgba(164,16,52,.16)}
+.v28-report-node b{display:block;font-size:.72rem;color:#111827;margin-bottom:4px}.v28-report-node span{display:block;font-size:.58rem;line-height:1.28;color:#526071}
+.v28-report-node small{display:block;margin-top:5px;font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;text-transform:uppercase;color:#a41034;font-weight:900}
+.v28-report-node.n1{left:5%;top:8%}.v28-report-node.n1:before{transform:rotate(38deg)}
+.v28-report-node.n2{left:34%;top:3%}.v28-report-node.n2:before{transform:rotate(9deg)}
+.v28-report-node.n3{right:14%;top:7%}.v28-report-node.n3:before{transform:rotate(-34deg)}
+.v28-report-node.n4{right:3%;top:30%}.v28-report-node.n4:before{transform:rotate(-74deg)}
+.v28-report-node.n5{right:8%;bottom:14%}.v28-report-node.n5:before{transform:rotate(-126deg)}
+.v28-report-node.n6{left:38%;bottom:5%}.v28-report-node.n6:before{transform:rotate(184deg)}
+.v28-report-node.n7{left:7%;bottom:16%}.v28-report-node.n7:before{transform:rotate(130deg)}
+.v28-report-node.n8{left:2%;top:38%}.v28-report-node.n8:before{transform:rotate(85deg)}
+.v28-report-detail{padding:22px;background:#fcfaf6}
+.v28-detail-card{background:#fff;border:1px solid #e6dcc8;border-radius:6px;padding:16px;box-shadow:0 4px 14px rgba(24,24,24,.04)}
+.v28-detail-card h4{font-family:var(--display);font-size:1.18rem;color:#a41034;margin:0 0 7px}.v28-detail-card p{font-size:.78rem;color:#4b5563;line-height:1.5;margin:0 0 10px}.v28-detail-card a{display:inline-flex;border:1px solid #a41034;border-radius:4px;padding:8px 11px;color:#a41034;text-decoration:none;font-family:var(--mono);font-size:.54rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.v28-kpi-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}.v28-kpi{border:1px solid #eadfcc;background:#fff;border-radius:5px;padding:11px}.v28-kpi span{display:block;font-family:var(--mono);font-size:.49rem;letter-spacing:.08em;text-transform:uppercase;color:#667085;font-weight:900}.v28-kpi b{display:block;font-family:var(--display);font-size:1.15rem;color:#111827;margin-top:5px}
+.v28-peer{margin-top:13px;border:1px solid #e6dcc8;background:#fff;border-radius:6px;overflow:hidden}.v28-peer h4{font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:#6e5520;margin:0;padding:11px 12px;background:#fbf6ea;border-bottom:1px solid #e6dcc8}.v28-peer-row{display:grid;grid-template-columns:82px 1fr auto;gap:8px;padding:8px 12px;border-bottom:1px solid #f0e7d8;font-size:.65rem;color:#344054;align-items:center}.v28-peer-row:last-child{border-bottom:0}.v28-peer-row b{color:#a41034}.v28-peer-row em{font-style:normal;font-weight:800;color:#111827}
+.v28-ops-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}.v28-ops{background:#fff;border:1px solid #eadfcc;border-radius:5px;padding:12px}.v28-ops span{font-family:var(--mono);font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;color:#6e5520;font-weight:900}.v28-ops b{display:block;font-size:.82rem;color:#111827;margin:5px 0}.v28-ops p{font-size:.67rem;color:#526071;line-height:1.36;margin:0}
+.v28-tree{margin:24px 0 28px;background:#fff;border:1px solid var(--bdr);border-radius:7px;box-shadow:0 16px 42px rgba(24,24,24,.08);overflow:hidden;color:#18202b}
+.v28-tree-head{padding:22px 24px;background:linear-gradient(135deg,#171d27,#4b1022);color:#fff}.v28-tree-head .v28-kicker{color:#f1d88a}.v28-tree-head h3{color:#fff}.v28-tree-head p{margin:9px 0 0;color:rgba(255,255,255,.76);line-height:1.55;font-size:.9rem;max-width:940px}
+.v28-tree-body{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(300px,.55fr);gap:0}
+.v28-priority-canvas{padding:24px;background:#fcfaf6;overflow:auto}
+.v28-tree-list,.v28-tree-list ul{list-style:none;margin:0;padding:0}.v28-tree-list ul{position:relative;margin-left:26px;padding-left:24px;border-left:2px solid #d9c9aa}.v28-tree-list li{position:relative;margin:10px 0}.v28-tree-list li:before{content:"";position:absolute;left:-24px;top:23px;width:24px;border-top:2px solid #d9c9aa}
+.v28-tree-node{display:inline-grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;min-width:245px;max-width:360px;background:#fff;border:1px solid #e2d6c3;border-radius:6px;padding:11px 12px;text-align:left;cursor:pointer;box-shadow:0 5px 14px rgba(24,24,24,.05);color:#18202b}
+.v28-tree-node:hover,.v28-tree-node.is-active{border-color:#a41034;box-shadow:0 10px 22px rgba(164,16,52,.12)}
+.v28-node-dot{width:24px;height:24px;border-radius:999px;background:#a41034;color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.55rem;font-weight:900;flex-shrink:0}.v28-tree-node.gold .v28-node-dot{background:#b6862c}.v28-tree-node.blue .v28-node-dot{background:#1a4d82}.v28-tree-node.green .v28-node-dot{background:#25623a}.v28-tree-node.dark .v28-node-dot{background:#171d27}
+.v28-tree-node b{display:block;font-size:.8rem;color:#111827;margin-bottom:3px}.v28-tree-node span{display:block;font-size:.64rem;color:#526071;line-height:1.28}.v28-tree-node small{display:block;font-family:var(--mono);font-size:.48rem;color:#a41034;letter-spacing:.06em;text-transform:uppercase;margin-top:5px;font-weight:900}
+.v28-tree-detail{padding:22px;background:#fff;border-left:1px solid #eadfcc}.v28-tree-detail h4{font-family:var(--display);font-size:1.22rem;color:#a41034;margin:0 0 8px}.v28-tree-detail p{font-size:.78rem;color:#4b5563;line-height:1.52;margin:0 0 12px}.v28-tree-actions{display:grid;gap:9px}.v28-tree-action{border:1px solid #eadfcc;border-radius:5px;padding:10px;background:#fcfaf6}.v28-tree-action span{display:block;font-family:var(--mono);font-size:.49rem;letter-spacing:.08em;text-transform:uppercase;color:#6e5520;font-weight:900}.v28-tree-action b{display:block;font-size:.76rem;color:#111827;margin-top:4px}
+.v28-source-note{margin-top:12px;padding-top:10px;border-top:1px solid #e5d9c5;color:#667085;font-size:.62rem;line-height:1.45}.v28-source-note a{color:#8f1534;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:1120px){.v28-suite-body,.v28-tree-body{grid-template-columns:1fr}.v28-map-wrap,.v28-tree-detail{border-right:0;border-left:0;border-bottom:1px solid #eadfcc}.v28-report-map{min-height:680px}.v28-report-node{position:relative;left:auto!important;right:auto!important;top:auto!important;bottom:auto!important;width:auto}.v28-report-node:before,.v28-report-map:before,.v28-report-map:after{display:none}.v28-report-map{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:12px}.v28-hub{position:relative;left:auto;top:auto;transform:none;width:auto;grid-column:1/-1}.v28-ops-board{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.v28-suite-head{grid-template-columns:1fr}.v28-source-pill{white-space:normal}.v28-report-map,.v28-ops-board,.v28-kpi-strip{grid-template-columns:1fr}.v28-tree-list ul{margin-left:12px;padding-left:16px}.v28-tree-list li:before{left:-16px;width:16px}.v28-tree-node{min-width:0;width:100%}}
 </style>
-<script id="uaad-v27-operations-redesign-script">
+<script id="uaad-v28-restore-enhance-script">
 (function(){
-  if(window.__uaadV27OpsRedesign) return;
-  window.__uaadV27OpsRedesign = true;
-
-  var sources = {
-    harvardFinance: "https://finance.harvard.edu/financial-overview",
-    harvardEndowment: "https://www.harvard.edu/about/endowment/",
-    harvardEnrollment: "https://oira.harvard.edu/factbook/fact-book-enrollment/",
-    harvardStaff: "https://oira.harvard.edu/factbook/fact-book-faculty-staff/",
-    harvardCareers: "https://alumni.harvard.edu/careers",
-    harvardVp: "https://news.harvard.edu/gazette/story/2025/01/new-vp-named-for-alumni-affairs-and-development/",
-    harvardGarber: "https://news.harvard.edu/gazette/story/2025/12/garber-to-lead-harvard-beyond-2026-27-academic-year/",
-    harvardFaber: "https://news.harvard.edu/gazette/story/2025/07/faber-appointed-chief-development-officer-for-faculty-of-arts-and-sciences/",
-    yale: "https://news.yale.edu/2025/10/24/yale-reports-investment-return-fiscal-2025",
-    stanford: "https://facts.stanford.edu/admin-finances/finances/",
-    princeton: "https://finance.princeton.edu/report-treasurer",
-    mit: "https://news.mit.edu/2025/mit-releases-financials-and-endowment-figures-1010"
-  };
-
-  function cleanupLiveOverlay(){}
+  if(window.__uaadV28RestoreEnhance) return;
+  window.__uaadV28RestoreEnhance = true;
 
   function sourceNote(){
-    return '<div class="v27-source-note">Official published inputs: <a href="'+sources.harvardFinance+'" target="_blank" rel="noopener">Harvard FY25 financial overview</a>, <a href="'+sources.harvardEndowment+'" target="_blank" rel="noopener">Harvard endowment facts</a>, <a href="'+sources.harvardEnrollment+'" target="_blank" rel="noopener">OIRA enrollment</a>, <a href="'+sources.harvardStaff+'" target="_blank" rel="noopener">OIRA faculty/staff</a>, <a href="'+sources.harvardCareers+'" target="_blank" rel="noopener">AA&amp;D careers</a>, and peer published endowment reports. Items marked synthetic are management signals created for this proposal architecture.</div>';
+    return '<div class="v28-source-note">Published anchors: <a href="https://oira.harvard.edu/factbook/fact-book-enrollment/" target="_blank" rel="noopener">Harvard OIRA Fall 2025 enrollment</a>, <a href="https://oira.harvard.edu/factbook/fact-book-endowment/" target="_blank" rel="noopener">Harvard OIRA endowment table</a>, <a href="https://finance.harvard.edu/sites/g/files/omnuum12671/files/2025-10/fy25-financial-report.pdf" target="_blank" rel="noopener">FY25 Harvard financial report</a>, <a href="https://alumni.harvard.edu/careers" target="_blank" rel="noopener">AA&amp;D operating scale</a>, and peer FY25 published reports. Synthetic items are labeled as operating signals for this proposal.</div>';
   }
 
-  function controlRoomHtml(){
-    return '<div class="v27-shell" id="v27-visual-operating-model">'+
-      '<div class="v27-top"><div><div class="v27-kicker">Visual Operating Model</div><h3>VERITAS runs as a control model, not a command model.</h3><p>The VP does not need to own every school line to run the operation. VERITAS gives UD&amp;AS a clear service spine: see the signal, route the work, coordinate communications, escalate only what requires executive judgment, and return value to schools fast enough that they choose to rely on it.</p></div><div class="v27-toggle" aria-label="Visual operating model lens"><button class="is-active" data-v27-lens="vp" type="button">VP</button><button data-v27-lens="leadership" type="button">Leadership</button></div></div>'+
-      '<div class="v27-grid"><div class="v27-main">'+
-        '<div class="v27-panel" data-v27-panel="vp">'+
-          '<div class="v27-kpi-grid"><div class="v27-kpi"><span>AA&amp;D capacity</span><b>450</b><em>published staff expertise baseline</em></div><div class="v27-kpi"><span>Gift operations</span><b>90K</b><em>gifts supported by AA&amp;D annually</em></div><div class="v27-kpi"><span>Student universe</span><b>24,317</b><em>Fall 2025 degree enrollment</em></div><div class="v27-kpi"><span>Operating watch</span><b>$6.8B</b><em>FY25 university expenses</em></div></div>'+
-          '<div class="v27-lanes"><div class="v27-lane"><span>1. Signal intake</span><b>Capture what schools see first</b><p>Dean priorities, officer notes, donor timing, alumni sentiment, research news, and data-quality exceptions.</p></div><div class="v27-lane gold"><span>2. Translation</span><b>Turn signal into action</b><p>Convert raw inputs into owner, confidence, next step, communication path, and escalation threshold.</p></div><div class="v27-lane blue"><span>3. Coordination</span><b>Close the loop with schools</b><p>Return usable briefs, clean records, conflict guidance, and shared status instead of issuing orders.</p></div><div class="v27-lane green"><span>4. VP oversight</span><b>Run the operating cadence</b><p>Weekly blockers, monthly school review, quarterly President and Dean readiness narrative.</p></div><div class="v27-lane"><span>5. Communications</span><b>Make change understandable</b><p>Message maps, launch briefs, adoption scripts, stakeholder updates, and issue-response drafts.</p></div><div class="v27-lane gold"><span>6. Measurement</span><b>Prove utility</b><p>Show cycle-time reduction, adoption, data trust, pipeline movement, and peer-position shifts.</p></div></div>'+
-          '<div class="v27-progress"><h4>VP operating dashboard - synthetic management signals</h4><div class="v27-row"><span>Data spine readiness</span><div class="v27-bar"><i style="width:72%"></i></div><b>72%</b></div><div class="v27-row"><span>School adoption</span><div class="v27-bar"><i style="width:68%"></i></div><b>68%</b></div><div class="v27-row"><span>Communications cadence</span><div class="v27-bar"><i style="width:80%"></i></div><b>80%</b></div><div class="v27-row"><span>Peer intelligence feed</span><div class="v27-bar"><i style="width:64%"></i></div><b>64%</b></div><div class="v27-row"><span>Issue closure velocity</span><div class="v27-bar"><i style="width:58%"></i></div><b>58%</b></div></div>'+
-        '</div>'+
-        '<div class="v27-panel" data-v27-panel="leadership" hidden>'+
-          '<div class="v27-kpi-grid"><div class="v27-kpi"><span>Endowment scale</span><b>$56.9B</b><em>FY25 published endowment value</em></div><div class="v27-kpi"><span>FY25 gifts received</span><b>$1.30B</b><em>Harvard annual financial report</em></div><div class="v27-kpi"><span>Philanthropy revenue</span><b>46%</b><em>endowment income plus current-use gifts</em></div><div class="v27-kpi"><span>Alumni reach</span><b>400K+</b><em>Harvard published global alumni base</em></div></div>'+
-          '<div class="v27-lanes"><div class="v27-lane"><span>President</span><b>Institutional priorities</b><p>Defines enterprise mission, risk posture, campaign ambition, and public narrative.</p></div><div class="v27-lane gold"><span>VP AA&amp;D</span><b>Advancement operating owner</b><p>Translates presidential priorities into development strategy, service standards, and school cadence.</p></div><div class="v27-lane blue"><span>Deans</span><b>School-specific authority</b><p>Own academic priorities and school donor strategy; need a shared operating picture without losing autonomy.</p></div><div class="v27-lane green"><span>UD&amp;AS</span><b>Service spine</b><p>Provides the reliable intelligence, data, communications, and workflow support that makes coordination possible.</p></div><div class="v27-lane"><span>Leadership agenda</span><b>What to review monthly</b><p>Campaign readiness, peer position, risk alerts, top donor conflicts, policy pressure, and school adoption.</p></div><div class="v27-lane gold"><span>Decision gate</span><b>What to escalate</b><p>Only items requiring authority: priority conflicts, campaign timing, high-risk donor moves, and resource tradeoffs.</p></div></div>'+
-          '<div class="v27-progress"><h4>Leadership readiness narrative - synthetic management signals</h4><div class="v27-row"><span>Campaign posture</span><div class="v27-bar"><i style="width:78%"></i></div><b>78%</b></div><div class="v27-row"><span>Dean alignment</span><div class="v27-bar"><i style="width:74%"></i></div><b>74%</b></div><div class="v27-row"><span>Risk visibility</span><div class="v27-bar"><i style="width:82%"></i></div><b>82%</b></div><div class="v27-row"><span>External pressure watch</span><div class="v27-bar"><i style="width:69%"></i></div><b>69%</b></div><div class="v27-row"><span>One Harvard narrative</span><div class="v27-bar"><i style="width:71%"></i></div><b>71%</b></div></div>'+
-        '</div>'+
-      '</div><aside class="v27-side"><h4 class="v27-panel-title">News and source alerts</h4>'+
-        '<div class="v27-alerts"><div class="v27-alert watch"><i></i><div><b>FY25 financial pressure is now an advancement signal.</b><span>Harvard reported $6.7B operating revenue, $6.8B expenses, and a $113M deficit; VP should track unrestricted flexibility, donor restrictions, and campaign timing.</span><small>Source: Harvard FY25 financial overview and Gazette interview</small></div></div><div class="v27-alert good"><i></i><div><b>New AA&amp;D leadership creates a reset window.</b><span>James J. Husson assumed the VP AA&amp;D role in 2025, overseeing UDO, FAS Development, and HAA; VERITAS should support his first enterprise operating cadence.</span><small>Source: Harvard Gazette, Jan. 22, 2025</small></div></div><div class="v27-alert"><i></i><div><b>President and Deans need one shared read.</b><span>Garber&#39;s extended presidency and close work with Provost Manning and the Deans make cross-school clarity a leadership requirement, not a reporting luxury.</span><small>Source: Harvard Gazette, Dec. 15, 2025</small></div></div><div class="v27-alert good"><i></i><div><b>AA&amp;D published operating scale is large enough for a control model.</b><span>AA&amp;D describes 450 advancement experts supporting 90,000 gifts; this justifies a unified service, communications, and analytics layer.</span><small>Source: Harvard AA&amp;D careers page</small></div></div></div>'+sourceNote()+'</aside></div></div>';
+  function reportSuiteHtml(){
+    return '<div class="v28-suite" id="v28-dashboard-plus"><div class="v28-suite-head"><div><div class="v28-kicker">Enhanced report suite layer</div><h3>Keep the richer dashboard, then let VERITAS open every operating report from one map.</h3><p>This layer does not replace the original progress dashboard. It adds the missing complexity: school consoles, UD&amp;AS operations, news alerts, peer comparison, communications, and action ownership in one VP control surface.</p></div><div class="v28-source-pill">VP control through one interface</div></div><div class="v28-suite-body"><div class="v28-map-wrap"><div class="v28-report-map"><div class="v28-hub"><span>single interface</span><b>VERITAS Console</b><em>control through intelligence, service reliability, and shared school visibility</em></div>'+
+      '<button class="v28-report-node n1 is-active" data-v28-report data-title="Main VERITAS Console" data-link="Main_Console.html" data-detail="Executive command view for campaign readiness, source alerts, school signals, and VP decision flow."><b>Main Console</b><span>Enterprise signal tower and launch point.</span><small>Executive</small></button>'+
+      '<button class="v28-report-node n2" data-v28-report data-title="AA&amp;D / UD&amp;AS Console" data-link="AAD_UDAS_Console.html" data-detail="Operations view for gift administration, research, data, communications, service levels, and school support loops."><b>AA&amp;D / UD&amp;AS</b><span>Service spine and operating owner view.</span><small>Operations</small></button>'+
+      '<button class="v28-report-node n3" data-v28-report data-title="School Console Network" data-link="FAS_Console.html" data-detail="FAS, Harvard College, GSAS, DCE, SEAS, HBS, HMS, HLS, HKS, HGSE, HDS, HSDM, HCPH, GSD, and Radcliffe consoles."><b>School Consoles</b><span>All schools and institutes, not duplicate cards.</span><small>Portfolio</small></button>'+
+      '<button class="v28-report-node n4" data-v28-report data-title="New Alerts and News Watch" data-link="New_Alerts.html" data-detail="Harvard-published news, peer movement, policy pressure, donor events, and synthesized action alerts for VP triage."><b>News Alerts</b><span>External and internal signals routed to action.</span><small>Watch</small></button>'+
+      '<button class="v28-report-node n5" data-v28-report data-title="Peer and Market Intelligence" data-link="Report_Overview.html" data-detail="Peer comparison across Harvard, Yale, Stanford, Princeton, and MIT; track endowment, gifts, narrative, campaign posture, and risk."><b>Peer Intelligence</b><span>Compare position and narrative movement.</span><small>Benchmark</small></button>'+
+      '<button class="v28-report-node n6" data-v28-report data-title="Communications and Adoption Reports" data-link="Proposal_Summary.html" data-detail="Message maps, Dean packets, gift officer enablement, launch scripts, adoption cadence, and stakeholder updates."><b>Comms Reports</b><span>Make the operating change legible.</span><small>Adoption</small></button>'+
+      '<button class="v28-report-node n7" data-v28-report data-title="Priority and Risk Reports" data-link="Report_Overview.html" data-detail="Campaign risks, donor restrictions, federal funding pressure, data quality, school readiness, and escalation thresholds."><b>Risk Reports</b><span>What needs VP lift, hold, or escalation.</span><small>Governance</small></button>'+
+      '<button class="v28-report-node n8" data-v28-report data-title="Candidate and Execution Artifacts" data-link="Resume.html" data-detail="Supporting artifacts, resume, implementation samples, and future school-specific report attachments."><b>Artifacts</b><span>Supporting material and samples.</span><small>Appendix</small></button>'+
+    '</div><div class="v28-ops-board"><div class="v28-ops"><span>Daily</span><b>Exception queue</b><p>Gift, data, donor, and communications issues routed to named owners.</p></div><div class="v28-ops"><span>Weekly</span><b>School partner huddles</b><p>Resolve blockers and return value back to Deans and officers.</p></div><div class="v28-ops"><span>Monthly</span><b>VP operating review</b><p>Review adoption, peer position, risk, and campaign readiness.</p></div><div class="v28-ops"><span>Quarterly</span><b>President and Dean narrative</b><p>Translate operating signals into leadership decisions and campaign story.</p></div></div></div><aside class="v28-report-detail"><div class="v28-detail-card"><div class="v28-kicker">Selected report</div><h4 id="v28ReportTitle">Main VERITAS Console</h4><p id="v28ReportDetail">Executive command view for campaign readiness, source alerts, school signals, and VP decision flow.</p><a id="v28ReportLink" href="Main_Console.html" target="_blank" rel="noopener">Open report</a></div><div class="v28-kpi-strip"><div class="v28-kpi"><span>Students</span><b>24,317</b></div><div class="v28-kpi"><span>Endowment</span><b>$56.9B</b></div><div class="v28-kpi"><span>FY25 gifts</span><b>$1.302B</b></div><div class="v28-kpi"><span>AA&amp;D experts</span><b>450</b></div></div><div class="v28-peer"><h4>Peer watch - published FY25 signals</h4><div class="v28-peer-row"><b>Harvard</b><span>$56.9B endowment / 11.9% return</span><em>scale lead</em></div><div class="v28-peer-row"><b>Yale</b><span>$44.1B / 11.1% return</span><em>campaign benchmark</em></div><div class="v28-peer-row"><b>Stanford</b><span>$40.8B / 14.3% return</span><em>innovation narrative</em></div><div class="v28-peer-row"><b>Princeton</b><span>$35.7B net endowment assets / 11.0% return</span><em>affordability story</em></div><div class="v28-peer-row"><b>MIT</b><span>$27.4B / 14.8% return</span><em>science urgency</em></div></div>'+sourceNote()+'</aside></div></div>';
   }
 
-  function dashboardHtml(){
-    return '<div class="v27-shell" id="v27-executive-dashboard">'+
-      '<div class="v27-top"><div><div class="v27-kicker">Progress Tracking Interactive Dashboard</div><h2>VERITAS Console: one management view for the VP, one governance view for leadership.</h2><p>This dashboard shows what the VP should oversee to run the operation: Harvard source data, synthetic operating metrics, school adoption, peer comparison, news alerts, communications cadence, and escalation choices.</p></div><div class="v27-toggle" aria-label="Dashboard lens"><button class="is-active" data-v27-lens="vp" type="button">VP</button><button data-v27-lens="leadership" type="button">Leadership</button></div></div>'+
-      '<div class="v27-grid"><div class="v27-main">'+
-        '<div class="v27-panel" data-v27-panel="vp"><div class="v27-kpi-grid"><div class="v27-kpi"><span>Open decisions</span><b>11</b><em>synthetic VP queue</em></div><div class="v27-kpi"><span>School followups</span><b>7</b><em>due this week</em></div><div class="v27-kpi"><span>Comms packets</span><b>4</b><em>launch/readiness drafts</em></div><div class="v27-kpi"><span>Data exceptions</span><b>38</b><em>records requiring owner resolution</em></div></div><div class="v27-progress"><h4>Everything the VP tracks weekly</h4><div class="v27-row"><span>School readiness</span><div class="v27-bar"><i style="width:68%"></i></div><b>68%</b></div><div class="v27-row"><span>Donor conflict closure</span><div class="v27-bar"><i style="width:61%"></i></div><b>61%</b></div><div class="v27-row"><span>Gift processing SLA</span><div class="v27-bar"><i style="width:84%"></i></div><b>84%</b></div><div class="v27-row"><span>Leadership brief quality</span><div class="v27-bar"><i style="width:76%"></i></div><b>76%</b></div><div class="v27-row"><span>News-to-action conversion</span><div class="v27-bar"><i style="width:55%"></i></div><b>55%</b></div></div><div class="v27-control-diagram"><div class="v27-control-step"><span>Daily</span><b>Exception triage</b><p>Data, gift, donor, and communications issues routed to named owners.</p></div><div class="v27-control-step"><span>Weekly</span><b>School partner huddle</b><p>Resolve blockers, return value, and identify issues that need VP lift.</p></div><div class="v27-control-step"><span>Monthly</span><b>VP operating review</b><p>Readiness, peer position, alerts, and campaign risk converted into decisions.</p></div></div></div>'+
-        '<div class="v27-panel" data-v27-panel="leadership" hidden><div class="v27-kpi-grid"><div class="v27-kpi"><span>Harvard endowment</span><b>$56.9B</b><em>FY25, published</em></div><div class="v27-kpi"><span>Endowment payout</span><b>$2.5B</b><em>FY25 operating support</em></div><div class="v27-kpi"><span>Net assets</span><b>$68.7B</b><em>FY25, published</em></div><div class="v27-kpi"><span>Financial aid</span><b>$784M</b><em>FY25 scholarships and aid</em></div></div><table class="v27-peer-table" aria-label="Peer comparison dashboard"><thead><tr><th>Institution</th><th>FY25 endowment / return</th><th>Signal VP should track</th></tr></thead><tbody><tr><td><b>Harvard</b></td><td>$56.9B / 11.9%</td><td>Scale leader; 46% of operating revenue tied to philanthropy and endowment income.</td></tr><tr><td><b>Yale</b></td><td>$44.1B / 11.1%</td><td>$2.1B endowment support; strong campaign reporting benchmark.</td></tr><tr><td><b>Stanford</b></td><td>$40.8B / 14.3%</td><td>High return and $10.3B enterprise budget; track AI, health, and tech philanthropy narrative.</td></tr><tr><td><b>Princeton</b></td><td>$35.7B net endowment assets / 11.0%</td><td>High endowment dependence; useful benchmark for affordability and endowment-tax messaging.</td></tr><tr><td><b>MIT</b></td><td>$27.4B / 14.8%</td><td>Strong innovation/research story; benchmark science and engineering donor urgency.</td></tr></tbody></table><div class="v27-control-diagram"><div class="v27-control-step"><span>Leadership question</span><b>Where is Harvard ahead?</b><p>Scale, alumni reach, schools, and brand trust.</p></div><div class="v27-control-step"><span>Leadership question</span><b>Where are peers moving faster?</b><p>Innovation narratives, endowment performance, and focused campaign storytelling.</p></div><div class="v27-control-step"><span>Leadership question</span><b>What changes this month?</b><p>Federal funding, endowment tax exposure, major gifts, and reputation signals.</p></div></div></div>'+
-      '</div><aside class="v27-side"><h4 class="v27-panel-title">Published data plus synthesized dashboard signals</h4><div class="v27-alerts"><div class="v27-alert good"><i></i><div><b>Harvard scale signal</b><span>24,317 degree students and 20,117 faculty/staff headcount in Fall 2025 create a large, decentralized relationship network.</span><small>Source: OIRA enrollment and faculty/staff fact books</small></div></div><div class="v27-alert watch"><i></i><div><b>Financial signal</b><span>FY25 gifts received totaled about $1.302B; current-use gifts, endowment funds, sponsored grants, and facilities gifts should be tracked by purpose and restriction.</span><small>Source: Harvard FY25 financial report note 14</small></div></div><div class="v27-alert"><i></i><div><b>FAS development signal</b><span>New FAS development leadership creates a school-specific opportunity to align FAS donor priorities with the central VERITAS operating cadence.</span><small>Source: Harvard Gazette, July 8, 2025</small></div></div><div class="v27-alert good"><i></i><div><b>Synthetic alert model</b><span>News, gifts, peer movement, school readiness, and staff signals should be scored as Proceed, Monitor, Hold, or Escalate.</span><small>Synthesized for this proposal</small></div></div></div>'+sourceNote()+'</aside></div></div>';
+  function priorityTreeHtml(){
+    return '<div class="v28-tree" id="v28-priority-tree"><div class="v28-tree-head"><div class="v28-kicker">Priority operating tree</div><h3>The tree is the strategy: priorities, authority, schools, and service layers in one branching model.</h3><p>This restores the diagrammatic logic instead of flattening the audience into rows of buttons. Each branch explains who owns authority, who coordinates, what UD&amp;AS provides, and which priority signal the VP should track.</p></div><div class="v28-tree-body"><div class="v28-priority-canvas"><ul class="v28-tree-list"><li><button class="v28-tree-node dark is-active" data-v28-tree data-title="President-level priorities" data-detail="Institutional priorities, campaign ambition, risk posture, and the One Harvard narrative begin here. The VP must convert this into an advancement operating cadence." data-action1="Monthly President-ready campaign narrative" data-action2="Escalate only authority-level tradeoffs" data-action3="Tie donor strategy to institutional mission"><i class="v28-node-dot">P</i><div><b>President Alan M. Garber</b><span>Institutional priorities and campaign ambition</span><small>formal authority</small></div></button><ul><li><button class="v28-tree-node gold" data-v28-tree data-title="VP AA&amp;D operating owner" data-detail="The VP turns presidential direction into a governed advancement rhythm across UDO, FAS Development, HAA, school partners, and UD&amp;AS." data-action1="Run monthly VP operating review" data-action2="Set escalation thresholds for Deans" data-action3="Approve communications and service standards"><i class="v28-node-dot">VP</i><div><b>VP AA&amp;D James J. Husson</b><span>Campaign strategy, AA&amp;D cadence, Dean alignment</span><small>operating owner</small></div></button><ul><li><button class="v28-tree-node blue" data-v28-tree data-title="Dean and school priority branch" data-detail="Deans retain school authority. VERITAS gives each Dean school-specific visibility while giving the VP a cross-school coordination read." data-action1="Map Dean priorities to campaign themes" data-action2="Detect cross-school donor conflicts" data-action3="Return school-ready briefs and next actions"><i class="v28-node-dot">D</i><div><b>Deans and school advancement leaders</b><span>Local academic priorities and donor relationships</span><small>school authority</small></div></button><ul><li><button class="v28-tree-node" data-v28-tree data-title="FAS constellation" data-detail="FAS, Harvard College, GSAS, DCE, and SEAS form the largest distributed relationship constellation; this branch needs department, center, parent, undergraduate, graduate, and lifelong learning signals." data-action1="Track FAS, HC, GSAS, DCE, SEAS priorities" data-action2="Separate undergraduate, graduate, and center signals" data-action3="Connect broad alumni volume to major gift strategy"><i class="v28-node-dot">A</i><div><b>FAS + College + GSAS + DCE + SEAS</b><span>Largest academic and alumni signal network</span><small>volume priority</small></div></button></li><li><button class="v28-tree-node" data-v28-tree data-title="Professional schools" data-detail="HBS, HLS, and HKS carry board, policy, law, business, and public leadership relationships; they are high-value coordination points for multi-school prospects." data-action1="Watch principal gift overlap" data-action2="Coordinate Dean timing and ask ownership" data-action3="Track policy, market, and leadership news"><i class="v28-node-dot">B</i><div><b>HBS + HLS + HKS</b><span>Business, law, government, global leadership</span><small>influence priority</small></div></button></li><li><button class="v28-tree-node" data-v28-tree data-title="Health and life sciences" data-detail="HMS, HSDM, and Harvard Chan require research, clinical, public health, and science-philanthropy intelligence with careful stewardship and restriction tracking." data-action1="Track research and public-health news" data-action2="Align gifts with restricted-use requirements" data-action3="Coordinate science and health donors"><i class="v28-node-dot">C</i><div><b>HMS + HSDM + Harvard Chan</b><span>Research, medicine, oral health, public health</span><small>science priority</small></div></button></li><li><button class="v28-tree-node" data-v28-tree data-title="Society, design, education, and institutes" data-detail="GSD, HGSE, HDS, and Radcliffe add climate, design, learning, ethics, humanities, and convening power; the VP should track emerging themes and cross-school donor fit." data-action1="Track climate, learning, ethics, and convening themes" data-action2="Surface emerging donor interests" data-action3="Use Radcliffe as interdisciplinary signal bridge"><i class="v28-node-dot">E</i><div><b>GSD + HGSE + HDS + Radcliffe</b><span>Design, education, ethics, interdisciplinary inquiry</span><small>theme priority</small></div></button></li></ul></li><li><button class="v28-tree-node green" data-v28-tree data-title="UD&amp;AS / VERITAS service spine" data-detail="UD&amp;AS does not command schools. It earns reliance by making the shared work easier: clean data, research, gift operations, communications, news alerts, and actionable dashboards." data-action1="Return value to schools every week" data-action2="Own service standards and issue closure" data-action3="Convert fragmented signals into VP decisions"><i class="v28-node-dot">U</i><div><b>UD&amp;AS / VERITAS</b><span>Service spine for zero-formal-authority leadership</span><small>influence through utility</small></div></button><ul><li><button class="v28-tree-node green" data-v28-tree data-title="Data and technology layer" data-detail="Master IDs, CRM reliability, integration monitoring, data quality, permissions, and school-specific source alignment." data-action1="Track data exceptions" data-action2="Maintain source-of-truth rules" data-action3="Protect school autonomy with governed standards"><i class="v28-node-dot">1</i><div><b>Data and Technology</b><span>Master ID, CRM, integration, permissions</span><small>foundation</small></div></button></li><li><button class="v28-tree-node green" data-v28-tree data-title="Research and analytics layer" data-detail="Prospect intelligence, propensity, peer comparison, donor fragility, relationship maps, and confidence scoring." data-action1="Feed Dean-ready briefs" data-action2="Score donor and peer signals" data-action3="Identify conflicts before outreach"><i class="v28-node-dot">2</i><div><b>Research and Analytics</b><span>Prospects, peers, donor signals, confidence</span><small>intelligence</small></div></button></li><li><button class="v28-tree-node green" data-v28-tree data-title="Communications enablement layer" data-detail="Message maps, launch language, Dean packets, officer scripts, school updates, and crisis-response drafts." data-action1="Create Dean communication packets" data-action2="Standardize adoption language" data-action3="Translate technical change into leadership clarity"><i class="v28-node-dot">3</i><div><b>Communications Enablement</b><span>Message maps, Dean packets, adoption scripts</span><small>communication</small></div></button></li><li><button class="v28-tree-node green" data-v28-tree data-title="Gift and stewardship operations" data-detail="Gift routing, coding, restrictions, receipting, stewardship status, service-level visibility, and issue resolution." data-action1="Track processing SLA" data-action2="Surface restriction risk" data-action3="Close donor-service gaps"><i class="v28-node-dot">4</i><div><b>Gift and Stewardship Operations</b><span>Processing, restrictions, stewardship, service</span><small>execution</small></div></button></li><li><button class="v28-tree-node green" data-v28-tree data-title="News alerts and campaign intelligence" data-detail="Harvard news, peer movement, federal funding pressure, faculty research, donor events, and synthesized alerts routed into Proceed, Monitor, Hold, or Escalate." data-action1="Watch Harvard and peer published data" data-action2="Turn news into owner and action window" data-action3="Escalate campaign-risk signals"><i class="v28-node-dot">5</i><div><b>News Alerts + Campaign Intelligence</b><span>External signals and executive action queue</span><small>watch layer</small></div></button></li></ul></li></ul></li></ul></li></ul></div><aside class="v28-tree-detail"><div class="v28-kicker">Selected priority branch</div><h4 id="v28TreeTitle">President-level priorities</h4><p id="v28TreeDetail">Institutional priorities, campaign ambition, risk posture, and the One Harvard narrative begin here. The VP must convert this into an advancement operating cadence.</p><div class="v28-tree-actions"><div class="v28-tree-action"><span>Action 1</span><b id="v28Action1">Monthly President-ready campaign narrative</b></div><div class="v28-tree-action"><span>Action 2</span><b id="v28Action2">Escalate only authority-level tradeoffs</b></div><div class="v28-tree-action"><span>Action 3</span><b id="v28Action3">Tie donor strategy to institutional mission</b></div></div>'+sourceNote()+'</aside></div></div>';
   }
 
-  function orgChartHtml(){
-    var schools = [
-      ["FAS","Faculty of Arts and Sciences"],["HBS","Business"],["HMS","Medical"],["HLS","Law"],["HKS","Government"],["SEAS","Engineering"],
-      ["GSD","Design"],["HGSE","Education"],["HDS","Divinity"],["HSDM","Dental"],["HSPH","Public Health"],["DCE","Continuing Education"],["RAD","Radcliffe"]
-    ].map(function(s){return '<div class="v27-school"><b>'+s[0]+'</b><span>'+s[1]+'</span></div>';}).join("");
-    return '<div class="v27-org" id="v27-section-20-authority-tree"><div class="v27-org-head"><span>Section 2.0 - clear authority and communication model</span><h2>President &gt; VP AA&amp;D &gt; Deans, with UD&amp;AS as the VERITAS service spine.</h2><p>This diagram separates formal authority from practical operating influence. Deans retain school authority. The VP owns advancement strategy and operating cadence. UD&amp;AS earns adoption through data, communications, service reliability, and clear escalation.</p></div><div class="v27-authority-tree"><div class="v27-command-row"><div class="v27-command-card lead"><span>Formal enterprise authority</span><b>President Alan M. Garber</b><p>Sets institutional priorities, risk posture, and campaign ambition.</p></div><div class="v27-arrow">&gt;</div><div class="v27-command-card vp"><span>Advancement operating owner</span><b>VP AA&amp;D James J. Husson</b><p>Coordinates UDO, FAS Development, HAA, campaign strategy, and school-facing advancement rhythm.</p></div><div class="v27-arrow">&gt;</div><div class="v27-command-card deans"><span>School authority</span><b>Deans and school advancement leaders</b><p>Own local priorities, donor relationships, academic asks, and school-specific communications.</p></div></div><div class="v27-spine"><div class="v27-spine-card"><span>Zero formal authority layer</span><b>UD&amp;AS / VERITAS</b><p>Controls through a single, unified interface by making coordination easier than fragmentation: trusted records, issue routing, news alerts, school briefs, gift operations, communication kits, and VP-ready decisions.</p></div><div class="v27-comms-grid"><div class="v27-comms"><span>Layer 1</span><b>Data and technology</b><p>Master IDs, CRM hygiene, integration monitoring, permission model, and institutional memory.</p></div><div class="v27-comms"><span>Layer 2</span><b>Research and analytics</b><p>Prospect intelligence, peer comparison, donor signals, pipeline risk, and action confidence.</p></div><div class="v27-comms"><span>Layer 3</span><b>Communications enablement</b><p>Dean brief templates, launch scripts, stakeholder updates, message maps, and adoption language.</p></div><div class="v27-comms"><span>Layer 4</span><b>Gift and stewardship operations</b><p>Receipts, coding, restrictions, stewardship status, service levels, and issue closure.</p></div><div class="v27-comms"><span>Layer 5</span><b>Campaign intelligence</b><p>Readiness, peer movement, external news, federal-policy risk, campaign timing, and executive asks.</p></div><div class="v27-comms"><span>Layer 6</span><b>School partner loop</b><p>Weekly huddles, monthly VP reviews, quarterly President/Dean narrative, and feedback to gift officers.</p></div></div></div><div><div class="v27-kicker">Schools and institutes covered by the operating tree</div><div class="v27-school-grid">'+schools+'</div></div><div class="v27-control-diagram"><div class="v27-control-step"><span>Decision path</span><b>President and VP decide</b><p>Institutional priorities, campaign gates, donor-risk tradeoffs, and enterprise resource choices.</p></div><div class="v27-control-step"><span>Coordination path</span><b>VP and Deans align</b><p>School priorities, cross-school prospects, communication timing, and escalation thresholds.</p></div><div class="v27-control-step"><span>Service path</span><b>UD&amp;AS enables</b><p>Data, analytics, communications, gift operations, school support, alerts, and VERITAS dashboard reporting.</p></div></div></div></div>';
-  }
-
-  function wireToggles(scope){
-    (scope || document).querySelectorAll(".v27-shell").forEach(function(shell){
-      shell.querySelectorAll(".v27-toggle button").forEach(function(btn){
-        btn.addEventListener("click", function(){
-          var lens = btn.getAttribute("data-v27-lens");
-          shell.querySelectorAll(".v27-toggle button").forEach(function(b){ b.classList.toggle("is-active", b === btn); });
-          shell.querySelectorAll(".v27-panel").forEach(function(panel){ panel.hidden = panel.getAttribute("data-v27-panel") !== lens; });
-        });
+  function wire(){
+    document.querySelectorAll("[data-v28-report]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        document.querySelectorAll("[data-v28-report]").forEach(function(b){ b.classList.toggle("is-active", b === btn); });
+        var title = document.getElementById("v28ReportTitle");
+        var detail = document.getElementById("v28ReportDetail");
+        var link = document.getElementById("v28ReportLink");
+        if(title) title.textContent = btn.getAttribute("data-title") || "";
+        if(detail) detail.textContent = btn.getAttribute("data-detail") || "";
+        if(link) link.href = btn.getAttribute("data-link") || "#";
+      });
+    });
+    document.querySelectorAll("[data-v28-tree]").forEach(function(btn){
+      btn.addEventListener("click", function(){
+        document.querySelectorAll("[data-v28-tree]").forEach(function(b){ b.classList.toggle("is-active", b === btn); });
+        var title = document.getElementById("v28TreeTitle");
+        var detail = document.getElementById("v28TreeDetail");
+        var a1 = document.getElementById("v28Action1");
+        var a2 = document.getElementById("v28Action2");
+        var a3 = document.getElementById("v28Action3");
+        if(title) title.textContent = btn.getAttribute("data-title") || "";
+        if(detail) detail.textContent = btn.getAttribute("data-detail") || "";
+        if(a1) a1.textContent = btn.getAttribute("data-action1") || "";
+        if(a2) a2.textContent = btn.getAttribute("data-action2") || "";
+        if(a3) a3.textContent = btn.getAttribute("data-action3") || "";
       });
     });
   }
 
   function apply(){
-    cleanupLiveOverlay();
-    var control = document.getElementById("ai-transformation-control-room");
-    if(control && !document.getElementById("v27-visual-operating-model")){
-      control.outerHTML = controlRoomHtml();
-    }
     var board = document.querySelector("#s-dashboard .ed-board");
-    if(board && !document.getElementById("v27-executive-dashboard")){
-      board.outerHTML = dashboardHtml();
+    if(board && !document.getElementById("v28-dashboard-plus")){
+      board.insertAdjacentHTML("afterend", reportSuiteHtml());
     }
-    var orgCards = Array.prototype.slice.call(document.querySelectorAll("#s-orgchart .card"));
-    var hierarchyCard = orgCards.find(function(card){ return /Organizational Hierarchy/i.test(card.textContent || ""); });
-    if(hierarchyCard && !document.getElementById("v27-section-20-authority-tree")){
-      hierarchyCard.outerHTML = orgChartHtml();
+    var hierarchyCard = Array.prototype.slice.call(document.querySelectorAll("#s-orgchart .card")).find(function(card){
+      return /Organizational Hierarchy/i.test(card.textContent || "");
+    });
+    if(hierarchyCard && !document.getElementById("v28-priority-tree")){
+      hierarchyCard.insertAdjacentHTML("afterend", priorityTreeHtml());
     }
-    wireToggles(document);
+    wire();
   }
 
-  if(document.readyState === "loading"){
-    document.addEventListener("DOMContentLoaded", apply, {once:true});
-  } else {
-    apply();
-  }
-  var cleanupObserver = new MutationObserver(cleanupLiveOverlay);
-  cleanupObserver.observe(document.documentElement, {childList:true, subtree:true});
+  if(document.readyState === "loading") document.addEventListener("DOMContentLoaded", apply, {once:true});
+  else apply();
 })();
 </script>
 
