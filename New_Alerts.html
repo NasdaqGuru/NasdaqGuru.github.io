@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Harvard UD&AS · New Alerts Signal Monitor · Sample Report</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Source+Code+Pro:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cr:#A41034;--cr2:#7B0D25;--gold:#B6862C;--gold2:#D4A843;--gold-pale:#FBF5E8;
+  --ink:#151515;--slate:#2C2C2C;--mid:#5A5A5A;--paper:#FDFAF5;--cream:#F7F2E8;--light:#EDE8DE;--bdr:#D8D0C2;
+  --ok:#25623A;--warn:#B54708;--info:#1A4D82;--teal:#0A6B5E;--purple:#534AB7;
+  --display:'Playfair Display',Georgia,serif;--serif:'EB Garamond',Georgia,serif;--mono:'Source Code Pro',Consolas,monospace;--sans:'Inter',Arial,sans-serif;
+  --track-w:272px;--r:14px;--shadow:0 8px 26px rgba(24,24,24,.08);--shadow-lg:0 24px 70px rgba(24,24,24,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:17px;line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+button{font:inherit}
+.suite{display:grid;grid-template-columns:var(--track-w) minmax(0,1fr);min-height:100vh}
+.reading-track{position:sticky;top:0;height:100vh;overflow:auto;background:#fffdf8;border-right:1px solid var(--bdr);padding:18px 14px 24px;z-index:10;box-shadow:2px 0 20px rgba(24,24,24,.05)}
+.rt-kicker{font-family:var(--mono);font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cr);font-weight:800}
+.rt-title{font-family:var(--display);font-size:1.05rem;line-height:1.18;margin:5px 0;color:var(--ink)}
+.rt-sub{font-family:var(--mono);font-size:.56rem;color:var(--mid);letter-spacing:.06em;margin-bottom:14px}
+.rt-progress{background:var(--cream);border:1px solid var(--bdr);border-radius:10px;padding:12px;margin-bottom:12px}
+.rt-progress-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--mid);margin-bottom:8px}
+.rt-bar{height:7px;background:#e7dfd1;border-radius:999px;overflow:hidden}
+.rt-fill{height:100%;width:0;background:linear-gradient(90deg,var(--cr),var(--gold));transition:width .25s}
+.rt-list{display:flex;flex-direction:column;gap:6px}
+.rt-item{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:flex-start;padding:8px;border-radius:9px;border:1px solid transparent;background:transparent;cursor:pointer;text-align:left}
+.rt-item:hover{background:var(--cream);border-color:var(--bdr)}
+.rt-item.active{background:#171717;color:#fff;border-color:#171717}
+.rt-check{width:18px;height:18px;border-radius:999px;border:2px solid var(--bdr);background:#fff;margin-top:1px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.58rem;color:#fff;cursor:pointer}
+.rt-item.done .rt-check{background:var(--ok);border-color:var(--ok)}
+.rt-item.done .rt-check::after{content:'✓'}
+.rt-label{font-family:var(--display);font-size:.82rem;line-height:1.25}
+.rt-note{font-family:var(--mono);font-size:.48rem;letter-spacing:.04em;color:#8a8175;margin-top:2px;text-transform:uppercase}
+.rt-item.active .rt-note{color:rgba(255,255,255,.55)}
+.rt-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:12px}
+.rt-btn{border:1px solid var(--bdr);background:#fff;color:var(--cr);border-radius:8px;padding:7px 8px;font-family:var(--mono);font-size:.55rem;letter-spacing:.06em;text-transform:uppercase;font-weight:800;cursor:pointer}
+.rt-btn:hover{background:var(--gold-pale)}
+.main{min-width:0}
+.masthead{background:linear-gradient(135deg,#101820 0%,#171717 55%,#351019 100%);border-bottom:3px solid var(--gold);color:#fff}
+.wrap{max-width:1400px;margin:0 auto;padding:0 clamp(18px,3vw,44px)}
+.mast-inner{padding:28px 0 22px}
+.mast-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.seal{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid rgba(182,134,44,.55);background:rgba(255,255,255,.08);color:var(--gold2);font-family:var(--display);font-size:1.35rem;font-weight:800}
+.mast-title{font-family:var(--display);font-size:clamp(1.45rem,3vw,2.25rem);line-height:1.12;color:#fff}
+.mast-title em{color:var(--gold2)}
+.mast-subtitle{font-family:var(--serif);font-size:1.02rem;color:rgba(255,255,255,.76);max-width:940px;line-height:1.7;font-style:italic}
+.mast-meta{display:flex;flex-wrap:wrap;gap:16px 34px;border-top:1px solid rgba(255,255,255,.14);padding-top:14px;margin-top:16px}
+.mast-meta div{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:rgba(255,255,255,.45);text-transform:uppercase}
+.mast-meta strong{display:block;color:#fff;font-family:var(--sans);font-size:.82rem;letter-spacing:0;text-transform:none;font-weight:500;margin-top:2px}
+.disclaimer-strip{background:rgba(0,0,0,.34);font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:rgba(255,255,255,.58);padding:8px clamp(18px,3vw,44px);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.sync-row{background:#fff;border-bottom:1px solid var(--bdr);padding:10px clamp(18px,3vw,44px);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sync-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:900}
+.sync-title{font-family:var(--display);font-size:.92rem;color:#111;flex:1;min-width:260px}
+.sync-btn{display:inline-flex;align-items:center;justify-content:center;background:var(--cr);color:#fff;text-decoration:none;border-radius:6px;padding:7px 12px;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800}
+.sync-btn.gold{background:var(--gold);color:#151515}.sync-btn.ink{background:#151515;color:#fff}
+.section{padding:36px 0 70px;display:none}
+.section.active{display:block;animation:fade .25s ease}
+@keyframes fade{from{opacity:.5;transform:translateY(6px)}to{opacity:1;transform:none}}
+.section-eyebrow{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:800;margin-bottom:7px}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.18}
+.section-heading{font-size:clamp(1.65rem,3vw,2.45rem);color:var(--ink);margin-bottom:10px}
+.section-heading em{color:var(--cr);font-style:italic}
+.section-rule{height:2px;background:linear-gradient(90deg,var(--cr),var(--gold),transparent);margin:0 0 24px;border-radius:1px}
+.section-dek{max-width:980px;color:#554b41;font-size:1rem;line-height:1.75;margin-bottom:24px}
+.opening{background:#101820;border-radius:18px;overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid rgba(255,255,255,.12)}
+.opening-top{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(360px,.95fr)}
+.opening-copy{padding:40px clamp(28px,4vw,56px);background:linear-gradient(135deg,#111923,#1b222b 58%,#351019);color:#fff;position:relative;overflow:hidden}
+.opening-copy:after{content:'';position:absolute;right:-110px;bottom:-130px;width:360px;height:360px;border-radius:50%;background:rgba(198,146,20,.14);filter:blur(10px)}
+.opening-kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:#d7b45d;font-weight:900;margin-bottom:14px;position:relative;z-index:1}
+.opening-copy h1{font-size:clamp(2.2rem,4.8vw,4.3rem);line-height:.98;letter-spacing:-.04em;color:#fff;margin-bottom:18px;position:relative;z-index:1}
+.opening-copy h1 em{color:#f1d88a}
+.opening-copy p{font-size:1.03rem;line-height:1.72;color:#fff;margin-bottom:16px;max-width:800px;position:relative;z-index:1}
+.opening-side{background:#fff;padding:30px;display:flex;flex-direction:column;justify-content:center}
+.opening-side h2{font-size:1.3rem;color:var(--cr);margin-bottom:12px}
+.opening-side p{font-size:.93rem;color:#333;margin-bottom:12px}
+.opening-chip{background:var(--gold-pale);border:1px solid #e0c070;border-left:4px solid var(--gold);border-radius:10px;padding:14px 16px;margin-top:7px}
+.opening-chip b{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#7A5A00;margin-bottom:5px}
+.opening-metrics,.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:#fff;border-top:1px solid var(--bdr)}
+.opening-metric{padding:18px 20px;border-right:1px solid var(--bdr)}.opening-metric:last-child{border-right:0}
+.opening-metric b{display:block;font-size:1.6rem;color:var(--cr);line-height:1;margin-bottom:5px}.opening-metric span{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#5A5A5A;font-weight:800;line-height:1.35}
+.card,.chart-card,.alert-card,.route-card,.memo-card{background:#fff;border:1px solid var(--bdr);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi-card{background:#fff;border:1px solid var(--bdr);border-top:4px solid var(--cr);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.kpi-card.gold{border-top-color:var(--gold)}.kpi-card.ok{border-top-color:var(--ok)}.kpi-card.info{border-top-color:var(--info)}
+.kpi-lbl{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+.kpi-val{font-family:var(--display);font-size:1.85rem;font-weight:800;color:var(--ink);line-height:1}
+.kpi-sub{font-size:.78rem;color:#60564c;margin-top:5px}
+.signal-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:20px 0}
+.signal-tile{background:#fff;border:1px solid var(--bdr);border-radius:14px;padding:16px 14px;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:transform .16s, box-shadow .16s}
+.signal-tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.signal-icon{font-size:1.7rem;margin-bottom:8px}
+.signal-label{font-family:var(--mono);font-size:.57rem;letter-spacing:.09em;text-transform:uppercase;color:var(--mid);font-weight:800}
+.signal-title{font-size:.95rem;color:#111;margin:5px 0;font-weight:700}
+.signal-score{font-family:var(--display);font-size:1.35rem;font-weight:800;color:var(--cr)}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filter-btn{border:1px solid var(--bdr);background:#fff;border-radius:999px;padding:7px 12px;font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--mid);cursor:pointer}
+.filter-btn.active,.filter-btn:hover{background:#151515;color:#fff;border-color:#151515}
+.alert-list{display:grid;grid-template-columns:1fr;gap:10px}
+.alert-card{display:grid;grid-template-columns:120px minmax(0,1fr) 190px;gap:14px;align-items:center;padding:14px 16px;cursor:pointer}
+.alert-pill{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;text-transform:uppercase;font-weight:900;border-radius:999px;padding:5px 8px;text-align:center}
+.p-policy{background:#FAE8EB;color:var(--cr)}.p-market{background:var(--gold-pale);color:#7A5A00}.p-ai{background:#EEF4FC;color:var(--info)}.p-funding{background:#EDFAF3;color:var(--ok)}.p-peer{background:#F0EFFE;color:var(--purple)}.p-reputation{background:#FEF0E7;color:#7A2600}
+.alert-title{font-size:1rem;color:#111;margin-bottom:3px}.alert-title b{font-family:var(--display)}
+.alert-desc{font-size:.85rem;color:#554b41;line-height:1.5}
+.alert-meta{font-family:var(--mono);font-size:.56rem;letter-spacing:.06em;color:#6a625a;text-transform:uppercase;text-align:right}
+.route-map{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:14px}
+.route-step{background:#fff;border:1px solid var(--bdr);border-radius:12px;padding:14px;text-align:center;position:relative}
+.route-step:not(:last-child):after{content:'→';position:absolute;right:-13px;top:50%;transform:translateY(-50%);font-family:var(--mono);color:var(--cr);font-weight:900;z-index:2;background:var(--paper);padding:0 3px}
+.route-step b{display:block;font-family:var(--mono);font-size:.56rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.route-step span{display:block;font-size:.86rem;color:#222;line-height:1.35}
+.matrix{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--bdr);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.matrix th{background:#151515;color:#fff;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;text-align:left;padding:10px 12px}
+.matrix td{border-top:1px solid var(--light);padding:11px 12px;font-size:.86rem;color:#443c33;vertical-align:top}
+.matrix strong{color:#151515}
+.procon{display:grid;grid-template-columns:1fr 1fr;gap:12px}.procon-card{border-radius:14px;padding:18px;border:1px solid var(--bdr);background:#fff}.procon-card h3{font-size:1.05rem;margin-bottom:8px}.procon-card ul{margin-left:18px;color:#4b4238;font-size:.9rem}.procon-card.pro{border-left:5px solid var(--ok)}.procon-card.con{border-left:5px solid var(--warn)}
+.success-card{display:grid;grid-template-columns:160px 1fr;gap:18px;align-items:center}.success-ring{width:150px;height:150px;border-radius:50%;background:conic-gradient(var(--ok) 0 78%,#e6dfd2 78% 100%);display:flex;align-items:center;justify-content:center;position:relative}.success-ring:after{content:'';position:absolute;inset:16px;background:#fff;border-radius:50%}.success-val{position:relative;z-index:1;font-family:var(--display);font-size:2.2rem;font-weight:800;color:var(--ok);line-height:1}.success-text h3{font-size:1.25rem;margin-bottom:7px}.success-text p{font-size:.94rem;color:#4b4238;line-height:1.65}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.time-card{background:#fff;border:1px solid var(--bdr);border-top:4px solid var(--cr);border-radius:14px;padding:16px;box-shadow:var(--shadow)}.time-card:nth-child(2){border-top-color:var(--gold)}.time-card:nth-child(3){border-top-color:var(--info)}.time-card:nth-child(4){border-top-color:var(--ok)}.time-card b{font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--mid)}.time-card h3{font-size:1.05rem;margin:5px 0}.time-card p{font-size:.86rem;color:#4b4238}
+.command-console{background:#151515;color:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--shadow-lg);margin:18px 0}.command-head{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.command-head h3{color:#fff;font-size:1.25rem}.command-body{display:grid;grid-template-columns:1.2fr .8fr;gap:0}.radar{padding:22px;border-right:1px solid rgba(255,255,255,.1)}.radar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.radar-cell{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px}.radar-cell b{display:block;font-family:var(--display);font-size:1.45rem;color:var(--gold2);line-height:1;margin-bottom:5px}.radar-cell span{display:block;font-family:var(--mono);font-size:.55rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55)}.queue{padding:22px;background:rgba(255,255,255,.03)}.queue-row{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}.queue-dot{width:10px;height:10px;border-radius:50%;margin-top:7px}.queue-row p{color:rgba(255,255,255,.72);font-size:.86rem;margin:0}.queue-row strong{color:#fff}
+.whisper{background:#fff;border:1px solid var(--bdr);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}.whisper textarea,.whisper input,.whisper select{width:100%;border:1px solid var(--bdr);border-radius:10px;padding:10px 12px;background:#fffdf8;font-family:var(--sans);font-size:.86rem;color:#222;margin-bottom:9px}.whisper textarea{min-height:110px;resize:vertical}.whisper button{background:var(--cr);color:#fff;border:none;border-radius:999px;padding:10px 15px;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;font-weight:900;cursor:pointer}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:18px;z-index:1000}.modal.open{display:flex}.modal-box{width:min(760px,96vw);max-height:88vh;overflow:auto;background:#fff;border-radius:16px;box-shadow:var(--shadow-lg);border-top:5px solid var(--cr)}.modal-hdr{background:#151515;color:#fff;padding:18px 22px;display:flex;justify-content:space-between;gap:12px;position:sticky;top:0}.modal-hdr h3{color:#fff;font-size:1.2rem}.modal-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);margin-top:4px}.modal-close{background:rgba(255,255,255,.12);border:0;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer}.modal-body{padding:20px 24px}.modal-body p{color:#4b4238;font-size:.92rem}.modal-body ul{margin-left:18px}
+@media(max-width:1100px){.suite{grid-template-columns:1fr}.reading-track{position:relative;height:auto}.opening-top,.command-body{grid-template-columns:1fr}.signal-grid{grid-template-columns:repeat(3,1fr)}.route-map,.timeline{grid-template-columns:1fr}.route-step:after{display:none}}
+@media(max-width:760px){.g2,.g3,.g4,.opening-metrics,.kpi-grid,.procon{grid-template-columns:1fr}.signal-grid{grid-template-columns:1fr 1fr}.alert-card{grid-template-columns:1fr}.alert-meta{text-align:left}.success-card{grid-template-columns:1fr}.radar-grid{grid-template-columns:1fr}.mast-top{align-items:flex-start}.seal{width:42px;height:42px}.sync-row{align-items:flex-start}}
+@media print{.reading-track,.sync-row{display:none}.suite{display:block}.section{display:block;page-break-before:always}.section:first-of-type{page-break-before:avoid}.masthead{background:#151515!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+
+/* ═══════════════════════════════════════
+   AI GLOBAL DATA INTAKE + EVALUATION MODEL
+═══════════════════════════════════════ */
+.ai-intake-hero{background:#101820;border:1px solid rgba(255,255,255,.12);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-lg);margin-bottom:20px}
+.ai-intake-head{padding:26px 30px;background:linear-gradient(135deg,#111923,#171717 58%,#351019);color:#fff;display:grid;grid-template-columns:1.2fr .8fr;gap:24px;align-items:center}
+.ai-intake-head h3{font-family:var(--display);font-size:clamp(1.25rem,2.2vw,1.85rem);line-height:1.12;color:#fff;margin-bottom:8px}
+.ai-intake-head p{color:rgba(255,255,255,.82);font-size:.94rem;line-height:1.62;margin:0}
+.ai-global-clock{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ai-clock-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:12px;text-align:center}
+.ai-clock-card b{display:block;font-family:var(--display);font-size:1.25rem;color:var(--gold2);line-height:1;margin-bottom:4px}
+.ai-clock-card span{display:block;font-family:var(--mono);font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+.ai-source-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.ai-source-card{background:#fff;border:1px solid var(--bdr);border-top:4px solid var(--cr);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);cursor:pointer;transition:transform .16s,box-shadow .16s}
+.ai-source-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.ai-source-card:nth-child(2){border-top-color:var(--gold)}.ai-source-card:nth-child(3){border-top-color:var(--info)}.ai-source-card:nth-child(4){border-top-color:var(--ok)}.ai-source-card:nth-child(5){border-top-color:var(--purple)}.ai-source-card:nth-child(6){border-top-color:var(--teal)}
+.ai-source-icon{font-size:1.4rem;margin-bottom:7px}.ai-source-label{font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:900;margin-bottom:4px}.ai-source-title{font-family:var(--display);font-size:1.02rem;color:var(--ink);font-weight:800;margin-bottom:5px}.ai-source-desc{font-size:.78rem;line-height:1.52;color:#5b5148;margin:0}
+.ai-pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:20px 0}
+.ai-pipe-step{background:#fff;border:1px solid var(--bdr);border-radius:14px;padding:15px 14px;box-shadow:var(--shadow);position:relative;min-height:118px}
+.ai-pipe-step:not(:last-child)::after{content:'→';position:absolute;right:-16px;top:46%;transform:translateY(-50%);font-family:var(--mono);font-size:1.1rem;color:var(--cr);z-index:2;background:var(--paper);padding:0 4px}
+.ai-pipe-num{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);font-weight:900;margin-bottom:5px}.ai-pipe-step h4{font-family:var(--display);font-size:.98rem;color:var(--ink);margin-bottom:5px}.ai-pipe-step p{font-size:.76rem;line-height:1.5;color:#5b5148;margin:0}
+.ai-scoreboard{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.ai-score-card{background:#fff;border:1px solid var(--bdr);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px}.ai-score-card h3{font-family:var(--display);font-size:1.1rem;margin-bottom:10px}.score-row{display:grid;grid-template-columns:150px 1fr 52px;gap:10px;align-items:center;margin:9px 0}.score-label{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:#5b5148;font-weight:800}.score-track{height:9px;background:#e8dfd0;border-radius:999px;overflow:hidden}.score-fill{height:100%;background:linear-gradient(90deg,var(--cr),var(--gold));border-radius:999px}.score-val{font-family:var(--mono);font-size:.65rem;color:var(--ink);font-weight:900;text-align:right}.decision-band{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:16px}.decision-card{border:1px solid var(--bdr);border-radius:12px;padding:13px 14px;background:#fff}.decision-card.red{border-left:5px solid var(--cr);background:#fff5f7}.decision-card.yellow{border-left:5px solid var(--gold);background:#fffbeb}.decision-card.green{border-left:5px solid var(--ok);background:#f1fbf5}.decision-card.blue{border-left:5px solid var(--info);background:#eef6ff}.decision-card b{display:block;font-family:var(--display);font-size:.98rem;color:#111;margin-bottom:4px}.decision-card span{font-size:.76rem;line-height:1.45;color:#4d463d}
+@media(max-width:980px){.ai-intake-head,.ai-source-grid,.ai-pipeline,.ai-scoreboard,.decision-band{grid-template-columns:1fr}.ai-pipe-step:not(:last-child)::after{content:'↓';right:50%;top:auto;bottom:-18px;transform:translateX(50%)}}
+
+</style>
+</head>
+<body>
+<div class="suite">
+  <aside class="reading-track" id="readingTrack">
+    <div class="rt-kicker">Harvard UD&amp;AS</div>
+    <div class="rt-title">New Alerts Signal Monitor</div>
+    <div class="rt-sub">Policy · Markets · AI · Funding · Peers · Reputation</div>
+    <div class="rt-progress">
+      <div class="rt-progress-row"><span>Reading Track</span><span id="rtCount">0/8</span></div>
+      <div class="rt-bar"><div class="rt-fill" id="rtFill"></div></div>
+    </div>
+    <div class="rt-list" id="rtList"></div>
+    <div class="rt-actions">
+      <button class="rt-btn" onclick="toggleCurrentRead()">Mark/Unmark</button>
+      <button class="rt-btn" onclick="resetRead()">Reset</button>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="masthead">
+      <div class="wrap">
+        <div class="mast-inner">
+          <div class="mast-top">
+            <div class="seal">H</div>
+            <div>
+              <h1 class="mast-title">New Alerts <em>Signal Monitor</em><br><span style="font-size:.55em;font-weight:400;font-style:italic;opacity:.82">VERITAS Console · Report Sample</span></h1>
+            </div>
+          </div>
+          <p class="mast-subtitle">A sample reporting layer for monitoring policy, markets, AI regulation, research funding, peer campaigns, and reputation events, then routing leadership-ready alerts to project and campaign owners.</p>
+          <div class="mast-meta">
+            <div>Prepared by<strong>Narissara Khomkhai</strong></div>
+            <div>Purpose<strong>Portfolio sample · Advancement signal operations</strong></div>
+            <div>Audience<strong>VP · Campaign Owners · School Development Teams</strong></div>
+            <div>Data status<strong>Synthetic demo data · public-trend placeholder logic</strong></div>
+          </div>
+        </div>
+      </div>
+      <div class="disclaimer-strip">
+        <span>⚠ Synthetic sample alerts only · Not affiliated with Harvard University · For portfolio review</span>
+        <span>Designed to plug into AI Proposal, SIC, and school-level stewardship reports</span>
+      </div>
+    </header>
+
+    <div class="sync-row">
+      <div class="sync-label">Synchronized Report Set</div>
+      <div class="sync-title">Signal-monitor sample connected to the VERITAS Console, Harvard Report Overview, and AI proposal suite.</div>
+      <a class="sync-btn gold" href="Harvard_UAAD_AI_Propopal.html">AI Proposal</a>
+      <a class="sync-btn ink" href="Main_Console.html">VERITAS</a>
+      <a class="sync-btn" href="Harvard_Report_Overview.html">Harvard Report Overview</a>
+    </div>
+
+    <section class="section active" id="s0">
+      <div class="wrap">
+        <div class="opening">
+          <div class="opening-top">
+            <div class="opening-copy">
+              <div class="opening-kicker">0.0 · Alert Monitor Concept</div>
+              <h1>See earlier. <em>Route faster.</em> Act with context.</h1>
+              <p>This sample report turns outside signals and internal observations into a leadership-ready action queue. It is not meant to replace judgment; it helps leaders and campaign owners spend less time searching for context and more time responding with clarity.</p>
+              <p>The monitor watches six strategic lanes: policy, markets, AI regulation, research funding, peer campaigns, and reputation events. Each alert includes source context, AI-filtered relevance scoring, a brief recap, current statement, pro/con, action plan, owner routing, and estimated probability of success.</p>
+            </div>
+            <div class="opening-side">
+              <h2>Signal monitor purpose</h2>
+              <p>Advancement teams can miss opportunities when public trends, donor cues, and project risks live in separate places. This report creates a single, scannable queue that routes the right signal to the right owner.</p>
+              <div class="opening-chip">
+                <b>Core idea</b>
+                <span>New Track Alerts identify the outside change. Whisper Box captures internal intelligence. The console converts both into action.</span>
+              </div>
+            </div>
+          </div>
+          <div class="opening-metrics">
+            <div class="opening-metric"><b>6</b><span>strategic signal lanes monitored</span></div>
+            <div class="opening-metric"><b>24h</b><span>target triage window for high-risk alerts</span></div>
+            <div class="opening-metric"><b>78%</b><span>sample success probability for routed action queue</span></div>
+            <div class="opening-metric"><b>12</b><span>owner groups connected to campaign/project decisions</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s1">
+      <div class="wrap">
+        <div class="section-eyebrow">1.0 · Plan Recap</div>
+        <h2 class="section-heading">How the New Alerts System Fits the <em>Master Plan</em></h2>
+        <div class="section-rule"></div>
+        <p class="section-dek">The AI-driven organization plan becomes more practical when it has a lightweight monitoring layer. This sample report shows how trends, risks, and opportunities are captured, summarized, routed, and reviewed before they become late-stage surprises.</p>
+        <div class="g3">
+          <div class="card"><h3>1 · Watch the field</h3><p>Monitor external conditions that may affect donors, research priorities, campaign timing, school reputation, and leadership messaging.</p></div>
+          <div class="card"><h3>2 · Capture the whisper</h3><p>Give staff and gift officers a safe place to share observations that do not yet belong in a formal memo but may become important.</p></div>
+          <div class="card"><h3>3 · Route to action</h3><p>Convert signals into owner-specific recommendations, decision memos, and campaign/project adjustments.</p></div>
+        </div>
+        <div class="route-map">
+          <div class="route-step"><b>Input</b><span>News, trends, donor cue, school priority</span></div>
+          <div class="route-step"><b>Classify</b><span>Policy, market, AI, funding, peer, reputation</span></div>
+          <div class="route-step"><b>Score</b><span>Impact, urgency, confidence, owner</span></div>
+          <div class="route-step"><b>Route</b><span>Project lead, campaign owner, VP view</span></div>
+          <div class="route-step"><b>Review</b><span>Action, close, monitor, escalate</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s2">
+      <div class="wrap">
+        <div class="section-eyebrow">2.0 · Signal Monitor Dashboard</div>
+        <h2 class="section-heading">Six Lanes of <em>Strategic Alerting</em></h2>
+        <div class="section-rule"></div>
+        <p class="section-dek">Each lane has a different leadership use. Policy and funding signals may affect academic programs. Markets and peer campaigns may affect donor timing. AI regulation and reputation events may affect data governance, communications, and institutional trust.</p>
+        <div class="signal-grid">
+          <div class="signal-tile" onclick="openSignal('Policy')"><div class="signal-icon">🏛️</div><div class="signal-label">Policy</div><div class="signal-title">Higher Ed + tax</div><div class="signal-score">8.2</div></div>
+          <div class="signal-tile" onclick="openSignal('Markets')"><div class="signal-icon">📈</div><div class="signal-label">Markets</div><div class="signal-title">Liquidity windows</div><div class="signal-score">7.4</div></div>
+          <div class="signal-tile" onclick="openSignal('AI Regulation')"><div class="signal-icon">🤖</div><div class="signal-label">AI regulation</div><div class="signal-title">Responsible use</div><div class="signal-score">8.8</div></div>
+          <div class="signal-tile" onclick="openSignal('Research Funding')"><div class="signal-icon">🔬</div><div class="signal-label">Research funding</div><div class="signal-title">Grant pressure</div><div class="signal-score">9.1</div></div>
+          <div class="signal-tile" onclick="openSignal('Peer Campaigns')"><div class="signal-icon">🏫</div><div class="signal-label">Peer campaigns</div><div class="signal-title">Donor attention</div><div class="signal-score">6.9</div></div>
+          <div class="signal-tile" onclick="openSignal('Reputation Events')"><div class="signal-icon">📣</div><div class="signal-label">Reputation</div><div class="signal-title">Narrative risk</div><div class="signal-score">7.7</div></div>
+        </div>
+        <div class="command-console">
+          <div class="command-head">
+            <h3>Live Monitor · Sample Operating View</h3>
+            <span style="font-family:var(--mono);font-size:.58rem;color:var(--gold2);letter-spacing:.1em;text-transform:uppercase">Synthetic demo queue</span>
+          </div>
+          <div class="command-body">
+            <div class="radar">
+              <div class="radar-grid">
+                <div class="radar-cell"><b>14</b><span>new signals this week</span></div>
+                <div class="radar-cell"><b>5</b><span>owner actions due</span></div>
+                <div class="radar-cell"><b>3</b><span>VP-level escalations</span></div>
+                <div class="radar-cell"><b>81%</b><span>signals routed under SLA</span></div>
+                <div class="radar-cell"><b>42</b><span>Whisper Box notes</span></div>
+                <div class="radar-cell"><b>78%</b><span>success probability</span></div>
+              </div>
+            </div>
+            <div class="queue">
+              <div class="queue-row"><span class="queue-dot" style="background:var(--ok)"></span><p><strong>Green:</strong> Owner aligned and next step scheduled.</p></div>
+              <div class="queue-row"><span class="queue-dot" style="background:var(--gold)"></span><p><strong>Yellow:</strong> Needs context, timing check, or dean/gift officer validation.</p></div>
+              <div class="queue-row"><span class="queue-dot" style="background:var(--cr)"></span><p><strong>Red:</strong> VP or campaign owner should review within 24 hours.</p></div>
+              <div class="queue-row"><span class="queue-dot" style="background:var(--info)"></span><p><strong>Blue:</strong> Monitor trend; use for briefing or future planning.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s2a">
+      <div class="wrap">
+        <div class="section-eyebrow">2.1 · AI Global Data Intake</div>
+        <h2 class="section-heading">How AI Gathers, Filters, and Routes <em>Meaningful Global Signals</em></h2>
+        <div class="section-rule"></div>
+        <p class="section-dek">This layer explains how the New Alerts Monitor could gather real-time external information from around the world, compare it with internal campaign context, and filter only the signals that are necessary, meaningful, urgent, beneficial, or potentially damaging to Harvard’s advancement strategy. All examples below are synthetic and designed as a governance model, not a live data feed.</p>
+
+        <div class="ai-intake-hero">
+          <div class="ai-intake-head">
+            <div>
+              <h3>From global noise to leadership-ready signal</h3>
+              <p>AI should not simply collect more information. It should act as a disciplined listening engine: gather public signals, remove duplicates and low-value noise, score the relevance to Harvard, then route only the highest-value items to human owners for review.</p>
+            </div>
+            <div class="ai-global-clock">
+              <div class="ai-clock-card"><b>24/7</b><span>global monitoring</span></div>
+              <div class="ai-clock-card"><b>6</b><span>external lanes</span></div>
+              <div class="ai-clock-card"><b>5</b><span>scoring filters</span></div>
+              <div class="ai-clock-card"><b>HITL</b><span>human review</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-source-grid">
+          <div class="ai-source-card" onclick="openDataSource('Policy + regulation')"><div class="ai-source-icon">🏛️</div><div class="ai-source-label">Source lane</div><div class="ai-source-title">Policy + regulation</div><p class="ai-source-desc">Public agency updates, legislation, tax policy, higher-ed rules, AI governance standards, and cross-border data guidance.</p></div>
+          <div class="ai-source-card" onclick="openDataSource('Markets + liquidity')"><div class="ai-source-icon">📈</div><div class="ai-source-label">Source lane</div><div class="ai-source-title">Markets + liquidity</div><p class="ai-source-desc">Market windows, IPO/M&amp;A activity, sector movements, philanthropic liquidity cues, and wealth-transfer timing signals.</p></div>
+          <div class="ai-source-card" onclick="openDataSource('Research funding')"><div class="ai-source-icon">🔬</div><div class="ai-source-label">Source lane</div><div class="ai-source-title">Research funding</div><p class="ai-source-desc">Federal/foundation funding movements, scientific priorities, grant disruptions, and school-specific research opportunity shifts.</p></div>
+          <div class="ai-source-card" onclick="openDataSource('Peer campaigns')"><div class="ai-source-icon">🏫</div><div class="ai-source-label">Source lane</div><div class="ai-source-title">Peer campaigns</div><p class="ai-source-desc">Peer university campaigns, gift announcements, naming opportunities, strategic themes, and competitive donor attention patterns.</p></div>
+          <div class="ai-source-card" onclick="openDataSource('Reputation + narrative')"><div class="ai-source-icon">📣</div><div class="ai-source-label">Source lane</div><div class="ai-source-title">Reputation + narrative</div><p class="ai-source-desc">News coverage, public sentiment, institutional trust signals, topic volatility, and issues requiring coordinated donor context.</p></div>
+          <div class="ai-source-card" onclick="openDataSource('Global philanthropy')"><div class="ai-source-icon">🌍</div><div class="ai-source-label">Source lane</div><div class="ai-source-title">Global philanthropy</div><p class="ai-source-desc">Regional giving trends, international alumni markets, foundation priorities, family-office interests, and global cause movements.</p></div>
+        </div>
+
+        <div class="ai-pipeline">
+          <div class="ai-pipe-step"><div class="ai-pipe-num">Step 01</div><h4>Listen</h4><p>Collect public information from approved sources, RSS/API feeds, public filings, alerts, reports, and verified internal submissions.</p></div>
+          <div class="ai-pipe-step"><div class="ai-pipe-num">Step 02</div><h4>Clean</h4><p>Remove duplicates, source spam, low-trust items, stale headlines, and unrelated topics before anything enters the queue.</p></div>
+          <div class="ai-pipe-step"><div class="ai-pipe-num">Step 03</div><h4>Evaluate</h4><p>Score the item for relevance to Harvard, confidence, urgency, benefit, risk, owner clarity, and time window.</p></div>
+          <div class="ai-pipe-step"><div class="ai-pipe-num">Step 04</div><h4>Match</h4><p>Map the signal to schools, campaigns, donor segments, research areas, communications needs, or governance workflows.</p></div>
+          <div class="ai-pipe-step"><div class="ai-pipe-num">Step 05</div><h4>Route</h4><p>Send a short brief to a human owner: monitor, act, escalate, prepare talking points, or close as low relevance.</p></div>
+        </div>
+
+        <div class="ai-scoreboard">
+          <div class="ai-score-card">
+            <h3>Evaluation filters</h3>
+            <div class="score-row"><div class="score-label">Relevance</div><div class="score-track"><div class="score-fill" style="width:91%"></div></div><div class="score-val">91</div></div>
+            <div class="score-row"><div class="score-label">Urgency</div><div class="score-track"><div class="score-fill" style="width:78%"></div></div><div class="score-val">78</div></div>
+            <div class="score-row"><div class="score-label">Confidence</div><div class="score-track"><div class="score-fill" style="width:84%"></div></div><div class="score-val">84</div></div>
+            <div class="score-row"><div class="score-label">Benefit</div><div class="score-track"><div class="score-fill" style="width:73%"></div></div><div class="score-val">73</div></div>
+            <div class="score-row"><div class="score-label">Damage risk</div><div class="score-track"><div class="score-fill" style="width:66%"></div></div><div class="score-val">66</div></div>
+          </div>
+          <div class="ai-score-card">
+            <h3>Sample scoring logic</h3>
+            <p><strong>Necessary:</strong> Is this tied to a campaign priority, school strategy, donor question, governance requirement, or leadership risk?</p>
+            <p><strong>Meaningful:</strong> Does it change timing, messaging, stewardship, prospect strategy, or resource allocation?</p>
+            <p><strong>Urgent:</strong> Is there a decision window within 24 hours, 7 days, 30 days, or the next campaign cycle?</p>
+            <p><strong>Benefit / damage:</strong> Could this create donor opportunity, protect trust, reduce friction, or prevent reputational/confidence loss?</p>
+            <button class="rt-btn" style="margin-top:8px" onclick="openScoringSample()">Open scoring sample</button>
+          </div>
+        </div>
+
+        <div class="decision-band">
+          <div class="decision-card red"><b>Red · Escalate</b><span>High relevance + high urgency + meaningful risk to donor confidence, campaign timing, or governance.</span></div>
+          <div class="decision-card yellow"><b>Yellow · Validate</b><span>Potentially important but needs owner review, source confirmation, or school/gift officer context.</span></div>
+          <div class="decision-card green"><b>Green · Act</b><span>Clear opportunity with aligned owner, next step, and high probability of useful action.</span></div>
+          <div class="decision-card blue"><b>Blue · Monitor</b><span>Useful background trend that belongs in briefing notes, but does not require immediate action.</span></div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section" id="s3">
+      <div class="wrap">
+        <div class="section-eyebrow">3.0 · Alert Queue Samples</div>
+        <h2 class="section-heading">Sample Alerts with Recap, Statement, Plan, and <em>Success Rate</em></h2>
+        <div class="section-rule"></div>
+        <div class="filter-bar" id="filterBar">
+          <button class="filter-btn active" onclick="filterAlerts('All',this)">All</button>
+          <button class="filter-btn" onclick="filterAlerts('Policy',this)">Policy</button>
+          <button class="filter-btn" onclick="filterAlerts('Markets',this)">Markets</button>
+          <button class="filter-btn" onclick="filterAlerts('AI Regulation',this)">AI Regulation</button>
+          <button class="filter-btn" onclick="filterAlerts('Research Funding',this)">Research Funding</button>
+          <button class="filter-btn" onclick="filterAlerts('Peer Campaigns',this)">Peer Campaigns</button>
+          <button class="filter-btn" onclick="filterAlerts('Reputation Events',this)">Reputation</button>
+        </div>
+        <div class="alert-list" id="alertList"></div>
+      </div>
+    </section>
+
+    <section class="section" id="s4">
+      <div class="wrap">
+        <div class="section-eyebrow">4.0 · Routing Model</div>
+        <h2 class="section-heading">Routing Signals to <em>Project and Campaign Owners</em></h2>
+        <div class="section-rule"></div>
+        <p class="section-dek">The monitor should not simply create more information. It should reduce coordination load by making the next owner, recommended action, and decision deadline obvious.</p>
+        <table class="matrix">
+          <thead><tr><th>Signal type</th><th>Primary owner</th><th>Secondary owner</th><th>Recommended action</th><th>Escalation trigger</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Policy</strong></td><td>Government relations liaison</td><td>Campaign strategy owner</td><td>Prepare donor-facing context note</td><td>Potential tax/giving behavior impact</td></tr>
+            <tr><td><strong>Markets</strong></td><td>Principal gifts / planned giving</td><td>School gift officers</td><td>Review liquidity-sensitive donor list</td><td>Volatility affects pledge timing</td></tr>
+            <tr><td><strong>AI Regulation</strong></td><td>UD&amp;AS data governance</td><td>Legal/compliance partner</td><td>Update AI use guideline and training note</td><td>New rule affects prospecting or data use</td></tr>
+            <tr><td><strong>Research Funding</strong></td><td>School campaign owner</td><td>Dean's office / faculty lead</td><td>Map donor opportunity to research gap</td><td>Federal or foundation shift creates funding risk</td></tr>
+            <tr><td><strong>Peer Campaigns</strong></td><td>Campaign analytics</td><td>Communications lead</td><td>Benchmark messaging and gift bands</td><td>Peer campaign competes for same donor segment</td></tr>
+            <tr><td><strong>Reputation</strong></td><td>Communications partner</td><td>VP / school leadership</td><td>Prepare narrative risk scan and talking points</td><td>Public issue could affect donor confidence</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" id="s5">
+      <div class="wrap">
+        <div class="section-eyebrow">5.0 · Decision View</div>
+        <h2 class="section-heading">Pro / Con, Current Statement, and <em>Leadership Decision Logic</em></h2>
+        <div class="section-rule"></div>
+        <div class="procon">
+          <div class="procon-card pro">
+            <h3>Pros of the New Alerts Monitor</h3>
+            <ul>
+              <li>Buys time for leaders and school teams by reducing scattered context gathering.</li>
+              <li>Connects external trends to campaign and project owners before decisions are rushed.</li>
+              <li>Creates an ethical channel for early observations through the Whisper Box.</li>
+              <li>Improves meeting quality by converting signals into concise action memos.</li>
+            </ul>
+          </div>
+          <div class="procon-card con">
+            <h3>Risks / Constraints to Manage</h3>
+            <ul>
+              <li>Too many alerts could create noise if routing rules are not governed.</li>
+              <li>Staff may hesitate to submit sensitive observations without clear trust norms.</li>
+              <li>Signal scoring must remain transparent and human-reviewed.</li>
+              <li>Public trend summaries should not be treated as official institutional positions.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px;border-left:5px solid var(--cr)">
+          <h3>Current statement · sample</h3>
+          <p><strong>Recommendation:</strong> pilot the New Alerts Monitor as a lightweight strategic intelligence layer across 3–5 campaign workstreams. The first phase should prioritize research funding, AI regulation, policy, and market/liquidity signals because those categories are most likely to affect timing, donor conversations, and leadership messaging.</p>
+        </div>
+        <div class="success-card card" style="margin-top:14px">
+          <div class="success-ring"><div class="success-val">78%</div></div>
+          <div class="success-text">
+            <h3>Sample success-rate prediction</h3>
+            <p><strong>Estimated success probability: 78%.</strong> This assumes a 90-day pilot, 6 signal lanes, clear owner routing, weekly triage, and leadership sponsorship. Probability drops if the alert queue is not governed, if owners are unclear, or if Whisper Box submissions are not protected with psychological safety norms.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s6">
+      <div class="wrap">
+        <div class="section-eyebrow">6.0 · Action Plan</div>
+        <h2 class="section-heading">30 / 60 / 90 / 180 Day <em>Implementation Plan</em></h2>
+        <div class="section-rule"></div>
+        <div class="timeline">
+          <div class="time-card"><b>Days 0–30</b><h3>Define signal lanes</h3><p>Confirm categories, routing owners, risk levels, triage cadence, and disclaimer language for synthetic/demo versus decision-ready signals.</p></div>
+          <div class="time-card"><b>Days 31–60</b><h3>Launch pilot queue</h3><p>Run a controlled pilot with 3–5 workstreams. Collect Whisper Box notes and convert a small number into owner-ready action briefs.</p></div>
+          <div class="time-card"><b>Days 61–90</b><h3>Measure behavior change</h3><p>Review response time, owner clarity, meeting-usefulness, decision cycle reduction, and number of risks detected earlier.</p></div>
+          <div class="time-card"><b>Days 91–180</b><h3>Scale governance</h3><p>Connect the monitor to school-level reports, campaign dashboards, and the VERITAS Console operating rhythm.</p></div>
+        </div>
+        <div class="g2" style="margin-top:14px">
+          <div class="card">
+            <h3>Minimum viable alert memo</h3>
+            <p>Every alert should include: source, summary, signal category, affected owners, confidence, potential opportunity/risk, recommended action, decision deadline, and follow-up owner.</p>
+          </div>
+          <div class="card">
+            <h3>Governance rule</h3>
+            <p>No alert becomes an official position automatically. Each signal is a prompt for review, not a conclusion. Human judgment, context, and leadership sponsorship remain central.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s7">
+      <div class="wrap">
+        <div class="section-eyebrow">7.0 · Whisper Box</div>
+        <h2 class="section-heading">Reporting News, Trends, Donor Cues, and <em>Quiet Blockers</em></h2>
+        <div class="section-rule"></div>
+        <p class="section-dek">The Whisper Box is not a complaint box. It is an early-intelligence channel for staff, gift officers, analysts, and school partners to share emerging information before it is fully formalized.</p>
+        <div class="g2">
+          <div class="whisper">
+            <h3>Sample Whisper Box Intake</h3>
+            <select><option>Signal category</option><option>News / public trend</option><option>Donor cue</option><option>School priority</option><option>Operational blocker</option><option>Reputation concern</option></select>
+            <input placeholder="Related school, project, or campaign owner">
+            <textarea placeholder="What are you noticing? What might leadership need to know soon?"></textarea>
+            <select><option>Confidence level</option><option>Low · needs validation</option><option>Medium · credible pattern</option><option>High · repeated / source-confirmed</option></select>
+            <button onclick="openWhisperSample()">Show sample submission</button>
+          </div>
+          <div class="card">
+            <h3>Sample intake queue</h3>
+            <table class="matrix">
+              <thead><tr><th>Source</th><th>Signal</th><th>Route</th><th>Status</th></tr></thead>
+              <tbody>
+                <tr><td>Gift officer</td><td>Donor asking about AI governance</td><td>AI regulation owner</td><td>Yellow</td></tr>
+                <tr><td>School staff</td><td>Faculty priority shifted toward climate resilience</td><td>Campaign owner</td><td>Green</td></tr>
+                <tr><td>Analyst</td><td>Peer campaign raised similar theme</td><td>Messaging lead</td><td>Blue</td></tr>
+                <tr><td>Stewardship</td><td>Repeated question on impact reporting timing</td><td>Report design owner</td><td>Yellow</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="s8">
+      <div class="wrap">
+        <div class="section-eyebrow">8.0 · Report Templates</div>
+        <h2 class="section-heading">Sample Briefing Templates and <em>Closeout Notes</em></h2>
+        <div class="section-rule"></div>
+        <div class="g3">
+          <div class="memo-card"><h3>VP Weekly Alert Brief</h3><p>One-page summary of top five alerts, owners, decision asks, and recommended leadership follow-up.</p></div>
+          <div class="memo-card"><h3>Campaign Owner Memo</h3><p>Focused briefing for a specific campaign owner with trend context, affected donors/schools, and next action.</p></div>
+          <div class="memo-card"><h3>School-Level Signal Addendum</h3><p>Short section that plugs into each school report showing relevant policy, market, donor, and reputation signals.</p></div>
+        </div>
+        <div class="card" style="margin-top:14px;background:#151515;color:#fff;border:0">
+          <h3 style="color:#fff">Closing note</h3>
+          <p style="color:rgba(255,255,255,.78)">The best alert system does not create anxiety. It creates calm. When teams can see earlier, route faster, and act with context, leadership gains time, gift officers gain clarity, and schools gain a stronger bridge between mission and fundraising action.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div><h3 id="modalTitle">Detail</h3><div class="modal-sub" id="modalSub"></div></div>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+const sections = [
+  ['s0','0.0','Opening Concept'],
+  ['s1','1.0','Plan Recap'],
+  ['s2','2.0','Signal Monitor'],
+  ['s2a','2.1','AI Data Intake'],
+  ['s3','3.0','Alert Samples'],
+  ['s4','4.0','Routing Model'],
+  ['s5','5.0','Decision View'],
+  ['s6','6.0','Action Plan'],
+  ['s7','7.0','Whisper Box'],
+  ['s8','8.0','Templates']
+];
+const alerts = [
+  {cat:'Policy', pill:'p-policy', title:'Charitable deduction discussion may affect donor timing', impact:'High', success:76, owner:'Campaign strategy + principal gifts', desc:'Policy discussion creates an opportunity to review donor timing, pledge structure, and year-end messaging.'},
+  {cat:'Markets', pill:'p-market', title:'Liquidity window opens for technology-founder segment', impact:'Medium', success:72, owner:'Principal gifts + planned giving', desc:'Market movement may create a short window for donor conversations tied to appreciated assets and liquidity planning.'},
+  {cat:'AI Regulation', pill:'p-ai', title:'New AI governance guidance affects prospect research workflows', impact:'High', success:82, owner:'UD&AS data governance', desc:'Signal suggests need for updated AI-use language, human review checkpoints, and staff training note.'},
+  {cat:'Research Funding', pill:'p-funding', title:'Research funding uncertainty creates donor-briefing opportunity', impact:'Very High', success:81, owner:'School campaign owner + dean office', desc:'A public funding shift could be translated into mission-aligned cases for private support.'},
+  {cat:'Peer Campaigns', pill:'p-peer', title:'Peer institution launches campaign around public-service innovation', impact:'Medium', success:68, owner:'Campaign analytics + communications', desc:'Peer messaging may compete for donor attention; benchmark themes and adjust Harvard-specific differentiation.'},
+  {cat:'Reputation Events', pill:'p-reputation', title:'Public narrative risk requires coordinated donor talking points', impact:'High', success:74, owner:'Communications + VP office', desc:'Emerging issue may not affect operations directly but could affect donor confidence if unanswered.'}
+];
+let activeSection='s0';
+let readState = JSON.parse(localStorage.getItem('newsAlertsReadState')||'{}');
+
+function buildReadingTrack(){
+  const list = document.getElementById('rtList');
+  list.innerHTML = sections.map(([id,num,label]) => `
+    <button class="rt-item ${id===activeSection?'active':''} ${readState[id]?'done':''}" data-id="${id}" onclick="goSection('${id}')">
+      <span class="rt-check" onclick="event.stopPropagation();toggleRead('${id}')"></span>
+      <span><span class="rt-label">${num} · ${label}</span><span class="rt-note">click circle to check/uncheck</span></span>
+    </button>`).join('');
+  updateProgress();
+}
+function updateProgress(){
+  const done = sections.filter(s=>readState[s[0]]).length;
+  document.getElementById('rtCount').textContent = `${done}/${sections.length}`;
+  document.getElementById('rtFill').style.width = `${Math.round(done/sections.length*100)}%`;
+  localStorage.setItem('newsAlertsReadState', JSON.stringify(readState));
+}
+function goSection(id){
+  activeSection = id;
+  document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));
+  document.querySelectorAll('.rt-item').forEach(b=>b.classList.toggle('active',b.dataset.id===id));
+  if(window.innerWidth>1100) window.scrollTo({top:0,behavior:'smooth'});
+}
+function toggleRead(id){ readState[id]=!readState[id]; buildReadingTrack(); }
+function toggleCurrentRead(){ toggleRead(activeSection); }
+function resetRead(){ readState={}; buildReadingTrack(); }
+
+function renderAlerts(filter='All'){
+  const list = document.getElementById('alertList');
+  const data = filter==='All'?alerts:alerts.filter(a=>a.cat===filter);
+  list.innerHTML = data.map((a,i)=>`
+    <div class="alert-card" onclick="openAlert('${a.cat}')">
+      <div class="alert-pill ${a.pill}">${a.cat}</div>
+      <div><div class="alert-title"><b>${a.title}</b></div><div class="alert-desc">${a.desc}</div></div>
+      <div class="alert-meta">Impact: ${a.impact}<br>Owner: ${a.owner}<br>Success: ${a.success}%</div>
+    </div>`).join('');
+}
+function filterAlerts(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAlerts(cat);
+}
+function openModal(title, sub, body){
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalSub').textContent = sub;
+  document.getElementById('modalBody').innerHTML = body;
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+
+function openDataSource(name){
+  const sourceMap = {
+    'Policy + regulation':'Approved sources could include public agency updates, legislative trackers, higher-education associations, tax-policy summaries, AI governance guidance, and cross-border data notices.',
+    'Markets + liquidity':'Approved sources could include market indices, public filings, IPO/M&A calendars, sector news, foundation/grant reports, and public wealth-transfer indicators.',
+    'Research funding':'Approved sources could include public grant databases, federal agency notices, foundation RFPs, school research news, and public scientific priority reports.',
+    'Peer campaigns':'Approved sources could include peer university campaign websites, public gift announcements, annual reports, naming-gift news, and campaign messaging pages.',
+    'Reputation + narrative':'Approved sources could include major media, official statements, public social-listening summaries, issue trackers, and internal communications escalations.',
+    'Global philanthropy':'Approved sources could include philanthropy reports, regional giving studies, foundation priorities, family-office trend reports, and international alumni-market signals.'
+  };
+  openModal(name, 'example approved source lane', `
+    <p><strong>How AI gathers it:</strong> ${sourceMap[name] || 'Approved public and internal sources are monitored through governed feeds.'}</p>
+    <p><strong>How AI filters it:</strong> The item is deduplicated, checked for source trust, summarized, and scored for Harvard relevance, urgency, benefit, damage risk, and owner clarity.</p>
+    <p><strong>Human guardrail:</strong> AI prepares the first-pass summary. A designated owner validates the source, context, and recommended action before the signal is used in leadership briefing or donor-facing work.</p>`);
+}
+function openScoringSample(){
+  openModal('AI Signal Scoring Sample', 'synthetic evaluation model', `
+    <p><strong>Sample incoming signal:</strong> A public research-funding shift appears likely to affect a biomedical or climate-related research area within the next fiscal cycle.</p>
+    <table class="matrix"><thead><tr><th>Filter</th><th>Sample score</th><th>Interpretation</th></tr></thead><tbody>
+      <tr><td>Harvard relevance</td><td>91/100</td><td>Matches school research priority and campaign case language.</td></tr>
+      <tr><td>Urgency</td><td>78/100</td><td>Decision window likely inside 30 days.</td></tr>
+      <tr><td>Confidence</td><td>84/100</td><td>Multiple public sources and internal subject-matter owner can validate.</td></tr>
+      <tr><td>Benefit potential</td><td>73/100</td><td>Could support donor briefing and private-philanthropy case framing.</td></tr>
+      <tr><td>Damage risk</td><td>66/100</td><td>Could create confusion if leadership lacks clear talking points.</td></tr>
+    </tbody></table>
+    <p><strong>Recommended route:</strong> Yellow → validate with school campaign owner, then prepare 1-page context note for dean/VP review.</p>`);
+}
+
+function openSignal(cat){
+  openModal(cat + ' Signal Lane', 'sample lane detail', `
+    <p><strong>Purpose:</strong> Track ${cat.toLowerCase()} signals and convert them into leadership-ready briefs when they affect donor timing, campaign messaging, research priorities, or operating risk.</p>
+    <ul>
+      <li><strong>Monitor:</strong> public news, internal notes, school priorities, and peer activity.</li>
+      <li><strong>Score:</strong> urgency, impact, confidence, owner clarity, and decision window.</li>
+      <li><strong>Route:</strong> send to project owner, campaign owner, or VP weekly brief.</li>
+    </ul>`);
+}
+function openAlert(cat){
+  const a = alerts.find(x=>x.cat===cat);
+  openModal(a.title, `${a.cat} · ${a.impact} impact · ${a.success}% sample success probability`, `
+    <p><strong>Brief recap:</strong> ${a.desc}</p>
+    <p><strong>Current statement:</strong> This signal should be reviewed as an opportunity to prepare context before donor or school teams need an urgent response.</p>
+    <p><strong>Recommended action plan:</strong></p>
+    <ul>
+      <li>Validate with owner group: ${a.owner}.</li>
+      <li>Create a one-page context note within 48 hours.</li>
+      <li>Identify affected donor segments, school priorities, or campaign messages.</li>
+      <li>Close, monitor, or escalate at the next weekly triage.</li>
+    </ul>
+    <p><strong>Pro:</strong> earlier awareness, better coordination, clearer donor-facing context.<br>
+    <strong>Con:</strong> may add noise if the signal is not validated or routed to a single owner.</p>`);
+}
+function openWhisperSample(){
+  openModal('Whisper Box Sample Submission', 'synthetic demo input', `
+    <p><strong>Category:</strong> Donor cue + AI regulation</p>
+    <p><strong>Observation:</strong> A major donor asked whether AI is being used in prospecting or stewardship writing. Gift officer believes this may become a recurring question.</p>
+    <p><strong>Suggested route:</strong> UD&amp;AS data governance owner + stewardship communications.</p>
+    <p><strong>Recommended action:</strong> Draft short “responsible AI in advancement operations” language for internal use and donor-facing adaptation.</p>`);
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+buildReadingTrack();
+renderAlerts();
+</script>
+</body>
+</html>
