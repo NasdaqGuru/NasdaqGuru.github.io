@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Harvard Philanthropy Impact Report · VERITAS Intelligence</title>
+<meta name="description" content="Harvard Board-level philanthropy impact report with VERITAS advancement intelligence, SMARTER goals, and fiscal transparency."/>
+<link rel="preconnect" href="https://cdnjs.cloudflare.com"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root{
+  --crimson:#A51C30;--crimson2:#7b1324;--ink:#121826;--navy:#172033;--slate:#526078;--muted:#738096;
+  --paper:#fff;--page:#eef1f6;--soft:#f7f8fb;--line:#dde4ee;--gold:#c0922d;--green:#167a5b;--blue:#1d5f9f;--amber:#ba7517;
+  --shadow:0 28px 70px rgba(17,24,39,.18);--shadow2:0 14px 34px rgba(17,24,39,.10);--radius:24px;
+  --serif:Georgia,'Times New Roman',serif;--sans:'Aptos','Segoe UI',Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--page)}
+body{font-family:var(--sans);color:var(--ink);background:radial-gradient(circle at 12% 0%,rgba(165,28,48,.10),transparent 35rem),radial-gradient(circle at 92% 12%,rgba(192,146,45,.14),transparent 28rem),linear-gradient(180deg,#f8fafc 0%,#eef1f6 100%);line-height:1.58;padding:24px}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1240px;margin:0 auto;background:var(--paper);border:1px solid rgba(221,228,238,.95);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+
+/* ── TOPBAR ── */
+.topbar{height:54px;display:flex;align-items:center;justify-content:space-between;background:#0f1724;color:#fff;border-bottom:2px solid var(--gold);padding:0 22px;gap:14px;position:sticky;top:0;z-index:50}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}.brand-mark{font-family:var(--serif);font-weight:900;letter-spacing:.12em;color:#f7d78b;border:1px solid rgba(247,215,139,.35);border-radius:6px;padding:5px 10px;background:rgba(255,255,255,.05)}
+.brand-title{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand-sub{font-size:.62rem;color:rgba(255,255,255,.6);letter-spacing:.12em;text-transform:uppercase}
+.toplinks{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.toplinks a,.toplinks button{font-family:var(--sans);border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;border-radius:999px;padding:6px 10px;font-size:.68rem;font-weight:800;cursor:pointer}.toplinks a:hover,.toplinks button:hover{background:rgba(255,255,255,.12)}
+
+/* ── HERO ── */
+.hero{position:relative;color:#fff;background:linear-gradient(135deg,#111827 0%,#22304a 50%,#A51C30 100%);padding:64px 52px 44px;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(255,255,255,.15),transparent 22rem),radial-gradient(circle at 15% 85%,rgba(192,146,45,.20),transparent 26rem);pointer-events:none}
+.hero>*{position:relative;z-index:1}.eyebrow{font-size:.72rem;text-transform:uppercase;letter-spacing:.22em;color:#f8d78b;font-weight:900;margin-bottom:12px}
+.hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,5.4rem);line-height:.96;letter-spacing:-.04em;max-width:900px;margin-bottom:18px}.hero h1 span{color:#ffd98a}
+.hero-copy{font-size:1.05rem;line-height:1.72;color:#eef2ff;max-width:790px}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:end}
+.hero-panel{background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.18);border-radius:24px;padding:20px;backdrop-filter:blur(10px);box-shadow:0 20px 50px rgba(0,0,0,.20)}
+.mission-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.mini-card{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);border-radius:16px;padding:14px}.mini-card b{display:block;color:#ffd98a;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;margin-bottom:5px}.mini-card p{font-size:.82rem;color:#eef2ff;line-height:1.55}
+.hero-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.10);color:#fff;font-size:.78rem;font-weight:900;padding:10px 13px}.btn.gold{background:linear-gradient(135deg,#f7d78b,#c0922d);color:#111827;border:0}.btn:hover{transform:translateY(-1px)}
+.stat-rack{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.stat{background:#fff;color:var(--ink);border-radius:18px;padding:16px;min-height:108px;border:1px solid rgba(255,255,255,.15)}.stat .val{font-family:var(--serif);font-size:2rem;line-height:1;font-weight:900;color:var(--crimson);margin-bottom:7px}.stat .lbl{font-size:.75rem;font-weight:800;color:#334155;line-height:1.35}.stat .hint{font-size:.65rem;color:var(--muted);margin-top:7px;text-transform:uppercase;letter-spacing:.08em}
+
+/* ── NAV ── */
+.nav{display:flex;gap:5px;flex-wrap:wrap;padding:14px 18px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:54px;z-index:45}
+.nav a{font-size:.72rem;font-weight:900;color:var(--slate);border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:#fff}.nav a:hover{background:#fff4f5;color:var(--crimson);border-color:#f1c8cf}
+
+/* ── MAIN ── */
+main{padding:36px 46px 54px}
+.section{margin-top:44px}.section:first-child{margin-top:0}
+.sec-head{display:flex;align-items:end;gap:14px;margin-bottom:18px;border-bottom:2px solid var(--line);padding-bottom:12px}
+.sec-head h2{font-family:var(--serif);font-size:1.8rem;line-height:1.1;color:var(--navy)}.sec-head i{color:var(--crimson);font-size:1.2rem}.sec-head .dek{margin-left:auto;max-width:470px;font-size:.82rem;color:var(--muted);line-height:1.55}
+.disclaimer{background:#fff8e6;border:1px solid #efd6a4;border-left:5px solid var(--gold);border-radius:14px;padding:13px 15px;color:#6b4e14;font-size:.78rem;line-height:1.62;margin-bottom:18px}.disclaimer strong{color:#4d3400}
+
+/* ── METRIC GRID (stewardship) ── */
+.metric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.impact-card{background:linear-gradient(180deg,#fff,#f8fafc);border:1px solid var(--line);border-radius:20px;padding:18px;position:relative;overflow:hidden;min-height:170px;box-shadow:0 8px 24px rgba(17,24,39,.05);cursor:pointer}
+.impact-card:before{content:"";position:absolute;right:-34px;top:-34px;width:88px;height:88px;border-radius:50%;background:rgba(165,28,48,.08)}
+.impact-card:hover{transform:translateY(-2px);box-shadow:var(--shadow2);border-color:#cbd5e1}
+.impact-card .icon{font-size:1.4rem;margin-bottom:10px;display:block}.impact-card .num{font-family:var(--serif);font-size:2.05rem;font-weight:900;color:var(--crimson);line-height:1;margin-bottom:8px}.impact-card .label{font-size:.82rem;font-weight:900;color:#243044;line-height:1.35}.impact-card .note{font-size:.68rem;color:var(--muted);margin-top:8px;letter-spacing:.05em;text-transform:uppercase}
+.impact-card.gold .num{color:var(--gold)}.impact-card.blue .num{color:var(--blue)}.impact-card.green .num{color:var(--green)}
+.panel{display:none;margin-top:14px;background:#fff;border:1px solid var(--line);border-top:5px solid var(--crimson);border-radius:0 0 20px 20px;padding:22px;box-shadow:var(--shadow2)}.panel.open{display:block}
+.panel-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:24px;align-items:start}
+.panel h3{font-family:var(--serif);font-size:1.5rem;color:var(--navy);margin-bottom:8px}.panel p{font-size:.9rem;color:#334155;line-height:1.75}
+.fact-table{width:100%;border-collapse:collapse;font-size:.82rem}.fact-table tr{border-bottom:1px solid var(--line)}.fact-table td{padding:9px 0}.fact-table td:first-child{color:var(--muted);padding-right:18px}.fact-table td:last-child{text-align:right;font-weight:900;color:var(--navy)}
+.close-row{text-align:right;margin-top:12px}.close{font-family:var(--sans);font-weight:900;font-size:.7rem;padding:7px 12px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--slate);cursor:pointer}.close:hover{background:var(--soft)}
+
+/* ── CHARTS ── */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.chart-box{border:1px solid var(--line);border-radius:22px;background:#fff;padding:20px;box-shadow:0 8px 24px rgba(17,24,39,.05)}.chart-title{font-size:.72rem;color:var(--muted);letter-spacing:.13em;text-transform:uppercase;font-weight:900;margin-bottom:12px}.chart-wrap{position:relative;height:280px}
+
+/* ── BIG CALLOUT (campaign) ── */
+.big-callout{display:grid;grid-template-columns:.95fr 1.05fr;gap:20px;align-items:stretch}
+.callout-left{background:linear-gradient(135deg,#111827,#24324d);border-radius:24px;color:#fff;padding:28px;position:relative;overflow:hidden}.callout-left:after{content:"";position:absolute;width:240px;height:240px;border-radius:50%;right:-100px;bottom:-110px;background:rgba(192,146,45,.24)}
+.callout-left h3{font-family:var(--serif);font-size:2.1rem;line-height:1.08;margin-bottom:10px}.callout-left p{color:#e5e7eb;font-size:.92rem;line-height:1.75}.callout-left .big{font-family:var(--serif);font-size:4rem;font-weight:900;color:#ffd98a;line-height:1;margin:16px 0}
+.callout-right{display:grid;gap:12px}.story-card{border:1px solid var(--line);border-radius:18px;padding:18px;background:linear-gradient(180deg,#fff,#fafbfd)}.story-card h4{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--crimson);margin-bottom:8px}.story-card p{font-size:.86rem;color:#334155;line-height:1.65}
+.badge-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.badge{font-size:.64rem;font-weight:900;color:#263246;border:1px solid #d7dee9;border-radius:999px;background:#f2f5f9;padding:5px 8px}
+
+/* ── TIMELINE ── */
+.timeline{position:relative;margin-left:10px;padding-left:22px;border-left:3px solid #e5eaf2}
+.tl{position:relative;background:#fff;border:1px solid var(--line);border-radius:18px;padding:17px 18px;margin:16px 0;box-shadow:0 6px 20px rgba(17,24,39,.05)}.tl:before{content:"";position:absolute;left:-33px;top:22px;width:16px;height:16px;border-radius:50%;background:var(--crimson);border:3px solid #fff;box-shadow:0 0 0 2px #e5eaf2}
+.tl .year{font-weight:900;color:var(--gold);font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}.tl h3{font-family:var(--serif);font-size:1.15rem;color:var(--navy);margin-bottom:4px}.tl p{font-size:.86rem;color:#334155;line-height:1.65}.tl .tl-metric{font-weight:900;color:var(--crimson);margin-top:7px;font-size:.82rem}
+
+/* ── YEAR LAYER ── */
+.year-layer{margin:14px 0 20px;background:linear-gradient(135deg,#fff,#f8fafc);border:1px solid var(--line);border-radius:22px;box-shadow:0 10px 26px rgba(17,24,39,.06);overflow:hidden}
+.year-layer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding:16px 18px 13px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#fff,#fbfcff)}
+.year-layer-kicker{font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;font-weight:900;color:var(--crimson);margin-bottom:4px}.year-layer-title{font-family:var(--serif);font-size:1.05rem;color:var(--navy);font-weight:900;line-height:1.22}.year-layer-note{font-size:.72rem;color:var(--muted);line-height:1.45;max-width:430px;text-align:right}
+.year-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+.year-card{padding:16px 17px;border-right:1px solid var(--line);position:relative;min-height:150px;background:#fff}.year-card:last-child{border-right:0}.year-card:before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--blue)}.year-card.current:before{background:var(--crimson)}.year-card.avg:before{background:var(--gold)}
+.year-label{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;font-weight:900;color:var(--muted);margin-bottom:7px}.year-value{font-family:var(--serif);font-size:1.52rem;font-weight:900;line-height:1;color:var(--navy);margin-bottom:7px}.year-card.current .year-value{color:var(--crimson)}.year-card.avg .year-value{color:var(--gold)}
+.year-copy{font-size:.78rem;color:#334155;line-height:1.55;margin-bottom:10px}.year-bars{display:grid;gap:5px;margin-top:8px}.year-bar{height:6px;border-radius:999px;background:#e8edf4;overflow:hidden}.year-bar span{display:block;height:100%;border-radius:999px;background:var(--crimson)}
+.year-mini{display:flex;justify-content:space-between;gap:8px;border-top:1px dashed var(--line);padding-top:8px;margin-top:10px;font-size:.66rem;color:var(--muted)}.year-mini b{color:var(--ink)}
+.year-pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.year-pill{font-size:.6rem;font-weight:900;border:1px solid #d7dee9;background:#f2f5f9;border-radius:999px;padding:4px 7px;color:#263246}
+.layer-foot{padding:10px 18px;background:#f8fafc;border-top:1px solid var(--line);font-size:.68rem;color:var(--muted);line-height:1.45}.layer-foot b{color:var(--navy)}
+
+/* ── PILLARS ── */
+.pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.pillar{border:1px solid var(--line);border-radius:20px;background:#fff;padding:20px;min-height:210px}.pillar .picon{font-size:1.5rem;margin-bottom:10px;display:block}.pillar h3{font-family:var(--serif);font-size:1.25rem;color:var(--navy);margin-bottom:7px}.pillar .pnum{font-family:var(--serif);font-size:2rem;font-weight:900;color:var(--crimson);line-height:1;margin-bottom:9px}.pillar p,.pillar li{font-size:.84rem;color:#334155;line-height:1.6}.pillar ul{padding-left:18px;margin-top:8px}.pillar li{margin-bottom:5px}
+.signal{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:16px}.signal div{background:#fff;border:1px solid var(--line);border-top:4px solid var(--crimson);border-radius:16px;padding:15px}.signal b{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:6px}.signal p{font-size:.75rem;color:var(--muted);line-height:1.48}
+
+/* ── BOARD HERO ── */
+.board-hero{background:radial-gradient(circle at 8% 0%,rgba(192,146,45,.22),transparent 28rem),radial-gradient(circle at 92% 18%,rgba(165,28,48,.18),transparent 24rem),linear-gradient(135deg,#111827 0%,#172033 44%,#3b0d18 100%);color:#fff;border-radius:26px;padding:26px;margin-bottom:18px;position:relative;overflow:hidden;box-shadow:0 24px 55px rgba(17,24,39,.20)}
+.board-hero:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transform:skewX(-18deg) translateX(-120%);animation:shine 8s infinite;pointer-events:none}
+@keyframes shine{0%,72%{transform:skewX(-18deg) translateX(-120%)}86%,100%{transform:skewX(-18deg) translateX(130%)}}
+.board-hero-inner{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:22px;align-items:center}
+.board-kicker{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:#f7d98e;font-weight:900;margin-bottom:8px}
+.board-hero h3{font-family:var(--serif);font-size:2rem;line-height:1.12;margin-bottom:9px}.board-hero p{font-size:.9rem;line-height:1.7;color:#dce6f4;max-width:790px}
+.board-badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}.board-badge{border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);border-radius:999px;padding:7px 10px;font-size:.68rem;font-weight:900;letter-spacing:.05em;text-transform:uppercase;color:#fff}
+.board-dial{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:22px;padding:16px;backdrop-filter:blur(8px)}.dial-title{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#f7d98e;font-weight:900;margin-bottom:10px;text-align:center}
+.horizon-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 20px}
+.h-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;box-shadow:0 10px 24px rgba(17,24,39,.06);position:relative;overflow:hidden;min-height:156px}.h-card:before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:linear-gradient(90deg,var(--crimson),var(--gold))}
+.h-card .h-label{font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);font-weight:900;margin-bottom:7px}.h-card .h-num{font-family:var(--serif);font-size:1.75rem;line-height:1.05;color:var(--crimson);font-weight:900;margin-bottom:8px}.h-card p{font-size:.78rem;color:#334155;line-height:1.55}.h-card b{color:var(--navy)}
+.command-tabs{display:flex;gap:5px;flex-wrap:wrap;margin:18px 0 0}.command-tab{border:1px solid var(--line);background:#f3f6fa;color:var(--muted);border-radius:12px 12px 0 0;padding:9px 12px;font-size:.7rem;font-weight:900;letter-spacing:.04em;text-transform:uppercase;cursor:pointer}.command-tab.active{background:#fff;color:var(--navy);border-bottom-color:#fff}
+.command-panel{display:none;background:#fff;border:1px solid var(--line);border-radius:0 20px 20px 20px;padding:20px;box-shadow:0 12px 28px rgba(17,24,39,.06)}.command-panel.active{display:block}
+.board-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);gap:20px;align-items:start}
+.board-copy h4{font-family:var(--serif);font-size:1.3rem;color:var(--navy);margin-bottom:7px}.board-copy p,.board-copy li{font-size:.84rem;color:#334155;line-height:1.65}.board-copy ul{padding-left:18px;margin-top:8px}.board-copy li{margin-bottom:6px}
+.board-chart{background:#f8fafc;border:1px solid var(--line);border-radius:18px;padding:14px;min-height:300px}.board-chart .chart-wrap{height:250px}
+.pillar-wow-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.pillar-wow{background:linear-gradient(180deg,#fff,#f8fafc);border:1px solid var(--line);border-radius:22px;padding:18px;position:relative;overflow:hidden;box-shadow:0 8px 22px rgba(17,24,39,.05)}.pillar-wow:after{content:"";position:absolute;right:-34px;top:-34px;width:110px;height:110px;border-radius:999px;background:rgba(165,28,48,.07)}
+.pillar-wow .p-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;position:relative;z-index:1}.pillar-wow .p-icon{font-size:1.35rem}.pillar-wow h3{font-family:var(--serif);font-size:1.1rem;color:var(--navy);line-height:1.18}.pillar-wow .p-stat{font-family:var(--serif);font-weight:900;color:var(--crimson);font-size:1.35rem;line-height:1;white-space:nowrap}
+.measure-stack{position:relative;z-index:1;display:grid;gap:7px;margin-top:8px}.measure-row{display:grid;grid-template-columns:88px 1fr;gap:8px;font-size:.72rem;line-height:1.4;color:#334155}.measure-row b{font-size:.61rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted)}
+.roi-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:14px}.roi-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:13px;text-align:center}.roi-card .rval{font-family:var(--serif);font-size:1.45rem;font-weight:900;color:var(--gold);line-height:1;margin-bottom:5px}.roi-card .rlbl{font-size:.68rem;color:#475569;line-height:1.35;font-weight:800}
+.exec-table{width:100%;border-collapse:collapse;font-size:.78rem;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}.exec-table th{background:#111827;color:#fff;text-align:left;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:9px}.exec-table td{border-top:1px solid var(--line);padding:9px;color:#334155;vertical-align:top}.exec-table b{color:var(--navy)}
+.rag{display:inline-flex;align-items:center;justify-content:center;min-width:58px;border-radius:999px;padding:3px 8px;font-size:.62rem;font-weight:900}.rag.g{background:#e9f6ef;color:#126047}.rag.y{background:#fff5df;color:#81580e}.rag.b{background:#eaf2ff;color:#1d4ed8}.rag.r{background:#fde8e8;color:#9b1c1c}
+.board-note{font-size:.72rem;color:#6b7280;background:#fff8ea;border:1px solid #edd9a8;border-left:5px solid var(--gold);border-radius:14px;padding:11px 13px;margin-top:14px;line-height:1.55}
+
+/* ── SOURCE LIST ── */
+.source-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.source-card{background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:14px}.source-card b{display:block;font-size:.78rem;color:var(--navy);margin-bottom:5px}.source-card a{font-size:.72rem;color:var(--blue);word-break:break-all}.source-card p{font-size:.72rem;color:var(--muted);line-height:1.45;margin-top:5px}
+
+/* ── FOOTER ── */
+.footer{background:#0f1724;color:#cbd5e1;padding:24px 32px;font-size:.78rem;line-height:1.6}.footer b{color:#fff}
+
+/* ══════════════════════════════════════════
+   NEW SECTIONS: FY2026 + SMARTER + BENCH + ROADMAP
+══════════════════════════════════════════ */
+
+/* ── RISK STRIP ── */
+.risk-strip{background:linear-gradient(135deg,#1a0308,#2d0f1a);color:#fff;border-radius:22px;padding:22px 26px;margin-bottom:18px;position:relative;overflow:hidden}
+.risk-strip:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent 30%,rgba(192,146,45,.08),transparent 70%);pointer-events:none}
+.risk-inner{position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start}
+.risk-item{border-left:3px solid var(--gold);padding-left:14px}.risk-item .r-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;color:#f7d98e;font-weight:900;margin-bottom:5px}.risk-item .r-val{font-family:var(--serif);font-size:1.6rem;font-weight:900;color:#fff;line-height:1;margin-bottom:6px}.risk-item .r-copy{font-size:.78rem;color:#dce6f4;line-height:1.55}
+.risk-item.alert .r-val{color:#ff8a80}.risk-item.surge .r-val{color:#69f0ae}
+
+/* ── VELOCITY CARDS ── */
+.vel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:16px}
+.vel-card{background:linear-gradient(180deg,#fff,#f8fafc);border:1px solid var(--line);border-radius:22px;padding:20px;position:relative;overflow:hidden;box-shadow:0 8px 22px rgba(17,24,39,.05)}.vel-card:before{content:"";position:absolute;right:-30px;top:-30px;width:90px;height:90px;border-radius:50%;background:rgba(165,28,48,.06)}
+.vel-card .v-icon{font-size:1.4rem;margin-bottom:10px;display:block}.vel-card h4{font-family:var(--serif);font-size:1.1rem;color:var(--navy);margin-bottom:6px}.vel-card .v-stat{font-family:var(--serif);font-size:1.8rem;font-weight:900;color:var(--crimson);line-height:1;margin:8px 0}.vel-card p{font-size:.8rem;color:#334155;line-height:1.6}.vel-card .v-source{font-size:.65rem;color:var(--muted);margin-top:8px;text-transform:uppercase;letter-spacing:.08em}
+.vel-card.gold-card .v-stat{color:var(--gold)}.vel-card.blue-card .v-stat{color:var(--blue)}
+
+/* ── SMARTER STEP FLOW BANNER ── */
+.smarter-flow{display:flex;align-items:stretch;gap:0;border:1px solid var(--line);border-radius:20px;overflow:hidden;margin:18px 0;background:#fff;box-shadow:0 8px 22px rgba(17,24,39,.05)}
+.sf-step{flex:1;padding:16px 12px;text-align:center;position:relative;border-right:1px solid var(--line)}
+.sf-step:last-child{border-right:0}.sf-step:after{content:"▶";position:absolute;right:-9px;top:50%;transform:translateY(-50%);font-size:.55rem;color:var(--line);z-index:2}.sf-step:last-child:after{display:none}
+.sf-step.s1{border-top:4px solid var(--crimson)}.sf-step.s2{border-top:4px solid var(--gold)}.sf-step.s3{border-top:4px solid var(--blue)}.sf-step.s4{border-top:4px solid var(--green)}.sf-step.s5{border-top:4px solid var(--crimson)}.sf-step.s6{border-top:4px solid var(--gold)}.sf-step.s7{border-top:4px solid var(--blue)}
+.sf-letter{font-family:var(--serif);font-size:1.8rem;font-weight:900;line-height:1;margin-bottom:4px}
+.sf-step.s1 .sf-letter,.sf-step.s5 .sf-letter{color:var(--crimson)}.sf-step.s2 .sf-letter,.sf-step.s6 .sf-letter{color:var(--gold)}.sf-step.s3 .sf-letter,.sf-step.s7 .sf-letter{color:var(--blue)}.sf-step.s4 .sf-letter{color:var(--green)}
+.sf-word{font-size:.65rem;font-weight:900;text-transform:uppercase;letter-spacing:.09em;color:var(--navy);margin-bottom:3px}.sf-desc{font-size:.62rem;color:var(--muted);line-height:1.35}
+
+/* ── SMARTER COMPACT GOAL CARDS ── */
+.goal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:20px}
+.goal-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 6px 18px rgba(17,24,39,.05);cursor:pointer;transition:transform .15s,box-shadow .15s;position:relative}
+.goal-card:hover{transform:translateY(-2px);box-shadow:var(--shadow2)}.goal-card:before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--crimson),var(--gold))}
+.gc-inner{padding:16px 18px 14px}
+.gc-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:10px}
+.gc-num{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:var(--crimson);line-height:1;opacity:.3;flex-shrink:0}.gc-badge{font-size:.58rem;font-weight:900;text-transform:uppercase;letter-spacing:.08em;border-radius:999px;padding:3px 8px;white-space:nowrap}
+.gc-badge.lead{background:#fdf0f2;color:var(--crimson2)}.gc-badge.build{background:#eaf2ff;color:#1d4ed8}.gc-badge.accelerate{background:#fff5df;color:#81580e}.gc-badge.monitor{background:#e9f6ef;color:#126047}
+.gc-kicker{font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;font-weight:900;color:var(--muted);margin-bottom:5px}
+.gc-title{font-family:var(--serif);font-size:.95rem;color:var(--navy);line-height:1.28;margin-bottom:10px;min-height:40px}
+.gc-metric{font-family:var(--serif);font-size:1.55rem;font-weight:900;color:var(--crimson);line-height:1;margin-bottom:2px}.gc-metric-label{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.gc-dots{display:flex;gap:4px;align-items:center;margin-bottom:10px}
+.gc-dot{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;font-weight:900;color:#fff;flex-shrink:0}
+.gc-dot.d1{background:var(--crimson)}.gc-dot.d2{background:var(--gold)}.gc-dot.d3{background:var(--blue)}.gc-dot.d4{background:var(--green)}.gc-dot.d5{background:var(--crimson)}.gc-dot.d6{background:var(--gold)}.gc-dot.d7{background:var(--blue)}
+.gc-prog-wrap{margin-bottom:12px}.gc-prog-labels{display:flex;justify-content:space-between;font-size:.6rem;color:var(--muted);margin-bottom:4px}.gc-bar{height:5px;background:#e8edf4;border-radius:999px;overflow:hidden}.gc-bar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--crimson),var(--gold))}
+.gc-cta{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:#f8fafc;border-top:1px solid var(--line);font-size:.7rem;font-weight:900;color:var(--slate);letter-spacing:.04em;text-transform:uppercase;transition:background .15s}
+.goal-card:hover .gc-cta{background:#fff4f5;color:var(--crimson)}
+
+/* ── SMARTER MODAL ── */
+.sm-modal-bg{position:fixed;inset:0;background:rgba(17,24,39,.72);z-index:200;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+.sm-modal-bg.open{display:flex}
+.sm-modal{background:#fff;border-radius:26px;width:100%;max-width:860px;box-shadow:0 32px 80px rgba(0,0,0,.42);animation:modalIn .22s ease;overflow:hidden}
+@keyframes modalIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.sm-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 26px 18px;border-bottom:1px solid var(--line);background:linear-gradient(135deg,#fff,#f8fafc)}
+.sm-modal-meta .sm-m-kicker{font-size:.62rem;text-transform:uppercase;letter-spacing:.14em;font-weight:900;color:var(--crimson);margin-bottom:5px}
+.sm-modal-meta h3{font-family:var(--serif);font-size:1.4rem;color:var(--navy);line-height:1.2;max-width:620px}
+.sm-modal-stats{display:flex;gap:14px;margin-top:12px;flex-wrap:wrap}
+.sm-stat{background:#f8fafc;border:1px solid var(--line);border-radius:12px;padding:10px 14px;text-align:center}.sm-stat .ss-val{font-family:var(--serif);font-size:1.3rem;font-weight:900;color:var(--crimson);line-height:1}.sm-stat .ss-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:3px}
+.sm-close{width:36px;height:36px;border-radius:50%;background:#111827;color:#fff;border:0;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}.sm-close:hover{background:var(--crimson)}
+.sm-modal-body{padding:22px 26px}
+.sm-table{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:16px}
+.sm-table tr{border-bottom:1px solid var(--line)}.sm-table tr:last-child{border-bottom:0}
+.sm-table td{padding:10px 4px;vertical-align:top}
+.sm-table td:first-child{width:24px;padding-right:10px}
+.sm-table td:nth-child(2){width:100px;font-size:.6rem;text-transform:uppercase;letter-spacing:.1em;font-weight:900;padding-right:14px;padding-top:12px}
+.sm-table td:last-child{color:#334155;line-height:1.65}
+.sm-dot-cell{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.62rem;font-weight:900;color:#fff;margin-top:8px;flex-shrink:0}
+.sm-dot-cell.d1{background:var(--crimson)}.sm-dot-cell.d2{background:var(--gold)}.sm-dot-cell.d3{background:var(--blue)}.sm-dot-cell.d4{background:var(--green)}.sm-dot-cell.d5{background:var(--crimson)}.sm-dot-cell.d6{background:var(--gold)}.sm-dot-cell.d7{background:var(--blue)}
+.sm-label-cell{color:var(--muted)!important;padding-top:12px!important}
+.sm-prog-row{display:grid;grid-template-columns:180px 1fr 80px;gap:10px;align-items:center;margin-bottom:14px;font-size:.75rem;color:var(--muted)}
+.sm-prog-track{height:7px;background:#e8edf4;border-radius:999px;overflow:hidden}.sm-prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--crimson),var(--gold))}
+.sm-insight-box{background:linear-gradient(135deg,#111827,#1e2d47);border-radius:16px;padding:16px 18px;color:#fff}
+.sm-insight-box .si-kicker{font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:#f7d98e;font-weight:900;margin-bottom:6px}
+.sm-insight-box p{font-size:.82rem;color:#dce6f4;line-height:1.68}
+.sm-modal-foot{padding:14px 26px;background:#f8fafc;border-top:1px solid var(--line);display:flex;justify-content:flex-end;gap:10px}
+
+/* ── COMPETITIVE BENCHMARK ── */
+.bench-intro{background:linear-gradient(135deg,#0f1724,#1a2840,#2a1020);border-radius:24px;color:#fff;padding:22px 28px;margin-bottom:20px}
+.bench-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.bench-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 6px 18px rgba(17,24,39,.05)}.bench-card .b-label{font-size:.62rem;text-transform:uppercase;letter-spacing:.13em;font-weight:900;color:var(--muted);margin-bottom:8px}.bench-card h4{font-family:var(--serif);font-size:1.15rem;color:var(--navy);margin-bottom:12px}
+.bench-row{display:flex;align-items:center;gap:10px;margin-bottom:9px;font-size:.8rem}.bench-row .b-name{width:145px;color:var(--slate);flex-shrink:0}.bench-row .b-track{flex:1;background:#e8edf4;border-radius:999px;height:8px;overflow:hidden}.bench-row .b-fill{height:100%;border-radius:999px}
+.bench-row .b-fill.harvard{background:var(--crimson)}.bench-row .b-fill.sector{background:#93a3b8}.bench-row .b-fill.target{background:var(--gold)}.bench-row .b-fill.peer{background:var(--blue)}
+.bench-row .b-val{width:52px;text-align:right;font-weight:900;color:var(--navy)}
+.veritas-diff{background:linear-gradient(135deg,#0f1724,#172033);color:#fff;border-radius:22px;padding:20px 24px;margin-top:16px}
+.vd-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.vd-cell{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;text-align:center}.vd-cell .vd-val{font-family:var(--serif);font-size:1.5rem;font-weight:900;line-height:1;margin-bottom:6px;color:#ffd98a}.vd-cell .vd-lbl{font-size:.7rem;line-height:1.4;color:#dce6f4}
+
+/* ── ROADMAP (visual timeline) ── */
+.roadmap-intro{background:linear-gradient(135deg,#172033 0%,#A51C30 100%);border-radius:24px;color:#fff;padding:24px 28px;margin-bottom:20px}
+.roadmap-track{display:flex;align-items:flex-start;gap:0;position:relative;margin-bottom:28px;padding:0 12px}
+.roadmap-track:before{content:"";position:absolute;top:30px;left:56px;right:56px;height:3px;background:linear-gradient(90deg,var(--crimson),var(--gold),var(--blue),var(--green),var(--navy));border-radius:999px;z-index:0}
+.rt-phase{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;z-index:1}
+.rt-dot{width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:1.1rem;font-weight:900;color:#fff;border:3px solid #fff;box-shadow:0 4px 16px rgba(0,0,0,.2);margin-bottom:10px;flex-shrink:0}
+.rt-phase:nth-child(1) .rt-dot{background:var(--crimson)}.rt-phase:nth-child(2) .rt-dot{background:var(--gold)}.rt-phase:nth-child(3) .rt-dot{background:var(--blue)}.rt-phase:nth-child(4) .rt-dot{background:var(--green)}.rt-phase:nth-child(5) .rt-dot{background:var(--navy)}
+.rt-label{font-size:.62rem;font-weight:900;text-transform:uppercase;letter-spacing:.1em;color:var(--navy);text-align:center;margin-bottom:3px}.rt-year{font-size:.6rem;color:var(--muted);text-align:center}
+.roadmap-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.rm-card{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 6px 16px rgba(17,24,39,.05)}
+.rm-card-head{padding:12px 14px 10px;border-bottom:1px solid var(--line)}.rm-card-head .rm-phase-tag{font-size:.58rem;text-transform:uppercase;letter-spacing:.12em;font-weight:900;margin-bottom:4px}.rm-card-head .rm-theme{font-family:var(--serif);font-size:.88rem;color:var(--navy);font-weight:900;line-height:1.22}.rm-card-head .rm-phase-sub{font-size:.6rem;color:var(--muted);margin-top:2px}
+.rm-card:nth-child(1) .rm-phase-tag{color:var(--crimson)}.rm-card:nth-child(2) .rm-phase-tag{color:var(--amber)}.rm-card:nth-child(3) .rm-phase-tag{color:var(--blue)}.rm-card:nth-child(4) .rm-phase-tag{color:var(--green)}.rm-card:nth-child(5) .rm-phase-tag{color:var(--navy)}
+.rm-card-body{padding:10px 12px;display:grid;gap:7px}
+.rm-item{background:#f8fafc;border-radius:10px;padding:9px 10px;font-size:.72rem;color:#334155;line-height:1.48}
+.rm-item b{display:block;font-size:.6rem;text-transform:uppercase;letter-spacing:.09em;margin-bottom:3px}
+.rm-card:nth-child(1) .rm-item b{color:var(--crimson)}.rm-card:nth-child(2) .rm-item b{color:var(--amber)}.rm-card:nth-child(3) .rm-item b{color:var(--blue)}.rm-card:nth-child(4) .rm-item b{color:var(--green)}.rm-card:nth-child(5) .rm-item b{color:var(--navy)}
+.rm-card-foot{padding:8px 12px;background:#f8fafc;border-top:1px solid var(--line);font-size:.62rem;color:var(--muted);line-height:1.4}.rm-card-foot b{color:var(--navy)}
+
+/* ── RISK GOVERNANCE TABLE ── */
+.risk-table{width:100%;border-collapse:collapse;font-size:.8rem;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;margin-top:16px}
+.risk-table th{background:#111827;color:#fff;text-align:left;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;padding:10px 14px}
+.risk-table td{border-top:1px solid var(--line);padding:10px 14px;color:#334155;vertical-align:top}
+.risk-table tr.risk-high td{background:#fff8f8}.risk-table tr.risk-watch td{background:#fffdf5}.risk-table tr.risk-build td{background:#f8fcff}
+.risk-table b{color:var(--navy)}
+.veritas-tag{display:inline-flex;align-items:center;gap:5px;font-size:.65rem;font-weight:900;background:#fdf0f2;color:var(--crimson2);border:1px solid #f1c8cf;border-radius:999px;padding:3px 8px}
+
+/* ── DATA NOTES ── */
+.data-note{background:#f8fafe;border:1px solid #d7e4f0;border-left:5px solid var(--blue);border-radius:14px;padding:12px 15px;font-size:.75rem;color:#264a70;line-height:1.62;margin-top:16px}.data-note b{color:#1a3758}
+
+/* ── MODAL (disclaimer) ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.68);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}.modal-bg.open{display:flex}
+.modal{max-width:620px;background:#fff;border-radius:22px;padding:26px;box-shadow:0 28px 80px rgba(0,0,0,.38)}.modal h3{font-family:var(--serif);font-size:1.4rem;color:var(--navy);margin-bottom:10px}.modal p{font-size:.88rem;color:#334155;line-height:1.75;margin-bottom:10px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:980px){.hero-grid,.big-callout,.chart-grid,.panel-grid,.board-hero-inner,.board-grid{grid-template-columns:1fr}.metric-grid,.pillar-grid,.horizon-grid,.roi-strip,.vd-grid,.bench-grid,.vel-grid{grid-template-columns:repeat(2,1fr)}.goal-grid{grid-template-columns:repeat(2,1fr)}.signal{grid-template-columns:repeat(2,1fr)}.smarter-flow{flex-wrap:wrap}.sf-step{flex:0 0 25%}.roadmap-track:before{display:none}.roadmap-cards{grid-template-columns:1fr}.roadmap-track{flex-wrap:wrap;gap:12px}.rt-phase{flex:0 0 30%}main{padding:28px 24px 44px}.hero{padding:48px 28px 36px}.sec-head{align-items:flex-start;flex-direction:column}.sec-head .dek{margin-left:0}.source-list{grid-template-columns:1fr}.nav{top:0;position:relative}.topbar{position:relative}}
+@media(max-width:620px){body{padding:0}.wrap{border-radius:0;border:0}.topbar{height:auto;padding:12px;flex-direction:column;align-items:flex-start}.metric-grid,.pillar-grid,.stat-rack,.mission-grid,.goal-grid,.vd-grid,.vel-grid{grid-template-columns:1fr}.hero h1{font-size:2.55rem}.chart-wrap{height:240px}.signal{grid-template-columns:1fr}.brand-title{white-space:normal}.smarter-flow{gap:0}.sf-step{flex:0 0 50%}.sf-step:nth-child(5),.sf-step:nth-child(6),.sf-step:nth-child(7){border-top-width:4px}}
+@media print{body{background:#fff;padding:0}.wrap{box-shadow:none;border:0;border-radius:0}.topbar,.nav,.modal-bg,.sm-modal-bg,.close-row{display:none!important}.hero{color:#111;background:#fff;border-bottom:2px solid var(--line)}.command-panel{display:block!important}.goal-grid{grid-template-columns:repeat(3,1fr)}.sm-modal-bg{display:none!important}main{padding:0 0 20px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- ═══════════ TOP BAR ═══════════ -->
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">H</div><div><div class="brand-title">Harvard Philanthropy Impact Report · VERITAS Intelligence</div><div class="brand-sub">Board &amp; Corporation · Public data analysis · FY2025–FY2026</div></div></div>
+  <div class="toplinks"><a href="https://nasdaqguru.github.io" target="_blank" rel="noopener">Narissara Portfolio ↗</a><button onclick="openModal()">Disclaimer</button></div>
+</header>
+
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero" id="top">
+  <div class="hero-grid">
+    <div>
+      <div class="eyebrow">Philanthropy Impact Report · Harvard University</div>
+      <h1>Centuries of giving, <span>today's impact</span></h1>
+      <p class="hero-copy">A donor impact story built from public Harvard financial data, campaign milestones, endowment stewardship, and VERITAS advancement intelligence — translated into a clear, Board-ready narrative with SMARTER goals and sector benchmarks.</p>
+      <div class="mission-grid">
+        <div class="mini-card"><b>Purpose</b><p>Translate donor-directed gifts, endowment distributions, and current-use support into measurable advancement intelligence and Board-actionable SMARTER goals.</p></div>
+        <div class="mini-card"><b>Portfolio Note</b><p>Built as a public-data portfolio demonstration by Narissara Khomkhai. Not an official Harvard University document. All figures from public Harvard reports and sector benchmarks.</p></div>
+      </div>
+      <div class="hero-cta"><a class="btn gold" href="#stewardship"><i class="fa-solid fa-chart-line"></i> Stewardship</a><a class="btn" href="#pillars"><i class="fa-solid fa-seedling"></i> Board command</a><a class="btn" href="#smarter"><i class="fa-solid fa-crosshairs"></i> SMARTER goals</a></div>
+    </div>
+    <div class="hero-panel">
+      <div class="chart-title" style="color:#f8d78b">By the numbers · FY2025 &amp; FY2026 momentum</div>
+      <div class="stat-rack">
+        <div class="stat"><div class="val">$56.9B</div><div class="lbl">FY2025 endowment value</div><div class="hint">World's largest</div></div>
+        <div class="stat"><div class="val">$784M</div><div class="lbl">Financial aid &amp; scholarships</div><div class="hint">Access mission</div></div>
+        <div class="stat"><div class="val">$695M</div><div class="lbl">H1 FY2026 gifts raised</div><div class="hint">+58% vs. prior year</div></div>
+        <div class="stat"><div class="val">$1.3B</div><div class="lbl">Total gifts FY2025</div><div class="hint">Record momentum</div></div>
+        <div class="stat"><div class="val">$629M</div><div class="lbl">Current-use gifts FY2025</div><div class="hint">All-time record</div></div>
+        <div class="stat"><div class="val">14,765</div><div class="lbl">Endowed funds</div><div class="hint">Donor purposes</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="nav" aria-label="Report navigation">
+  <a href="#stewardship">Stewardship</a><a href="#fiscal">Fiscal</a><a href="#campaign">Campaign</a><a href="#timeline">Chronicle</a><a href="#pillars">Board Command</a><a href="#fy2026">FY2026 Momentum</a><a href="#veritas">VERITAS</a><a href="#smarter">SMARTER Goals</a><a href="#competitive">Benchmark</a><a href="#roadmap">Roadmap</a><a href="#fiscal-risk">Risk Governance</a><a href="#sources">Sources</a>
+</nav>
+
+<main>
+
+<!-- ═══════════ STEWARDSHIP ═══════════ -->
+<section class="section" id="stewardship">
+  <div class="disclaimer"><strong>Data attribution:</strong> Figures sourced from Harvard's public endowment/financial pages, Harvard Gazette, Harvard Crimson, and published sector benchmarks. Where a value is labeled "illustrative," it demonstrates report architecture only.</div>
+  <div class="sec-head"><i class="fa-solid fa-hand-holding-heart"></i><h2>Stewardship snapshot</h2><p class="dek">Six donor-facing metrics translate a complex university financial system into an accessible impact story.</p></div>
+  <div class="year-layer">
+    <div class="year-layer-head"><div><div class="year-layer-kicker">Past year · Current year · 5-year average</div><div class="year-layer-title">Stewardship performance layer</div></div><p class="year-layer-note">Board-ready stewardship needs a time horizon: last year for variance, current year for accountability, and a five-year average for trend discipline.</p></div>
+    <div class="year-grid">
+      <div class="year-card past"><div class="year-label">FY2024 baseline</div><div class="year-value">$53.2B</div><p class="year-copy">Prior-year endowment baseline frames the current $56.9B result and shows whether impact capacity is expanding or merely recovering.</p><div class="year-pill-row"><span class="year-pill">Variance lens</span><span class="year-pill">Audit trail</span></div><div class="year-bars"><div class="year-bar"><span style="width:82%"></span></div><div class="year-bar"><span style="width:68%"></span></div></div><div class="year-mini"><span><b>Return</b> 9.6%</span><span><b>Mode</b> Actual</span></div></div>
+      <div class="year-card current"><div class="year-label">FY2025 current</div><div class="year-value">$56.9B</div><p class="year-copy">Current-year stewardship ties endowment value, aid, donor restrictions, and spendable mission support into one accessible story.</p><div class="year-pill-row"><span class="year-pill">Current proof</span><span class="year-pill">Board packet</span></div><div class="year-bars"><div class="year-bar"><span style="width:94%"></span></div><div class="year-bar"><span style="width:78%"></span></div></div><div class="year-mini"><span><b>Return</b> 11.9%</span><span><b>Funds</b> 14,765</span></div></div>
+      <div class="year-card avg"><div class="year-label">FY2021–FY2025 avg</div><div class="year-value">$53.0B</div><p class="year-copy">Five-year average smooths market movement and helps leadership distinguish durable philanthropic capacity from single-year performance.</p><div class="year-pill-row"><span class="year-pill">Normalized</span><span class="year-pill">Long-run trust</span></div><div class="year-bars"><div class="year-bar"><span style="width:88%"></span></div><div class="year-bar"><span style="width:73%"></span></div></div><div class="year-mini"><span><b>Use</b> Trend</span><span><b>Cadence</b> Annual</span></div></div>
+    </div>
+    <div class="layer-foot"><b>Report layer use:</b> Use this layer above the metric cards so every number reads as a point-in-time value, a year-over-year movement, and a long-run stewardship trend.</div>
+  </div>
+  <div class="metric-grid" id="metricGrid">
+    <div class="impact-card" data-panel="p1"><span class="icon">🏛️</span><div class="num">$56.9B</div><div class="label">Endowment value supporting Harvard's long-term mission</div><div class="note">Click for context</div></div>
+    <div class="impact-card gold" data-panel="p2"><span class="icon">🎓</span><div class="num">$784M</div><div class="label">Financial aid and scholarships granted in FY2025</div><div class="note">Access &amp; affordability</div></div>
+    <div class="impact-card blue" data-panel="p3"><span class="icon">🧭</span><div class="num">14,765</div><div class="label">Approximate number of endowed funds</div><div class="note">Purpose-specific gifts</div></div>
+    <div class="impact-card green" data-panel="p4"><span class="icon">🔒</span><div class="num">80%+</div><div class="label">Endowment market value donor-directed to specific purposes</div><div class="note">Stewardship discipline</div></div>
+    <div class="impact-card" data-panel="p5"><span class="icon">🚀</span><div class="num">11.9%</div><div class="label">FY2025 endowment return</div><div class="note">Investment performance</div></div>
+    <div class="impact-card gold" data-panel="p6"><span class="icon">🌎</span><div class="num">173</div><div class="label">Countries represented by Harvard Campaign donor households</div><div class="note">Global alumni reach</div></div>
+    <div class="impact-card blue" data-panel="p7"><span class="icon">👥</span><div class="num">153K+</div><div class="label">Households gave to The Harvard Campaign</div><div class="note">Community strength</div></div>
+    <div class="impact-card green" data-panel="p8"><span class="icon">📚</span><div class="num">142</div><div class="label">Endowed professorships funded across the University campaign</div><div class="note">Faculty excellence</div></div>
+  </div>
+  <div class="panel" id="p1"><div class="panel-grid"><div><h3>Endowment as a future trust</h3><p>Harvard describes its endowment as a long-term source of funding made up of philanthropic gifts, many restricted to specific teaching, research, or program purposes. The FY2025 endowment value was reported at $56.9 billion.</p></div><table class="fact-table"><tr><td>FY2025 value</td><td>$56.9B</td></tr><tr><td>Operating expense base</td><td>$6.8B</td></tr><tr><td>Distribution FY2025</td><td>$2.5B (37% of revenue)</td></tr></table></div><div class="close-row"><button class="close" onclick="closePanels()">Close</button></div></div>
+  <div class="panel" id="p2"><div class="panel-grid"><div><h3>Access powered by philanthropy</h3><p>Endowment support helped Harvard grant $784 million in financial aid and scholarships in FY2025, connecting donor generosity directly to student access and affordability. Approximately 55% of undergraduates receive need-based scholarships.</p></div><div class="chart-wrap"><canvas id="aidChart"></canvas></div></div><div class="close-row"><button class="close" onclick="closePanels()">Close</button></div></div>
+  <div class="panel" id="p3"><div class="panel-grid"><div><h3>Thousands of funds, thousands of intentions</h3><p>Harvard's endowment is composed of approximately 14,765 individual funds. The report architecture must preserve donor intent, restrictions, school context, and purpose coding.</p></div><table class="fact-table"><tr><td>Approx. funds</td><td>14,765</td></tr><tr><td>Typical needs</td><td>Lineage, restriction, spending rule</td></tr><tr><td>Report risk</td><td>Over-aggregation</td></tr></table></div><div class="close-row"><button class="close" onclick="closePanels()">Close</button></div></div>
+  <div class="panel" id="p4"><div class="panel-grid"><div><h3>Donor direction is a design constraint</h3><p>More than 80% of the endowment's market value is donor-directed to specific programs, departments, or purposes. Less than 5% is fully unrestricted across the University.</p></div><div class="chart-wrap"><canvas id="restrictionChart"></canvas></div></div><div class="close-row"><button class="close" onclick="closePanels()">Close</button></div></div>
+  <div class="panel" id="p5"><div class="panel-grid"><div><h3>Performance strengthens the mission base</h3><p>Harvard Management Company reported an 11.9% FY2025 return, lifting aggregate endowment value to $56.9B. The donor impact story should pair investment outcomes with spendable mission outcomes.</p></div><table class="fact-table"><tr><td>FY2025 return</td><td>11.9%</td></tr><tr><td>FY2025 endowment</td><td>$56.9B</td></tr><tr><td>Strategic frame</td><td>Intergenerational equity</td></tr></table></div><div class="close-row"><button class="close" onclick="closePanels()">Close</button></div></div>
+  <div class="panel" id="p6"><div class="panel-grid"><div><h3>Global community, local stewardship</h3><p>The Harvard Campaign received gifts from households in 173 countries, reinforcing that Harvard's advancement narrative is global even when funds are directed by school, program, or donor intent.</p></div><table class="fact-table"><tr><td>Countries</td><td>173</td></tr><tr><td>Campaign gifts</td><td>633K+</td></tr><tr><td>Households</td><td>153K+</td></tr></table></div><div class="close-row"><button class="close" onclick="closePanels()">Close</button></div></div>
+  <div class="panel" id="p7"><div class="panel-grid"><div><h3>Community scale</h3><p>More than 153,000 households made more than 633,000 gifts during The Harvard Campaign. That scale calls for segmentation, stewardship automation, and clear donor journeys.</p></div><div class="chart-wrap"><canvas id="communityChart"></canvas></div></div><div class="close-row"><button class="close" onclick="closePanels()">Close</button></div></div>
+  <div class="panel" id="p8"><div class="panel-grid"><div><h3>Faculty excellence as donor impact</h3><p>Donors funded 142 endowed professorships during the campaign, creating a durable connection between philanthropy and faculty capacity across fields.</p></div><table class="fact-table"><tr><td>Endowed professorships</td><td>142</td></tr><tr><td>Campaign financial aid support</td><td>~$1.3B</td></tr><tr><td>Impact lane</td><td>Faculty + research + teaching</td></tr></table></div><div class="close-row"><button class="close" onclick="closePanels()">Close</button></div></div>
+</section>
+
+<!-- ═══════════ FISCAL ═══════════ -->
+<section class="section" id="fiscal">
+  <div class="sec-head"><i class="fa-solid fa-scale-balanced"></i><h2>Fiscal transparency</h2><p class="dek">A donor-facing report should show both the strength of the endowment and the operating realities that require flexible, current-use support.</p></div>
+  <div class="year-layer">
+    <div class="year-layer-head"><div><div class="year-layer-kicker">Past year · Current year · 5-year average</div><div class="year-layer-title">Fiscal transparency comparison layer</div></div><p class="year-layer-note">This layer adds operating context to philanthropy: what changed from last year, what must be explained this year, and what should be normalized over a five-year view.</p></div>
+    <div class="year-grid">
+      <div class="year-card past"><div class="year-label">FY2024 baseline</div><div class="year-value">+$45M</div><p class="year-copy">Prior-year operating result provides the variance starting point before explaining FY2025 pressure, revenue mix, and current-use needs.</p><div class="year-pill-row"><span class="year-pill">Variance</span><span class="year-pill">Operating base</span></div><div class="year-bars"><div class="year-bar"><span style="width:72%"></span></div><div class="year-bar"><span style="width:62%"></span></div></div><div class="year-mini"><span><b>Result</b> Surplus</span><span><b>Use</b> Compare</span></div></div>
+      <div class="year-card current"><div class="year-label">FY2025 current</div><div class="year-value">-$113M</div><p class="year-copy">Current-year deficit needs a donor-facing explanation separating structural needs, restricted capital, endowment distribution, and flexible current-use support.</p><div class="year-pill-row"><span class="year-pill">Current risk</span><span class="year-pill">Board note</span></div><div class="year-bars"><div class="year-bar"><span style="width:48%"></span></div><div class="year-bar"><span style="width:76%"></span></div></div><div class="year-mini"><span><b>Revenue</b> $6.7B</span><span><b>Expense</b> $6.8B</span></div></div>
+      <div class="year-card avg"><div class="year-label">5-year avg layer</div><div class="year-value">Normalize</div><p class="year-copy">Five-year average should avoid overreacting to a single fiscal year while still flagging recurring gaps and dependency risk.</p><div class="year-pill-row"><span class="year-pill">5-year view</span><span class="year-pill">Stress test</span></div><div class="year-bars"><div class="year-bar"><span style="width:64%"></span></div><div class="year-bar"><span style="width:69%"></span></div></div><div class="year-mini"><span><b>Model</b> FY21–FY25</span><span><b>Use</b> Sustainability</span></div></div>
+    </div>
+    <div class="layer-foot"><b>Report layer use:</b> Use this layer with operating charts to separate true trend from one-year pressure, especially for Board conversations about flexible gifts and risk.</div>
+  </div>
+  <div class="chart-grid">
+    <div class="chart-box"><div class="chart-title">FY2025 operating context</div><div class="chart-wrap"><canvas id="opsChart"></canvas></div></div>
+    <div class="chart-box"><div class="chart-title">Endowment purpose posture</div><div class="chart-wrap"><canvas id="purposeChart"></canvas></div></div>
+  </div>
+</section>
+
+<!-- ═══════════ CAMPAIGN ═══════════ -->
+<section class="section" id="campaign">
+  <div class="sec-head"><i class="fa-solid fa-rocket"></i><h2>Campaign impact story</h2><p class="dek">Translating The Harvard Campaign into a donor-impact logic model: from fund to field.</p></div>
+  <div class="big-callout">
+    <div class="callout-left"><h3>The Harvard Campaign</h3><p>Harvard's record-setting campaign ended with $9.62 billion raised across Schools, with major impact lanes in financial aid, professorships, research, public programs, and campus renewal.</p><div class="big">$9.62B</div><p>Not just dollars raised — a long-term capacity engine for access, inquiry, and service. The blueprint for the next campaign.</p></div>
+    <div class="callout-right">
+      <div class="story-card"><h4>Financial Aid</h4><p>Approximately $1.3B of campaign giving supported and expanded financial aid across Harvard, widening access for students across disciplines.</p><div class="badge-row"><span class="badge">Access</span><span class="badge">Scholarships</span><span class="badge">Fellowships</span></div></div>
+      <div class="story-card"><h4>Faculty &amp; Research</h4><p>Donors funded 142 endowed professorships and supported research initiatives across campuses, including work on climate change and cancer.</p><div class="badge-row"><span class="badge">142 Chairs</span><span class="badge">Research Capacity</span><span class="badge">Faculty Excellence</span></div></div>
+      <div class="story-card"><h4>Community</h4><p>More than 153K households made more than 633K gifts from 173 countries, with thousands of volunteers serving on committees and engagement bodies.</p><div class="badge-row"><span class="badge">633K+ gifts</span><span class="badge">153K+ households</span><span class="badge">173 countries</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ TIMELINE ═══════════ -->
+<section class="section" id="timeline">
+  <div class="sec-head"><i class="fa-solid fa-timeline"></i><h2>Chronicle of impact</h2><p class="dek">A concise, donor-centered timeline connecting founding philanthropy to modern advancement strategy.</p></div>
+  <div class="timeline">
+    <div class="tl"><div class="year">1638</div><h3>John Harvard's founding gift</h3><p>Harvard's endowment story begins with John Harvard's library and half his estate, establishing a centuries-long pattern of gifts becoming enduring academic capacity.</p><div class="tl-metric">Origin of donor-funded continuity</div></div>
+    <div class="tl"><div class="year">2013–2018</div><h3>The Harvard Campaign</h3><p>The public campaign mobilized donors, volunteers, schools, and alumni around financial aid, faculty, research, campus renewal, and current-use priorities.</p><div class="tl-metric">$9.62B raised · 633K+ gifts</div></div>
+    <div class="tl"><div class="year">FY2025</div><h3>Endowment as mission infrastructure</h3><p>Harvard reports a $56.9B endowment composed of approximately 14,765 funds. Total gifts reach $1.3B including a record $629M in current-use support. The endowment distributes $2.5B — 37% of total operating revenue.</p><div class="tl-metric">$784M aid · $1.3B total gifts</div></div>
+    <div class="tl"><div class="year">FY2026 H1</div><h3>Record philanthropic surge meets federal headwinds</h3><p>Harvard raises $695M in the first half of FY2026 — up 58% from the prior year. FAS alone raises $222M, SEAS triples its 4-year average. The CFO identifies 7.5–25% of operating base at risk from federal pressures. VERITAS turns this tension into governed Board intelligence.</p><div class="tl-metric">$695M H1 · 7.5–25% federal risk range</div></div>
+    <div class="tl"><div class="year">Looking Ahead</div><h3>From report to responsive intelligence</h3><p>The next generation of philanthropy reporting helps schools and central advancement teams respond faster, reduce manual reconciliation, protect donor intent, and show measurable impact. VERITAS makes this operational.</p><div class="tl-metric">VERITAS SMARTER model · 2026–2035</div></div>
+  </div>
+</section>
+
+<!-- ═══════════ PILLARS / BOARD COMMAND ═══════════ -->
+<section class="section" id="pillars">
+  <div class="sec-head"><i class="fa-solid fa-compass-drafting"></i><h2>Strategic pillars · Board/Corporation impact command center</h2><p class="dek">Executive-ready view turning donor impact into a decision architecture: past evidence, current stewardship, future readiness, modeled projection, program measurement, and ROI discipline.</p></div>
+  <div class="year-layer">
+    <div class="year-layer-head"><div><div class="year-layer-kicker">Past year · Current year · 5-year average</div><div class="year-layer-title">Board/Corporation period layer for strategic pillars</div></div><p class="year-layer-note">Every pillar should be reviewed through three lenses: prior-year variance, current-year accountability, and five-year average trend before deciding what to scale.</p></div>
+    <div class="year-grid">
+      <div class="year-card past"><div class="year-label">FY2024 variance</div><div class="year-value">Baseline</div><p class="year-copy">Past-year pillar review identifies where outcomes improved, slipped, or stayed flat across access, faculty, research, stewardship, and response velocity.</p><div class="year-pill-row"><span class="year-pill">Variance</span><span class="year-pill">Exception list</span></div><div class="year-bars"><div class="year-bar"><span style="width:70%"></span></div><div class="year-bar"><span style="width:63%"></span></div></div><div class="year-mini"><span><b>Scope</b> Pillars</span><span><b>Use</b> Compare</span></div></div>
+      <div class="year-card current"><div class="year-label">FY2025 accountability</div><div class="year-value">Board view</div><p class="year-copy">Current-year pillar review ties each program to owner, measurable output, outcome evidence, ROI type, and next-best action.</p><div class="year-pill-row"><span class="year-pill">Owner</span><span class="year-pill">ROI</span></div><div class="year-bars"><div class="year-bar"><span style="width:86%"></span></div><div class="year-bar"><span style="width:79%"></span></div></div><div class="year-mini"><span><b>Scope</b> FY2025</span><span><b>Use</b> Decide</span></div></div>
+      <div class="year-card avg"><div class="year-label">5-year average</div><div class="year-value">Trend ROI</div><p class="year-copy">Five-year average layer prevents over-weighting a single year and supports decisions on program scale, flexible capital, and governance capacity.</p><div class="year-pill-row"><span class="year-pill">Trend ROI</span><span class="year-pill">Risk</span></div><div class="year-bars"><div class="year-bar"><span style="width:80%"></span></div><div class="year-bar"><span style="width:82%"></span></div></div><div class="year-mini"><span><b>Scope</b> FY21–FY25</span><span><b>Use</b> Scale</span></div></div>
+    </div>
+    <div class="layer-foot"><b>Report layer use:</b> Opening filter before the Past/Current/Future/Projection/Measurement tabs so each strategic decision has a time-series basis.</div>
+  </div>
+  <div class="board-hero">
+    <div class="board-hero-inner">
+      <div><div class="board-kicker">Corporation-level narrative layer</div><h3>From gratitude report to governed impact portfolio.</h3><p>This section reframes philanthropy impact as a leadership cockpit: what has compounded over time, what is working now, what requires protection, and where future philanthropic capital can produce the highest mission return.</p><div class="board-badges"><span class="board-badge">Past</span><span class="board-badge">Current</span><span class="board-badge">Future</span><span class="board-badge">Projection</span><span class="board-badge">ROI</span><span class="board-badge">Program Measurement</span></div></div>
+      <div class="board-dial"><div class="dial-title">Mission-capital allocation model</div><div class="chart-wrap" style="height:245px"><canvas id="pillarMixChart"></canvas></div></div>
+    </div>
+  </div>
+  <div class="horizon-grid">
+    <div class="h-card"><div class="h-label">Past · proof of compounding</div><div class="h-num">1638 → $9.62B</div><p><b>Evidence:</b> early endowed gifts evolved into a modern campaign engine and durable academic capacity.</p></div>
+    <div class="h-card"><div class="h-label">Current · FY2025 stewardship</div><div class="h-num">$56.9B</div><p><b>Control point:</b> align endowment value, donor restrictions, aid, and spendable mission outputs in one trusted story.</p></div>
+    <div class="h-card"><div class="h-label">Future · readiness</div><div class="h-num">2030</div><p><b>Leadership question:</b> which programs need flexible capital, risk mitigation, faster response, or clearer stewardship evidence?</p></div>
+    <div class="h-card"><div class="h-label">Projection · model layer</div><div class="h-num">ROI index</div><p><b>Decision use:</b> compare mission return, donor confidence, operating lift, and risk reduction before scaling investment.</p></div>
+  </div>
+  <div class="command-tabs" role="tablist"><button class="command-tab active" data-cmd="past">Past</button><button class="command-tab" data-cmd="current">Current</button><button class="command-tab" data-cmd="future">Future</button><button class="command-tab" data-cmd="projection">Projection</button><button class="command-tab" data-cmd="measurement">Measurement + ROI</button></div>
+  <div class="command-panel active" id="cmd-past"><div class="board-grid"><div class="board-copy"><h4>Past: prove that philanthropy compounds.</h4><p>For a Board or Corporation audience, the past is not a history slide; it is proof that gifts become infrastructure. The narrative should connect donor intent to long-run capacity: scholarship funds, chairs, research platforms, campus renewal, and school-level excellence.</p><ul><li><b>Board question:</b> What forms of giving have produced durable institutional advantage?</li><li><b>Evidence package:</b> campaign milestones, endowed funds, named professorships, alumni reach, and time-series impact stories.</li><li><b>Decision value:</b> show where long-term donor purpose has translated into sustainable mission capacity.</li></ul></div><div class="board-chart"><div class="chart-title">Past-to-present impact bridge</div><div class="chart-wrap"><canvas id="horizonChart"></canvas></div></div></div></div>
+  <div class="command-panel" id="cmd-current"><div class="board-grid"><div class="board-copy"><h4>Current: make stewardship operational.</h4><p>The current-state view should help leadership see whether philanthropic capital is restricted, deployed, under-narrated, or exposed to stewardship risk. It should be clear enough for board review and precise enough for gift administration, finance, and school teams.</p><ul><li><b>Control points:</b> donor intent, fund purpose, spend policy, balance movement, program owner, and impact evidence.</li><li><b>Operating need:</b> reduce manual report assembly while increasing confidence in definitions and source lineage.</li><li><b>Board output:</b> a one-page "what is strong / what needs intervention / what scales next" view.</li></ul></div><div class="board-chart"><div class="chart-title">FY2025 stewardship balance</div><div class="chart-wrap"><canvas id="currentStewardChart"></canvas></div></div></div></div>
+  <div class="command-panel" id="cmd-future"><div class="board-grid"><div class="board-copy"><h4>Future: move from after-action reporting to foresight.</h4><p>The future view emphasizes readiness: where scholarship demand, research opportunity, donor restrictions, faculty needs, and external risk signals require earlier action. It is where VERITAS turns a static impact report into an intelligence system.</p><ul><li><b>Future lenses:</b> access pressure, research acceleration, faculty competitiveness, donor confidence, and flexible capital.</li><li><b>Executive use:</b> identify bottlenecks before they become donor, program, or governance risks.</li><li><b>Life-balance benefit:</b> reduce emergency reporting cycles by making standard evidence blocks reusable and pre-verified.</li></ul></div><div class="board-chart"><div class="chart-title">Future readiness index · illustrative</div><div class="chart-wrap"><canvas id="futureReadinessChart"></canvas></div></div></div></div>
+  <div class="command-panel" id="cmd-projection"><div class="board-grid"><div class="board-copy"><h4>Projection: show the next best investment path.</h4><p>For Corporation-level review, projection should not overstate certainty. It should show scenario logic: base, stretch, and risk-adjusted pathways, with assumptions labeled and tied to program owners.</p><ul><li><b>Base case:</b> stewardship narrative and compliance improve with reusable reporting blocks.</li><li><b>Stretch case:</b> VERITAS routing accelerates response time and next-best-action adoption.</li><li><b>Risk case:</b> unresolved fund restrictions, manual reconciliation, or fragmented data slow donor response.</li></ul></div><div class="board-chart"><div class="chart-title">Projection scenarios · illustrative ROI index</div><div class="chart-wrap"><canvas id="projectionChart"></canvas></div></div></div></div>
+  <div class="command-panel" id="cmd-measurement"><div class="board-grid"><div class="board-copy"><h4>Measurement + ROI: make every project accountable.</h4><p>This model gives each philanthropic program a life-cycle scorecard: input, activity, output, outcome, risk, owner, and next action. ROI is deliberately multi-dimensional: financial return, mission return, stewardship return, operational lift, and risk reduction.</p><div class="roi-strip"><div class="roi-card"><div class="rval">1</div><div class="rlbl">Financial ROI</div></div><div class="roi-card"><div class="rval">2</div><div class="rlbl">Mission ROI</div></div><div class="roi-card"><div class="rval">3</div><div class="rlbl">Stewardship ROI</div></div><div class="roi-card"><div class="rval">4</div><div class="rlbl">Operational ROI</div></div><div class="roi-card"><div class="rval">5</div><div class="rlbl">Risk ROI</div></div></div></div><div class="board-chart"><div class="chart-title">ROI scorecard · illustrative</div><div class="chart-wrap"><canvas id="roiChart"></canvas></div></div></div></div>
+  <div class="pillar-wow-grid">
+    <div class="pillar-wow"><div class="p-head"><div><span class="p-icon">🎓</span><h3>Access &amp; Affordability</h3></div><div class="p-stat">$784M</div></div><div class="measure-stack"><div class="measure-row"><b>Output</b><span>Aid dollars, fellowships, student support volume.</span></div><div class="measure-row"><b>Outcome</b><span>Access, yield, persistence, debt reduction narrative.</span></div><div class="measure-row"><b>ROI</b><span>Mission ROI + donor confidence from student stories.</span></div><div class="measure-row"><b>Action</b><span>Prioritize restricted funds needing clearer evidence.</span></div></div></div>
+    <div class="pillar-wow"><div class="p-head"><div><span class="p-icon">🧑‍🏫</span><h3>Faculty Excellence</h3></div><div class="p-stat">142</div></div><div class="measure-stack"><div class="measure-row"><b>Output</b><span>Named chairs, faculty support, recruitment funds.</span></div><div class="measure-row"><b>Outcome</b><span>Retention, academic leadership, research productivity.</span></div><div class="measure-row"><b>ROI</b><span>Talent ROI + reputation lift.</span></div><div class="measure-row"><b>Action</b><span>Pair chair balances with appointment and impact evidence.</span></div></div></div>
+    <div class="pillar-wow"><div class="p-head"><div><span class="p-icon">🔬</span><h3>Research &amp; Discovery</h3></div><div class="p-stat">∞</div></div><div class="measure-stack"><div class="measure-row"><b>Output</b><span>Seed grants, centers, labs, cross-school initiatives.</span></div><div class="measure-row"><b>Outcome</b><span>Public problem-solving, publications, translational impact.</span></div><div class="measure-row"><b>ROI</b><span>Innovation ROI + external leverage.</span></div><div class="measure-row"><b>Action</b><span>Flag high-potential programs needing flexible capital.</span></div></div></div>
+    <div class="pillar-wow"><div class="p-head"><div><span class="p-icon">🏙️</span><h3>Community &amp; Alumni Reach</h3></div><div class="p-stat">173</div></div><div class="measure-stack"><div class="measure-row"><b>Output</b><span>Global households, volunteers, events, engagement channels.</span></div><div class="measure-row"><b>Outcome</b><span>Pipeline health, advocacy, renewed connection.</span></div><div class="measure-row"><b>ROI</b><span>Relationship ROI + pipeline conversion.</span></div><div class="measure-row"><b>Action</b><span>Route high-affinity signals to school and central owners.</span></div></div></div>
+    <div class="pillar-wow"><div class="p-head"><div><span class="p-icon">🏛️</span><h3>Donor Intent Stewardship</h3></div><div class="p-stat">80%</div></div><div class="measure-stack"><div class="measure-row"><b>Output</b><span>Purpose coding, restriction reporting, spend narratives.</span></div><div class="measure-row"><b>Outcome</b><span>Trust, compliance, audit readiness, donor confidence.</span></div><div class="measure-row"><b>ROI</b><span>Risk ROI + stewardship renewal.</span></div><div class="measure-row"><b>Action</b><span>Automate exception lists and human review gates.</span></div></div></div>
+    <div class="pillar-wow"><div class="p-head"><div><span class="p-icon">⚡</span><h3>Future Readiness</h3></div><div class="p-stat">VERITAS</div></div><div class="measure-stack"><div class="measure-row"><b>Output</b><span>Early alerts, owner routing, reusable evidence blocks.</span></div><div class="measure-row"><b>Outcome</b><span>Faster response, fewer manual cycles, better life balance.</span></div><div class="measure-row"><b>ROI</b><span>Operational ROI + decision velocity.</span></div><div class="measure-row"><b>Action</b><span>Move from static PDFs to refreshed intelligence views.</span></div></div></div>
+  </div>
+  <div style="margin-top:18px"><table class="exec-table"><thead><tr><th>Program measurement layer</th><th>What leadership sees</th><th>RAG</th><th>Next-best action</th></tr></thead><tbody><tr><td><b>Purpose fidelity</b><br>Are funds used as donors intended?</td><td>Restriction status, spendable balance, owner, unresolved exceptions.</td><td><span class="rag g">Green</span></td><td>Keep standard reporting cadence; escalate only exceptions.</td></tr><tr><td><b>Impact evidence</b><br>Can we prove the outcome?</td><td>Program outputs, student/faculty/research stories, KPI evidence completeness.</td><td><span class="rag y">Watch</span></td><td>Request missing narratives before donor or board cycle.</td></tr><tr><td><b>Operating lift</b><br>Are manual cycles declining?</td><td>Hours saved, refreshed metric blocks, fewer one-off data pulls.</td><td><span class="rag b">Build</span></td><td>Convert recurring requests into reusable VERITAS cards.</td></tr><tr><td><b>Response velocity</b><br>Can leaders answer faster?</td><td>Average question-to-answer time, approval path, owner routing.</td><td><span class="rag y">Watch</span></td><td>Define service levels for donor, board, and school requests.</td></tr></tbody></table></div>
+  <div class="board-note"><b>Projection and ROI note:</b> The projection, readiness, and ROI scores in this section are illustrative model layers for executive presentation design. They should be calibrated with official Harvard finance, development, gift administration, and program-owner data before formal Board or Corporation use.</div>
+</section>
+
+<!-- ═══════════ FY2026 MOMENTUM ═══════════ -->
+<section class="section" id="fy2026">
+  <div class="sec-head"><i class="fa-solid fa-triangle-exclamation"></i><h2>FY2026 momentum &amp; federal risk intelligence</h2><p class="dek">Record philanthropic surge meeting structural federal headwinds — the most board-critical context since the 2013–2018 campaign. VERITAS turns this tension into governed decision intelligence.</p></div>
+  <div class="risk-strip">
+    <div class="risk-inner">
+      <div class="risk-item surge"><div class="r-label">H1 FY2026 Fundraising</div><div class="r-val">$695M</div><div class="r-copy">Gifts &amp; pledge payments in H1 FY2026 — up from $440M in the same period last year, a <strong>+58% surge</strong>. FAS alone raised $222M, on track for a record year. SEAS tripled its 4-year average. This is philanthropy absorbing federal risk in real time.</div></div>
+      <div class="risk-item alert"><div class="r-label">Federal Risk Exposure</div><div class="r-val">7.5–25%</div><div class="r-copy">Of Harvard's total operating base potentially affected by federal funding pressures (CFO presentation, Nov 2025). Federal sponsored research = 11% of total revenue. Increased endowment excise tax and tariff-related risks add further structural uncertainty.</div></div>
+      <div class="risk-item"><div class="r-label">FY2025 Total Gifts</div><div class="r-val" style="color:#ffd98a">$1.3B</div><div class="r-copy">Total gifts in FY2025 — up from $1.17B in FY2024. Current-use gifts hit a record <strong>$629M</strong>. The mix signals donors are prioritizing operational flexibility — exactly what VERITAS monitors and narrates for the Board each quarter.</div></div>
+    </div>
+  </div>
+  <div class="vel-grid">
+    <div class="vel-card"><span class="v-icon">📈</span><h4>FAS record surge</h4><div class="v-stat">$222M</div><p>Faculty of Arts &amp; Sciences raised $222M in late 2025 — 25% of the entire University's H1 FY2026 total. Includes $64M to endow PhD fellowships after graduate admissions were sharply reduced. Direct donor response to institutional mission signals.</p><div class="v-source">Source: Harvard Crimson, March 2026</div></div>
+    <div class="vel-card gold-card"><span class="v-icon">🏛️</span><h4>School composition</h4><div class="v-stat">FAS 25%</div><p>In H1 FY2026: FAS drove 25% of University giving; Harvard Medical School 18%; Harvard Business School 17%. SEAS raised $21.8M — more than <strong>triple its 4-year average</strong>. VERITAS routes these signals to school-level stewardship owners before momentum cools.</p><div class="v-source">Source: Harvard Crimson, March 2026</div></div>
+    <div class="vel-card blue-card"><span class="v-icon">⚡</span><h4>Current-use record</h4><div class="v-stat">$629M</div><p>FY2025 current-use donations hit an all-time record — up more than $100M year-over-year. This is the flexible capital the Board needs to offset federal headwinds. VERITAS tracks the current-use to endowment gift ratio and alerts leadership when the mix drifts from strategic targets.</p><div class="v-source">Source: Harvard Crimson, October 2025</div></div>
+  </div>
+  <div class="chart-grid">
+    <div class="chart-box"><div class="chart-title">Philanthropic trajectory — total gifts FY2022–FY2026 H1 annualized</div><div class="chart-wrap"><canvas id="giftTrend"></canvas></div></div>
+    <div class="chart-box"><div class="chart-title">FY2026 H1 fundraising by school — composition</div><div class="chart-wrap"><canvas id="schoolCompose"></canvas></div></div>
+  </div>
+  <div class="data-note"><b>Published data sourcing:</b> $695M H1 FY2026, $222M FAS, $21.8M SEAS, school composition percentages from Harvard Crimson (March 6, 2026). $629M current-use record and $1.3B FY2025 total from Harvard Crimson (October 17, 2025). Federal risk range 7.5–25% from Harvard CFO Ritu Kalra's November 2025 AA&amp;D staff presentation, as obtained by The Crimson. All figures should be cross-checked against Harvard's official annual financial report before formal Board use.</div>
+</section>
+
+<!-- ═══════════ VERITAS ═══════════ -->
+<section class="section" id="veritas">
+  <div class="sec-head"><i class="fa-solid fa-tower-broadcast"></i><h2>VERITAS advancement intelligence</h2><p class="dek">Virtual Environment for Relationship Intelligence, Transformation &amp; Advancement Strategy — how this report becomes an operating tool, not just a publication.</p></div>
+  <div class="year-layer">
+    <div class="year-layer-head"><div><div class="year-layer-kicker">Past year · Current year · 5-year average</div><div class="year-layer-title">VERITAS operating improvement layer</div></div><p class="year-layer-note">Frames VERITAS as a management system: reduce manual work, speed response, protect life-balance, and create evidence without formal authority.</p></div>
+    <div class="year-grid">
+      <div class="year-card past"><div class="year-label">Past year request load</div><div class="year-value">Manual strain</div><p class="year-copy">Prior year shows where one-off report requests, reconciliation cycles, and unclear ownership created manual burden and response delays.</p><div class="year-pill-row"><span class="year-pill">Manual work</span><span class="year-pill">Bottlenecks</span></div><div class="year-bars"><div class="year-bar"><span style="width:56%"></span></div><div class="year-bar"><span style="width:66%"></span></div></div><div class="year-mini"><span><b>Mode</b> Reactive</span><span><b>Risk</b> Burnout</span></div></div>
+      <div class="year-card current"><div class="year-label">Current year controls</div><div class="year-value">Governed flow</div><p class="year-copy">Current-year VERITAS controls turn repeated questions into reusable evidence blocks, verified metrics, routing rules, and decision-ready cards.</p><div class="year-pill-row"><span class="year-pill">Reusable cards</span><span class="year-pill">Routed</span></div><div class="year-bars"><div class="year-bar"><span style="width:78%"></span></div><div class="year-bar"><span style="width:84%"></span></div></div><div class="year-mini"><span><b>Mode</b> Controlled</span><span><b>Goal</b> Faster response</span></div></div>
+      <div class="year-card avg"><div class="year-label">5-year operating trend</div><div class="year-value">Life-balance ROI</div><p class="year-copy">Five-year view shows whether the system is reducing recurring manual work, avoiding fire drills, and improving stakeholder confidence without formal authority.</p><div class="year-pill-row"><span class="year-pill">Life-balance</span><span class="year-pill">Trust</span></div><div class="year-bars"><div class="year-bar"><span style="width:88%"></span></div><div class="year-bar"><span style="width:82%"></span></div></div><div class="year-mini"><span><b>Mode</b> Sustainable</span><span><b>KPI</b> Hours saved</span></div></div>
+    </div>
+    <div class="layer-foot"><b>Report layer use:</b> Show operational ROI: fewer manual cycles, faster response time, clearer owners, and healthier execution rhythm for teams.</div>
+  </div>
+  <div class="signal">
+    <div><b>See</b><p>Combine campaign, endowment, current-use, school, and donor-restriction signals into one stewardship view.</p></div>
+    <div><b>Verify</b><p>Show public-source attribution, logic notes, and whether values are official, modeled, or illustrative.</p></div>
+    <div><b>Route</b><p>Assign each insight to central advancement, school leadership, gift administration, finance, or stewardship owners.</p></div>
+    <div><b>Reduce Manual Work</b><p>Replace one-off slide creation with reusable cards, controlled metrics, and refreshed narrative blocks.</p></div>
+    <div><b>Respond Faster</b><p>Turn donor questions into evidence-backed answers with a shorter path from signal to approved message.</p></div>
+  </div>
+</section>
+
+<!-- ═══════════ SMARTER GOALS ═══════════ -->
+<section class="section" id="smarter">
+  <div class="sec-head"><i class="fa-solid fa-crosshairs"></i><h2>VERITAS SMARTER goals — Board scorecard</h2><p class="dek">Seven goals tied to published benchmarks, each with a Corporation owner, evaluate gate, and readjust path. Click any card to open the full scorecard.</p></div>
+
+  <!-- SMARTER Step Flow Banner -->
+  <div class="smarter-flow">
+    <div class="sf-step s1"><div class="sf-letter">S</div><div class="sf-word">Specific</div><div class="sf-desc">Tied to published metrics</div></div>
+    <div class="sf-step s2"><div class="sf-letter">M</div><div class="sf-word">Measurable</div><div class="sf-desc">Public benchmarks set</div></div>
+    <div class="sf-step s3"><div class="sf-letter">A</div><div class="sf-word">Achievable</div><div class="sf-desc">Calibrated to H1 FY2026</div></div>
+    <div class="sf-step s4"><div class="sf-letter">R</div><div class="sf-word">Relevant</div><div class="sf-desc">Board-level priority</div></div>
+    <div class="sf-step s5"><div class="sf-letter">T</div><div class="sf-word">Time-bound</div><div class="sf-desc">FY2026–FY2028 gates</div></div>
+    <div class="sf-step s6"><div class="sf-letter">E</div><div class="sf-word">Evaluate</div><div class="sf-desc">Verified evidence required</div></div>
+    <div class="sf-step s7"><div class="sf-letter">R</div><div class="sf-word">Readjust</div><div class="sf-desc">Approved pivot path</div></div>
+  </div>
+
+  <!-- Compact Goal Cards — populated by JS -->
+  <div class="goal-grid" id="goalGrid"></div>
+
+  <div class="board-note" style="margin-top:16px"><b>Scorecard use:</b> Click any goal card to open the full SMARTER breakdown with published data anchors, evidence gates, and VERITAS acceleration levers. All financial projections should be calibrated against official Harvard finance, advancement, and gift administration data before formal Corporation use.</div>
+</section>
+
+<!-- ═══════════ COMPETITIVE BENCHMARK ═══════════ -->
+<section class="section" id="competitive">
+  <div class="sec-head"><i class="fa-solid fa-ranking-star"></i><h2>VERITAS competitive advantage — sector benchmark</h2><p class="dek">VERITAS positions Harvard 3–5 years ahead of the sector on every advancement intelligence dimension. The window to lead is open now.</p></div>
+  <div class="bench-intro">
+    <div style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:#f7d98e;font-weight:900;margin-bottom:8px">Corporation Strategic Intelligence</div>
+    <h3 style="font-family:Georgia,serif;font-size:1.5rem;margin-bottom:8px;color:#fff">The sector gap is Harvard's competitive window</h3>
+    <p style="font-size:.88rem;color:#dce6f4;line-height:1.72;max-width:880px">Only 4% of institutions use real-time fundraising intelligence. Only 13% use predictive AI for donor prospecting. 76% have no AI policy. Harvard has the data infrastructure, alumni scale, and institutional capacity to deploy VERITAS and own this space before peer institutions catch up.</p>
+  </div>
+  <div class="bench-grid">
+    <div class="bench-card">
+      <div class="b-label">Sector advancement technology adoption</div>
+      <h4>AI &amp; real-time intelligence gaps</h4>
+      <div class="bench-row"><div class="b-name">Real-time intelligence</div><div class="b-track"><div class="b-fill sector" style="width:4%"></div></div><div class="b-val" style="color:#738096">4%</div></div>
+      <div class="bench-row"><div class="b-name">Predictive AI for donors</div><div class="b-track"><div class="b-fill sector" style="width:13%"></div></div><div class="b-val" style="color:#738096">13%</div></div>
+      <div class="bench-row"><div class="b-name">AI-assisted research</div><div class="b-track"><div class="b-fill peer" style="width:82%"></div></div><div class="b-val">82%</div></div>
+      <div class="bench-row"><div class="b-name">Tech as key focus FY2026</div><div class="b-track"><div class="b-fill peer" style="width:70%"></div></div><div class="b-val">70%</div></div>
+      <div class="bench-row" style="margin-top:10px"><div class="b-name" style="font-weight:900;color:var(--crimson)">VERITAS target</div><div class="b-track"><div class="b-fill harvard" style="width:100%"></div></div><div class="b-val" style="color:var(--crimson)">100%</div></div>
+      <div style="font-size:.7rem;color:var(--muted);margin-top:10px;line-height:1.4">Sources: Nonprofit Tech for Good 2026 AI Statistics; CCS 2026 Philanthropy Pulse Survey; CEP 2025</div>
+    </div>
+    <div class="bench-card">
+      <div class="b-label">Donor retention &amp; engagement benchmarks</div>
+      <h4>Retention performance vs. sector</h4>
+      <div class="bench-row"><div class="b-name">First-gift retention (sector)</div><div class="b-track"><div class="b-fill sector" style="width:19%"></div></div><div class="b-val" style="color:#738096">19%</div></div>
+      <div class="bench-row"><div class="b-name">3-year retention (top HE)</div><div class="b-track"><div class="b-fill peer" style="width:45%"></div></div><div class="b-val" style="color:var(--blue)">45%</div></div>
+      <div class="bench-row"><div class="b-name">New donor growth FY2025</div><div class="b-track"><div class="b-fill peer" style="width:63%"></div></div><div class="b-val">63%</div></div>
+      <div class="bench-row"><div class="b-name">DAF revenue growth FY2024</div><div class="b-track"><div class="b-fill target" style="width:30%"></div></div><div class="b-val" style="color:var(--amber)">+30%</div></div>
+      <div class="bench-row" style="margin-top:10px"><div class="b-name" style="font-weight:900;color:var(--crimson)">VERITAS target FY2027</div><div class="b-track"><div class="b-fill harvard" style="width:40%"></div></div><div class="b-val" style="color:var(--crimson)">40%</div></div>
+      <div style="font-size:.7rem;color:var(--muted);margin-top:10px;line-height:1.4">Sources: AI for Nonprofits 2026 Guide; CCS 2026 Pulse Survey; Chronicle of Philanthropy 2026</div>
+    </div>
+  </div>
+  <div class="veritas-diff">
+    <div style="font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#f7d98e;font-weight:900;margin-bottom:8px">VERITAS projected competitive lead — FY2028</div>
+    <div class="vd-grid">
+      <div class="vd-cell"><div class="vd-val">25×</div><div class="vd-lbl">more real-time intelligence coverage vs. 4% sector baseline</div></div>
+      <div class="vd-cell"><div class="vd-val">+21%</div><div class="vd-lbl">donor retention above first-gift sector average</div></div>
+      <div class="vd-cell"><div class="vd-val">3–5yr</div><div class="vd-lbl">advancement intelligence lead over peer institutions</div></div>
+      <div class="vd-cell"><div class="vd-val">50%↓</div><div class="vd-lbl">manual assembly burden vs. current sector norm</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ 10-YEAR ROADMAP ═══════════ -->
+<section class="section" id="roadmap">
+  <div class="sec-head"><i class="fa-solid fa-route"></i><h2>VERITAS 10-year acceleration roadmap</h2><p class="dek">Five phase-gated phases from intelligence foundation to sector leadership. Each phase requires verified evidence before Board investment approval.</p></div>
+  <div class="roadmap-intro">
+    <div style="font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:#f7d98e;font-weight:900;margin-bottom:8px">Phase-gate model — no phase proceeds without evidence review</div>
+    <h3 style="font-family:Georgia,serif;font-size:1.5rem;margin-bottom:8px;color:#fff">From reactive reporting to proactive impact intelligence</h3>
+    <p style="font-size:.86rem;color:#dce6f4;line-height:1.72;max-width:900px">VERITAS does not ask Harvard to build a new system. It asks advancement to govern the data it already has — 14,765 endowed funds, $2.5B annual distribution, $1.3B in annual giving, 173 countries of alumni reach — with intelligence discipline.</p>
+  </div>
+  <!-- Visual phase track -->
+  <div class="roadmap-track">
+    <div class="rt-phase"><div class="rt-dot">1</div><div class="rt-label">Foundation</div><div class="rt-year">FY2026</div></div>
+    <div class="rt-phase"><div class="rt-dot">2</div><div class="rt-label">Scale</div><div class="rt-year">FY2027</div></div>
+    <div class="rt-phase"><div class="rt-dot">3</div><div class="rt-label">Optimize</div><div class="rt-year">FY2028</div></div>
+    <div class="rt-phase"><div class="rt-dot">4</div><div class="rt-label">Predict</div><div class="rt-year">FY2029–30</div></div>
+    <div class="rt-phase"><div class="rt-dot">5</div><div class="rt-label">Lead Sector</div><div class="rt-year">FY2031–35</div></div>
+  </div>
+  <div class="roadmap-cards">
+    <div class="rm-card"><div class="rm-card-head"><div class="rm-phase-tag">Phase 1 · FY2026</div><div class="rm-theme">Foundation &amp; Triage</div><div class="rm-phase-sub">Intelligence infrastructure</div></div><div class="rm-card-body"><div class="rm-item"><b>Map all funds</b>All 14,765 endowed funds mapped by restriction type, school owner, and evidence completeness.</div><div class="rm-item"><b>FAS pilot: $222M</b>Deploy VERITAS routing for all gifts ≥$50K in the H1 surge cohort.</div><div class="rm-item"><b>Establish SLA</b>100% of ≥$50K gifts routed within 48 hours by Q3 FY2026.</div><div class="rm-item"><b>Board deliverable</b>First restriction flexibility map: top 500 funds with modification opportunity.</div></div><div class="rm-card-foot"><b>Evaluate gate:</b> 100% FAS gifts ≥$50K within SLA. Evidence completeness ≥70% before Phase 2.</div></div>
+    <div class="rm-card"><div class="rm-card-head"><div class="rm-phase-tag">Phase 2 · FY2027</div><div class="rm-theme">Scale &amp; Standardize</div><div class="rm-phase-sub">University-wide deployment</div></div><div class="rm-card-body"><div class="rm-item"><b>Quarterly reporting</b>VERITAS velocity report live: SLA compliance, evidence completeness, retention signals.</div><div class="rm-item"><b>Total gifts: $1.5B</b>Retention from ~22% to 32% for FY2026 new donor cohort at 18 months.</div><div class="rm-item"><b>All 6 pillars scored</b>Mission ROI scorecards active for all strategic pillars.</div><div class="rm-item"><b>50% manual reduction</b>Assembly hours cut 50% vs. FY2025 baseline — verified through staff data.</div></div><div class="rm-card-foot"><b>Evaluate gate:</b> 32%+ retention for FY2026 cohort. First full VERITAS ROI scorecard delivered to Board.</div></div>
+    <div class="rm-card"><div class="rm-card-head"><div class="rm-phase-tag">Phase 3 · FY2028</div><div class="rm-theme">Optimize &amp; Compound</div><div class="rm-phase-sub">Intelligence compounding</div></div><div class="rm-card-body"><div class="rm-item"><b>Evidence library</b>80% of recurring Board report needs met from VERITAS library without new data gathering.</div><div class="rm-item"><b>Total gifts: $1.8B</b>Compounding retention and VERITAS major gift pipeline drives sustained giving above $1.8B.</div><div class="rm-item"><b>Flexible capital: 8%</b>Fully unrestricted endowment share reaches 8% through restriction modification program.</div><div class="rm-item"><b>Live Board dashboard</b>No annual report compilation cycle — continuous VERITAS intelligence data.</div></div><div class="rm-card-foot"><b>Evaluate gate:</b> Evidence library reuse ≥3×. Operating deficit trend reversed. Federal risk offset visible.</div></div>
+    <div class="rm-card"><div class="rm-card-head"><div class="rm-phase-tag">Phase 4 · FY2029–30</div><div class="rm-theme">Predict &amp; Personalize</div><div class="rm-phase-sub">Predictive intelligence</div></div><div class="rm-card-body"><div class="rm-item"><b>Predictive scoring</b>All 153K+ alumni scored for engagement readiness and next-best-ask timing.</div><div class="rm-item"><b>Retention: 40%+</b>First-time donor retention above 40% for two consecutive cohort years.</div><div class="rm-item"><b>DAF integration</b>VERITAS automates Donor-Advised Fund stewardship complexity (DAF revenue +30% in 2024).</div><div class="rm-item"><b>Planned giving</b>VERITAS surfaces planned giving indicators — 60% of HE institutions expect growth.</div></div><div class="rm-card-foot"><b>Evaluate gate:</b> Predictive model accuracy ≥75%. DAF workflow fully automated. Planned giving pipeline active.</div></div>
+    <div class="rm-card"><div class="rm-card-head"><div class="rm-phase-tag">Phase 5 · FY2031–35</div><div class="rm-theme">Lead the Sector</div><div class="rm-phase-sub">Harvard as the benchmark</div></div><div class="rm-card-body"><div class="rm-item"><b>5-year evidence review</b>Annual SMARTER readjustment cycle reviews all 7 goals against published benchmarks.</div><div class="rm-item"><b>Sector standard</b>VERITAS methodology published through CASE — Harvard becomes the peer benchmark.</div><div class="rm-item"><b>Campaign readiness</b>VERITAS-verified intelligence provides a complete readiness package for Harvard's next major campaign.</div><div class="rm-item"><b>VERITAS 2.0 scope</b>Commission next-decade priorities based on 10-year verified evidence base.</div></div><div class="rm-card-foot"><b>Final readjust gate:</b> 10-year SMARTER review. All 7 goals achieved. Commission VERITAS 2.0 scope.</div></div>
+  </div>
+  <div class="board-note" style="margin-top:16px"><b>Roadmap note:</b> Phase gates are SMARTER governance mechanisms, not organizational milestones. No phase investment should be approved without the preceding evaluate gate being met with verified evidence. The readjust gates are as important as the progress gates: VERITAS succeeds because it tells the Board when to change course, not just when to celebrate.</div>
+</section>
+
+<!-- ═══════════ FISCAL RISK GOVERNANCE ═══════════ -->
+<section class="section" id="fiscal-risk">
+  <div class="sec-head"><i class="fa-solid fa-shield-halved"></i><h2>Fiscal risk governance — VERITAS Board intelligence layer</h2><p class="dek">Risk-adjusted view of every major financial exposure, paired with VERITAS-driven mitigation actions and evidence requirements.</p></div>
+  <div class="chart-grid" style="margin-bottom:18px">
+    <div class="chart-box"><div class="chart-title">Revenue risk exposure vs. philanthropic buffer — FY2025</div><div class="chart-wrap"><canvas id="riskBuffer"></canvas></div></div>
+    <div class="chart-box"><div class="chart-title">VERITAS SMARTER goal progress — 7-pillar radar</div><div class="chart-wrap"><canvas id="smarterRadar"></canvas></div></div>
+  </div>
+  <table class="risk-table">
+    <thead><tr><th>Risk category</th><th>Published exposure</th><th>VERITAS response</th><th>Status</th><th>SMARTER action</th></tr></thead>
+    <tbody>
+      <tr class="risk-high"><td><b>Federal funding freeze</b><br>Federal research = 11% of revenue; CFO: 7.5–25% of operating base at risk</td><td>Up to <b>$1.7B</b> of the $6.7B revenue base potentially impacted at upper bound</td><td><span class="veritas-tag"><i class="fa-solid fa-tower-broadcast" style="font-size:.7rem"></i> VERITAS</span> Quarterly philanthropic buffer tracker: current-use gifts vs. federal gap. Alert if buffer falls below 40% of identified risk.</td><td><span class="rag r">High</span></td><td>Goal 1: Sustain total gifts ≥$1.5B with ≥48% current-use mix.</td></tr>
+      <tr class="risk-watch"><td><b>Endowment tax increase</b><br>New 2025 federal bill raises excise tax on net investment income</td><td>Every 1% rate increase = potentially $50M+ in additional tax burden on investment income from $56.9B endowment</td><td><span class="veritas-tag"><i class="fa-solid fa-tower-broadcast" style="font-size:.7rem"></i> VERITAS</span> Endowment tax scenario modeler: real-time distribution impact by rate tier. Board receives pre-computed scenarios.</td><td><span class="rag y">Watch</span></td><td>Goal 4: Increase unrestricted share. Goal 6: Mission ROI scorecard demonstrates public benefit case.</td></tr>
+      <tr class="risk-watch"><td><b>Operating deficit persistence</b><br>FY2025: revenue $6.7B vs. expenses $6.8B = -$113M. Prior year was +$45M surplus.</td><td>$158M swing in one year. Compensation grew $127M (+5%). Structural risk if trend continues.</td><td><span class="veritas-tag"><i class="fa-solid fa-tower-broadcast" style="font-size:.7rem"></i> VERITAS</span> Compensation-to-endowment-distribution ratio tracker. Alert if expenses outpace distribution growth by &gt;2% annualized.</td><td><span class="rag y">Watch</span></td><td>Goal 1 + Goal 4: Flexible capital growth and sustained giving above $1.5B creates operating buffer.</td></tr>
+      <tr class="risk-build"><td><b>Endowment gift decline</b><br>Endowment gifts fell from $368M (FY2024) to $364M (FY2025) even as current-use gifts surged</td><td>If endowment gift trend continues declining, long-term capital base growth slows. Current-use gifts do not compound; endowment gifts do.</td><td><span class="veritas-tag"><i class="fa-solid fa-tower-broadcast" style="font-size:.7rem"></i> VERITAS</span> Donor intent shift monitor: tracks current-use to endowment gift ratio by donor segment, alerts when high-capacity donors shift exclusively to current-use.</td><td><span class="rag b">Build</span></td><td>Goal 2: Retention intelligence identifies high-affinity donors ready for endowment conversations.</td></tr>
+      <tr class="risk-watch"><td><b>Advancement talent retention</b><br>Development staff burning out sector-wide; 60% of nonprofits lack AI expertise to implement tools</td><td>Teams operating under manual reporting burden during a record fundraising surge ($695M H1 FY2026) creates structural burnout risk at the worst possible time.</td><td><span class="veritas-tag"><i class="fa-solid fa-tower-broadcast" style="font-size:.7rem"></i> VERITAS</span> Operational load monitor: tracks one-off data pull requests, report assembly hours, and response cycle times. Flags overloaded teams before attrition risk materializes.</td><td><span class="rag y">Watch</span></td><td>Goal 7: 50% reduction in manual assembly hours by FY2027. Evaluate gate: staff satisfaction survey.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══════════ SOURCES ═══════════ -->
+<section class="section" id="sources">
+  <div class="sec-head"><i class="fa-solid fa-book-open"></i><h2>Source register</h2><p class="dek">All public sources used across this report and VERITAS intelligence sections.</p></div>
+  <div class="source-list">
+    <div class="source-card"><b>Harvard Endowment page</b><a href="https://www.harvard.edu/about/endowment/" target="_blank" rel="noopener">harvard.edu/about/endowment/</a><p>FY2025 endowment value, ~14,765 funds, $784M financial aid/scholarships, donor-directed market value.</p></div>
+    <div class="source-card"><b>Harvard Financial Administration</b><a href="https://finance.harvard.edu/endowment" target="_blank" rel="noopener">finance.harvard.edu/endowment</a><p>$2.5B distribution (37% of revenue), &lt;5% fully unrestricted, endowment tax context, FY2025 financial overview.</p></div>
+    <div class="source-card"><b>Harvard FY2025 Financial Overview</b><a href="https://finance.harvard.edu/annual-report" target="_blank" rel="noopener">finance.harvard.edu/annual-report</a><p>Revenue $6.7B, expenses $6.8B, operating deficit -$113M, compensation growth $127M (+5%), revenue mix breakdown.</p></div>
+    <div class="source-card"><b>Harvard Gazette campaign article</b><a href="https://news.harvard.edu/gazette/story/2018/09/the-harvard-campaign-concludes-provides-enduring-investment/" target="_blank" rel="noopener">Harvard Campaign concludes</a><p>$9.62B raised, ~$1.3B for financial aid, 142 endowed professorships, campaign impact categories.</p></div>
+    <div class="source-card"><b>Harvard Crimson — FY2025 gifts</b><a href="https://www.thecrimson.com/article/2025/10/17/harvard-financial-report-gifts-2025/" target="_blank" rel="noopener">October 17, 2025</a><p>$629M current-use record, $1.3B total gifts FY2025 (up from $1.17B), endowment gifts $364M.</p></div>
+    <div class="source-card"><b>Harvard Crimson — FY2026 H1</b><a href="https://www.thecrimson.com/article/2026/3/6/fas-fundraising-update/" target="_blank" rel="noopener">March 6, 2026</a><p>$695M H1 FY2026, FAS $222M (25% of total), HMS 18%, HBS 17%, SEAS $21.8M (3× 4-year avg), $64M PhD endowment.</p></div>
+    <div class="source-card"><b>Harvard Crimson — The Campaign</b><a href="https://www.thecrimson.com/article/2018/9/20/capital-campaign-final-figure/" target="_blank" rel="noopener">Campaign final tally</a><p>633K+ gifts, 153K+ households, 173 countries, 142 professorships, campaign priorities.</p></div>
+    <div class="source-card"><b>CCS 2026 Philanthropy Pulse Survey</b><a href="https://www.ccsfundraising.com/insights/philanthropy-pulse-higher-education/" target="_blank" rel="noopener">ccsfundraising.com</a><p>63% of HE institutions grew new donors in 2025; 47% retain 45%+ over 3 years; 70%+ identify tech adoption as key focus.</p></div>
+    <div class="source-card"><b>Nonprofit Tech for Good 2026 AI Statistics</b><a href="https://www.nptechforgood.com/101-best-practices/ai-marketing-fundraising-statistics-for-nonprofits/" target="_blank" rel="noopener">nptechforgood.com</a><p>4% real-time intelligence; 13% predictive AI; 82% comfortable with AI for research; 76% no AI policy.</p></div>
+    <div class="source-card"><b>Chronicle of Philanthropy 2026 — AI &amp; Fundraising</b><a href="https://www.philanthropy.com/opinion/ais-impact-on-fundraising-in-2026/" target="_blank" rel="noopener">philanthropy.com</a><p>Staff burnout rates, email response rates &lt;1%, first-time donor retention 19%, DAF revenue +30% in 2024.</p></div>
+    <div class="source-card"><b>AI for Nonprofits 2026 Guide</b><a href="https://www.liveimpact.org/blog/artificial-intelligence-for-nonprofits" target="_blank" rel="noopener">liveimpact.org</a><p>Business AI adoption 80% by 2025; only 12.8% of nonprofits use predictive analytics; first-time retention 20–30%.</p></div>
+    <div class="source-card"><b>Portfolio &amp; design reference</b><a href="https://nasdaqguru.github.io" target="_blank" rel="noopener">nasdaqguru.github.io</a><p>UNICEF impact story design pattern used as the storytelling and layout reference for this report architecture.</p></div>
+  </div>
+</section>
+</main>
+
+<footer class="footer"><p><b>Disclaimer &amp; data attribution:</b> This report was created by Narissara Khomkhai as a portfolio case study. Harvard and Harvard University are referenced for public-data reporting and institutional-analysis purposes only. This is not an official Harvard University document and should not be cited as an official source. Verify all figures against Harvard's official reports before formal use. VERITAS goals, timelines, and projections are strategic model layers requiring calibration against official Harvard finance, advancement, and gift administration data before Corporation presentation.</p></footer>
+</div><!-- /wrap -->
+
+<!-- ═══════════ SMARTER GOAL MODAL ═══════════ -->
+<div class="sm-modal-bg" id="smModal" onclick="if(event.target===this)closeSMModal()">
+  <div class="sm-modal">
+    <div class="sm-modal-head">
+      <div class="sm-modal-meta">
+        <div class="sm-m-kicker" id="smKicker"></div>
+        <h3 id="smTitle"></h3>
+        <div class="sm-modal-stats" id="smStats"></div>
+      </div>
+      <button class="sm-close" onclick="closeSMModal()" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="sm-modal-body">
+      <div class="sm-prog-row">
+        <span id="smProgLabel"></span>
+        <div class="sm-prog-track"><div class="sm-prog-fill" id="smProgFill"></div></div>
+        <span id="smProgPct"></span>
+      </div>
+      <table class="sm-table" id="smTable"></table>
+      <div class="sm-insight-box"><div class="si-kicker">VERITAS acceleration lever</div><p id="smInsight"></p></div>
+    </div>
+    <div class="sm-modal-foot"><button class="close" onclick="closeSMModal()">Close scorecard</button></div>
+  </div>
+</div>
+
+<!-- ═══════════ DISCLAIMER MODAL ═══════════ -->
+<div class="modal-bg" id="modal"><div class="modal"><button class="close" onclick="closeModal()" style="float:right;background:#111827;color:#fff;border:0;margin-bottom:10px">Close</button><h3>Disclaimer &amp; Data Attribution</h3><p>This page is a portfolio demonstration showing how a Harvard-focused philanthropy impact report could translate public financial, campaign, and endowment information into a donor-facing and Board-level narrative.</p><p>No confidential institutional data is used. Harvard marks, shields, and official brand assets are intentionally avoided. All figures should be verified against official Harvard publications before formal use. VERITAS is a conceptual advancement intelligence model designed for this portfolio.</p></div></div>
+
+<script>
+/* ── MODAL CONTROLS ── */
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function closePanels(){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('open'));document.querySelectorAll('.impact-card').forEach(c=>c.classList.remove('active'))}
+document.querySelectorAll('.impact-card').forEach(card=>{card.addEventListener('click',()=>{const id=card.dataset.panel;const target=document.getElementById(id);const isOpen=target.classList.contains('open');closePanels();if(!isOpen){target.classList.add('open');card.classList.add('active');target.scrollIntoView({behavior:'smooth',block:'nearest'})}})})
+
+/* ── COMMAND TABS ── */
+function activateCommandPanel(id){document.querySelectorAll('.command-tab').forEach(t=>t.classList.toggle('active',t.dataset.cmd===id));document.querySelectorAll('.command-panel').forEach(p=>p.classList.toggle('active',p.id==='cmd-'+id))}
+document.querySelectorAll('.command-tab').forEach(tab=>tab.addEventListener('click',()=>activateCommandPanel(tab.dataset.cmd)))
+
+/* ── SMARTER GOALS DATA ── */
+const GOALS=[
+  {id:'01',kicker:'Goal 01 · Philanthropic Revenue',icon:'📈',title:'Sustained total gifts above $1.5B by FY2027',metric:'$1.5B',metricLabel:'FY2027 target',progress:87,progressLabel:'$1.3B of $1.5B target',badge:'lead',badgeText:'Lead Now',summary:'Grow total gifts from the $1.3B FY2025 baseline, fueled by current-use diversification and VERITAS routing.',rows:[['Specific','Grow total philanthropic contributions from the $1.3B FY2025 baseline to $1.5B in FY2026 and $1.8B by FY2028 — driven by current-use gift diversification, major gift pipeline expansion, and VERITAS donor intelligence routing.'],['Measurable','FY2025: $1.3B total (up from $1.17B FY2024). H1 FY2026: $695M — a pace implying $1.4B+ annualized. FY2025 current-use record: $629M. Target: current-use ≥$700M and endowment gifts ≥$400M by FY2027.'],['Achievable','H1 FY2026 momentum (+58% vs prior year) sets the floor. Sector: 63% of HE institutions grew new donors in 2025 (CCS 2026). Harvard\'s 153K+ households in 173 countries provides structural capacity above peer institutions.'],['Relevant','Federal funding risk of 7.5–25% of operating base means philanthropy is the primary buffer for Harvard\'s $6.8B operating expense base. Every $100M in incremental gifts offsets approximately 4–14% of the identified federal risk range.'],['Time-bound','FY2026 gate: $1.4B total. FY2027 gate: $1.5B. FY2028 target: $1.8B. Quarterly VERITAS dashboard review at each CFO/Treasurer cycle.'],['Evaluate','VERITAS must verify: current-use vs. endowment gift ratio (target ≥48% current-use), school-level composition balance, donor retention rate quarterly. Evidence required before scaling major gift staffing.'],['Readjust','If FY2026 H2 falls below $700M, trigger gift society conversion playbook and accelerate planned giving pipeline review. If current-use mix drops below 42%, activate VERITAS emergency stewardship narrative track.']],insight:'Real-time tracking of current-use vs. endowment gift ratio with automated alerts when quarterly mix drifts >5% from target — reduces response lag from 90 days to under 7 days based on sector intelligence benchmarks.'},
+  {id:'02',kicker:'Goal 02 · Donor Retention Intelligence',icon:'🤝',title:'First-time donor retention from ~22% to 40% by FY2027',metric:'40%',metricLabel:'Retention target FY2027',progress:35,progressLabel:'~22% baseline → 40% target',badge:'build',badgeText:'Build',summary:'Deploy VERITAS relationship intelligence to close the gap between Harvard\'s estimated retention rate and the top-HE benchmark.',rows:[['Specific','Every new donor above $500 receives a purpose-matched stewardship response within 48 hours — including restriction confirmation, impact evidence reference, school owner routing, and next engagement signal.'],['Measurable','Sector baseline: first-time donor retention hovers at 19–30% across higher education (AI for Nonprofits 2026). Harvard campaign baseline: 153K+ households, 633K+ gifts. Target: 40% of new FY2026 donors making a second gift within 18 months.'],['Achievable','Top HE institutions achieving 45%+ three-year retention (CCS 2026: 47% of institutions retain 45%+ over 3 years). AI-assisted personalization makes 40% achievable without proportional staff growth (Fast Forward 2025 AI for Humanity Report).'],['Relevant','The H1 FY2026 surge ($695M) is meaningful only if new donors renew. Every 10% improvement in retention represents $70M+ in annual recurring capacity by FY2028.'],['Time-bound','FY2026: build VERITAS donor journey architecture. FY2027 gate: 32% retention rate for FY2026 new donors. FY2028 target: 40% sustained.'],['Evaluate','Measure: 90-day acknowledgment completion rate (target 100% within 5 days), 6-month engagement signal, 18-month re-gift conversion. VERITAS must produce these as reusable evidence blocks, not one-off queries.'],['Readjust','If retention at 6-month mark falls below 25%, activate school-specific story routing. Reallocate from broad communication to high-affinity segment focus using VERITAS signal scoring.']],insight:'Route each new donor\'s first gift to a purpose-matched impact story within 48 hours. 82% of advancement professionals are already comfortable using AI for donor research (Nonprofit Tech for Good, 2026). VERITAS makes this systematic.'},
+  {id:'03',kicker:'Goal 03 · AI Advancement Intelligence',icon:'⚡',title:'VERITAS covers 100% of major gift portfolios with real-time intelligence by FY2027',metric:'100%',metricLabel:'Portfolio coverage FY2027',progress:20,progressLabel:'4% sector baseline → 100% target',badge:'accelerate',badgeText:'Accelerate',summary:'Deploy VERITAS across all 14,765 endowed funds, the $629M current-use base, and the $784M financial aid portfolio.',rows:[['Specific','Deploy VERITAS as a governed intelligence layer covering all 14,765 endowed funds, the $629M current-use gift base, and the $784M financial aid portfolio — providing real-time restriction status, purpose matching, impact evidence completeness scores, and next-best-action routing to all school advancement officers.'],['Measurable','Sector baseline: only 4% of nonprofits currently use real-time fundraising intelligence; only 13% use predictive AI for donor prospecting (Nonprofit Tech for Good, 2026). Harvard\'s target: top 1% — 100% major gift portfolio coverage with refreshed VERITAS cards within 24 hours.'],['Achievable','Business AI adoption surged from 55% in 2023 to 80% by 2025 (CEP Research). 70%+ of HE institutions identify technology adoption as a key focus for 2026 (CCS Pulse Survey). Harvard\'s existing data infrastructure provides the data layer VERITAS needs.'],['Relevant','Manual reconciliation is the primary bottleneck in Harvard\'s stewardship cycle. With 80%+ of endowment market value donor-directed to specific purposes, the complexity requires intelligence tooling — not more headcount.'],['Time-bound','FY2026 gate: VERITAS pilot covering FAS ($222M H1 surge) and HMS (18% of H1 giving). FY2027: full University deployment. FY2028: 100% reusable evidence block coverage.'],['Evaluate','Evidence required before FY2027 scale: (a) average report assembly time reduced ≥50%, (b) evidence completeness score for Board-facing materials ≥90%, (c) first-time donor 30-day stewardship completion rate ≥95%.'],['Readjust','If data quality from school systems is insufficient for real-time intelligence, pivot to weekly-refreshed batch intelligence cards while data governance matures. Maintain manual review gates for all major gift stewardship materials.']],insight:'Harvard has the data, scale, and donor base to leapfrog peer institutions by 3–5 years. The sector gap between 4% current adoption and the VERITAS target is Harvard\'s competitive advantage window — it will close by 2028.'},
+  {id:'04',kicker:'Goal 04 · Flexible Capital Strategy',icon:'🏛️',title:'Increase fully unrestricted endowment share from <5% to 8% by FY2029',metric:'8%',metricLabel:'Unrestricted target FY2029',progress:38,progressLabel:'<5% baseline → 8% target',badge:'monitor',badgeText:'Monitor',summary:'Surface the flexible capital map for every Board cycle and grow the unrestricted share through governance and donor conversations.',rows:[['Specific','Harvard\'s endowment is 80%+ donor-directed and less than 5% fully unrestricted (Harvard Financial Overview, FY2025). VERITAS must surface the flexible capital map for every Board cycle: which funds are approaching zero balance, which restrictions can be modified, where donor intent gaps are widening.'],['Measurable','Current: <5% fully unrestricted. Remaining 18% offers partial flexibility (school/unit restricted). FY2025 current-use gifts: $629M record — demonstrating donor appetite for flexible support when Harvard makes a compelling case. Target: annual current-use ≥$650M while unrestricted endowment grows to 8% by FY2029.'],['Achievable','The record $629M current-use FY2025 total proves donors will provide flexible capital when asked. Endowment distribution of $2.5B (37% of total revenue) means even marginal flexibility improvement has large operating leverage.'],['Relevant','The FY2025 operating deficit of -$113M and federal risk of 7.5–25% of operating base together make flexible capital the Board\'s most urgent fiduciary priority.'],['Time-bound','FY2026: VERITAS produces first restriction flexibility map for Board. FY2027: 100% of partially-flexible (18% pool) funds reviewed for modification opportunity. FY2029: fully unrestricted share ≥8%.'],['Evaluate','Annual Board evidence package: number of restriction modifications completed, average processing time, funds reclassified by donor agreement, and impact on operating flexibility ratio. Evidence verified by Gift Administration.'],['Readjust','If donor conversations about flexibility face resistance, shift to current-use campaign narratives highlighting operating resilience. If federal risk materializes above 15% of operating base, escalate restriction modification timeline.']],insight:'Map all 14,765 endowed funds against restriction type, donor status, and balance trend. Surface the 500–800 funds with modification opportunity in the next 24 months — this is the action list no aggregate endowment report can provide.'},
+  {id:'05',kicker:'Goal 05 · Stewardship Response Velocity',icon:'🏃',title:'All major gift stewardship responses delivered within 48 hours by FY2026',metric:'48hr',metricLabel:'Response SLA target',progress:28,progressLabel:'Days/weeks → 48-hour SLA',badge:'lead',badgeText:'Lead Now',summary:'Establish Harvard\'s first stewardship SLA: every gift ≥$10K receives routing confirmation within 48 hours.',rows:[['Specific','Every gift above $10,000 receives a verified, purpose-matched stewardship response within 48 hours — including restriction confirmation, impact evidence reference, school owner routing, and next engagement signal. VERITAS automates the routing; humans write the relationship layer.'],['Measurable','Sector benchmark: email response rates below 1%; only 19% of first-time donors give again (Chronicle of Philanthropy, 2026). Harvard has 633K+ gifts in its campaign history but no publicly reported stewardship SLA. VERITAS establishes the first one. Target: 100% of gifts ≥$10K confirmed within 48 hours; 100% receive human acknowledgment within 5 business days.'],['Achievable','FY2026 H1 volume ($695M) includes a large number of gifts requiring prompt stewardship. With VERITAS routing gifts to the correct school owner automatically, the bottleneck shifts from routing to writing.'],['Relevant','Response velocity is the single most cited factor in first-to-second gift conversion (AI donor communications research, 2026). The $629M current-use record represents thousands of donors who need to feel their gift is deployed with purpose.'],['Time-bound','FY2026 Q1: VERITAS routing SLA live for all gifts ≥$50K. FY2026 Q3: extended to all gifts ≥$10K. FY2027: fully automated routing for all gifts with verified restriction data.'],['Evaluate','VERITAS must report weekly: average routing time, percentage completed within 48 hours, exceptions requiring escalation, and cause of delay. Board receives quarterly stewardship velocity scorecard.'],['Readjust','If school teams cannot absorb volume, add VERITAS pre-written acknowledgment templates for one-click officer approval. If restriction ambiguity is the primary delay cause, escalate the Fund Restriction Clarity project timeline.']],insight:'Automated gift routing replaces the most time-consuming part of stewardship: figuring out who owns the response. VERITAS knows the fund, the restriction, the school owner, and the impact story. The gift officer just approves and sends.'},
+  {id:'06',kicker:'Goal 06 · Mission ROI Transparency',icon:'📊',title:'100% of Board-facing programs with multi-dimensional ROI scorecards by FY2027',metric:'100%',metricLabel:'Evidence coverage FY2027',progress:55,progressLabel:'~55% evidence completeness → 100%',badge:'build',badgeText:'Build',summary:'No program enters a Board packet without all five ROI dimensions: financial, mission, stewardship, operational, and risk.',rows:[['Specific','Every program receiving Board-level review — including the $784M financial aid portfolio, 142 endowed professorships, and all research initiatives — has a completed VERITAS scorecard: financial ROI, mission ROI, stewardship ROI, operational ROI, and risk ROI. No program enters a Board packet without all five dimensions completed.'],['Measurable','Endowment distribution: $2.5B (FY2025) supporting 37% of operating revenue. Financial aid: $784M — a mission ROI number that is never paired with a completion rate, debt load reduction, or alumni engagement narrative in public materials. VERITAS closes this gap. Target: 100% evidence completeness for all 6 strategic pillars by FY2027.'],['Achievable','VERITAS does not need new data — it needs existing data routed correctly. School financial reports, gift administration records, student outcomes data, and faculty productivity metrics already exist. The gap is assembly speed and narrative consistency.'],['Relevant','The Board cannot defend philanthropic capital allocation without multi-dimensional ROI evidence. The FY2025 operating deficit (-$113M) and federal risk together require the Board to demonstrate every philanthropic dollar is producing measurable mission return.'],['Time-bound','FY2026: VERITAS ROI scorecard template live for Access & Affordability and Faculty Excellence pillars. FY2027: all six pillars. FY2028: real-time pillar dashboard replacing annual PDF compilation.'],['Evaluate','Evidence gate: Board members must answer five questions from the VERITAS ROI dashboard without requesting supplemental reports: (1) What did this fund produce? (2) Did it meet donor intent? (3) What is the risk? (4) What is the recommended next action? (5) Who owns it?'],['Readjust','If school-level data quality prevents real-time evidence completeness, establish a quarterly evidence sprint: school teams pre-verify evidence blocks 6 weeks before each Board cycle. VERITAS assembles; schools review; Board receives verified package.']],insight:'Replace the annual impact report cycle (3–5 months of manual assembly) with a continuously refreshed evidence layer. Every Board packet is already 90% assembled — the final 10% is school-specific narrative, approved in days not months.'},
+  {id:'07',kicker:'Goal 07 · Operational Life-Balance ROI',icon:'🌱',title:'50% reduction in manual report assembly hours for advancement teams by FY2027',metric:'50%↓',metricLabel:'Manual hours reduction FY2027',progress:18,progressLabel:'Current burden → 50% reduction target',badge:'build',badgeText:'Build',summary:'VERITAS converts recurring manual requests into reusable intelligence cards, restoring advancement professionals to relationship work.',rows:[['Specific','VERITAS converts recurring manual report requests — fund restriction checks, impact story pulls, financial aid narrative assembly, campaign metric refreshes — into reusable, pre-verified intelligence cards. Every card built once serves indefinitely with automated refresh triggers.'],['Measurable','Sector: 70% of nonprofits believe AI can reduce workload; 60% say they lack expertise to implement (2025 AI Equity Project). Harvard advancement teams spend an estimated 60–80% of reporting cycles on data gathering and assembly. VERITAS target: ≥50% time shift from assembly to relationship within 24 months.'],['Achievable','Business AI adoption reached 80% by 2025 (CEP). The operational ROI from reusable intelligence cards is immediate: first reuse eliminates duplication; 10th reuse eliminates the entire process. Harvard\'s data infrastructure makes this achievable faster than peer institutions.'],['Relevant','Advancement staff burnout is a sector-wide crisis — development staff burn out at alarming rates (Chronicle of Philanthropy, 2026). Harvard\'s talent retention in advancement depends on staff spending time on relationships, not data assembly. VERITAS is a retention strategy as much as a reporting strategy.'],['Time-bound','FY2026 gate: 20% reduction in one-off data pull requests from School teams. FY2027 target: 50% reduction in manual assembly hours. FY2028: VERITAS evidence library covers ≥80% of recurring Board and donor report needs.'],['Evaluate','VERITAS tracks: number of reusable cards created vs. used, one-off data pull requests (declining quarter-over-quarter target), average time from request to approved response (<24 hours for 80% of standard requests). Annual staff satisfaction survey — target: ≥75% report meaningful reduction in manual reporting burden.'],['Readjust','If card reuse rate falls below 3× (cards built but not discovered), add a VERITAS search and discovery layer. If school teams create parallel workarounds, convene governance session to standardize card formats and refresh cadences.']],insight:'When advancement professionals spend less time assembling data and more time building relationships, donor retention improves, major gift pipeline deepens, and institutional trust compounds. VERITAS does not replace advancement professionals — it restores them to the work only they can do.'}
+];
+
+/* ── RENDER COMPACT GOAL CARDS ── */
+const badgeColors={lead:'lead',build:'build',accelerate:'accelerate',monitor:'monitor'};
+const goalGrid=document.getElementById('goalGrid');
+GOALS.forEach((g,i)=>{
+  const dotColors=['d1','d2','d3','d4','d5','d6','d7'];
+  const dots=dotColors.map((d,j)=>`<div class="gc-dot ${d}" title="${['S','M','A','R','T','E','R'][j]}">${['S','M','A','R','T','E','R'][j]}</div>`).join('');
+  goalGrid.innerHTML+=`<div class="goal-card" onclick="openSMModal(${i})">
+    <div class="gc-inner">
+      <div class="gc-top"><div class="gc-num">${g.id}</div><span class="gc-badge ${g.badge}">${g.badgeText}</span></div>
+      <div class="gc-kicker">${g.kicker}</div>
+      <div class="gc-title">${g.title}</div>
+      <div class="gc-metric">${g.metric}</div>
+      <div class="gc-metric-label">${g.metricLabel}</div>
+      <div class="gc-dots">${dots}</div>
+      <div class="gc-prog-wrap">
+        <div class="gc-prog-labels"><span>${g.progressLabel}</span><span>${g.progress}%</span></div>
+        <div class="gc-bar"><span style="width:${g.progress}%"></span></div>
+      </div>
+    </div>
+    <div class="gc-cta"><i class="fa-solid fa-table-list"></i> View full SMARTER scorecard</div>
+  </div>`;
+});
+
+/* ── SMARTER MODAL ── */
+const smColors=['#A51C30','#c0922d','#1d5f9f','#167a5b','#A51C30','#c0922d','#1d5f9f'];
+function openSMModal(idx){
+  const g=GOALS[idx];
+  document.getElementById('smKicker').textContent=g.kicker;
+  document.getElementById('smTitle').textContent=g.title;
+  document.getElementById('smStats').innerHTML=`<div class="sm-stat"><div class="ss-val">${g.metric}</div><div class="ss-lbl">${g.metricLabel}</div></div><div class="sm-stat"><div class="ss-val">${g.progress}%</div><div class="ss-lbl">Progress</div></div><div class="sm-stat"><div class="ss-val" style="font-size:1rem">${g.badgeText}</div><div class="ss-lbl">Status</div></div>`;
+  document.getElementById('smProgLabel').textContent=g.progressLabel;
+  document.getElementById('smProgFill').style.width=g.progress+'%';
+  document.getElementById('smProgPct').textContent=g.progress+'%';
+  document.getElementById('smInsight').textContent=g.insight;
+  const labels=['S','M','A','R','T','E','R'];
+  const words=['Specific','Measurable','Achievable','Relevant','Time-bound','Evaluate','Readjust'];
+  let rows='';
+  g.rows.forEach((r,i)=>{
+    rows+=`<tr>
+      <td><div class="sm-dot-cell d${i+1}">${labels[i]}</div></td>
+      <td class="sm-label-cell">${words[i]}</td>
+      <td>${r[1]}</td>
+    </tr>`;
+  });
+  document.getElementById('smTable').innerHTML=rows;
+  document.getElementById('smModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeSMModal(){document.getElementById('smModal').classList.remove('open');document.body.style.overflow=''}
+
+/* ── CHARTS ── */
+const crimson='#A51C30',gold='#c0922d',navy='#172033',green='#167a5b',blue='#1d5f9f',muted='#dbe3ed',amber='#ba7517';
+Chart.register(ChartDataLabels);
+function chart(id,type,data,options={}){
+  const el=document.getElementById(id);
+  if(!el||!window.Chart)return;
+  const{plugins:optPlugins={},...rest}=options;
+  new Chart(el,{type,data,options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{position:'bottom',labels:{boxWidth:12,font:{size:11}}},
+      datalabels:{display:false},
+      ...optPlugins
+    },
+    ...rest
+  }});
+}
+
+chart('aidChart','bar',{
+  labels:['Financial aid\n& scholarships','Other operating\nexpenses'],
+  datasets:[{
+    label:'FY2025 ($ millions)',
+    data:[784,6016],
+    backgroundColor:[gold,muted],
+    borderWidth:0,
+    borderRadius:5
+  }]
+},{
+  scales:{
+    y:{ticks:{callback:v=>'$'+v.toLocaleString()+'M'},beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'}},
+    x:{grid:{display:false}}
+  },
+  plugins:{
+    legend:{display:false},
+    datalabels:{
+      display:true,
+      anchor:'end',
+      align:'top',
+      offset:4,
+      font:{weight:'bold',size:12,family:"'Aptos','Segoe UI',sans-serif"},
+      color:'#172033',
+      formatter:(v,ctx)=>{
+        const total=ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+        const pct=Math.round(v/total*100);
+        return '$'+v.toLocaleString()+'M\n('+pct+'% of ops)';
+      }
+    }
+  },
+  layout:{padding:{top:40}}
+});
+chart('restrictionChart','doughnut',{labels:['Donor-directed (80%+)','Partially flexible (18%)','Fully unrestricted (<5%)'],datasets:[{data:[80,18,2],backgroundColor:[crimson,gold,green],borderWidth:2,borderColor:'#fff'}]},{cutout:'62%'});
+chart('communityChart','bar',{
+  labels:['Donor households','Total gifts made'],
+  datasets:[{
+    label:'Harvard Campaign scale',
+    data:[153,633],
+    backgroundColor:[crimson,gold],
+    borderWidth:0,
+    borderRadius:5
+  }]
+},{
+  scales:{
+    y:{ticks:{callback:v=>v+'K'},beginAtZero:true,grid:{color:'rgba(0,0,0,.05)'},title:{display:true,text:'Thousands',font:{size:11},color:'#738096'}},
+    x:{grid:{display:false}}
+  },
+  plugins:{
+    legend:{display:false},
+    datalabels:{
+      display:true,
+      anchor:'center',
+      align:'center',
+      font:{weight:'bold',size:13,family:"'Aptos','Segoe UI',sans-serif"},
+      color:'#fff',
+      formatter:(v,ctx)=>{
+        const labels=['153,000+\nhouseholds','633,000+\ngifts'];
+        return labels[ctx.dataIndex];
+      }
+    }
+  },
+  layout:{padding:{top:10}}
+});
+chart('opsChart','bar',{labels:['Operating revenue','Operating expenses','Operating deficit'],datasets:[{label:'FY2025, $B (deficit $0.113B)',data:[6.7,6.8,.113],backgroundColor:[blue,navy,crimson],borderWidth:0}]},{scales:{y:{ticks:{callback:v=>'$'+v+'B'}}}});
+chart('purposeChart','doughnut',{labels:['Donor-directed (80%+)','Partially flexible','Fully unrestricted (<5%)'],datasets:[{data:[80,18,2],backgroundColor:[crimson,gold,green],borderColor:'#fff',borderWidth:2}]},{cutout:'58%'});
+chart('pillarMixChart','doughnut',{labels:['Access','Faculty','Research','Community','Stewardship','Future readiness'],datasets:[{data:[24,18,22,12,14,10],backgroundColor:[crimson,gold,blue,green,navy,'#8b5cf6'],borderColor:'rgba(255,255,255,.15)',borderWidth:2}]},{cutout:'58%',plugins:{legend:{position:'bottom',labels:{boxWidth:10,font:{size:10},color:'#e5edf7'}}}});
+chart('horizonChart','line',{labels:['Origin','Campaign','FY2025','Next horizon'],datasets:[{label:'Impact capacity index',data:[10,68,84,100],borderColor:crimson,backgroundColor:'rgba(165,28,48,.12)',fill:true,tension:.35,pointRadius:4}]},{scales:{y:{min:0,max:110,ticks:{callback:v=>v+' idx'}}}});
+chart('currentStewardChart','bar',{labels:['Endowment value','Aid & scholarships','Donor-directed value','Endowed funds'],datasets:[{label:'Normalized index',data:[100,78,80,72],backgroundColor:[crimson,gold,navy,blue],borderWidth:0}]},{scales:{y:{min:0,max:110,ticks:{callback:v=>v+' idx'}}}});
+chart('futureReadinessChart','radar',{labels:['Flexible capital','Verified evidence','Owner routing','Risk flags','Manual-work reduction','Response speed'],datasets:[{label:'Current model',data:[62,68,58,55,48,52],backgroundColor:'rgba(165,28,48,.12)',borderColor:crimson,pointBackgroundColor:crimson},{label:'VERITAS target',data:[82,88,86,84,90,88],backgroundColor:'rgba(192,146,45,.13)',borderColor:gold,pointBackgroundColor:gold}]},{scales:{r:{min:0,max:100,ticks:{display:false}}}});
+chart('projectionChart','line',{labels:['Now','Year 1','Year 2','Year 3'],datasets:[{label:'Base',data:[50,62,70,78],borderColor:blue,backgroundColor:'rgba(29,95,159,.08)',fill:false,tension:.35},{label:'Stretch',data:[50,68,82,96],borderColor:green,backgroundColor:'rgba(22,122,91,.08)',fill:false,tension:.35},{label:'Risk-adjusted',data:[50,57,63,70],borderColor:crimson,backgroundColor:'rgba(165,28,48,.08)',fill:false,tension:.35}]},{scales:{y:{min:40,max:100,ticks:{callback:v=>v+' ROI idx'}}}});
+chart('roiChart','bar',{labels:['Financial','Mission','Stewardship','Operational','Risk'],datasets:[{label:'Illustrative ROI score',data:[72,92,86,78,81],backgroundColor:[gold,crimson,navy,blue,green],borderWidth:0}]},{scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%'}}}});
+chart('giftTrend','bar',{labels:['FY2022 est.','FY2023 est.','FY2024','FY2025','FY2026 (H1 ann.)'],datasets:[{label:'Total gifts ($B)',data:[1.05,1.12,1.17,1.30,1.39],backgroundColor:[muted,muted,muted,crimson,gold],borderWidth:0,borderRadius:5}]},{scales:{y:{ticks:{callback:v=>'$'+v+'B'},title:{display:true,text:'Total gifts'}}}});
+chart('schoolCompose','doughnut',{labels:['FAS (25%)','Harvard Medical (18%)','Harvard Business (17%)','SEAS (3%)','Other schools (37%)'],datasets:[{data:[25,18,17,3,37],backgroundColor:[crimson,gold,navy,blue,'#94a3b8'],borderColor:'#fff',borderWidth:2}]},{cutout:'60%'});
+chart('riskBuffer','bar',{labels:['Total revenue','Endowment distribution','Federal research','Philanthropy total','Federal risk upper','H1 FY2026 gifts'],datasets:[{label:'$B',data:[6.7,2.5,0.74,3.8,1.7,1.39],backgroundColor:[navy,crimson,gold,green,'#ef4444','#22c55e'],borderWidth:0,borderRadius:4}]},{indexAxis:'y',scales:{x:{ticks:{callback:v=>'$'+v+'B'}}},plugins:{legend:{display:false}}});
+chart('smarterRadar','radar',{labels:['Revenue Growth','Donor Retention','AI Intelligence','Flexible Capital','Response Velocity','Mission ROI','Operational Lift'],datasets:[{label:'Current baseline',data:[87,22,8,38,28,55,18],backgroundColor:'rgba(165,28,48,.12)',borderColor:crimson,pointBackgroundColor:crimson},{label:'VERITAS FY2028 target',data:[100,40,100,65,95,100,80],backgroundColor:'rgba(192,146,45,.13)',borderColor:gold,pointBackgroundColor:gold}]},{scales:{r:{min:0,max:100,ticks:{display:false}}}});
+</script>
+</body>
+</html>
