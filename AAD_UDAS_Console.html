@@ -472,6 +472,17 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
 .signal-flow-step b{display:block;font-family:'Playfair Display',serif;font-size:.9rem;color:var(--navy);margin-bottom:4px}
 .signal-flow-step span{font-size:.67rem;color:var(--muted);line-height:1.4;display:block}
 @media(max-width:1000px){.signal-console-grid{grid-template-columns:1fr}.signal-flow{grid-template-columns:1fr}.signal-mini-metrics{grid-template-columns:1fr}.whisper-row{grid-template-columns:1fr}}
+<!-- VERITAS_SUITE_UNIFIED_CSS_START -->
+.veritas-suite-pair-banner{background:#101820;color:#fff;border-top:3px solid #C69214;border-bottom:1px solid rgba(255,255,255,.12);padding:14px clamp(18px,3vw,28px);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
+.veritas-suite-pair-banner .vsp-kicker{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:#D7B45D;font-weight:900;margin-bottom:3px}
+.veritas-suite-pair-banner .vsp-title{font-family:Georgia,serif;font-size:1.05rem;font-weight:800;line-height:1.18}
+.veritas-suite-pair-banner .vsp-copy{font-size:.78rem;color:rgba(255,255,255,.68);line-height:1.45;margin-top:3px}
+.veritas-suite-pair-banner .vsp-actions{display:grid;grid-template-columns:repeat(2,minmax(126px,1fr));gap:7px}
+.veritas-suite-pair-banner .vsp-actions a{display:flex;align-items:center;justify-content:center;text-align:center;min-height:32px;border-radius:7px;border:1px solid rgba(255,255,255,.18);padding:6px 9px;color:#fff;text-decoration:none;font-size:.66rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;line-height:1.15}
+.veritas-suite-pair-banner .vsp-actions a.report{background:#A51C30;border-color:#A51C30}
+.veritas-suite-pair-banner .vsp-actions a.console{background:#C69214;border-color:#C69214;color:#101820}
+@media(max-width:780px){.veritas-suite-pair-banner{grid-template-columns:1fr}.veritas-suite-pair-banner .vsp-actions{grid-template-columns:1fr 1fr}}
+<!-- VERITAS_SUITE_UNIFIED_CSS_END -->
 </style>
 
 
@@ -573,7 +584,7 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
 .hrt-track{height:8px;border-radius:999px;background:rgba(255,255,255,.12);overflow:hidden}.hrt-fill{height:100%;width:0;background:linear-gradient(90deg,var(--crimson),var(--gold-light));border-radius:999px;transition:width .25s ease}
 .hrt-nav{display:flex;flex-direction:column;gap:5px}.hrt-item{display:grid;grid-template-columns:28px 1fr 17px;gap:8px;align-items:center;width:100%;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.045);color:rgba(255,255,255,.74);border-radius:8px;padding:8px 8px;text-align:left;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .15s}
 .hrt-item:hover{background:rgba(255,255,255,.1);color:#fff}.hrt-item.active{background:rgba(198,146,20,.18);border-color:rgba(198,146,20,.55);color:#fff}.hrt-item.done{border-color:rgba(29,158,117,.38)}
-.hrt-num{font-size:.58rem;font-weight:900;letter-spacing:.5px;color:var(--gold-light)}.hrt-label{font-size:.7rem;line-height:1.25;font-weight:700}.hrt-check{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.28);display:block;cursor:pointer;position:relative}.hrt-check::after{content:'';position:absolute;inset:-8px;border-radius:999px}.hrt-item.done .hrt-check{background:var(--green);border-color:var(--green);box-shadow:0 0 0 2px rgba(29,158,117,.15)}.hrt-item.done .hrt-check::before{content:'✓';display:flex;align-items:center;justify-content:center;font-size:.62rem;line-height:1;color:#fff;font-weight:900}.hrt-item .hrt-label::after{content:'  • click circle to check/uncheck';display:block;font-size:.54rem;font-weight:500;color:rgba(255,255,255,.38);margin-top:2px}.hrt-item.active .hrt-label::after{color:rgba(255,255,255,.56)}
+.hrt-num{font-size:.58rem;font-weight:900;letter-spacing:.5px;color:var(--gold-light)}.hrt-label{font-size:.7rem;line-height:1.25;font-weight:700}.hrt-check{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.28);display:block;cursor:pointer;position:relative}.hrt-check::after{content:'';position:absolute;inset:-8px;border-radius:999px}.hrt-item.done .hrt-check{background:var(--green);border-color:var(--green);box-shadow:0 0 0 2px rgba(29,158,117,.15)}.hrt-item.done .hrt-check::before{content:'✓';display:flex;align-items:center;justify-content:center;font-size:.62rem;line-height:1;color:#fff;font-weight:900}.hrt-item .hrt-label::after{content:none!important;display:none!important}.hrt-item.active .hrt-label::after{content:none!important;display:none!important}
 .hrt-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:11px}.hrt-actions button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.07);color:#fff;border-radius:8px;padding:8px 7px;font-size:.62rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;cursor:pointer}.hrt-actions button:hover{background:rgba(198,146,20,.18)}
 @media(min-width:1180px){
   #app{padding-left:var(--suite-reading-w)!important;}
@@ -621,6 +632,83 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
 .school-program-strip{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.school-program-strip span{background:#fff7ed;border:1px solid #f1d48c;color:#7a4d00;border-radius:999px;padding:5px 9px;font-size:.64rem;font-weight:800;letter-spacing:.3px}.series-title{color:#111!important}.section-panel{width:100%!important}.page{max-width:none!important;width:100%!important;padding-left:18px!important;padding-right:18px!important}.suite-sync-row{margin-left:0!important;padding-left:12px!important}.suite-sync-row .series-title{margin-left:0!important;padding-left:0!important;color:#111!important}@media(max-width:900px){.school-anchor-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.school-anchor-grid{grid-template-columns:1fr}}
 </style>
 
+
+<style id="implementation-layer-github-link-patch">
+/* Section 12 GitHub link + masthead refinement */
+#s12 .system-panel{padding:0!important;overflow:hidden;border-radius:14px!important;border:1px solid var(--border)!important;box-shadow:0 14px 34px rgba(15,23,42,.08)!important;background:#fff!important;}
+#s12 .impl-masthead{background:linear-gradient(135deg,#0d0d10 0%,#171923 52%,#2a1017 100%);color:#fff;padding:24px 28px 22px;border-bottom:4px solid var(--gold);position:relative;overflow:hidden;}
+#s12 .impl-masthead::after{content:'VERITAS';position:absolute;right:-18px;bottom:-28px;font-family:'Playfair Display',serif;font-size:5.4rem;font-weight:900;letter-spacing:.12em;color:rgba(255,255,255,.035);pointer-events:none;}
+#s12 .impl-kicker{font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);font-weight:900;margin-bottom:8px;position:relative;z-index:1;}
+#s12 .impl-title{font-family:'Playfair Display',serif;font-size:clamp(1.45rem,3vw,2.1rem);font-weight:900;line-height:1.08;margin:0 0 10px;color:#fff;position:relative;z-index:1;}
+#s12 .impl-title em{color:var(--gold-light);font-style:italic;}
+#s12 .impl-dek{font-size:.82rem;line-height:1.62;color:rgba(255,255,255,.75);max-width:960px;margin:0;position:relative;z-index:1;}
+#s12 .impl-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;position:relative;z-index:1;}
+#s12 .impl-actions a{display:inline-flex;align-items:center;justify-content:center;border-radius:8px;min-height:34px;padding:8px 12px;font-size:.62rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid rgba(255,255,255,.16);color:#fff;background:rgba(255,255,255,.08);}
+#s12 .impl-actions a.primary{background:var(--gold);border-color:var(--gold);color:#111;}
+#s12 .impl-actions a.report{background:var(--crimson);border-color:var(--crimson);}
+#s12 .impl-body{padding:20px;}
+#s12 .system-dek{margin-bottom:16px!important;}
+#s12 .system-card .series-btn{display:inline-flex;align-items:center;justify-content:center;margin-right:6px;}
+#s12 .system-card.active-layer{background:linear-gradient(135deg,#fff,#fff7ed)!important;border-top-color:var(--green)!important;}
+#s12 .github-pill{display:inline-flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid var(--border);border-radius:999px;padding:5px 9px;font-size:.6rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);margin:0 0 12px;}
+#s12 .github-pill i{color:var(--gold);}
+@media(max-width:760px){#s12 .impl-masthead{padding:20px 18px}#s12 .impl-body{padding:16px}#s12 .impl-actions a{width:100%;}}
+</style>
+
+
+<style id="veritas-masthead-background-final-fix">
+/* Final masthead background + button fix */
+#app .veritas-suite-pair-banner.no-print,
+#app .veritas-suite-pair-banner{
+  position:relative!important;
+  isolation:isolate!important;
+  overflow:hidden!important;
+  background:
+    radial-gradient(circle at 6% 20%, rgba(198,146,20,.34) 0, rgba(198,146,20,.08) 28%, transparent 45%),
+    radial-gradient(circle at 92% 20%, rgba(164,16,52,.28) 0, transparent 38%),
+    linear-gradient(135deg,#09090b 0%,#101820 45%,#241017 100%)!important;
+  color:#fff!important;
+  border-top:3px solid #C69214!important;
+  border-bottom:1px solid rgba(255,255,255,.16)!important;
+  box-shadow:0 14px 34px rgba(0,0,0,.22)!important;
+  padding:16px clamp(18px,3vw,30px)!important;
+}
+#app .veritas-suite-pair-banner::before{
+  content:''!important;
+  position:absolute!important;
+  inset:0!important;
+  z-index:-1!important;
+  background:
+    linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px),
+    linear-gradient(0deg,rgba(255,255,255,.035) 1px,transparent 1px)!important;
+  background-size:38px 38px!important;
+  opacity:.45!important;
+  pointer-events:none!important;
+}
+#app .veritas-suite-pair-banner .vsp-kicker{color:#E8B84B!important;text-shadow:0 1px 2px rgba(0,0,0,.35)!important;}
+#app .veritas-suite-pair-banner .vsp-title{color:#fff!important;font-family:'Playfair Display',Georgia,serif!important;font-size:1.12rem!important;line-height:1.16!important;}
+#app .veritas-suite-pair-banner .vsp-copy{color:rgba(255,255,255,.78)!important;}
+#app .veritas-suite-pair-banner .vsp-actions a{
+  color:#fff!important;
+  border-color:rgba(255,255,255,.18)!important;
+  box-shadow:0 6px 16px rgba(0,0,0,.18)!important;
+  transition:transform .15s ease, filter .15s ease, box-shadow .15s ease!important;
+}
+#app .veritas-suite-pair-banner .vsp-actions a:hover{transform:translateY(-1px)!important;filter:brightness(1.08)!important;text-decoration:none!important;box-shadow:0 10px 22px rgba(0,0,0,.24)!important;}
+#app .veritas-suite-pair-banner .vsp-actions a:nth-child(1),
+#app .veritas-suite-pair-banner .vsp-actions a.report{background:linear-gradient(135deg,#A41034,#7B0C27)!important;}
+#app .veritas-suite-pair-banner .vsp-actions a:nth-child(2),
+#app .veritas-suite-pair-banner .vsp-actions a.console{background:linear-gradient(135deg,#C69214,#9A6E0C)!important;color:#101820!important;}
+#app .veritas-suite-pair-banner .vsp-actions a:nth-child(3){background:linear-gradient(135deg,#1B2A4A,#2C3E6B)!important;}
+#app .veritas-suite-pair-banner .vsp-actions a:nth-child(4){background:linear-gradient(135deg,#25623A,#1D9E75)!important;}
+#app .hks-reading-track .hrt-note,
+#app .suite-reading-track .hrt-note{color:rgba(255,255,255,.6)!important;}
+#app .hks-reading-track .hrt-sub,
+#app .suite-reading-track .hrt-sub{display:none!important;}
+#app .hks-reading-track .hrt-label::after,
+#app .suite-reading-track .hrt-label::after{content:none!important;display:none!important;}
+</style>
+
 </head>
 <body>
 
@@ -650,8 +738,8 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
     <div class="attr-text">
       <div class="attr-name">Narissara Khomkhai</div>
       <div class="attr-role">Data Architect &amp; Strategist · Gift Fund Reporting Specialist<br>Harvard FAS · Phillips Academy · UAMS Institutional Advancement</div>
-      <a class="attr-link" href="https://nasdaqguru.github.io" target="_blank" rel="noopener">
-        <i class="fas fa-external-link-alt" style="font-size:.55rem"></i> nasdaqguru.github.io
+      <a class="attr-link" href="https://nasdaqguru.github.io/UDAS_Resume.html" target="_blank" rel="noopener">
+        <i class="fas fa-external-link-alt" style="font-size:.55rem"></i> UDAS_Resume.html
       </a>
     </div>
   </div>
@@ -697,15 +785,15 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
     <div class="header-brand">
       <div class="header-seal">AA&D / UD&AS</div>
       <div>
-        <div class="header-title">Harvard Alumni Affairs & Development / UD&AS — Development Office</div>
-        <div class="header-sub">Central Advancement Operations &amp; VERITAS Console · FY2026 Strategic Demo</div>
+        <div class="header-title">AA&amp;D / UD&amp;AS — School-Level Implementation Layer</div>
+        <div class="header-sub">VERITAS Progress Console · Central Advancement Operations · FY2026 Strategic Demo</div>
       </div>
     </div>
     <div class="header-right">
-      <a class="header-badge-link" href="https://nasdaqguru.github.io" target="_blank" rel="noopener">
+      <a class="header-badge-link" href="https://nasdaqguru.github.io/UDAS_Resume.html" target="_blank" rel="noopener">
         <i class="fas fa-external-link-alt" style="margin-right:4px;font-size:.55rem"></i>Portfolio
       </a>
-      <div class="header-avatar" title="Narissara Khomkhai · nasdaqguru.github.io" onclick="window.open('https://nasdaqguru.github.io','_blank')">
+      <div class="header-avatar" title="Narissara Khomkhai · UDAS_Resume.html" onclick="window.open('https://nasdaqguru.github.io/UDAS_Resume.html','_blank')">
         <div class="hav-glow"></div>
         <div class="hav-inner">
           <img src="profile-pic.jpg" alt="NK" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -716,21 +804,29 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
   </div>
 </header>
 
-
-<div class="series-banner no-print suite-sync-row">
-  <div class="series-label">Synchronized Report Set</div>
-  <div class="series-title">AA&D / UD&AS school-level stewardship report connected to the VERITAS Console, portfolio, and news-alerts reports.</div>
-  <a href="Harvard_UAAD_AI_Propopal.html" target="_blank" class="series-btn gold">🚆 AI Proposal</a>
-  <a href="Main_Console.html" target="_blank" class="series-btn">🧭 VERITAS</a>
-  <a href="Harvard_Report_Overview.html" target="_blank" class="series-btn">🗂 Harvard Portfolio · Overall</a>
-  <a href="harvard-news-alerts.html" target="_blank" class="series-btn">📰 News Alerts</a>
+<!-- VERITAS_SUITE_PAIR_BANNER_START -->
+<div class="veritas-suite-pair-banner no-print">
+  <div>
+    <div class="vsp-kicker">Unified VERITAS Suite</div>
+    <div class="vsp-title">AA&amp;D / UD&amp;AS as the School-Level Implementation Layer</div>
+    <div class="vsp-copy">Use this masthead to move between the GitHub-hosted console, central operational report, suite hub, and VERITAS proposal.</div>
+  </div>
+  <div class="vsp-actions">
+    <a class="report" href="https://nasdaqguru.github.io/VP_Report.html" target="_blank" rel="noopener">Operational Report</a>
+    <a class="console" href="https://nasdaqguru.github.io/AAD_UDAS_Console.html" target="_blank" rel="noopener">Progress Console</a>
+    <a href="https://nasdaqguru.github.io/Report_Overview.html" target="_blank" rel="noopener">Paired Hub</a>
+    <a href="https://nasdaqguru.github.io/VERITAS_AI_Proposal.html" target="_blank" rel="noopener">VERITAS AI Proposal</a>
+  </div>
 </div>
+<!-- VERITAS_SUITE_PAIR_BANNER_END -->
+
+
 
 <!-- ════ LEFT READING TRACK PANEL — SCHOOL SUITE STYLE ════ -->
 <aside class="fas-reading-track suite-reading-track no-print" id="fasReadingTrack" aria-label="Executive Reading Track">
   <div class="hrt-kicker">Executive Reading Track</div>
   <div class="hrt-title">AA&D / UD&AS VERITAS Console</div>
-  <div class="hrt-note">Use this panel to move through the report. Click a section title to open it, or click the circle to check/uncheck it.</div>
+  <div class="hrt-note">Use this panel to move through the report and track completion.</div>
   <div class="hrt-progress-box">
     <div class="hrt-progress-row">
       <div class="hrt-progress-num" id="hrtPct">0%</div>
@@ -775,7 +871,7 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
     </div>
     <div class="hks-suite-visual">
       <div class="hks-map-title">From Fund Data to Leadership Action</div>
-      <div class="hks-map-sub">A school-level view that plugs into the master UAAD suite: fund activity becomes stewardship intelligence; stewardship intelligence becomes clearer priorities for development leadership.</div>
+      <div class="hks-map-sub">A school-level view that plugs into the master VERITAS suite: fund activity becomes stewardship intelligence; stewardship intelligence becomes clearer priorities for development leadership.</div>
       <div class="hks-signal-map">
         <div class="hks-map-node"><div class="hks-map-icon">🏛️</div><b>Gift Fund Portfolio</b><span>Balances · income · restrictions · purpose alignment</span></div>
         <div class="hks-map-arrow">→</div>
@@ -1724,7 +1820,7 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
 
 <!-- COPYRIGHT -->
 <div class="copyright-footer">
-  © 2025 Narissara Khomkhai · Portfolio Case Study · <a href="https://nasdaqguru.github.io" target="_blank" rel="noopener" style="color:var(--crimson)">NasdaqGuru.github.io</a> · Not an official Harvard University document · All data at fund/gift level is illustrative
+  © 2025 Narissara Khomkhai · Portfolio Case Study · <a href="https://nasdaqguru.github.io/UDAS_Resume.html" target="_blank" rel="noopener" style="color:var(--crimson)">UDAS_Resume.html</a> · Not an official Harvard University document · All data at fund/gift level is illustrative
 </div>
 
 </div><!-- /.page -->
@@ -1814,64 +1910,78 @@ body{font-family:'DM Sans',sans-serif;background:#eef0f5;color:var(--text);line-
 
 <div class="section-panel" id="s12">
   <div class="system-panel">
-    <div class="system-heading">AA&D / UD&AS as the School-Level Implementation Layer</div>
-    <div class="system-dek">This report now sits inside the same synchronized report set. The VERITAS Console explains the long-range disruption, the portfolio report defines the UD&amp;AS operating architecture, the alerts report monitors external signals, and the AA&D / UD&AS report shows how the architecture becomes a school-level stewardship, fund, pledge, donor, and campaign management dashboard.</div>
-    <div class="system-grid">
-      <div class="system-card">
-        <h4>VERITAS Console</h4>
-        <p>AI transition, economic resilience, demographic futures, planned giving, and campaign architecture.</p>
-        <a href="Main_Console.html" target="_blank" class="series-btn gold" style="margin-top:10px">Open VERITAS Console</a>
-      </div>
-      <div class="system-card">
-        <h4>Portfolio Operations</h4>
-        <p>Central data spine, gift admin automation, matrix governance, dashboards, and solutions ecosystem.</p>
-        <a href="harvard-portfolio.html" target="_blank" class="series-btn" style="margin-top:10px">Open Portfolio</a>
-      </div>
-      <div class="system-card">
-        <h4>AI News Alerts</h4>
-        <p>Public signal monitoring for policy, markets, AI regulation, peer campaigns, and proposal timing.</p>
-        <a href="harvard-news-alerts.html" target="_blank" class="series-btn" style="margin-top:10px">Open Alerts</a>
-      </div>
-      <div class="system-card">
-        <h4>AA&D / UD&AS Stewardship</h4>
-        <p>School-level proof of use: fund reporting, pledge follow-up, donor analysis, budget review, and campaign execution.</p>
+    <div class="impl-masthead">
+      <div class="impl-kicker">Unified VERITAS Suite · GitHub Navigation</div>
+      <div class="impl-title">AA&amp;D / UD&amp;AS as the <em>School-Level Implementation Layer</em></div>
+      <p class="impl-dek">This section is the live handoff layer between the central VERITAS strategy and school-facing execution. Every button now routes to the GitHub Pages version of the report suite so the reader never lands on a local or broken file path.</p>
+      <div class="impl-actions">
+        <a class="primary" href="https://nasdaqguru.github.io/AAD_UDAS_Console.html" target="_blank" rel="noopener">Open Progress Console</a>
+        <a class="report" href="https://nasdaqguru.github.io/VP_Report.html" target="_blank" rel="noopener">Open Central Report</a>
+        <a href="https://nasdaqguru.github.io/Report_Overview.html" target="_blank" rel="noopener">Open Paired Hub</a>
+        <a href="https://nasdaqguru.github.io/VERITAS_AI_Proposal.html" target="_blank" rel="noopener">Open VERITAS Proposal</a>
       </div>
     </div>
-    <div class="system-grid">
-      <div class="system-card"><h4>Prospect Research</h4><p>Capacity, relationship, alumni news, and timing validation.</p><a href="prospect-research-planning.html" target="_blank" class="series-btn" style="margin-top:10px">Open report</a></div>
-      <div class="system-card"><h4>Donor Relations</h4><p>Recognition, pledge care, stewardship, and student impact stories.</p><a href="donor-relations.html" target="_blank" class="series-btn" style="margin-top:10px">Open report</a></div>
-      <div class="system-card"><h4>Corp/Foundation</h4><p>Institutional funders, corporate partners, RFPs, and proposal timing.</p><a href="corporate-foundation-relations.html" target="_blank" class="series-btn" style="margin-top:10px">Open report</a></div>
-      <div class="system-card"><h4>Alumni + Events</h4><p>Alumni engagement and events that convert news moments into relationship movement.</p><a href="alumni-engagement.html" target="_blank" class="series-btn" style="margin-top:10px">Open alumni</a> <a href="advancement-event-planning.html" target="_blank" class="series-btn" style="margin-top:10px">Open events</a></div>
+    <div class="impl-body">
+      <div class="github-pill"><i class="fas fa-link"></i> All links in this layer point to https://nasdaqguru.github.io/</div>
+      <div class="system-dek">This report now sits inside the same synchronized report set. The VERITAS Console explains the long-range disruption, the portfolio report defines the UD&amp;AS operating architecture, the priority and risk report monitors external signals, and the AA&amp;D / UD&amp;AS console shows how the architecture becomes a school-level stewardship, fund, pledge, donor, and campaign management dashboard.</div>
+      <div class="system-grid">
+        <div class="system-card active-layer">
+          <h4>AA&amp;D / UD&amp;AS Console</h4>
+          <p>School-level proof of use: fund reporting, pledge follow-up, donor analysis, budget review, campaign execution, signals, and reading-track progress.</p>
+          <a href="https://nasdaqguru.github.io/AAD_UDAS_Console.html" target="_blank" rel="noopener" class="series-btn gold" style="margin-top:10px">Open Console</a>
+        </div>
+        <div class="system-card">
+          <h4>Portfolio Operations</h4>
+          <p>Central data spine, gift admin automation, matrix governance, dashboards, and solutions ecosystem.</p>
+          <a href="https://nasdaqguru.github.io/VP_Report.html" target="_blank" rel="noopener" class="series-btn" style="margin-top:10px">Open Central Report</a>
+        </div>
+        <div class="system-card">
+          <h4>Priority + Risk Alerts</h4>
+          <p>Public signal monitoring for policy, markets, AI regulation, peer campaigns, proposal timing, and campaign risk routing.</p>
+          <a href="https://nasdaqguru.github.io/VERITAS_Priority_Risk_Report.html" target="_blank" rel="noopener" class="series-btn" style="margin-top:10px">Open Alerts</a>
+        </div>
+        <div class="system-card">
+          <h4>Suite Overview</h4>
+          <p>Unified navigation for paired operational reports and progress consoles across the GitHub-hosted report suite.</p>
+          <a href="https://nasdaqguru.github.io/Report_Overview.html" target="_blank" rel="noopener" class="series-btn" style="margin-top:10px">Open Hub</a>
+        </div>
+      </div>
+      <div class="system-grid">
+        <div class="system-card"><h4>Prospect Research</h4><p>Capacity, relationship, alumni news, and timing validation.</p><a href="https://nasdaqguru.github.io/VP_Report.html#s-prospect" target="_blank" rel="noopener" class="series-btn" style="margin-top:10px">Open report</a></div>
+        <div class="system-card"><h4>Donor Relations</h4><p>Recognition, pledge care, stewardship, and student impact stories.</p><a href="https://nasdaqguru.github.io/VP_Report.html#s-donor-rel" target="_blank" rel="noopener" class="series-btn" style="margin-top:10px">Open report</a></div>
+        <div class="system-card"><h4>Corp/Foundation</h4><p>Institutional funders, corporate partners, RFPs, and proposal timing.</p><a href="https://nasdaqguru.github.io/VP_Report.html#s-corp" target="_blank" rel="noopener" class="series-btn" style="margin-top:10px">Open report</a></div>
+        <div class="system-card"><h4>Alumni + Events</h4><p>Alumni engagement and events that convert news moments into relationship movement.</p><a href="https://nasdaqguru.github.io/VP_Report.html#s-alumni" target="_blank" rel="noopener" class="series-btn" style="margin-top:10px">Open alumni</a> <a href="https://nasdaqguru.github.io/VP_Report.html#s-events" target="_blank" rel="noopener" class="series-btn" style="margin-top:10px">Open events</a></div>
+      </div>
+      <table class="system-table">
+        <thead><tr><th>AA&amp;D / UD&amp;AS Report Area</th><th>Portfolio Capability</th><th>Intelligence Console Topic</th><th>Alert Watchlist</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Gift fund reports</strong>Fund balances, distribution status, donor restrictions, and stewardship readiness.</td>
+            <td><strong>Data Models</strong>Central Master ID, fund coding, and cross-school reporting standards.</td>
+            <td><strong>Sustainable model</strong>Endowment-first philanthropy and durable donor trust.</td>
+            <td><strong>Policy and market</strong>Payout pressure, endowment-market movement, and restricted-fund compliance changes.</td>
+          </tr>
+          <tr>
+            <td><strong>Donor analysis</strong>Retention, segmentation, donor value, and relationship movement.</td>
+            <td><strong>Gift Pipeline</strong>Principal-gift stages, portfolio prioritization, and prospect intelligence.</td>
+            <td><strong>Demographic futures</strong>Depth over volume as the long-term donor pool contracts.</td>
+            <td><strong>Reputation and region</strong>Donor reputation, alumni mobility, regional giving shifts, and peer moves.</td>
+          </tr>
+          <tr>
+            <td><strong>Pledge tracking</strong>Receivables, payment risk, collection pace, and pledge stewardship.</td>
+            <td><strong>Dashboards</strong>Leadership-ready finance and campaign pacing views.</td>
+            <td><strong>Economic resilience</strong>Liquidity timing, donor fragility, and volatility playbooks.</td>
+            <td><strong>Liquidity signals</strong>IPO/M&amp;A windows, rates, market stress, and donor capacity changes.</td>
+          </tr>
+          <tr>
+            <td><strong>Strategic plan</strong>Campaign gap, planned giving, ROI, and school-level execution priorities.</td>
+            <td><strong>Roadmap</strong>S.M.A.R.T.E.R goals, lifecycle planning, and solutions ecosystem deployment.</td>
+            <td><strong>Campaign architecture</strong>FY26-FY75 roadmap and planned-giving acceleration.</td>
+            <td><strong>Opportunity alerts</strong>Research breakthroughs, policy windows, alumni leadership news, current-student achievements, and case-for-support timing.</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table class="system-table">
-      <thead><tr><th>AA&D / UD&AS Report Area</th><th>Portfolio Capability</th><th>Intelligence Console Topic</th><th>Alert Watchlist</th></tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Gift fund reports</strong>Fund balances, distribution status, donor restrictions, and stewardship readiness.</td>
-          <td><strong>Data Models</strong>Central Master ID, fund coding, and cross-school reporting standards.</td>
-          <td><strong>Sustainable model</strong>Endowment-first philanthropy and durable donor trust.</td>
-          <td><strong>Policy and market</strong>Payout pressure, endowment-market movement, and restricted-fund compliance changes.</td>
-        </tr>
-        <tr>
-          <td><strong>Donor analysis</strong>Retention, segmentation, donor value, and relationship movement.</td>
-          <td><strong>Gift Pipeline</strong>Principal-gift stages, portfolio prioritization, and prospect intelligence.</td>
-          <td><strong>Demographic futures</strong>Depth over volume as the long-term donor pool contracts.</td>
-          <td><strong>Reputation and region</strong>Donor reputation, alumni mobility, regional giving shifts, and peer moves.</td>
-        </tr>
-        <tr>
-          <td><strong>Pledge tracking</strong>Receivables, payment risk, collection pace, and pledge stewardship.</td>
-          <td><strong>Dashboards</strong>Leadership-ready finance and campaign pacing views.</td>
-          <td><strong>Economic resilience</strong>Liquidity timing, donor fragility, and volatility playbooks.</td>
-          <td><strong>Liquidity signals</strong>IPO/M&amp;A windows, rates, market stress, and donor capacity changes.</td>
-        </tr>
-        <tr>
-          <td><strong>Strategic plan</strong>Campaign gap, planned giving, ROI, and school-level execution priorities.</td>
-          <td><strong>Roadmap</strong>S.M.A.R.T.E.R goals, lifecycle planning, and solutions ecosystem deployment.</td>
-          <td><strong>Campaign architecture</strong>FY26-FY75 roadmap and planned-giving acceleration.</td>
-          <td><strong>Opportunity alerts</strong>Research breakthroughs, policy windows, alumni leadership news, current-student achievements, and case-for-support timing.</td>
-        </tr>
-      </tbody>
-    </table>
   </div>
 </div>
 
@@ -2095,59 +2205,6 @@ document.querySelectorAll('#rb10 .rb').forEach(function(b){b.addEventListener('c
 
 })();
 </script>
-
-
-<script>
-(function(){
-  function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded', fn); }
-  ready(function(){
-    var sections = Array.prototype.slice.call(document.querySelectorAll('#mainNav .ss-btn')).map(function(btn){
-      return {id:btn.getAttribute('data-sec'), label:btn.textContent.replace(/^[^A-Za-z0-9]+/,'').trim(), btn:btn};
-    });
-    var nav = document.getElementById('hrtNav');
-    if(!nav || !sections.length) return;
-    var total = sections.length;
-    document.getElementById('hrtTotal').textContent = total;
-    var read = new Set(JSON.parse(localStorage.getItem('hksReadSections') || '[]'));
-    function save(){ localStorage.setItem('hksReadSections', JSON.stringify(Array.from(read))); }
-    function currentId(){ var active=document.querySelector('#mainNav .ss-btn.active'); return active ? active.getAttribute('data-sec') : 's0'; }
-    function go(id){
-      var btn=document.querySelector('#mainNav .ss-btn[data-sec="'+id+'"]');
-      if(btn){ btn.click(); window.scrollTo({top:0,behavior:'smooth'}); }
-    }
-    function render(){
-      nav.innerHTML='';
-      var cur=currentId();
-      sections.forEach(function(s,idx){
-        var b=document.createElement('button');
-        b.type='button';
-        b.className='hrt-item'+(s.id===cur?' active':'')+(read.has(s.id)?' done':'');
-        b.innerHTML='<span class="hrt-num">'+String(idx).padStart(2,'0')+'</span><span class="hrt-label">'+s.label+'</span><span class="hrt-check"></span>';
-        b.addEventListener('click',function(){ go(s.id); read.add(s.id); save(); setTimeout(render,50); });
-        nav.appendChild(b);
-      });
-      var done=read.size, pct=Math.round(done/total*100);
-      document.getElementById('hrtDone').textContent=done;
-      document.getElementById('hrtPct').textContent=pct+'%';
-      document.getElementById('hrtFill').style.width=pct+'%';
-    }
-    sections.forEach(function(s){
-      s.btn.addEventListener('click', function(){ read.add(s.id); save(); setTimeout(render,30); });
-    });
-    var mark=document.getElementById('hrtMark');
-    if(mark) mark.addEventListener('click',function(){ read.add(currentId()); save(); render(); });
-    var reset=document.getElementById('hrtReset');
-    if(reset) reset.addEventListener('click',function(){ read.clear(); save(); render(); });
-    // Keep the AA&D / UD&AS report on its opening dashboard after cover entry.
-    var enter=document.getElementById('enterBtn');
-    if(enter){ enter.addEventListener('click',function(){ setTimeout(function(){ go('s0'); render(); },160); }); }
-    render();
-  });
-})();
-</script>
-
-
-
 <script>
 (function(){
   var samples={
@@ -2235,81 +2292,6 @@ document.querySelectorAll('#rb10 .rb').forEach(function(b){b.addEventListener('c
   if(document.readyState!=='loading'){setView('prospect');render('continent');}
 })();
 </script>
-
-
-<script id="suite-final-reading-toggle-js">
-(function(){
-  function q(sel, root){ return (root||document).querySelector(sel); }
-  function qa(sel, root){ return Array.from((root||document).querySelectorAll(sel)); }
-  function currentSchool(){
-    var t = q('.header-title')?.textContent || q('.cover-eyebrow')?.textContent || document.title || 'School';
-    if(/Harvard Kennedy|AA&D / UD&AS/i.test(t)) return 'AA&D / UD&AS';
-    if(/Business|HBS/i.test(t)) return 'HBS';
-    if(/Medical|HMS/i.test(t)) return 'HMS';
-    if(/Engineering|SEAS|Paulson/i.test(t)) return 'SEAS';
-    if(/Law|HLS/i.test(t)) return 'HLS';
-    if(/Arts|Sciences|FAS/i.test(t)) return 'FAS';
-    return 'School';
-  }
-  function ensureReadingTrack(){
-    var app = q('#app'); if(!app) return null;
-    var rt = q('#fasReadingTrack');
-    if(!rt){
-      var aside = document.createElement('aside');
-      aside.className = 'fas-reading-track no-print';
-      aside.id = 'fasReadingTrack';
-      aside.setAttribute('aria-label','Executive Reading Track');
-      aside.innerHTML = '<div class="hrt-kicker">Executive Reading Track</div><div class="hrt-title">'+currentSchool()+' VERITAS Console</div><div class="hrt-note">Use this panel to move through the report. Click a section title to open it, or click the circle to check/uncheck it.</div><div class="hrt-progress-box"><div class="hrt-progress-row"><div class="hrt-progress-num" id="hrtPct">0%</div><div class="hrt-progress-label"><span id="hrtDone">0</span>/<span id="hrtTotal">0</span><br>sections read</div></div><div class="hrt-track"><div class="hrt-fill" id="hrtFill"></div></div></div><div class="hrt-nav" id="hrtNav"></div><div class="hrt-actions"><button type="button" id="hrtMark">Toggle Read</button><button type="button" id="hrtReset">Reset</button></div>';
-      var banner = q('.series-banner', app);
-      app.insertBefore(aside, banner ? banner.nextSibling : app.firstChild);
-      rt = aside;
-    }
-    return rt;
-  }
-  function initReadingTrack(){
-    var rt = ensureReadingTrack(); if(!rt) return;
-    var nav = q('#hrtNav'); if(!nav) return;
-    var buttons = qa('.section-selector .ss-btn');
-    if(!buttons.length) return;
-    var key = 'school-reading-track-v3:' + location.pathname.split('/').pop();
-    var done = {};
-    try{ done = JSON.parse(localStorage.getItem(key)||'{}') || {}; }catch(e){ done = {}; }
-    function activeId(){ return q('.section-panel.active')?.id || buttons[0]?.dataset.sec; }
-    function save(){ try{ localStorage.setItem(key, JSON.stringify(done)); }catch(e){} }
-    function render(){
-      nav.innerHTML = '';
-      buttons.forEach(function(btn, i){
-        var id = btn.dataset.sec;
-        var label = btn.textContent.replace(/\s+/g,' ').trim();
-        var item = document.createElement('button');
-        item.type = 'button'; item.className = 'hrt-item'; item.dataset.sec = id;
-        if(id === activeId()) item.classList.add('active');
-        if(done[id]) item.classList.add('done');
-        item.innerHTML = '<span class="hrt-num">'+String(i).padStart(2,'0')+'</span><span class="hrt-label">'+label+'</span><span class="hrt-check" role="checkbox" aria-checked="'+(!!done[id])+'" title="check/uncheck"></span>';
-        item.addEventListener('click', function(e){
-          if(e.target.classList.contains('hrt-check')){ done[id] = !done[id]; if(!done[id]) delete done[id]; save(); update(); e.stopPropagation(); return; }
-          btn.click(); setTimeout(update, 30);
-        });
-        nav.appendChild(item);
-      });
-      var total = buttons.length, count = Object.keys(done).filter(k=>buttons.some(b=>b.dataset.sec===k)).length;
-      var pct = total ? Math.round(count/total*100) : 0;
-      if(q('#hrtTotal')) q('#hrtTotal').textContent = total;
-      if(q('#hrtDone')) q('#hrtDone').textContent = count;
-      if(q('#hrtPct')) q('#hrtPct').textContent = pct + '%';
-      if(q('#hrtFill')) q('#hrtFill').style.width = pct + '%';
-    }
-    function update(){ render(); }
-    var mark = q('#hrtMark'); if(mark) mark.onclick = function(){ var id=activeId(); if(id){ done[id]=!done[id]; if(!done[id]) delete done[id]; save(); update(); } };
-    var reset = q('#hrtReset'); if(reset) reset.onclick = function(){ done={}; save(); update(); };
-    buttons.forEach(function(btn){ btn.addEventListener('click', function(){ setTimeout(update, 40); }); });
-    update();
-  }
-  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initReadingTrack); else initReadingTrack();
-})();
-</script>
-
-
 <style id="school-suite-overlay-fix-v3">
 /* School suite overlay fix: one left reading panel + full-width readable content */
 :root{--suite-reading-w:260px;}
@@ -2364,105 +2346,240 @@ body #app .score-grid, body #app .chart-grid-2, body #app .chart-grid-3, body #a
 </style>
 
 
-<script id="school-suite-reading-track-fix-v3">
+
+<style id="reading-track-checkbox-fix-v4">
+/* v4 reading-track toggle: row opens section; circle checks/unchecks. */
+.fas-reading-track .hrt-item,.suite-reading-track .hrt-item{grid-template-columns:20px 1fr!important;}
+.fas-reading-track .hrt-check,.suite-reading-track .hrt-check,.fas-reading-track .hrt-dot,.suite-reading-track .hrt-dot{width:14px!important;height:14px!important;border-radius:50%!important;border:1px solid rgba(255,255,255,.45)!important;margin-top:2px!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;cursor:pointer!important;position:relative!important;flex-shrink:0!important;}
+.fas-reading-track .hrt-check::before,.suite-reading-track .hrt-check::before{content:'';}
+.fas-reading-track .hrt-check::after,.suite-reading-track .hrt-check::after{content:'';position:absolute;inset:-9px;border-radius:999px;}
+.fas-reading-track .hrt-item.done .hrt-check,.suite-reading-track .hrt-item.done .hrt-check{background:var(--gold-light,#E8B84B)!important;border-color:var(--gold-light,#E8B84B)!important;color:#111!important;box-shadow:0 0 0 2px rgba(198,146,20,.18)!important;}
+.fas-reading-track .hrt-item.done .hrt-check::before,.suite-reading-track .hrt-item.done .hrt-check::before{content:'✓';font-size:.62rem;font-weight:900;line-height:1;color:#111;}
+.fas-reading-track .hrt-name,.suite-reading-track .hrt-name{font-size:.72rem!important;line-height:1.25!important;font-weight:700!important;color:#fff!important;}
+.fas-reading-track .hrt-sub,.suite-reading-track .hrt-sub{display:block!important;font-size:.56rem!important;color:rgba(255,255,255,.45)!important;margin-top:2px!important;}
+</style>
+
+<script id="school-suite-reading-track-fix-v4">
 (function(){
-  function q(sel, root){return (root||document).querySelector(sel)}
-  function qa(sel, root){return Array.prototype.slice.call((root||document).querySelectorAll(sel))}
+  'use strict';
+
+  function q(sel, root){ return (root || document).querySelector(sel); }
+  function qa(sel, root){ return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+
+  function cleanLabel(text){
+    return (text || '')
+      .replace(/^[^A-Za-z0-9$]+\s*/, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
   function schoolName(){
-    var t=q('.header-title');
-    if(t){
-      var txt=t.textContent || '';
-      if(/Harvard Kennedy|AA&D / UD&AS/i.test(txt)) return 'AA&D / UD&AS';
-      if(/Faculty of Arts|FAS/i.test(txt)) return 'FAS';
-      if(/Business School|HBS/i.test(txt)) return 'HBS';
-      if(/Medical School|HMS/i.test(txt)) return 'HMS';
-      if(/Engineering|SEAS|Paulson/i.test(txt)) return 'SEAS';
-      if(/Law School|HLS/i.test(txt)) return 'HLS';
+    var titleEl = q('.header-title') || q('.cover-title');
+    var txt = titleEl ? (titleEl.textContent || '') : (document.title || '');
+    if(/AA&D|UD&AS|Alumni Affairs/i.test(txt)) return 'AA&D / UD&AS';
+    if(/Faculty of Arts|\bFAS\b/i.test(txt)) return 'FAS';
+    if(/Business School|\bHBS\b/i.test(txt)) return 'HBS';
+    if(/Medical School|\bHMS\b/i.test(txt)) return 'HMS';
+    if(/Engineering|SEAS|Paulson/i.test(txt)) return 'SEAS';
+    if(/Law School|\bHLS\b/i.test(txt)) return 'HLS';
+    return 'VERITAS';
+  }
+
+  function storageKey(){
+    var page = (location.pathname || document.title || 'AAD_UDAS_Console').split('/').pop() || 'AAD_UDAS_Console.html';
+    return 'veritas-reading-track-v4:' + page + ':' + schoolName();
+  }
+
+  function legacyKeys(){
+    var filename = (location.pathname || '').split('/').pop() || 'AAD_UDAS_Console.html';
+    return [
+      'hksReadSections',
+      'school-reading-track-v3:' + filename,
+      'readingTrack:' + location.pathname + ':' + schoolName()
+    ];
+  }
+
+  function sections(){
+    var seen = {};
+    return qa('#mainNav .ss-btn, .section-selector .ss-btn').map(function(btn){
+      var id = btn.getAttribute('data-sec');
+      if(!id || seen[id]) return null;
+      seen[id] = true;
+      return { id:id, label:cleanLabel(btn.textContent), btn:btn };
+    }).filter(Boolean);
+  }
+
+  function readState(){
+    var out = {};
+    try { out = JSON.parse(localStorage.getItem(storageKey()) || '{}') || {}; }
+    catch(e){ out = {}; }
+
+    // One-time friendly migration from older builds, then keep only the v4 state.
+    if(!Object.keys(out).length){
+      legacyKeys().forEach(function(k){
+        try{
+          var old = JSON.parse(localStorage.getItem(k) || 'null');
+          if(Array.isArray(old)) old.forEach(function(id){ if(id) out[id] = true; });
+          else if(old && typeof old === 'object') Object.keys(old).forEach(function(id){ if(old[id]) out[id] = true; });
+        }catch(e){}
+      });
     }
-    var title=document.title||'';
-    var m=title.match(/\b(AA&D / UD&AS|FAS|HBS|HMS|SEAS|HLS)\b/i);
-    return m ? m[1].toUpperCase() : 'School';
+    return out;
   }
-  function removeDuplicates(){
-    qa('.hks-reading-track,#hksReadingTrack').forEach(function(el){ el.parentNode && el.parentNode.removeChild(el); });
-    var panels=qa('.fas-reading-track,.suite-reading-track');
-    panels.forEach(function(el,i){ if(i>0 && el.parentNode) el.parentNode.removeChild(el); });
+
+  function saveState(st){
+    try { localStorage.setItem(storageKey(), JSON.stringify(st || {})); }
+    catch(e){}
   }
+
+  function clearLegacyState(){
+    legacyKeys().forEach(function(k){ try{ localStorage.removeItem(k); }catch(e){} });
+  }
+
   function ensurePanel(){
-    removeDuplicates();
-    var app=q('#app') || document.body;
-    var panel=q('.fas-reading-track,.suite-reading-track');
+    // Remove obsolete duplicate side panels from older patches.
+    qa('.hks-reading-track,#hksReadingTrack').forEach(function(el){ if(el.parentNode) el.parentNode.removeChild(el); });
+    var panels = qa('.fas-reading-track,.suite-reading-track');
+    panels.forEach(function(el, i){ if(i > 0 && el.parentNode) el.parentNode.removeChild(el); });
+
+    var panel = q('#fasReadingTrack') || q('.fas-reading-track,.suite-reading-track');
+    var app = q('#app') || document.body;
     if(!panel){
-      panel=document.createElement('aside');
-      panel.className='fas-reading-track suite-reading-track no-print';
-      panel.id='fasReadingTrack';
+      panel = document.createElement('aside');
+      panel.id = 'fasReadingTrack';
+      panel.className = 'fas-reading-track suite-reading-track no-print';
       panel.setAttribute('aria-label','Executive Reading Track');
-      panel.innerHTML='<div class="hrt-kicker">Executive Reading Track</div><div class="hrt-title">'+schoolName()+' VERITAS Console</div><div class="hrt-note">Use this panel to move through the report. Click a section title to open it, or click the circle to check/uncheck it.</div><div class="hrt-progress-box"><div class="hrt-progress-row"><div class="hrt-progress-num" id="hrtPct">0%</div><div class="hrt-progress-label"><span id="hrtDone">0</span>/<span id="hrtTotal">0</span><br>sections read</div></div><div class="hrt-track"><div class="hrt-fill" id="hrtFill"></div></div></div><div class="hrt-nav" id="hrtNav"></div><div class="hrt-actions"><button type="button" id="hrtMark">Toggle Read</button><button type="button" id="hrtReset">Reset</button></div>';
       app.insertBefore(panel, app.firstChild);
     }
+    panel.classList.add('fas-reading-track','suite-reading-track','no-print');
+    panel.innerHTML = '' +
+      '<div class="hrt-kicker">Executive Reading Track</div>' +
+      '<div class="hrt-title">' + schoolName() + ' VERITAS Console</div>' +
+      '<div class="hrt-note">Use this panel to move through the report and track completion.</div>' +
+      '<div class="hrt-progress-box">' +
+        '<div class="hrt-progress-row">' +
+          '<div class="hrt-progress-num" id="hrtPct">0%</div>' +
+          '<div class="hrt-progress-label"><span id="hrtDone">0</span>/<span id="hrtTotal">0</span><br>sections read</div>' +
+        '</div>' +
+        '<div class="hrt-track"><div class="hrt-fill" id="hrtFill"></div></div>' +
+      '</div>' +
+      '<div class="hrt-nav" id="hrtNav"></div>' +
+      '<div class="hrt-actions">' +
+        '<button type="button" id="hrtMark">Toggle Read</button>' +
+        '<button type="button" id="hrtReset">Reset</button>' +
+      '</div>';
     return panel;
   }
-  function currentSec(){
-    var active=q('.section-selector .ss-btn.active');
-    return active ? active.getAttribute('data-sec') : (q('.section-panel.active')||{}).id;
+
+  function currentSectionId(){
+    var active = q('#mainNav .ss-btn.active') || q('.section-selector .ss-btn.active');
+    if(active) return active.getAttribute('data-sec');
+    var panel = q('.section-panel.active');
+    return panel ? panel.id : (sections()[0] || {}).id;
   }
-  function openSec(id){
-    var btn=q('.section-selector .ss-btn[data-sec="'+id+'"]');
+
+  function openSection(id){
+    var btn = q('#mainNav .ss-btn[data-sec="' + id + '"], .section-selector .ss-btn[data-sec="' + id + '"]');
     if(btn){ btn.click(); }
     else{
-      qa('.section-panel').forEach(function(p){p.classList.toggle('active', p.id===id)});
-      qa('.section-selector .ss-btn').forEach(function(b){b.classList.toggle('active', b.getAttribute('data-sec')===id)});
+      qa('.section-panel').forEach(function(p){ p.classList.toggle('active', p.id === id); });
+      qa('.section-selector .ss-btn').forEach(function(b){ b.classList.toggle('active', b.getAttribute('data-sec') === id); });
     }
-    setTimeout(updateActive,60);
+    try { window.scrollTo({top:0, behavior:'smooth'}); } catch(e){ window.scrollTo(0,0); }
+    setTimeout(updateActive, 50);
   }
-  function labels(){
-    return qa('.section-selector .ss-btn').map(function(b){
-      var id=b.getAttribute('data-sec');
-      var txt=(b.textContent||'').replace(/\s+/g,' ').trim();
-      return {id:id, name:txt};
-    }).filter(function(x){return x.id});
+
+  function toggleDone(id){
+    if(!id) return;
+    var st = readState();
+    if(st[id]) delete st[id];
+    else st[id] = true;
+    saveState(st);
+    render();
   }
-  function key(){ return 'readingTrack:'+location.pathname+':'+schoolName(); }
-  function state(){ try{return JSON.parse(localStorage.getItem(key())||'{}')}catch(e){return {}} }
-  function save(st){ try{localStorage.setItem(key(),JSON.stringify(st))}catch(e){} }
+
+  function updateProgress(panel, items, st){
+    panel = panel || q('#fasReadingTrack') || q('.fas-reading-track,.suite-reading-track');
+    if(!panel) return;
+    items = items || sections();
+    st = st || readState();
+    var valid = {};
+    items.forEach(function(it){ valid[it.id] = true; });
+    var count = Object.keys(st).filter(function(id){ return valid[id] && st[id]; }).length;
+    var total = items.length;
+    var pct = total ? Math.round((count / total) * 100) : 0;
+    var el;
+    if(el = q('#hrtTotal', panel)) el.textContent = total;
+    if(el = q('#hrtDone', panel)) el.textContent = count;
+    if(el = q('#hrtPct', panel)) el.textContent = pct + '%';
+    if(el = q('#hrtFill', panel)) el.style.width = pct + '%';
+  }
+
+  function updateActive(){
+    var cur = currentSectionId();
+    qa('#hrtNav .hrt-item').forEach(function(row){
+      row.classList.toggle('active', row.getAttribute('data-sec') === cur);
+    });
+  }
+
   function render(){
-    var panel=ensurePanel(), nav=q('#hrtNav',panel); if(!nav) return;
-    var st=state(), items=labels();
-    nav.innerHTML='';
-    items.forEach(function(it){
-      var row=document.createElement('button'); row.type='button'; row.className='hrt-item'; row.setAttribute('data-sec',it.id);
-      if(st[it.id]) row.classList.add('done');
-      row.innerHTML='<span class="hrt-dot" aria-hidden="true"></span><span><span class="hrt-name">'+it.name+'</span><span class="hrt-sub">click circle to check/uncheck</span></span>';
-      row.addEventListener('click',function(e){
-        if(e.target.classList.contains('hrt-dot')){ st[it.id]=!st[it.id]; save(st); render(); e.stopPropagation(); return; }
-        openSec(it.id);
+    clearLegacyState();
+    var panel = ensurePanel();
+    var nav = q('#hrtNav', panel);
+    var items = sections();
+    var st = readState();
+    var cur = currentSectionId();
+    nav.innerHTML = '';
+
+    items.forEach(function(it, idx){
+      var row = document.createElement('button');
+      row.type = 'button';
+      row.className = 'hrt-item' + (st[it.id] ? ' done' : '') + (it.id === cur ? ' active' : '');
+      row.setAttribute('data-sec', it.id);
+      row.setAttribute('aria-label', it.label + (st[it.id] ? ', read' : ', unread'));
+      row.innerHTML = '' +
+        '<span class="hrt-dot hrt-check" role="checkbox" aria-checked="' + (!!st[it.id]) + '" title="Check or uncheck this section"></span>' +
+        '<span><span class="hrt-name hrt-label">' + it.label + '</span></span>';
+      row.addEventListener('click', function(e){
+        var check = e.target.closest ? e.target.closest('.hrt-dot,.hrt-check') : null;
+        if(check && row.contains(check)){
+          e.preventDefault();
+          e.stopPropagation();
+          if(e.stopImmediatePropagation) e.stopImmediatePropagation();
+          toggleDone(it.id);
+          return false;
+        }
+        openSection(it.id);
       });
       nav.appendChild(row);
     });
-    updateProgress(); updateActive();
+
+    updateProgress(panel, items, st);
   }
-  function updateProgress(){
-    var panel=q('.fas-reading-track,.suite-reading-track'); if(!panel) return;
-    var st=state(), items=labels(), done=items.filter(function(it){return !!st[it.id]}).length;
-    var pct=items.length ? Math.round(done/items.length*100) : 0;
-    var el;
-    if(el=q('#hrtPct',panel)) el.textContent=pct+'%';
-    if(el=q('#hrtDone',panel)) el.textContent=done;
-    if(el=q('#hrtTotal',panel)) el.textContent=items.length;
-    if(el=q('#hrtFill',panel)) el.style.width=pct+'%';
-  }
-  function updateActive(){
-    var cur=currentSec();
-    qa('.fas-reading-track .hrt-item,.suite-reading-track .hrt-item').forEach(function(r){r.classList.toggle('active', r.getAttribute('data-sec')===cur)});
-  }
+
   function wire(){
-    ensurePanel(); render();
-    qa('.section-selector .ss-btn').forEach(function(b){ b.addEventListener('click', function(){ setTimeout(updateActive,60); }); });
-    var mark=q('#hrtMark'); if(mark){ mark.onclick=function(){ var cur=currentSec(); if(!cur) return; var st=state(); st[cur]=!st[cur]; save(st); render(); }; }
-    var reset=q('#hrtReset'); if(reset){ reset.onclick=function(){ save({}); render(); }; }
+    render();
+    qa('#mainNav .ss-btn, .section-selector .ss-btn').forEach(function(btn){
+      if(btn.__veritasReadingTrackV4) return;
+      btn.__veritasReadingTrackV4 = true;
+      btn.addEventListener('click', function(){ setTimeout(updateActive, 60); });
+    });
+    var mark = q('#hrtMark');
+    if(mark){ mark.onclick = function(){ toggleDone(currentSectionId()); }; }
+    var reset = q('#hrtReset');
+    if(reset){
+      reset.onclick = function(){
+        saveState({});
+        clearLegacyState();
+        render();
+      };
+    }
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', wire); else wire();
-  setTimeout(wire,500);
+
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', wire);
+  else wire();
+  // One extra pass after the app reveals itself from the cover screen.
+  setTimeout(wire, 600);
 })();
 </script>
 
