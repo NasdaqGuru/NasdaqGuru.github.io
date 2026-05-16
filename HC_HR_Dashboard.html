@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>FAS HR Consulting Dashboard — Harvard College</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --crimson:#A51C30;--crimson-dark:#7b1322;--crimson-light:#f9eced;
+  --navy:#1a2744;--navy-light:#eef0f5;--gold:#c4a44a;--gold-light:#faf5e6;
+  --pos:#1e6b38;--pos-bg:#e8f5ee;--neg:#9b2020;--neg-bg:#fdeaea;
+  --warn:#8a5c00;--warn-bg:#fef8e6;--blue:#1a5fa8;--blue-bg:#e8f0fb;
+  --purple:#5530a0;--purple-bg:#f0eafc;
+  --gray-50:#f8f7f4;--gray-100:#eeece6;--gray-200:#d6d3ca;
+  --gray-400:#9e9b92;--gray-600:#5c5a54;--gray-800:#2e2d2a;
+  --font:-apple-system,'Segoe UI',Arial,sans-serif;
+  --radius:8px;--radius-lg:12px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:0 4px 12px rgba(0,0,0,.10);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);font-size:13px;line-height:1.5;min-height:100vh;}
+
+/* TOP BAR */
+.top-bar{background:var(--navy);color:#fff;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.top-bar h1{font-size:14px;font-weight:600;}
+.top-bar p{font-size:11px;opacity:.6;margin-top:1px;}
+.harvard-crest{width:32px;height:32px;background:var(--crimson);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;}
+.ts-badge{font-size:10px;color:rgba(255,255,255,.55);background:rgba(255,255,255,.1);border-radius:4px;padding:3px 8px;}
+.ts-badge span{color:rgba(255,255,255,.85);font-weight:500;}
+.refresh-btn{background:var(--crimson);border:none;color:#fff;padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;font-weight:500;}
+
+/* SIDEBAR */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(15,20,35,.45);z-index:1300;display:none;}
+.sidebar-overlay.show{display:block;}
+.left-sidebar{position:fixed;top:0;left:-255px;bottom:0;width:255px;background:var(--navy);z-index:1400;display:flex;flex-direction:column;transition:left .24s cubic-bezier(.4,0,.2,1);}
+.left-sidebar.open{left:0;box-shadow:6px 0 28px rgba(0,0,0,.32);}
+.sidebar-brand{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;}
+.sidebar-brand-title{font-size:12px;font-weight:600;color:#fff;}
+.sidebar-brand-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;}
+.sidebar-close{background:rgba(255,255,255,.1);border:none;width:26px;height:26px;border-radius:50%;color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.sidebar-group-label{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:12px 16px 4px;}
+.sidebar-nav-list{flex:1;overflow-y:auto;padding-bottom:16px;scrollbar-width:none;}
+.sidebar-nav-list::-webkit-scrollbar{display:none;}
+.sidebar-nav-item{display:flex;align-items:center;gap:9px;padding:9px 16px;cursor:pointer;color:rgba(255,255,255,.6);font-size:11px;font-weight:500;border-left:3px solid transparent;transition:all .12s;}
+.sidebar-nav-item:hover{background:rgba(255,255,255,.07);color:#fff;}
+.sidebar-nav-item.active{background:rgba(165,28,48,.25);color:#fff;border-left-color:var(--crimson);}
+.sidebar-nav-item .sni-icon{font-size:13px;width:18px;text-align:center;}
+.sidebar-badge{margin-left:auto;font-size:9px;background:rgba(255,255,255,.12);padding:1px 6px;border-radius:8px;color:rgba(255,255,255,.45);}
+.sidebar-footer{padding:10px 16px;border-top:1px solid rgba(255,255,255,.1);font-size:10px;color:rgba(255,255,255,.3);}
+
+/* TAB NAV */
+.tab-nav{background:#fff;border-bottom:1.5px solid var(--gray-100);padding:0 10px;display:flex;gap:0;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.05);overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+.tab-nav::-webkit-scrollbar{display:none;}
+.sidebar-toggle-btn{flex-shrink:0;padding:0 13px;background:none;border:none;border-right:1px solid var(--gray-100);cursor:pointer;font-size:15px;color:var(--gray-400);display:flex;align-items:center;transition:color .12s;}
+.sidebar-toggle-btn:hover{color:var(--navy);}
+.tab-btn{padding:10px 13px;background:none;border:none;border-bottom:3px solid transparent;font-size:11px;font-weight:500;color:var(--gray-400);cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;}
+.tab-btn:hover{color:var(--gray-600);}
+.tab-btn.active{color:var(--crimson);border-bottom-color:var(--crimson);}
+
+/* CONTENT */
+.tab-panel{display:none;padding:22px 26px 40px;}
+.tab-panel.active{display:block;}
+.sub-tab-nav{display:flex;gap:2px;flex-wrap:wrap;border-bottom:1px solid var(--gray-100);margin-bottom:18px;}
+.sub-tab-btn{padding:7px 13px;border:none;background:none;font-size:11px;font-weight:500;color:var(--gray-400);cursor:pointer;border-bottom:2px solid transparent;border-radius:var(--radius) var(--radius) 0 0;transition:all .12s;white-space:nowrap;}
+.sub-tab-btn:hover{color:var(--gray-600);background:var(--gray-50);}
+.sub-tab-btn.active{color:var(--crimson);border-bottom-color:var(--crimson);background:var(--crimson-light);}
+.sub-panel{display:none;}
+.sub-panel.active{display:block;}
+
+/* SECTION LABEL */
+.section-label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);margin-bottom:10px;margin-top:20px;}
+.section-label:first-child{margin-top:0;}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(138px,1fr));gap:10px;margin-bottom:6px;}
+.kpi-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius);padding:13px 15px;box-shadow:var(--shadow);position:relative;}
+.kpi-card.accent::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--crimson);border-radius:var(--radius) var(--radius) 0 0;}
+.kpi-label{font-size:10px;color:var(--gray-400);font-weight:500;letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px;}
+.kpi-value{font-size:22px;font-weight:700;color:var(--gray-800);line-height:1;font-variant-numeric:tabular-nums;}
+.kpi-sub{font-size:10px;margin-top:5px;display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-weight:500;}
+.kpi-sub.pos{background:var(--pos-bg);color:var(--pos);}
+.kpi-sub.neg{background:var(--neg-bg);color:var(--neg);}
+.kpi-sub.neu{background:var(--gray-100);color:var(--gray-600);}
+.kpi-sub.info{background:var(--blue-bg);color:var(--blue);}
+.kpi-sub.warn{background:var(--warn-bg);color:var(--warn);}
+
+/* CHARTS */
+.chart-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:16px 18px;box-shadow:var(--shadow);}
+.chart-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+.chart-title{font-size:13px;font-weight:600;color:var(--gray-800);}
+.chart-subtitle{font-size:11px;color:var(--gray-400);margin-top:2px;}
+.chart-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--gray-600);margin-bottom:8px;}
+.chart-legend span{display:flex;align-items:center;gap:4px;}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;}
+@media(max-width:700px){.two-col,.three-col{grid-template-columns:1fr;}}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;}
+.fin-table{width:100%;border-collapse:collapse;font-size:12px;min-width:500px;}
+.fin-table th{text-align:left;padding:7px 11px;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--gray-400);border-bottom:1.5px solid var(--gray-200);white-space:nowrap;background:var(--gray-50);}
+.fin-table th.r,.fin-table td.r{text-align:right;}
+.fin-table th.c,.fin-table td.c{text-align:center;}
+.fin-table td{padding:8px 11px;color:var(--gray-800);border-bottom:1px solid var(--gray-100);white-space:nowrap;}
+.fin-table tr:hover td{background:var(--gray-50);}
+.fin-table tr.total-row td{font-weight:700;border-top:1.5px solid var(--gray-200);background:var(--gray-50);border-bottom:none;}
+.var-pos{color:var(--pos);font-weight:500;}
+.var-neg{color:var(--neg);font-weight:500;}
+.var-warn{color:var(--warn);font-weight:500;}
+
+/* BADGES */
+.badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:.2px;}
+.badge-green{background:var(--pos-bg);color:var(--pos);}
+.badge-red{background:var(--neg-bg);color:var(--neg);}
+.badge-amber{background:var(--warn-bg);color:var(--warn);}
+.badge-blue{background:var(--blue-bg);color:var(--blue);}
+.badge-purple{background:var(--purple-bg);color:var(--purple);}
+.badge-gray{background:var(--gray-100);color:var(--gray-600);}
+
+/* PROGRESS */
+.prog{height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden;min-width:60px;}
+.prog-fill{height:100%;border-radius:3px;}
+
+/* EXEC BOX */
+.exec-box{background:var(--crimson-light);border:1px solid rgba(165,28,48,.15);border-left:4px solid var(--crimson);border-radius:0 var(--radius) var(--radius) 0;padding:14px 16px;margin-bottom:14px;}
+.exec-box h3{font-size:11px;font-weight:700;color:var(--crimson);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;}
+.exec-item{display:flex;gap:9px;align-items:flex-start;margin-bottom:7px;font-size:12px;line-height:1.55;}
+.exec-dot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+
+/* HR NARRATIVE ENGINE */
+.itfm-header{background:linear-gradient(135deg,var(--navy) 0%,#2a3f6e 100%);border-radius:var(--radius-lg);padding:18px 22px;margin-bottom:16px;display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+.itfm-header h2{font-size:15px;font-weight:600;color:#fff;margin-bottom:4px;}
+.itfm-header p{font-size:11px;color:rgba(255,255,255,.55);line-height:1.5;max-width:480px;}
+.guardrail-chip{font-size:10px;font-weight:600;padding:3px 9px;border-radius:10px;border:1px solid;}
+.engine-controls{background:var(--gray-50);border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:14px 16px;margin-bottom:14px;display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;}
+.ctrl-group{display:flex;flex-direction:column;gap:4px;}
+.ctrl-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--gray-400);}
+.ctrl-select{padding:5px 9px;border:1px solid var(--gray-200);border-radius:6px;font-size:12px;background:#fff;color:var(--gray-800);outline:none;}
+.ctrl-select:focus{border-color:var(--crimson);}
+.generate-btn{background:var(--crimson);color:#fff;border:none;padding:8px 18px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .15s;}
+.generate-btn:hover:not(:disabled){background:var(--crimson-dark);}
+.generate-btn:disabled{background:var(--gray-200);color:var(--gray-400);cursor:not-allowed;}
+.generate-btn .spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none;}
+.generate-btn.loading .spinner{display:block;}
+.generate-btn.loading .btn-icon{display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.itfm-output{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);min-height:180px;overflow:hidden;}
+.itfm-output-header{background:var(--navy);color:#fff;padding:9px 15px;display:flex;align-items:center;justify-content:space-between;border-radius:var(--radius-lg) var(--radius-lg) 0 0;}
+.itfm-output-header span{font-size:12px;font-weight:500;}
+.copy-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:3px 9px;border-radius:5px;font-size:10px;cursor:pointer;}
+.itfm-output-body{padding:16px 18px;font-size:12px;line-height:1.75;}
+.itfm-placeholder{color:var(--gray-400);font-style:italic;text-align:center;padding:36px 18px;}
+.itfm-status{font-size:10px;color:var(--gray-400);padding:6px 18px 8px;border-top:1px solid var(--gray-100);display:flex;align-items:center;gap:5px;}
+.status-dot{width:7px;height:7px;border-radius:50%;}
+.sys-prompt-box{background:#0f172a;border-radius:var(--radius-lg);padding:12px 16px;font-family:monospace;font-size:10px;line-height:1.65;color:#94a3b8;max-height:200px;overflow-y:auto;margin-bottom:14px;}
+.sys-prompt-box .sp-key{color:#f472b6;}
+.sys-prompt-box .sp-val{color:#86efac;}
+.sys-prompt-box .sp-head{color:#fbbf24;font-weight:600;}
+
+/* POOL CARDS */
+.pool-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:13px 14px;box-shadow:var(--shadow);border-left:4px solid var(--gray-200);transition:border-left-color .15s;cursor:pointer;}
+.pool-card.selected{border-left-color:var(--crimson);}
+.pool-card.unfav{border-left-color:var(--neg);}
+.pool-card.fav{border-left-color:var(--pos);}
+.pool-name{font-size:12px;font-weight:600;color:var(--gray-800);}
+.pool-cat{font-size:10px;color:var(--gray-400);margin-top:1px;}
+
+/* ER CASE CARD */
+.er-case{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius);padding:11px 13px;box-shadow:var(--shadow);border-left:4px solid var(--gray-200);}
+.er-case.critical{border-left-color:var(--neg);}
+.er-case.active{border-left-color:var(--warn);}
+.er-case.resolved{border-left-color:var(--pos);}
+.er-case-id{font-size:10px;font-family:monospace;color:var(--gray-400);}
+.er-case-title{font-size:12px;font-weight:600;color:var(--gray-800);margin:3px 0;}
+.er-case-meta{font-size:10px;color:var(--gray-400);}
+
+/* EXPORT FAB */
+.export-fab{position:fixed;bottom:26px;right:26px;z-index:1500;background:var(--pos);color:#fff;border:none;border-radius:50px;padding:10px 16px 10px 13px;font-size:11px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(30,107,56,.35);display:flex;align-items:center;gap:6px;transition:all .15s;}
+.export-fab:hover{background:#165d2a;transform:translateY(-1px);}
+
+/* CALENDAR */
+.cal-mini-month{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:11px;box-shadow:var(--shadow);cursor:pointer;}
+.cal-mini-month.current-month{border-color:var(--crimson);}
+.cal-mini-header{font-size:12px;font-weight:600;color:var(--gray-800);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;}
+.cal-mini-count{font-size:10px;background:var(--crimson-light);color:var(--crimson);padding:1px 6px;border-radius:8px;font-weight:600;}
+.cal-mini-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
+.cal-mini-dow{font-size:8px;color:var(--gray-400);text-align:center;padding:2px 0;font-weight:500;}
+.cal-mini-day{font-size:9px;text-align:center;padding:2px 1px;border-radius:3px;min-height:14px;position:relative;}
+.cal-mini-day.today{background:var(--crimson);color:#fff;border-radius:50%;font-weight:700;}
+.cal-mini-day.has-event::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--crimson);}
+.cal-dot-row{display:flex;gap:3px;flex-wrap:wrap;margin-top:5px;}
+.cal-dot{width:8px;height:8px;border-radius:50%;cursor:pointer;}
+.cal-event-popup{position:fixed;z-index:4000;background:#fff;border-radius:var(--radius-lg);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:14px;width:290px;max-width:90vw;border-top:4px solid var(--crimson);display:none;}
+.cal-event-popup.show{display:block;}
+.cal-popup-title{font-size:13px;font-weight:600;color:var(--gray-800);margin-bottom:6px;}
+.cal-popup-row{display:flex;gap:8px;font-size:11px;margin-bottom:4px;}
+.cal-popup-lbl{color:var(--gray-400);width:65px;flex-shrink:0;}
+.cal-popup-val{color:var(--gray-700);}
+
+/* FOOTER */
+.dash-footer{background:var(--navy);color:rgba(255,255,255,.45);font-size:10px;padding:9px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+@media print{.tab-nav,.top-bar-right,.refresh-btn,.export-fab{display:none;}.tab-panel{display:block!important;page-break-before:always;}.tab-panel:first-of-type{page-break-before:auto;}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebar_overlay" onclick="closeSidebar()"></div>
+<nav class="left-sidebar" id="left_sidebar">
+  <div class="sidebar-brand">
+    <div><div class="sidebar-brand-title">FAS HR Consulting Dashboard</div><div class="sidebar-brand-sub">Harvard College · FY2026</div></div>
+    <button class="sidebar-close" onclick="closeSidebar()">✕</button>
+  </div>
+  <div class="sidebar-nav-list">
+    <div class="sidebar-group-label">People Analytics</div>
+    <div class="sidebar-nav-item active" id="snav_overview"   onclick="sNav('overview',this)"><span class="sni-icon">📊</span>HR Overview</div>
+    <div class="sidebar-nav-item" id="snav_workforce"         onclick="sNav('workforce',this)"><span class="sni-icon">👥</span>Workforce Planning</div>
+    <div class="sidebar-nav-item" id="snav_talent"            onclick="sNav('talent',this)"><span class="sni-icon">🏆</span>Talent & Performance</div>
+    <div class="sidebar-nav-item" id="snav_comp"              onclick="sNav('comp',this)"><span class="sni-icon">⚖️</span>Compensation Equity<span class="sidebar-badge">Pay</span></div>
+    <div class="sidebar-group-label">HR Operations</div>
+    <div class="sidebar-nav-item" id="snav_er"                onclick="sNav('er',this)"><span class="sni-icon">🤝</span>Employee Relations<span class="sidebar-badge">ER</span></div>
+    <div class="sidebar-nav-item" id="snav_wellbeing"         onclick="sNav('wellbeing',this)"><span class="sni-icon">🌟</span>Well-being & Engagement</div>
+    <div class="sidebar-nav-item" id="snav_recruiting"        onclick="sNav('recruiting',this)"><span class="sni-icon">🔎</span>Talent Acquisition</div>
+    <div class="sidebar-group-label">Intelligence</div>
+    <div class="sidebar-nav-item" id="snav_hranalytics"       onclick="sNav('hranalytics',this)"><span class="sni-icon">🤖</span>HR Analytics Engine<span class="sidebar-badge">AI</span></div>
+    <div class="sidebar-nav-item" id="snav_hrcalendar"        onclick="sNav('hrcalendar',this)"><span class="sni-icon">📅</span>HR Calendar</div>
+  </div>
+  <div class="sidebar-footer">Source: Workday HCM · Harvard OHR · <span id="sidebar_ts_footer">—</span></div>
+</nav>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="harvard-crest">H</div>
+    <div><h1>FAS HR Consulting Dashboard — Harvard College</h1><p>Faculty of Arts & Sciences · Senior HR Consultant Work Sample · Confidential</p></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="ts-badge">Last updated: <span id="ts_display">—</span></div>
+    <button class="refresh-btn" onclick="refreshTs()">↻ Refresh</button>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<nav class="tab-nav" role="tablist">
+  <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰</button>
+  <button class="tab-btn active" onclick="switchTab('overview',this)">📊 HR Overview</button>
+  <button class="tab-btn" onclick="switchTab('workforce',this)">👥 Workforce Planning</button>
+  <button class="tab-btn" onclick="switchTab('talent',this)">🏆 Talent & Performance</button>
+  <button class="tab-btn" onclick="switchTab('comp',this)">⚖️ Compensation Equity</button>
+  <button class="tab-btn" onclick="switchTab('er',this)">🤝 Employee Relations</button>
+  <button class="tab-btn" onclick="switchTab('wellbeing',this)">🌟 Well-being</button>
+  <button class="tab-btn" onclick="switchTab('recruiting',this)">🔎 Talent Acquisition</button>
+  <button class="tab-btn" onclick="switchTab('hranalytics',this)">🤖 HR Analytics Engine</button>
+  <button class="tab-btn" onclick="switchTab('hrcalendar',this)">📅 HR Calendar</button>
+</nav>
+
+<!-- ═══ TAB 1: HR OVERVIEW ═══ -->
+<section class="tab-panel active" id="tab-overview">
+  <div class="section-label">Harvard College HR — Key Performance Indicators · FY2026</div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Total Authorized FTE</div><div class="kpi-value">485</div><div class="kpi-sub neu">Harvard College staff</div></div>
+    <div class="kpi-card"><div class="kpi-label">Filled Positions</div><div class="kpi-value">462</div><div class="kpi-sub pos">95.3% fill rate</div></div>
+    <div class="kpi-card"><div class="kpi-label">Open Vacancies</div><div class="kpi-value">23</div><div class="kpi-sub neg">4.7% vacancy rate</div></div>
+    <div class="kpi-card"><div class="kpi-label">12-Mo Turnover</div><div class="kpi-value">8.2%</div><div class="kpi-sub info">39 departures · FY2026</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Time-to-Fill</div><div class="kpi-value">6.8 wks</div><div class="kpi-sub neg">↑ +0.9 wks vs. FY2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Engagement Score</div><div class="kpi-value">71%</div><div class="kpi-sub neg">▼ −3pts vs. FY2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active ER Cases</div><div class="kpi-value">14</div><div class="kpi-sub warn">3 high-priority</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Performance Score</div><div class="kpi-value">3.68</div><div class="kpi-sub pos">↑ +0.08 vs. FY2025</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Headcount by College Unit</div><div class="chart-subtitle">Filled FTE · April 2026</div></div></div>
+      <div style="position:relative;height:240px;"><canvas id="c_hc_unit"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Turnover Rate Trend — FY2023–FY2026</div><div class="chart-subtitle">Annual voluntary & involuntary by fiscal year</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:var(--crimson);"></span>Voluntary</span><span><span class="leg-dot" style="background:var(--navy);"></span>Involuntary</span></div>
+      <div style="position:relative;height:220px;"><canvas id="c_turnover_trend"></canvas></div>
+    </div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Engagement Score by Unit</div><div class="chart-subtitle">FY2026 pulse survey · 100-point scale</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_engagement"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">HR Activity Mix — FY2026 YTD</div><div class="chart-subtitle">Senior HR Consultant case distribution</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_hr_mix"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Executive Summary</div>
+  <div class="exec-box">
+    <h3>FY2026 — Harvard College HR Highlights</h3>
+    <div class="exec-item"><div class="exec-dot" style="background:var(--neg);"></div><div><strong>Engagement declined 3 points to 71%</strong>, with Residential Life (62%) and Student Affairs (65%) showing the steepest drops. Root causes include reorganization-related uncertainty and manager effectiveness gaps identified in the Q1 pulse. Targeted interventions are recommended for both units.</div></div>
+    <div class="exec-item"><div class="exec-dot" style="background:var(--warn);"></div><div><strong>14 active ER cases</strong> — 3 classified as high-priority (2 active investigations, 1 performance improvement plan). ER caseload is up 28% vs. FY2025 same period, concentrated in Athletics (4 cases) and Residential Life (3 cases).</div></div>
+    <div class="exec-item"><div class="exec-dot" style="background:var(--pos);"></div><div><strong>Performance scores improved</strong> to 3.68 avg (↑0.08 vs. FY2025). 87 employees (18.8%) rated "Exceeds Expectations" or higher — a positive signal following the FY2025 manager effectiveness coaching program.</div></div>
+    <div class="exec-item"><div class="exec-dot" style="background:var(--blue);"></div><div><strong>Time-to-fill increased to 6.8 weeks</strong> (↑0.9 weeks). Principal driver is increased competition for program administration talent. A Talent Acquisition partnership review with FAS TA is recommended for Q3.</div></div>
+  </div>
+</section>
+
+<!-- ═══ TAB 2: WORKFORCE PLANNING ═══ -->
+<section class="tab-panel" id="tab-workforce">
+  <div class="section-label">Workforce Planning — Harvard College Units · FY2026</div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Total Authorized FTE</div><div class="kpi-value">485</div><div class="kpi-sub neu">FY2026 approved</div></div>
+    <div class="kpi-card"><div class="kpi-label">Filled Positions</div><div class="kpi-value">462</div><div class="kpi-sub pos">95.3%</div></div>
+    <div class="kpi-card"><div class="kpi-label">Vacant</div><div class="kpi-value">23</div><div class="kpi-sub neg">4.7% vacancy</div></div>
+    <div class="kpi-card"><div class="kpi-label">Eligible to Retire (3yr)</div><div class="kpi-value">64</div><div class="kpi-sub warn">13.2% succession risk</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Tenure</div><div class="kpi-value">7.4 yrs</div><div class="kpi-sub neu">All filled positions</div></div>
+    <div class="kpi-card"><div class="kpi-label">New Hires YTD</div><div class="kpi-value">31</div><div class="kpi-sub pos">FY2026 Jul–Apr</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">FTE — Authorized vs. Filled by Unit</div><div class="chart-subtitle">Current headcount status</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:var(--crimson);"></span>Filled</span><span><span class="leg-dot" style="background:#f0a8b0;"></span>Vacant</span></div>
+      <div style="position:relative;height:260px;"><canvas id="c_wf_filled"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Tenure Distribution</div><div class="chart-subtitle">Years of service — all filled positions</div></div></div>
+      <div style="position:relative;height:260px;"><canvas id="c_tenure_dist"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Workforce Detail by College Unit</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>College Unit</th><th class="r">Auth FTE</th><th class="r">Filled</th><th class="r">Vacant</th>
+        <th class="r">Vac %</th><th>Utilization</th><th class="r">Avg Tenure</th>
+        <th class="r">Retire Risk (3yr)</th><th class="c">Succession Plan</th><th class="c">Status</th>
+      </tr></thead><tbody id="wf_unit_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 3: TALENT & PERFORMANCE ═══ -->
+<section class="tab-panel" id="tab-talent">
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Avg Performance Score</div><div class="kpi-value">3.68</div><div class="kpi-sub pos">↑ +0.08 vs. FY2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Evaluations Complete</div><div class="kpi-value">94%</div><div class="kpi-sub pos">434 of 462</div></div>
+    <div class="kpi-card"><div class="kpi-label">Promotions YTD</div><div class="kpi-value">22</div><div class="kpi-sub pos">4.8% promotion rate</div></div>
+    <div class="kpi-card"><div class="kpi-label">Top Performers (4.5+)</div><div class="kpi-value">38</div><div class="kpi-sub info">8.2% of rated staff</div></div>
+    <div class="kpi-card"><div class="kpi-label">Needs Improvement (≤2.4)</div><div class="kpi-value">9</div><div class="kpi-sub neg">PIP in progress</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Succession Plans</div><div class="kpi-value">18</div><div class="kpi-sub neu">For key roles</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Performance Score Distribution — FY2026</div><div class="chart-subtitle">5-point rating scale · all rated employees</div></div></div>
+      <div style="position:relative;height:240px;"><canvas id="c_perf_dist"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Avg Score by Unit — FY2026 vs. FY2025</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:var(--crimson);"></span>FY2026</span><span><span class="leg-dot" style="background:#7090b8;"></span>FY2025</span></div>
+      <div style="position:relative;height:240px;"><canvas id="c_perf_unit"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Performance Summary by Unit</div>
+  <div class="chart-card" style="margin-bottom:13px;">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Unit</th><th class="r">Rated</th><th class="r">Avg Score</th>
+        <th class="r">Top (4.5+)</th><th class="r">Exceeds (4–4.4)</th><th class="r">Meets (3–3.9)</th>
+        <th class="r">Developing</th><th class="r">NI (≤2.4)</th><th class="r">Not Rated</th><th class="c">Trend</th>
+      </tr></thead><tbody id="perf_unit_tbody"></tbody></table>
+    </div>
+  </div>
+  <div class="section-label">Promotion Register — FY2026 YTD</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Emp ID</th><th>Unit</th><th>New Title</th>
+        <th class="c">From Grade</th><th class="c">To Grade</th>
+        <th class="r">Salary Δ %</th><th>Date</th><th class="c">Type</th>
+      </tr></thead><tbody id="promo_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 4: COMPENSATION EQUITY ═══ -->
+<section class="tab-panel" id="tab-comp">
+  <div class="exec-box" style="border-left-color:var(--blue);background:var(--blue-bg);">
+    <h3 style="color:var(--blue);">Compensation Administration — FY2026</h3>
+    <div style="font-size:12px;line-height:1.7;color:var(--gray-700);">Partners with FAS Compensation team on salary setting, internal equity reviews, annual merit increases, and bonus administration. This view supports the Senior HR Consultant in advising managers on compensation decisions and flagging equity risks before escalation.</div>
+  </div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Below Band Minimum</div><div class="kpi-value">11</div><div class="kpi-sub neg">Immediate equity action</div></div>
+    <div class="kpi-card"><div class="kpi-label">No Increase ≥12 Months</div><div class="kpi-value">42</div><div class="kpi-sub neg">9.1% of workforce</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Merit Increase</div><div class="kpi-value">3.4%</div><div class="kpi-sub neu">FY2026 cycle</div></div>
+    <div class="kpi-card"><div class="kpi-label">Gender Pay Equity Gap</div><div class="kpi-value">−2.8%</div><div class="kpi-sub neg">Women vs. men, same grade</div></div>
+    <div class="kpi-card"><div class="kpi-label">Internal Equity Alerts</div><div class="kpi-value">7</div><div class="kpi-sub neg">Same role, >15% spread</div></div>
+    <div class="kpi-card"><div class="kpi-label">Received Merit Increase</div><div class="kpi-value">78.4%</div><div class="kpi-sub pos">362 of 462 filled</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Merit Increase Distribution — FY2026</div><div class="chart-subtitle">% increase buckets for employees who received raises</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_merit_dist"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Compensation vs. Market — by Grade Band</div><div class="chart-subtitle">Avg salary as % of market 50th percentile</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_market_comp"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Compensation Equity Flags — Below Band Minimum</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Emp ID</th><th>Unit</th><th class="c">Grade</th>
+        <th class="r">Current Salary</th><th class="r">Band Min</th>
+        <th class="r">Gap $</th><th class="r">Months Since Raise</th>
+        <th class="c">Action Status</th>
+      </tr></thead><tbody id="comp_flag_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 5: EMPLOYEE RELATIONS ═══ -->
+<section class="tab-panel" id="tab-er">
+  <div class="section-label">Employee Relations — Active Case Register · FY2026</div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Active Cases</div><div class="kpi-value">14</div><div class="kpi-sub warn">3 high-priority</div></div>
+    <div class="kpi-card"><div class="kpi-label">Cases YTD FY2026</div><div class="kpi-value">38</div><div class="kpi-sub neg">↑ +28% vs. FY2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Days to Resolution</div><div class="kpi-value">34</div><div class="kpi-sub neu">Closed cases FY2026</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Investigations</div><div class="kpi-value">2</div><div class="kpi-sub neg">In coordination with OGC</div></div>
+    <div class="kpi-card"><div class="kpi-label">PIPs Active</div><div class="kpi-value">5</div><div class="kpi-sub warn">All with mgr coaches</div></div>
+    <div class="kpi-card"><div class="kpi-label">Resolved YTD</div><div class="kpi-value">24</div><div class="kpi-sub pos">FY2026 YTD closed</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:14px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">ER Cases by Type — FY2026 YTD</div></div></div>
+      <div style="position:relative;height:220px;"><canvas id="c_er_type"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Case Volume Trend — FY2024–FY2026</div><div class="chart-subtitle">Monthly new case intake</div></div></div>
+      <div style="position:relative;height:220px;"><canvas id="c_er_trend"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Active Case Register (All cases anonymized by Emp ID)</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Case ID</th><th>Unit</th><th>Case Type</th><th>Opened</th>
+        <th class="r">Days Open</th><th>HR Consultant</th><th>OGC Involved</th>
+        <th class="c">Priority</th><th class="c">Status</th>
+      </tr></thead><tbody id="er_case_tbody"></tbody></table>
+    </div>
+  </div>
+  <div class="section-label" style="margin-top:18px;">ER Risk by Unit</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Unit</th><th class="r">FTE</th><th class="r">Active Cases</th>
+        <th class="r">Cases Per 100 FTE</th><th class="r">YTD Cases</th>
+        <th class="r">Avg Days Open</th><th class="c">Risk Level</th><th>Pattern / Note</th>
+      </tr></thead><tbody id="er_risk_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 6: WELL-BEING ═══ -->
+<section class="tab-panel" id="tab-wellbeing">
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Overall Engagement</div><div class="kpi-value">71%</div><div class="kpi-sub neg">▼ −3pts vs. FY2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Burnout Risk (High)</div><div class="kpi-value">28</div><div class="kpi-sub neg">6.1% of workforce</div></div>
+    <div class="kpi-card"><div class="kpi-label">EAP Utilization</div><div class="kpi-value">5.8%</div><div class="kpi-sub warn">↑ above 4.2% avg</div></div>
+    <div class="kpi-card"><div class="kpi-label">On Leave Now</div><div class="kpi-value">18</div><div class="kpi-sub neu">3.9% of workforce</div></div>
+    <div class="kpi-card"><div class="kpi-label">Voluntary Turnover</div><div class="kpi-value">6.1%</div><div class="kpi-sub neg">↑ +1.2pts vs. FY2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Manager Effectiveness</div><div class="kpi-value">3.7/5</div><div class="kpi-sub pos">↑ +0.3 vs. FY2025</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Engagement by Unit — FY2026</div><div class="chart-subtitle">Annual pulse survey · 100-pt scale</div></div></div>
+      <div style="position:relative;height:250px;"><canvas id="c_wb_eng"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Well-being Trends — FY2024–FY2026</div><div class="chart-subtitle">Quarterly pulse across 3 dimensions</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:var(--crimson);"></span>Engagement</span><span><span class="leg-dot" style="background:var(--blue);"></span>Workload Balance</span><span><span class="leg-dot" style="background:var(--pos);"></span>Belonging</span></div>
+      <div style="position:relative;height:230px;"><canvas id="c_wb_trend"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Leave Register — Active as of May 2026</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Emp ID</th><th>Unit</th><th>Role Level</th><th>Leave Type</th>
+        <th>Start</th><th>Expected Return</th><th class="r">Weeks</th>
+        <th class="c">Backfill</th><th class="c">Status</th>
+      </tr></thead><tbody id="leave_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 7: TALENT ACQUISITION ═══ -->
+<section class="tab-panel" id="tab-recruiting">
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Open Requisitions</div><div class="kpi-value">23</div><div class="kpi-sub neg">All active</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Time-to-Fill</div><div class="kpi-value">6.8 wks</div><div class="kpi-sub neg">↑ +0.9 wks vs. FY2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Offer Acceptance Rate</div><div class="kpi-value">81%</div><div class="kpi-sub pos">FY2026 YTD</div></div>
+    <div class="kpi-card"><div class="kpi-label">New Hires YTD</div><div class="kpi-value">31</div><div class="kpi-sub neu">Jul–Apr FY2026</div></div>
+    <div class="kpi-card"><div class="kpi-label">Internal Hires</div><div class="kpi-value">8</div><div class="kpi-sub pos">25.8% of fills</div></div>
+    <div class="kpi-card"><div class="kpi-label">30-Day Attrition (New)</div><div class="kpi-value">2</div><div class="kpi-sub warn">6.5% of new hires</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Hiring Pipeline — Stage Summary</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_pipeline"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Time-to-Fill by Unit</div><div class="chart-subtitle">Average weeks · FY2026 YTD</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_ttf"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Open Requisition Register</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Position</th><th>Unit</th><th class="c">Grade</th><th>Stage</th>
+        <th class="r">Days Open</th><th class="r">Applicants</th>
+        <th>Recruiter</th><th class="c">Priority</th>
+      </tr></thead><tbody id="req_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 8: HR ANALYTICS ENGINE ═══ -->
+<section class="tab-panel" id="tab-hranalytics">
+  <div class="itfm-header">
+    <div>
+      <h2>🤖 Finance-Grade HR Metrics Narrative Engine</h2>
+      <p>Deterministic AI engine synthesizing HR operational data into precise, executive-ready narrative analysis. Same zero-hallucination guardrails as ITFM — applied to people data.</p>
+    </div>
+    <div>
+      <div style="font-size:10px;color:rgba(255,255,255,.45);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;">Active Guardrails</div>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span class="guardrail-chip" style="color:#fca5a5;border-color:#fca5a5;font-size:10px;padding:2px 8px;">🚫 Zero Hallucination</span>
+        <span class="guardrail-chip" style="color:#86efac;border-color:#86efac;font-size:10px;padding:2px 8px;">✓ Data-Only</span>
+        <span class="guardrail-chip" style="color:#93c5fd;border-color:#93c5fd;font-size:10px;padding:2px 8px;">🔒 Privacy-Safe</span>
+        <span class="guardrail-chip" style="color:#fcd34d;border-color:#fcd34d;font-size:10px;padding:2px 8px;">📐 Neutral Tone</span>
+      </div>
+    </div>
+  </div>
+  <div class="engine-controls">
+    <div class="ctrl-group"><label class="ctrl-label">Metric Domain</label>
+      <select class="ctrl-select" id="hr_domain">
+        <option value="selected">Selected pools only</option>
+        <option value="all">All domains</option>
+        <option value="risk">High-risk signals only</option>
+      </select>
+    </div>
+    <div class="ctrl-group"><label class="ctrl-label">Narrative Depth</label>
+      <select class="ctrl-select" id="hr_depth">
+        <option value="executive">Executive Summary</option>
+        <option value="detailed">Detailed Consulting</option>
+        <option value="board">Dean / Board Brief</option>
+      </select>
+    </div>
+    <div class="ctrl-group"><label class="ctrl-label">Period</label>
+      <select class="ctrl-select" id="hr_period">
+        <option value="apr26">April 2026 (Current)</option>
+        <option value="ytd">YTD FY2026</option>
+        <option value="fy26">Full FY2026</option>
+      </select>
+    </div>
+    <button class="generate-btn" id="hr_gen_btn" onclick="generateHrNarrative()">
+      <span class="btn-icon">▶ Generate HR Analysis</span>
+      <span class="spinner"></span>
+    </button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-bottom:16px;" id="hr_pool_grid"></div>
+  <div class="itfm-output" id="hr_output_panel">
+    <div class="itfm-output-header">
+      <span>📄 HR Narrative Output — Harvard College FAS</span>
+      <div style="display:flex;gap:7px;align-items:center;">
+        <span style="font-size:10px;background:rgba(30,107,56,.25);border:1px solid rgba(86,201,134,.4);border-radius:4px;padding:2px 8px;color:#86efac;">✓ Mock Data Mode</span>
+        <button class="copy-btn" onclick="copyHrNarrative()">⎘ Copy</button>
+      </div>
+    </div>
+    <div class="itfm-output-body" id="hr_output_body">
+      <div class="itfm-placeholder">Select one or more HR metric domains above, then click <strong>▶ Generate HR Analysis</strong> to produce an executive-grade people analytics narrative.</div>
+    </div>
+    <div class="itfm-status" id="hr_status"><div class="status-dot" style="background:var(--gray-200);"></div><span>Ready · 0 domains selected</span></div>
+  </div>
+</section>
+
+<!-- ═══ TAB 9: HR CALENDAR ═══ -->
+<section class="tab-panel" id="tab-hrcalendar">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+    <div><div class="section-label" style="margin:0 0 2px;">HR Planning Calendar — FY2026/2027</div><div style="font-size:12px;color:var(--gray-600);">Harvard College · Senior HR Consultant cycle view</div></div>
+    <div style="display:flex;gap:6px;">
+      <div style="display:flex;border:1px solid var(--gray-200);border-radius:6px;overflow:hidden;background:var(--gray-50);">
+        <button style="padding:5px 12px;border:none;background:var(--crimson);color:#fff;font-size:11px;font-weight:500;cursor:pointer;" id="hrcal_view_btn" onclick="toggleHrCalView()">Year View</button>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;" id="hrcal_legend"></div>
+  <div id="hrcal_year_grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:18px;"></div>
+  <div class="section-label">Upcoming HR Deadlines — Next 45 Days</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Date</th><th>HR Activity</th><th>Category</th><th>Owner / Lead</th><th class="c">Priority</th><th>Notes</th>
+      </tr></thead><tbody id="hrcal_upcoming_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- EXPORT FAB -->
+<button class="export-fab" onclick="exportAllHr()" title="Export HR data to Excel">📥 Export Data</button>
+
+<footer class="dash-footer">
+  <span>FAS HR Consulting Dashboard · Harvard College · Work Sample — Narissara Khomkhai · Candidate: Senior HR Consultant (002613SR)</span>
+  <span>Source: Workday HCM · Harvard OHR · Data as of May 2026</span>
+</footer>
+
+<!-- EVENT POPUP -->
+<div class="cal-event-popup" id="hrcal_popup">
+  <button style="position:absolute;top:8px;right:8px;background:var(--gray-100);border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:10px;" onclick="document.getElementById('hrcal_popup').classList.remove('show')">✕</button>
+  <div class="cal-popup-title" id="hrcal_popup_title"></div>
+  <div id="hrcal_popup_body"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════
+const CRIMSON='#A51C30', NAVY='#1a2744', BLUE='#1a5fa8', GREEN='#1e6b38', AMBER='#8a5c00', PURPLE='#5530a0';
+const TICK='#9e9b92', GRID='rgba(0,0,0,0.06)';
+const charts={};
+function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+function mc(id,cfg){dc(id);charts[id]=new Chart(document.getElementById(id),cfg);return charts[id];}
+
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+const COLLEGE_UNITS=[
+  {unit:'Dean\'s Office',         auth:45, filled:43, vacant:2, tenure:9.2, retire3yr:8,  succession:'Full',    engScore:78, erCases:1, perfAvg:3.82},
+  {unit:'Academic Affairs',       auth:65, filled:62, vacant:3, tenure:8.4, retire3yr:10, succession:'Partial', engScore:74, erCases:2, perfAvg:3.71},
+  {unit:'Student Affairs',        auth:80, filled:74, vacant:6, tenure:5.8, retire3yr:9,  succession:'Partial', engScore:65, erCases:3, perfAvg:3.55},
+  {unit:'Residential Life',       auth:75, filled:71, vacant:4, tenure:6.1, retire3yr:11, succession:'None',    engScore:62, erCases:3, perfAvg:3.44},
+  {unit:'Athletics',              auth:110,filled:106,vacant:4, tenure:7.8, retire3yr:16, succession:'Partial', engScore:72, erCases:4, perfAvg:3.68},
+  {unit:'Campus Operations',      auth:60, filled:57, vacant:3, tenure:10.2,retire3yr:12, succession:'Full',    engScore:73, erCases:1, perfAvg:3.72},
+  {unit:'Finance & Admin',        auth:35, filled:34, vacant:1, tenure:8.8, retire3yr:5,  succession:'Full',    engScore:76, erCases:0, perfAvg:3.81},
+  {unit:'Communications',         auth:15, filled:15, vacant:0, tenure:5.4, retire3yr:2,  succession:'Full',    engScore:80, erCases:0, perfAvg:3.90},
+];
+const PERF_UNITS=[
+  {unit:'Dean\'s Office',   rated:42, avg:3.82, top:5,  exc:14, meets:20, dev:2, ni:1, nr:3},
+  {unit:'Academic Affairs', rated:60, avg:3.71, top:7,  exc:18, meets:28, dev:5, ni:2, nr:5},
+  {unit:'Student Affairs',  rated:70, avg:3.55, top:6,  exc:16, meets:35, dev:9, ni:4, nr:10},
+  {unit:'Residential Life', rated:68, avg:3.44, top:4,  exc:12, meets:36, dev:11,ni:5, nr:7},
+  {unit:'Athletics',        rated:100,avg:3.68, top:10, exc:30, meets:48, dev:9, ni:3, nr:6},
+  {unit:'Campus Ops',       rated:55, avg:3.72, top:6,  exc:16, meets:26, dev:5, ni:2, nr:5},
+  {unit:'Finance & Admin',  rated:33, avg:3.81, top:4,  exc:10, meets:16, dev:2, ni:1, nr:2},
+  {unit:'Communications',   rated:15, avg:3.90, top:2,  exc:6,  meets:6,  dev:1, ni:0, nr:0},
+];
+const PROMO_DATA=[
+  {id:'HC-20141',unit:'Academic Affairs',  title:'Program Coordinator → Sr. Coordinator',from:'054',to:'056',delta:'+7.2%',date:'Sep 2025',type:'Merit'},
+  {id:'HC-28830',unit:'Athletics',         title:'Athletic Trainer II → III',            from:'055',to:'056',delta:'+5.8%',date:'Oct 2025',type:'Merit'},
+  {id:'HC-35501',unit:'Dean\'s Office',    title:'Administrative Asst. → Office Mgr.',   from:'053',to:'055',delta:'+8.1%',date:'Nov 2025',type:'Structural'},
+  {id:'HC-44102',unit:'Student Affairs',   title:'Student Programs Coord → Sr.',         from:'055',to:'057',delta:'+6.4%',date:'Jan 2026',type:'Merit'},
+  {id:'HC-51033',unit:'Residential Life',  title:'Resident Dir. → Sr. Resident Dir.',    from:'056',to:'058',delta:'+7.8%',date:'Jan 2026',type:'Merit'},
+  {id:'HC-62240',unit:'Campus Ops',        title:'Facilities Coord → Facilities Mgr.',   from:'055',to:'057',delta:'+9.2%',date:'Feb 2026',type:'Structural'},
+  {id:'HC-73871',unit:'Finance & Admin',   title:'Financial Analyst II → Sr. Analyst',   from:'055',to:'057',delta:'+6.8%',date:'Feb 2026',type:'Merit'},
+  {id:'HC-80409',unit:'Communications',    title:'Communications Coord → Sr. Coord.',    from:'054',to:'056',delta:'+6.2%',date:'Mar 2026',type:'Merit'},
+];
+const COMP_FLAGS=[
+  {id:'HC-10081',unit:'Student Affairs',  grade:'055',salary:'$68,400', bandMin:'$70,200',gap:1800, months:26,action:'Equity correction in progress'},
+  {id:'HC-15330',unit:'Residential Life', grade:'054',salary:'$61,200', bandMin:'$63,500',gap:2300, months:29,action:'Manager review required'},
+  {id:'HC-22488',unit:'Athletics',        grade:'056',salary:'$78,800', bandMin:'$80,100',gap:1300, months:24,action:'FY2027 merit priority flag'},
+  {id:'HC-29944',unit:'Residential Life', grade:'053',salary:'$56,000', bandMin:'$58,200',gap:2200, months:31,action:'Immediate equity correction'},
+  {id:'HC-34102',unit:'Campus Ops',       grade:'055',salary:'$69,000', bandMin:'$70,200',gap:1200, months:25,action:'FY2027 merit priority flag'},
+  {id:'HC-41559',unit:'Academic Affairs', grade:'057',salary:'$88,000', bandMin:'$90,100',gap:2100, months:27,action:'Compensation review scheduled'},
+  {id:'HC-50220',unit:'Student Affairs',  grade:'055',salary:'$67,800', bandMin:'$70,200',gap:2400, months:28,action:'Immediate equity correction'},
+  {id:'HC-57733',unit:'Athletics',        grade:'054',salary:'$62,500', bandMin:'$63,500',gap:1000, months:24,action:'FY2027 merit priority flag'},
+  {id:'HC-66491',unit:'Student Affairs',  grade:'053',salary:'$55,000', bandMin:'$58,200',gap:3200, months:36,action:'Immediate — critical gap'},
+  {id:'HC-72815',unit:'Residential Life', grade:'054',salary:'$61,800', bandMin:'$63,500',gap:1700, months:33,action:'Immediate equity correction'},
+  {id:'HC-80044',unit:'Athletics',        grade:'056',salary:'$79,000', bandMin:'$80,100',gap:1100, months:25,action:'FY2027 merit priority flag'},
+];
+const ER_CASES=[
+  {id:'ER-2026-041',unit:'Athletics',        type:'Performance Management', opened:'2026-02-12',days:88, consultant:'Sr. HR Consultant',ogc:false,  priority:'High',   status:'Active — PIP'},
+  {id:'ER-2026-038',unit:'Residential Life', type:'Workplace Conduct',      opened:'2026-02-28',days:72, consultant:'Sr. HR Consultant',ogc:true,   priority:'High',   status:'Active — Investigation'},
+  {id:'ER-2026-044',unit:'Student Affairs',  type:'Workplace Investigation', opened:'2026-03-05',days:66, consultant:'Sr. HR Consultant',ogc:true,   priority:'High',   status:'Active — Investigation'},
+  {id:'ER-2026-049',unit:'Athletics',        type:'Performance Management', opened:'2026-03-14',days:57, consultant:'Sr. HR Consultant',ogc:false,  priority:'Medium', status:'Active — PIP'},
+  {id:'ER-2026-052',unit:'Residential Life', type:'ADA Accommodation',      opened:'2026-03-22',days:49, consultant:'Sr. HR Consultant',ogc:false,  priority:'Medium', status:'Pending — Evaluation'},
+  {id:'ER-2026-055',unit:'Student Affairs',  type:'ADA Accommodation',      opened:'2026-04-01',days:39, consultant:'Sr. HR Consultant',ogc:false,  priority:'Medium', status:'Active — Review'},
+  {id:'ER-2026-058',unit:'Athletics',        type:'Workplace Conduct',       opened:'2026-04-08',days:32, consultant:'Sr. HR Consultant',ogc:false,  priority:'Medium', status:'Active — Review'},
+  {id:'ER-2026-061',unit:'Academic Affairs', type:'Performance Management', opened:'2026-04-15',days:25, consultant:'Sr. HR Consultant',ogc:false,  priority:'Medium', status:'Active — Coaching'},
+  {id:'ER-2026-064',unit:'Campus Ops',       type:'Workplace Climate',       opened:'2026-04-18',days:22, consultant:'Sr. HR Consultant',ogc:false,  priority:'Low',    status:'Pending — Manager meeting'},
+  {id:'ER-2026-067',unit:'Student Affairs',  type:'Performance Management', opened:'2026-04-22',days:18, consultant:'Sr. HR Consultant',ogc:false,  priority:'Low',    status:'Active — PIP'},
+  {id:'ER-2026-070',unit:'Residential Life', type:'Leave/FMLA Dispute',     opened:'2026-04-28',days:12, consultant:'Sr. HR Consultant',ogc:false,  priority:'Low',    status:'Pending — OHR consult'},
+  {id:'ER-2026-073',unit:'Athletics',        type:'Compensation Dispute',    opened:'2026-05-01',days:9,  consultant:'Sr. HR Consultant',ogc:false,  priority:'Medium', status:'Active — Review'},
+  {id:'ER-2026-076',unit:'Dean\'s Office',   type:'Workplace Conduct',       opened:'2026-05-05',days:5,  consultant:'Sr. HR Consultant',ogc:false,  priority:'Low',    status:'New — Intake'},
+  {id:'ER-2026-079',unit:'Academic Affairs', type:'ADA Accommodation',      opened:'2026-05-08',days:2,  consultant:'Sr. HR Consultant',ogc:false,  priority:'Low',    status:'New — Intake'},
+];
+const LEAVE_DATA=[
+  {id:'HC-29041',unit:'Residential Life', role:'Resident Director',     type:'Parental (FMLA)', start:'Mar 2026',  exp:'Jun 2026',  wks:13, bf:'Temporary',  status:'Active'},
+  {id:'HC-31128',unit:'Student Affairs',  role:'Program Coordinator',   type:'Medical Leave',   start:'Feb 2026',  exp:'May 2026',  wks:14, bf:'None',        status:'Returning soon'},
+  {id:'HC-38902',unit:'Athletics',        role:'Athletic Trainer II',   type:'Parental (FMLA)', start:'Apr 2026',  exp:'Jul 2026',  wks:13, bf:'Contractor',  status:'Active'},
+  {id:'HC-45210',unit:'Campus Ops',       role:'Facilities Coordinator',type:'Medical Leave',   start:'Mar 2026',  exp:'Jun 2026',  wks:12, bf:'Temp',         status:'Active'},
+  {id:'HC-52841',unit:'Residential Life', role:'Asst. House Manager',   type:'Personal/Extended',start:'Jan 2026', exp:'Jun 2026',  wks:24, bf:'Contractor',  status:'Active'},
+  {id:'HC-61103',unit:'Academic Affairs', role:'Registrar Coordinator', type:'Parental (FMLA)', start:'Apr 2026',  exp:'Jul 2026',  wks:13, bf:'None',         status:'Active'},
+  {id:'HC-70282',unit:'Athletics',        role:'Team Operations Mgr.',  type:'Medical Leave',   start:'Apr 2026',  exp:'Jun 2026',  wks:8,  bf:'None',         status:'Returning soon'},
+  {id:'HC-81034',unit:'Student Affairs',  role:'Dean\'s Office Coord.', type:'Parental (FMLA)', start:'May 2026',  exp:'Aug 2026',  wks:13, bf:'Temp',         status:'Active'},
+  {id:'HC-91500',unit:'Residential Life', role:'Sr. Resident Director', type:'Intermittent FMLA',start:'Feb 2026', exp:'Ongoing',   wks:null,bf:'None',        status:'Intermittent'},
+  {id:'HC-10228',unit:'Communications',   role:'Content Coordinator',   type:'Medical Leave',   start:'May 2026',  exp:'May 31',    wks:3,  bf:'None',         status:'Returning soon'},
+];
+const OPEN_REQS=[
+  {title:'Assistant Dean, Student Programs',   unit:'Student Affairs',  grade:'058',stage:'Interviewing',days:58,apps:22,rec:'FAS TA',priority:'High'},
+  {title:'Program Director, Academic Affairs', unit:'Academic Affairs', grade:'059',stage:'Screening',   days:42,apps:18,rec:'FAS TA',priority:'High'},
+  {title:'Sr. Resident Director',              unit:'Residential Life', grade:'057',stage:'Offer Out',    days:71,apps:14,rec:'FAS TA',priority:'High'},
+  {title:'Assistant Director, Athletics',      unit:'Athletics',        grade:'057',stage:'Interviewing', days:35,apps:31,rec:'FAS TA',priority:'Medium'},
+  {title:'Administrative Coordinator',         unit:'Dean\'s Office',   grade:'054',stage:'Posted',       days:18,apps:42,rec:'FAS TA',priority:'Medium'},
+  {title:'Facilities Manager',                 unit:'Campus Ops',       grade:'057',stage:'Screening',    days:28,apps:12,rec:'FAS TA',priority:'Medium'},
+  {title:'Financial Analyst II',               unit:'Finance & Admin',  grade:'055',stage:'Interviewing', days:44,apps:28,rec:'FAS TA',priority:'Medium'},
+  {title:'Communications Specialist',          unit:'Communications',   grade:'055',stage:'Posted',       days:14,apps:38,rec:'FAS TA',priority:'Low'},
+];
+
+// HR CALENDAR DATA
+const HR_CAL_TYPES={
+  performance:{label:'⭐ Performance',  color:'#A51C30', bg:'#f9eced'},
+  compensation:{label:'💰 Compensation', color:'#1e6b38', bg:'#e8f5ee'},
+  benefits:    {label:'🎁 Benefits',     color:'#1a5fa8', bg:'#e8f0fb'},
+  er:          {label:'🤝 ER / Policy',  color:'#8a5c00', bg:'#fef8e6'},
+  talent:      {label:'🔎 Talent',       color:'#5530a0', bg:'#f0eafc'},
+  compliance:  {label:'⚖️ Compliance',   color:'#9b2020', bg:'#fdeaea'},
+};
+const HR_CAL_EVENTS=[
+  {id:'p1', cal:'performance',  title:'FY2026 Performance Calibration Sessions',    date:'2026-05-18', priority:'High',  owner:'Sr. HR Consultant', notes:'2-week calibration window. Rating reviews across all College units. Equity analysis required.'},
+  {id:'p2', cal:'performance',  title:'FY2026 Performance Reviews Delivered to Staff',date:'2026-05-25',priority:'High', owner:'All Managers',    notes:'Managers deliver reviews. HR Consultant available for coaching support.'},
+  {id:'c1', cal:'compensation', title:'Merit Increase Recommendations Due',          date:'2026-05-20', priority:'High',  owner:'All Managers',   notes:'Submit merit recommendations in Workday. HR Consultant reviews equity before approval.'},
+  {id:'e1', cal:'er',           title:'ER Case Review — High Priority (Monthly)',    date:'2026-05-15', priority:'High',  owner:'Sr. HR Consultant', notes:'Monthly review of all active high-priority ER cases with OGC and HR Director.'},
+  {id:'t1', cal:'talent',       title:'Succession Planning Review — Residential Life',date:'2026-05-28',priority:'High', owner:'Sr. HR Consultant', notes:'Residential Life has 0 succession plans. Session with Dean for Administration & Finance.'},
+  {id:'c2', cal:'compensation', title:'FY2027 Merit Increases Effective',             date:'2026-07-01', priority:'High',  owner:'OHR / Payroll',  notes:'Annual merit increases take effect. Verify all equity corrections are included.'},
+  {id:'b1', cal:'benefits',     title:'FY2027 Benefits Open Enrollment',             date:'2026-10-12', priority:'High',  owner:'Harvard OHR',    notes:'2-week enrollment window. HR Consultant supports staff with questions.'},
+  {id:'p3', cal:'performance',  title:'FY2027 Performance Review Cycle Opens',       date:'2027-02-01', priority:'High',  owner:'Sr. HR Consultant', notes:'Annual review cycle opens in Workday. Manager training sessions scheduled.'},
+  {id:'c3', cal:'compliance',   title:'Annual HIPAA / Data Privacy Training Deadline',date:'2026-12-31',priority:'High',  owner:'Harvard OHR',    notes:'All College staff required to complete training in Workday Learning.'},
+  {id:'t2', cal:'talent',       title:'FY2027 Workforce Planning Kickoff',           date:'2026-06-15', priority:'Medium',owner:'Sr. HR Consultant + Dean A&F', notes:'Annual workforce planning session. Staffing models, org design review, new roles.'},
+  {id:'e2', cal:'er',           title:'Manager ER Skills Workshop — Student Affairs',date:'2026-06-10', priority:'Medium',owner:'Sr. HR Consultant', notes:'Targeted intervention for Student Affairs based on ER case volume and engagement data.'},
+  {id:'p4', cal:'performance',  title:'Self-Evaluations Due — FY2027 Cycle',        date:'2027-02-28', priority:'High',  owner:'All Staff',      notes:'All employees submit self-evaluations in Workday by end of month.'},
+  {id:'c4', cal:'compliance',   title:'Internal Audit — HR Records Review',         date:'2026-09-15', priority:'Medium',owner:'Internal Audit',  notes:'Annual HR records audit. Sr. HR Consultant coordinates documentation.'},
+  {id:'t3', cal:'talent',       title:'Engagement Survey — Annual Launch',           date:'2026-10-01', priority:'Medium',owner:'Sr. HR Consultant', notes:'Annual Gallup-based pulse survey. Results due to Dean by Nov 15.'},
+  {id:'e3', cal:'er',           title:'Union Contract — Annual Review (SEIU)',       date:'2026-08-01', priority:'High',  owner:'Employee/Labor Relations + HR', notes:'Annual review of SEIU contract terms. HR Consultant interprets and applies CBA for client group.'},
+  {id:'b2', cal:'benefits',     title:'FY2027 Benefits Effective Date',              date:'2027-01-01', priority:'Medium',owner:'Harvard OHR',    notes:'New benefit elections take effect for all staff.'},
+  {id:'p5', cal:'performance',  title:'Manager Evaluations Due — FY2027 Cycle',     date:'2027-03-28', priority:'High',  owner:'All Managers',   notes:'Manager completion deadline. HR Consultant follows up on outstanding reviews.'},
+  {id:'c5', cal:'compensation', title:'FY2027 Compensation Planning — Kickoff',     date:'2027-01-15', priority:'Medium',owner:'FAS Compensation + HR', notes:'Annual compensation planning cycle. Merit pool allocation and equity review.'},
+];
+
+// HR NARRATIVE POOLS
+const HR_POOLS=[
+  {id:'hr_turnover',    name:'Turnover & Retention',    cat:'Workforce Analytics',  direction:'UNFAVORABLE', val:'8.2%',  change:'+1.2pts', prior:'7.0%', note:'Voluntary turnover increased primarily in Student Affairs (9.8%) and Residential Life (9.1%). Exit interview data cites workload, limited advancement, and manager effectiveness as top three drivers. 39 departures YTD.'},
+  {id:'hr_engagement',  name:'Engagement & Climate',    cat:'Culture & Well-being', direction:'UNFAVORABLE', val:'71%',   change:'−3pts',   prior:'74%',  note:'Engagement declined 3 points vs. FY2025. Lowest units: Residential Life (62%), Student Affairs (65%). Workload balance dimension drove most of the decline per disaggregated results. Manager effectiveness index improved to 3.7/5.'},
+  {id:'hr_er_caseload', name:'ER Case Volume',           cat:'Employee Relations',   direction:'UNFAVORABLE', val:'38 cases',change:'+28%',  prior:'30',   note:'ER caseload up 28% vs. same period FY2025. Athletics (4 active) and Residential Life (3 active) account for 50% of current docket. 2 active workplace investigations in coordination with OGC. 5 active PIPs.'},
+  {id:'hr_comp_equity', name:'Compensation Equity',      cat:'Compensation',         direction:'UNFAVORABLE', val:'11 below min',change:'new',prior:'8',   note:'11 employees identified below band minimum. 42 employees with no increase in 12+ months. Gender pay gap of −2.8% for women vs. men in same grade bands. 7 internal equity alerts (same role, >15% spread) require manager consultation.'},
+  {id:'hr_performance', name:'Performance Management',   cat:'Talent & Development', direction:'FAVORABLE',   val:'3.68 avg',change:'+0.08',prior:'3.60', note:'Average performance score improved to 3.68 (↑0.08). Completion rate 94%. 38 top performers (8.2%). 9 employees rated Needs Improvement with active PIPs. Student Affairs and Residential Life show lowest average scores (3.55 and 3.44 respectively).'},
+  {id:'hr_recruiting',  name:'Talent Acquisition',       cat:'Recruiting & Hiring',  direction:'UNFAVORABLE', val:'6.8 wks', change:'+0.9wks',prior:'5.9 wks', note:'Time-to-fill increased to 6.8 weeks, up from 5.9 in FY2025. Sr. Resident Director role is at 71 days open. Offer acceptance rate remains healthy at 81%. 3 of 8 open roles are high-priority vacancy risks.'},
+];
+let hrSelectedPools=new Set(['hr_turnover','hr_engagement','hr_er_caseload']);
+
+const HR_NARRATIVES={
+  hr_turnover:{
+    executive:[
+      `<strong>Voluntary Turnover Rate (+1.2 pts, now 8.2%):</strong> Voluntary departures reached 8.2% in FY2026 (39 employees), up from 7.0% in FY2025. Student Affairs recorded the highest rate at 9.8%, followed by Residential Life at 9.1%. Exit interview data cites workload, limited advancement pathways, and manager effectiveness as the top three stated reasons for departure.`,
+      `<strong>Involuntary Separations — Stable:</strong> Involuntary turnover remained flat at 2.1% (10 employees), consistent with the FY2025 baseline. No anomalous patterns are documented in the involuntary separation data.`,
+      `<strong>Retention Risk — Key Roles:</strong> Four of the 39 departures occurred in roles classified as mission-critical for College operations (2 in Residential Life, 2 in Student Affairs). Succession coverage for these roles was rated "None" at the time of departure, creating short-term operational exposure.`,
+    ],
+    detailed:[
+      `<strong>Voluntary Turnover — Root Cause Analysis:</strong> The 8.2% voluntary turnover rate (39 departures, FY2026 YTD) represents a statistically significant increase over the FY2025 rate of 7.0%. Exit interview analysis reveals three primary drivers: (1) workload cited by 62% of departing employees, particularly in Residential Life and Student Affairs where staff-to-student ratios increased following two unfilled vacancies; (2) limited advancement cited by 54%, concentrated among Grade 054–056 employees with 3–6 years of tenure; and (3) manager effectiveness cited by 38%, consistent with the engagement survey findings for the same two units.`,
+      `<strong>Unit-Level Breakdown:</strong> Student Affairs recorded 8 departures (9.8%), Residential Life 7 departures (9.1%), Athletics 9 departures (8.5%), Academic Affairs 6 departures (7.8%), Campus Operations 5 departures (7.7%), Dean's Office 2 departures (4.4%), Finance & Admin 1 departure (2.9%), Communications 1 departure (6.7%).`,
+      `<strong>Replacement Cost Estimate:</strong> At an estimated 1.5× annual salary for professional staff replacements (recruiting, onboarding, productivity ramp), the 39 FY2026 departures represent an estimated $2.1M–$2.8M in replacement costs based on average College salaries. This figure is not confirmed by Finance and should be validated with the FAS Compensation team before inclusion in formal reporting.`,
+    ],
+    board:[
+      `Harvard College is experiencing elevated voluntary turnover at 8.2% (FY2026 YTD), up 1.2 percentage points from FY2025. The departure concentration in Student Affairs and Residential Life — the units with the lowest engagement scores and highest ER caseloads — suggests a systemic people culture challenge rather than isolated individual decisions. Exit data consistently points to workload balance and limited advancement as root causes. Recommended strategic interventions include targeted manager effectiveness coaching in affected units, a career pathway review for Grade 054–056 staff, and a workload audit in Residential Life in advance of the FY2027 planning cycle.`,
+    ]
+  },
+  hr_engagement:{
+    executive:[
+      `<strong>Overall Engagement — 71% (▼ −3 points):</strong> The FY2026 annual pulse survey recorded a 3-point decline in overall engagement from 74% in FY2025. The decline is concentrated in two units: Residential Life (62%, ▼−6pts) and Student Affairs (65%, ▼−5pts). All other units remained within 2 points of prior year, with Communications (80%) and Dean's Office (78%) posting the strongest results.`,
+      `<strong>Workload Balance Dimension — Primary Driver:</strong> Disaggregated survey data shows the largest year-over-year declines on the "Workload Balance" dimension (−5 pts overall), with Residential Life at −9 pts. This is consistent with exit interview findings and the 71-day open vacancy in the Sr. Resident Director role placing additional burden on existing staff.`,
+      `<strong>Manager Effectiveness — Positive Signal:</strong> Despite the overall decline, the Manager Effectiveness index improved to 3.7/5 (↑0.3 vs. FY2025), attributable in part to the FY2025 manager coaching program. This positive signal should be noted in communications with leadership as evidence that targeted interventions produce measurable results.`,
+    ],
+    detailed:[
+      `<strong>Unit-Level Engagement Scores:</strong> Dean's Office 78% (↑1), Academic Affairs 74% (↓1), Student Affairs 65% (▼−5), Residential Life 62% (▼−6), Athletics 72% (→0), Campus Operations 73% (↑2), Finance & Admin 76% (↑1), Communications 80% (↑2). Units below the 70% threshold (Student Affairs and Residential Life) are flagged for targeted intervention planning.`,
+      `<strong>Three-Dimension Analysis:</strong> (1) Engagement: 71% overall (▼−3); (2) Workload Balance: 65% (▼−5); (3) Sense of Belonging: 74% (▼−1). The Workload Balance dimension is the leading driver of the decline and aligns with staffing vacancy patterns in the two most affected units.`,
+      `<strong>Recommended Interventions:</strong> Based on the data, three targeted actions are recommended: (1) A listening tour in Residential Life and Student Affairs led by the Dean for Administration & Finance; (2) A workload audit and potential temporary staffing relief for units with vacancy-driven overload; (3) An advancement pathway communication campaign for Grade 054–056 employees, addressing the "limited advancement" concern surfaced in exit data. Implementation timeline and success metrics to be defined in the FY2027 HR Action Plan.`,
+    ],
+    board:[
+      `The FY2026 engagement score of 71% (▼3 points) signals a people climate concern requiring proactive leadership attention in two College units. Residential Life and Student Affairs account for the full magnitude of the decline, driven primarily by workload balance perceptions tied to documented staffing vacancies. The positive manager effectiveness trend (↑0.3) demonstrates that the College\'s coaching investments are working. A focused listening and intervention program in the two at-risk units, combined with expedited vacancy fills, is the recommended near-term action plan for the Dean's review.`,
+    ]
+  },
+  hr_er_caseload:{
+    executive:[
+      `<strong>ER Case Volume — Up 28% YTD:</strong> 38 cases have been opened in FY2026 through April, compared to 30 in the same period of FY2025 — a 28% increase. 14 cases remain active. The increase is concentrated in Athletics (4 active) and Residential Life (3 active), which together account for 50% of the active caseload.`,
+      `<strong>Two Active Workplace Investigations:</strong> Two cases (ER-2026-038 and ER-2026-044) have been elevated to formal workplace investigations in coordination with the Office of General Counsel. Both involve Residential Life and Student Affairs respectively. These cases are being managed under Harvard's standard investigation protocol and are not subject to further disclosure in this report.`,
+      `<strong>Performance Management — 5 Active PIPs:</strong> Five employees are currently on active Performance Improvement Plans, spanning Athletics (2), Student Affairs (2), and Residential Life (1). All PIPs have assigned manager coaches. Review dates are scheduled within the next 30 days for three of the five active PIPs.`,
+    ],
+    detailed:[
+      `<strong>Case Type Distribution:</strong> Performance Management: 14 cases YTD (36.8%); ADA/Accommodation: 9 cases (23.7%); Workplace Conduct: 8 cases (21.1%); Workplace Investigation: 3 cases (7.9%); Leave/FMLA Dispute: 2 cases (5.3%); Compensation Dispute: 1 case (2.6%); Other/Climate: 1 case (2.6%).`,
+      `<strong>Unit Risk Analysis:</strong> Athletics: 4 active cases, 3.8 per 100 FTE (↑ from 1.8 FY2025); Residential Life: 3 active cases, 4.2 per 100 FTE (highest rate in College); Student Affairs: 3 active cases, 4.1 per 100 FTE; Academic Affairs: 2 active cases. Athletics and Residential Life patterns warrant a proactive manager effectiveness and climate assessment.`,
+      `<strong>Resolution Timeline:</strong> Average days-to-resolution for closed FY2026 cases: 34 days. Target is ≤30 days per FAS ER standards. Three cases (ER-2026-038, 041, 044) have exceeded 60 days and are being actively managed toward resolution.`,
+    ],
+    board:[
+      `Harvard College's ER caseload has increased 28% over the same period in FY2025, with 14 cases currently active and 2 under formal investigation in coordination with OGC. The concentration of cases in Athletics and Residential Life — combined with the engagement and turnover data for those same units — signals systemic manager-employee relationship challenges that warrant a structured leadership intervention. The Senior HR Consultant recommends a joint session with unit leaders and the Dean for Administration & Finance to review patterns, establish accountability expectations, and implement a preventive manager coaching program in both units before the FY2027 performance year begins.`,
+    ]
+  },
+  hr_comp_equity:{
+    executive:[
+      `<strong>11 Employees Below Band Minimum — Immediate Action Required:</strong> Eleven employees are currently compensated below the Harvard salary band minimum for their grade, with gaps ranging from $1,000 to $3,200. Three cases have been open for 30+ months and are classified as critical. Equity corrections are recommended for submission to FAS Compensation in the current cycle.`,
+      `<strong>Gender Pay Gap — −2.8% for Women vs. Men (Same Grade):</strong> Compensation analysis shows women earn an average of 2.8% less than men in equivalent grade bands within the College. This gap exceeds the 2.0% threshold used by FAS for equity review triggers. Targeted analysis by unit and grade is underway.`,
+      `<strong>42 Employees Without Raise in 12+ Months:</strong> Forty-two employees have not received a salary increase in 12 or more months (9.1% of workforce). Of these, 12 have had no increase in 24+ months and are flagged as priority cases for the FY2027 merit cycle.`,
+    ],
+    detailed:[
+      `<strong>Below-Band-Minimum Detail:</strong> 11 employees are below their grade band minimum. Grade 053: 2 employees (avg gap $2,700); Grade 054: 3 employees (avg gap $1,533); Grade 055: 4 employees (avg gap $1,825); Grade 056–057: 2 employees (avg gap $1,550). All 11 have been provided to FAS Compensation for the current equity adjustment cycle.`,
+      `<strong>Internal Equity Alerts:</strong> 7 cases identified where employees in the same role classification within the same unit show a salary spread exceeding 15%. These are being reviewed with managers to determine if performance differentiation justifies the spread or whether equity adjustments are warranted.`,
+      `<strong>Merit Increase Distribution:</strong> Of the 362 employees who received merit increases in FY2026: 0–2%: 22 employees (6.1%); 2–3%: 48 (13.3%); 3–4%: 162 (44.8%); 4–5%: 88 (24.3%); 5%+: 42 (11.6%). Average of 3.4% is slightly below the Harvard University guideline of 3.5%.`,
+    ],
+    board:[
+      `HUIT College's compensation equity position requires immediate attention in two areas: 11 employees below band minimum (3 of whom have been in this position for 30+ months) and a systemic −2.8% gender pay gap at the same grade level. Both represent legal and reputational risks that the Senior HR Consultant is actively managing in partnership with FAS Compensation. Equity correction submissions for the most critical cases have been prepared. The Dean for Administration & Finance should be briefed on the gender pay gap findings before they surface in the next FAS compensation audit cycle.`,
+    ]
+  },
+  hr_performance:{
+    executive:[
+      `<strong>Avg Performance Score — 3.68 (↑0.08):</strong> The College's average performance score improved for the second consecutive year, reaching 3.68 in FY2026. Completion rate stands at 94% (434 of 462 employees rated), with 28 evaluations still outstanding. Communications (3.90) and Dean's Office (3.82) lead; Residential Life (3.44) and Student Affairs (3.55) lag.`,
+      `<strong>Top Performers — 38 Employees (8.2%):</strong> Thirty-eight employees were rated 4.5 or above (Outstanding). This cohort should be prioritized for succession planning, retention risk review, and targeted development investment given the correlation between top-performer departure and turnover in FY2026.`,
+      `<strong>9 Active Needs Improvement Cases:</strong> Nine employees are rated 2.4 or below (Needs Improvement) with active PIPs. The Senior HR Consultant is partnering with managers on all nine cases. Three PIPs are scheduled for review within 30 days.`,
+    ],
+    detailed:[],
+    board:[
+      `The College's performance management culture continues to strengthen, with the average score rising 0.08 points to 3.68 and the manager effectiveness index improving to 3.7/5. The coaching program implemented in FY2025 appears to be producing measurable results. However, two units — Residential Life and Student Affairs — show both the lowest engagement scores and the lowest performance ratings, suggesting a reinforcing cycle of management, climate, and productivity challenges. A specific talent strategy for these units, developed in partnership with their leaders and the Dean for Administration & Finance, is recommended as a FY2027 priority.`,
+    ]
+  },
+  hr_recruiting:{
+    executive:[
+      `<strong>Time-to-Fill — 6.8 Weeks (↑0.9):</strong> Average time-to-fill increased from 5.9 to 6.8 weeks in FY2026. The Sr. Resident Director role has been open 71 days and is classified as a critical vacancy given the unit's existing ER and engagement challenges. Three of eight open requisitions are rated high-priority.`,
+      `<strong>Offer Acceptance Rate — 81%:</strong> The offer acceptance rate of 81% remains healthy and above the FAS average of 78%, indicating competitive compensation positioning for most roles. However, two offers were declined in Student Affairs citing compensation-related concerns, which may reflect the below-band-minimum patterns identified in the equity analysis.`,
+      `<strong>Internal Mobility — 25.8% of Fills:</strong> Eight of 31 FY2026 hires were internal transfers or promotions, representing a 25.8% internal fill rate — a positive indicator for talent development and succession pipeline strength. This rate should be tracked as an engagement and retention intervention metric.`,
+    ],
+    detailed:[],
+    board:[
+      `HUIT College's talent acquisition function is under increasing pressure, with time-to-fill rising to 6.8 weeks and three high-priority vacancies actively impacting operations in Residential Life and Student Affairs. A partnership review with FAS Talent Acquisition is recommended to assess sourcing strategies for program administration talent, where competition has intensified. The strong 81% offer acceptance rate and 25.8% internal fill rate indicate that the College's talent value proposition remains competitive, even as hiring timelines extend.`,
+    ]
+  },
+};
+
+// ═══════════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════════
+const tabBuilt={};
+function switchTab(name, btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(btn) btn.classList.add('active');
+  document.querySelectorAll('.sidebar-nav-item').forEach(i=>i.classList.remove('active'));
+  const sn=document.getElementById('snav_'+name);
+  if(sn) sn.classList.add('active');
+  if(!tabBuilt[name]){
+    tabBuilt[name]=true;
+    const fns={overview:buildOverview,workforce:buildWorkforce,talent:buildTalent,
+      comp:buildComp,er:buildER,wellbeing:buildWellbeing,recruiting:buildRecruiting,
+      hranalytics:buildHrAnalytics,hrcalendar:buildHrCalendar};
+    if(fns[name]) fns[name]();
+  }
+}
+function switchSubTab(name,btn){
+  document.querySelectorAll('.sub-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sub-tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sub-'+name).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+function sNav(name,el){
+  const btn=document.querySelector(`.tab-btn[onclick*="'${name}'"]`);
+  if(btn) btn.click(); else switchTab(name,null);
+  document.querySelectorAll('.sidebar-nav-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');
+  closeSidebar();
+}
+function toggleSidebar(){
+  const sb=document.getElementById('left_sidebar'), ov=document.getElementById('sidebar_overlay');
+  if(sb.classList.contains('open')){sb.classList.remove('open');ov.classList.remove('show');}
+  else{sb.classList.add('open');ov.classList.add('show');document.getElementById('sidebar_ts_footer').textContent=document.getElementById('ts_display').textContent;}
+}
+function closeSidebar(){document.getElementById('left_sidebar').classList.remove('open');document.getElementById('sidebar_overlay').classList.remove('show');}
+function refreshTs(){const now=new Date();document.getElementById('ts_display').textContent=now.toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:true})+' ET';}
+
+// ═══════════════════════════════════════════════
+// BUILD FUNCTIONS
+// ═══════════════════════════════════════════════
+function buildOverview(){
+  const units=COLLEGE_UNITS,labels=units.map(u=>u.unit.split(' ').slice(0,2).join(' '));
+  mc('c_hc_unit',{type:'bar',data:{labels,datasets:[{label:'Filled',data:units.map(u=>u.filled),backgroundColor:'rgba(165,28,48,.72)',borderRadius:4},{label:'Vacant',data:units.map(u=>u.vacant),backgroundColor:'rgba(165,28,48,.25)',borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{color:TICK,font:{size:10}},grid:{color:GRID}},y:{stacked:true,ticks:{color:TICK,font:{size:9}},grid:{display:false}}}}});
+  mc('c_turnover_trend',{type:'bar',data:{labels:['FY2023','FY2024','FY2025','FY2026 YTD'],
+    datasets:[{label:'Voluntary',data:[6.1,6.4,7.0,8.2],backgroundColor:'rgba(165,28,48,.72)',borderRadius:4},{label:'Involuntary',data:[2.0,1.8,2.1,2.1],backgroundColor:'rgba(26,39,68,.55)',borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{color:TICK,font:{size:11}},grid:{display:false}},y:{stacked:true,ticks:{color:TICK,font:{size:10},callback:v=>v+'%'},grid:{color:GRID}}}}});
+  mc('c_engagement',{type:'bar',data:{labels,datasets:[{label:'Engagement %',data:units.map(u=>u.engScore),
+    backgroundColor:units.map(u=>u.engScore<68?'rgba(165,28,48,.72)':u.engScore<74?'rgba(176,112,0,.65)':'rgba(30,107,56,.65)'),borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10},callback:v=>v+'%'},grid:{color:GRID},min:55,max:90},y:{ticks:{color:TICK,font:{size:9}},grid:{display:false}}}}});
+  mc('c_hr_mix',{type:'doughnut',data:{labels:['Performance Mgmt','ER / Investigations','Talent Acquisition','Org Design & Planning','Comp & Equity','Policy & Compliance','Leave & Accommodation'],
+    datasets:[{data:[28,22,18,12,10,6,4],backgroundColor:[CRIMSON,AMBER,PURPLE,'#1a5fa8',GREEN,NAVY,'#9b2020'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:9},color:'#5c5a54'}}}}});
+}
+
+function buildWorkforce(){
+  const units=COLLEGE_UNITS,labels=units.map(u=>u.unit.split(' ').slice(0,2).join(' '));
+  mc('c_wf_filled',{type:'bar',data:{labels,datasets:[{label:'Filled',data:units.map(u=>u.filled),backgroundColor:'rgba(165,28,48,.72)',borderRadius:3},{label:'Vacant',data:units.map(u=>u.vacant),backgroundColor:'rgba(165,28,48,.25)',borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{stacked:true,ticks:{color:TICK,font:{size:10}},grid:{color:GRID}},y:{stacked:true,ticks:{color:TICK,font:{size:9}},grid:{display:false}}}}});
+  mc('c_tenure_dist',{type:'bar',data:{labels:['0–1 yr','1–3 yrs','3–5 yrs','5–10 yrs','10–15 yrs','15+ yrs'],
+    datasets:[{label:'Employees',data:[31,62,85,142,88,54],backgroundColor:['rgba(184,200,216,.6)','rgba(112,144,184,.6)','rgba(26,95,168,.6)','rgba(165,28,48,.65)','rgba(165,28,48,.5)','rgba(30,107,56,.6)'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10}},grid:{color:GRID}}}}});
+  const succClass={Full:'badge-green',Partial:'badge-amber',None:'badge-red'};
+  const tbody=document.getElementById('wf_unit_tbody');
+  tbody.innerHTML='';
+  units.forEach(u=>{
+    const vp=Math.round(u.vacant/u.auth*100);
+    tbody.innerHTML+=`<tr>
+      <td><strong>${u.unit}</strong></td><td class="r">${u.auth}</td><td class="r">${u.filled}</td>
+      <td class="r ${vp>8?'var-neg':vp>4?'var-warn':''}">${u.vacant}</td>
+      <td class="r ${vp>8?'var-neg':vp>4?'var-warn':''}">${vp}%</td>
+      <td><div class="prog"><div class="prog-fill" style="width:${Math.round(u.filled/u.auth*100)}%;background:${u.vacant>3?CRIMSON:GREEN};"></div></div></td>
+      <td class="r">${u.tenure}</td>
+      <td class="r ${u.retire3yr/u.filled>.2?'var-neg':u.retire3yr/u.filled>.12?'var-warn':''}">${u.retire3yr}</td>
+      <td class="c"><span class="badge ${succClass[u.succession]}">${u.succession}</span></td>
+      <td class="c"><span class="badge ${u.vacant>4?'badge-red':u.vacant>2?'badge-amber':'badge-green'}">${u.vacant>4?'Action needed':u.vacant>2?'Monitor':'Healthy'}</span></td>
+    </tr>`;
+  });
+}
+
+function buildTalent(){
+  const distLabels=['1.0–1.9','2.0–2.4','2.5–2.9','3.0–3.4','3.5–3.9','4.0–4.4','4.5–5.0'];
+  mc('c_perf_dist',{type:'bar',data:{labels:distLabels,datasets:[{label:'Employees',data:[2,7,14,88,148,138,38],
+    backgroundColor:['rgba(155,32,32,.75)','rgba(165,28,48,.6)','rgba(176,112,0,.65)','rgba(26,95,168,.5)','rgba(26,95,168,.65)','rgba(30,107,56,.55)','rgba(30,107,56,.75)'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10}},grid:{color:GRID}}}}});
+  const units=PERF_UNITS,fy25=[3.68,3.62,3.48,3.38,3.64,3.68,3.78,3.84];
+  mc('c_perf_unit',{type:'bar',data:{labels:units.map(u=>u.unit.split(' ').slice(0,2).join(' ')),datasets:[
+    {label:'FY2026',data:units.map(u=>u.avg),backgroundColor:'rgba(165,28,48,.72)',borderRadius:3},
+    {label:'FY2025',data:fy25,backgroundColor:'rgba(112,144,184,.6)',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10},callback:v=>v.toFixed(1)},grid:{color:GRID},min:3.0,max:4.1}}}});
+  const tbody=document.getElementById('perf_unit_tbody');
+  tbody.innerHTML='';
+  units.forEach((u,i)=>{
+    const t=u.avg>fy25[i]?'↑':'↓';
+    const tc=u.avg>fy25[i]?'var(--pos)':'var(--neg)';
+    tbody.innerHTML+=`<tr><td>${u.unit}</td><td class="r">${u.rated}</td>
+      <td class="r ${u.avg>=3.75?'var-pos':u.avg<3.5?'var-neg':''}">${u.avg.toFixed(2)}</td>
+      <td class="r var-pos">${u.top}</td><td class="r">${u.exc}</td><td class="r">${u.meets}</td>
+      <td class="r ${u.dev>5?'var-warn':''}">${u.dev}</td>
+      <td class="r ${u.ni>2?'var-neg':''}">${u.ni}</td>
+      <td class="r ${u.nr>5?'var-warn':''}">${u.nr}</td>
+      <td class="c" style="font-size:14px;color:${tc};">${t} ${Math.abs(u.avg-fy25[i]).toFixed(2)}</td></tr>`;
+  });
+  const tbody2=document.getElementById('promo_tbody');
+  tbody2.innerHTML='';
+  const tc={Merit:'badge-green',Structural:'badge-blue',Equity:'badge-amber'};
+  PROMO_DATA.forEach(r=>{tbody2.innerHTML+=`<tr>
+    <td style="font-family:monospace;font-size:10px;color:var(--gray-400);">${r.id}</td>
+    <td>${r.unit}</td><td style="font-size:11px;">${r.title}</td>
+    <td class="c"><span class="badge badge-gray">${r.from}</span></td>
+    <td class="c"><span class="badge badge-blue">${r.to}</span></td>
+    <td class="r var-pos">${r.delta}</td><td>${r.date}</td>
+    <td class="c"><span class="badge ${tc[r.type]}">${r.type}</span></td>
+  </tr>`;});
+}
+
+function buildComp(){
+  mc('c_merit_dist',{type:'bar',data:{labels:['0–1%','1–2%','2–3%','3–4%','4–5%','5%+'],datasets:[{label:'Employees',data:[15,28,84,138,62,35],
+    backgroundColor:['rgba(165,28,48,.6)','rgba(176,112,0,.6)','rgba(176,112,0,.65)','rgba(26,95,168,.6)','rgba(30,107,56,.55)','rgba(30,107,56,.72)'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10}},grid:{color:GRID}}}}});
+  mc('c_market_comp',{type:'bar',data:{labels:['053','054','055','056','057','058','059'],datasets:[{label:'% of Market 50th',data:[94,96,98,101,97,100,103],
+    backgroundColor:[CRIMSON,CRIMSON,'rgba(176,112,0,.65)','rgba(30,107,56,.65)','rgba(165,28,48,.5)','rgba(26,95,168,.6)','rgba(30,107,56,.65)'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10},callback:v=>v+'%'},grid:{color:GRID},min:88,max:110}}}});
+  const tbody=document.getElementById('comp_flag_tbody');
+  tbody.innerHTML='';
+  COMP_FLAGS.forEach(f=>{
+    const belowColor=f.months>=30?'var(--neg)':'var(--warn)';
+    tbody.innerHTML+=`<tr>
+      <td style="font-family:monospace;font-size:10px;color:var(--gray-400);">${f.id}</td>
+      <td>${f.unit}</td><td class="c"><span class="badge badge-gray">${f.grade}</span></td>
+      <td class="r">${f.salary}</td><td class="r" style="color:var(--gray-600);">${f.bandMin}</td>
+      <td class="r var-neg">−$${f.gap.toLocaleString()}</td>
+      <td class="r" style="color:${belowColor};font-weight:600;">${f.months} mo</td>
+      <td><span class="badge ${f.months>=30?'badge-red':'badge-amber'}">${f.action}</span></td>
+    </tr>`;
+  });
+}
+
+function buildER(){
+  mc('c_er_type',{type:'doughnut',data:{labels:['Performance Mgmt','ADA/Accommodation','Workplace Conduct','Investigation','Leave/FMLA','Compensation','Climate/Other'],
+    datasets:[{data:[14,9,8,3,2,1,1],backgroundColor:[CRIMSON,AMBER,NAVY,PURPLE,BLUE,GREEN,'#888'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:9},color:'#5c5a54'}}}}});
+  const months=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+  mc('c_er_trend',{type:'line',data:{labels:months,datasets:[
+    {label:'FY2026',data:[3,3,4,4,3,2,4,5,6,4],borderColor:CRIMSON,tension:.35,pointRadius:3,fill:false},
+    {label:'FY2025',data:[2,3,3,3,2,2,3,3,4,3],borderColor:'#7090b8',tension:.35,pointRadius:2,fill:false},
+    {label:'FY2024',data:[2,2,3,2,2,1,2,3,3,2],borderColor:'#b8c8d8',tension:.35,pointRadius:2,fill:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10},stepSize:1},grid:{color:GRID}}}}});
+  const pClass={High:'badge-red',Medium:'badge-amber',Low:'badge-blue'};
+  const tbody=document.getElementById('er_case_tbody');
+  tbody.innerHTML='';
+  ER_CASES.forEach(c=>{
+    tbody.innerHTML+=`<tr>
+      <td style="font-family:monospace;font-size:10px;">${c.id}</td>
+      <td>${c.unit}</td><td><span class="badge badge-gray" style="font-size:10px;">${c.type}</span></td>
+      <td>${c.opened}</td>
+      <td class="r ${c.days>60?'var-neg':c.days>30?'var-warn':''}">${c.days}d</td>
+      <td style="font-size:11px;">${c.consultant}</td>
+      <td class="c">${c.ogc?'<span class="badge badge-red">Yes</span>':'<span class="badge badge-gray">No</span>'}</td>
+      <td class="c"><span class="badge ${pClass[c.priority]}">${c.priority}</span></td>
+      <td><span class="badge badge-blue" style="font-size:10px;">${c.status}</span></td>
+    </tr>`;
+  });
+  const riskData=[
+    {unit:'Athletics',        fte:106,active:4,rate:3.8,ytd:10,avgDays:42,risk:'High',note:'PIP + conduct concentration'},
+    {unit:'Residential Life', fte:71, active:3,rate:4.2,ytd:8, avgDays:38,risk:'High',note:'Investigation active; engagement lowest'},
+    {unit:'Student Affairs',  fte:74, active:3,rate:4.1,ytd:8, avgDays:35,risk:'High',note:'2 accommodation cases; org change stress'},
+    {unit:'Academic Affairs', fte:62, active:2,rate:3.2,ytd:5, avgDays:28,risk:'Medium',note:'Performance coaching pattern'},
+    {unit:'Campus Ops',       fte:57, active:1,rate:1.8,ytd:3, avgDays:22,risk:'Low',note:'Climate case — isolated'},
+    {unit:'Dean\'s Office',   fte:43, active:1,rate:2.3,ytd:2, avgDays:5, risk:'Low',note:'New intake only'},
+    {unit:'Finance & Admin',  fte:34, active:0,rate:0.0,ytd:1, avgDays:0, risk:'Low',note:'No active cases'},
+    {unit:'Communications',   fte:15, active:0,rate:0.0,ytd:1, avgDays:0, risk:'Low',note:'No active cases'},
+  ];
+  const rClass={High:'badge-red',Medium:'badge-amber',Low:'badge-green'};
+  const tbody2=document.getElementById('er_risk_tbody');
+  tbody2.innerHTML='';
+  riskData.forEach(r=>{
+    tbody2.innerHTML+=`<tr>
+      <td>${r.unit}</td><td class="r">${r.fte}</td>
+      <td class="r ${r.active>=3?'var-neg':''}">${r.active}</td>
+      <td class="r ${r.rate>=4?'var-neg':r.rate>=3?'var-warn':''}">${r.rate.toFixed(1)}</td>
+      <td class="r">${r.ytd}</td><td class="r">${r.avgDays>0?r.avgDays+'d':'—'}</td>
+      <td class="c"><span class="badge ${rClass[r.risk]}">${r.risk}</span></td>
+      <td style="font-size:11px;color:var(--gray-600);">${r.note}</td>
+    </tr>`;
+  });
+}
+
+function buildWellbeing(){
+  const units=COLLEGE_UNITS;
+  mc('c_wb_eng',{type:'bar',data:{labels:units.map(u=>u.unit.split(' ').slice(0,2).join(' ')),datasets:[{label:'Engagement %',data:units.map(u=>u.engScore),
+    backgroundColor:units.map(u=>u.engScore<68?'rgba(165,28,48,.72)':u.engScore<74?'rgba(176,112,0,.65)':'rgba(30,107,56,.65)'),borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10},callback:v=>v+'%'},grid:{color:GRID},min:55,max:90},y:{ticks:{color:TICK,font:{size:9}},grid:{display:false}}}}});
+  const qLabels=['Q1 FY24','Q2 FY24','Q3 FY24','Q4 FY24','Q1 FY25','Q2 FY25','Q3 FY25','Q4 FY25','Q1 FY26','Q2 FY26'];
+  mc('c_wb_trend',{type:'line',data:{labels:qLabels,datasets:[
+    {label:'Engagement',data:[72,73,74,73,74,75,74,74,72,71],borderColor:CRIMSON,tension:.35,pointRadius:3,fill:false},
+    {label:'Workload',  data:[68,68,70,69,70,72,70,69,66,65],borderColor:BLUE,tension:.35,pointRadius:3,fill:false},
+    {label:'Belonging', data:[74,75,76,75,77,78,77,76,75,74],borderColor:GREEN,tension:.35,pointRadius:3,fill:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:8},maxRotation:35},grid:{display:false}},y:{ticks:{color:TICK,font:{size:9},callback:v=>v+'%'},grid:{color:GRID},min:60,max:85}}}});
+  const typeC={'Parental (FMLA)':'badge-blue','Medical Leave':'badge-amber','Personal/Extended':'badge-gray','Military Leave':'badge-green','Intermittent FMLA':'badge-red'};
+  const statC={'Active':'badge-blue','Returning soon':'badge-green','Intermittent':'badge-amber'};
+  const tbody=document.getElementById('leave_tbody');
+  tbody.innerHTML='';
+  LEAVE_DATA.forEach(l=>{
+    tbody.innerHTML+=`<tr>
+      <td style="font-family:monospace;font-size:10px;color:var(--gray-400);">${l.id}</td>
+      <td>${l.unit}</td><td>${l.role}</td>
+      <td class="c"><span class="badge ${typeC[l.type]||'badge-gray'}">${l.type}</span></td>
+      <td>${l.start}</td><td>${l.exp}</td>
+      <td class="r">${l.wks||'—'}</td>
+      <td class="c">${l.bf==='None'?'—':'<span class="badge badge-amber">'+l.bf+'</span>'}</td>
+      <td class="c"><span class="badge ${statC[l.status]||'badge-gray'}">${l.status}</span></td>
+    </tr>`;
+  });
+}
+
+function buildRecruiting(){
+  const stages=['Posted','Screening','Interviewing','Offer Out'];
+  const stageCounts={Posted:2,Screening:3,Interviewing:2,'Offer Out':1};
+  mc('c_pipeline',{type:'bar',data:{labels:stages,datasets:[{label:'Reqs',data:stages.map(s=>stageCounts[s]),backgroundColor:['rgba(26,95,168,.65)','rgba(139,92,0,.65)','rgba(85,48,160,.65)','rgba(30,107,56,.65)'],borderRadius:6}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:11}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10},stepSize:1},grid:{color:GRID},beginAtZero:true}}}});
+  const unitTtf=[{u:'Residential Life',v:8.2},{u:'Student Affairs',v:7.6},{u:'Athletics',v:7.1},{u:'Finance & Admin',v:6.4},{u:'Academic Affairs',v:6.2},{u:'Campus Ops',v:5.8},{u:'Dean\'s Office',v:5.4},{u:'Communications',v:4.8}];
+  mc('c_ttf',{type:'bar',data:{labels:unitTtf.map(u=>u.u.split(' ').slice(0,2).join(' ')),datasets:[{label:'Weeks',data:unitTtf.map(u=>u.v),
+    backgroundColor:unitTtf.map(u=>u.v>7?'rgba(165,28,48,.72)':u.v>6?'rgba(176,112,0,.65)':'rgba(30,107,56,.65)'),borderRadius:3}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10},callback:v=>v+' wks'},grid:{color:GRID}},y:{ticks:{color:TICK,font:{size:9}},grid:{display:false}}}}});
+  const stC={Posted:'badge-blue',Screening:'badge-amber',Interviewing:'badge-purple','Offer Out':'badge-green'};
+  const pC={High:'badge-red',Medium:'badge-amber',Low:'badge-blue'};
+  const tbody=document.getElementById('req_tbody');
+  tbody.innerHTML='';
+  OPEN_REQS.forEach(r=>{
+    tbody.innerHTML+=`<tr>
+      <td><strong>${r.title}</strong></td><td>${r.unit}</td>
+      <td class="c"><span class="badge badge-gray">${r.grade}</span></td>
+      <td class="c"><span class="badge ${stC[r.stage]}">${r.stage}</span></td>
+      <td class="r ${r.days>60?'var-neg':r.days>35?'var-warn':''}">${r.days}d</td>
+      <td class="r">${r.apps}</td><td>${r.rec}</td>
+      <td class="c"><span class="badge ${pC[r.priority]}">${r.priority}</span></td>
+    </tr>`;
+  });
+}
+
+// ─── HR ANALYTICS ENGINE ──────────────────────
+function buildHrAnalytics(){
+  const grid=document.getElementById('hr_pool_grid');
+  grid.innerHTML=HR_POOLS.map(p=>{
+    const sel=hrSelectedPools.has(p.id);
+    const dColor=p.direction==='UNFAVORABLE'?'var(--neg)':p.direction==='FAVORABLE'?'var(--pos)':'var(--gray-400)';
+    return`<div class="pool-card${sel?' selected':''}${p.direction==='UNFAVORABLE'?' unfav':p.direction==='FAVORABLE'?' fav':''}" onclick="toggleHrPool('${p.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;">
+        <div><div class="pool-name">${p.name}</div><div class="pool-cat">${p.cat}</div></div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
+          <span style="font-size:10px;font-weight:700;color:${dColor};">${p.direction==='FAVORABLE'?'✓ '+p.direction:p.direction}</span>
+          <span style="font-size:10px;background:${sel?'var(--crimson-light)':'var(--gray-100)'};color:${sel?'var(--crimson)':'var(--gray-400)'};padding:2px 7px;border-radius:8px;font-weight:600;">${sel?'✓ Selected':'+ Select'}</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;margin-bottom:6px;">
+        <div style="flex:1;background:var(--gray-50);border-radius:5px;padding:6px;text-align:center;"><div style="font-size:9px;color:var(--gray-400);text-transform:uppercase;">Current</div><div style="font-size:13px;font-weight:700;color:${dColor};">${p.val}</div></div>
+        <div style="flex:1;background:var(--gray-50);border-radius:5px;padding:6px;text-align:center;"><div style="font-size:9px;color:var(--gray-400);text-transform:uppercase;">Change</div><div style="font-size:13px;font-weight:700;color:${dColor};">${p.change}</div></div>
+      </div>
+      <div style="font-size:10px;color:var(--gray-400);line-height:1.4;">${p.note.substring(0,85)}…</div>
+    </div>`;
+  }).join('');
+  updateHrStatus();
+}
+function toggleHrPool(id){
+  if(hrSelectedPools.has(id)) hrSelectedPools.delete(id);
+  else hrSelectedPools.add(id);
+  buildHrAnalytics();
+}
+function updateHrStatus(){
+  const n=hrSelectedPools.size;
+  const dot=document.querySelector('#hr_status .status-dot');
+  const txt=document.querySelector('#hr_status span');
+  if(dot) dot.style.background=n>0?'var(--pos)':'var(--gray-300)';
+  if(txt) txt.textContent=n>0?`${n} domain${n>1?'s':''} selected · Ready to generate`:'Ready · 0 domains selected';
+}
+
+async function generateHrNarrative(){
+  const scope=document.getElementById('hr_domain').value;
+  const depth=document.getElementById('hr_depth').value;
+  const btn=document.getElementById('hr_gen_btn');
+  const body=document.getElementById('hr_output_body');
+  const statusDot=document.querySelector('#hr_status .status-dot');
+  const statusTxt=document.querySelector('#hr_status span');
+  let pools=HR_POOLS;
+  if(scope==='selected') pools=HR_POOLS.filter(p=>hrSelectedPools.has(p.id));
+  if(scope==='risk') pools=HR_POOLS.filter(p=>p.direction==='UNFAVORABLE');
+  if(!pools.length){body.innerHTML='<div class="itfm-placeholder">⚠️ No domains selected.</div>';return;}
+  btn.classList.add('loading');btn.disabled=true;
+  if(statusDot) statusDot.style.background=AMBER;
+  if(statusTxt) statusTxt.textContent=`Synthesizing ${pools.length} HR metric${pools.length>1?'s':''} · ${new Date().toLocaleTimeString()}`;
+  body.innerHTML=`<div style="padding:24px;text-align:center;color:var(--gray-500);">
+    <div style="font-size:26px;margin-bottom:10px;animation:spin 1.2s linear infinite;display:inline-block;">⚙️</div>
+    <div style="font-size:13px;font-weight:500;color:var(--navy);margin-bottom:5px;">Synthesizing HR Analytics Narrative</div>
+    <div style="font-size:11px;color:var(--gray-400);">Applying HR guardrails · ${pools.length} metric domain${pools.length>1?'s':''} · Privacy-safe analysis</div>
+  </div>`;
+  await new Promise(r=>setTimeout(r,800));
+  body.innerHTML='';
+  for(let i=0;i<pools.length;i++){
+    if(i>0) await new Promise(r=>setTimeout(r,300));
+    const wrap=document.createElement('div');
+    wrap.style.cssText='opacity:0;transform:translateY(10px);transition:opacity .35s ease,transform .35s ease;';
+    wrap.innerHTML=buildHrNarrativeCard(pools[i],depth);
+    body.appendChild(wrap);
+    await new Promise(r=>setTimeout(r,20));
+    wrap.style.opacity='1';wrap.style.transform='none';
+  }
+  const footer=document.createElement('div');
+  footer.style.cssText='margin-top:16px;padding:9px 13px;background:var(--navy-light);border-radius:var(--radius);font-size:10px;color:var(--gray-400);display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px;';
+  const periodLabel={'apr26':'April 2026','ytd':'YTD FY2026','fy26':'FY2026'}[document.getElementById('hr_period').value];
+  footer.innerHTML=`<span>📋 HR Analytics Narrative · Harvard College FAS · ${periodLabel}</span><span>Generated ${new Date().toLocaleTimeString()} · Mock data mode · ${pools.length} domain${pools.length>1?'s':''}</span>`;
+  body.appendChild(footer);
+  btn.classList.remove('loading');btn.disabled=false;
+  if(statusDot) statusDot.style.background='var(--pos)';
+  if(statusTxt) statusTxt.textContent=`Analysis complete · ${pools.length} domain${pools.length>1?'s':''} · ${new Date().toLocaleTimeString()}`;
+}
+
+function buildHrNarrativeCard(p,depth){
+  const dColor=p.direction==='UNFAVORABLE'?'var(--neg)':p.direction==='FAVORABLE'?'var(--pos)':'var(--gray-400)';
+  const dBg=p.direction==='UNFAVORABLE'?'var(--neg-bg)':p.direction==='FAVORABLE'?'var(--pos-bg)':'var(--gray-100)';
+  const narData=HR_NARRATIVES[p.id]||{executive:[],detailed:[],board:[]};
+  const bullets=(narData[depth]?.length?narData[depth]:narData.executive||[]);
+  if(!bullets.length) return`<div style="border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:16px;margin-bottom:14px;"><em>No ${depth} narrative data available for this domain.</em></div>`;
+  const bulletHtml=bullets.map(b=>`<li style="margin-bottom:9px;line-height:1.65;">${b}</li>`).join('');
+  return`
+<div style="border:1px solid var(--gray-100);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:15px;box-shadow:var(--shadow);">
+  <div style="background:var(--navy);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+    <div><div style="font-size:13px;font-weight:700;color:#fff;">${p.name} — HR Analytics</div><div style="font-size:10px;color:rgba(255,255,255,.45);margin-top:2px;">${p.cat} · Harvard College FAS · ${{'apr26':'April 2026','ytd':'YTD FY2026','fy26':'FY2026'}[document.getElementById('hr_period').value]}</div></div>
+    <span style="background:${dBg};color:${dColor};font-size:11px;font-weight:700;padding:3px 11px;border-radius:10px;border:1.5px solid ${dColor};">${p.direction==='FAVORABLE'?'✓ ':''} ${p.direction}</span>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);background:#fafaf8;border-bottom:1px solid var(--gray-100);">
+    ${[['Current',p.val,dColor],['Change vs. Prior',p.change,dColor],['Prior Period',p.prior,'var(--gray-600)']].map(([l,v,c])=>
+    `<div style="padding:9px 13px;border-right:1px solid var(--gray-100);text-align:center;"><div style="font-size:9px;text-transform:uppercase;letter-spacing:.5px;color:var(--gray-400);margin-bottom:3px;">${l}</div><div style="font-size:14px;font-weight:700;color:${c};">${v}</div></div>`).join('')}
+  </div>
+  <div style="padding:14px 16px;">
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--gray-400);margin-bottom:7px;">● Analysis</div>
+    <ul style="margin:0 0 14px 0;padding-left:17px;color:var(--gray-700);font-size:12px;">${bulletHtml}</ul>
+    <div style="background:${dBg};border-left:3px solid ${dColor};border-radius:0 var(--radius) var(--radius) 0;padding:9px 13px;">
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:${dColor};margin-bottom:4px;">● Consulting Recommendation</div>
+      <div style="font-size:12px;color:var(--gray-700);line-height:1.65;">${p.note}</div>
+    </div>
+  </div>
+  <div style="padding:5px 16px 7px;background:var(--gray-50);border-top:1px solid var(--gray-100);font-size:10px;color:var(--gray-400);display:flex;justify-content:space-between;">
+    <span>Source: Workday HCM · Harvard OHR · Harvard College Leadership</span>
+    <span>Guardrails: Zero Hallucination · Privacy-Safe · Neutral Tone · Data-Only</span>
+  </div>
+</div>`;
+}
+function copyHrNarrative(){navigator.clipboard.writeText(document.getElementById('hr_output_body').innerText).then(()=>{const btn=document.querySelector('.copy-btn');if(btn){btn.textContent='✓ Copied';setTimeout(()=>btn.textContent='⎘ Copy',2000);}});}
+
+// ─── HR CALENDAR ──────────────────────────────
+function buildHrCalendar(){
+  const legend=document.getElementById('hrcal_legend');
+  legend.innerHTML=Object.entries(HR_CAL_TYPES).map(([k,t])=>`<span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--gray-600);"><span style="width:10px;height:10px;border-radius:50%;background:${t.color};display:inline-block;"></span>${t.label}</span>`).join('');
+  renderHrCal();
+  buildUpcomingHr();
+  document.addEventListener('click',e=>{
+    const popup=document.getElementById('hrcal_popup');
+    if(!popup.contains(e.target)&&!e.target.closest('.cal-dot,.cal-mini-day')) popup.classList.remove('show');
+  });
+}
+function renderHrCal(){
+  const today=new Date(), grid=document.getElementById('hrcal_year_grid');
+  const MNAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DOW=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const year=2026;
+  grid.innerHTML='';
+  for(let m=4;m<16;m++){
+    const ym=m<12?year:year+1, mm=m%12;
+    const evs=HR_CAL_EVENTS.filter(e=>{const d=new Date(e.date);return d.getFullYear()===ym&&d.getMonth()===mm;});
+    const isCurrentMonth=today.getFullYear()===ym&&today.getMonth()===mm;
+    const firstDay=new Date(ym,mm,1).getDay(), daysInMonth=new Date(ym,mm+1,0).getDate();
+    let cells=DOW.map(d=>`<div class="cal-mini-dow">${d}</div>`).join('');
+    for(let i=0;i<firstDay;i++) cells+=`<div class="cal-mini-day"></div>`;
+    for(let d=1;d<=daysInMonth;d++){
+      const de=evs.filter(e=>new Date(e.date).getDate()===d);
+      const isToday=isCurrentMonth&&d===today.getDate();
+      cells+=`<div class="cal-mini-day${isToday?' today':''}${de.length?' has-event':''}" title="${de.map(e=>e.title).join(', ')}">${d}</div>`;
+    }
+    const dots=evs.slice(0,8).map(e=>`<div class="cal-dot" style="background:${HR_CAL_TYPES[e.cal]?.color||'#888'};" title="${e.title}" onclick="showHrPopup(event,'${e.id}')"></div>`).join('');
+    grid.innerHTML+=`<div class="cal-mini-month${isCurrentMonth?' current-month':''}" onclick="">
+      <div class="cal-mini-header">${MNAMES[mm]} ${ym}${evs.length?`<span class="cal-mini-count">${evs.length}</span>`:''}</div>
+      <div class="cal-mini-grid">${cells}</div>
+      <div class="cal-dot-row">${dots}${evs.length>8?`<span style="font-size:9px;color:var(--gray-400);">+${evs.length-8}</span>`:''}</div>
+    </div>`;
+  }
+}
+function showHrPopup(e,id){
+  e.stopPropagation();
+  const ev=HR_CAL_EVENTS.find(x=>x.id===id);
+  if(!ev) return;
+  const t=HR_CAL_TYPES[ev.cal];
+  const popup=document.getElementById('hrcal_popup');
+  const pClass=ev.priority==='High'?'badge-red':ev.priority==='Medium'?'badge-amber':'badge-gray';
+  document.getElementById('hrcal_popup_title').innerHTML=`<span style="color:${t?.color}">${t?.label}</span><br>${ev.title}`;
+  document.getElementById('hrcal_popup_body').innerHTML=`
+    <div class="cal-popup-row"><span class="cal-popup-lbl">Date:</span><span class="cal-popup-val">${ev.date}</span></div>
+    <div class="cal-popup-row"><span class="cal-popup-lbl">Priority:</span><span class="cal-popup-val"><span class="badge ${pClass}">${ev.priority}</span></span></div>
+    <div class="cal-popup-row"><span class="cal-popup-lbl">Owner:</span><span class="cal-popup-val">${ev.owner}</span></div>
+    <div class="cal-popup-row" style="align-items:flex-start;"><span class="cal-popup-lbl">Notes:</span><span class="cal-popup-val" style="line-height:1.5;">${ev.notes}</span></div>`;
+  popup.style.borderTopColor=t?.color||CRIMSON;
+  const rect=e.target.getBoundingClientRect();
+  popup.style.top=Math.min(rect.bottom+8,window.innerHeight-260)+'px';
+  popup.style.left=Math.min(rect.left,window.innerWidth-300)+'px';
+  popup.classList.add('show');
+}
+function buildUpcomingHr(){
+  const today=new Date(), in45=new Date(today.getTime()+45*24*60*60*1000);
+  const upcoming=HR_CAL_EVENTS.filter(e=>{const d=new Date(e.date);return d>=today&&d<=in45;}).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const pC={High:'badge-red',Medium:'badge-amber',Low:'badge-blue'};
+  const tbody=document.getElementById('hrcal_upcoming_tbody');
+  tbody.innerHTML=upcoming.length?upcoming.map(e=>{
+    const t=HR_CAL_TYPES[e.cal];
+    return`<tr>
+      <td style="font-weight:600;">${e.date}</td><td><strong>${e.title}</strong></td>
+      <td><span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:${t?.color};flex-shrink:0;"></span>${t?.label}</span></td>
+      <td style="font-size:11px;color:var(--gray-600);">${e.owner}</td>
+      <td class="c"><span class="badge ${pC[e.priority]}">${e.priority}</span></td>
+      <td style="font-size:11px;color:var(--gray-600);white-space:normal;line-height:1.4;max-width:220px;">${e.notes.substring(0,100)}…</td>
+    </tr>`;}).join(''):`<tr><td colspan="6" style="text-align:center;color:var(--gray-400);padding:18px;">No HR events in the next 45 days.</td></tr>`;
+}
+function toggleHrCalView(){document.getElementById('hrcal_view_btn').textContent='Year View';}
+
+// ─── EXPORT ───────────────────────────────────
+function exportAllHr(){
+  if(typeof XLSX==='undefined'){alert('Export library loading — please try again in a moment.');return;}
+  const wb=XLSX.utils.book_new();
+  const addSheet=(data,name)=>{if(data.length){const ws=XLSX.utils.json_to_sheet(data);XLSX.utils.book_append_sheet(wb,ws,name.substring(0,31));}};
+  addSheet(COLLEGE_UNITS.map(u=>({Unit:u.unit,Auth_FTE:u.auth,Filled:u.filled,Vacant:u.vacant,Vacancy_Pct:Math.round(u.vacant/u.auth*100)+'%',Avg_Tenure:u.tenure,Retire_3yr:u.retire3yr,Succession:u.succession,Engagement_Score:u.engScore,Active_ER_Cases:u.erCases,Avg_Perf_Score:u.perfAvg})),'Workforce by Unit');
+  addSheet(PERF_UNITS.map(u=>({Unit:u.unit,Rated:u.rated,Avg_Score:u.avg,Top_4_5:u.top,Exceeds_4:u.exc,Meets_3:u.meets,Developing:u.dev,Needs_Improvement:u.ni,Not_Rated:u.nr})),'Performance by Unit');
+  addSheet(PROMO_DATA.map(r=>({Emp_ID:r.id,Unit:r.unit,New_Title:r.title,From_Grade:r.from,To_Grade:r.to,Salary_Delta:r.delta,Date:r.date,Type:r.type})),'Promotions FY2026');
+  addSheet(COMP_FLAGS.map(f=>({Emp_ID:f.id,Unit:f.unit,Grade:f.grade,Current_Salary:f.salary,Band_Min:f.bandMin,Gap_Dollars:-f.gap,Months_Since_Raise:f.months,Action:f.action})),'Comp Equity Flags');
+  addSheet(ER_CASES.map(c=>({Case_ID:c.id,Unit:c.unit,Type:c.type,Opened:c.opened,Days_Open:c.days,Priority:c.priority,OGC_Involved:c.ogc?'Yes':'No',Status:c.status})),'ER Cases Active');
+  addSheet(LEAVE_DATA.map(l=>({Emp_ID:l.id,Unit:l.unit,Role:l.role,Leave_Type:l.type,Start:l.start,Expected_Return:l.exp,Weeks:l.wks||'N/A',Backfill:l.bf,Status:l.status})),'Leave Register');
+  addSheet(OPEN_REQS.map(r=>({Position:r.title,Unit:r.unit,Grade:r.grade,Stage:r.stage,Days_Open:r.days,Applicants:r.apps,Priority:r.priority})),'Open Requisitions');
+  addSheet(HR_CAL_EVENTS.map(e=>({Date:e.date,Title:e.title,Calendar:HR_CAL_TYPES[e.cal]?.label,Priority:e.priority,Owner:e.owner,Notes:e.notes})),'HR Calendar Events');
+  const today=new Date().toISOString().slice(0,10).replace(/-/g,'');
+  XLSX.writeFile(wb,`Harvard_College_HR_Dashboard_${today}.xlsx`);
+}
+
+// ─── INIT ─────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  buildOverview();
+  tabBuilt['overview']=true;
+  refreshTs();
+});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</body>
+</html>
