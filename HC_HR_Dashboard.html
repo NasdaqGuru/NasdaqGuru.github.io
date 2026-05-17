@@ -419,7 +419,7 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
       <div style="position:relative;height:230px;"><canvas id="c_hr_mix"></canvas></div>
     </div>
   </div>
-  <div class="section-label">Hiring Team Lens — What This Dashboard Proves · Click each card for evidence popup</div>
+  <div class="section-label">Hiring Team Lens — What This Dashboard Proves · Click each card for evidence</div>
   <div class="evidence-grid">
     <div class="evidence-card" role="button" tabindex="0" onclick="showHiringLensDetail(0,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showHiringLensDetail(0,event);}"><div class="evidence-kicker">Strategic Partner</div><div class="evidence-title">Connects people strategy to College priorities</div><div class="evidence-text">Shows staffing, climate, talent, ER, and policy signals in one leadership view for the Dean for Administration & Finance and unit managers.</div><span class="detail-link">View proof detail →</span></div>
     <div class="evidence-card blue" role="button" tabindex="0" onclick="showHiringLensDetail(1,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showHiringLensDetail(1,event);}"><div class="evidence-kicker">Finance Fluency</div><div class="evidence-title">Translates HR issues into budget and service risk</div><div class="evidence-text">Makes vacancy savings, temp/overtime offset, merit exposure, reclassification pressure, and workforce-cost composition visible.</div><span class="detail-link">View proof detail →</span></div>
@@ -1784,96 +1784,6 @@ const HIRING_LENS=[
   {label:'Action orientation',score:94,target:90},
   {label:'Responsible AI',score:92,target:85},
 ];
-const HIRING_LENS_DETAILS=[
-  {
-    title:'Strategic Partner — connects people strategy to College priorities',
-    color:'red',
-    summary:'Demonstrates that the candidate can translate Harvard College operating priorities into workforce, climate, talent, ER, and policy decisions for leaders rather than reporting HR data in isolation.',
-    proof:[
-      'Executive snapshot combines 485 authorized FTE, 462 filled roles, 23 vacancies, 8.2% turnover, 71% engagement, and 14 active ER cases in one leadership view.',
-      'Workforce Planning, Talent & Performance, Employee Relations, Policy Risk, and Recommended Actions sections connect each signal to an owner and follow-up timing.',
-      'The dashboard is designed for the Dean for Administration & Finance / unit-leader conversation: what changed, why it matters, what decision is needed, and who owns the next step.'
-    ],
-    method:'Evidence score is a portfolio rubric: breadth of HR domains covered, linkage to executive decisions, and presence of actionable owner/timing fields. It is not an employee score and uses synthetic data.'
-  },
-  {
-    title:'Finance Fluency — translates HR issues into budget and service risk',
-    color:'blue',
-    summary:'Shows the hiring team that HR consulting recommendations can be tied to payroll forecasts, vacancy assumptions, merit exposure, temporary coverage, and budget-cycle decisions.',
-    proof:[
-      'Finance-linked workforce section uses raw position rows: position ID, employee/vacancy status, unit, title, grade, budget salary, current salary, projected raise, forecast salary, and variance note.',
-      'Vacancy savings are not treated as pure savings; the model pairs them with temp/overtime offsets and service-continuity risk.',
-      'Export Raw Data prioritizes registers rather than pre-calculated summaries so Finance, HR, and Compensation can validate source rows.'
-    ],
-    method:'Forecast salary = current salary × (1 + projected raise %) for filled roles; vacant roles use budget salary, assumed hiring month, and vacancy-status assumptions. Figures are synthetic planning examples.'
-  },
-  {
-    title:'Risk Judgment — prioritizes ER, policy, compensation, and compliance flags',
-    color:'amber',
-    summary:'Shows judgment around sensitive people issues: aggregate signals are visible, but individual-level or confidential detail stays out of the public leadership view.',
-    proof:[
-      'Risk Register classifies leave/accommodation, classification, performance documentation, pay equity, policy interpretation, and AI/privacy controls by risk level and partner owner.',
-      'Employee Relations tab uses anonymized case IDs, case type, aging, OGC involvement, priority, and status rather than names or identifiable employee details.',
-      'The popup model explains escalation partners such as OHR, Employee & Labor Relations, Compensation, Finance, OGC, HRIS, and unit leaders.'
-    ],
-    method:'Risk points combine severity, aging, repeat-pattern concentration, operational exposure, and control/documentation gaps. The score is a triage aid only and requires HR/human review.'
-  },
-  {
-    title:'Action Orientation — moves beyond charts into consulting actions',
-    color:'green',
-    summary:'Demonstrates that the dashboard is built for consulting action: each priority signal is converted into recommended moves, owners, timing, controls, and success measures.',
-    proof:[
-      'Recommended Actions tab includes action cards and an Impact × Urgency triage matrix to show what should move first.',
-      'Unit drill-down popups connect engagement, vacancies, ER cases, turnover, succession coverage, and forecast exposure to an intervention path.',
-      'Long-range interventions connect 5, 10, 15, and 20-year scenarios to succession, manager capability, HR analytics, job architecture, and workforce redesign.'
-    ],
-    method:'Action priority uses urgency, impact, and exposure fields from the synthetic action register. The matrix is a decision-support view, not an automated prioritization of employees.'
-  }
-];
-
-const AI_GUARDRAIL_DETAILS=[
-  {
-    title:'Pattern detection — aggregate signals only',
-    summary:'Detects repeated patterns across workforce, climate, vacancy, compensation, and policy metrics so HR can decide where to investigate further.',
-    controls:[
-      'Use only aggregate or anonymized registers in portfolio mode.',
-      'Show source metrics behind every flag, such as engagement score, vacancies, case aging, or compensation-alert count.',
-      'Require HR review before any recommendation is escalated to a manager or leader.'
-    ],
-    method:'Pattern flags use threshold bands and repeat-signal counts. Example: a unit with engagement below 65%, multiple vacancies, and active ER cases is flagged for review.'
-  },
-  {
-    title:'Briefing-note generator — data-only narrative support',
-    summary:'Drafts neutral leadership summaries from dashboard metrics so the HR Consultant can prepare consistent meeting notes and decision prompts.',
-    controls:[
-      'Narrative output must cite the dashboard metric source used.',
-      'Tone remains neutral and evidence-based; no diagnosis or unsupported inference.',
-      'Human editor validates context, policy implications, and partner-review needs before sharing.'
-    ],
-    method:'Briefing text is generated from selected metric domains and fixed templates. It should not add facts outside the dashboard data and methodology notes.'
-  },
-  {
-    title:'Scenario planner — 5 / 10 / 15 / 20-year workforce modeling',
-    summary:'Models future staffing, retirement exposure, budget pressure, and skill shifts to support long-range workforce planning conversations.',
-    controls:[
-      'Inputs remain scenario assumptions, not predictions.',
-      'Separate baseline, conservative, and stretch assumptions where possible.',
-      'Review scenario assumptions annually with HR, Finance, and unit leaders.'
-    ],
-    method:'Projected FTE grows from a current baseline by horizon year; retirement exposure and succession coverage are scaled across selected scenario windows. All values are synthetic planning inputs.'
-  },
-  {
-    title:'Explainability gate — human review required',
-    summary:'Makes the AI layer safer by showing why a recommendation appeared and by requiring human review before action.',
-    controls:[
-      'Display the contributing metrics and scoring bands beside every risk or action flag.',
-      'Block individual-level automated employment decisions.',
-      'Require HR policy, ER/ELR, Compensation, Finance, or Legal review when a recommendation touches sensitive employment matters.'
-    ],
-    method:'Explainability notes are attached to each popup and methodology table. The AI layer supports synthesis and prioritization; it does not replace HR judgment.'
-  }
-];
-
 const POLICY_RISKS=[
   {area:'Leave / Accommodation',signal:'18 active or intermittent cases; two units lack documented backfill plan',risk:'High',partner:'OHR + Disability Services',control:'Weekly case aging review; manager checklist; documented interactive-process status',due:'30 days'},
   {area:'Classification / Reclassification',signal:'16 open requests; concentration in Student Affairs and Residential Life',risk:'Medium',partner:'Compensation',control:'Create role-architecture review queue before FY2027 budget cycle',due:'45 days'},
