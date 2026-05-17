@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>FAS HR Consulting Dashboard — Harvard College</title>
+<title>Harvard College HR Consulting Dashboard — Strategic Workforce, Finance & Peer Practice Lens</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root{
@@ -50,13 +50,22 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
 .sidebar-footer{padding:10px 16px;border-top:1px solid rgba(255,255,255,.1);font-size:10px;color:rgba(255,255,255,.3);}
 
 /* TAB NAV */
-.tab-nav{background:#fff;border-bottom:1.5px solid var(--gray-100);padding:0 10px;display:flex;gap:0;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.05);overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+.tab-nav{background:#fff;border-bottom:1.5px solid var(--gray-100);padding:7px 10px;display:grid;grid-template-columns:38px 1fr;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.05);white-space:normal;overflow-x:visible;align-items:stretch;}
 .tab-nav::-webkit-scrollbar{display:none;}
-.sidebar-toggle-btn{flex-shrink:0;padding:0 13px;background:none;border:none;border-right:1px solid var(--gray-100);cursor:pointer;font-size:15px;color:var(--gray-400);display:flex;align-items:center;transition:color .12s;}
-.sidebar-toggle-btn:hover{color:var(--navy);}
-.tab-btn{padding:10px 13px;background:none;border:none;border-bottom:3px solid transparent;font-size:11px;font-weight:500;color:var(--gray-400);cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap;}
-.tab-btn:hover{color:var(--gray-600);}
-.tab-btn.active{color:var(--crimson);border-bottom-color:var(--crimson);}
+.sidebar-toggle-btn{min-height:70px;min-width:34px;background:var(--gray-50);border:1px solid var(--gray-100);border-radius:8px;cursor:pointer;font-size:15px;color:var(--gray-400);display:flex;align-items:center;justify-content:center;transition:color .12s,background .12s;}
+.sidebar-toggle-btn:hover{color:var(--navy);background:#fff;}
+.tab-groups{display:grid;grid-template-columns:1fr 2fr 1.6fr;gap:8px;align-items:stretch;}
+.tab-group{border:1px solid var(--gray-100);border-radius:10px;background:linear-gradient(180deg,#fff,#fbfcfe);padding:5px 6px 6px;min-width:0;}
+.tab-group-label{display:block;font-size:8.5px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:var(--gray-400);margin:0 3px 4px;white-space:nowrap;}
+.tab-group-row{display:grid;gap:3px;}
+.tab-group.exec .tab-group-row{grid-template-columns:repeat(3,minmax(0,1fr));}
+.tab-group.core .tab-group-row{grid-template-columns:repeat(3,minmax(0,1fr));}
+.tab-group.strategy .tab-group-row{grid-template-columns:repeat(3,minmax(0,1fr));}
+.tab-btn{padding:6px 5px;background:#fff;border:1px solid transparent;border-bottom:3px solid transparent;border-radius:7px 7px 0 0;font-size:9.6px;font-weight:700;color:var(--gray-500,var(--gray-400));cursor:pointer;transition:color .15s,border-color .15s,background .15s;white-space:normal;line-height:1.12;min-height:30px;display:flex;align-items:center;justify-content:center;text-align:center;}
+.tab-btn:hover{color:var(--gray-600);background:var(--gray-50);border-color:var(--gray-100);}
+.tab-btn.active{color:var(--crimson);border-bottom-color:var(--crimson);background:var(--crimson-light);}
+@media(max-width:1050px){.tab-groups{grid-template-columns:1fr;}.sidebar-toggle-btn{min-height:34px;}.tab-group.exec .tab-group-row,.tab-group.core .tab-group-row,.tab-group.strategy .tab-group-row{grid-template-columns:repeat(4,minmax(0,1fr));}.tab-btn{font-size:9.3px;padding:5px 4px;}}
+@media(max-width:560px){.tab-nav{grid-template-columns:38px 1fr;}.tab-group.exec .tab-group-row,.tab-group.core .tab-group-row,.tab-group.strategy .tab-group-row{grid-template-columns:repeat(2,minmax(0,1fr));}.tab-panel{padding:18px 14px 34px;}}
 
 /* CONTENT */
 .tab-panel{display:none;padding:22px 26px 40px;}
@@ -199,8 +208,99 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
 .cal-popup-lbl{color:var(--gray-400);width:65px;flex-shrink:0;}
 .cal-popup-val{color:var(--gray-700);}
 
+
+
+/* STRATEGIC / FINANCE LAYERS */
+.horizon-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:0 0 14px;background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:10px;box-shadow:var(--shadow);}
+.horizon-chip{border:1px solid var(--gray-200);background:var(--gray-50);color:var(--gray-600);font-size:11px;font-weight:700;border-radius:999px;padding:6px 12px;cursor:pointer;transition:all .15s;}
+.horizon-chip:hover{border-color:var(--crimson);color:var(--crimson);}
+.horizon-chip.active{background:var(--crimson);border-color:var(--crimson);color:#fff;box-shadow:0 4px 12px rgba(165,28,48,.18);}
+.strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:14px;}
+.strategy-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:14px 15px;box-shadow:var(--shadow);border-top:3px solid var(--navy);}
+.strategy-card.red{border-top-color:var(--crimson);} .strategy-card.blue{border-top-color:var(--blue);} .strategy-card.green{border-top-color:var(--pos);} .strategy-card.amber{border-top-color:var(--warn);} .strategy-card.purple{border-top-color:var(--purple);}
+.strategy-card .sc-label{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--gray-400);margin-bottom:5px;}
+.strategy-card .sc-value{font-size:22px;line-height:1;font-weight:800;color:var(--gray-800);font-variant-numeric:tabular-nums;}
+.strategy-card .sc-note{font-size:10px;color:var(--gray-500);line-height:1.45;margin-top:7px;}
+.action-list{display:grid;gap:10px;}
+.action-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:12px 14px;box-shadow:var(--shadow);display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;border-left:4px solid var(--gray-200);cursor:pointer;transition:transform .14s,box-shadow .14s,border-color .14s;}
+.action-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);border-color:var(--gray-200);}
+.action-card:focus{outline:2px solid rgba(165,28,48,.28);outline-offset:2px;}
+.action-card.high{border-left-color:var(--neg);} .action-card.medium{border-left-color:var(--warn);} .action-card.low,.action-card.monitor{border-left-color:var(--blue);}
+.action-title{font-size:12px;font-weight:800;color:var(--gray-800);margin-bottom:3px;}
+.action-meta{font-size:10px;color:var(--gray-400);line-height:1.45;}
+.action-rec{font-size:11px;color:var(--gray-700);line-height:1.55;margin-top:7px;}
+
+.action-more{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:10px;font-weight:800;color:var(--crimson);}
+.action-modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.58);z-index:5000;display:none;align-items:center;justify-content:center;padding:18px;}
+.action-modal-overlay.show{display:flex;}
+.action-modal{width:min(920px,96vw);max-height:90vh;overflow:auto;background:#fff;border-radius:18px;box-shadow:0 28px 90px rgba(0,0,0,.32);border-top:5px solid var(--crimson);position:relative;}
+.action-modal-close{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;border:1px solid var(--gray-100);background:#fff;color:var(--gray-600);cursor:pointer;font-size:14px;font-weight:800;}
+.action-modal-close:hover{background:var(--gray-50);color:var(--crimson);}
+.action-modal-head{padding:20px 24px 14px;border-bottom:1px solid var(--gray-100);background:linear-gradient(180deg,#fff,var(--gray-50));}
+.action-modal-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:800;color:var(--gray-400);margin-bottom:5px;}
+.action-modal-title{font-size:18px;line-height:1.25;font-weight:850;color:var(--gray-800);padding-right:34px;}
+.action-modal-meta{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
+.action-modal-chip{font-size:10px;font-weight:700;border-radius:999px;padding:4px 8px;background:var(--gray-100);color:var(--gray-600);}
+.action-modal-body{padding:18px 24px 24px;}
+.action-detail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;margin-bottom:14px;}
+.action-detail-stat{background:var(--gray-50);border:1px solid var(--gray-100);border-radius:12px;padding:10px 11px;}
+.action-detail-stat strong{display:block;font-size:18px;line-height:1;color:var(--crimson);margin-bottom:4px;font-variant-numeric:tabular-nums;}
+.action-detail-stat span{display:block;font-size:10px;color:var(--gray-600);line-height:1.35;}
+.action-detail-section{border:1px solid var(--gray-100);border-radius:14px;padding:13px 14px;background:#fff;margin-top:10px;}
+.action-detail-section h4{font-size:11px;text-transform:uppercase;letter-spacing:.55px;color:var(--navy);margin-bottom:8px;}
+.action-detail-section ul{margin-left:18px;}
+.action-detail-section li{font-size:12px;color:var(--gray-700);line-height:1.55;margin:5px 0;}
+.action-detail-two{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.action-detail-table{width:100%;border-collapse:collapse;font-size:11px;}
+.action-detail-table th{font-size:9px;text-transform:uppercase;letter-spacing:.45px;color:var(--gray-400);text-align:left;padding:6px 7px;background:var(--gray-50);border-bottom:1px solid var(--gray-100);}
+.action-detail-table td{padding:7px;border-bottom:1px solid var(--gray-100);vertical-align:top;color:var(--gray-700);}
+.action-detail-table td.r{text-align:right;font-variant-numeric:tabular-nums;}
+@media(max-width:720px){.action-detail-two{grid-template-columns:1fr;}.action-modal{max-height:94vh;}.action-modal-head,.action-modal-body{padding-left:16px;padding-right:16px;}}
+
+.ai-guardrail-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:14px;}
+.ai-guardrail{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:13px 14px;box-shadow:var(--shadow);}
+.ai-guardrail strong{display:block;font-size:11px;color:var(--navy);margin-bottom:4px;}
+.ai-guardrail span{font-size:10px;color:var(--gray-600);line-height:1.5;display:block;}
+.portfolio-link-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
+.portfolio-link{display:inline-flex;align-items:center;gap:6px;text-decoration:none;background:#fff;border:1px solid var(--gray-200);border-radius:999px;padding:7px 11px;font-size:11px;font-weight:700;color:var(--navy);}
+.portfolio-link:hover{border-color:var(--crimson);color:var(--crimson);}
+@media(max-width:900px){.action-card{grid-template-columns:1fr;}.horizon-controls{align-items:flex-start;}}
+
 /* FOOTER */
 .dash-footer{background:var(--navy);color:rgba(255,255,255,.45);font-size:10px;padding:9px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+
+/* HIRING TEAM / PEER PRACTICE LAYERS */
+.evidence-grid,.practice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:11px;margin-bottom:14px;}
+.evidence-card,.practice-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:14px 15px;box-shadow:var(--shadow);border-top:3px solid var(--crimson);}
+.evidence-card.blue,.practice-card.blue{border-top-color:var(--blue);} .evidence-card.green,.practice-card.green{border-top-color:var(--pos);} .evidence-card.amber,.practice-card.amber{border-top-color:var(--warn);} .evidence-card.purple,.practice-card.purple{border-top-color:var(--purple);}
+.evidence-kicker,.practice-kicker{font-size:9px;font-weight:800;letter-spacing:.7px;text-transform:uppercase;color:var(--gray-400);margin-bottom:5px;}
+.evidence-title,.practice-title{font-size:12px;font-weight:700;color:var(--gray-800);margin-bottom:5px;}
+.evidence-text,.practice-text{font-size:11px;line-height:1.55;color:var(--gray-600);}
+.peer-note{font-size:11px;line-height:1.65;color:var(--gray-600);background:var(--gray-50);border:1px solid var(--gray-100);border-radius:var(--radius);padding:10px 12px;margin-bottom:13px;}
+.practice-card,.peer-row-click,.market-row-click{cursor:pointer;transition:transform .14s,box-shadow .14s,border-color .14s;}
+.practice-card:hover,.peer-row-click:hover,.market-row-click:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
+.peer-detail-link{display:inline-flex;margin-top:6px;font-size:10px;font-weight:800;color:var(--crimson);}
+.market-rate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-bottom:13px;}
+.market-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:12px 13px;box-shadow:var(--shadow);border-left:4px solid var(--blue);cursor:pointer;transition:transform .14s,box-shadow .14s;}
+.market-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);}
+.market-card strong{display:block;font-size:16px;color:var(--navy);line-height:1.1;margin-bottom:4px;}
+.market-card span{display:block;font-size:10.5px;line-height:1.45;color:var(--gray-600);}
+.source-chip{display:inline-flex!important;align-items:center;gap:4px;font-size:9px;border-radius:999px;background:var(--gray-100);color:var(--gray-600);padding:2px 7px;font-weight:700;margin-bottom:6px;}
+
+/* CLICKABLE DRILL-DOWN + METHODOLOGY */
+.evidence-card,.ai-guardrail,.practice-card,.market-card,.peer-row-click,.market-row-click,.risk-row-click,.horizon-row-click{cursor:pointer;}
+.evidence-card:hover,.ai-guardrail:hover,.practice-card:hover,.market-card:hover{transform:translateY(-1px);box-shadow:var(--shadow-md);border-color:#cbd5e1;}
+.risk-row-click:hover td,.horizon-row-click:hover td{background:var(--gray-50);}
+.detail-link{display:inline-flex;margin-top:8px;font-size:10px;font-weight:800;color:var(--crimson);}
+.method-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--radius-lg);padding:15px 16px;box-shadow:var(--shadow);border-top:3px solid var(--blue);}
+.method-card.red{border-top-color:var(--crimson);} .method-card.green{border-top-color:var(--pos);} .method-card.amber{border-top-color:var(--warn);} .method-card.purple{border-top-color:var(--purple);} .method-card.navy{border-top-color:var(--navy);}
+.method-card h3{font-size:12px;color:var(--gray-800);margin-bottom:7px;display:flex;gap:6px;align-items:center;}
+.method-card p,.method-card li{font-size:11px;color:var(--gray-600);line-height:1.55;}
+.method-card ul{margin-left:16px;}
+.method-formula{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;line-height:1.55;background:#0f172a;color:#dbeafe;border-radius:8px;padding:10px 12px;margin-top:8px;overflow:auto;}
+.method-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(245px,1fr));gap:12px;margin-bottom:14px;}
+.method-note{background:var(--gray-50);border:1px solid var(--gray-100);border-left:4px solid var(--crimson);border-radius:0 var(--radius) var(--radius) 0;padding:13px 15px;font-size:11px;color:var(--gray-600);line-height:1.6;margin-bottom:14px;}
+
 @media print{.tab-nav,.top-bar-right,.refresh-btn,.export-fab{display:none;}.tab-panel{display:block!important;page-break-before:always;}.tab-panel:first-of-type{page-break-before:auto;}}
 </style>
 </head>
@@ -214,27 +314,33 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
     <button class="sidebar-close" onclick="closeSidebar()">✕</button>
   </div>
   <div class="sidebar-nav-list">
-    <div class="sidebar-group-label">People Analytics</div>
-    <div class="sidebar-nav-item active" id="snav_overview"   onclick="sNav('overview',this)"><span class="sni-icon">📊</span>HR Overview</div>
-    <div class="sidebar-nav-item" id="snav_workforce"         onclick="sNav('workforce',this)"><span class="sni-icon">👥</span>Workforce Planning</div>
-    <div class="sidebar-nav-item" id="snav_talent"            onclick="sNav('talent',this)"><span class="sni-icon">🏆</span>Talent & Performance</div>
-    <div class="sidebar-nav-item" id="snav_comp"              onclick="sNav('comp',this)"><span class="sni-icon">⚖️</span>Compensation Equity<span class="sidebar-badge">Pay</span></div>
-    <div class="sidebar-group-label">HR Operations</div>
-    <div class="sidebar-nav-item" id="snav_er"                onclick="sNav('er',this)"><span class="sni-icon">🤝</span>Employee Relations<span class="sidebar-badge">ER</span></div>
-    <div class="sidebar-nav-item" id="snav_wellbeing"         onclick="sNav('wellbeing',this)"><span class="sni-icon">🌟</span>Well-being & Engagement</div>
-    <div class="sidebar-nav-item" id="snav_recruiting"        onclick="sNav('recruiting',this)"><span class="sni-icon">🔎</span>Talent Acquisition</div>
-    <div class="sidebar-group-label">Intelligence</div>
-    <div class="sidebar-nav-item" id="snav_hranalytics"       onclick="sNav('hranalytics',this)"><span class="sni-icon">🤖</span>HR Analytics Engine<span class="sidebar-badge">AI</span></div>
-    <div class="sidebar-nav-item" id="snav_hrcalendar"        onclick="sNav('hrcalendar',this)"><span class="sni-icon">📅</span>HR Calendar</div>
+    <div class="sidebar-group-label">Executive View</div>
+    <div class="sidebar-nav-item active" id="snav_overview"   onclick="sNav('overview',this)"><span class="sni-icon">📊</span>HR Overview<span class="sidebar-badge">1</span></div>
+    <div class="sidebar-nav-item" id="snav_workforce"         onclick="sNav('workforce',this)"><span class="sni-icon">👥</span>Workforce Planning<span class="sidebar-badge">2</span></div>
+    <div class="sidebar-nav-item" id="snav_finance"           onclick="sNav('finance',this)"><span class="sni-icon">💵</span>Finance-Linked Workforce<span class="sidebar-badge">3</span></div>
+    <div class="sidebar-group-label">Core HR Consulting</div>
+    <div class="sidebar-nav-item" id="snav_talent"            onclick="sNav('talent',this)"><span class="sni-icon">🏆</span>Talent & Performance<span class="sidebar-badge">4</span></div>
+    <div class="sidebar-nav-item" id="snav_comp"              onclick="sNav('comp',this)"><span class="sni-icon">⚖️</span>Compensation Equity<span class="sidebar-badge">5</span></div>
+    <div class="sidebar-nav-item" id="snav_er"                onclick="sNav('er',this)"><span class="sni-icon">🤝</span>Employee Relations<span class="sidebar-badge">6</span></div>
+    <div class="sidebar-nav-item" id="snav_wellbeing"         onclick="sNav('wellbeing',this)"><span class="sni-icon">🌟</span>Well-being & Engagement<span class="sidebar-badge">7</span></div>
+    <div class="sidebar-nav-item" id="snav_recruiting"        onclick="sNav('recruiting',this)"><span class="sni-icon">🔎</span>Talent Acquisition<span class="sidebar-badge">8</span></div>
+    <div class="sidebar-nav-item" id="snav_policyrisk"        onclick="sNav('policyrisk',this)"><span class="sni-icon">🛡️</span>Policy, Compliance & Risk<span class="sidebar-badge">9</span></div>
+    <div class="sidebar-group-label">Strategy & Intelligence</div>
+    <div class="sidebar-nav-item" id="snav_peers"             onclick="sNav('peers',this)"><span class="sni-icon">🏛️</span>Peers, Market Rates & Best Practices<span class="sidebar-badge">10</span></div>
+    <div class="sidebar-nav-item" id="snav_actions"           onclick="sNav('actions',this)"><span class="sni-icon">✅</span>Recommended Actions<span class="sidebar-badge">11</span></div>
+    <div class="sidebar-nav-item" id="snav_horizon"           onclick="sNav('horizon',this)"><span class="sni-icon">⏳</span>5/10/15/20-Year Horizon<span class="sidebar-badge">12</span></div>
+    <div class="sidebar-nav-item" id="snav_hranalytics"       onclick="sNav('hranalytics',this)"><span class="sni-icon">🤖</span>HR Analytics + Responsible AI<span class="sidebar-badge">13</span></div>
+    <div class="sidebar-nav-item" id="snav_methodology"       onclick="sNav('methodology',this)"><span class="sni-icon">🧮</span>Methodology & Assumptions<span class="sidebar-badge">14</span></div>
+    <div class="sidebar-nav-item" id="snav_hrcalendar"        onclick="sNav('hrcalendar',this)"><span class="sni-icon">📅</span>HR Calendar<span class="sidebar-badge">15</span></div>
   </div>
-  <div class="sidebar-footer">Source: Workday HCM · Harvard OHR · <span id="sidebar_ts_footer">—</span></div>
+  <div class="sidebar-footer">Synthetic source model · <span id="sidebar_ts_footer">—</span></div>
 </nav>
 
 <!-- TOP BAR -->
 <div class="top-bar">
   <div style="display:flex;align-items:center;gap:12px;">
     <div class="harvard-crest">H</div>
-    <div><h1>FAS HR Consulting Dashboard — Harvard College</h1><p>Faculty of Arts & Sciences · Senior HR Consultant Work Sample · Confidential</p></div>
+    <div><h1>FAS HR Consulting Dashboard — Harvard College</h1><p>Faculty of Arts & Sciences · Senior HR Consultant Work Sample · Synthetic Portfolio Data</p></div>
   </div>
   <div style="display:flex;align-items:center;gap:10px;">
     <div class="ts-badge">Last updated: <span id="ts_display">—</span></div>
@@ -243,17 +349,40 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
 </div>
 
 <!-- TAB NAV -->
-<nav class="tab-nav" role="tablist">
-  <button class="sidebar-toggle-btn" onclick="toggleSidebar()">☰</button>
-  <button class="tab-btn active" onclick="switchTab('overview',this)">📊 HR Overview</button>
-  <button class="tab-btn" onclick="switchTab('workforce',this)">👥 Workforce Planning</button>
-  <button class="tab-btn" onclick="switchTab('talent',this)">🏆 Talent & Performance</button>
-  <button class="tab-btn" onclick="switchTab('comp',this)">⚖️ Compensation Equity</button>
-  <button class="tab-btn" onclick="switchTab('er',this)">🤝 Employee Relations</button>
-  <button class="tab-btn" onclick="switchTab('wellbeing',this)">🌟 Well-being</button>
-  <button class="tab-btn" onclick="switchTab('recruiting',this)">🔎 Talent Acquisition</button>
-  <button class="tab-btn" onclick="switchTab('hranalytics',this)">🤖 HR Analytics Engine</button>
-  <button class="tab-btn" onclick="switchTab('hrcalendar',this)">📅 HR Calendar</button>
+<nav class="tab-nav" role="tablist" aria-label="Dashboard section index">
+  <button class="sidebar-toggle-btn" onclick="toggleSidebar()" aria-label="Open full left index">☰</button>
+  <div class="tab-groups">
+    <div class="tab-group exec">
+      <span class="tab-group-label">Executive View</span>
+      <div class="tab-group-row">
+        <button class="tab-btn active" onclick="switchTab('overview',this)">📊 Overview</button>
+        <button class="tab-btn" onclick="switchTab('workforce',this)">👥 Workforce</button>
+        <button class="tab-btn" onclick="switchTab('finance',this)">💵 Finance</button>
+      </div>
+    </div>
+    <div class="tab-group core">
+      <span class="tab-group-label">Core HR Consulting</span>
+      <div class="tab-group-row">
+        <button class="tab-btn" onclick="switchTab('talent',this)">🏆 Talent</button>
+        <button class="tab-btn" onclick="switchTab('comp',this)">⚖️ Comp</button>
+        <button class="tab-btn" onclick="switchTab('er',this)">🤝 ER</button>
+        <button class="tab-btn" onclick="switchTab('wellbeing',this)">🌟 Well-being</button>
+        <button class="tab-btn" onclick="switchTab('recruiting',this)">🔎 Recruiting</button>
+        <button class="tab-btn" onclick="switchTab('policyrisk',this)">🛡️ Policy</button>
+      </div>
+    </div>
+    <div class="tab-group strategy">
+      <span class="tab-group-label">Strategy & Intelligence</span>
+      <div class="tab-group-row">
+        <button class="tab-btn" onclick="switchTab('peers',this)">🏛️ Peers + Market</button>
+        <button class="tab-btn" onclick="switchTab('actions',this)">✅ Actions</button>
+        <button class="tab-btn" onclick="switchTab('horizon',this)">⏳ 5/10/15/20</button>
+        <button class="tab-btn" onclick="switchTab('hranalytics',this)">🤖 AI</button>
+        <button class="tab-btn" onclick="switchTab('methodology',this)">🧮 Methodology</button>
+        <button class="tab-btn" onclick="switchTab('hrcalendar',this)">📅 Calendar</button>
+      </div>
+    </div>
+  </div>
 </nav>
 
 <!-- ═══ TAB 1: HR OVERVIEW ═══ -->
@@ -290,6 +419,14 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
       <div style="position:relative;height:230px;"><canvas id="c_hr_mix"></canvas></div>
     </div>
   </div>
+  <div class="section-label">Hiring Team Lens — What This Dashboard Proves · Click each card for evidence popup</div>
+  <div class="evidence-grid">
+    <div class="evidence-card" role="button" tabindex="0" onclick="showHiringLensDetail(0,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showHiringLensDetail(0,event);}"><div class="evidence-kicker">Strategic Partner</div><div class="evidence-title">Connects people strategy to College priorities</div><div class="evidence-text">Shows staffing, climate, talent, ER, and policy signals in one leadership view for the Dean for Administration & Finance and unit managers.</div><span class="detail-link">View proof detail →</span></div>
+    <div class="evidence-card blue" role="button" tabindex="0" onclick="showHiringLensDetail(1,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showHiringLensDetail(1,event);}"><div class="evidence-kicker">Finance Fluency</div><div class="evidence-title">Translates HR issues into budget and service risk</div><div class="evidence-text">Makes vacancy savings, temp/overtime offset, merit exposure, reclassification pressure, and workforce-cost composition visible.</div><span class="detail-link">View proof detail →</span></div>
+    <div class="evidence-card amber" role="button" tabindex="0" onclick="showHiringLensDetail(2,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showHiringLensDetail(2,event);}"><div class="evidence-kicker">Risk Judgment</div><div class="evidence-title">Prioritizes ER, policy, compensation, and compliance flags</div><div class="evidence-text">Keeps sensitive people data aggregated while routing high-risk issues to OHR, Compensation, OGC, Talent Acquisition, or HRIS.</div><span class="detail-link">View proof detail →</span></div>
+    <div class="evidence-card green" role="button" tabindex="0" onclick="showHiringLensDetail(3,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showHiringLensDetail(3,event);}"><div class="evidence-kicker">Action Orientation</div><div class="evidence-title">Moves beyond charts into consulting actions</div><div class="evidence-text">Every major signal is tied to a recommended move, owner, timing, and governance/control approach.</div><span class="detail-link">View proof detail →</span></div>
+  </div>
+
   <div class="section-label">Executive Summary</div>
   <div class="exec-box">
     <h3>FY2026 — Harvard College HR Highlights</h3>
@@ -431,7 +568,8 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
       <div style="position:relative;height:220px;"><canvas id="c_er_type"></canvas></div>
     </div>
     <div class="chart-card">
-      <div class="chart-header"><div><div class="chart-title">Case Volume Trend — FY2024–FY2026</div><div class="chart-subtitle">Monthly new case intake</div></div></div>
+      <div class="chart-header"><div><div class="chart-title">Case Volume Trend — FY2024–FY2026</div><div class="chart-subtitle">Monthly new case intake · line color indicates fiscal year</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:var(--crimson);"></span>FY2026</span><span><span class="leg-dot" style="background:#7090b8;"></span>FY2025</span><span><span class="leg-dot" style="background:#b8c8d8;"></span>FY2024</span></div>
       <div style="position:relative;height:220px;"><canvas id="c_er_trend"></canvas></div>
     </div>
   </div>
@@ -580,6 +718,13 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
     </div>
     <div class="itfm-status" id="hr_status"><div class="status-dot" style="background:var(--gray-200);"></div><span>Ready · 0 domains selected</span></div>
   </div>
+  <div class="section-label">Responsible AI Decision Support — Human Review Required · Click each control for detail</div>
+  <div class="ai-guardrail-grid">
+    <div class="ai-guardrail" role="button" tabindex="0" onclick="showAiGuardrailDetail(0,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showAiGuardrailDetail(0,event);}"><strong>Pattern detection</strong><span>Flags repeated workforce, climate, vacancy, or compensation signals for human review; never makes employment decisions.</span><span class="detail-link">View control detail →</span></div>
+    <div class="ai-guardrail" role="button" tabindex="0" onclick="showAiGuardrailDetail(1,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showAiGuardrailDetail(1,event);}"><strong>Briefing-note generator</strong><span>Drafts neutral leadership summaries from dashboard data only, with source labels and recommended validation checks.</span><span class="detail-link">View control detail →</span></div>
+    <div class="ai-guardrail" role="button" tabindex="0" onclick="showAiGuardrailDetail(2,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showAiGuardrailDetail(2,event);}"><strong>Scenario planner</strong><span>Models staffing, retirement, budget, and coverage tradeoffs across 5, 10, 15, and 20-year horizons.</span><span class="detail-link">View control detail →</span></div>
+    <div class="ai-guardrail" role="button" tabindex="0" onclick="showAiGuardrailDetail(3,event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showAiGuardrailDetail(3,event);}"><strong>Explainability gate</strong><span>Every flag shows the metrics behind the recommendation and requires HR, policy, and manager-context review.</span><span class="detail-link">View control detail →</span></div>
+  </div>
 </section>
 
 <!-- ═══ TAB 9: HR CALENDAR ═══ -->
@@ -604,12 +749,232 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
   </div>
 </section>
 
+
+<!-- ═══ TAB 10: FINANCE-LINKED WORKFORCE INTELLIGENCE ═══ -->
+<section class="tab-panel" id="tab-finance">
+  <div class="itfm-header" style="background:linear-gradient(135deg,var(--navy) 0%,#20365d 58%,var(--crimson) 100%);">
+    <div>
+      <h2>💵 Finance-Linked Workforce Intelligence</h2>
+      <p>Connects authorized FTE, filled FTE, vacancy savings, overtime / temporary coverage, reclassification pressure, and merit-cycle exposure for Dean for Administration and Finance conversations.</p>
+    </div>
+    <div class="portfolio-link-row">
+      <a class="portfolio-link" href="https://nasdaqguru.github.io/UNICEF_APO.html" target="_blank" rel="noopener">↗ View finance sample</a>
+    </div>
+  </div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Authorized Salary Budget</div><div class="kpi-value">$44.2M</div><div class="kpi-sub neu">Synthetic FY2026 model</div></div>
+    <div class="kpi-card"><div class="kpi-label">Forecast Payroll</div><div class="kpi-value">$42.9M</div><div class="kpi-sub pos">97.1% of budget</div></div>
+    <div class="kpi-card"><div class="kpi-label">Vacancy Savings</div><div class="kpi-value">$1.31M</div><div class="kpi-sub info">Temporary, not strategic</div></div>
+    <div class="kpi-card"><div class="kpi-label">Temp / Overtime Offset</div><div class="kpi-value">$620K</div><div class="kpi-sub warn">47% of vacancy savings</div></div>
+    <div class="kpi-card"><div class="kpi-label">Reclass Requests</div><div class="kpi-value">16</div><div class="kpi-sub warn">Org design pressure</div></div>
+    <div class="kpi-card"><div class="kpi-label">Merit Exposure</div><div class="kpi-value">$1.46M</div><div class="kpi-sub neu">At 3.4% average</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Budgeted vs. Forecast Payroll by Unit</div><div class="chart-subtitle">Shows whether staffing plan and budget plan are aligned</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:var(--navy);"></span>Budget</span><span><span class="leg-dot" style="background:var(--crimson);"></span>Forecast</span></div>
+      <div style="position:relative;height:260px;"><canvas id="c_fin_budget"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">View pie: Workforce Cost Composition</div><div class="chart-subtitle">Salary, benefits, temp coverage, overtime, equity corrections</div></div></div>
+      <div style="position:relative;height:260px;"><canvas id="c_fin_costmix"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Raw Position-Level Budget vs. Forecast Payroll Detail</div>
+  <div class="chart-card">
+    <div style="font-size:11px;color:var(--gray-600);margin-bottom:10px;line-height:1.5;">Raw rows for export and review: position ID, title, grade, salary, vacancy status, projected raise, forecast payroll, and assumptions. Summary values above are derived from this register.</div>
+    <div class="table-wrap">
+      <table class="fin-table" style="min-width:1050px;"><thead><tr>
+        <th>Position ID</th><th>Unit</th><th>Title</th><th class="c">Grade</th><th class="c">Vacant?</th><th class="r">Budget Salary</th><th class="r">Current Salary</th><th class="r">Projected Raise</th><th class="r">Forecast Salary</th><th>Forecast Assumption</th><th>Finance / HR Note</th>
+      </tr></thead><tbody id="finance_position_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 11: POLICY, COMPLIANCE & RISK ═══ -->
+<section class="tab-panel" id="tab-policyrisk">
+  <div class="section-label">Policy, Compliance & Risk — HR Consulting Register · FY2026</div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Open Policy Consults</div><div class="kpi-value">29</div><div class="kpi-sub warn">12 require partner review</div></div>
+    <div class="kpi-card"><div class="kpi-label">Leave / Accommodation</div><div class="kpi-value">18</div><div class="kpi-sub neu">Active or intermittent</div></div>
+    <div class="kpi-card"><div class="kpi-label">Classification Reviews</div><div class="kpi-value">16</div><div class="kpi-sub warn">Role architecture pressure</div></div>
+    <div class="kpi-card"><div class="kpi-label">Compliance Deadlines</div><div class="kpi-value">9</div><div class="kpi-sub info">Next 60 days</div></div>
+    <div class="kpi-card"><div class="kpi-label">High Risk Items</div><div class="kpi-value">5</div><div class="kpi-sub neg">Escalation recommended</div></div>
+    <div class="kpi-card"><div class="kpi-label">Resolved YTD</div><div class="kpi-value">74</div><div class="kpi-sub pos">Documented disposition</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Policy Consult Mix</div><div class="chart-subtitle">Current open items by policy domain</div></div></div>
+      <div style="position:relative;height:245px;"><canvas id="c_policy_mix"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Risk Heat by Domain</div><div class="chart-subtitle">Count of items by risk level</div></div></div>
+      <div style="position:relative;height:245px;"><canvas id="c_risk_heat"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Risk Register</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Risk / Policy Area</th><th>Primary Signal</th><th class="c">Risk</th><th>Partner</th><th>Recommended Control</th><th class="c">Due</th>
+      </tr></thead><tbody id="policy_risk_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 12: PEERS & BEST PRACTICES ═══ -->
+<section class="tab-panel" id="tab-peers">
+  <div class="itfm-header" style="background:linear-gradient(135deg,var(--navy) 0%,#243b63 58%,var(--crimson) 100%);">
+    <div>
+      <h2>🏛️ Peers, Market Rates & Best Practices — Higher Education HR Consulting Lens</h2>
+      <p>Peer-informed view for Harvard College: compare dashboard signals and market-rate context against Harvard internal role levels and selected higher-education peer references, then translate gaps into consulting moves.</p>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.55);line-height:1.6;max-width:280px;">Portfolio mode: peer bands and market-rate rows are public-reference / synthetic planning inputs. Validate with Harvard Salary Ranges, Compensation, CUPA-HR, Ivy Plus, COFHE, and official peer postings before operational use.</div>
+  </div>
+  <div class="peer-note"><strong>Hiring-team value:</strong> This section shows that the dashboard is not just descriptive. It demonstrates external awareness, role judgment, and the ability to convert peer practice into Harvard College actions across workforce planning, ER, compensation, retention, recruiting, finance, and responsible AI.</div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Peer Practice Areas</div><div class="kpi-value">9</div><div class="kpi-sub info">Higher-ed HR lens</div></div>
+    <div class="kpi-card"><div class="kpi-label">Benchmark-Inspired Metrics</div><div class="kpi-value">8</div><div class="kpi-sub neu">Synthetic ranges</div></div>
+    <div class="kpi-card"><div class="kpi-label">Market-Rate References</div><div class="kpi-value">6</div><div class="kpi-sub info">Harvard + peers</div></div>
+    <div class="kpi-card"><div class="kpi-label">Priority Gaps</div><div class="kpi-value">4</div><div class="kpi-sub warn">Need consulting action</div></div>
+    <div class="kpi-card"><div class="kpi-label">Strong Signals</div><div class="kpi-value">5</div><div class="kpi-sub pos">Above target / stable</div></div>
+  </div>
+  <div class="section-label">Harvard + Peer School Market-Rate Context</div>
+  <div class="peer-note"><strong>Use carefully:</strong> market rows are a public-reference layer for the portfolio sample. They are not a compensation recommendation. For a real Harvard College process, validate ranges with Harvard Compensation, official Harvard Salary Ranges, CUPA-HR, and current peer postings before salary setting.</div>
+  <div class="market-rate-grid" id="market_rate_grid"></div>
+  <div class="chart-card" style="margin-bottom:13px;">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Reference</th><th>Institution / Source</th><th>Role / Level</th><th class="r">Low</th><th class="r">Mid / Est.</th><th class="r">High</th><th>How to use</th><th class="c">Status</th>
+      </tr></thead><tbody id="market_rate_tbody"></tbody></table>
+    </div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Practice Maturity vs. Peer Target</div><div class="chart-subtitle">Illustrative score · 100 = best-practice ready</div></div></div>
+      <div style="position:relative;height:270px;"><canvas id="c_peer_maturity"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Where the Hiring Team Will Look First</div><div class="chart-subtitle">Evidence strength by role requirement</div></div></div>
+      <div style="position:relative;height:270px;"><canvas id="c_hiring_lens"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Peer Benchmark-Inspired Scorecard · Click a row for detail</div>
+  <div class="chart-card" style="margin-bottom:13px;">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Metric</th><th>Current Dashboard Signal</th><th>Peer / Best-Practice Lens</th><th class="c">Read</th><th>More Effective Next Move</th>
+      </tr></thead><tbody id="peer_benchmark_tbody"></tbody></table>
+    </div>
+  </div>
+  <div class="section-label">Best-Practice Playbook for Harvard College · Click a card for detail</div>
+  <div class="practice-grid" id="best_practice_grid"></div>
+</section>
+
+<!-- ═══ TAB 13: RECOMMENDED ACTIONS ═══ -->
+<section class="tab-panel" id="tab-actions">
+  <div class="section-label">Recommended Actions — Signal-to-Decision Routing</div>
+  <div class="exec-box" style="border-left-color:var(--navy);background:var(--navy-light);">
+    <h3 style="color:var(--navy);">Consulting Intent</h3>
+    <div style="font-size:12px;line-height:1.7;color:var(--gray-700);">This layer translates dashboard signals into practical HR consulting moves: who should act, by when, and what decision is needed. It is designed for a Dean for Administration and Finance / HR partner conversation, not for automated HR decisions.</div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Action Priority Mix</div><div class="chart-subtitle">High, medium, and monitor items</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_action_priority"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Action Triage Matrix — Impact × Urgency</div><div class="chart-subtitle">Prioritizes what should move first; bubble size = exposure</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_action_owner"></canvas></div>
+    </div>
+  </div>
+  <div class="action-list" id="action_card_grid"></div>
+</section>
+
+<!-- ═══ TAB 14: STRATEGIC HORIZON ═══ -->
+<section class="tab-panel" id="tab-horizon">
+  <div class="itfm-header" style="background:linear-gradient(135deg,#0f172a 0%,var(--navy) 54%,var(--blue) 100%);">
+    <div>
+      <h2>⏳ Scalable Workforce Horizon — 5 / 10 / 15 / 20 Years</h2>
+      <p>Scenario model for Harvard College long-range workforce planning: staffing demand, retirement exposure, succession coverage, budget pressure, and future-ready skills investment.</p>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.55);line-height:1.6;max-width:260px;">Use this as a portfolio demonstration of how HR consulting can connect current risk with multi-year planning. All values are illustrative.</div>
+  </div>
+  <div class="horizon-controls" aria-label="Scenario horizon selector">
+    <span style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-400);margin-right:4px;">Scenario horizon</span>
+    <button class="horizon-chip active" onclick="setHorizon(5,this)">5 years</button>
+    <button class="horizon-chip" onclick="setHorizon(10,this)">10 years</button>
+    <button class="horizon-chip" onclick="setHorizon(15,this)">15 years</button>
+    <button class="horizon-chip" onclick="setHorizon(20,this)">20 years</button>
+  </div>
+  <div class="strategy-grid" id="horizon_kpis"></div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Projected FTE Demand vs. Current Baseline</div><div class="chart-subtitle" id="horizon_fte_sub">5-year scenario</div></div></div>
+      <div style="position:relative;height:260px;"><canvas id="c_horizon_fte"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Retirement Exposure & Succession Coverage</div><div class="chart-subtitle" id="horizon_succ_sub">5-year scenario</div></div></div>
+      <div style="position:relative;height:260px;"><canvas id="c_horizon_succession"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Long-Range Strategic Interventions</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table"><thead><tr>
+        <th>Planning Lever</th><th>Why It Matters</th><th class="c">5 Years</th><th class="c">10 Years</th><th class="c">15 Years</th><th class="c">20 Years</th>
+      </tr></thead><tbody id="horizon_lever_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ TAB 15: METHODOLOGY & DATA ASSUMPTIONS ═══ -->
+<section class="tab-panel" id="tab-methodology">
+  <div class="itfm-header" style="background:linear-gradient(135deg,#0f172a 0%,var(--navy) 58%,var(--purple) 100%);">
+    <div>
+      <h2>🧮 Methodology & Data Assumptions</h2>
+      <p>Transparent calculation notes for the portfolio dashboard: how synthetic numbers, engagement points, risk scoring, averages, forecast payroll, market rates, and long-range scenarios were created and how they should be validated before real use.</p>
+    </div>
+    <div style="font-size:10px;color:rgba(255,255,255,.55);line-height:1.6;max-width:300px;">Portfolio mode: no confidential Harvard employee records are used. Values are illustrative and designed to show consulting judgment, not official institutional reporting.</div>
+  </div>
+  <div class="method-note"><strong>Methodology principle:</strong> summary KPIs should trace back to raw rows. The dashboard now separates raw registers from calculated views: raw position payroll, raw ER cases, raw requisitions, raw compensation flags, raw leave records, raw policy risks, raw action items, and raw market-rate references.</div>
+  <div class="method-grid">
+    <div class="method-card red"><h3>📊 Engagement score</h3><p>Engagement is modeled as a 0–100 index using anonymized pulse dimensions. Unit scores are weighted averages of manager support, workload balance, belonging, clarity, and growth opportunity.</p><div class="method-formula">Unit engagement = Σ(dimension score × dimension weight) / Σ(weights)<br>Overall engagement = Σ(unit engagement × filled FTE) / Σ(filled FTE)<br>Point change = current score − prior-year score</div></div>
+    <div class="method-card navy"><h3>👥 Headcount, vacancies & fill rate</h3><p>Authorized FTE, filled positions, and vacancies are modeled at the position level. Vacancy rate and fill rate should be calculated from the authorized position register, not from budget totals alone.</p><div class="method-formula">Vacancies = Authorized FTE − Filled FTE<br>Fill rate = Filled FTE / Authorized FTE<br>Vacancy rate = Vacant FTE / Authorized FTE</div></div>
+    <div class="method-card amber"><h3>🤝 ER and policy risk scoring</h3><p>Risk levels are based on a point model that weighs severity, days open, partner involvement, employee impact, repeat pattern, and documentation quality.</p><div class="method-formula">Risk score = severity points + aging points + partner/escalation points + repeat-pattern points + documentation-gap points<br>High ≥ 75 · Medium 45–74 · Low / monitor &lt; 45</div></div>
+    <div class="method-card green"><h3>💵 Budget vs. forecast payroll</h3><p>Forecast payroll is derived from raw position rows. Filled roles use current salary plus projected raise; vacant roles use the budgeted salary adjusted by expected start date and temp/overtime offset assumptions.</p><div class="method-formula">Filled forecast = current salary × (1 + projected raise %)<br>Vacant forecast = budget salary × active-months factor + temp/overtime offset<br>Variance = budget salary − forecast salary</div></div>
+    <div class="method-card purple"><h3>⚖️ Compensation and market rates</h3><p>Market-rate rows are contextual planning inputs. Official salary setting should anchor to Harvard grade/range, internal equity, comparator roles, current postings, and Compensation review.</p><div class="method-formula">Market midpoint = (public low + public high) / 2 when available<br>Internal equity flag = same role / grade spread &gt; 15% or below band minimum<br>Market context ≠ salary recommendation</div></div>
+    <div class="method-card blue"><h3>⏳ 5 / 10 / 15 / 20-year scenarios</h3><p>Long-range scenarios scale from the current authorized FTE baseline using illustrative assumptions for service demand, retirement exposure, future-skills shift, and salary-budget growth.</p><div class="method-formula">Projected FTE = baseline FTE + demand-growth assumption<br>Retirement exposure = age/tenure eligibility estimate × horizon factor<br>Succession coverage = roles with named backup / critical roles<br>Budget scenario = salary baseline × inflation / merit / role-growth factors</div></div>
+  </div>
+  <div class="section-label">Dashboard Metric Dictionary</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="fin-table" style="min-width:960px;"><thead><tr><th>Metric</th><th>Raw Source / Register</th><th>Calculation Method</th><th>Validation Step Before Real Use</th></tr></thead><tbody>
+        <tr><td><strong>Total Authorized FTE</strong></td><td>Position budget register</td><td>Count or sum of authorized FTE rows</td><td>Reconcile with HRIS position control and Finance budget owner</td></tr>
+        <tr><td><strong>Filled Positions</strong></td><td>Current employee / position register</td><td>Count rows where vacant = No</td><td>Confirm active status, leave status, and duplicate position IDs</td></tr>
+        <tr><td><strong>Average Time-to-Fill</strong></td><td>Raw requisition register</td><td>Average days from approved/post date to accepted/start-ready stage, divided by 7 for weeks</td><td>Align definition with Talent Acquisition and exclude canceled requisitions</td></tr>
+        <tr><td><strong>Turnover Rate</strong></td><td>Termination / movement register</td><td>Departures in period ÷ average filled headcount</td><td>Separate voluntary, involuntary, retirement, internal transfer, and contract-end movement</td></tr>
+        <tr><td><strong>Engagement Score</strong></td><td>Pulse survey aggregate</td><td>Weighted 0–100 index across selected dimensions; no individual-level reporting</td><td>Check response rate, minimum cell-size suppression, and unit comparability</td></tr>
+        <tr><td><strong>Risk Score</strong></td><td>ER, policy, compensation, requisition, and finance registers</td><td>Point model: severity, aging, exposure, repeat pattern, escalation need, and documentation quality</td><td>Review with HR leadership; do not use as automated employment decision tool</td></tr>
+        <tr><td><strong>Forecast Payroll</strong></td><td>Raw position payroll register</td><td>Filled-role salary + projected raise; vacant-role salary adjusted by start timing and temp/overtime assumptions</td><td>Reconcile to Finance, Compensation, and position-control assumptions</td></tr>
+        <tr><td><strong>Peer / Market Rate</strong></td><td>Public postings, published HR compensation guidance, synthetic estimates</td><td>Directional low/mid/high range; midpoint only where public low and high exist</td><td>Validate against Harvard salary ranges, Compensation, CUPA-HR, Ivy Plus/COFHE, and current postings</td></tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="section-label">Scoring rubric used in popups</div>
+  <div class="two-col">
+    <div class="method-card"><h3>Risk point guide</h3><ul><li>Severity: 0–30 points based on employee, policy, operational, or reputational impact.</li><li>Aging: 0–20 points based on days open or urgency window.</li><li>Pattern: 0–15 points for repeat signals in one unit or job family.</li><li>Exposure: 0–20 points for finance, staffing, service delivery, or climate impact.</li><li>Control gap: 0–15 points for missing documentation, owner, or next action.</li></ul></div>
+    <div class="method-card green"><h3>Interpretation thresholds</h3><ul><li><strong>High:</strong> ≥75 points; needs dated action, owner, and escalation path.</li><li><strong>Medium:</strong> 45–74 points; needs monitoring plus manager/partner action.</li><li><strong>Monitor:</strong> below 45 points; keep in trend view or next scheduled review.</li><li><strong>Engagement:</strong> below 65 = intervention zone; 65–74 = watch; 75+ = stable / strength.</li></ul></div>
+  </div>
+</section>
+
 <!-- EXPORT FAB -->
-<button class="export-fab" onclick="exportAllHr()" title="Export HR data to Excel">📥 Export Data</button>
+<button class="export-fab" onclick="exportAllHr()" title="Export raw HR registers to Excel">📥 Export Raw Data</button>
 
 <footer class="dash-footer">
   <span>FAS HR Consulting Dashboard · Harvard College · Work Sample — Narissara Khomkhai · Candidate: Senior HR Consultant (002613SR)</span>
-  <span>Source: Workday HCM · Harvard OHR · Data as of May 2026</span>
+  <span>Source model: Workday HCM · Harvard OHR · Synthetic data as of May 2026</span>
 </footer>
 
 <!-- EVENT POPUP -->
@@ -617,6 +982,19 @@ body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);fon
   <button style="position:absolute;top:8px;right:8px;background:var(--gray-100);border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:10px;" onclick="document.getElementById('hrcal_popup').classList.remove('show')">✕</button>
   <div class="cal-popup-title" id="hrcal_popup_title"></div>
   <div id="hrcal_popup_body"></div>
+</div>
+
+<!-- ACTION DETAIL MODAL -->
+<div class="action-modal-overlay" id="action_modal_overlay" onclick="closeActionDetail()" aria-hidden="true">
+  <div class="action-modal" id="action_modal" role="dialog" aria-modal="true" aria-labelledby="action_modal_title" onclick="event.stopPropagation()">
+    <button class="action-modal-close" onclick="closeActionDetail()" aria-label="Close action details">✕</button>
+    <div class="action-modal-head">
+      <div class="action-modal-kicker">Action drill-down · synthetic portfolio data</div>
+      <div class="action-modal-title" id="action_modal_title"></div>
+      <div class="action-modal-meta" id="action_modal_meta"></div>
+    </div>
+    <div class="action-modal-body" id="action_modal_body"></div>
+  </div>
 </div>
 
 <script>
@@ -813,7 +1191,7 @@ const HR_NARRATIVES={
       `<strong>Merit Increase Distribution:</strong> Of the 362 employees who received merit increases in FY2026: 0–2%: 22 employees (6.1%); 2–3%: 48 (13.3%); 3–4%: 162 (44.8%); 4–5%: 88 (24.3%); 5%+: 42 (11.6%). Average of 3.4% is slightly below the Harvard University guideline of 3.5%.`,
     ],
     board:[
-      `HUIT College's compensation equity position requires immediate attention in two areas: 11 employees below band minimum (3 of whom have been in this position for 30+ months) and a systemic −2.8% gender pay gap at the same grade level. Both represent legal and reputational risks that the Senior HR Consultant is actively managing in partnership with FAS Compensation. Equity correction submissions for the most critical cases have been prepared. The Dean for Administration & Finance should be briefed on the gender pay gap findings before they surface in the next FAS compensation audit cycle.`,
+      `Harvard College's compensation equity position requires immediate attention in two areas: 11 employees below band minimum (3 of whom have been in this position for 30+ months) and a systemic −2.8% gender pay gap at the same grade level. Both represent legal and reputational risks that the Senior HR Consultant is actively managing in partnership with FAS Compensation. Equity correction submissions for the most critical cases have been prepared. The Dean for Administration & Finance should be briefed on the gender pay gap findings before they surface in the next FAS compensation audit cycle.`,
     ]
   },
   hr_performance:{
@@ -835,7 +1213,7 @@ const HR_NARRATIVES={
     ],
     detailed:[],
     board:[
-      `HUIT College's talent acquisition function is under increasing pressure, with time-to-fill rising to 6.8 weeks and three high-priority vacancies actively impacting operations in Residential Life and Student Affairs. A partnership review with FAS Talent Acquisition is recommended to assess sourcing strategies for program administration talent, where competition has intensified. The strong 81% offer acceptance rate and 25.8% internal fill rate indicate that the College's talent value proposition remains competitive, even as hiring timelines extend.`,
+      `Harvard College's talent acquisition function is under increasing pressure, with time-to-fill rising to 6.8 weeks and three high-priority vacancies actively impacting operations in Residential Life and Student Affairs. A partnership review with FAS Talent Acquisition is recommended to assess sourcing strategies for program administration talent, where competition has intensified. The strong 81% offer acceptance rate and 25.8% internal fill rate indicate that the College's talent value proposition remains competitive, even as hiring timelines extend.`,
     ]
   },
 };
@@ -854,9 +1232,9 @@ function switchTab(name, btn){
   if(sn) sn.classList.add('active');
   if(!tabBuilt[name]){
     tabBuilt[name]=true;
-    const fns={overview:buildOverview,workforce:buildWorkforce,talent:buildTalent,
-      comp:buildComp,er:buildER,wellbeing:buildWellbeing,recruiting:buildRecruiting,
-      hranalytics:buildHrAnalytics,hrcalendar:buildHrCalendar};
+    const fns={overview:buildOverview,workforce:buildWorkforce,finance:buildFinance,talent:buildTalent,
+      comp:buildComp,er:buildER,wellbeing:buildWellbeing,recruiting:buildRecruiting,policyrisk:buildPolicyRisk,
+      peers:buildPeers,actions:buildActions,horizon:buildHorizon,hranalytics:buildHrAnalytics,methodology:buildMethodology,hrcalendar:buildHrCalendar};
     if(fns[name]) fns[name]();
   }
 }
@@ -988,10 +1366,10 @@ function buildER(){
     options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:9},color:'#5c5a54'}}}}});
   const months=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
   mc('c_er_trend',{type:'line',data:{labels:months,datasets:[
-    {label:'FY2026',data:[3,3,4,4,3,2,4,5,6,4],borderColor:CRIMSON,tension:.35,pointRadius:3,fill:false},
-    {label:'FY2025',data:[2,3,3,3,2,2,3,3,4,3],borderColor:'#7090b8',tension:.35,pointRadius:2,fill:false},
-    {label:'FY2024',data:[2,2,3,2,2,1,2,3,3,2],borderColor:'#b8c8d8',tension:.35,pointRadius:2,fill:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10},stepSize:1},grid:{color:GRID}}}}});
+    {label:'FY2026',data:[3,3,4,4,3,2,4,5,6,4],borderColor:CRIMSON,backgroundColor:CRIMSON,tension:.35,pointRadius:3,borderWidth:3,fill:false},
+    {label:'FY2025',data:[2,3,3,3,2,2,3,3,4,3],borderColor:'#7090b8',backgroundColor:'#7090b8',borderDash:[5,4],tension:.35,pointRadius:2,borderWidth:2,fill:false},
+    {label:'FY2024',data:[2,2,3,2,2,1,2,3,3,2],borderColor:'#b8c8d8',backgroundColor:'#b8c8d8',borderDash:[2,4],tension:.35,pointRadius:2,borderWidth:2,fill:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},color:'#5c5a54',usePointStyle:true}}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10},stepSize:1},grid:{color:GRID}}}}});
   const pClass={High:'badge-red',Medium:'badge-amber',Low:'badge-blue'};
   const tbody=document.getElementById('er_case_tbody');
   tbody.innerHTML='';
@@ -1272,16 +1650,599 @@ function exportAllHr(){
   if(typeof XLSX==='undefined'){alert('Export library loading — please try again in a moment.');return;}
   const wb=XLSX.utils.book_new();
   const addSheet=(data,name)=>{if(data.length){const ws=XLSX.utils.json_to_sheet(data);XLSX.utils.book_append_sheet(wb,ws,name.substring(0,31));}};
-  addSheet(COLLEGE_UNITS.map(u=>({Unit:u.unit,Auth_FTE:u.auth,Filled:u.filled,Vacant:u.vacant,Vacancy_Pct:Math.round(u.vacant/u.auth*100)+'%',Avg_Tenure:u.tenure,Retire_3yr:u.retire3yr,Succession:u.succession,Engagement_Score:u.engScore,Active_ER_Cases:u.erCases,Avg_Perf_Score:u.perfAvg})),'Workforce by Unit');
-  addSheet(PERF_UNITS.map(u=>({Unit:u.unit,Rated:u.rated,Avg_Score:u.avg,Top_4_5:u.top,Exceeds_4:u.exc,Meets_3:u.meets,Developing:u.dev,Needs_Improvement:u.ni,Not_Rated:u.nr})),'Performance by Unit');
-  addSheet(PROMO_DATA.map(r=>({Emp_ID:r.id,Unit:r.unit,New_Title:r.title,From_Grade:r.from,To_Grade:r.to,Salary_Delta:r.delta,Date:r.date,Type:r.type})),'Promotions FY2026');
-  addSheet(COMP_FLAGS.map(f=>({Emp_ID:f.id,Unit:f.unit,Grade:f.grade,Current_Salary:f.salary,Band_Min:f.bandMin,Gap_Dollars:-f.gap,Months_Since_Raise:f.months,Action:f.action})),'Comp Equity Flags');
-  addSheet(ER_CASES.map(c=>({Case_ID:c.id,Unit:c.unit,Type:c.type,Opened:c.opened,Days_Open:c.days,Priority:c.priority,OGC_Involved:c.ogc?'Yes':'No',Status:c.status})),'ER Cases Active');
-  addSheet(LEAVE_DATA.map(l=>({Emp_ID:l.id,Unit:l.unit,Role:l.role,Leave_Type:l.type,Start:l.start,Expected_Return:l.exp,Weeks:l.wks||'N/A',Backfill:l.bf,Status:l.status})),'Leave Register');
-  addSheet(OPEN_REQS.map(r=>({Position:r.title,Unit:r.unit,Grade:r.grade,Stage:r.stage,Days_Open:r.days,Applicants:r.apps,Priority:r.priority})),'Open Requisitions');
-  addSheet(HR_CAL_EVENTS.map(e=>({Date:e.date,Title:e.title,Calendar:HR_CAL_TYPES[e.cal]?.label,Priority:e.priority,Owner:e.owner,Notes:e.notes})),'HR Calendar Events');
+  addSheet(POSITION_PAYROLL_RAW.map(p=>({
+    Position_ID:p.positionId,Employee_ID:p.employeeId,Unit:p.unit,Title:p.title,Grade:p.grade,Vacant:p.vacant,
+    Budget_FTE:p.budgetFte,Budget_Salary:p.budgetSalary,Budget_Benefits_Rate:p.benefitsRate,Funding_Source:p.fundingSource
+  })),'Raw Position Budget');
+  addSheet(POSITION_PAYROLL_RAW.map(p=>({
+    Position_ID:p.positionId,Employee_ID:p.employeeId,Unit:p.unit,Title:p.title,Grade:p.grade,Vacant:p.vacant,
+    Current_Salary:p.currentSalary,Projected_Raise_Pct:p.projectedRaisePct,Forecast_Salary:p.forecastSalary,
+    Forecast_Start_Assumption:p.forecastStart,Temp_Offset:p.tempOffset,Forecast_Note:p.note
+  })),'Raw Payroll Forecast');
+  addSheet(POSITION_PAYROLL_RAW.map(p=>({
+    Position_ID:p.positionId,Employee_ID:p.employeeId,Unit:p.unit,Title:p.title,Grade:p.grade,Vacant:p.vacant,
+    Budget_FTE:p.budgetFte,Budget_Salary:p.budgetSalary,Current_Salary:p.currentSalary,
+    Projected_Raise_Pct:p.projectedRaisePct,Forecast_Salary:p.forecastSalary,
+    Benefits_Rate:p.benefitsRate,Funding_Source:p.fundingSource,Forecast_Start_Assumption:p.forecastStart,Temp_Offset:p.tempOffset,Note:p.note
+  })),'Raw Budget Forecast');
+  addSheet(PROMO_DATA.map(r=>({Emp_ID:r.id,Unit:r.unit,New_Title:r.title,From_Grade:r.from,To_Grade:r.to,Salary_Delta:r.delta,Date:r.date,Type:r.type})),'Raw Promotions');
+  addSheet(COMP_FLAGS.map(f=>({Emp_ID:f.id,Unit:f.unit,Grade:f.grade,Current_Salary:f.salary,Band_Min:f.bandMin,Gap_Dollars:-f.gap,Months_Since_Raise:f.months,Action:f.action})),'Raw Comp Flags');
+  addSheet(ER_CASES.map(c=>({Case_ID:c.id,Unit:c.unit,Type:c.type,Opened:c.opened,Days_Open:c.days,Priority:c.priority,OGC_Involved:c.ogc?'Yes':'No',Status:c.status})),'Raw ER Cases');
+  addSheet(LEAVE_DATA.map(l=>({Emp_ID:l.id,Unit:l.unit,Role:l.role,Leave_Type:l.type,Start:l.start,Expected_Return:l.exp,Weeks:l.wks||'N/A',Backfill:l.bf,Status:l.status})),'Raw Leave Register');
+  addSheet(OPEN_REQS.map(r=>({Position:r.title,Unit:r.unit,Grade:r.grade,Stage:r.stage,Days_Open:r.days,Applicants:r.apps,Priority:r.priority})),'Raw Requisitions');
+  addSheet(POLICY_RISKS.map(r=>({Area:r.area,Signal:r.signal,Risk:r.risk,Partner:r.partner,Control:r.control,Due:r.due})),'Raw Policy Risk');
+  addSheet(PEER_MARKET_RATES.map(r=>({Reference:r.reference,Institution:r.institution,Role_Level:r.role,Low:r.low,Mid_Estimate:r.mid,High:r.high,Use_Case:r.use,Status:r.status,Source_Note:r.sourceNote})),'Raw Market Rates');
+  addSheet(SIGNAL_ACTIONS.map(a=>({Signal:a.signal,Risk:a.risk,Owner:a.owner,Timing:a.timing,Urgency:a.urgency,Impact:a.impact,Exposure:a.exposure,Recommended_Action:a.action})),'Raw Action Register');
+  addSheet(HR_CAL_EVENTS.map(e=>({Date:e.date,Title:e.title,Calendar:HR_CAL_TYPES[e.cal]?.label,Priority:e.priority,Owner:e.owner,Notes:e.notes})),'Raw Calendar Events');
+  addSheet(METHODOLOGY_ROWS,'Methodology Notes');
   const today=new Date().toISOString().slice(0,10).replace(/-/g,'');
-  XLSX.writeFile(wb,`Harvard_College_HR_Dashboard_${today}.xlsx`);
+  XLSX.writeFile(wb,`Harvard_College_HR_Raw_Data_${today}.xlsx`);
+}
+
+
+
+// ─── STRATEGIC FINANCE / RISK / HORIZON LAYERS ──────────────────────
+const FINANCE_WORKFORCE=[
+  {unit:"Dean's Office",budget:4.7,forecast:4.55,vacSavings:150,tempOt:60,variance:90,risk:'Low',move:'Use savings for manager training and succession bench coverage.'},
+  {unit:'Academic Affairs',budget:6.0,forecast:5.78,vacSavings:220,tempOt:95,variance:125,risk:'Medium',move:'Review three vacancies against peak advising and program cycles.'},
+  {unit:'Student Affairs',budget:7.1,forecast:6.65,vacSavings:450,tempOt:250,variance:200,risk:'High',move:'Prioritize high-service roles; build retention and workload mitigation plan.'},
+  {unit:'Residential Life',budget:6.8,forecast:6.41,vacSavings:390,tempOt:210,variance:180,risk:'High',move:'Connect hiring acceleration to climate intervention and ER case aging.'},
+  {unit:'Athletics',budget:9.8,forecast:9.43,vacSavings:370,tempOt:180,variance:190,risk:'Medium',move:'Assess hard-to-fill roles and compensation pressure in specialist positions.'},
+  {unit:'Campus Operations',budget:5.1,forecast:5.0,vacSavings:130,tempOt:95,variance:35,risk:'Medium',move:'Monitor overtime and backfill cost against vacancy savings.'},
+  {unit:'Finance & Admin',budget:3.4,forecast:3.38,vacSavings:60,tempOt:20,variance:40,risk:'Low',move:'Maintain succession coverage for finance systems and fiscal close roles.'},
+  {unit:'Communications',budget:1.3,forecast:1.3,vacSavings:0,tempOt:0,variance:0,risk:'Low',move:'Protect stable staffing; watch future digital communications demand.'},
+];
+
+const POSITION_PAYROLL_RAW=[
+  {positionId:'HC-P1001',employeeId:'HC-20141',unit:"Dean's Office",title:'Executive Assistant to the Dean',grade:'055',vacant:'No',budgetFte:1.0,budgetSalary:78500,currentSalary:76800,projectedRaisePct:3.4,forecastSalary:79411,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Stable incumbent; include in merit cycle.'},
+  {positionId:'HC-P1002',employeeId:'HC-35501',unit:"Dean's Office",title:'Office Manager',grade:'056',vacant:'No',budgetFte:1.0,budgetSalary:86500,currentSalary:84200,projectedRaisePct:3.8,forecastSalary:87399,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Recently promoted; monitor internal equity.'},
+  {positionId:'HC-P1003',employeeId:'VACANT',unit:"Dean's Office",title:'Administrative Coordinator',grade:'053',vacant:'Yes',budgetFte:1.0,budgetSalary:60200,currentSalary:0,projectedRaisePct:0,forecastSalary:30100,forecastStart:'Assume Jan 2027 start / half-year',benefitsRate:31.2,tempOffset:12000,fundingSource:'Core operating',note:'Vacancy savings partly offset by temporary support.'},
+  {positionId:'HC-P2001',employeeId:'HC-41559',unit:'Academic Affairs',title:'Program Manager, Academic Initiatives',grade:'057',vacant:'No',budgetFte:1.0,budgetSalary:92500,currentSalary:88000,projectedRaisePct:3.4,forecastSalary:90992,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Below modeled midpoint; compensation review scheduled.'},
+  {positionId:'HC-P2002',employeeId:'HC-62018',unit:'Academic Affairs',title:'Academic Program Coordinator',grade:'054',vacant:'No',budgetFte:1.0,budgetSalary:65000,currentSalary:63200,projectedRaisePct:3.2,forecastSalary:65222,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Normal merit projection.'},
+  {positionId:'HC-P2003',employeeId:'VACANT',unit:'Academic Affairs',title:'Assistant Director, Academic Programs',grade:'057',vacant:'Yes',budgetFte:1.0,budgetSalary:94800,currentSalary:0,projectedRaisePct:0,forecastSalary:63200,forecastStart:'Assume Nov 2026 start / 8 months',benefitsRate:31.2,tempOffset:18000,fundingSource:'Core operating',note:'Hard-to-fill; include TA sourcing review.'},
+  {positionId:'HC-P3001',employeeId:'HC-10081',unit:'Student Affairs',title:'Student Support Coordinator',grade:'055',vacant:'No',budgetFte:1.0,budgetSalary:72500,currentSalary:68400,projectedRaisePct:5.0,forecastSalary:71820,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Below band minimum; equity correction modeled before merit.'},
+  {positionId:'HC-P3002',employeeId:'HC-44102',unit:'Student Affairs',title:'Senior Student Programs Coordinator',grade:'057',vacant:'No',budgetFte:1.0,budgetSalary:89000,currentSalary:86200,projectedRaisePct:3.6,forecastSalary:89303,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Promotion already reflected; maintain grade consistency.'},
+  {positionId:'HC-P3003',employeeId:'VACANT',unit:'Student Affairs',title:'Assistant Director, Student Engagement',grade:'058',vacant:'Yes',budgetFte:1.0,budgetSalary:104000,currentSalary:0,projectedRaisePct:0,forecastSalary:52000,forecastStart:'Assume Jan 2027 start / half-year',benefitsRate:31.2,tempOffset:42000,fundingSource:'Core operating',note:'High service risk; vacancy savings not strategic.'},
+  {positionId:'HC-P3004',employeeId:'VACANT',unit:'Student Affairs',title:'Case Manager, Student Support',grade:'056',vacant:'Yes',budgetFte:1.0,budgetSalary:80500,currentSalary:0,projectedRaisePct:0,forecastSalary:53667,forecastStart:'Assume Nov 2026 start / 8 months',benefitsRate:31.2,tempOffset:36000,fundingSource:'Core operating',note:'Urgent backfill; directly tied to service load.'},
+  {positionId:'HC-P4001',employeeId:'HC-15330',unit:'Residential Life',title:'Resident Director',grade:'054',vacant:'No',budgetFte:1.0,budgetSalary:65000,currentSalary:61200,projectedRaisePct:5.5,forecastSalary:64566,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Equity correction recommended.'},
+  {positionId:'HC-P4002',employeeId:'HC-51033',unit:'Residential Life',title:'Senior Resident Director',grade:'058',vacant:'No',budgetFte:1.0,budgetSalary:101000,currentSalary:98200,projectedRaisePct:3.4,forecastSalary:101539,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Key role for climate intervention.'},
+  {positionId:'HC-P4003',employeeId:'VACANT',unit:'Residential Life',title:'Residential Community Coordinator',grade:'054',vacant:'Yes',budgetFte:1.0,budgetSalary:64000,currentSalary:0,projectedRaisePct:0,forecastSalary:42667,forecastStart:'Assume Nov 2026 start / 8 months',benefitsRate:31.2,tempOffset:32000,fundingSource:'Core operating',note:'Backfill cost materially offsets vacancy savings.'},
+  {positionId:'HC-P4004',employeeId:'VACANT',unit:'Residential Life',title:'Area Coordinator',grade:'056',vacant:'Yes',budgetFte:1.0,budgetSalary:81500,currentSalary:0,projectedRaisePct:0,forecastSalary:40750,forecastStart:'Assume Jan 2027 start / half-year',benefitsRate:31.2,tempOffset:38000,fundingSource:'Core operating',note:'High climate/ER linkage; prioritize hiring.'},
+  {positionId:'HC-P5001',employeeId:'HC-28830',unit:'Athletics',title:'Athletic Trainer III',grade:'056',vacant:'No',budgetFte:1.0,budgetSalary:82000,currentSalary:80200,projectedRaisePct:3.4,forecastSalary:82927,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Auxiliary / operating',note:'Specialist labor market pressure.'},
+  {positionId:'HC-P5002',employeeId:'HC-57733',unit:'Athletics',title:'Assistant Coach',grade:'054',vacant:'No',budgetFte:1.0,budgetSalary:66000,currentSalary:62500,projectedRaisePct:4.5,forecastSalary:65313,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Auxiliary / operating',note:'Below band; merit priority flag.'},
+  {positionId:'HC-P5003',employeeId:'VACANT',unit:'Athletics',title:'Equipment Operations Manager',grade:'055',vacant:'Yes',budgetFte:1.0,budgetSalary:73500,currentSalary:0,projectedRaisePct:0,forecastSalary:49000,forecastStart:'Assume Nov 2026 start / 8 months',benefitsRate:31.2,tempOffset:26000,fundingSource:'Auxiliary / operating',note:'Operational continuity role.'},
+  {positionId:'HC-P6001',employeeId:'HC-62240',unit:'Campus Operations',title:'Facilities Manager',grade:'057',vacant:'No',budgetFte:1.0,budgetSalary:91000,currentSalary:88400,projectedRaisePct:3.4,forecastSalary:91406,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Promotion reflected; monitor overtime pressure.'},
+  {positionId:'HC-P6002',employeeId:'HC-34102',unit:'Campus Operations',title:'Facilities Coordinator',grade:'055',vacant:'No',budgetFte:1.0,budgetSalary:71800,currentSalary:69000,projectedRaisePct:4.0,forecastSalary:71760,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Close to band minimum; monitor.'},
+  {positionId:'HC-P6003',employeeId:'VACANT',unit:'Campus Operations',title:'Operations Scheduler',grade:'054',vacant:'Yes',budgetFte:1.0,budgetSalary:64200,currentSalary:0,projectedRaisePct:0,forecastSalary:42800,forecastStart:'Assume Nov 2026 start / 8 months',benefitsRate:31.2,tempOffset:18000,fundingSource:'Core operating',note:'Use temp coverage only until hire date.'},
+  {positionId:'HC-P7001',employeeId:'HC-73871',unit:'Finance & Admin',title:'Senior Financial Analyst',grade:'057',vacant:'No',budgetFte:1.0,budgetSalary:93200,currentSalary:90200,projectedRaisePct:3.5,forecastSalary:93357,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Critical fiscal close and analysis role.'},
+  {positionId:'HC-P7002',employeeId:'HC-81244',unit:'Finance & Admin',title:'HR / Finance Operations Coordinator',grade:'055',vacant:'No',budgetFte:1.0,budgetSalary:71000,currentSalary:69600,projectedRaisePct:3.4,forecastSalary:71966,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Supports workforce finance reconciliation.'},
+  {positionId:'HC-P8001',employeeId:'HC-80409',unit:'Communications',title:'Senior Communications Coordinator',grade:'056',vacant:'No',budgetFte:1.0,budgetSalary:79200,currentSalary:77100,projectedRaisePct:3.4,forecastSalary:79721,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Stable staffing; future digital skill demand.'},
+  {positionId:'HC-P8002',employeeId:'HC-90211',unit:'Communications',title:'Digital Content Specialist',grade:'056',vacant:'No',budgetFte:1.0,budgetSalary:80500,currentSalary:78900,projectedRaisePct:3.4,forecastSalary:81583,forecastStart:'Active full year',benefitsRate:31.2,tempOffset:0,fundingSource:'Core operating',note:'Future skill-aligned role.'},
+];
+
+const PEER_MARKET_RATES=[
+  {reference:'Harvard College target role',institution:'Harvard FAS / Harvard College',role:'Senior Human Resources Consultant · Salary Grade 059',low:90300,mid:109300,high:128300,use:'Anchor candidate salary-setting discussion to Harvard grade 059, then validate internal equity and qualifications.',status:'Validate internally',sourceNote:'Official posting states Salary Grade 059; public posting mirrors show $90.3K–$128.3K.'},
+  {reference:'Harvard internal comparator',institution:'Harvard Central Administration',role:'Senior HR Consultant · Salary Grade 058',low:86000,mid:103500,high:121000,use:'Use as an internal-lateral comparator; grade 059 should generally carry more complexity / scope.',status:'Internal comparator',sourceNote:'Official posting lists a similar Senior HR Consultant role at grade 058; range modeled for planning.'},
+  {reference:'Yale peer posting',institution:'Yale University',role:'Human Resources Business Partner · hybrid staff role',low:82000,mid:106750,high:131500,use:'Peer-market check for HRBP-level consulting role in Ivy/large university context.',status:'Public posting',sourceNote:'Yale public posting lists $82,000–$131,500.'},
+  {reference:'Brown compensation practice',institution:'Brown University',role:'Salary-range framework / market competitiveness',low:null,mid:null,high:null,use:'Use as best-practice method: salary ranges should integrate internal equity and external market data.',status:'Practice reference',sourceNote:'Brown states ranges are based on internal equity and external market conditions.'},
+  {reference:'Cambridge / Boston market',institution:'External market estimate',role:'Senior HR Consultant / Senior HRBP comparable roles',low:90000,mid:112000,high:140000,use:'Use as directional external-market context only; verify with compensation survey data.',status:'Directional',sourceNote:'Modeled from public role estimates and regional HRBP benchmarks.'},
+  {reference:'National senior HRBP market',institution:'External market estimate',role:'Senior HR Business Partner',low:95000,mid:118000,high:139000,use:'Use only as broad context; higher-ed and Cambridge markets may differ.',status:'Directional',sourceNote:'Public salary surveys show senior HRBP upper ranges around the high $100Ks.'},
+];
+
+const PEER_BENCHMARKS=[
+  {metric:'Vacancy Rate',current:'4.7% open positions',peer:'Best practice: sustained vacancy below 5% with hotspot review',read:'Strong',move:'Maintain overall control, but prioritize Residential Life and Student Affairs where service risk is concentrated.'},
+  {metric:'Time-to-Fill',current:'6.8 weeks average',peer:'Best practice: track aging at 45/60/90 days and intervene early',read:'Watch',move:'Add aging flags by requisition and schedule a Talent Acquisition sourcing review for hard-to-fill program roles.'},
+  {metric:'Turnover',current:'8.2% trailing 12-month turnover',peer:'Best practice: pair turnover with engagement, manager quality, and internal mobility',read:'Stable',move:'Add regrettable-turnover and first-year-turnover views to sharpen retention strategy.'},
+  {metric:'Engagement',current:'71%, down 3 points YoY',peer:'Best practice: action plans by unit within 30–45 days after pulse results',read:'Gap',move:'Launch manager listening sessions and action plans for Residential Life and Student Affairs.'},
+  {metric:'Employee Relations',current:'14 active cases; 3 high priority',peer:'Best practice: monitor aging, repeat patterns, and manager coaching needs',read:'Gap',move:'Create an ER heatmap by case type, age, and coaching theme, using aggregate data only.'},
+  {metric:'Compensation Equity',current:'11 below band minimum; 7 equity alerts',peer:'Best practice: review pay equity before merit, reclass, and offer cycles',read:'Gap',move:'Add pre-merit correction queue and internal-equity spread checks by grade/role family.'},
+  {metric:'Succession Planning',current:'64 retirement-risk roles in 3 years',peer:'Best practice: critical-role coverage and knowledge-transfer plans',read:'Watch',move:'Tie retirement exposure to 5/10/15/20-year development and cross-training plans.'},
+  {metric:'Responsible AI',current:'Aggregate signals with human review',peer:'Best practice: explainability, privacy, and no automated employment decisions',read:'Strong',move:'Keep AI as advisory-only narrative and scenario support with documented review gates.'},
+];
+const BEST_PRACTICES=[
+  {area:'Strategic HR Partnership',tone:'red',text:'Start each unit review with business priorities, service risk, staffing pressure, and decision needed — not with isolated HR counts.'},
+  {area:'Finance-Linked Workforce Planning',tone:'blue',text:'Pair FTE, vacancy, temp/overtime, merit, reclassification, and budget exposure so HR advice is useful to Administration & Finance.'},
+  {area:'Manager Capability',tone:'green',text:'Use ER and performance patterns to identify manager coaching themes before they become repeated complaints or formal investigations.'},
+  {area:'Compensation Governance',tone:'amber',text:'Run pre-cycle equity checks before offers, reclassifications, merit decisions, and bonuses; document assumptions and escalation path.'},
+  {area:'Talent Acquisition Partnership',tone:'purple',text:'Track requisition aging, stage conversion, offer acceptance, internal mobility, and hard-to-fill roles with specific TA interventions.'},
+  {area:'Retention & Engagement',tone:'blue',text:'Connect engagement decline to turnover, vacancy pressure, workload balance, and unit action plans within a defined follow-up window.'},
+  {area:'Peer Benchmarking',tone:'green',text:'Use CUPA-HR/Ivy Plus/COFHE/internal Harvard comparisons as context — never as a substitute for Harvard College’s local judgment.'},
+  {area:'Responsible AI & Privacy',tone:'red',text:'Keep AI advisory, aggregate, explainable, and human-reviewed; exclude individual employment decisions from automated scoring.'},
+  {area:'Long-Range Scalability',tone:'amber',text:'Maintain 5/10/15/20-year scenarios for retirement exposure, succession, budget pressure, and future-skills redesign.'},
+];
+
+const PEER_BENCHMARK_DETAILS={
+  'Vacancy Rate':{why:'Hiring teams will check whether vacancy rate is only shown as a number or connected to service risk, workload, and finance.',evidence:['Overall vacancy is below 5%, but Residential Life and Student Affairs have concentrated gaps.','Vacancy savings can hide service and overtime pressure.'],actions:['Add unit-level vacancy aging and service-risk flags.','Separate strategic savings from vacancy-driven service exposure.']},
+  'Time-to-Fill':{why:'A strategic HR consultant should know when to engage Talent Acquisition before a requisition becomes a 90-day risk.',evidence:['Average time-to-fill is 6.8 weeks.','Hard-to-fill student-facing and residential roles have direct climate impact.'],actions:['Use 45/60/90 day thresholds.','Create sourcing huddles for roles with low applicant quality or offer risk.']},
+  'Turnover':{why:'Turnover is most useful when paired with regrettable loss, first-year attrition, engagement, and internal mobility.',evidence:['Trailing turnover is 8.2%.','Residential Life and Student Affairs carry higher risk than the College average.'],actions:['Add regrettable turnover and first-year attrition.','Segment turnover by grade, tenure, and unit action plan.']},
+  'Engagement':{why:'A hiring team will expect the dashboard to move from survey results to manager action plans.',evidence:['Overall engagement is 71%, down 3 points.','Residential Life is 62% and Student Affairs is 65%.'],actions:['Require 30–45 day action plans after survey results.','Pair engagement with workload, vacancy, and ER case data.']},
+  'Employee Relations':{why:'ER metrics must stay privacy-safe while still surfacing pattern risk and manager support needs.',evidence:['14 active cases; 3 high-priority.','Case volume is concentrated in Athletics and Residential Life.'],actions:['Add case-aging and repeat-theme views.','Use manager coaching themes rather than individual case details in leadership views.']},
+  'Compensation Equity':{why:'The most relevant market-rate question is not only “what is the range?” but whether salary-setting, internal equity, and classification governance are documented.',evidence:['11 below band minimum.','7 same-role equity spread alerts.'],actions:['Run pre-merit correction queue.','Compare Harvard grade, role family, peer market, and internal equity before offers and reclasses.']},
+  'Succession Planning':{why:'Long-range HR consulting should tie retirement risk to business continuity and knowledge-transfer plans.',evidence:['64 roles eligible to retire in 3 years.','Critical-role coverage is uneven across units.'],actions:['Prioritize roles with no backup and high service dependence.','Connect 5/10/15/20-year scenarios to cross-training and career pathways.']},
+  'Responsible AI':{why:'The safest and strongest AI use case is summarization, scenario planning, and pattern detection — not automated employment decisions.',evidence:['Narrative engine is aggregate and advisory.','Human review gates are explicitly stated.'],actions:['Keep source labels and explainability notes visible.','Block individual-level automated decision scoring.']},
+};
+
+const BEST_PRACTICE_DETAILS={
+  'Strategic HR Partnership':{why:'The role requires a trusted consultant to Harvard College leaders, not a transactional HR reporter.',details:['Convert dashboards into leadership questions: decision needed, owner, timing, and tradeoff.','Use the Dean for Administration & Finance perspective: service delivery, budget exposure, risk, and employee experience.'],actions:['Start monthly unit reviews with business priorities and service risk.','End every review with an action register.']},
+  'Finance-Linked Workforce Planning':{why:'This is the differentiator for your portfolio because it connects HR, finance, staffing, and operating risk.',details:['Budgeted FTE vs filled FTE needs raw position details.','Vacancy savings should be shown beside temp/overtime offsets and delayed service risk.'],actions:['Maintain a raw position budget and forecast register.','Route finance-impact cases to HR + Finance before the budget cycle.']},
+  'Manager Capability':{why:'ER, climate, and performance patterns often point to manager skill gaps before they become formal escalations.',details:['Use aggregate ER themes and performance documentation gaps.','Identify coaching needs without exposing individual cases.'],actions:['Create manager coaching themes by unit.','Schedule targeted workshops for units with high ER or low engagement.']},
+  'Compensation Governance':{why:'Salary setting must balance market rates, grade structure, internal equity, and documented rationale.',details:['Use Harvard grade as the anchor.','Use peer rates as context only, not a replacement for internal equity review.'],actions:['Run pre-offer and pre-merit equity checks.','Document salary rationale, comparator group, and escalation path.']},
+  'Talent Acquisition Partnership':{why:'A strategic consultant should know which requisitions threaten service continuity and employee morale.',details:['Track stage conversion and aging.','Tie vacancy pressure to unit engagement and workload.'],actions:['Create hard-to-fill role huddles at 45/60/90 days.','Use market-rate context for roles with repeated offer declines.']},
+  'Retention & Engagement':{why:'Engagement should trigger action planning, not sit as a static survey score.',details:['Pair engagement decline with turnover, ER cases, manager effectiveness, and staffing levels.','Focus on units below threshold and require follow-up.'],actions:['Launch listening sessions in low-score units.','Measure action-plan completion and score movement next pulse.']},
+  'Peer Benchmarking':{why:'Peers provide context, but Harvard College still needs local judgment because unit missions and operating calendars differ.',details:['Use Ivy Plus / COFHE / CUPA-HR where available.','Public postings help estimate market, but should be validated by Compensation.'],actions:['Separate official internal ranges from directional market estimates.','Refresh benchmarks before offer, merit, and reclassification cycles.']},
+  'Responsible AI & Privacy':{why:'AI can make the dashboard stronger only if the user sees the guardrails.',details:['Use AI for narrative synthesis, scenario comparisons, and pattern detection.','Never use AI as sole basis for employment decisions.'],actions:['Add source labels, confidence, and human review status.','Keep sensitive detail out of leadership view.']},
+  'Long-Range Scalability':{why:'The 5/10/15/20-year layer shows strategic capacity beyond near-term case management.',details:['Model retirement exposure, skill shifts, operating model changes, and budget pressure.','Translate scenarios into workforce development and succession actions.'],actions:['Review horizon scenarios annually.','Tie future-skills analysis to training and role redesign.']},
+};
+
+const HIRING_LENS=[
+  {label:'Strategic partner',score:94,target:90},
+  {label:'Finance link',score:96,target:88},
+  {label:'ER / climate',score:88,target:90},
+  {label:'Compensation',score:90,target:88},
+  {label:'Workforce planning',score:95,target:90},
+  {label:'Policy / risk',score:86,target:88},
+  {label:'Action orientation',score:94,target:90},
+  {label:'Responsible AI',score:92,target:85},
+];
+const HIRING_LENS_DETAILS=[
+  {
+    title:'Strategic Partner — connects people strategy to College priorities',
+    color:'red',
+    summary:'Demonstrates that the candidate can translate Harvard College operating priorities into workforce, climate, talent, ER, and policy decisions for leaders rather than reporting HR data in isolation.',
+    proof:[
+      'Executive snapshot combines 485 authorized FTE, 462 filled roles, 23 vacancies, 8.2% turnover, 71% engagement, and 14 active ER cases in one leadership view.',
+      'Workforce Planning, Talent & Performance, Employee Relations, Policy Risk, and Recommended Actions sections connect each signal to an owner and follow-up timing.',
+      'The dashboard is designed for the Dean for Administration & Finance / unit-leader conversation: what changed, why it matters, what decision is needed, and who owns the next step.'
+    ],
+    method:'Evidence score is a portfolio rubric: breadth of HR domains covered, linkage to executive decisions, and presence of actionable owner/timing fields. It is not an employee score and uses synthetic data.'
+  },
+  {
+    title:'Finance Fluency — translates HR issues into budget and service risk',
+    color:'blue',
+    summary:'Shows the hiring team that HR consulting recommendations can be tied to payroll forecasts, vacancy assumptions, merit exposure, temporary coverage, and budget-cycle decisions.',
+    proof:[
+      'Finance-linked workforce section uses raw position rows: position ID, employee/vacancy status, unit, title, grade, budget salary, current salary, projected raise, forecast salary, and variance note.',
+      'Vacancy savings are not treated as pure savings; the model pairs them with temp/overtime offsets and service-continuity risk.',
+      'Export Raw Data prioritizes registers rather than pre-calculated summaries so Finance, HR, and Compensation can validate source rows.'
+    ],
+    method:'Forecast salary = current salary × (1 + projected raise %) for filled roles; vacant roles use budget salary, assumed hiring month, and vacancy-status assumptions. Figures are synthetic planning examples.'
+  },
+  {
+    title:'Risk Judgment — prioritizes ER, policy, compensation, and compliance flags',
+    color:'amber',
+    summary:'Shows judgment around sensitive people issues: aggregate signals are visible, but individual-level or confidential detail stays out of the public leadership view.',
+    proof:[
+      'Risk Register classifies leave/accommodation, classification, performance documentation, pay equity, policy interpretation, and AI/privacy controls by risk level and partner owner.',
+      'Employee Relations tab uses anonymized case IDs, case type, aging, OGC involvement, priority, and status rather than names or identifiable employee details.',
+      'The popup model explains escalation partners such as OHR, Employee & Labor Relations, Compensation, Finance, OGC, HRIS, and unit leaders.'
+    ],
+    method:'Risk points combine severity, aging, repeat-pattern concentration, operational exposure, and control/documentation gaps. The score is a triage aid only and requires HR/human review.'
+  },
+  {
+    title:'Action Orientation — moves beyond charts into consulting actions',
+    color:'green',
+    summary:'Demonstrates that the dashboard is built for consulting action: each priority signal is converted into recommended moves, owners, timing, controls, and success measures.',
+    proof:[
+      'Recommended Actions tab includes action cards and an Impact × Urgency triage matrix to show what should move first.',
+      'Unit drill-down popups connect engagement, vacancies, ER cases, turnover, succession coverage, and forecast exposure to an intervention path.',
+      'Long-range interventions connect 5, 10, 15, and 20-year scenarios to succession, manager capability, HR analytics, job architecture, and workforce redesign.'
+    ],
+    method:'Action priority uses urgency, impact, and exposure fields from the synthetic action register. The matrix is a decision-support view, not an automated prioritization of employees.'
+  }
+];
+
+const AI_GUARDRAIL_DETAILS=[
+  {
+    title:'Pattern detection — aggregate signals only',
+    summary:'Detects repeated patterns across workforce, climate, vacancy, compensation, and policy metrics so HR can decide where to investigate further.',
+    controls:[
+      'Use only aggregate or anonymized registers in portfolio mode.',
+      'Show source metrics behind every flag, such as engagement score, vacancies, case aging, or compensation-alert count.',
+      'Require HR review before any recommendation is escalated to a manager or leader.'
+    ],
+    method:'Pattern flags use threshold bands and repeat-signal counts. Example: a unit with engagement below 65%, multiple vacancies, and active ER cases is flagged for review.'
+  },
+  {
+    title:'Briefing-note generator — data-only narrative support',
+    summary:'Drafts neutral leadership summaries from dashboard metrics so the HR Consultant can prepare consistent meeting notes and decision prompts.',
+    controls:[
+      'Narrative output must cite the dashboard metric source used.',
+      'Tone remains neutral and evidence-based; no diagnosis or unsupported inference.',
+      'Human editor validates context, policy implications, and partner-review needs before sharing.'
+    ],
+    method:'Briefing text is generated from selected metric domains and fixed templates. It should not add facts outside the dashboard data and methodology notes.'
+  },
+  {
+    title:'Scenario planner — 5 / 10 / 15 / 20-year workforce modeling',
+    summary:'Models future staffing, retirement exposure, budget pressure, and skill shifts to support long-range workforce planning conversations.',
+    controls:[
+      'Inputs remain scenario assumptions, not predictions.',
+      'Separate baseline, conservative, and stretch assumptions where possible.',
+      'Review scenario assumptions annually with HR, Finance, and unit leaders.'
+    ],
+    method:'Projected FTE grows from a current baseline by horizon year; retirement exposure and succession coverage are scaled across selected scenario windows. All values are synthetic planning inputs.'
+  },
+  {
+    title:'Explainability gate — human review required',
+    summary:'Makes the AI layer safer by showing why a recommendation appeared and by requiring human review before action.',
+    controls:[
+      'Display the contributing metrics and scoring bands beside every risk or action flag.',
+      'Block individual-level automated employment decisions.',
+      'Require HR policy, ER/ELR, Compensation, Finance, or Legal review when a recommendation touches sensitive employment matters.'
+    ],
+    method:'Explainability notes are attached to each popup and methodology table. The AI layer supports synthesis and prioritization; it does not replace HR judgment.'
+  }
+];
+
+const POLICY_RISKS=[
+  {area:'Leave / Accommodation',signal:'18 active or intermittent cases; two units lack documented backfill plan',risk:'High',partner:'OHR + Disability Services',control:'Weekly case aging review; manager checklist; documented interactive-process status',due:'30 days'},
+  {area:'Classification / Reclassification',signal:'16 open requests; concentration in Student Affairs and Residential Life',risk:'Medium',partner:'Compensation',control:'Create role-architecture review queue before FY2027 budget cycle',due:'45 days'},
+  {area:'Performance Documentation',signal:'9 active needs-improvement cases; 3 PIP checkpoints due soon',risk:'High',partner:'Employee & Labor Relations',control:'Standardized PIP templates, review dates, manager coaching notes',due:'Immediate'},
+  {area:'Pay Equity / Salary Setting',signal:'11 employees below band minimum; 7 same-role spread alerts',risk:'High',partner:'Compensation + Finance',control:'Prioritize correction plan and document salary-setting rationale',due:'60 days'},
+  {area:'Policy Interpretation',signal:'29 open consults, with repeat questions on leave, hybrid work, and classification',risk:'Medium',partner:'OHR Policy',control:'Build FAQ and manager decision tree for common scenarios',due:'60 days'},
+  {area:'Data Privacy / AI Use',signal:'Narrative engine and risk scoring require clear boundaries',risk:'Medium',partner:'HRIS + Legal + OHR',control:'Human review gate, source labeling, no individual-level automated decisions',due:'Before launch'},
+];
+const SIGNAL_ACTIONS=[
+  {signal:'Residential Life: engagement 62%, 3 active ER cases, 4 vacancies',risk:'High',owner:'HR Consultant + Unit Leader',timing:'Immediate / 2 weeks',urgency:95,impact:92,exposure:90,action:'Hold risk huddle; align hiring acceleration, manager coaching, and case-resolution plan.'},
+  {signal:'Student Affairs: 6 vacancies and service-load pressure',risk:'High',owner:'HR + Talent Acquisition + Finance',timing:'30 days',urgency:88,impact:89,exposure:85,action:'Prioritize mission-critical requisitions and model temp coverage versus vacancy savings.'},
+  {signal:'Below-band compensation flags in three units',risk:'High',owner:'HR + Compensation',timing:'FY2027 budget prep',urgency:76,impact:83,exposure:70,action:'Create equity correction queue; document grade, salary, market, and internal equity rationale.'},
+  {signal:'Time-to-fill increased to 6.8 weeks',risk:'Medium',owner:'Talent Acquisition Partner',timing:'45 days',urgency:68,impact:72,exposure:60,action:'Review sourcing, job description clarity, offer timing, and hiring-manager interview cadence.'},
+  {signal:'64 employees eligible to retire within 3 years',risk:'Medium',owner:'HR + Department Leaders',timing:'Quarterly',urgency:55,impact:86,exposure:75,action:'Map critical roles with no succession coverage and establish backup / cross-training plans.'},
+  {signal:'Policy consult volume rising around leave, hybrid work, classification',risk:'Medium',owner:'HR Consultant + OHR Policy',timing:'60 days',urgency:62,impact:68,exposure:50,action:'Create policy decision tree and manager office-hours model to reduce repeat consults.'},
+  {signal:'Responsible AI analytics layer proposed',risk:'Monitor',owner:'HRIS + HR Leadership',timing:'Pilot only',urgency:42,impact:77,exposure:45,action:'Limit to aggregate signals and require human review, explainability, and privacy guardrails.'},
+];
+const ACTION_DRILLDOWNS=[
+  {
+    metrics:[
+      {label:'Engagement score',value:'62%',note:'Lowest College unit; −6 pts YoY'},
+      {label:'Active ER cases',value:'3',note:'1 investigation, 1 accommodation, 1 leave/FMLA dispute'},
+      {label:'Vacancies',value:'4',note:'5.3% of authorized FTE'},
+      {label:'Turnover signal',value:'9.1%',note:'7 departures; above College average'},
+      {label:'Succession coverage',value:'None',note:'Critical-role backup plan needed'},
+      {label:'Forecast exposure',value:'$180K',note:'Illustrative net variance / temp offset pressure'}
+    ],
+    evidence:[
+      'Residential Life combines the lowest engagement score (62%), above-average ER activity, and four open vacancies, making this the strongest unit-level intervention case.',
+      'Open Residential Life roles include Residential Community Coordinator and Area Coordinator assumptions in the raw payroll table; temp/backfill costs materially offset vacancy savings.',
+      'ER register includes Workplace Conduct / active investigation, ADA Accommodation review, and Leave/FMLA dispute entries; review should remain aggregate and privacy-safe.',
+      'Workload-balance decline and limited advancement themes appear in the narrative engine, creating a plausible link between vacancies, climate, retention, and case volume.'
+    ],
+    actions:[
+      'Hold a 45-minute risk huddle with the HR Consultant, Unit Leader, FAS Talent Acquisition, Compensation/Finance, and Dean for Administration & Finance delegate.',
+      'Separate case-management plan from climate/listening plan so active ER matters are handled confidentially while broader team conditions are addressed safely.',
+      'Prioritize the two highest-impact vacancies and compare accelerated hiring cost against temp/overtime and service-risk exposure.',
+      'Launch manager coaching for documentation, feedback cadence, accommodation workflow, and escalation thresholds.',
+      'Create a 30/60/90-day stabilization plan with weekly check-ins until engagement, vacancy, and case-aging signals improve.'
+    ],
+    tables:{
+      'Linked evidence register':[
+        ['Metric','Current signal','Why it matters'],
+        ['Engagement','62%','Climate risk; lowest unit score'],
+        ['ER cases','3 active','Case concentration and manager-support need'],
+        ['Vacancies','4 open roles','Workload pressure and service coverage risk'],
+        ['Succession','None','Continuity risk if departures continue']
+      ],
+      'Next-step accountability':[
+        ['Step','Owner','Timing'],
+        ['Risk huddle','HR Consultant + Unit Leader','2 weeks'],
+        ['Hiring acceleration review','FAS TA + Finance','30 days'],
+        ['Manager coaching plan','HR Consultant','30–45 days'],
+        ['Climate listening synthesis','Unit Leader + HR','45 days']
+      ]
+    },
+    success:['Reduce open Residential Life vacancies from 4 to 2 or fewer by the next checkpoint.','Close or advance aged ER cases with documented next steps and privacy-safe escalation notes.','Improve engagement pulse by +3 to +5 points in workload balance and manager support dimensions.','Document succession coverage for Resident Director / Area Coordinator roles before FY2027 planning.']
+  },
+  {
+    metrics:[{label:'Vacancies',value:'6',note:'Highest current vacancy count'},{label:'Engagement',value:'65%',note:'Second-lowest unit score'},{label:'Time-to-fill risk',value:'7.6 wks',note:'Above College average'},{label:'Service pressure',value:'High',note:'Student-facing coverage risk'}],
+    evidence:['Student Affairs has the largest vacancy count and below-threshold engagement, increasing the risk of service delays and manager burnout.','The better decision is not simply to fill every role first; triage the mission-critical requisitions and model temp coverage against vacancy savings.'],
+    actions:['Prioritize roles with direct student-service impact.','Review job descriptions and hiring-manager cadence with Talent Acquisition.','Prepare finance scenario comparing temp support, delayed hiring, and service-level risk.'],
+    success:['Reduce open roles by at least two within the next planning cycle.','Bring time-to-fill back toward the 6-week target.','Document service-coverage plan for peak advising/program periods.']
+  },
+  {
+    metrics:[{label:'Below-band flags',value:'11',note:'Immediate correction candidates'},{label:'Same-role spread alerts',value:'7',note:'Internal equity review'},{label:'No raise ≥12 months',value:'42',note:'Merit-cycle sensitivity'}],
+    evidence:['Compensation risk requires a raw register showing employee ID, grade, salary, band minimum, gap, and action status, not only aggregated charts.','A disciplined correction queue demonstrates policy consistency and finance partnership.'],
+    actions:['Prioritize below-minimum cases by gap size, months since raise, and retention risk.','Document salary-setting rationale with Compensation and Finance before the merit cycle.','Review repeated reclassification requests for role-architecture issues.'],
+    success:['All below-minimum cases have an approved action path.','Equity correction costs are included in FY2027 budget preparation.']
+  },
+  {
+    metrics:[{label:'Avg time-to-fill',value:'6.8 wks',note:'+0.9 weeks YoY'},{label:'Offer acceptance',value:'81%',note:'Healthy close rate'},{label:'Open reqs',value:'23',note:'Active requisitions'}],
+    evidence:['Offer acceptance remains relatively strong, so the bottleneck is likely upstream: sourcing, posting clarity, interview cadence, or approval timing.'],
+    actions:['Audit aging requisitions by stage and hiring manager.','Clarify role value propositions for hard-to-fill program-administration roles.','Set a weekly requisition aging review with Talent Acquisition.'],
+    success:['Reduce average time-to-fill below 6.2 weeks.','Cut requisitions older than 60 days by one-third.']
+  },
+  {
+    metrics:[{label:'Retirement exposure',value:'64',note:'Eligible within 3 years'},{label:'Succession plans',value:'18',note:'Active plans for key roles'},{label:'Coverage risk',value:'13.2%',note:'Workforce continuity issue'}],
+    evidence:['Succession risk is a multi-year HR consulting issue, not a one-time replacement plan.','The highest value is mapping critical roles, skills transfer, and internal mobility options before vacancies occur.'],
+    actions:['Map critical roles with no backup.','Build cross-training plans for operational continuity.','Connect succession coverage to 5/10/15/20-year workforce scenarios.'],
+    success:['Top 25 critical roles mapped.','Coverage plan documented for every high-retirement-risk function.']
+  },
+  {
+    metrics:[{label:'Policy consults',value:'29',note:'Repeat topics'},{label:'Top themes',value:'3',note:'Leave, hybrid work, classification'},{label:'Due window',value:'60 days',note:'Decision tree / office hours'}],
+    evidence:['Rising policy consult volume suggests managers need clearer tools and repeatable decision paths.','A decision tree reduces inconsistent interpretation and frees HR Consultant capacity for higher-risk matters.'],
+    actions:['Create manager FAQ and decision tree.','Hold monthly office hours for repeated policy topics.','Track which questions repeat after guidance is issued.'],
+    success:['Reduce repeat policy consults by 20%.','Improve response consistency and documentation quality.']
+  },
+  {
+    metrics:[{label:'AI use',value:'Pilot',note:'Aggregate-only'},{label:'Guardrails',value:'Human review',note:'No automated decisions'},{label:'Explainability',value:'Required',note:'Source-labeled signals'}],
+    evidence:['Responsible AI is useful for summaries and signal detection, but the dashboard should not imply automated HR decisions.','The strongest hiring-team signal is showing control, explainability, privacy boundaries, and human judgment.'],
+    actions:['Limit AI output to aggregate patterns and briefing drafts.','Require HR review before leadership use.','Label all synthetic, forecast, and source-derived fields.'],
+    success:['Every AI-generated narrative includes sources, limitations, and a human-review status.','No individual-level adverse action is generated or recommended by AI.']
+  }
+];
+
+const HORIZON_SCENARIOS={
+  5:{label:'5-year',fte:512,baseline:485,retire:96,succ:42,budget:'$51.6M',skills:'35%',coverage:'74%',note:'Near-term succession and service coverage model.'},
+  10:{label:'10-year',fte:548,baseline:485,retire:151,succ:55,budget:'$63.8M',skills:'52%',coverage:'67%',note:'Growth, role redesign, and digital service expansion.'},
+  15:{label:'15-year',fte:586,baseline:485,retire:214,succ:66,budget:'$78.1M',skills:'68%',coverage:'59%',note:'Major retirement wave and new student support operating model.'},
+  20:{label:'20-year',fte:625,baseline:485,retire:276,succ:78,budget:'$94.7M',skills:'81%',coverage:'51%',note:'Generational workforce renewal and AI-enabled service model.'},
+};
+const HORIZON_LEVERS=[
+  {lever:'Succession Coverage',why:'Retirement exposure rises sharply across every horizon.',y5:'Map top 25 critical roles',y10:'Bench depth by function',y15:'Formal leadership academy',y20:'Generational renewal plan'},
+  {lever:'Role Architecture',why:'Reclassification pressure signals changing work design.',y5:'Review high-pressure units',y10:'Standardize job families',y15:'Hybrid human/AI role model',y20:'Continuous redesign cycle'},
+  {lever:'Finance / FTE Planning',why:'Staffing demand and salary budget must be modeled together.',y5:'FTE vs budget dashboard',y10:'Multi-year compensation model',y15:'Scenario funding bands',y20:'Dynamic resource allocation'},
+  {lever:'Manager Capability',why:'Climate, ER, and performance trends often concentrate around manager effectiveness.',y5:'Manager coaching cohorts',y10:'Manager certification path',y15:'Predictive support model',y20:'Leadership pipeline by unit'},
+  {lever:'Responsible AI Enablement',why:'AI can improve pattern detection and briefing, but requires controls.',y5:'Aggregate signal pilot',y10:'Explainable workflow assistant',y15:'Scenario co-pilot',y20:'Ethical AI operating spine'},
+];
+let activeHorizon=5;
+function buildFinance(){
+  const labels=FINANCE_WORKFORCE.map(x=>x.unit.split(' ').slice(0,2).join(' '));
+  mc('c_fin_budget',{type:'bar',data:{labels,datasets:[
+    {label:'Budget $M',data:FINANCE_WORKFORCE.map(x=>x.budget),backgroundColor:'rgba(26,39,68,.62)',borderRadius:4},
+    {label:'Forecast $M',data:FINANCE_WORKFORCE.map(x=>x.forecast),backgroundColor:'rgba(165,28,48,.70)',borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10},callback:v=>'$'+v+'M'},grid:{color:GRID}}}}});
+  mc('c_fin_costmix',{type:'doughnut',data:{labels:['Base salary','Benefits model','Temp coverage','Overtime','Equity corrections'],datasets:[{data:[66,24,4,3,3],backgroundColor:[CRIMSON,NAVY,BLUE,AMBER,GREEN],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10},color:'#5c5a54'}}}}});
+  const money=v=>'$'+Number(v||0).toLocaleString();
+  const pct=v=>Number(v||0).toFixed(1)+'%';
+  document.getElementById('finance_position_tbody').innerHTML=POSITION_PAYROLL_RAW.map(x=>`<tr>
+    <td style="font-family:monospace;font-size:10px;color:var(--gray-600);">${x.positionId}</td>
+    <td>${x.unit}</td><td style="white-space:normal;line-height:1.35;"><strong>${x.title}</strong><br><span style="font-size:10px;color:var(--gray-400);">Emp: ${x.employeeId}</span></td>
+    <td class="c"><span class="badge badge-gray">${x.grade}</span></td>
+    <td class="c"><span class="badge ${x.vacant==='Yes'?'badge-red':'badge-green'}">${x.vacant}</span></td>
+    <td class="r">${money(x.budgetSalary)}</td><td class="r">${x.currentSalary?money(x.currentSalary):'—'}</td>
+    <td class="r ${x.projectedRaisePct>=5?'var-warn':''}">${x.projectedRaisePct?pct(x.projectedRaisePct):'—'}</td>
+    <td class="r"><strong>${money(x.forecastSalary)}</strong></td>
+    <td style="white-space:normal;font-size:11px;line-height:1.4;">${x.forecastStart}</td>
+    <td style="white-space:normal;font-size:11px;line-height:1.4;">${x.note}</td>
+  </tr>`).join('');
+}
+function buildPolicyRisk(){
+  const mix={Leave:18,Classification:16,Performance:9,Pay:11,Policy:29,DataAI:4};
+  mc('c_policy_mix',{type:'doughnut',data:{labels:Object.keys(mix),datasets:[{data:Object.values(mix),backgroundColor:[BLUE,AMBER,CRIMSON,GREEN,NAVY,PURPLE],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10},color:'#5c5a54'}}}}});
+  mc('c_risk_heat',{type:'bar',data:{labels:['Leave','Classif.','Performance','Pay Equity','Policy','Data / AI'],datasets:[
+    {label:'High',data:[2,0,3,3,0,0],backgroundColor:'rgba(155,32,32,.75)',borderRadius:3},
+    {label:'Medium',data:[5,9,4,4,12,4],backgroundColor:'rgba(138,92,0,.65)',borderRadius:3},
+    {label:'Low',data:[11,7,2,4,17,0],backgroundColor:'rgba(30,107,56,.55)',borderRadius:3}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{font:{size:10},color:'#5c5a54'}}},scales:{x:{stacked:true,ticks:{color:TICK,font:{size:9}},grid:{display:false}},y:{stacked:true,ticks:{color:TICK,font:{size:10}},grid:{color:GRID}}}}});
+  const rC={High:'badge-red',Medium:'badge-amber',Low:'badge-green'};
+  document.getElementById('policy_risk_tbody').innerHTML=POLICY_RISKS.map((x,i)=>`<tr class="risk-row-click" onclick="showPolicyRiskDetail(${i},event)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPolicyRiskDetail(${i},event);}">
+    <td><strong>${x.area}</strong><br><span class="peer-detail-link">View risk detail popup →</span></td><td style="white-space:normal;line-height:1.45;font-size:11px;">${x.signal}</td>
+    <td class="c"><span class="badge ${rC[x.risk]}">${x.risk}</span></td><td>${x.partner}</td>
+    <td style="white-space:normal;line-height:1.45;font-size:11px;">${x.control}</td><td class="c">${x.due}</td>
+  </tr>`).join('');
+}
+function buildPeers(){
+  buildMarketRates();
+  const labels=HIRING_LENS.map(x=>x.label);
+  mc('c_hiring_lens',{type:'radar',data:{labels,datasets:[
+    {label:'Dashboard evidence',data:HIRING_LENS.map(x=>x.score),borderColor:CRIMSON,backgroundColor:'rgba(165,28,48,.14)',pointRadius:3},
+    {label:'Hiring-team target',data:HIRING_LENS.map(x=>x.target),borderColor:NAVY,backgroundColor:'rgba(26,39,68,.07)',borderDash:[5,4],pointRadius:2}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{font:{size:10},color:'#5c5a54'}}},scales:{r:{suggestedMin:60,suggestedMax:100,angleLines:{color:GRID},grid:{color:GRID},pointLabels:{font:{size:9},color:TICK},ticks:{display:false}}}}});
+  const practiceLabels=['Workforce','Finance','ER/Climate','Comp Equity','Recruiting','Retention','Peer Lens','AI Guardrails','Long-Range'];
+  const current=[88,96,84,86,82,80,78,92,90];
+  const target=[90,88,90,88,86,86,84,85,88];
+  mc('c_peer_maturity',{type:'bar',data:{labels:practiceLabels,datasets:[
+    {label:'Current dashboard',data:current,backgroundColor:'rgba(165,28,48,.72)',borderRadius:4},
+    {label:'Peer / best-practice target',data:target,backgroundColor:'rgba(26,39,68,.52)',borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{font:{size:10},color:'#5c5a54'}}},scales:{x:{ticks:{color:TICK,font:{size:9}},grid:{display:false}},y:{min:60,max:100,ticks:{color:TICK,font:{size:10}},grid:{color:GRID}}}}});
+  const readClass={Strong:'badge-green',Watch:'badge-blue',Gap:'badge-red',Stable:'badge-green'};
+  document.getElementById('peer_benchmark_tbody').innerHTML=PEER_BENCHMARKS.map((x,i)=>`<tr class="peer-row-click" onclick="showPeerBenchmarkDetail(${i},event)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showPeerBenchmarkDetail(${i},event);}">
+    <td><strong>${x.metric}</strong><br><span class="peer-detail-link">View detail popup →</span></td><td>${x.current}</td><td style="white-space:normal;line-height:1.45;font-size:11px;">${x.peer}</td>
+    <td class="c"><span class="badge ${readClass[x.read]||'badge-gray'}">${x.read}</span></td><td style="white-space:normal;line-height:1.45;font-size:11px;">${x.move}</td>
+  </tr>`).join('');
+  document.getElementById('best_practice_grid').innerHTML=BEST_PRACTICES.map((x,i)=>`<div class="practice-card ${x.tone}" role="button" tabindex="0" onclick="showBestPracticeDetail(${i},event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showBestPracticeDetail(${i},event);}"><div class="practice-kicker">Best practice</div><div class="practice-title">${x.area}</div><div class="practice-text">${x.text}</div><span class="peer-detail-link">View playbook detail →</span></div>`).join('');
+}
+function moneyMaybe(v){return v==null?'—':'$'+Number(v).toLocaleString();}
+function buildMarketRates(){
+  const cards=document.getElementById('market_rate_grid');
+  if(cards){cards.innerHTML=PEER_MARKET_RATES.slice(0,3).map((x,i)=>`<div class="market-card" onclick="showMarketRateDetail(${i},event)" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMarketRateDetail(${i},event);}"><span class="source-chip">${x.status}</span><strong>${moneyMaybe(x.low)}–${moneyMaybe(x.high)}</strong><span>${x.institution}<br>${x.role}</span><span class="peer-detail-link">View market detail →</span></div>`).join('');}
+  const tb=document.getElementById('market_rate_tbody');
+  if(tb){tb.innerHTML=PEER_MARKET_RATES.map((x,i)=>`<tr class="market-row-click" onclick="showMarketRateDetail(${i},event)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showMarketRateDetail(${i},event);}">
+    <td><strong>${x.reference}</strong><br><span class="peer-detail-link">View detail popup →</span></td><td>${x.institution}</td><td style="white-space:normal;line-height:1.35;font-size:11px;">${x.role}</td><td class="r">${moneyMaybe(x.low)}</td><td class="r">${moneyMaybe(x.mid)}</td><td class="r">${moneyMaybe(x.high)}</td><td style="white-space:normal;line-height:1.4;font-size:11px;">${x.use}</td><td class="c"><span class="badge ${x.status.includes('Public')?'badge-green':x.status.includes('Validate')?'badge-amber':x.status.includes('Internal')?'badge-blue':'badge-gray'}">${x.status}</span></td>
+  </tr>`).join('');}
+}
+
+function showPeerBenchmarkDetail(index,evt){
+  if(evt&&evt.stopPropagation) evt.stopPropagation();
+  const x=PEER_BENCHMARKS[index]; if(!x) return;
+  const d=PEER_BENCHMARK_DETAILS[x.metric]||{};
+  const overlay=document.getElementById('action_modal_overlay');
+  const modal=document.getElementById('action_modal');
+  modal.style.borderTopColor=x.read==='Gap'?CRIMSON:x.read==='Watch'?AMBER:BLUE;
+  document.querySelector('.action-modal-kicker').textContent='Peer benchmark drill-down · synthetic portfolio data';
+  document.getElementById('action_modal_title').textContent=x.metric;
+  document.getElementById('action_modal_meta').innerHTML=`<span class="badge ${x.read==='Gap'?'badge-red':x.read==='Watch'?'badge-amber':x.read==='Strong'?'badge-green':'badge-blue'}">${x.read}</span><span class="action-modal-chip">Current: ${x.current}</span><span class="action-modal-chip">Click-to-explain benchmark logic</span>`;
+  let html=`<div class="action-detail-section"><h4>Why this matters to the hiring team</h4><ul><li>${d.why||'This metric helps connect HR reporting to strategic consulting judgment.'}</li></ul></div>`;
+  html+=`<div class="action-detail-two"><div class="action-detail-section"><h4>Peer / best-practice lens</h4><ul><li>${x.peer}</li></ul></div><div class="action-detail-section"><h4>More effective next move</h4><ul><li>${x.move}</li></ul></div></div>`;
+  if(d.evidence?.length){html+=`<div class="action-detail-section"><h4>Dashboard evidence to connect</h4><ul>${d.evidence.map(v=>`<li>${v}</li>`).join('')}</ul></div>`;}
+  if(d.actions?.length){html+=`<div class="action-detail-section"><h4>Recommended consulting actions</h4><ul>${d.actions.map(v=>`<li>${v}</li>`).join('')}</ul></div>`;}
+  html+=`<div class="action-detail-section" style="background:var(--gray-50);"><h4>Validation note</h4><ul><li>Use public peer context only as a planning layer. Confirm with Harvard Compensation, CUPA-HR, Ivy Plus/COFHE, and current postings before operational decisions.</li></ul></div>`;
+  document.getElementById('action_modal_body').innerHTML=html;
+  overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
+}
+function showBestPracticeDetail(index,evt){
+  if(evt&&evt.stopPropagation) evt.stopPropagation();
+  const x=BEST_PRACTICES[index]; if(!x) return;
+  const d=BEST_PRACTICE_DETAILS[x.area]||{};
+  const overlay=document.getElementById('action_modal_overlay');
+  const modal=document.getElementById('action_modal');
+  modal.style.borderTopColor=x.tone==='red'?CRIMSON:x.tone==='amber'?AMBER:x.tone==='green'?GREEN:x.tone==='purple'?PURPLE:BLUE;
+  document.querySelector('.action-modal-kicker').textContent='Best-practice playbook detail · Harvard College application';
+  document.getElementById('action_modal_title').textContent=x.area;
+  document.getElementById('action_modal_meta').innerHTML=`<span class="action-modal-chip">Playbook area</span><span class="action-modal-chip">Harvard College lens</span><span class="action-modal-chip">Human-review required</span>`;
+  let html=`<div class="action-detail-section"><h4>Playbook principle</h4><ul><li>${x.text}</li></ul></div>`;
+  html+=`<div class="action-detail-section"><h4>Why it matters</h4><ul><li>${d.why||'This practice turns HR data into consultative action.'}</li></ul></div>`;
+  if(d.details?.length){html+=`<div class="action-detail-section"><h4>What the popup should show in a real system</h4><ul>${d.details.map(v=>`<li>${v}</li>`).join('')}</ul></div>`;}
+  if(d.actions?.length){html+=`<div class="action-detail-section"><h4>Recommended next steps</h4><ul>${d.actions.map(v=>`<li>${v}</li>`).join('')}</ul></div>`;}
+  html+=`<div class="action-detail-section" style="background:var(--gray-50);"><h4>Portfolio note</h4><ul><li>This is a work sample using synthetic data; it demonstrates judgment, not official Harvard policy or compensation guidance.</li></ul></div>`;
+  document.getElementById('action_modal_body').innerHTML=html;
+  overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
+}
+function showMarketRateDetail(index,evt){
+  if(evt&&evt.stopPropagation) evt.stopPropagation();
+  const x=PEER_MARKET_RATES[index]; if(!x) return;
+  const overlay=document.getElementById('action_modal_overlay');
+  const modal=document.getElementById('action_modal');
+  modal.style.borderTopColor=x.status.includes('Public')?GREEN:x.status.includes('Validate')?AMBER:BLUE;
+  document.querySelector('.action-modal-kicker').textContent='Market-rate context drill-down · public-reference / synthetic planning layer';
+  document.getElementById('action_modal_title').textContent=x.reference;
+  document.getElementById('action_modal_meta').innerHTML=`<span class="action-modal-chip">${x.institution}</span><span class="action-modal-chip">${x.status}</span><span class="action-modal-chip">${x.role}</span>`;
+  let html=`<div class="action-detail-grid"><div class="action-detail-stat"><strong>${moneyMaybe(x.low)}</strong><span>Low / minimum</span></div><div class="action-detail-stat"><strong>${moneyMaybe(x.mid)}</strong><span>Midpoint / estimate</span></div><div class="action-detail-stat"><strong>${moneyMaybe(x.high)}</strong><span>High / maximum</span></div></div>`;
+  html+=`<div class="action-detail-section"><h4>How to use this market reference</h4><ul><li>${x.use}</li></ul></div>`;
+  html+=`<div class="action-detail-section"><h4>Source note</h4><ul><li>${x.sourceNote}</li></ul></div>`;
+  html+=`<div class="action-detail-section" style="background:var(--gray-50);"><h4>Compensation governance note</h4><ul><li>Do not set salary from a public market estimate alone. Use Harvard grade/range, internal equity, qualifications, role scope, current budget, and official compensation review.</li></ul></div>`;
+  document.getElementById('action_modal_body').innerHTML=html;
+  overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
+}
+
+function buildActions(){
+  const counts={High:0,Medium:0,Monitor:0};
+  SIGNAL_ACTIONS.forEach(a=>{counts[a.risk]++;});
+  mc('c_action_priority',{type:'doughnut',data:{labels:Object.keys(counts),datasets:[{data:Object.values(counts),backgroundColor:[CRIMSON,AMBER,BLUE],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'58%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:10},color:'#5c5a54'}}}}});
+  const riskColors={High:'rgba(165,28,48,.78)',Medium:'rgba(138,92,0,.72)',Monitor:'rgba(26,95,168,.68)'};
+  mc('c_action_owner',{type:'bubble',data:{datasets:SIGNAL_ACTIONS.map((a,i)=>({
+    label:a.signal.split(':')[0],
+    data:[{x:a.urgency,y:a.impact,r:Math.max(7,Math.round(a.exposure/7)),signal:a.signal,owner:a.owner,timing:a.timing,risk:a.risk,index:i}],
+    backgroundColor:riskColors[a.risk],borderColor:riskColors[a.risk],borderWidth:1
+  }))},
+    options:{responsive:true,maintainAspectRatio:false,onClick:(evt,elements)=>{if(elements.length){showActionDetail(elements[0].datasetIndex,evt);}},plugins:{legend:{display:false},tooltip:{callbacks:{
+      label:(ctx)=>`${ctx.raw.risk}: ${ctx.raw.signal}`,
+      afterLabel:(ctx)=>[`Owner: ${ctx.raw.owner}`,`Timing: ${ctx.raw.timing}`,`Urgency ${ctx.raw.x}/100 · Impact ${ctx.raw.y}/100`,`Click for detail popup`]
+    }}},scales:{x:{min:35,max:100,title:{display:true,text:'Urgency',color:TICK,font:{size:10}},ticks:{color:TICK,font:{size:10}},grid:{color:GRID}},y:{min:55,max:100,title:{display:true,text:'Impact',color:TICK,font:{size:10}},ticks:{color:TICK,font:{size:10}},grid:{color:GRID}}}}});
+  const bC={High:'badge-red',Medium:'badge-amber',Monitor:'badge-blue'};
+  document.getElementById('action_card_grid').innerHTML=SIGNAL_ACTIONS.map((a,i)=>`<div class="action-card ${a.risk.toLowerCase()}" role="button" tabindex="0" onclick="showActionDetail(${i},event)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showActionDetail(${i},event);}">
+    <div><div class="action-title">${a.signal}</div><div class="action-meta">Owner: ${a.owner} · Timing: ${a.timing} · Urgency ${a.urgency}/100 · Impact ${a.impact}/100</div><div class="action-rec">${a.action}</div><div class="action-more">View detail popup →</div></div>
+    <span class="badge ${bC[a.risk]}">${a.risk}</span>
+  </div>`).join('');
+}
+function safeRows(rows){return rows.map(r=>`<tr>${r.map((c,i)=>i===0?`<td><strong>${c}</strong></td>`:`<td>${c}</td>`).join('')}</tr>`).join('');}
+function buildDefaultActionDetail(a){return {metrics:[{label:'Risk level',value:a.risk,note:'Priority classification'},{label:'Urgency',value:a.urgency+'/100',note:'Near-term need'},{label:'Impact',value:a.impact+'/100',note:'Leadership relevance'},{label:'Exposure',value:a.exposure+'/100',note:'Operational / financial / climate exposure'}],evidence:[a.signal],actions:[a.action],success:['Owner and timing confirmed.','Recommended action converted into a dated follow-up item.']};}
+function showActionDetail(index,evt){
+  if(evt&&evt.stopPropagation) evt.stopPropagation();
+  const a=SIGNAL_ACTIONS[index]; if(!a) return;
+  const d=ACTION_DRILLDOWNS[index]||buildDefaultActionDetail(a);
+  const overlay=document.getElementById('action_modal_overlay');
+  const modal=document.getElementById('action_modal');
+  const riskClass={High:'badge-red',Medium:'badge-amber',Monitor:'badge-blue'}[a.risk]||'badge-gray';
+  modal.style.borderTopColor=a.risk==='High'?CRIMSON:a.risk==='Medium'?AMBER:BLUE;
+  document.querySelector('.action-modal-kicker').textContent='Action drill-down · synthetic portfolio data';
+  document.getElementById('action_modal_title').textContent=a.signal;
+  document.getElementById('action_modal_meta').innerHTML=`<span class="badge ${riskClass}">${a.risk} risk</span><span class="action-modal-chip">Owner: ${a.owner}</span><span class="action-modal-chip">Timing: ${a.timing}</span><span class="action-modal-chip">Urgency ${a.urgency}/100</span><span class="action-modal-chip">Impact ${a.impact}/100</span>`;
+  let html=`<div class="action-detail-grid">${(d.metrics||[]).map(m=>`<div class="action-detail-stat"><strong>${m.value}</strong><span>${m.label}<br>${m.note||''}</span></div>`).join('')}</div>`;
+  if(d.evidence?.length){html+=`<div class="action-detail-section"><h4>Linked evidence</h4><ul>${d.evidence.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;}
+  if(d.actions?.length){html+=`<div class="action-detail-section"><h4>Recommended consulting moves</h4><ul>${d.actions.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;}
+  if(d.tables){html+=`<div class="action-detail-two">${Object.entries(d.tables).map(([title,rows])=>`<div class="action-detail-section"><h4>${title}</h4><table class="action-detail-table"><thead><tr>${rows[0].map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${safeRows(rows.slice(1))}</tbody></table></div>`).join('')}</div>`;}
+  if(d.success?.length){html+=`<div class="action-detail-section"><h4>Success measures / next checkpoint</h4><ul>${d.success.map(x=>`<li>${x}</li>`).join('')}</ul></div>`;}
+  html+=`<div class="action-detail-section" style="background:var(--gray-50);"><h4>Portfolio-use note</h4><ul><li>All values are synthetic or illustrative for the Senior HR Consultant work sample. Use aggregate review only; do not expose employee-level sensitive data in leadership views.</li></ul></div>`;
+  document.getElementById('action_modal_body').innerHTML=html;
+  overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
+}
+
+function openGenericDetail(kicker,title,metaHtml,bodyHtml,color){
+  const overlay=document.getElementById('action_modal_overlay');
+  const modal=document.getElementById('action_modal');
+  modal.style.borderTopColor=color||CRIMSON;
+  document.querySelector('.action-modal-kicker').textContent=kicker;
+  document.getElementById('action_modal_title').textContent=title;
+  document.getElementById('action_modal_meta').innerHTML=metaHtml||'';
+  document.getElementById('action_modal_body').innerHTML=bodyHtml;
+  overlay.classList.add('show'); overlay.setAttribute('aria-hidden','false');
+}
+function showHiringLensDetail(index,evt){
+  if(evt&&evt.stopPropagation) evt.stopPropagation();
+  const x=HIRING_LENS_DETAILS[index]; if(!x) return;
+  const color=x.color==='blue'?BLUE:x.color==='amber'?AMBER:x.color==='green'?GREEN:CRIMSON;
+  const body=`<div class="action-detail-section"><h4>What this proves</h4><ul><li>${x.summary}</li></ul></div>
+  <div class="action-detail-section"><h4>Dashboard evidence</h4><ul>${x.proof.map(v=>`<li>${v}</li>`).join('')}</ul></div>
+  <div class="action-detail-section" style="background:var(--gray-50);"><h4>Methodology note</h4><ul><li>${x.method}</li></ul></div>`;
+  openGenericDetail('Hiring team lens · proof detail',x.title,`<span class="action-modal-chip">Role requirement evidence</span><span class="action-modal-chip">Portfolio sample</span>`,body,color);
+}
+function showPolicyRiskDetail(index,evt){
+  if(evt&&evt.stopPropagation) evt.stopPropagation();
+  const x=POLICY_RISKS[index]; if(!x) return;
+  const color=x.risk==='High'?CRIMSON:x.risk==='Medium'?AMBER:GREEN;
+  const score=x.risk==='High'?'75–100':x.risk==='Medium'?'45–74':'Below 45';
+  const body=`<div class="action-detail-grid">
+    <div class="action-detail-stat"><strong>${x.risk}</strong><span>Risk level<br>Human-reviewed classification</span></div>
+    <div class="action-detail-stat"><strong>${score}</strong><span>Point band<br>Illustrative score range</span></div>
+    <div class="action-detail-stat"><strong>${x.partner}</strong><span>Partner<br>Escalation / review owner</span></div>
+    <div class="action-detail-stat"><strong>${x.due}</strong><span>Due window<br>Consulting checkpoint</span></div>
+  </div>
+  <div class="action-detail-section"><h4>Primary signal</h4><ul><li>${x.signal}</li></ul></div>
+  <div class="action-detail-section"><h4>Recommended control</h4><ul><li>${x.control}</li></ul></div>
+  <div class="action-detail-section" style="background:var(--gray-50);"><h4>Scoring method</h4><ul><li>Risk points combine severity, aging, repeat-pattern concentration, operational exposure, and control/documentation gap. Use this only as a triage aid; HR judgment and partner review are required.</li></ul></div>`;
+  openGenericDetail('Risk register drill-down · policy/compliance detail',x.area,`<span class="badge ${x.risk==='High'?'badge-red':x.risk==='Medium'?'badge-amber':'badge-green'}">${x.risk}</span><span class="action-modal-chip">${x.partner}</span><span class="action-modal-chip">Due: ${x.due}</span>`,body,color);
+}
+function showAiGuardrailDetail(index,evt){
+  if(evt&&evt.stopPropagation) evt.stopPropagation();
+  const x=AI_GUARDRAIL_DETAILS[index]; if(!x) return;
+  const body=`<div class="action-detail-section"><h4>Safe use case</h4><ul><li>${x.summary}</li></ul></div>
+  <div class="action-detail-section"><h4>Required controls</h4><ul>${x.controls.map(v=>`<li>${v}</li>`).join('')}</ul></div>
+  <div class="action-detail-section" style="background:var(--gray-50);"><h4>Methodology note</h4><ul><li>${x.method}</li></ul></div>
+  <div class="action-detail-section" style="background:var(--neg-bg);border-color:rgba(155,32,32,.12);"><h4>Boundary</h4><ul><li>No automated employment decisions, no individual ranking, no confidential data in public portfolio mode.</li></ul></div>`;
+  openGenericDetail('Responsible AI control detail · human review required',x.title,`<span class="action-modal-chip">Aggregate only</span><span class="action-modal-chip">Explainable</span><span class="action-modal-chip">Human-reviewed</span>`,body,PURPLE);
+}
+function showHorizonLeverDetail(index,evt){
+  if(evt&&evt.stopPropagation) evt.stopPropagation();
+  const x=HORIZON_LEVERS[index]; if(!x) return;
+  const s=HORIZON_SCENARIOS[activeHorizon]||HORIZON_SCENARIOS[5];
+  const body=`<div class="action-detail-grid">
+    <div class="action-detail-stat"><strong>${s.label}</strong><span>Active scenario<br>${s.note}</span></div>
+    <div class="action-detail-stat"><strong>${s.fte}</strong><span>Projected FTE<br>Baseline ${s.baseline}</span></div>
+    <div class="action-detail-stat"><strong>${s.retire}</strong><span>Retirement exposure<br>Cumulative estimate</span></div>
+    <div class="action-detail-stat"><strong>${s.coverage}</strong><span>Succession coverage<br>Scenario estimate</span></div>
+  </div>
+  <div class="action-detail-section"><h4>Why this lever matters</h4><ul><li>${x.why}</li></ul></div>
+  <div class="action-detail-section"><h4>Intervention path</h4><table class="action-detail-table"><thead><tr><th>5 years</th><th>10 years</th><th>15 years</th><th>20 years</th></tr></thead><tbody><tr><td>${x.y5}</td><td>${x.y10}</td><td>${x.y15}</td><td>${x.y20}</td></tr></tbody></table></div>
+  <div class="action-detail-section" style="background:var(--gray-50);"><h4>Methodology note</h4><ul><li>Long-range values are scenario-model estimates, not official forecasts. They scale from current authorized FTE with demand-growth, salary-growth, retirement-exposure, and future-skills assumptions and should be reviewed annually.</li></ul></div>`;
+  openGenericDetail('Long-range strategic intervention detail',x.lever,`<span class="action-modal-chip">Active horizon: ${s.label}</span><span class="action-modal-chip">Budget scenario: ${s.budget}</span><span class="action-modal-chip">Future skills: ${s.skills}</span>`,body,BLUE);
+}
+function buildMethodology(){/* Static methodology tab; content is rendered in HTML. */}
+
+function closeActionDetail(){const overlay=document.getElementById('action_modal_overlay'); if(overlay){overlay.classList.remove('show'); overlay.setAttribute('aria-hidden','true');}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape') closeActionDetail();});
+function buildHorizon(){setHorizon(activeHorizon,null,true);}
+function setHorizon(years,btn,initial=false){
+  activeHorizon=Number(years);
+  document.querySelectorAll('#tab-horizon .horizon-chip').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active'); else {const match=[...document.querySelectorAll('#tab-horizon .horizon-chip')].find(b=>b.textContent.trim().startsWith(String(activeHorizon))); if(match) match.classList.add('active');}
+  const s=HORIZON_SCENARIOS[activeHorizon];
+  document.getElementById('horizon_kpis').innerHTML=`
+    <div class="strategy-card red"><div class="sc-label">Projected FTE Demand</div><div class="sc-value">${s.fte}</div><div class="sc-note">Current baseline: ${s.baseline}; projected increase: +${s.fte-s.baseline}</div></div>
+    <div class="strategy-card amber"><div class="sc-label">Retirement Exposure</div><div class="sc-value">${s.retire}</div><div class="sc-note">Cumulative employees / roles requiring knowledge-transfer planning.</div></div>
+    <div class="strategy-card green"><div class="sc-label">Succession Coverage</div><div class="sc-value">${s.coverage}</div><div class="sc-note">Estimated critical-role coverage if development plans stay on track.</div></div>
+    <div class="strategy-card blue"><div class="sc-label">Budget Scenario</div><div class="sc-value">${s.budget}</div><div class="sc-note">Illustrative salary + benefit model for scenario comparison.</div></div>
+    <div class="strategy-card purple"><div class="sc-label">Future Skills Shift</div><div class="sc-value">${s.skills}</div><div class="sc-note">Share of roles needing analytics, digital, AI, or student-support redesign.</div></div>`;
+  const steps=activeHorizon===5?[0,1,2,3,4,5]:activeHorizon===10?[0,2,4,6,8,10]:activeHorizon===15?[0,3,6,9,12,15]:[0,4,8,12,16,20];
+  const fteSeries=steps.map(t=>Math.round(s.baseline+(s.fte-s.baseline)*(t/activeHorizon)));
+  const retireSeries=steps.map(t=>Math.round(s.retire*(t/activeHorizon)));
+  const succSeries=steps.map(t=>Math.round(s.succ*(t/activeHorizon)));
+  document.getElementById('horizon_fte_sub').textContent=`${s.label} scenario · ${s.note}`;
+  document.getElementById('horizon_succ_sub').textContent=`${s.label} scenario · cumulative exposure`;
+  mc('c_horizon_fte',{type:'line',data:{labels:steps.map(t=>'Y+'+t),datasets:[
+    {label:'Projected FTE',data:fteSeries,borderColor:CRIMSON,backgroundColor:'rgba(165,28,48,.08)',fill:true,tension:.35,pointRadius:3},
+    {label:'Current baseline',data:steps.map(()=>s.baseline),borderColor:NAVY,borderDash:[5,5],fill:false,tension:0,pointRadius:0}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{font:{size:10},color:'#5c5a54'}}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10}},grid:{color:GRID}}}}});
+  mc('c_horizon_succession',{type:'bar',data:{labels:steps.map(t=>'Y+'+t),datasets:[
+    {label:'Retirement exposure',data:retireSeries,backgroundColor:'rgba(165,28,48,.70)',borderRadius:4},
+    {label:'Succession coverage',data:succSeries,backgroundColor:'rgba(30,107,56,.65)',borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{font:{size:10},color:'#5c5a54'}}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:10}},grid:{color:GRID}}}}});
+  document.getElementById('horizon_lever_tbody').innerHTML=HORIZON_LEVERS.map((x,i)=>`<tr class="horizon-row-click" onclick="showHorizonLeverDetail(${i},event)" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showHorizonLeverDetail(${i},event);}">
+    <td><strong>${x.lever}</strong><br><span class="peer-detail-link">View intervention detail →</span></td><td style="white-space:normal;font-size:11px;line-height:1.45;">${x.why}</td>
+    <td class="c">${x.y5}</td><td class="c">${x.y10}</td><td class="c">${x.y15}</td><td class="c">${x.y20}</td>
+  </tr>`).join('');
 }
 
 // ─── INIT ─────────────────────────────────────
