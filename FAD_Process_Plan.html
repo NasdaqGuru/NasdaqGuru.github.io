@@ -563,6 +563,20 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
 
 
 
+
+
+/* ── SCANNABLE EXECUTIVE COPY PATTERN ───────────────────────
+   Converts dense card copy into labeled bullets for fast review. */
+.scan-list{display:grid;gap:6px;margin-top:7px;}
+.scan-row{display:flex;align-items:flex-start;gap:7px;font-size:12.5px;line-height:1.5;color:var(--gray-700);}
+.scan-row::before{content:'•';color:var(--crimson);font-weight:900;line-height:1.35;flex:0 0 auto;}
+.scan-row strong{color:var(--navy);font-weight:800;}
+.scan-compact{gap:5px;margin-top:6px;}
+.scan-compact .scan-row{font-size:12px;line-height:1.45;}
+.aud-metric-card .scan-list,.pillar-card .scan-list,.proof-card .scan-list,.sustain-card .scan-list,.predictive-box .scan-list,.methodology-card .scan-list,.role-coverage-card .scan-list,.fad-unit-card .scan-list,.operating-flow-step .scan-list{margin-top:8px;}
+.card-scan-label{display:inline-block;min-width:0;}
+@media(max-width:720px){.scan-row{font-size:12px;}.scan-row::before{line-height:1.4;}}
+
 /* ─────────────────────────────────────────────
    V8 Action Center Refinement: blue header restore + reversible decisions
 ───────────────────────────────────────────── */
@@ -640,6 +654,123 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
 .aud-header.light-audience.school .aud-chip{color:var(--green);background:var(--gbg);border-color:#cce6d6;}
 .aud-header.light-audience.central .aud-chip{color:var(--amber);background:var(--glt);border-color:#ead8a7;}
 .aud-header.light-audience .school-selector{background:#fff;color:var(--gray-800);border-color:var(--gray-200);box-shadow:0 1px 4px rgba(26,39,68,.05);}
+
+
+
+/* Controller exception/compliance modules */
+.controller-compliance-row{
+  display:grid;
+  grid-template-columns:minmax(360px,.78fr) minmax(560px,1.22fr);
+  gap:13px;
+  align-items:start;
+  margin-bottom:13px;
+}
+.exception-rate-card{border-left:4px solid var(--blue);}
+.exception-summary-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0 0 11px;}
+.exception-summary-cell{
+  background:linear-gradient(180deg,#fff 0%,#fbfdff 100%);
+  border:1px solid var(--gray-100);
+  border-radius:8px;
+  padding:8px 9px;
+  min-width:0;
+}
+.exception-summary-label{
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:.5px;
+  line-height:1.25;
+  text-transform:uppercase;
+  color:var(--gray-400);
+}
+.exception-summary-value{
+  margin-top:3px;
+  font-size:19px;
+  font-weight:900;
+  line-height:1;
+  color:var(--navy);
+  font-variant-numeric:tabular-nums;
+}
+.exception-summary-note{margin-top:3px;font-size:10.5px;line-height:1.3;color:var(--gray-600);}
+.exception-ranked-list{display:grid;gap:6px;}
+.exception-rank-row{
+  display:grid;
+  grid-template-columns:minmax(118px,1.05fr) minmax(128px,1fr) 86px;
+  gap:8px;
+  align-items:center;
+  background:#fff;
+  border:1px solid var(--gray-100);
+  border-radius:8px;
+  padding:8px 9px;
+  box-shadow:0 1px 2px rgba(26,39,68,.035);
+}
+.exception-process{display:flex;align-items:flex-start;gap:7px;min-width:0;}
+.exception-rank-number{
+  width:20px;height:20px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  background:var(--nlt);color:var(--blue);
+  font-size:10.5px;font-weight:900;flex:0 0 auto;
+}
+.exception-process-name{font-size:12.5px;font-weight:800;color:var(--gray-800);line-height:1.2;}
+.exception-process-meta{font-size:10.5px;color:var(--gray-400);line-height:1.25;margin-top:2px;}
+.exception-bar-track{height:8px;background:var(--gray-100);border-radius:999px;overflow:hidden;}
+.exception-bar-fill{height:100%;border-radius:999px;}
+.exception-target-note{font-size:10px;color:var(--gray-400);margin-top:4px;}
+.exception-metrics{text-align:right;font-variant-numeric:tabular-nums;}
+.exception-current{font-size:17px;font-weight:900;line-height:1;}
+.exception-change{margin-top:2px;font-size:10.5px;font-weight:800;color:var(--green);}
+.exception-controller-action{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin-top:11px;
+  background:var(--bbg);
+  border:1px solid rgba(26,95,168,.18);
+  border-left:4px solid var(--blue);
+  border-radius:0 8px 8px 0;
+  padding:10px 12px;
+}
+.exception-action-kicker{
+  font-size:9.5px;
+  font-weight:900;
+  letter-spacing:.6px;
+  line-height:1.2;
+  text-transform:uppercase;
+  color:var(--blue);
+}
+.exception-action-copy{margin-top:3px;font-size:11.5px;line-height:1.45;color:var(--gray-700);}
+.exception-action-copy strong{color:var(--navy);}
+@media(max-width:1100px){.controller-compliance-row{grid-template-columns:1fr;}.exception-rate-card{border-left-width:5px;}}
+@media(max-width:720px){
+  .exception-summary-strip,.exception-controller-action{grid-template-columns:1fr;}
+  .exception-rank-row{grid-template-columns:1fr;gap:7px;}
+  .exception-metrics{text-align:left;display:flex;align-items:baseline;gap:8px;}
+}
+
+/* Workload allocation popup + deep-dive links */
+.workload-btn{background:var(--blue)!important;}
+.section-action-row{display:flex;justify-content:flex-end;align-items:center;gap:8px;margin:-6px 0 12px;flex-wrap:wrap;}
+.deep-link-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid rgba(26,95,168,.22);background:var(--bbg);color:var(--blue);border-radius:999px;padding:6px 11px;font-size:11.5px;font-weight:800;text-decoration:none;box-shadow:0 1px 4px rgba(26,39,68,.06);}
+.deep-link-btn:hover{background:var(--blue);color:#fff;}
+.workload-overlay{position:fixed;inset:0;z-index:5000;background:rgba(26,39,68,.38);display:none;align-items:center;justify-content:center;padding:22px;backdrop-filter:blur(2px);}
+.workload-overlay.show{display:flex;}
+.workload-modal{width:min(980px,96vw);max-height:88vh;overflow:auto;background:#fff;border-radius:12px;box-shadow:0 18px 50px rgba(26,39,68,.24);border-top:5px solid var(--blue);}
+.workload-head{position:sticky;top:0;background:#fff;z-index:1;padding:17px 20px;border-bottom:1px solid var(--gray-100);display:flex;align-items:flex-start;justify-content:space-between;gap:14px;}
+.workload-title{font-size:19px;font-weight:900;line-height:1.15;color:var(--navy);}
+.workload-sub{font-size:12.5px;color:var(--gray-600);line-height:1.5;margin-top:4px;max-width:690px;}
+.workload-close{border:none;background:var(--gray-100);color:var(--gray-800);width:30px;height:30px;border-radius:50%;font-size:13px;font-weight:900;cursor:pointer;flex:0 0 auto;}
+.workload-body{padding:16px 20px 20px;}
+.workload-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:14px;}
+.workload-summary-card{border:1px solid var(--gray-100);background:#fffdf8;border-radius:10px;padding:10px;}
+.workload-summary-card b{display:block;font-size:20px;line-height:1;color:var(--navy);font-variant-numeric:tabular-nums;}
+.workload-summary-card span{display:block;margin-top:4px;font-size:10px;line-height:1.3;color:var(--gray-500);font-weight:800;text-transform:uppercase;letter-spacing:.45px;}
+.workload-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.workload-table th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.55px;color:var(--gray-400);background:#fffdf8;border-bottom:1px solid var(--gray-200);padding:8px 9px;}
+.workload-table td{border-bottom:1px solid var(--gray-100);padding:8px 9px;vertical-align:top;}
+.workload-table td.r,.workload-table th.r{text-align:right;}
+.workload-bar{height:7px;border-radius:999px;background:var(--gray-100);overflow:hidden;margin-top:5px;}
+.workload-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--green));}
+.workload-group-row td{background:#f8fbff;color:var(--navy);font-weight:900;border-top:1px solid var(--gray-200);}
+@media(max-width:760px){.workload-summary{grid-template-columns:1fr 1fr;}.workload-table{font-size:12px;}.workload-table th:nth-child(4),.workload-table td:nth-child(4){display:none;}.workload-head{align-items:flex-start;}}
 
 
 
@@ -806,6 +937,7 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
   <div style="display:flex;align-items:center;gap:10px;">
     <span class="role-badge">🔄 Director, Financial Process Transformation</span>
     <div class="ts-p">Updated: <span id="ts_d">—</span></div>
+    <button class="rbtn workload-btn" onclick="showTabWorkloadPopup()">Workload %</button>
     <button class="rbtn" onclick="rTs()">↻ Refresh</button>
   </div>
 </header>
@@ -921,6 +1053,9 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
   </div>
 
   <div class="sl">Q2 Proof Points — Integrated from the Strategic Report</div>
+  <div class="section-action-row">
+    <a class="deep-link-btn" href="FAD_Q2_Process_Modernization_Proof_Points.html" target="_blank" rel="noopener">Open Q2 proof-point deep dive</a>
+  </div>
   <div class="proof-grid" id="q2_proof_cards"></div>
   <div class="cc" style="margin-bottom:13px;">
     <div class="tw"><table class="dt"><thead><tr>
@@ -1428,6 +1563,9 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
 <section class="tab-panel" id="tab-risk">
   <div class="sl">Operating Intelligence — Risk & Decision Support</div>
   <div class="operating-note"><strong>Purpose:</strong> Restores the risk-and-decision view and connects it to the Action Center. This is where non-green indicators become predictive recommendations with options, pros/cons, and consequences.</div>
+  <div class="section-action-row">
+    <a class="deep-link-btn" href="FAD_Risk_Decision_Action_Center.html" target="_blank" rel="noopener">Open risk & decision deep dive</a>
+  </div>
   <div class="kg">
     <div class="kc accent"><div class="kl">Decision Items</div><div class="kv">12</div><div class="ks w">active queue</div></div>
     <div class="kc"><div class="kl">High-Risk Items</div><div class="kv">3</div><div class="ks n">requires escalation</div></div>
@@ -1561,8 +1699,8 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
     <div class="kc"><div class="kl">Decisions Awaiting Controller</div><div class="kv">2</div><div class="ks w">Policy escalations</div></div>
     <div class="kc"><div class="kl">Policies Requiring Formal Action</div><div class="kv">2</div><div class="ks i">In draft for review</div></div>
   </div>
-  <div class="two" style="margin-bottom:13px;">
-    <div class="cc">
+  <div class="controller-compliance-row">
+    <div class="cc exception-rate-card">
       <div class="ch"><div><div class="ct">Exception Rate by Process — Ranked</div><div class="cs">Current vs. FY2025 baseline · Lower is better</div></div></div>
       <div id="ctrl_exception_ranked"></div>
     </div>
@@ -1573,11 +1711,35 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
   </div>
   <div class="sl">Governance Decisions — Controller Awareness</div>
   <div class="cc" style="margin-bottom:13px;">
-    <div style="padding:4px 0;" id="ctrl_governance_signals"></div>
+    <div style="padding:4px 0;" id="ctrl_governance_signals">
+    <div class="tw">
+      <table class="dt">
+        <thead><tr><th>Decision / Sample Scenario</th><th>Controller Awareness</th><th class="c">Timing</th><th>Recommended Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Delegation of Authority — P2P Phase 2</strong><br><span class="b br">Decision required</span></td><td>Auto-approval logic for clean 3-way-match invoices under $10K needs written Controller authorization before UAT.</td><td class="c">Jun 20, 2026</td><td>Issue interim memo for UAT, then complete formal policy update within 60 days.</td></tr>
+          <tr><td><strong>P-Card Threshold and Reconciliation Rule</strong><br><span class="b br">Decision required</span></td><td>Proposed increase from $5K to $10K creates efficiency but requires stronger monthly exception sampling.</td><td class="c">Jul 15, 2026</td><td>Approve conditional pilot for low-risk departments with quarterly Controller review.</td></tr>
+          <tr><td><strong>COA Simplification Governance Model</strong><br><span class="b ba">Awareness / guardrail</span></td><td>School-level COA cleanup will affect local reporting. Controller should confirm which attributes are mandatory university-wide.</td><td class="c">Q1 FY2027</td><td>Approve mandatory data elements and local-flex fields before design freeze.</td></tr>
+          <tr><td><strong>Exception Taxonomy and Escalation Thresholds</strong><br><span class="b bb">Control standard</span></td><td>New common exception categories are needed so schools do not classify the same issue differently.</td><td class="c">Monthly</td><td>Adopt one Controller-approved taxonomy for audit, compliance, and dashboard reporting.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
   </div>
   <div class="sl">Risk Signals Requiring Controller Attention</div>
   <div class="cc" style="margin-bottom:13px;">
-    <div style="padding:4px 0;" id="ctrl_risk_signals"></div>
+    <div style="padding:4px 0;" id="ctrl_risk_signals">
+    <div class="tw">
+      <table class="dt">
+        <thead><tr><th>Risk Signal / Sample</th><th class="c">Severity</th><th>Why It Needs Controller Attention</th><th>Near-Term Action</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Supplier master-data duplicates</strong><br>Sample: 41 duplicate or near-duplicate supplier records detected after Jaggaer refresh.</td><td class="c"><span class="b br">High</span></td><td>Duplicate suppliers increase payment, sanctions-screening, and audit exposure.</td><td>Freeze duplicate merges over $50K until AP + Controller sign-off is complete.</td></tr>
+          <tr><td><strong>Travel & Expense exception spike</strong><br>Sample: HMS and FAS exceptions exceed the enterprise target after Concur transition.</td><td class="c"><span class="b ba">Medium</span></td><td>Repeated missing receipts, late approvals, and policy overrides weaken control consistency.</td><td>Launch targeted office hours and require 30-day exception-reduction plan from local finance leads.</td></tr>
+          <tr><td><strong>Access control / segregation-of-duties gap</strong><br>Sample: 3 users retained supplier negotiation dashboard access after role changes.</td><td class="c"><span class="b br">High</span></td><td>Improper access can create audit findings even when no misuse occurred.</td><td>Complete IAM review, document remediation, and add monthly access certification.</td></tr>
+          <tr><td><strong>Metric definition drift</strong><br>Sample: Schools classify budget-transfer rework differently in local trackers.</td><td class="c"><span class="b ba">Medium</span></td><td>Inconsistent definitions make trend reporting unreliable for Controller review.</td><td>Lock KPI dictionary and require owner sign-off for each enterprise metric.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
   </div>
   <div class="sl">What the Data Means for the Controller — Plain Language</div>
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;">
@@ -1755,8 +1917,13 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
       <div class="info-benchmark">Ivy Plus benchmark: peer institutions that have invested in financial process transformation average 3.2× ROI over 3 years. Harvard is on that trajectory.</div>
     </div>
     <div class="aud-metric-card" style="border-left:4px solid var(--green);">
-      <h3>📈 Compliance Improvement — Why It Matters Institutionally</h3>
-      <p>Moving compliance from 66% to 84% means 18% more of Harvard's $3.5B in annual spend is flowing through approved, auditable channels. That reduces financial risk, strengthens the University's position in external audits, and means fewer exceptions requiring senior review. Every 1-percentage-point improvement in compliance represents approximately $35M in spend being managed correctly.</p>
+      <h3>📈 Compliance Improvement: Institutional Impact</h3>
+      <div class="scan-list">
+        <div class="scan-row"><span><strong>The Achievement:</strong> Elevated compliance from <strong>66%</strong> to <strong>84%</strong>.</span></div>
+        <div class="scan-row"><span><strong>The Scale:</strong> Secures an additional <strong>18%</strong> of Harvard’s <strong>$3.5B</strong> annual spend through approved, auditable channels.</span></div>
+        <div class="scan-row"><span><strong>The Value:</strong> Every 1-percentage-point increase brings <strong>≈ $35M</strong> into correct management.</span></div>
+        <div class="scan-row"><span><strong>The Risk Reduction:</strong> Minimizes financial exposure, strengthens external audit standing, and reduces senior-level exception reviews.</span></div>
+      </div>
     </div>
     <div class="aud-metric-card" style="border-left:4px solid var(--blue);">
       <h3>👥 Finance Staff NPS — What the +50-Point Swing Tells You</h3>
@@ -1786,6 +1953,7 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
   <div class="daily-action-bar" aria-label="Action Center calendar and sharing tools">
     <button class="fac-btn fac-resolve" onclick="exportActionCalendar()">📅 Export Detailed Action Plan (.ics)</button>
     <button class="fac-btn fac-escalate" onclick="shareActionCalendarEmail()">✉️ Draft Detailed Share Email</button>
+    <a class="deep-link-btn" href="FAD_Risk_Decision_Action_Center.html" target="_blank" rel="noopener">Open risk & decision deep dive</a>
     <span class="ics-chip">Calendar-ready for Outlook / Google Calendar</span>
   </div>
   <div class="today-decision-board">
@@ -1956,6 +2124,19 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
   </div>
 </section>
 
+<div class="workload-overlay" id="workload_overlay" aria-hidden="true" onclick="if(event.target===this)closeTabWorkloadPopup()">
+  <div class="workload-modal" role="dialog" aria-modal="true" aria-labelledby="workload_title">
+    <div class="workload-head">
+      <div>
+        <div class="workload-title" id="workload_title">Best-Practice Work Allocation by Tab</div>
+        <div class="workload-sub">Recommended share of Director / transformation-office attention across the dashboard. Percentages total 100% and are weighted toward delivery, adoption, controls, and decision velocity.</div>
+      </div>
+      <button class="workload-close" type="button" onclick="closeTabWorkloadPopup()" aria-label="Close workload popup">x</button>
+    </div>
+    <div class="workload-body" id="workload_body"></div>
+  </div>
+</div>
+
 <div class="cpop" id="cpop">
   <button style="position:absolute;top:8px;right:8px;background:var(--gray-100);border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:10px;" onclick="document.getElementById('cpop').classList.remove('show')">✕</button>
   <div style="font-size:13px;font-weight:600;color:var(--gray-800);margin-bottom:8px;" id="cp_t"></div>
@@ -1974,6 +2155,72 @@ body,button,input,select,textarea,table{font-family:var(--font)!important;}
 // ═══ CONSTANTS ═══
 const C=`#A51C30`,N=`#1a2744`,G=`#1e6b38`,A=`#8a5c00`,B=`#1a5fa8`,P=`#5530a0`,T=`#0d7377`,R=`#9b2020`,GO=`#b8932a`;
 const TK='#9e9b92',GR='rgba(0,0,0,.06)';
+const TAB_WORKLOAD_BEST_PRACTICE=[
+  {group:'Operations',tab:'Strategic Plan',id:'strategy',pct:6,best:'Set direction, proof narrative, and executive priorities.'},
+  {group:'Operations',tab:'Transformation Portfolio',id:'portfolio',pct:5,best:'Sequence initiatives and protect value realization.'},
+  {group:'Operations',tab:'Process Performance',id:'performance',pct:5,best:'Review before/after outcomes and root-cause movement.'},
+  {group:'Operations',tab:'Process Timeline',id:'timeline',pct:4,best:'Manage milestones, dependencies, and critical path.'},
+  {group:'Operations',tab:'Operational Rhythm',id:'rhythm',pct:4,best:'Run weekly cadence, overdue tasks, and decision follow-up.'},
+  {group:'People & Governance',tab:'Stakeholder & Change',id:'stakeholder',pct:5,best:'Reduce resistance and maintain sponsor alignment.'},
+  {group:'People & Governance',tab:'Phase 3 Implement & Adopt',id:'phase3',pct:6,best:'Move pilots into adoption, training, and sustainment.'},
+  {group:'People & Governance',tab:'Policy & Governance',id:'policy',pct:5,best:'Resolve decision rights and policy/process fit.'},
+  {group:'People & Governance',tab:'Systems & Automation',id:'systems',pct:4,best:'Track system enablement, automation readiness, and workarounds.'},
+  {group:'Operating Intelligence',tab:'Spending & Savings',id:'spend',pct:5,best:'Convert capacity release into a defensible value story.'},
+  {group:'Operating Intelligence',tab:'KPI Framework',id:'kpi',pct:4,best:'Keep metric definitions stable and audit-ready.'},
+  {group:'Operating Intelligence',tab:'Team & Service Ops',id:'team',pct:3,best:'Watch team capacity, service queue, and support model.'},
+  {group:'Operating Intelligence',tab:'Adoption & Enablement',id:'enablement',pct:5,best:'Target office hours, job aids, super-users, and training.'},
+  {group:'Operating Intelligence',tab:'AI & Automation',id:'automation',pct:3,best:'Advance responsible automation without weakening controls.'},
+  {group:'Operating Intelligence',tab:'Risk & Decisions',id:'risk',pct:7,best:'Turn non-green signals into options, owners, and consequences.'},
+  {group:'Operating Intelligence',tab:'90-Day Rhythm',id:'ninety',pct:3,best:'Keep diagnose-stabilize-scale work bounded.'},
+  {group:'Operating Intelligence',tab:'Methodology',id:'methodology',pct:3,best:'Maintain transparent calculation logic and credibility.'},
+  {group:'Intelligence',tab:'Executive KPI Report',id:'executive',pct:4,best:'Prepare outcome-first leadership reporting.'},
+  {group:'Intelligence',tab:'Peer Benchmarks',id:'peers',pct:3,best:'Use peer proof to shape targets and executive decisions.'},
+  {group:'Intelligence',tab:'Action Center',id:'actions',pct:7,best:'Prioritize critical decisions and remove blockers quickly.'},
+  {group:'Intelligence',tab:'Transformation Calendar',id:'calendar',pct:2,best:'Keep decision holds and milestone reviews scheduled.'},
+  {group:'Leadership Views',tab:'Controller View',id:'controller',pct:3,best:'Focus on controls, exception thresholds, and audit readiness.'},
+  {group:'Leadership Views',tab:'FAD Leadership',id:'fad',pct:2,best:'Keep portfolio value, staffing, and blockers visible.'},
+  {group:'Leadership Views',tab:'School Finance',id:'school',pct:1,best:'Keep school-level adoption needs visible.'},
+  {group:'Leadership Views',tab:'Central Finance',id:'central',pct:1,best:'Tie transformation to institutional stewardship.'}
+];
+function showTabWorkloadPopup(){
+  const body=document.getElementById('workload_body');
+  if(!body) return;
+  const groups=[...new Set(TAB_WORKLOAD_BEST_PRACTICE.map(x=>x.group))];
+  const total=TAB_WORKLOAD_BEST_PRACTICE.reduce((a,b)=>a+b.pct,0);
+  const riskDecision=TAB_WORKLOAD_BEST_PRACTICE.filter(x=>['risk','actions','controller','policy'].includes(x.id)).reduce((a,b)=>a+b.pct,0);
+  const adoption=TAB_WORKLOAD_BEST_PRACTICE.filter(x=>['stakeholder','phase3','enablement','school'].includes(x.id)).reduce((a,b)=>a+b.pct,0);
+  const delivery=TAB_WORKLOAD_BEST_PRACTICE.filter(x=>['strategy','portfolio','performance','timeline','rhythm','spend'].includes(x.id)).reduce((a,b)=>a+b.pct,0);
+  body.innerHTML=`<div class="workload-summary">
+    <div class="workload-summary-card"><b>${total}%</b><span>Total allocation</span></div>
+    <div class="workload-summary-card"><b>${delivery}%</b><span>Delivery/value</span></div>
+    <div class="workload-summary-card"><b>${adoption}%</b><span>Adoption/change</span></div>
+    <div class="workload-summary-card"><b>${riskDecision}%</b><span>Controls/decisions</span></div>
+    <div class="workload-summary-card"><b>Weekly</b><span>Review cadence</span></div>
+  </div>
+  <table class="workload-table">
+    <thead><tr><th>Tab</th><th>Best-practice use</th><th class="r">% work</th><th>Allocation</th></tr></thead>
+    <tbody>
+      ${groups.map(g=>`<tr class="workload-group-row"><td colspan="4">${g} - ${TAB_WORKLOAD_BEST_PRACTICE.filter(x=>x.group===g).reduce((a,b)=>a+b.pct,0)}%</td></tr>${TAB_WORKLOAD_BEST_PRACTICE.filter(x=>x.group===g).map(x=>`<tr><td><strong>${x.tab}</strong></td><td>${x.best}</td><td class="r"><strong>${x.pct}%</strong></td><td><div class="workload-bar"><div class="workload-fill" style="width:${Math.max(8,x.pct*10)}%;"></div></div></td></tr>`).join('')}`).join('')}
+    </tbody>
+  </table>`;
+  const overlay=document.getElementById('workload_overlay');
+  overlay.classList.add('show');
+  overlay.setAttribute('aria-hidden','false');
+}
+function closeTabWorkloadPopup(){
+  const overlay=document.getElementById('workload_overlay');
+  if(overlay){overlay.classList.remove('show');overlay.setAttribute('aria-hidden','true');}
+}
+function enhanceWorkloadTabTitles(){
+  TAB_WORKLOAD_BEST_PRACTICE.forEach(x=>{
+    document.querySelectorAll(`.tab-btn[onclick*="'${x.id}'"], #sn_${x.id}`).forEach(el=>{
+      if(!el.dataset.workloadTitle){
+        el.dataset.workloadTitle='1';
+        el.title=`Best-practice work allocation: ${x.pct}% - ${x.best}`;
+      }
+    });
+  });
+}
 const charts={};
 function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 function mc(id,cfg){dc(id);charts[id]=new Chart(document.getElementById(id),cfg);return charts[id];}
@@ -2602,15 +2849,32 @@ function buildController(){
     {p:'Month-End Close',before:18,after:5.2},{p:'AP Invoices',before:31,after:7},
     {p:'Budget Transfers',before:14,after:2.8},{p:'Grant Reports',before:22,after:16},
   ];
-  document.getElementById('ctrl_exception_ranked').innerHTML=exceptions.sort((a,b)=>b.after-a.after).map(e=>{
-    const col=e.after<8?'var(--green)':e.after<15?'var(--amber)':'var(--red)';
-    return`<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--gray-100);font-size:12px;">
-      <div style="width:140px;flex-shrink:0;font-weight:500;">${e.p}</div>
-      <div style="flex:1;"><div class="prog"><div class="pf" style="width:${Math.min(e.after*3.5,100)}%;background:${col};"></div></div></div>
-      <div style="width:40px;text-align:right;font-weight:700;color:${col};">${e.after}%</div>
-      <div style="width:55px;text-align:right;font-size:11px;color:var(--gray-400);">was ${e.before}%</div>
+  const exceptionTarget=5;
+  const rankedExceptions=exceptions.slice().sort((a,b)=>b.after-a.after);
+  const highestException=rankedExceptions[0];
+  const fastestImprovement=exceptions.reduce((best,e)=>(e.before-e.after)>(best.before-best.after)?e:best,exceptions[0]);
+  const atTargetCount=exceptions.filter(e=>e.after<=exceptionTarget).length;
+  document.getElementById('ctrl_exception_ranked').innerHTML=`
+    <div class="exception-summary-strip">
+      <div class="exception-summary-cell"><div class="exception-summary-label">Highest current</div><div class="exception-summary-value" style="color:var(--red);">${highestException.after}%</div><div class="exception-summary-note">${highestException.p}</div></div>
+      <div class="exception-summary-cell"><div class="exception-summary-label">At 5% target</div><div class="exception-summary-value">${atTargetCount}/6</div><div class="exception-summary-note">${exceptions.length-atTargetCount} processes need action</div></div>
+      <div class="exception-summary-cell"><div class="exception-summary-label">Largest drop</div><div class="exception-summary-value" style="color:var(--green);">-${(fastestImprovement.before-fastestImprovement.after).toFixed(1)} pts</div><div class="exception-summary-note">${fastestImprovement.p}</div></div>
+    </div>
+    <div class="exception-ranked-list">
+      ${rankedExceptions.map((e,i)=>{
+        const col=e.after<8?'var(--green)':e.after<15?'var(--amber)':'var(--red)';
+        const delta=(e.before-e.after).toFixed(1);
+        return`<div class="exception-rank-row">
+          <div class="exception-process"><span class="exception-rank-number">${i+1}</span><div><div class="exception-process-name">${e.p}</div><div class="exception-process-meta">FY2025 baseline ${e.before}%</div></div></div>
+          <div><div class="exception-bar-track"><div class="exception-bar-fill" style="width:${Math.min(e.after*4,100)}%;background:${col};"></div></div><div class="exception-target-note">Target: <= ${exceptionTarget}%</div></div>
+          <div class="exception-metrics"><div class="exception-current" style="color:${col};">${e.after}%</div><div class="exception-change">-${delta} pts</div></div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="exception-controller-action">
+      <div><div class="exception-action-kicker">Controller focus</div><div class="exception-action-copy"><strong>Grant Reports and Travel & Expense</strong> are the two visible control-pressure points.</div></div>
+      <div><div class="exception-action-kicker">Next review</div><div class="exception-action-copy">Require a 30-day root-cause sprint with reason codes, owner, and aging trend by process.</div></div>
     </div>`;
-  }).join('');
   const complianceActions={
     FAS:{next:82,action:'Run 6-week vendor-catalog completion sprint for high-volume lab and professional-service categories.',pro:'Fixes the root cause of off-contract buying; less policing needed.',con:'Requires Procurement and school finance bandwidth.',risk:'Without action: 71% may only reach 74–76%, keeping audit exposure elevated.',benefit:'Expected outcome: +11 points, fewer exception reviews, stronger audit trail.'},
     HMS:{next:83,action:'Create executive-sponsored Concur and AP automation adoption sprint with department super users.',pro:'Targets the users creating the highest exception volume.',con:'May create short-term change fatigue in departments.',risk:'Without action: training resistance may hold compliance below 78%.',benefit:'Expected outcome: +7 points and lower T&E exceptions by Q4.'},
@@ -2645,17 +2909,62 @@ function buildController(){
       <button class="chart-info-btn" style="position:static;margin-top:8px;width:auto;border-radius:999px;padding:4px 9px;" onclick="showPredictiveDetail('${s.school.replace(/'/g,"\'")}', ${compliance}, ${model.next}, '${model.action.replace(/'/g,"\'")}', '${model.pro.replace(/'/g,"\'")}', '${model.con.replace(/'/g,"\'")}', '${model.risk.replace(/'/g,"\'")}', '${model.benefit.replace(/'/g,"\'")}')">Details</button>
     </article>`;
   }).join('')}</div>`;
-  document.getElementById('ctrl_governance_signals').innerHTML=[
-    {icon:'⚖️',title:'Policy Escalation: Delegation of Authority',desc:'Current approval thresholds are misaligned with P2P Phase 2 auto-approval logic. A Controller directive is needed to update the delegation matrix before August 2026 go-live.',level:'Controller Decision Required',col:'var(--red)'},
-    {icon:'📋',title:'Policy Escalation: P-Card Threshold Update',desc:'P-Card spending limits were identified as outdated during P2P streamlining. Proposed update: raise departmental P-Card limit from $5K to $10K with quarterly reconciliation requirement.',level:'Controller Decision Required',col:'var(--red)'},
-    {icon:'✅',title:'Governance Decision — Auto-Approve Threshold',desc:'Controller approved: Invoices under $10K from tier-1 vendors with clean 3-way match may auto-approve without human review. Effective November 2025. Working as designed.',level:'Complete',col:'var(--green)'},
-    {icon:'✅',title:'Budget Transfer Authority Matrix — Approved',desc:'New 3-tier approval matrix for budget transfers (under $25K: department; $25K–$100K: Finance Director; over $100K: Controller) is live. Cycle time reduced 86%.',level:'Complete',col:'var(--green)'},
-  ].map(g=>`<div class="aud-signal"><div class="aud-signal-dot" style="background:${g.col};"></div><div class="aud-signal-body"><strong>${g.icon} ${g.title}</strong><br>${g.desc}<br><span class="b ${g.level.includes('Required')?'br':'bg'}" style="margin-top:4px;display:inline-block;">${g.level}</span></div></div>`).join('');
-  document.getElementById('ctrl_risk_signals').innerHTML=[
-    {r:'ISDP Audit Finding: Claude API data classification gap',sev:'High',action:'DPA amendment from Anthropic due June 30. No student/confidential data currently processed.'},
-    {r:'Governance incident: 3 users had unauthorized access to supplier negotiation dashboard',sev:'Medium',action:'Access revoked. IAM review underway. Audit trail documentation being prepared for external audit.'},
-    {r:'HMS change resistance creating compliance gap in Expense processing',sev:'Medium',action:'Director escalation in progress. If unresolved by June 30, Expense compliance will not meet year-end target.'},
-  ].map(r=>`<div class="aud-signal"><div class="aud-signal-dot" style="background:${r.sev==='High'?'var(--red)':'var(--amber)'};"></div><div class="aud-signal-body"><strong>${r.r}</strong><br>${r.action}<br><span class="b ${r.sev==='High'?'br':'ba'}" style="margin-top:4px;display:inline-block;">${r.sev} Priority</span></div></div>`).join('');
+  const controllerGovernanceDecisions=[
+    {icon:'⚖️',status:'Decision required',badge:'br',dot:'var(--red)',title:'Delegation of Authority — P2P Phase 2 auto-approval',sample:'Sample: Clean 3-way-match invoices under $10K from approved tier-1 vendors would bypass manual review after system validation.',awareness:'Controller awareness: current delegation language does not explicitly authorize the new system-driven approval logic. Without written authorization, UAT results will not reflect production controls.',action:'Issue an interim Controller memo for UAT by Jun 20, then convert it into a formal Delegation of Authority update within 60 days.',owner:'Controller Office + P2P Process Owner',timing:'Jun 20, 2026',control:'Maintains audit trail while allowing agile testing.'},
+    {icon:'💳',status:'Decision required',badge:'br',dot:'var(--red)',title:'P-Card Threshold and Reconciliation Rule',sample:'Sample: Raise departmental P-Card limit from $5K to $10K for low-risk departments, paired with quarterly sample testing and monthly exception reporting.',awareness:'Controller awareness: the efficiency gain is strong, but threshold increases can shift control burden from pre-approval to post-transaction monitoring.',action:'Approve a 90-day pilot for low-risk departments only; require quarterly Controller review before enterprise expansion.',owner:'Controller Office + AP / Card Services',timing:'Jul 15, 2026',control:'Conditional authority with compensating reconciliation control.'},
+    {icon:'🧾',status:'Awareness / guardrail',badge:'ba',dot:'var(--amber)',title:'COA Simplification Governance Model',sample:'Sample: Reduce low-value local chart values while preserving mandatory attributes for sponsored research, gifts, endowments, and school-level management reporting.',awareness:'Controller awareness: schools need flexibility, but inconsistent chart attributes can weaken consolidated reporting and make audit sampling harder.',action:'Approve mandatory enterprise data elements and local-flex fields before the COA design freeze.',owner:'Controller Liaison + COA Committee',timing:'Q1 FY2027 design gate',control:'Standard core with controlled local flexibility.'},
+    {icon:'🧭',status:'Control standard',badge:'bb',dot:'var(--blue)',title:'Enterprise Exception Taxonomy and Escalation Thresholds',sample:'Sample: Budget-transfer rework, late approval, missing support, policy override, supplier mismatch, and data-quality discrepancy become standard exception categories across schools.',awareness:'Controller awareness: the same issue is currently classified differently by unit, which makes trend reporting less reliable for governance review.',action:'Adopt one Controller-approved taxonomy and require each dashboard metric to map to a named control owner.',owner:'Data Governance Lead + Controller Liaison',timing:'Monthly governance cycle',control:'Comparable metrics and clearer escalation rights.'},
+    {icon:'✅',status:'Complete',badge:'bg',dot:'var(--green)',title:'Budget Transfer Authority Matrix — Approved',sample:'Sample: Under $25K department approval; $25K–$100K Finance Director approval; over $100K Controller review.',awareness:'Controller awareness: the approved tiering is producing shorter cycle times while preserving central oversight on material transfers.',action:'Continue monthly monitoring; review any school with repeated split-transfer patterns or rework rates above 10%.',owner:'Central Finance + Tub Finance Directors',timing:'Live; monitor monthly',control:'Cycle-time reduction with materiality-based control.'}
+  ];
+  document.getElementById('ctrl_governance_signals').innerHTML=`
+    <div class="tw" style="margin-bottom:12px;">
+      <table class="dt">
+        <thead><tr><th>Decision / Sample</th><th>Controller Awareness</th><th>Recommended Action</th><th class="c">Owner / Timing</th></tr></thead>
+        <tbody>
+          ${controllerGovernanceDecisions.map(g=>`<tr>
+            <td><strong>${g.icon} ${g.title}</strong><br><span class="b ${g.badge}" style="margin-top:4px;display:inline-block;">${g.status}</span><div style="font-size:11px;color:var(--gray-600);line-height:1.55;margin-top:6px;">${g.sample}</div></td>
+            <td>${g.awareness}<div class="info-callout" style="margin-top:8px;"><strong>Control implication:</strong> ${g.control}</div></td>
+            <td>${g.action}</td>
+            <td class="c"><strong>${g.owner}</strong><br><span style="color:var(--gray-500);font-size:11px;">${g.timing}</span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;">
+      ${controllerGovernanceDecisions.slice(0,4).map(g=>`<div class="aud-signal" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:10px;padding:11px;">
+        <div class="aud-signal-dot" style="background:${g.dot};"></div>
+        <div class="aud-signal-body"><strong>${g.icon} ${g.title}</strong><br>${g.sample}<br><span class="b ${g.badge}" style="margin-top:6px;display:inline-block;">${g.status}</span></div>
+      </div>`).join('')}
+    </div>`;
+
+  const controllerRiskSignals=[
+    {r:'Supplier master-data duplicates after Jaggaer refresh',sev:'High',badge:'br',dot:'var(--red)',sample:'Sample: 41 duplicate or near-duplicate supplier records detected; 12 are tied to active purchase orders and 4 exceed $50K annual spend.',why:'Duplicate supplier records increase duplicate-payment, sanctions-screening, tax-reporting, and audit exposure.',action:'Freeze duplicate merges over $50K until AP and Controller sign-off is complete; publish weekly cleanup list.',owner:'AP Master Data + Controller Liaison',threshold:'High when >25 duplicates or any active-pay supplier is affected'},
+    {r:'Travel & Expense exception spike during Concur transition',sev:'Medium',badge:'ba',dot:'var(--amber)',sample:'Sample: HMS and FAS remain above the 5% target due to missing receipts, late approvals, and policy override requests after go-live.',why:'Repeated exceptions weaken policy consistency and create additional manual review burden near month-end.',action:'Require a 30-day exception-reduction plan from local finance leads; deploy targeted office hours for high-volume approvers.',owner:'Expense Process Owner + School Finance Leads',threshold:'Escalate if exception rate remains >10% for two consecutive months'},
+    {r:'Access control / segregation-of-duties gap',sev:'High',badge:'br',dot:'var(--red)',sample:'Sample: 3 users retained access to supplier negotiation dashboards after role changes; access has been revoked but certification evidence is pending.',why:'Improper access can create an audit finding even when no misuse occurred because control evidence must show timely removal and periodic review.',action:'Complete IAM review, document remediation, and add monthly access certification to the Controller readiness checklist.',owner:'FAD IT + Controller Office',threshold:'High whenever privileged access remains open after role change'},
+    {r:'Metric definition drift across decentralized schools',sev:'Medium',badge:'ba',dot:'var(--amber)',sample:'Sample: Schools classify budget-transfer rework differently in local trackers, causing inconsistent trend lines in the executive dashboard.',why:'If definitions differ, leaders may debate the numbers instead of acting on the signal; audit-ready reporting requires a locked KPI dictionary.',action:'Lock KPI dictionary, require owner sign-off for each enterprise metric, and display definition notes in every dashboard popup.',owner:'Data Governance Lead',threshold:'Escalate when more than one school uses a non-standard definition'},
+    {r:'Grant reporting automation readiness gap',sev:'Medium',badge:'ba',dot:'var(--amber)',sample:'Sample: 18% of sponsored-project reports still require manual adjustment because award attributes do not consistently map across systems.',why:'Manual adjustment increases late-reporting risk and consumes high-skill analyst capacity that should be used for exception review.',action:'Prioritize the top 20 award-attribute defects and require RMAS/OFA sign-off before expanding automation.',owner:'RMAS + OFA Reporting Lead',threshold:'Escalate if manual adjustment remains >15% after two reporting cycles'}
+  ];
+  document.getElementById('ctrl_risk_signals').innerHTML=`
+    <div class="tw" style="margin-bottom:12px;">
+      <table class="dt">
+        <thead><tr><th>Risk Signal / Sample</th><th class="c">Severity</th><th>Why Controller Should Care</th><th>Near-Term Action</th><th class="c">Owner / Threshold</th></tr></thead>
+        <tbody>
+          ${controllerRiskSignals.map(r=>`<tr>
+            <td><strong>${r.r}</strong><div style="font-size:11px;color:var(--gray-600);line-height:1.55;margin-top:5px;">${r.sample}</div></td>
+            <td class="c"><span class="b ${r.badge}">${r.sev}</span></td>
+            <td>${r.why}</td>
+            <td>${r.action}</td>
+            <td class="c"><strong>${r.owner}</strong><br><span style="color:var(--gray-500);font-size:11px;">${r.threshold}</span></td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;">
+      ${controllerRiskSignals.slice(0,4).map(r=>`<div class="aud-signal" style="background:var(--gray-50);border:1px solid var(--gray-100);border-radius:10px;padding:11px;">
+        <div class="aud-signal-dot" style="background:${r.dot};"></div>
+        <div class="aud-signal-body"><strong>${r.r}</strong><br>${r.sample}<br><span class="b ${r.badge}" style="margin-top:6px;display:inline-block;">${r.sev} Priority</span></div>
+      </div>`).join('')}
+    </div>`;
 }
 
 // ═══ BUILD: FAD VIEW ═══
@@ -3855,6 +4164,99 @@ window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{enhancePredictive
   window.addEventListener('DOMContentLoaded',()=>setTimeout(()=>{try{buildActionCenter();buildDailyActionCenter();}catch(e){console.warn('Action Center refinement skipped',e);}},350));
 })();
 
+
+// ── Scannable Executive Copy Enhancer ───────────────────────
+// Converts dense card paragraphs into labeled bullets without changing the underlying data model.
+(function(){
+  const TARGET_SELECTOR = [
+    '.aud-metric-card > p',
+    '.fad-unit-card > p',
+    '.role-coverage-card > p',
+    '.predictive-box > p',
+    '.pillar-card > p',
+    '.proof-card > p',
+    '.sustain-card > p',
+    '.methodology-card > p',
+    '.operating-flow-step > p'
+  ].join(',');
+  const baseLabels = ['The Signal','Why It Matters','The Value','Action / Next Step','Watch Point','Sustainment'];
+  function cleanScanText(text){
+    return String(text || '').replace(/\s+/g,' ').trim();
+  }
+  function splitScanSentences(text){
+    const cleaned = cleanScanText(text);
+    if(!cleaned) return [];
+    let pieces = [];
+    if(/(?:^|\s)(?:\d+\.|\(\d+\))\s/.test(cleaned)){
+      pieces = cleaned.split(/(?=\s*(?:\d+\.|\(\d+\))\s)/g);
+    } else {
+      pieces = cleaned.split(/(?<=[.!?])\s+(?=(?:[A-Z0-9“"'$]|FY|Q[1-4]))/g);
+    }
+    pieces = pieces.map(x=>x.replace(/^\s*[-–—•]\s*/,'').trim()).filter(Boolean);
+    if(pieces.length <= 1 && cleaned.includes(';')) pieces = cleaned.split(/;\s*/).map(x=>x.trim()).filter(Boolean);
+    if(pieces.length <= 1 && cleaned.includes(' — ')) pieces = cleaned.split(/\s+—\s+/).map(x=>x.trim()).filter(Boolean);
+    return pieces.slice(0,6);
+  }
+  function cardTitle(p){
+    const card = p.closest('.aud-metric-card,.fad-unit-card,.role-coverage-card,.predictive-box,.pillar-card,.proof-card,.sustain-card,.methodology-card,.operating-flow-step');
+    const h = card ? card.querySelector('h3,h4,.fad-unit-title,.ic-title') : null;
+    return h ? cleanScanText(h.textContent).toLowerCase() : '';
+  }
+  function labelFor(sentence, index, title){
+    const s = sentence.toLowerCase();
+    if(title.includes('compliance')){
+      if(s.includes('84') || s.includes('66') || s.includes('elevated') || s.includes('follow')) return 'The Achievement';
+      if(s.includes('$3.5b') || s.includes('18%') || s.includes('spend')) return 'The Scale';
+      if(s.includes('$35m') || s.includes('1-percentage')) return 'The Value';
+      if(s.includes('audit') || s.includes('risk') || s.includes('exception')) return 'Risk Reduction';
+    }
+    if(title.includes('exception')){
+      if(index===0) return 'Definition';
+      if(s.includes('8.4') || s.includes('100 transactions')) return 'Current State';
+      if(s.includes('audit') || s.includes('time')) return 'Risk / Burden';
+      if(s.includes('goal') || s.includes('under')) return 'Target';
+    }
+    if(title.includes('next') || title.includes('priority')) return 'Next Step';
+    if(title.includes('risk') || s.includes('risk') || s.includes('exposure')) return index===0?'Risk Signal':'Mitigation';
+    if(s.includes('target') || s.includes('goal')) return 'Target';
+    if(s.includes('requires') || s.includes('need') || s.includes('must') || s.includes('recommended')) return 'Action';
+    if(s.includes('saves') || s.includes('reclaim') || s.includes('value') || s.includes('$') || s.includes('roi')) return 'Value';
+    if(s.includes('delayed') || s.includes('without') || s.includes('at risk')) return 'Risk / Delay';
+    if(s.includes('best practice') || s.includes('benchmark')) return 'Best Practice';
+    return baseLabels[Math.min(index, baseLabels.length-1)];
+  }
+  function scanHtmlFromText(text, p){
+    const title = cardTitle(p);
+    const parts = splitScanSentences(text);
+    if(!parts.length) return '';
+    return '<div class="scan-list scan-compact">' + parts.map((part,i)=>{
+      const label = labelFor(part,i,title);
+      return `<div class="scan-row"><span><strong>${label}:</strong> ${part}</span></div>`;
+    }).join('') + '</div>';
+  }
+  function scanifyCards(root){
+    (root || document).querySelectorAll(TARGET_SELECTOR).forEach(p=>{
+      if(p.dataset.scanified === '1') return;
+      if(p.closest('.no-scan')) return;
+      const html = scanHtmlFromText(p.textContent, p);
+      if(!html) return;
+      const wrap = document.createElement('div');
+      wrap.innerHTML = html;
+      p.replaceWith(wrap.firstElementChild);
+    });
+  }
+  window.scanifyCards = scanifyCards;
+  document.addEventListener('DOMContentLoaded',()=>{
+    scanifyCards(document);
+    let scanTimer = null;
+    const observer = new MutationObserver(()=>{
+      clearTimeout(scanTimer);
+      scanTimer = setTimeout(()=>scanifyCards(document), 40);
+    });
+    observer.observe(document.body,{childList:true,subtree:true});
+  });
+})();
+
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
@@ -4019,11 +4421,7 @@ const ROLE_COVERAGE_MODEL = [
 function hEsc(v){return String(v==null?'':v).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function openFADIntegrationPanel(title, cat, sections){
   const t=document.getElementById('ip_title'), c=document.getElementById('ip_cat'), b=document.getElementById('ip_body'), overlay=document.getElementById('info_overlay'), panel=document.getElementById('info_panel');
-  if(!(t&&c&&b&&overlay&&panel)){ alert(title+'
-
-'+sections.map(s=>s.label+': '+s.text).join('
-
-')); return; }
+  if(!(t&&c&&b&&overlay&&panel)){ alert(title+'\n\n'+sections.map(s=>s.label+': '+s.text).join('\n\n')); return; }
   t.textContent=title; c.textContent=cat;
   b.innerHTML=sections.map(s=>`<div class="info-section"><div class="info-section-label">${hEsc(s.label)}</div><div class="info-section-text">${hEsc(s.text)}</div></div>`).join('');
   overlay.classList.add('show'); panel.classList.add('show');
@@ -4146,6 +4544,8 @@ function showRoleCoverageDetail(title){
     if(t.id==='sn_controller' || onclick.includes("'controller'") || text.includes('controller view')) setTimeout(renderPolicyComplianceBySchoolFixed,60);
   },true);
 })();
+document.addEventListener('DOMContentLoaded',()=>setTimeout(enhanceWorkloadTabTitles,120));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeTabWorkloadPopup();});
 </script>
 
 </body>
