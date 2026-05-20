@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harvard FAS · CFO Intelligence Suite · FY2025–27</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   DESIGN SYSTEM — Harvard FAS CFO Clean Light
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  --cr: #A51C30; --cr2: #7A1222; --cr-pale: #FDF2F4; --cr-border: rgba(165,28,48,.2);
+  --gold: #B07D2A; --gold2: #C9A240; --gold-pale: #FDFAF2; --gold-border: rgba(176,125,42,.25);
+  --green: #1B6B42; --green-pale: #EDF7F2; --green-dim: rgba(27,107,66,.12);
+  --blue: #1A4D8A; --blue-pale: #EEF4FF; --blue-dim: rgba(26,77,138,.12);
+  --amber: #B45309; --amber-pale: #FFF7EC; --amber-dim: rgba(180,83,9,.12);
+  --purple: #5B21B6; --purple-pale: #F5F0FF;
+  --red: #DC2626; --red-pale: #FEF2F2;
+  --ink: #F1F4F8; --panel: #FFFFFF; --card: #FFFFFF;
+  --sidebar-bg: #12243A; --topbar-bg: #FFFFFF;
+  --border: rgba(26,77,138,.1); --border-bright: rgba(165,28,48,.25);
+  --text: #111827; --text-2: #374151; --text-muted: #6B7280; --text-dim: #9CA3AF; --text-inv: #FFFFFF;
+  --shadow-sm: 0 1px 4px rgba(0,0,0,.06); --shadow-md: 0 4px 16px rgba(0,0,0,.1); --shadow-lg: 0 8px 32px rgba(0,0,0,.14);
+  --head: 'Plus Jakarta Sans', sans-serif; --serif: 'Libre Baskerville', Georgia, serif;
+  --body: 'Plus Jakarta Sans', sans-serif; --mono: 'IBM Plex Mono', monospace;
+  --r: 10px; --transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--ink);color:var(--text);font-family:var(--body);font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--ink)}::-webkit-scrollbar-thumb{background:rgba(165,28,48,.3);border-radius:3px}
+
+/* ━━ LAYOUT */
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+
+/* ━━ SIDEBAR */
+.sidebar{background:var(--sidebar-bg);border-right:none;padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column;box-shadow:2px 0 12px rgba(0,0,0,.15)}
+.brand{padding:22px 20px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.brand-crest{width:34px;height:34px;background:var(--cr);border-radius:7px;display:inline-flex;align-items:center;justify-content:center;margin-bottom:10px}
+.brand-crest span{font-family:var(--serif);font-size:12px;font-weight:700;color:#fff}
+.brand-mark{font-family:var(--head);font-size:11.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:3px}
+.brand-sub{font-size:10px;color:rgba(255,255,255,.45);font-weight:300;line-height:1.4}
+.brand-role{display:inline-block;margin-top:8px;font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#C9A240;background:rgba(201,162,64,.12);border:1px solid rgba(201,162,64,.3);border-radius:3px;padding:3px 8px}
+.nav-section{padding:10px 0}
+.nav-label{font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 20px 7px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 20px;font-size:12.5px;color:rgba(255,255,255,.55);cursor:pointer;transition:var(--transition);border-left:2px solid transparent;font-weight:400}
+.nav-item:hover{color:rgba(255,255,255,.9);background:rgba(255,255,255,.05)}
+.nav-item.active{color:#fff;border-left-color:var(--cr);background:rgba(165,28,48,.18)}
+.nav-item i{width:14px;font-size:12px;flex-shrink:0;opacity:.7}
+.nav-item.active i{opacity:1}
+.nav-badge{margin-left:auto;font-size:9px;font-family:var(--mono);background:rgba(165,28,48,.6);border-radius:3px;padding:2px 6px;color:#fff}
+.nav-badge.warn{background:rgba(180,83,9,.6)}
+.sidebar-footer{margin-top:auto;padding:16px 20px;border-top:1px solid rgba(255,255,255,.08)}
+.sf-label{font-size:9px;color:rgba(255,255,255,.3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+.sf-date{font-family:var(--mono);font-size:11px;color:rgba(201,162,64,.8)}
+.sf-note{font-size:10px;color:rgba(255,255,255,.3);margin-top:3px;line-height:1.4;font-style:italic}
+
+/* ━━ MAIN */
+.main{padding:0;overflow-x:hidden}
+
+/* ━━ ACCENT BAR */
+.accent-bar{height:3px;background:linear-gradient(90deg,var(--cr) 0%,var(--gold2) 40%,var(--green) 70%,var(--blue) 100%)}
+
+/* ━━ TOPBAR */
+.topbar{background:var(--topbar-bg);border-bottom:1px solid var(--border);padding:11px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:var(--shadow-sm)}
+.topbar-left{display:flex;flex-direction:column}
+.topbar-title{font-family:var(--head);font-size:13px;font-weight:700;letter-spacing:-.01em;color:var(--cr)}
+.topbar-meta{font-size:10.5px;color:var(--text-dim);font-family:var(--mono)}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.fy-select{background:var(--ink);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:var(--body);font-size:12px;padding:5px 10px;cursor:pointer}
+.hc{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:10px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--border);background:var(--ink);color:var(--text-muted);white-space:nowrap}
+.hc.alert-chip{background:var(--red-pale);color:var(--red);border-color:rgba(220,38,38,.25)}
+.hc.warn-chip{background:var(--amber-pale);color:var(--amber);border-color:rgba(180,83,9,.25)}
+.hc.live{background:var(--green-pale);color:var(--green);border-color:rgba(27,107,66,.2)}
+.hc.live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* ━━ VIEW TABS */
+.view-tabs{display:flex;gap:6px;padding:14px 28px 0;background:var(--topbar-bg);border-bottom:1px solid var(--border)}
+.vtab{font-size:11.5px;font-weight:600;padding:9px 18px 11px;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;color:var(--text-muted);cursor:pointer;transition:var(--transition);letter-spacing:.02em;font-family:var(--body)}
+.vtab:hover{color:var(--cr)}
+.vtab.active{color:var(--cr);border-bottom-color:var(--cr)}
+
+/* ━━ DASH TABS */
+.dash-tabs{background:var(--topbar-bg);border-bottom:1px solid var(--border);padding:0 28px}
+.dash-tabs-inner{display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.dash-tabs-inner::-webkit-scrollbar{display:none}
+.dtab{display:flex;align-items:center;gap:6px;padding:10px 16px 9px;font-size:11.5px;font-weight:600;letter-spacing:.03em;color:var(--text-muted);border:none;background:none;border-bottom:2px solid transparent;cursor:pointer;transition:var(--transition);white-space:nowrap;font-family:var(--body)}
+.dtab i{font-size:10.5px}
+.dtab:hover{color:var(--text)}
+.dtab.active{color:var(--cr);border-bottom-color:var(--cr)}
+.dtab .badge{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--cr);color:#fff;font-family:var(--mono)}
+
+/* ━━ CONTENT */
+.content{padding:28px 32px;background:var(--ink)}
+.pane{display:none}.pane.active{display:block}
+.dash-panel{display:none}.dash-panel.active{display:block}
+
+/* ━━ PAGE HEADER */
+.page-eyebrow{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;display:flex;align-items:center;gap:7px}
+.page-eyebrow::before{content:'';width:18px;height:2px;background:var(--gold2);border-radius:2px;flex-shrink:0}
+.page-title{font-family:var(--serif);font-size:clamp(1.3rem,2vw,1.8rem);font-weight:700;color:var(--text);line-height:1.2;margin-bottom:5px}
+.page-title em{color:var(--cr);font-style:italic}
+.page-rule{height:1px;background:linear-gradient(90deg,var(--cr),var(--gold2),transparent);opacity:.3;margin:10px 0 16px}
+.page-dek{font-size:13px;color:var(--text-2);line-height:1.75;max-width:860px;margin-bottom:20px}
+
+/* ━━ WATERMARK */
+.watermark-strip{background:#FFF8EC;border:1px solid #FDDFA0;border-radius:8px;padding:9px 16px;display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:8px}
+.wm-left{font-size:10.5px;color:#7A520A;font-style:italic}
+.wm-right{font-size:10px;font-family:var(--mono);color:var(--cr);font-weight:500}
+
+/* ━━ SECTION */
+.section{margin-bottom:40px}
+.sdiv{margin:24px 0 16px;display:flex;align-items:center;gap:12px}
+.sdiv-title{font-family:var(--serif);font-size:1.05rem;font-weight:700;color:var(--text);white-space:nowrap}
+.sdiv-line{flex:1;height:1px;background:var(--border)}
+.sdiv-tag{font-family:var(--mono);font-size:9.5px;padding:3px 8px;border-radius:4px;background:var(--card);border:1px solid var(--border);color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap}
+
+/* ━━ KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.kpi-row-5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;cursor:pointer;transition:var(--transition)}
+.kpi:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.kpi::after{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0}
+.kpi.red::after{background:var(--cr)}.kpi.gold::after{background:var(--gold2)}.kpi.green::after{background:var(--green)}.kpi.blue::after{background:var(--blue)}.kpi.amber::after{background:var(--amber)}.kpi.purple::after{background:var(--purple)}
+.kpi-label{font-family:var(--mono);font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--text-dim);margin-bottom:5px}
+.kpi-val{font-family:var(--serif);font-size:1.85rem;font-weight:700;color:var(--text);line-height:1;letter-spacing:-.03em;margin-bottom:4px}
+.kpi-val.neg{color:var(--cr)}.kpi-val.pos{color:var(--green)}.kpi-val.warn{color:var(--amber)}
+.kpi-sub{font-size:11px;color:var(--text-muted)}
+.kpi-delta{font-family:var(--mono);font-size:10px;font-weight:600;margin-top:3px}
+.kd-up{color:var(--green)}.kd-dn{color:var(--cr)}.kd-warn{color:var(--amber)}
+
+/* ━━ CHART CARDS */
+.chart-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.chart-grid-3{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:18px}
+.chart-grid-3r{display:grid;grid-template-columns:1fr 2fr;gap:14px;margin-bottom:18px}
+.chart-grid-13{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:18px}
+.cc{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow-sm)}
+.cc:hover{border-color:rgba(165,28,48,.2)}
+.cc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:10px;flex-wrap:wrap}
+.cc-title{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-2)}
+.cc-sub{font-size:11px;color:var(--text-dim);margin-top:2px}
+.cw{position:relative;height:220px}.cw-lg{position:relative;height:280px}.cw-sm{position:relative;height:160px}
+
+/* ━━ CALLOUTS */
+.callout{border-radius:var(--r);padding:13px 16px;margin-bottom:14px;font-size:12.5px;line-height:1.65}
+.callout h4{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;margin-bottom:5px}
+.co-cr{background:var(--cr-pale);border-left:3px solid var(--cr);color:#6B1222}
+.co-gold{background:var(--gold-pale);border-left:3px solid var(--gold2);color:#6B4A12}
+.co-green{background:var(--green-pale);border-left:3px solid var(--green);color:#145230}
+.co-blue{background:var(--blue-pale);border-left:3px solid var(--blue);color:#1A3A6A}
+.co-amber{background:var(--amber-pale);border-left:3px solid var(--amber);color:#78350F}
+
+/* ━━ ECONOMIC REALITY STRIP */
+.econ-strip{background:var(--card);border:1px solid var(--cr-border);border-radius:var(--r);padding:14px 18px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.econ-strip-label{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--cr);margin-bottom:12px;display:flex;align-items:center;gap:7px}
+.econ-kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.econ-kpi{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--ink);border:1px solid var(--border);border-radius:7px;cursor:pointer;transition:border-color .18s;flex:1;min-width:120px}
+.econ-kpi:hover{border-color:var(--cr)}
+.econ-kpi-val{font-family:var(--serif);font-size:1.2rem;font-weight:700;line-height:1}
+.econ-kpi-val.deficit{color:var(--cr)}.econ-kpi-val.warn{color:var(--amber)}.econ-kpi-val.ok{color:var(--green)}
+.econ-kpi-meta{display:flex;flex-direction:column}
+.econ-kpi-label{font-family:var(--mono);font-size:8.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)}
+.econ-kpi-sub{font-size:10.5px;color:var(--text-muted);line-height:1.3;margin-top:1px}
+.econ-btns{display:flex;gap:8px;flex-wrap:wrap}
+.scenario-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:11.5px;font-weight:600;background:var(--cr);color:#fff;border:none;cursor:pointer;transition:filter .18s;white-space:nowrap}
+.scenario-btn:hover{filter:brightness(.9)}
+.audience-btn{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:6px;font-size:11.5px;font-weight:600;background:var(--ink);color:var(--text-2);border:1px solid var(--border);cursor:pointer;transition:var(--transition)}
+.audience-btn:hover{border-color:var(--cr);color:var(--cr)}
+
+/* ━━ ALERT CENTER */
+.alert-center{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.alert-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;gap:10px;flex-wrap:wrap}
+.alert-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.alert-sub{font-size:11.5px;color:var(--text-muted)}
+.alert-count{font-family:var(--mono);font-size:10px;color:var(--cr);font-weight:600;white-space:nowrap;padding:4px 10px;background:var(--cr-pale);border-radius:20px;border:1px solid var(--cr-border)}
+.alert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.alert-card{border-radius:8px;padding:12px 14px;cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid}
+.alert-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.alert-card.red{background:var(--cr-pale);border-color:var(--cr-border)}
+.alert-card.amber{background:var(--amber-pale);border-color:rgba(180,83,9,.2)}
+.alert-card.blue{background:var(--blue-pale);border-color:rgba(26,77,138,.2)}
+.alert-sev{font-family:var(--mono);font-size:8.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.alert-card.red .alert-sev{color:var(--cr)}.alert-card.amber .alert-sev{color:var(--amber)}.alert-card.blue .alert-sev{color:var(--blue)}
+.alert-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:3px}
+.alert-meta{font-size:10.5px;color:var(--text-muted)}
+
+/* ━━ CFO ACTION ROOM */
+.cfo-ribbon{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.cfo-ribbon-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.cfo-ribbon-eyebrow{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--cr);margin-bottom:4px}
+.cfo-ribbon-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.cfo-ribbon-sub{font-size:12px;color:var(--text-muted);max-width:680px;line-height:1.6}
+.cfo-action-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.cfo-action-card{border-radius:8px;padding:14px;cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid}
+.cfo-action-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.cfo-action-card.risk{background:var(--cr-pale);border-color:var(--cr-border)}
+.cfo-action-card.warn{background:var(--amber-pale);border-color:rgba(180,83,9,.2)}
+.cfo-action-card.gold{background:var(--gold-pale);border-color:var(--gold-border)}
+.cfo-action-card.info{background:var(--blue-pale);border-color:rgba(26,77,138,.2)}
+.cfo-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.cfo-card-label{font-family:var(--mono);font-size:8.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted)}
+.cfo-card-deadline{font-family:var(--mono);font-size:8.5px;color:var(--text-dim)}
+.cfo-card-title{font-size:11.5px;font-weight:600;color:var(--text);margin-bottom:6px;line-height:1.4}
+.cfo-card-amt{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--cr);margin-bottom:5px}
+.cfo-action-card.warn .cfo-card-amt{color:var(--amber)}
+.cfo-action-card.gold .cfo-card-amt{color:var(--gold)}
+.cfo-action-card.info .cfo-card-amt{color:var(--blue)}
+.cfo-card-rec{font-size:10.5px;color:var(--text-muted);line-height:1.5}
+
+/* ━━ TABLE */
+.dtbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.dtbl thead tr{background:var(--ink)}
+.dtbl th{padding:9px 12px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);border-bottom:2px solid var(--border);text-align:left}
+.dtbl td{padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.04);color:var(--text-2);vertical-align:middle}
+.dtbl tr:last-child td{border-bottom:none}
+.dtbl tr:hover td{background:rgba(165,28,48,.025);cursor:pointer}
+.dt-name{font-weight:600;color:var(--text)}
+.dt-code{font-family:var(--mono);font-size:9.5px;color:var(--text-dim);margin-top:1px}
+
+/* ━━ STATUS PILLS */
+.pill{display:inline-flex;align-items:center;padding:2px 8px;border-radius:20px;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.p-ok{background:var(--green-pale);color:var(--green)}.p-warn{background:var(--amber-pale);color:var(--amber)}.p-risk{background:var(--cr-pale);color:var(--cr)}.p-info{background:var(--blue-pale);color:var(--blue)}.p-purple{background:var(--purple-pale);color:var(--purple)}
+
+/* ━━ INSIGHT STRIP */
+.insight-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.insight{background:var(--cr-pale);border:1px solid var(--cr-border);border-radius:var(--r);padding:14px 16px}
+.insight-label{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cr);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+.insight-label::before{content:'›';font-size:13px}
+.insight-text{font-size:12.5px;color:var(--text-muted);line-height:1.65}
+.insight-text strong{color:var(--text-2);font-weight:600}
+.insight.gold{background:var(--gold-pale);border-color:var(--gold-border)}
+.insight.gold .insight-label{color:var(--gold)}
+.insight.green{background:var(--green-pale);border-color:rgba(27,107,66,.2)}
+.insight.green .insight-label{color:var(--green)}
+
+/* ━━ ANALYST BLOCK */
+.analyst-block{background:linear-gradient(135deg,var(--cr-pale),#FEF7F7);border:1px solid var(--cr-border);border-left:3px solid var(--cr);border-radius:0 var(--r) var(--r) 0;padding:16px 20px;margin-top:14px}
+.an-head{font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cr);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.an-items{display:flex;flex-direction:column;gap:7px}
+.an-item{display:flex;gap:10px;font-size:12.5px;color:var(--text-muted);line-height:1.6}
+.an-item::before{content:'→';color:var(--cr);flex-shrink:0;font-weight:700}
+.an-item strong{color:var(--text-2);font-weight:600}
+
+/* ━━ MONTH GRID */
+.month-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:6px;margin-bottom:14px}
+.month-card{background:var(--green-pale);border:1px solid rgba(27,107,66,.2);border-radius:8px;padding:10px 8px;text-align:center;cursor:pointer;transition:var(--transition)}
+.month-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.month-card.current{border-color:var(--gold2);background:var(--gold-pale)}
+.month-card.forecast{background:var(--cr-pale);border-color:var(--cr-border)}
+.month-label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.month-actual{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:2px}
+.month-plan{font-size:9.5px;color:var(--text-muted);margin-bottom:2px}
+.month-var{font-family:var(--mono);font-size:9.5px;font-weight:600}
+
+/* ━━ MINI BARS */
+.mini-bars{display:flex;flex-direction:column;gap:10px}
+.mini-bar-row{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text-2);cursor:pointer;transition:var(--transition);padding:4px 8px;border-radius:6px}
+.mini-bar-row:hover{background:var(--ink);color:var(--cr)}
+.mini-bar-row strong{min-width:160px;font-weight:500}
+.mini-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.mini-fill{height:100%;background:var(--cr);border-radius:3px;transition:width 1s ease}
+.mini-bar-row span{font-family:var(--mono);font-size:11px;min-width:52px;text-align:right;color:var(--text-muted)}
+
+/* ━━ SCENARIO PANEL */
+.scenario-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:20px 22px;margin-bottom:18px;box-shadow:var(--shadow-sm)}
+.sp-eyebrow{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.sp-title{font-family:var(--serif);font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:5px}
+.sp-sub{font-size:12.5px;color:var(--text-muted);margin-bottom:14px;line-height:1.6;max-width:940px}
+.sp-inputs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.sp-input{background:var(--ink);border:1px solid var(--border);border-radius:8px;padding:12px 14px}
+.sp-input-label{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px}
+.sp-input-val{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--cr);line-height:1;margin-bottom:3px}
+.sp-input input[type=range]{width:100%;accent-color:var(--cr);margin-top:5px;cursor:pointer}
+.sp-input-sub{font-size:10.5px;color:var(--text-muted);margin-top:2px}
+.sp-output{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.sp-out{background:var(--ink);border:1px solid var(--border);border-radius:8px;padding:11px 14px}
+.sp-out-val{font-family:var(--serif);font-size:1.2rem;font-weight:700;line-height:1;margin-bottom:3px}
+.sp-out-label{font-family:var(--mono);font-size:9px;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
+.sp-formula{margin-top:10px;border-top:1px solid var(--border);padding-top:8px;font-size:11.5px;color:var(--text-muted);line-height:1.6;font-family:var(--mono)}
+
+/* ━━ HEAT MAP */
+.heat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+.heat-cell{border-radius:8px;padding:12px 14px;cursor:pointer;transition:transform .15s,box-shadow .15s;border:1px solid}
+.heat-cell:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.h-ok{background:var(--green-pale);color:var(--green);border-color:rgba(27,107,66,.2)}
+.h-warn{background:var(--amber-pale);color:var(--amber);border-color:rgba(180,83,9,.2)}
+.h-risk{background:var(--cr-pale);color:var(--cr);border-color:var(--cr-border)}
+.h-info{background:var(--blue-pale);color:var(--blue);border-color:rgba(26,77,138,.2)}
+.heat-cell h4{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;font-weight:600}
+.heat-cell .hv{font-family:var(--serif);font-size:1.2rem;font-weight:700;line-height:1;margin-bottom:2px}
+.heat-cell p{font-size:10.5px;line-height:1.35}
+
+/* ━━ PROGRESS BARS */
+.pbar{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.pbar-track{flex:1;height:5px;background:var(--border);border-radius:10px;overflow:hidden}
+.pbar-fill{height:100%;border-radius:10px}
+.pf-green{background:var(--green)}.pf-red{background:var(--cr)}.pf-gold{background:var(--gold2)}.pf-amber{background:var(--amber)}
+.pbar-label{font-size:11.5px;color:var(--text-2);min-width:160px}
+.pbar-val{font-family:var(--mono);font-size:10px;font-weight:600;color:var(--text-2);min-width:36px;text-align:right}
+
+/* ━━ DIV LINE */
+.div-line{border:none;border-top:2px solid rgba(165,28,48,.06);margin:32px 0}
+
+/* ━━ XBTN */
+.xbtn{display:inline-flex;align-items:center;gap:5px;padding:5px 11px;border-radius:6px;font-size:11.5px;font-weight:600;background:var(--ink);color:var(--text-2);border:1px solid var(--border);cursor:pointer;transition:var(--transition);font-family:var(--body)}
+.xbtn:hover{border-color:var(--cr);color:var(--cr)}
+.xbtn.primary{background:var(--cr);color:#fff;border-color:var(--cr)}
+.xbtn.primary:hover{background:var(--cr2);border-color:var(--cr2)}
+.xbtn i{font-size:10.5px}
+
+/* ━━ ORACLE CHIPS */
+.oracle-feature{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:5px;font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border:1px solid rgba(201,162,64,.3);color:var(--gold);background:var(--gold-pale);margin-right:8px;margin-bottom:6px}
+.oracle-feature i{font-size:10px}
+
+/* ━━ MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(17,24,39,.5);backdrop-filter:blur(6px);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal-bg.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:14px;box-shadow:var(--shadow-lg);max-width:820px;width:100%;max-height:90vh;overflow-y:auto;padding:0;position:relative;transform:scale(.96);transition:transform .25s}
+.modal-bg.open .modal{transform:scale(1)}
+.modal-head{padding:20px 24px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.modal-tag{font-family:var(--mono);font-size:9.5px;font-weight:500;letter-spacing:.15em;text-transform:uppercase;margin-bottom:5px;color:var(--cr)}
+.modal-title{font-family:var(--serif);font-size:1.2rem;font-weight:700;color:var(--text);line-height:1.2}
+.modal-close{width:28px;height:28px;border-radius:50%;background:var(--ink);border:1px solid var(--border);color:var(--text-muted);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;transition:background .15s,color .15s}
+.modal-close:hover{background:var(--cr);color:#fff;border-color:var(--cr)}
+.modal-div{height:1px;background:var(--border);margin:14px 24px}
+.modal-body{padding:0 24px 24px;font-size:13px;line-height:1.7;color:var(--text-2)}
+.m-metric-row{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.m-metric{flex:1;min-width:100px;background:var(--ink);border-radius:8px;padding:12px 14px;text-align:center}
+.m-mval{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--text);line-height:1;margin-bottom:3px}
+.m-mval.neg{color:var(--cr)}.m-mval.warn{color:var(--amber)}
+.m-mlabel{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted)}
+.m-section{margin-bottom:14px}
+.m-stitle{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-2);margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border)}
+.m-bullets{padding-left:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.m-bullets li{padding-left:16px;position:relative;font-size:12.5px;color:var(--text-2);line-height:1.65}
+.m-bullets li::before{content:'→';position:absolute;left:0;color:var(--cr);font-weight:700}
+.m-bullets.gld li::before{color:var(--gold)}
+
+/* ━━ AUDIENCE NOTE */
+.audience-note{background:var(--blue-pale);border-left:3px solid var(--blue);border-radius:0 8px 8px 0;padding:12px 16px;font-size:12.5px;color:var(--text-2);line-height:1.65;margin-bottom:14px;display:none}
+.audience-note.show{display:block}
+
+/* ━━ YEAR TABS */
+.year-tabs{display:flex;gap:6px;margin-bottom:14px}
+.ytab{font-size:11px;font-family:var(--mono);padding:5px 13px;border-radius:6px;border:1px solid var(--border);background:var(--card);color:var(--text-muted);cursor:pointer;transition:var(--transition)}
+.ytab:hover{color:var(--cr);border-color:rgba(165,28,48,.3)}
+.ytab.active{background:var(--cr);border-color:var(--cr);color:#fff;font-weight:500}
+
+/* ━━ CHANNEL MATRIX (used for divisional view) */
+.div-matrix{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.div-cell{background:var(--card);border-radius:var(--r);padding:16px 14px;border:1px solid var(--border);text-align:center;cursor:pointer;transition:var(--transition);box-shadow:var(--shadow-sm)}
+.div-cell:hover{transform:translateY(-3px);border-color:rgba(165,28,48,.3);box-shadow:var(--shadow-md)}
+.div-icon{font-size:18px;margin-bottom:8px}
+.div-name{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-bottom:7px}
+.div-val{font-family:var(--serif);font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.div-sub{font-size:10px;color:var(--text-muted);font-family:var(--mono)}
+.div-bar{height:4px;border-radius:2px;margin-top:10px}
+
+/* ━━ WORKFRAME VIEW */
+.wf-section{margin-bottom:36px}
+.wf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.wf-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px;cursor:pointer;transition:var(--transition);box-shadow:var(--shadow-sm)}
+.wf-card:hover{border-color:rgba(165,28,48,.3);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.wf-card-num{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px}
+.wf-card-title{font-family:var(--serif);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.3}
+.wf-card-owner{font-size:11px;color:var(--text-muted);margin-bottom:8px}
+.wf-card-deadline{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;font-weight:600;padding:3px 9px;border-radius:20px;margin-bottom:8px}
+.wf-card-deadline.critical{background:var(--cr-pale);color:var(--cr);border:1px solid var(--cr-border)}
+.wf-card-deadline.build{background:var(--blue-pale);color:var(--blue);border:1px solid rgba(26,77,138,.2)}
+.wf-card-deadline.priority{background:var(--gold-pale);color:var(--gold);border:1px solid var(--gold-border)}
+.wf-card-deadline.urgent{background:var(--amber-pale);color:var(--amber);border:1px solid rgba(180,83,9,.2)}
+.wf-card-deadline.opp{background:var(--green-pale);color:var(--green);border:1px solid rgba(27,107,66,.2)}
+.wf-card-deadline.board{background:var(--purple-pale);color:var(--purple);border:1px solid rgba(91,33,182,.2)}
+.wf-card-desc{font-size:12px;color:var(--text-muted);line-height:1.6}
+.wf-card-amt{font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--cr);margin-bottom:4px}
+
+/* ━━ STATUS FLAGS */
+.flag{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px}
+.flag.ok{background:var(--green-pale);color:var(--green);border:1px solid rgba(27,107,66,.2)}
+.flag.warn{background:var(--amber-pale);color:var(--amber);border:1px solid rgba(180,83,9,.2)}
+.flag.alert{background:var(--cr-pale);color:var(--cr);border:1px solid var(--cr-border)}
+
+/* ━━ RESPONSIVE */
+@media(max-width:1100px){
+.shell{grid-template-columns:1fr}
+.sidebar{position:relative;height:auto;flex-direction:row;flex-wrap:wrap;min-height:auto}
+.kpi-row,.kpi-row-5{grid-template-columns:repeat(2,minmax(0,1fr))}
+.chart-grid-2,.chart-grid-3,.chart-grid-3r,.chart-grid-13{grid-template-columns:1fr}
+.cfo-action-grid{grid-template-columns:repeat(2,1fr)}
+.alert-grid{grid-template-columns:repeat(2,1fr)}
+.heat-grid,.div-matrix{grid-template-columns:repeat(3,1fr)}
+.month-grid{grid-template-columns:repeat(6,1fr)}
+.sp-inputs,.sp-output{grid-template-columns:1fr 1fr}
+.wf-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:700px){
+.kpi-row,.kpi-row-5{grid-template-columns:1fr 1fr}
+.alert-grid,.cfo-action-grid{grid-template-columns:1fr}
+.heat-grid,.div-matrix,.wf-grid{grid-template-columns:repeat(2,1fr)}
+.month-grid{grid-template-columns:repeat(4,1fr)}
+.insight-strip{grid-template-columns:1fr}
+.econ-kpis{flex-direction:column}
+.sp-inputs,.sp-output{grid-template-columns:1fr}
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   GLITCH FIX LAYER — contrast tabs, non-overlapping reading/search toolbar
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.view-tabs{position:relative;z-index:46;gap:10px;padding:14px 28px 0;background:#fff}
+.vtab{background:var(--blue);color:#fff;border:1px solid rgba(26,77,138,.28);border-bottom:none;border-radius:9px 9px 0 0;padding:10px 18px 12px;box-shadow:0 2px 8px rgba(26,77,138,.14)}
+.vtab:hover{background:#143B69;color:#fff;transform:translateY(-1px)}
+.vtab.active{background:var(--cr);color:#fff;border-color:var(--cr);border-bottom-color:var(--cr);box-shadow:0 4px 14px rgba(165,28,48,.20)}
+.dash-tabs{position:relative;z-index:45;background:#fff;padding:10px 28px 12px;border-bottom:1px solid var(--border)}
+.dash-tabs-inner{gap:8px;align-items:center}
+.dtab{background:var(--blue);color:#fff;border:1px solid rgba(26,77,138,.22);border-bottom:none;border-radius:8px;padding:9px 14px;box-shadow:0 1px 6px rgba(26,77,138,.12)}
+.dtab:nth-child(2){background:#244E75}.dtab:nth-child(3){background:#1B6B42}.dtab:nth-child(4){background:#7A1222}.dtab:nth-child(5){background:#5B21B6}
+.dtab:hover{color:#fff;filter:brightness(.92);transform:translateY(-1px)}
+.dtab.active{background:var(--cr)!important;color:#fff;border-color:var(--cr);box-shadow:0 4px 14px rgba(165,28,48,.18)}
+.dtab .badge{background:#fff;color:var(--cr);font-weight:800}
+.dashboard-tools{position:relative;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border-bottom:1px solid var(--border);padding:12px 28px;box-shadow:var(--shadow-sm)}
+.reading-track{display:flex;align-items:center;gap:7px;flex-wrap:wrap;min-width:0}
+.reading-title{font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-right:2px;white-space:nowrap}
+.reading-progress{font-family:var(--mono);font-size:9.5px;color:var(--green);background:var(--green-pale);border:1px solid rgba(27,107,66,.18);border-radius:20px;padding:3px 8px;white-space:nowrap}
+.reading-step{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--border);background:var(--ink);color:var(--text-2);border-radius:20px;padding:5px 10px;font-size:10.5px;font-weight:700;cursor:pointer;transition:var(--transition);font-family:var(--body);white-space:nowrap}
+.reading-step::before{content:'○';font-family:var(--mono);font-size:10px;color:var(--text-dim)}
+.reading-step.done{background:var(--green-pale);border-color:rgba(27,107,66,.22);color:var(--green)}
+.reading-step.done::before{content:'✓';color:var(--green)}
+.reading-step.active{background:var(--cr-pale);border-color:var(--cr-border);color:var(--cr);box-shadow:0 0 0 2px rgba(165,28,48,.06)}
+.reading-reset{border:1px solid var(--border);background:#fff;color:var(--text-muted);border-radius:18px;padding:5px 9px;font-size:10px;font-weight:700;cursor:pointer;white-space:nowrap}
+.reading-reset:hover{border-color:var(--cr);color:var(--cr)}
+.keyword-search{display:flex;align-items:center;gap:7px;background:var(--ink);border:1px solid var(--border);border-radius:20px;padding:6px 10px;min-width:260px;max-width:360px;flex:0 0 310px;color:var(--text-muted)}
+.keyword-search:focus-within{border-color:var(--cr);box-shadow:0 0 0 3px rgba(165,28,48,.08);background:#fff}
+.keyword-search input{border:none;outline:none;background:transparent;width:100%;font-family:var(--body);font-size:12px;color:var(--text)}
+.search-count{font-family:var(--mono);font-size:9px;color:var(--text-dim);white-space:nowrap}
+mark.cfo-search-hit{background:#FFF3B0;color:var(--text);border-radius:3px;padding:0 2px}
+@media(max-width:1100px){.dashboard-tools{align-items:flex-start;flex-direction:column}.keyword-search{flex:1 1 auto;width:100%;max-width:none}}
+@media(max-width:700px){.view-tabs,.dash-tabs,.dashboard-tools{padding-left:16px;padding-right:16px}.dtab{font-size:10.5px;padding:8px 10px}.reading-track{gap:5px}.reading-step{font-size:10px;padding:4px 8px}.keyword-search{min-width:0}}
+
+</style>
+</head>
+<body>
+
+<!-- ━━━━━━━━━━━━━━━ MODAL (Shared) ━━━━━━━━━━━━━━━ -->
+<div class="modal-bg" id="modalBg" onclick="closeBgModal(event)">
+  <div class="modal" id="modalBox" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <div>
+        <div class="modal-tag" id="modalTag">Detail</div>
+        <div class="modal-title" id="modalTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-div"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="shell">
+<!-- ━━━━━━━━━━━━━━━ SIDEBAR ━━━━━━━━━━━━━━━ -->
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-crest"><span>H</span></div>
+    <div class="brand-mark">Harvard FAS Finance</div>
+    <div class="brand-sub">Faculty of Arts &amp; Sciences<br>CFO Intelligence Suite · FY2025–27</div>
+    <div class="brand-role">CFO Office View</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Executive</div>
+    <div class="nav-item active" onclick="switchView('analytics','d1',this)">
+      <i class="fa fa-heartbeat"></i> Executive Health <span class="nav-badge">!</span>
+    </div>
+    <div class="nav-item" onclick="switchView('analytics','d2',this)">
+      <i class="fa fa-sitemap"></i> Divisional Ops
+    </div>
+    <div class="nav-item" onclick="switchView('analytics','d3',this)">
+      <i class="fa fa-graduation-cap"></i> Academic Revenue
+    </div>
+    <div class="nav-item" onclick="switchView('analytics','d4',this)">
+      <i class="fa fa-flask"></i> Sponsored Research <span class="nav-badge warn">!</span>
+    </div>
+    <div class="nav-item" onclick="switchView('analytics','d5',this)">
+      <i class="fa fa-hard-hat"></i> Capital &amp; Facilities
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">CFO Operational</div>
+    <div class="nav-item" onclick="switchView('workframe',null,this)">
+      <i class="fa fa-tasks"></i> Priority Workframe
+    </div>
+    <div class="nav-item" onclick="switchView('analytics','d1',this,'cal')">
+      <i class="fa fa-calendar"></i> Strategic Calendar
+    </div>
+    <div class="nav-item" onclick="switchView('analytics','d1',this,'workforce')">
+      <i class="fa fa-users"></i> Workforce Finance
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Data Sources</div>
+    <div class="nav-item" onclick="openModalData('source-legend')">
+      <i class="fa fa-database"></i> Data Trust &amp; Lineage
+    </div>
+    <div class="nav-item" onclick="window.open('https://news.harvard.edu/gazette/story/2025/10/harvard-reports-operating-deficit-amid-federal-funding-cuts/','_blank')">
+      <i class="fa fa-external-link-alt"></i> Harvard Gazette FY25
+    </div>
+    <div class="nav-item" onclick="window.open('https://www.fas.harvard.edu/news/2025/11/updates-fas-finances-and-workforce-planning','_blank')">
+      <i class="fa fa-external-link-alt"></i> FAS Finance Update
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sf-label">Report Date</div>
+    <div class="sf-date">May 2026 · FY26 Close</div>
+    <div class="sf-note">FAS-published + synthetic Oracle EPM sample. Not connected to Harvard backend systems.</div>
+  </div>
+</aside>
+
+<!-- ━━━━━━━━━━━━━━━ MAIN ━━━━━━━━━━━━━━━ -->
+<main class="main">
+<div class="accent-bar"></div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <div class="topbar-title">CFO Intelligence Suite · Harvard Faculty of Arts &amp; Sciences</div>
+    <div class="topbar-meta"><span id="fyNote">FY26 Close-Control</span> · FY2025–27 Rolling Fiscal View · Oracle OAS + HART Source Target</div>
+  </div>
+  <div class="topbar-right">
+    <select class="fy-select" id="fySelect" onchange="setFiscalScope(this.value)">
+      <option value="close">FY26 Close</option>
+      <option value="next">FY27 Budget Build</option>
+      <option value="rolling">Rolling 18 Months</option>
+    </select>
+    <span class="hc alert-chip"><i class="fa fa-triangle-exclamation"></i> 9 Alerts</span>
+    <span class="hc warn-chip"><i class="fa fa-flask"></i> ICR Risk</span>
+    <span class="hc live">Live Close</span>
+  </div>
+</div>
+
+<!-- VIEW TABS -->
+<div class="view-tabs">
+  <button class="vtab active" id="vtab-analytics" onclick="setViewTab('analytics')">
+    <i class="fa fa-chart-bar" style="margin-right:5px"></i> Analytics Dashboards
+  </button>
+  <button class="vtab" id="vtab-workframe" onclick="setViewTab('workframe')">
+    <i class="fa fa-tasks" style="margin-right:5px"></i> CFO Workframe &amp; Priorities
+  </button>
+</div>
+
+<!-- ANALYTICS PANE -->
+<div class="pane active" id="pane-analytics">
+  <div style="background:var(--topbar-bg);border-bottom:1px solid var(--border)">
+    <div class="dash-tabs">
+      <div class="dash-tabs-inner">
+        <button class="dtab active" id="dtab-d1" onclick="switchDash('d1',this)"><i class="fa fa-heartbeat"></i> Dashboard 1 · Executive Health</button>
+        <button class="dtab" id="dtab-d2" onclick="switchDash('d2',this)"><i class="fa fa-sitemap"></i> Dashboard 2 · Divisional Ops</button>
+        <button class="dtab" id="dtab-d3" onclick="switchDash('d3',this)"><i class="fa fa-graduation-cap"></i> Dashboard 3 · Academic Revenue</button>
+        <button class="dtab" id="dtab-d4" onclick="switchDash('d4',this)"><i class="fa fa-flask"></i> Dashboard 4 · Sponsored Research <span class="badge">!</span></button>
+        <button class="dtab" id="dtab-d5" onclick="switchDash('d5',this)"><i class="fa fa-hard-hat"></i> Dashboard 5 · Capital &amp; Facilities</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashboard-tools" id="dashboardTools" aria-label="Dashboard reading track and search">
+    <div class="reading-track" id="readingTrack">
+      <span class="reading-title">Reading track</span>
+      <button class="reading-step active" type="button" data-dash="d1" onclick="goReadingStep('d1')">1 Executive</button>
+      <button class="reading-step" type="button" data-dash="d2" onclick="goReadingStep('d2')">2 Divisional</button>
+      <button class="reading-step" type="button" data-dash="d3" onclick="goReadingStep('d3')">3 Revenue</button>
+      <button class="reading-step" type="button" data-dash="d4" onclick="goReadingStep('d4')">4 Research</button>
+      <button class="reading-step" type="button" data-dash="d5" onclick="goReadingStep('d5')">5 Capital</button>
+      <span class="reading-progress" id="readingProgress">0/5 checked</span>
+      <button class="reading-reset" type="button" onclick="resetReadingTrack()">Reset</button>
+    </div>
+    <label class="keyword-search" for="keywordSearch">
+      <i class="fa fa-search"></i>
+      <input id="keywordSearch" type="search" placeholder="Keyword search current view…" oninput="runKeywordSearch(this.value)">
+      <span class="search-count" id="searchCount">0 hits</span>
+    </label>
+  </div>
+
+  <div class="content">
+
+  <!-- ══════ DASHBOARD 1 ══════ -->
+  <div class="dash-panel active" id="d1">
+    <div class="page-eyebrow">Dashboard 1 of 5 · CFO &amp; Dean Executive View · Oracle OAS</div>
+    <h1 class="page-title">Executive Financial <em>Health</em></h1>
+    <div class="page-rule"></div>
+    <p class="page-dek">High-level fiscal sustainability monitor for the CFO and Deans. Rolling fiscal view: FY25 actuals, FY26 close / forecast, FY27 budget-build readiness. Maps the CFO's $1.8B+ stewardship role to operating decisions, using Harvard FAS FY2025 published context and a synthetic FY26/FY27 management sample designed for Oracle/HART integration.</p>
+
+    <div style="margin-bottom:16px">
+      <span class="oracle-feature"><i class="fa fa-robot"></i> OAS AI "Explain" on KPIs</span>
+      <span class="oracle-feature"><i class="fa fa-code-branch"></i> Oracle EPM: 3 Scenarios</span>
+      <span class="oracle-feature"><i class="fa fa-database"></i> HART GL + CPI + Grant Feeds</span>
+    </div>
+
+    <div class="watermark-strip">
+      <div class="wm-left">⚠ Sample Report — Harvard FAS FY25 published data + synthetic FY26/FY27 management model. Not connected to Harvard backend systems. For authorized use only.</div>
+      <div class="wm-right">Oracle OAS · HART Source Target · FY25–27</div>
+    </div>
+
+    <!-- DISTRIBUTION MODE -->
+    <div class="cc" style="margin-bottom:16px">
+      <div class="cc-head">
+        <div>
+          <div class="cc-title">CFO Distribution Mode</div>
+          <div class="cc-sub">Choose the audience — the dashboard changes visible priorities, alert list, and output.</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="xbtn primary" id="viewBtnInternal" onclick="setAudienceView('internal',this)"><i class="fa fa-lock"></i> Internal Office of Finance</button>
+        <button class="xbtn" id="viewBtnFas" onclick="setAudienceView('fas',this)"><i class="fa fa-building"></i> FAS-wide Leadership</button>
+        <button class="xbtn" id="viewBtnUniversity" onclick="setAudienceView('university',this)"><i class="fa fa-university"></i> University / Central</button>
+        <button class="xbtn" id="viewBtnBrief" onclick="setAudienceView('brief',this)"><i class="fa fa-file-alt"></i> Meeting Briefs</button>
+      </div>
+      <div class="audience-note show" id="audienceNote"><strong>Internal Office of Finance mode:</strong> manage close exceptions, HART/HUBS reconciliation queues, payroll and position-control cycles, report-production backlog, data QA, staffing capacity, service SLAs, and department finance partner follow-up.</div>
+    </div>
+
+    <!-- ECONOMIC REALITY STRIP -->
+    <div class="econ-strip">
+      <div class="econ-strip-label"><i class="fa fa-broadcast-tower"></i> Economic Reality · FY25 Actuals + FY26 Close + FY27 Planning</div>
+      <div class="econ-kpis">
+        <div class="econ-kpi" onclick="showDetailModal('deficit')">
+          <div><div class="econ-kpi-val deficit">−$7.7M</div></div>
+          <div class="econ-kpi-meta"><div class="econ-kpi-label">FY25 Net Result</div><div class="econ-kpi-sub">First deficit in 3 years</div></div>
+        </div>
+        <div class="econ-kpi" onclick="showDetailModal('structural')">
+          <div><div class="econ-kpi-val deficit">−$350M</div></div>
+          <div class="econ-kpi-meta"><div class="econ-kpi-label">5-Yr Structural Risk</div><div class="econ-kpi-sub">If unaddressed, FY26–30</div></div>
+        </div>
+        <div class="econ-kpi" onclick="showDetailModal('liquidity')">
+          <div><div class="econ-kpi-val warn">$191M</div></div>
+          <div class="econ-kpi-meta"><div class="econ-kpi-label">Unrestricted Reserves</div><div class="econ-kpi-sub">~43 days cash; below peer</div></div>
+        </div>
+        <div class="econ-kpi" onclick="showDetailModal('fundraising')">
+          <div><div class="econ-kpi-val ok">$222M</div></div>
+          <div class="econ-kpi-meta"><div class="econ-kpi-label">Fundraising Velocity</div><div class="econ-kpi-sub">Restricted vs usable split needed</div></div>
+        </div>
+        <div class="econ-kpi" onclick="showDetailModal('jaws')">
+          <div><div class="econ-kpi-val deficit">2×</div></div>
+          <div class="econ-kpi-meta"><div class="econ-kpi-label">Expense/Revenue Jaws</div><div class="econ-kpi-sub">Expense growth 2× faster</div></div>
+        </div>
+      </div>
+      <div class="econ-btns">
+        <button class="scenario-btn" onclick="showDetailModal('scenarios')"><i class="fa fa-sliders-h"></i> Run Oracle EPM Scenarios</button>
+        <button class="audience-btn" onclick="showDetailModal('jaws')"><i class="fa fa-chart-line"></i> Jaws Analysis</button>
+        <button class="audience-btn" onclick="showDetailModal('deficit')"><i class="fa fa-question-circle"></i> Deficit Root Cause</button>
+      </div>
+    </div>
+
+    <!-- ALERT CENTER -->
+    <div class="alert-center">
+      <div class="alert-head">
+        <div>
+          <div class="alert-title"><i class="fa fa-triangle-exclamation" style="margin-right:6px;color:var(--cr)"></i>Immediate Attention Alerts</div>
+          <div class="alert-sub">All non-green signals. Click any card for CFO suggestions, owner, pros/cons, consequence, and source rows.</div>
+        </div>
+        <div class="alert-count">9 non-green · 4 critical</div>
+      </div>
+      <div class="alert-grid">
+        <div class="alert-card red" onclick="showDetailModal('alert-junClose')"><div class="alert-sev">Critical</div><div class="alert-name">June close reversal risk</div><div class="alert-meta">$24M exposure · Controller + Budget</div></div>
+        <div class="alert-card red" onclick="showDetailModal('alert-aid')"><div class="alert-sev">Critical</div><div class="alert-name">Financial-aid demand above plan</div><div class="alert-meta">$12.2M · College + Budget</div></div>
+        <div class="alert-card red" onclick="showDetailModal('alert-research')"><div class="alert-sev">Critical</div><div class="alert-name">Research continuity / ICR risk</div><div class="alert-meta">$16.2M ICR exposure · Sponsored Research</div></div>
+        <div class="alert-card red" onclick="showDetailModal('alert-physics')"><div class="alert-sev">Critical</div><div class="alert-name">Physics third-year overrun</div><div class="alert-meta">$3.2M · Science Division</div></div>
+        <div class="alert-card amber" onclick="showDetailModal('liquidity')"><div class="alert-sev">Watch</div><div class="alert-name">Reserves at 43 days cash</div><div class="alert-meta">$191M · 13-week stress needed</div></div>
+        <div class="alert-card amber" onclick="showDetailModal('alert-tariff')"><div class="alert-sev">Watch</div><div class="alert-name">CCB supply / tariff pressure</div><div class="alert-meta">$3.5M · Procurement strategy</div></div>
+        <div class="alert-card amber" onclick="showDetailModal('alert-capital')"><div class="alert-sev">Watch</div><div class="alert-name">Capital backlog reserve draw</div><div class="alert-meta">$842M backlog · Board cycle</div></div>
+        <div class="alert-card amber" onclick="showDetailModal('alert-workforce')"><div class="alert-sev">Watch</div><div class="alert-name">Merit, reclass, succession exposure</div><div class="alert-meta">$1.46M merit · 16 reclass · 64 roles</div></div>
+        <div class="alert-card blue" onclick="showDetailModal('data-trust')"><div class="alert-sev">Data QA</div><div class="alert-name">Prototype values need source labels</div><div class="alert-meta">Actual vs forecast vs synthetic</div></div>
+      </div>
+    </div>
+
+    <!-- CFO ACTION ROOM -->
+    <div class="cfo-ribbon">
+      <div class="cfo-ribbon-head">
+        <div>
+          <div class="cfo-ribbon-eyebrow"><i class="fa fa-bolt" style="margin-right:5px"></i>CFO Action Room · Signal to Decision</div>
+          <div class="cfo-ribbon-title">Decisions Needed This Month</div>
+          <div class="cfo-ribbon-sub">Turns five dashboards into a monthly executive operating cockpit: what needs approval, what to hold, what to fund, what to reforecast, and what to communicate to deans, faculty, and the Board.</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="xbtn primary" onclick="showDetailModal('action-room-export')"><i class="fa fa-table"></i> Source Rows</button>
+          <button class="xbtn" onclick="showDetailModal('memo-dean')"><i class="fa fa-copy"></i> Dean Memo</button>
+          <button class="xbtn" onclick="showDetailModal('memo-board')"><i class="fa fa-clipboard-list"></i> Board Brief</button>
+        </div>
+      </div>
+      <div class="cfo-action-grid">
+        <div class="cfo-action-card risk" onclick="showDetailModal('act-variance')">
+          <div class="cfo-card-top"><span class="cfo-card-label">Decision 1</span><span class="cfo-card-deadline">June Close</span></div>
+          <div class="cfo-card-title">Hold or release May favorable variance</div>
+          <div class="cfo-card-amt">$20M</div>
+          <div class="cfo-card-rec">Hold timing-driven savings until accruals and open commitments clear.</div>
+        </div>
+        <div class="cfo-action-card risk" onclick="showDetailModal('act-research-bridge')">
+          <div class="cfo-card-top"><span class="cfo-card-label">Decision 2</span><span class="cfo-card-deadline">Now</span></div>
+          <div class="cfo-card-title">Approve conditional research bridge pool</div>
+          <div class="cfo-card-amt">$8.4M</div>
+          <div class="cfo-card-rec">Protect lab payroll and continuity while sponsor/ICR timing resolves.</div>
+        </div>
+        <div class="cfo-action-card warn" onclick="showDetailModal('act-physics')">
+          <div class="cfo-card-top"><span class="cfo-card-label">Decision 3</span><span class="cfo-card-deadline">30 days</span></div>
+          <div class="cfo-card-title">Physics variance intervention</div>
+          <div class="cfo-card-amt">$3.2M</div>
+          <div class="cfo-card-rec">Require unit-level plan before year-end spending accelerates.</div>
+        </div>
+        <div class="cfo-action-card gold" onclick="showDetailModal('act-restricted')">
+          <div class="cfo-card-top"><span class="cfo-card-label">Decision 4</span><span class="cfo-card-deadline">Q1 FY27</span></div>
+          <div class="cfo-card-title">Launch donor-intent unlock sprint</div>
+          <div class="cfo-card-amt">$48.2M</div>
+          <div class="cfo-card-rec">Move dormant restricted balances into lawful, mission-aligned spend plans.</div>
+        </div>
+        <div class="cfo-action-card info" onclick="showDetailModal('act-capital')">
+          <div class="cfo-card-top"><span class="cfo-card-label">Decision 5</span><span class="cfo-card-deadline">Board cycle</span></div>
+          <div class="cfo-card-title">Rank capital backlog by risk and cash</div>
+          <div class="cfo-card-amt">$842M</div>
+          <div class="cfo-card-rec">Triage deferred maintenance by life safety, mission, escalation, and reserve impact.</div>
+        </div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="dtbl">
+          <thead><tr><th>Risk</th><th>Owner</th><th>Dollar Exposure</th><th>Trigger</th><th>CFO Action</th><th>Communication</th></tr></thead>
+          <tbody>
+            <tr onclick="showDetailModal('act-variance')"><td><div class="dt-name">June close reversal</div></td><td>Controller + Budget</td><td>$24M</td><td>Accruals / open commitments</td><td><span class="pill p-risk">Hold variance</span></td><td>Finance note</td></tr>
+            <tr onclick="showDetailModal('act-aid-table')"><td><div class="dt-name">Financial-aid demand</div></td><td>College + GSAS</td><td>$12.2M</td><td>Aid requests above plan</td><td><span class="pill p-risk">Reforecast FY27</span></td><td>Dean / Board</td></tr>
+            <tr onclick="showDetailModal('act-icr')"><td><div class="dt-name">Federal ICR disruption</div></td><td>Sponsored Research</td><td>$16.2M</td><td>Award delays / F&amp;A timing</td><td><span class="pill p-risk">Recovery desk</span></td><td>Provost / Labs</td></tr>
+            <tr onclick="showDetailModal('act-workforce-table')"><td><div class="dt-name">Workforce run-rate</div></td><td>HR + Finance</td><td>$1.46M merit exposure</td><td>Merit/reclass/vacancy offsets</td><td><span class="pill p-warn">Structural model</span></td><td>HR / Deans</td></tr>
+            <tr onclick="showDetailModal('act-restricted')"><td><div class="dt-name">Spendable restricted funds</div></td><td>Finance + Development + OGC</td><td>$48.2M potential</td><td>Dormant / narrow-use balances</td><td><span class="pill p-ok">Unlock review</span></td><td>Donor-safe language</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BUDGET CONTROL CENTER -->
+    <div class="sdiv" id="budget-control"><div class="sdiv-title">FY26 Annual Budget &amp; Monthly Close Pacing</div><div class="sdiv-line"></div><div class="sdiv-tag">$1.8B+ CFO Scope</div></div>
+
+    <div class="kpi-row-5">
+      <div class="kpi red" onclick="showDetailModal('kpi-budget')">
+        <div class="kpi-label">FY26 Modeled Expense Budget</div><div class="kpi-val">$1.60B</div>
+        <div class="kpi-sub">Sample envelope inside $1.8B+ mandate</div><div class="kpi-delta kd-warn">+4.2% vs FY25</div>
+      </div>
+      <div class="kpi green" onclick="showDetailModal('kpi-ytd')">
+        <div class="kpi-label">YTD Actuals Thru May</div><div class="kpi-val pos">$1.21B</div>
+        <div class="kpi-sub">75.6% of annual budget</div><div class="kpi-delta kd-up">−$20.4M favorable vs plan</div>
+      </div>
+      <div class="kpi green" onclick="showDetailModal('kpi-forecast')">
+        <div class="kpi-label">Forecast Year-End</div><div class="kpi-val pos">$1.58B</div>
+        <div class="kpi-sub">Projected FY26 spend</div><div class="kpi-delta kd-up">$20M below budget, before June risk</div>
+      </div>
+      <div class="kpi amber" onclick="showDetailModal('kpi-recon')">
+        <div class="kpi-label">Monthly Close Status</div><div class="kpi-val warn">68/70</div>
+        <div class="kpi-sub">Units reconciled through May</div><div class="kpi-delta kd-warn">2 pending close exceptions</div>
+      </div>
+      <div class="kpi blue" onclick="showDetailModal('kpi-personnel')">
+        <div class="kpi-label">Personnel Share</div><div class="kpi-val">52.3%</div>
+        <div class="kpi-sub">Salaries + benefits + stipends</div><div class="kpi-delta kd-warn">Watch if above 53%</div>
+      </div>
+    </div>
+
+    <div class="cc" style="margin-bottom:16px">
+      <div class="cc-head">
+        <div><div class="cc-title">Monthly Close Pacing — Actual vs Plan</div><div class="cc-sub">Click each month for category breakdown, FTE snapshot, cause, and action.</div></div>
+        <button class="xbtn" onclick="showDetailModal('budget-monthly-export')"><i class="fa fa-table"></i> Source Rows</button>
+      </div>
+      <div class="month-grid">
+        <div class="month-card" onclick="showDetailModal('month-jul')"><div class="month-label">Jul</div><div class="month-actual">$116M</div><div class="month-plan">Plan $120M</div><div class="month-var" style="color:var(--green)">−$4M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-aug')"><div class="month-label">Aug</div><div class="month-actual">$111M</div><div class="month-plan">Plan $115M</div><div class="month-var" style="color:var(--green)">−$4M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-sep')"><div class="month-label">Sep</div><div class="month-actual">$126M</div><div class="month-plan">Plan $130M</div><div class="month-var" style="color:var(--green)">−$4M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-oct')"><div class="month-label">Oct</div><div class="month-actual">$131M</div><div class="month-plan">Plan $133M</div><div class="month-var" style="color:var(--green)">−$2M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-nov')"><div class="month-label">Nov</div><div class="month-actual">$128M</div><div class="month-plan">Plan $130M</div><div class="month-var" style="color:var(--green)">−$2M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-dec')"><div class="month-label">Dec</div><div class="month-actual">$123M</div><div class="month-plan">Plan $125M</div><div class="month-var" style="color:var(--green)">−$2M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-jan')"><div class="month-label">Jan</div><div class="month-actual">$118M</div><div class="month-plan">Plan $122M</div><div class="month-var" style="color:var(--green)">−$4M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-feb')"><div class="month-label">Feb</div><div class="month-actual">$113M</div><div class="month-plan">Plan $118M</div><div class="month-var" style="color:var(--green)">−$5M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-mar')"><div class="month-label">Mar</div><div class="month-actual">$120M</div><div class="month-plan">Plan $125M</div><div class="month-var" style="color:var(--green)">−$5M</div></div>
+        <div class="month-card" onclick="showDetailModal('month-apr')"><div class="month-label">Apr</div><div class="month-actual">$132M</div><div class="month-plan">Plan $138M</div><div class="month-var" style="color:var(--green)">−$6M</div></div>
+        <div class="month-card current" onclick="showDetailModal('month-may')"><div class="month-label">May ◉</div><div class="month-actual">$140M</div><div class="month-plan">Plan $148M</div><div class="month-var" style="color:var(--green)">−$8M</div></div>
+        <div class="month-card forecast" onclick="showDetailModal('month-jun')"><div class="month-label">Jun Fcast</div><div class="month-actual">$160M</div><div class="month-plan">Plan $156M</div><div class="month-var" style="color:var(--cr)">+$4M risk</div></div>
+      </div>
+      <div class="callout co-gold" style="margin-bottom:0">
+        <h4>CFO Interpretation</h4>
+        The favorable YTD result is not all structural savings. Open positions and cautious federal research spending explain much of the variance and can reverse in June. The CFO should bank only the recurring portion and hold the rest as FY27 contingency.
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Expense by Category — FY26 Allocation</div><div class="cc-sub">FAS-wide expense portfolio. Click a row for detail.</div></div></div>
+        <div class="mini-bars">
+          <div class="mini-bar-row" onclick="showDetailModal('cat-personnel')"><strong>Personnel &amp; Benefits</strong><div class="mini-track"><div class="mini-fill" style="width:52.3%"></div></div><span>$832M</span></div>
+          <div class="mini-bar-row" onclick="showDetailModal('cat-research')"><strong>Research &amp; Grants</strong><div class="mini-track"><div class="mini-fill" style="width:19%;background:var(--blue)"></div></div><span>$304M</span></div>
+          <div class="mini-bar-row" onclick="showDetailModal('cat-facilities')"><strong>Facilities &amp; Operations</strong><div class="mini-track"><div class="mini-fill" style="width:12%;background:var(--amber)"></div></div><span>$192M</span></div>
+          <div class="mini-bar-row" onclick="showDetailModal('cat-academic')"><strong>Academic Programs</strong><div class="mini-track"><div class="mini-fill" style="width:8%;background:var(--green)"></div></div><span>$128M</span></div>
+          <div class="mini-bar-row" onclick="showDetailModal('cat-admin')"><strong>Administration</strong><div class="mini-track"><div class="mini-fill" style="width:6%;background:var(--gold2)"></div></div><span>$96M</span></div>
+          <div class="mini-bar-row" onclick="showDetailModal('cat-other')"><strong>Other</strong><div class="mini-track"><div class="mini-fill" style="width:3%;background:var(--purple)"></div></div><span>$48M</span></div>
+        </div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Revenue Mix — FY26 FAS</div><div class="cc-sub">$1,600M modeled sample total · click segments for detail</div></div></div>
+        <div class="cw"><canvas id="revMixChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- DEPT HEALTH TABLE -->
+    <div class="sdiv"><div class="sdiv-title">Departmental Budget Health</div><div class="sdiv-line"></div><div class="sdiv-tag">Non-Green Rows Include Action Plans</div></div>
+    <div class="cc" style="margin-bottom:16px">
+      <div class="cc-head">
+        <div><div class="cc-title">Department Snapshot — May Close FY26</div><div class="cc-sub">Click any row. Non-green departments include suggestions, actions, and a draft chair/DA communication.</div></div>
+        <button class="xbtn primary" onclick="showDetailModal('dept-export')"><i class="fa fa-table"></i> Source Rows</button>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="dtbl">
+          <thead><tr><th>Department / Division</th><th>FTE</th><th>Budget</th><th>YTD Actual</th><th>Variance</th><th>% Used</th><th>Forecast</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            <tr onclick="showDetailModal('dept-econ')"><td><div class="dt-name">Economics</div><div class="dt-code">Social Sciences</div></td><td>187</td><td>$42.8M</td><td>$31.2M</td><td style="color:var(--green);font-weight:700">−$1.4M</td><td>73%</td><td>$41.4M</td><td><span class="pill p-ok">On Track</span></td><td><button class="xbtn" onclick="event.stopPropagation();showDetailModal('dept-econ')">Detail</button></td></tr>
+            <tr onclick="showDetailModal('dept-ccb')" style="background:rgba(180,83,9,.02)"><td><div class="dt-name">Chemistry &amp; Chemical Biology</div><div class="dt-code">Science</div></td><td>312</td><td>$58.1M</td><td>$44.6M</td><td style="color:var(--amber);font-weight:700">+$0.8M</td><td>77%</td><td>$59.2M</td><td><span class="pill p-warn">Watch</span></td><td><button class="xbtn" onclick="event.stopPropagation();showDetailModal('dept-ccb')">Action</button></td></tr>
+            <tr onclick="showDetailModal('dept-phys')" style="background:rgba(165,28,48,.03)"><td><div class="dt-name">Physics</div><div class="dt-code">Science</div></td><td>398</td><td>$64.2M</td><td>$51.8M</td><td style="color:var(--cr);font-weight:700">+$3.2M</td><td>81%</td><td>$67.1M</td><td><span class="pill p-risk">At Risk</span></td><td><button class="xbtn primary" onclick="event.stopPropagation();showDetailModal('dept-phys')">Action</button></td></tr>
+            <tr onclick="showDetailModal('dept-celt')" style="background:rgba(26,77,138,.02)"><td><div class="dt-name">Celtic Languages &amp; Literatures</div><div class="dt-code">Arts &amp; Humanities</div></td><td>18</td><td>$4.2M</td><td>$3.6M</td><td style="color:var(--amber);font-weight:700">+$0.4M</td><td>86%</td><td>$4.8M</td><td><span class="pill p-info">Review</span></td><td><button class="xbtn" onclick="event.stopPropagation();showDetailModal('dept-celt')">Action</button></td></tr>
+            <tr onclick="showDetailModal('dept-hcfa')" style="background:rgba(165,28,48,.03)"><td><div class="dt-name">Harvard College Financial Aid</div><div class="dt-code">College Programs</div></td><td>412</td><td>$178.2M</td><td>$150.2M</td><td style="color:var(--cr);font-weight:700">+$12.2M</td><td>84%</td><td>$190.4M</td><td><span class="pill p-risk">CFO Attention</span></td><td><button class="xbtn primary" onclick="event.stopPropagation();showDetailModal('dept-hcfa')">Action</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- JAWS CHART + LIQUIDITY -->
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">The "Jaws" Effect — Expense vs Revenue Growth</div><div class="cc-sub">FY20–FY29 · Expenses growing 2× faster · Oracle AI-flagged</div></div><button class="xbtn" onclick="showDetailModal('jaws')">Explain</button></div>
+        <div class="cw"><canvas id="jawsChart"></canvas></div>
+        <div class="callout co-cr" style="margin-top:10px;padding:9px 12px;font-size:11.5px;margin-bottom:0">
+          <strong>Oracle AI:</strong> Personnel wage growth (+5.8% CAGR) crossed above revenue growth (+2.9% CAGR). Uncorrected, cumulative deficit reaches $350M by FY30.
+        </div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Liquidity Trend — Days of Cash</div><div class="cc-sub">FY20–FY26 · FAS unrestricted · NACUBO benchmarks</div></div></div>
+        <div class="cw"><canvas id="liquidityChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- LIQUIDITY KPIs -->
+    <div class="sdiv"><div class="sdiv-title">Liquidity &amp; Reserves</div><div class="sdiv-line"></div><div class="sdiv-tag">Days of Cash · Unrestricted Balances</div></div>
+    <div class="kpi-row">
+      <div class="kpi amber" onclick="showDetailModal('liquidity')">
+        <div class="kpi-label">Days of Cash on Hand</div><div class="kpi-val warn">43 days</div>
+        <div class="kpi-sub">FAS unrestricted only</div><div class="kpi-delta kd-warn">Below 60-day NACUBO threshold</div>
+      </div>
+      <div class="kpi amber" onclick="showDetailModal('liquidity')">
+        <div class="kpi-label">Unrestricted Reserves</div><div class="kpi-val warn">$191M</div>
+        <div class="kpi-sub">~11% of annual expenses</div><div class="kpi-delta kd-warn">Peer median: 18%</div>
+      </div>
+      <div class="kpi blue" onclick="showDetailModal('restricted-funds')">
+        <div class="kpi-label">Total Restricted Funds</div><div class="kpi-val">$2.84B</div>
+        <div class="kpi-sub">Endowment + term + flow-thru</div><div class="kpi-delta kd-up">▲ Growing with campaign</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-label">Debt Service Coverage</div><div class="kpi-val pos">3.4×</div>
+        <div class="kpi-sub">Moody's Aaa maintained</div><div class="kpi-delta kd-up">▲ Above 2.5× Aaa threshold</div>
+      </div>
+    </div>
+
+    <!-- VARIANCE ALERT TABLE -->
+    <div class="sdiv"><div class="sdiv-title">Forecast Variance Alert — Auto-Flagged Departments</div><div class="sdiv-line"></div><div class="sdiv-tag">&gt;5% Deviation · OAS Alert Engine</div></div>
+    <div class="callout co-amber">
+      <h4><i class="fa fa-bell" style="margin-right:5px"></i>Oracle OAS Alert: 4 Departments Currently &gt;5% Deviant from Multi-Year Forecast</h4>
+      Physics is highest-risk (105.0% of forecast). Amber departments are in correctable range; red requires CFO-level intervention before June 30.
+    </div>
+    <div class="cc" style="margin-bottom:18px">
+      <div style="overflow-x:auto">
+        <table class="dtbl">
+          <thead><tr><th>Department</th><th>Multi-Year Forecast</th><th>FY26 Actual/Proj</th><th>Deviation $</th><th>Deviation %</th><th>Alert</th><th>YoY Trend</th><th></th></tr></thead>
+          <tbody>
+            <tr onclick="showDetailModal('dept-phys')"><td><div class="dt-name">Physics</div><div class="dt-code">PHYS · Science</div></td><td>$63.9M</td><td>$67.1M</td><td style="color:var(--cr);font-family:var(--mono);font-size:11px;font-weight:600">+$3.2M</td><td><span class="pill p-risk">🔴 +5.0%</span></td><td><span class="pill p-risk">CFO Intervention</span></td><td style="color:var(--cr);font-family:var(--mono);font-size:11px">▲ 3rd consecutive year</td><td><button class="xbtn" style="font-size:9px" onclick="event.stopPropagation();showDetailModal('dept-phys')">Action Plan</button></td></tr>
+            <tr onclick="showDetailModal('dept-ccb')"><td><div class="dt-name">Chemistry &amp; Chemical Biology</div><div class="dt-code">CCB · Science</div></td><td>$55.7M</td><td>$59.2M</td><td style="color:var(--amber);font-family:var(--mono);font-size:11px;font-weight:600">+$3.5M</td><td><span class="pill p-warn">⚠ +6.3%</span></td><td><span class="pill p-warn">Monitor — Tariff Risk</span></td><td style="color:var(--amber);font-family:var(--mono);font-size:11px">▲ New FY26 issue</td><td><button class="xbtn" style="font-size:9px" onclick="event.stopPropagation();showDetailModal('dept-ccb')">Detail</button></td></tr>
+            <tr onclick="showDetailModal('dept-celt')"><td><div class="dt-name">Celtic Languages &amp; Literatures</div><div class="dt-code">CELT · Arts &amp; Hum</div></td><td>$3.9M</td><td>$4.8M</td><td style="color:var(--blue);font-family:var(--mono);font-size:11px;font-weight:600">+$0.9M</td><td><span class="pill p-info">👁 +23.1%</span></td><td><span class="pill p-info">Small Dept Structural</span></td><td style="color:var(--blue);font-family:var(--mono);font-size:11px">— Recurring</td><td><button class="xbtn" style="font-size:9px" onclick="event.stopPropagation();showDetailModal('dept-celt')">Detail</button></td></tr>
+            <tr onclick="showDetailModal('dept-hcfa')"><td><div class="dt-name">Harvard College — Financial Aid</div><div class="dt-code">HC-AID · College</div></td><td>$178.2M</td><td>$190.4M</td><td style="color:var(--cr);font-family:var(--mono);font-size:11px;font-weight:600">+$12.2M</td><td><span class="pill p-risk">🔴 +6.8%</span></td><td><span class="pill p-risk">CFO Attention</span></td><td style="color:var(--cr);font-family:var(--mono);font-size:11px">▲ Demand-driven</td><td><button class="xbtn" style="font-size:9px" onclick="event.stopPropagation();showDetailModal('dept-hcfa')">Action Plan</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ORACLE SCENARIO -->
+    <div class="sdiv"><div class="sdiv-title">Oracle EPM Scenario Modeling</div><div class="sdiv-line"></div><div class="sdiv-tag">Endowment Tax · Federal Freeze · Inflation</div></div>
+    <div class="scenario-panel">
+      <div class="sp-eyebrow">Scenario Sandbox · Sample CFO Model</div>
+      <div class="sp-title">FY26 Operating Result Stress Test</div>
+      <div class="sp-sub">Move the sliders to recalculate the forecast. Transparent sample model using FY26 baseline deficit, incremental endowment-tax exposure, federal research/ICR pressure, and inflation cost pressure.</div>
+      <div class="sp-inputs">
+        <div class="sp-input">
+          <div class="sp-input-label">Endowment Excise Tax Rate</div>
+          <div class="sp-input-val" id="taxRateVal">1.4%</div>
+          <input id="scTaxRate" type="range" min="1.4" max="8" value="1.4" step="0.1" oninput="updateScenarios()">
+          <div class="sp-input-sub">Baseline: 1.4% · Stress tier: 8%</div>
+        </div>
+        <div class="sp-input">
+          <div class="sp-input-label">Federal Grant Reduction</div>
+          <div class="sp-input-val" id="grantCutVal">0%</div>
+          <input id="scGrantCut" type="range" min="0" max="35" value="0" step="5" oninput="updateScenarios()">
+          <div class="sp-input-sub">Models ICR and award timing exposure</div>
+        </div>
+        <div class="sp-input">
+          <div class="sp-input-label">Annual Inflation Rate (CPI)</div>
+          <div class="sp-input-val" id="inflVal">2.7%</div>
+          <input id="scInflation" type="range" min="2" max="6" value="2.7" step="0.1" oninput="updateScenarios()">
+          <div class="sp-input-sub">Each point above 2.7% adds cost pressure</div>
+        </div>
+      </div>
+      <div class="sp-output">
+        <div class="sp-out"><div class="sp-out-val" id="sc-tax-impact" style="color:var(--cr)">−$0M</div><div class="sp-out-label">Endowment Tax Impact</div></div>
+        <div class="sp-out"><div class="sp-out-val" id="sc-grant-impact" style="color:var(--cr)">−$0M</div><div class="sp-out-label">Federal Grant Revenue Loss</div></div>
+        <div class="sp-out"><div class="sp-out-val" id="sc-infl-impact" style="color:var(--cr)">−$0M</div><div class="sp-out-label">Inflation Cost Pressure</div></div>
+        <div class="sp-out"><div class="sp-out-val" id="sc-net-result" style="color:var(--cr)">−$7.7M</div><div class="sp-out-label">Projected Net Operating Result</div></div>
+        <div class="sp-out"><div class="sp-out-val" id="sc-action" style="color:var(--gold);font-size:.95rem">Monitor</div><div class="sp-out-label">Oracle-Recommended Action</div></div>
+        <div class="sp-out"><div class="sp-out-val" id="sc-depts" style="color:var(--gold)">4 departments</div><div class="sp-out-label">Units Triggered for Spending Cap</div></div>
+      </div>
+      <div class="sp-formula" id="scenarioFormula">Formula: FY26 baseline −$7.7M − incremental tax impact − grant/ICR timing impact − inflation pressure.</div>
+    </div>
+
+    <!-- INSIGHT STRIP -->
+    <div class="insight-strip">
+      <div class="insight">
+        <div class="insight-label">Operating Result Signal</div>
+        <div class="insight-text">The <strong>−$7.7M FY25 deficit</strong> followed a +$2.9M FY24 surplus — a $10.6M swing driven by personnel cost growth, reduced endowment distribution, and emergency capital expense. The structural trend points to a recurring gap, not a one-time miss.</div>
+      </div>
+      <div class="insight gold">
+        <div class="insight-label">Reserve Position</div>
+        <div class="insight-text">At <strong>43 days cash</strong>, FAS unrestricted reserves are below the NACUBO 60-day best practice. Peer institutions (Yale: 67 days, Princeton: 80 days) maintain larger buffers. FAS Moody's Aaa is sustained by University-level backing, but FAS-level liquidity is thin.</div>
+      </div>
+      <div class="insight green">
+        <div class="insight-label">Near-Term Opportunity</div>
+        <div class="insight-text">A <strong>$48.2M donor-intent unlock sprint</strong> could release dormant restricted funds into lawful mission-aligned spending. Combined with the $26M above-plan Continuing Education revenue and careful June close management, FY26 can close materially better than the YTD baseline.</div>
+      </div>
+    </div>
+
+    <!-- ANALYST NOTES -->
+    <div class="analyst-block" style="margin-bottom:0">
+      <div class="an-head">📊 CFO Analyst Read — FY26 Close Posture</div>
+      <div class="an-items">
+        <div class="an-item"><strong>Hold the variance:</strong> The $20.4M favorable YTD position is predominantly timing-driven (vacancies, grant ramp delays). Bank it as contingency until June close accruals are complete — do not release for discretionary use.</div>
+        <div class="an-item"><strong>Physics is the most acute risk:</strong> Third consecutive year of overrun; requires chair-level intervention, capital exception, and immediate postdoc-start freeze. Without action, this becomes a structural item in FY27.</div>
+        <div class="an-item"><strong>Financial aid is the largest single exposure:</strong> The $12.2M above-plan demand is partly structural (affordability commitments) and partly enrollment-mix driven. Reforecast must be completed before FY27 budget is locked.</div>
+        <div class="an-item"><strong>ICR recovery desk is the fastest revenue lever:</strong> Federal award timing creates a recoverable gap — but only with weekly billing, bridge-funding protocols, and active award reactivation coordination.</div>
+      </div>
+    </div>
+
+  </div><!-- /d1 -->
+
+  <!-- ══════ DASHBOARD 2 ══════ -->
+  <div class="dash-panel" id="d2">
+    <div class="page-eyebrow">Dashboard 2 of 5 · Divisional &amp; Departmental Operations · HART Source</div>
+    <h1 class="page-title">Divisional &amp; Departmental <em>Operations</em></h1>
+    <div class="page-rule"></div>
+    <p class="page-dek">Manages the distributed reporting model across 40 academic departments and 30+ centers. Tracks burn rates, faculty cost trajectories, administrative overhead efficiency, and the compliance scorecard. Expenses growing 2× faster than revenue is the structural challenge this dashboard surfaces and manages.</p>
+
+    <div class="year-tabs">
+      <div class="ytab active" onclick="selectYtab(this,'d2')">FY26 Close</div>
+      <div class="ytab" onclick="selectYtab(this,'d2')">FY27 Budget Build</div>
+      <div class="ytab" onclick="selectYtab(this,'d2')">FY25 Actuals</div>
+    </div>
+
+    <!-- DIVISIONAL HEAT MAP -->
+    <div class="sdiv"><div class="sdiv-title">Divisional Spend Burn Rates — May FY26</div><div class="sdiv-line"></div><div class="sdiv-tag">Click for drill-down</div></div>
+    <div class="heat-grid">
+      <div class="heat-cell h-ok" onclick="showDetailModal('div-arts')"><h4>Arts &amp; Humanities</h4><div class="hv">$141M</div><p>YTD · −$7.3M favorable · On track</p></div>
+      <div class="heat-cell h-ok" onclick="showDetailModal('div-socsci')"><h4>Social Sciences</h4><div class="hv">$168M</div><p>YTD · −$4.8M favorable · On track</p></div>
+      <div class="heat-cell h-warn" onclick="showDetailModal('div-science')"><h4>Science Division</h4><div class="hv">$313M</div><p>YTD · +$1.8M over plan · Physics + CCB</p></div>
+      <div class="heat-cell h-ok" onclick="showDetailModal('div-seas')"><h4>SEAS</h4><div class="hv">$202M</div><p>YTD · −$5.4M favorable · Federal watch</p></div>
+      <div class="heat-cell h-risk" onclick="showDetailModal('div-hc')"><h4>Harvard College</h4><div class="hv">$208M</div><p>YTD · +$12.2M over plan · Aid demand</p></div>
+    </div>
+
+    <!-- DIVISIONAL OVERVIEW MATRIX -->
+    <div class="div-matrix" style="margin-bottom:18px">
+      <div class="div-cell" onclick="showDetailModal('div-arts')">
+        <div class="div-icon">📚</div>
+        <div class="div-name">Arts &amp; Hum</div>
+        <div class="div-val">$198M</div>
+        <div class="div-sub">budget · 31 depts</div>
+        <div class="div-bar" style="background:var(--green)"></div>
+      </div>
+      <div class="div-cell" onclick="showDetailModal('div-socsci')">
+        <div class="div-icon">🌐</div>
+        <div class="div-name">Social Sci</div>
+        <div class="div-val">$232M</div>
+        <div class="div-sub">budget · 12 depts</div>
+        <div class="div-bar" style="background:var(--green)"></div>
+      </div>
+      <div class="div-cell" onclick="showDetailModal('div-science')">
+        <div class="div-icon">🔬</div>
+        <div class="div-name">Science Div</div>
+        <div class="div-val">$413M</div>
+        <div class="div-sub">budget · 14 depts</div>
+        <div class="div-bar" style="background:var(--amber)"></div>
+      </div>
+      <div class="div-cell" onclick="showDetailModal('div-seas')">
+        <div class="div-icon">⚙️</div>
+        <div class="div-name">SEAS</div>
+        <div class="div-val">$284M</div>
+        <div class="div-sub">budget · 8 programs</div>
+        <div class="div-bar" style="background:var(--green)"></div>
+      </div>
+      <div class="div-cell" onclick="showDetailModal('div-hc')">
+        <div class="div-icon">🎓</div>
+        <div class="div-name">HC Programs</div>
+        <div class="div-val">$286M</div>
+        <div class="div-sub">budget · aid + advising</div>
+        <div class="div-bar" style="background:var(--cr)"></div>
+      </div>
+    </div>
+
+    <!-- FACULTY COST + OVERHEAD CHARTS -->
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Faculty &amp; Personnel Cost by Division — FY26</div><div class="cc-sub">Actual vs plan ($M) · click bar for detail</div></div></div>
+        <div class="cw"><canvas id="facultyCostChart"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Administrative Overhead Ratio</div><div class="cc-sub">22.4% overhead; peer target 19–20%</div></div><button class="xbtn" onclick="showDetailModal('overhead')">Explain</button></div>
+        <div class="cw"><canvas id="overheadChart"></canvas></div>
+        <div class="callout co-amber" style="margin-top:10px;padding:9px 12px;font-size:11.5px;margin-bottom:0">
+          Target: reduce overhead from 22.4% to &lt;20% through shared-services consolidation and automation. $42M in potential 5-year savings.
+        </div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Personnel Share Trend — FAS vs Peers</div><div class="cc-sub">FY22–FY29 forecast · risk ceiling at 53%</div></div></div>
+        <div class="cw"><canvas id="personnelTrendChart"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Staff by Function — FTE Count</div><div class="cc-sub">FAS-wide function distribution · 6,091 authorized FTE</div></div></div>
+        <div class="cw"><canvas id="staffFuncChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- COMPLIANCE SCORECARD -->
+    <div class="sdiv"><div class="sdiv-title">Compliance Scorecard</div><div class="sdiv-line"></div><div class="sdiv-tag">Q3 FY26 Submission · 9 Late Units</div></div>
+    <div class="cc">
+      <div class="callout co-amber">
+        <h4><i class="fa fa-bell" style="margin-right:5px"></i>9 Units Have Not Submitted Q3 FY26 Reforecast (Due May 15)</h4>
+        3 Science Division departments and 6 Centers/Institutes are 4+ days late. Per FAS Finance Policy §4.2, late submissions incur a 0.5% central tax. Oracle OAS can auto-generate reminder emails with the unit's current budget position attached.
+      </div>
+      <div style="overflow-x:auto">
+        <table class="dtbl">
+          <thead><tr><th>Unit</th><th>Division</th><th>Days Late</th><th>Budget Position</th><th>Status</th><th></th></tr></thead>
+          <tbody>
+            <tr><td><div class="dt-name">Molecular &amp; Cellular Biology</div></td><td>Science</td><td style="color:var(--cr);font-family:var(--mono);font-weight:600">5 days</td><td>−$0.8M favorable</td><td><span class="pill p-warn">Late</span></td><td><button class="xbtn" onclick="showDetailModal('compliance-email')"><i class="fa fa-paper-plane"></i> Auto-Send Reminder</button></td></tr>
+            <tr><td><div class="dt-name">Statistics</div></td><td>Science</td><td style="color:var(--cr);font-family:var(--mono);font-weight:600">5 days</td><td>+$0.2M over plan</td><td><span class="pill p-warn">Late</span></td><td><button class="xbtn" onclick="showDetailModal('compliance-email')"><i class="fa fa-paper-plane"></i> Auto-Send Reminder</button></td></tr>
+            <tr><td><div class="dt-name">Chem-Harvard MIT Joint Prog</div></td><td>Science</td><td style="color:var(--cr);font-family:var(--mono);font-weight:600">4 days</td><td>−$0.3M favorable</td><td><span class="pill p-warn">Late</span></td><td><button class="xbtn" onclick="showDetailModal('compliance-email')"><i class="fa fa-paper-plane"></i> Auto-Send Reminder</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px">
+        <button class="xbtn primary" onclick="showDetailModal('compliance-email')"><i class="fa fa-paper-plane"></i> Send to All 9 Late Units (Oracle OAS)</button>
+      </div>
+    </div>
+
+    <div class="insight-strip">
+      <div class="insight"><div class="insight-label">Science Division Watch</div><div class="insight-text">Physics and CCB together account for <strong>$3.2M + $0.8M</strong> of the Science Division's +$1.8M unfavorable variance. Both have identified action paths; the CFO should require weekly owner updates through June close.</div></div>
+      <div class="insight gold"><div class="insight-label">Overhead Target</div><div class="insight-text">Reducing administrative overhead from 22.4% to <strong>19.8%</strong> would generate $42M in 5-year recurring savings. Shared services consolidation and automation offer the highest-ROI path — not headcount cuts alone.</div></div>
+      <div class="insight green"><div class="insight-label">Strong Divisions</div><div class="insight-text">Arts &amp; Humanities and Social Sciences are both <strong>on track or favorable</strong>. SEAS is outperforming plan. These divisions can serve as model units for departmental budget governance practices in FY27.</div></div>
+    </div>
+  </div><!-- /d2 -->
+
+  <!-- ══════ DASHBOARD 3 ══════ -->
+  <div class="dash-panel" id="d3">
+    <div class="page-eyebrow">Dashboard 3 of 5 · Academic &amp; Enrollment Revenue · Oracle OAS</div>
+    <h1 class="page-title">Academic &amp; Enrollment <em>Revenue</em></h1>
+    <div class="page-rule"></div>
+    <p class="page-dek">Tracks the net tuition engine across Harvard College, GSAS, and HES. Financial aid demand growth at 8.2% annually is compressing net yield faster than gross tuition increases can offset. Enrollment mix shifts between selective and professional programs materially change net revenue per student.</p>
+
+    <div class="kpi-row">
+      <div class="kpi blue" onclick="showDetailModal('gross-tuition')">
+        <div class="kpi-label">Gross Tuition FY26</div><div class="kpi-val">$312.8M</div>
+        <div class="kpi-sub">Rate $54,768 · Enrollment 6,818</div><div class="kpi-delta kd-up">+3.8% vs FY25</div>
+      </div>
+      <div class="kpi red" onclick="showDetailModal('fin-aid')">
+        <div class="kpi-label">Financial Aid</div><div class="kpi-val neg">$182.4M</div>
+        <div class="kpi-sub">Demand-driven at +8.2%</div><div class="kpi-delta kd-dn">+$12.2M above plan</div>
+      </div>
+      <div class="kpi amber" onclick="showDetailModal('net-tuition')">
+        <div class="kpi-label">Net Tuition</div><div class="kpi-val warn">$130.4M</div>
+        <div class="kpi-sub">Compressed from $142M FY23</div><div class="kpi-delta kd-dn">Discount rate at 58.3%</div>
+      </div>
+      <div class="kpi green" onclick="showDetailModal('hes-revenue')">
+        <div class="kpi-label">HES Extension Revenue</div><div class="kpi-val pos">$52M+</div>
+        <div class="kpi-sub">14,812 enrolled vs 14,200 plan</div><div class="kpi-delta kd-up">▲ $26M above plan</div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Gross vs Net Tuition — FY20–FY29 Forecast</div><div class="cc-sub">Aid-driven compression trend · Reverse yield risk</div></div></div>
+        <div class="cw"><canvas id="tuitionNetChart"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Financial Aid Inflation Sensitivity</div><div class="cc-sub">How CPI affects aid demand and net tuition yield</div></div></div>
+        <div class="cw"><canvas id="aidInflChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Discount Rate Trend — Harvard FAS vs Peers</div><div class="cc-sub">FY22–FY26 · NACUBO peer comparison</div></div></div>
+        <div class="cw"><canvas id="discountChart"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Enrollment by Program — Planned vs Actual</div><div class="cc-sub">FTE count · HES over-enrollment is the revenue bright spot</div></div></div>
+        <div class="cw"><canvas id="enrollChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="callout co-cr">
+      <h4>Net Tuition Compression — CFO Priority</h4>
+      Harvard College's financial aid commitment (no-loan policy, family contribution caps) means aid demand structurally tracks above gross tuition growth. Without the HES enrollment surge ($26M above plan), FY26 net tuition would be negative vs FY25. The CFO should model HES enrollment growth as a primary revenue lever and ensure all growth scenarios are tested before FY27 tuition rate decisions.
+    </div>
+
+    <div class="insight-strip">
+      <div class="insight"><div class="insight-label">Aid Compression Risk</div><div class="insight-text">At 58.3% discount rate, FAS is below the NACUBO peer median of 61.4%, but the trend direction matters more than the current level. The discount rate has risen from <strong>54.1% in FY22</strong> to 58.3% in FY26 — a 4.2pp structural shift that erodes net yield each year.</div></div>
+      <div class="insight gold"><div class="insight-label">HES as Strategic Lever</div><div class="insight-text">Harvard Extension School's <strong>14,812 enrolled</strong> students (vs 14,200 plan) generated $26M above plan — the single largest favorable revenue offset in FY26. Every additional 1,000 HES enrollments adds ~$3.5M in net revenue. Mission-fit guardrails are needed.</div></div>
+      <div class="insight green"><div class="insight-label">Restricted Aid Offset</div><div class="insight-text">Identifying and deploying <strong>restricted endowment funds earmarked for financial aid</strong> can offset budget pressure without requiring gross tuition increases. The restricted-fund unlock sprint should prioritize donor-purpose analysis for aid-eligible endowments first.</div></div>
+    </div>
+  </div><!-- /d3 -->
+
+  <!-- ══════ DASHBOARD 4 ══════ -->
+  <div class="dash-panel" id="d4">
+    <div class="page-eyebrow">Dashboard 4 of 5 · Sponsored Research &amp; Restricted Funds · HART Source</div>
+    <h1 class="page-title">Sponsored Research &amp; <em>Restricted Funds</em></h1>
+    <div class="page-rule"></div>
+    <p class="page-dek">Tracks indirect cost recovery across federal and private sponsors, restricted fund utilization, grant pipeline health, and the bridge-funding desk. The ongoing federal award timing disruption is the single largest near-term revenue risk — ICR collection must be treated as a weekly operational discipline.</p>
+
+    <div class="kpi-row">
+      <div class="kpi red" onclick="showDetailModal('icr-total')">
+        <div class="kpi-label">Total ICR Collected</div><div class="kpi-val neg">$162.2M</div>
+        <div class="kpi-sub">vs $178.4M plan · −$16.2M</div><div class="kpi-delta kd-dn">Federal freeze impact</div>
+      </div>
+      <div class="kpi amber" onclick="showDetailModal('icr-federal')">
+        <div class="kpi-label">Federal ICR</div><div class="kpi-val warn">$122.4M</div>
+        <div class="kpi-sub">vs $142.6M plan · NIH/NSF delays</div><div class="kpi-delta kd-dn">Award activation backlog</div>
+      </div>
+      <div class="kpi green" onclick="showDetailModal('icr-private')">
+        <div class="kpi-label">Private / Corporate ICR</div><div class="kpi-val pos">$39.8M</div>
+        <div class="kpi-sub">+$3.2M above plan</div><div class="kpi-delta kd-up">Diversification offset</div>
+      </div>
+      <div class="kpi blue" onclick="showDetailModal('restricted-total')">
+        <div class="kpi-label">Restricted Fund Balances</div><div class="kpi-val">$2.84B</div>
+        <div class="kpi-sub">$48.2M identified for unlock</div><div class="kpi-delta kd-up">Legal review in progress</div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">ICR Scenario — Federal Award Disruption</div><div class="cc-sub">FY25A → FY28F under three federal-freeze scenarios</div></div></div>
+        <div class="cw"><canvas id="icrScenChart"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">ICR by Sponsor Type</div><div class="cc-sub">FY26 distribution · $162.2M total collected</div></div></div>
+        <div class="cw"><canvas id="icrTypeChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Grant Pipeline — Submitted / Awarded / Pending</div><div class="cc-sub">By sponsor · FY26 active pipeline ($M)</div></div></div>
+        <div class="cw"><canvas id="grantPipeChart"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Bridge Funding Desk — Labs Awaiting Award Activation</div><div class="cc-sub">Bridge need in $K · sorted by exposure</div></div></div>
+        <div class="cw"><canvas id="bridgeFundChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- RESTRICTED FUNDS TABLE -->
+    <div class="sdiv"><div class="sdiv-title">Restricted Fund Utilization — Trapped Cash Review</div><div class="sdiv-line"></div><div class="sdiv-tag">$48.2M Identified for Potential Unlock</div></div>
+    <div class="callout co-gold">
+      <h4>Donor-Intent Unlock Sprint — CFO &amp; Development + Counsel Review</h4>
+      These fund categories have been identified through Oracle OAS utilization analysis as having the highest probability of plausible expanded-use pathways. Legal and donor-stewardship review is required before any repurposing.
+    </div>
+    <div class="cc">
+      <div style="overflow-x:auto">
+        <table class="dtbl">
+          <thead><tr><th>Fund Category</th><th>Balance</th><th>Last Material Use</th><th>Utilization Rate</th><th>Path to Unlock</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr onclick="showDetailModal('fund-chair')"><td><div class="dt-name">Professorship / Chair Endowments</div><div class="dt-code">Multiple vacant chairs</div></td><td>$22.4M</td><td>FY22</td><td><span class="pill p-warn">28%</span></td><td>Reappoint or rebase to active faculty</td><td><span class="pill p-warn">In Review</span></td></tr>
+            <tr onclick="showDetailModal('fund-program')"><td><div class="dt-name">Dormant Program Endowments</div><div class="dt-code">14 discontinued programs</div></td><td>$14.8M</td><td>FY19</td><td><span class="pill p-risk">8%</span></td><td>cy pres or expanded-purpose petition</td><td><span class="pill p-info">Counsel Review</span></td></tr>
+            <tr onclick="showDetailModal('fund-travel')"><td><div class="dt-name">Faculty Travel &amp; Research Funds</div><div class="dt-code">Narrow-use restrictions</div></td><td>$6.8M</td><td>FY23</td><td><span class="pill p-warn">44%</span></td><td>Expand eligible travel categories with donor consent</td><td><span class="pill p-ok">Donor Outreach</span></td></tr>
+            <tr onclick="showDetailModal('fund-lecture')"><td><div class="dt-name">Lecture Series &amp; Symposia Funds</div><div class="dt-code">Pre-pandemic accumulation</div></td><td>$4.2M</td><td>FY20</td><td><span class="pill p-risk">12%</span></td><td>Virtual/hybrid event repurposing</td><td><span class="pill p-ok">Low Legal Risk</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="insight-strip">
+      <div class="insight"><div class="insight-label">ICR Recovery Priority</div><div class="insight-text">The $16.2M ICR gap is recoverable — but only through <strong>weekly billing discipline</strong>, award activation tracking, and F&A rate protection. The CFO should stand up a dedicated ICR recovery desk before June close. Every week of delay reduces collection probability.</div></div>
+      <div class="insight gold"><div class="insight-label">F&A Rate at Risk</div><div class="insight-text">Harvard's negotiated F&A rate of <strong>59%</strong> is under pressure from proposed federal caps. A cap at 15% (as proposed in some Congressional language) would reduce FAS ICR income by $40M+ over 5 years. Protecting the rate is a Board-level priority.</div></div>
+      <div class="insight green"><div class="insight-label">Private Sector Offset</div><div class="insight-text">Corporate and private foundation ICR is <strong>$3.2M above plan</strong> in FY26 — the one bright spot in the research revenue mix. FAS should build on this with a targeted corporate research partnership strategy that protects academic freedom.</div></div>
+    </div>
+  </div><!-- /d4 -->
+
+  <!-- ══════ DASHBOARD 5 ══════ -->
+  <div class="dash-panel" id="d5">
+    <div class="page-eyebrow">Dashboard 5 of 5 · Capital Projects &amp; Facilities · Facilities Finance</div>
+    <h1 class="page-title">Capital Projects &amp; <em>Facilities</em></h1>
+    <div class="page-rule"></div>
+    <p class="page-dek">Tracks the $842M deferred maintenance backlog, active capital projects, energy costs, and the space utilization cost model. Emergency repairs from the deferred maintenance backlog contributed $12M to the FY25 operating deficit. A triage framework is required before the next Board cycle.</p>
+
+    <div class="kpi-row">
+      <div class="kpi red" onclick="showDetailModal('cap-backlog')">
+        <div class="kpi-label">Deferred Maintenance Backlog</div><div class="kpi-val neg">$842M</div>
+        <div class="kpi-sub">Life-safety + mission-critical first</div><div class="kpi-delta kd-dn">▲ $12M hit FY25 operating</div>
+      </div>
+      <div class="kpi amber" onclick="showDetailModal('cap-active')">
+        <div class="kpi-label">Active Capital Projects</div><div class="kpi-val warn">$284M</div>
+        <div class="kpi-sub">FY26 committed portfolio</div><div class="kpi-delta kd-warn">3 projects over budget</div>
+      </div>
+      <div class="kpi blue" onclick="showDetailModal('cap-reserve')">
+        <div class="kpi-label">Capital Reserve Balance</div><div class="kpi-val">$124M</div>
+        <div class="kpi-sub">Available for emergency draws</div><div class="kpi-delta kd-warn">Below $150M trigger threshold</div>
+      </div>
+      <div class="kpi gold" onclick="showDetailModal('cap-energy')">
+        <div class="kpi-label">Energy &amp; Utilities (YTD)</div><div class="kpi-val">$38.4M</div>
+        <div class="kpi-sub">vs $36.2M plan · +$2.2M</div><div class="kpi-delta kd-warn">Weather + facility age</div>
+      </div>
+    </div>
+
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Deferred Maintenance by Category — Priority Triage</div><div class="cc-sub">$842M total · Critical + Near-Term + Long-Term ($M)</div></div></div>
+        <div class="cw-lg"><canvas id="maintChart"></canvas></div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Space Cost per Square Foot — by Type</div><div class="cc-sub">Annual cost/sqft · Research labs highest-cost space</div></div></div>
+        <div class="cw-lg"><canvas id="spaceChart"></canvas></div>
+      </div>
+    </div>
+
+    <!-- CAPITAL PROJECT TABLE -->
+    <div class="sdiv"><div class="sdiv-title">Active Capital Project Variance</div><div class="sdiv-line"></div><div class="sdiv-tag">Over-Budget Projects Require CFO Review</div></div>
+    <div class="cc">
+      <div style="overflow-x:auto">
+        <table class="dtbl">
+          <thead><tr><th>Project</th><th>Original Budget</th><th>Current Forecast</th><th>Variance</th><th>Status</th><th>CFO Action</th></tr></thead>
+          <tbody>
+            <tr onclick="showDetailModal('cap-science')"><td><div class="dt-name">Science Center Lab Renovation Phase 2</div><div class="dt-code">Capital — Science Division</div></td><td>$48.2M</td><td>$52.8M</td><td style="color:var(--cr);font-weight:700">+$4.6M</td><td><span class="pill p-risk">Over Budget</span></td><td><button class="xbtn primary" onclick="event.stopPropagation();showDetailModal('cap-science')">Review</button></td></tr>
+            <tr onclick="showDetailModal('cap-northwest')"><td><div class="dt-name">Northwest Building HVAC Replacement</div><div class="dt-code">Facilities — Deferred Maintenance</div></td><td>$18.4M</td><td>$21.2M</td><td style="color:var(--cr);font-weight:700">+$2.8M</td><td><span class="pill p-risk">Over Budget</span></td><td><button class="xbtn primary" onclick="event.stopPropagation();showDetailModal('cap-northwest')">Review</button></td></tr>
+            <tr onclick="showDetailModal('cap-accessible')"><td><div class="dt-name">Accessibility Compliance Package FY26</div><div class="dt-code">Compliance — ADA/Code</div></td><td>$8.6M</td><td>$9.4M</td><td style="color:var(--amber);font-weight:700">+$0.8M</td><td><span class="pill p-warn">Watch</span></td><td><button class="xbtn" onclick="event.stopPropagation();showDetailModal('cap-accessible')">Detail</button></td></tr>
+            <tr onclick="showDetailModal('cap-sever')"><td><div class="dt-name">Sever Hall Electrical Infrastructure</div><div class="dt-code">Facilities — Life Safety Priority</div></td><td>$12.4M</td><td>$12.1M</td><td style="color:var(--green);font-weight:700">−$0.3M</td><td><span class="pill p-ok">On Track</span></td><td><button class="xbtn" onclick="event.stopPropagation();showDetailModal('cap-sever')">Detail</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="callout co-cr">
+      <h4>Capital Triage Requirement — Board Cycle Preparation</h4>
+      The $842M deferred maintenance backlog must be triaged before the next Board cycle using four criteria: (1) life safety and code compliance, (2) research and teaching mission continuity, (3) escalation risk (problems that grow faster the longer they wait), and (4) reserve impact. Emergency repairs that escape capital governance and hit the operating budget — like the $12M FY25 emergency HVAC spend — are the primary risk to avoid.
+    </div>
+
+    <div class="insight-strip">
+      <div class="insight"><div class="insight-label">Emergency Repair Risk</div><div class="insight-text">The $12M in emergency operating expenses in FY25 came directly from the deferred maintenance backlog — buildings that should have had planned capital work but received emergency repairs instead. <strong>This will recur</strong> unless a capital reserve policy and triage framework are established.</div></div>
+      <div class="insight gold"><div class="insight-label">Reserve Draw Threshold</div><div class="insight-text">The capital reserve balance at <strong>$124M</strong> is below the $150M CFO threshold. Two simultaneous emergency repairs (like a HVAC failure and a structural failure) could deplete the reserve to a level that impairs routine capital planning.</div></div>
+      <div class="insight green"><div class="insight-label">Space Optimization Opportunity</div><div class="insight-text">Research labs cost <strong>$184/sqft/year</strong> — more than 4× the cost of classroom space. A space utilization audit across 40+ departments could identify labs operating below 60% utilization, creating consolidation options that reduce both maintenance and energy cost.</div></div>
+    </div>
+  </div><!-- /d5 -->
+
+  </div><!-- /content -->
+</div><!-- /pane-analytics -->
+
+<!-- WORKFRAME PANE -->
+<div class="pane" id="pane-workframe">
+  <div class="content">
+    <div class="page-eyebrow">CFO Operational Layer · Priority Workframe</div>
+    <h1 class="page-title">CFO Priority <em>Workframe</em></h1>
+    <div class="page-rule"></div>
+    <p class="page-dek">Seven priority initiatives for the FY26 close and FY27 budget build. Each has a named owner, decision window, risk narrative, and consequence. Use this view as the CFO's monthly operating agenda — each card links to the supporting analytical dashboard.</p>
+
+    <div class="watermark-strip">
+      <div class="wm-left">⚠ Synthetic CFO workframe sample — built from FAS-published context and Oracle EPM best-practice management model.</div>
+      <div class="wm-right">FY26 Close + FY27 Budget Build · May 2026</div>
+    </div>
+
+    <div class="wf-grid">
+      <div class="wf-card" onclick="showDetailModal('wf-close')">
+        <div class="wf-card-num">Priority 1</div>
+        <div class="wf-card-title">FY26 Close &amp; FY27 Budget Lock</div>
+        <div class="wf-card-owner">Controller + Director of Budget &amp; Planning</div>
+        <div class="wf-card-deadline critical">Critical · June–July 2026</div>
+        <div class="wf-card-amt">$20M contingency</div>
+        <div class="wf-card-desc">Hold FY26 favorability in contingency until final close. Lock FY27 guidance using actual close evidence. Unreconciled funds and late accruals can make the CFO release savings too early.</div>
+      </div>
+      <div class="wf-card" onclick="showDetailModal('wf-reforecast')">
+        <div class="wf-card-num">Priority 2</div>
+        <div class="wf-card-title">Rolling 4-Quarter Reforecast Model</div>
+        <div class="wf-card-owner">Budget &amp; Planning + OAS Data Team</div>
+        <div class="wf-card-deadline build">Build · Aug–Oct 2026</div>
+        <div class="wf-card-amt">Framework</div>
+        <div class="wf-card-desc">Annual-only budget review is too slow for federal funding, aid, and capital shocks. Approve driver-based quarterly reforecast with variance thresholds and department submission calendar.</div>
+      </div>
+      <div class="wf-card" onclick="showDetailModal('wf-research')">
+        <div class="wf-card-num">Priority 3</div>
+        <div class="wf-card-title">Research Continuity &amp; ICR Recovery Desk</div>
+        <div class="wf-card-owner">Research Admin + Sponsored Finance</div>
+        <div class="wf-card-deadline urgent">Urgent · June–Nov 2026</div>
+        <div class="wf-card-amt">$16.2M ICR gap</div>
+        <div class="wf-card-desc">Stand up weekly ICR collection, award activation, bridge-funding, and closeout review. Federal award timing can reverse favorable operating variance late in the year.</div>
+      </div>
+      <div class="wf-card" onclick="showDetailModal('wf-workforce')">
+        <div class="wf-card-num">Priority 4</div>
+        <div class="wf-card-title">Faculty/Staff Workforce Financial Model</div>
+        <div class="wf-card-owner">FAS Finance + HR + Divisional Deans</div>
+        <div class="wf-card-deadline priority">Priority · Sep–Dec 2026</div>
+        <div class="wf-card-amt">$832M personnel base</div>
+        <div class="wf-card-desc">Personnel costs are structurally sticky and crowd out research, aid, and capital flexibility. Approve a 5-year headcount and compensation model with mission-critical hiring gates.</div>
+      </div>
+      <div class="wf-card" onclick="showDetailModal('wf-capital')">
+        <div class="wf-card-num">Priority 5</div>
+        <div class="wf-card-title">Capital Reserve &amp; Deferred Maintenance Triage</div>
+        <div class="wf-card-owner">Facilities Finance + Capital Planning</div>
+        <div class="wf-card-deadline priority">Priority · Sep–Nov 2026</div>
+        <div class="wf-card-amt">$842M backlog</div>
+        <div class="wf-card-desc">Prioritize life-safety, research continuity, accessibility, and highest-risk deferred-maintenance projects. A single building failure can consume operating contingency mid-year.</div>
+      </div>
+      <div class="wf-card" onclick="showDetailModal('wf-tuition')">
+        <div class="wf-card-num">Priority 6</div>
+        <div class="wf-card-title">Tuition, Aid &amp; Net Revenue Model</div>
+        <div class="wf-card-owner">College/GSAS Finance + Enrollment + Aid</div>
+        <div class="wf-card-deadline board">Board Prep · Oct–Jan</div>
+        <div class="wf-card-amt">$130M net tuition</div>
+        <div class="wf-card-desc">Gross tuition decisions mislead if aid demand and enrollment mix are not modeled together. Present net revenue, aid sensitivity, and restricted-aid offsets before FY28 rate decisions.</div>
+      </div>
+      <div class="wf-card" onclick="showDetailModal('wf-restricted')">
+        <div class="wf-card-num">Priority 7</div>
+        <div class="wf-card-title">Restricted Fund &amp; Donor-Intent Review</div>
+        <div class="wf-card-owner">FAS Finance + Development + Counsel</div>
+        <div class="wf-card-deadline opp">Opportunity · Jul–Dec 2026</div>
+        <div class="wf-card-amt">$48.2M potential</div>
+        <div class="wf-card-desc">Classify funds by legal purpose, utilization, age, and plausible expanded-use path. Large restricted balances can mask low spendable flexibility while the operating budget is under pressure.</div>
+      </div>
+    </div>
+
+    <!-- STRATEGIC CALENDAR -->
+    <div class="sdiv" id="cfo-calendar"><div class="sdiv-title">Strategic Operating Calendar — FY26 Close to FY27 Budget Build</div><div class="sdiv-line"></div><div class="sdiv-tag">Key Milestones &amp; Decision Gates</div></div>
+    <div class="cc">
+      <div style="overflow-x:auto">
+        <table class="dtbl">
+          <thead><tr><th>Period</th><th>Calendar Item</th><th>Source</th><th>CFO Finance Use</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr onclick="showDetailModal('cal-close')"><td><div class="dt-name">Jun 30, 2026</div></td><td>Harvard FY26 Year-End Close</td><td>FAS Finance</td><td>B2P, Concur, accruals, deferred revenue, deficit funds, open commitments</td><td><span class="pill p-risk">CFO War-Room</span></td></tr>
+            <tr onclick="showDetailModal('cal-faculty')"><td><div class="dt-name">May 26, 2026</div></td><td>FAS Faculty Meeting / Degree Meeting</td><td>Office of the Secretary</td><td>Financial narrative, workforce/aid policy timing</td><td><span class="pill p-info">Finance Brief Ready</span></td></tr>
+            <tr onclick="showDetailModal('cal-commencement')"><td><div class="dt-name">May 28, 2026</div></td><td>Commencement</td><td>FAS Registrar</td><td>Aid commitments, enrollment confirmation, HES billing</td><td><span class="pill p-ok">Enrollment Final</span></td></tr>
+            <tr onclick="showDetailModal('cal-reforecast')"><td><div class="dt-name">Aug–Oct 2026</div></td><td>FY27 Reforecast &amp; Budget Lock</td><td>FAS Office of Finance</td><td>Driver-based reforecast, variance thresholds, guidance to departments</td><td><span class="pill p-warn">Build Now</span></td></tr>
+            <tr onclick="showDetailModal('cal-town-hall')"><td><div class="dt-name">Dec 4, 2025 + May 7, 2026</div></td><td>FAS Administrators Town Hall</td><td>FAS Admin Ops</td><td>Rollout channel for close guidance, dashboard adoption, budget-owner behavior</td><td><span class="pill p-info">Communication Gate</span></td></tr>
+            <tr onclick="showDetailModal('cal-merit')"><td><div class="dt-name">May–July 2026</div></td><td>Merit, Performance &amp; FY27 Compensation</td><td>Harvard HR</td><td>Merit pool, equity corrections, FY27 salary budget lock</td><td><span class="pill p-warn">Reconcile to Budget</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WORKFORCE FINANCE -->
+    <div class="sdiv" id="workforce"><div class="sdiv-title">Workforce Finance Calendar</div><div class="sdiv-line"></div><div class="sdiv-tag">HR + Finance Integration Points</div></div>
+    <div class="chart-grid-2">
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Merit, Vacancy &amp; Reclass Exposure — FY27</div><div class="cc-sub">Key workforce financial risks entering FY27 budget build</div></div></div>
+        <div style="margin-top:8px">
+          <div class="pbar">
+            <div class="pbar-label">Merit Pool (3.4%)</div>
+            <div class="pbar-track"><div class="pbar-fill pf-gold" style="width:68%"></div></div>
+            <div class="pbar-val">$1.46M</div>
+          </div>
+          <div class="pbar">
+            <div class="pbar-label">Reclassification Queue</div>
+            <div class="pbar-track"><div class="pbar-fill pf-amber" style="width:40%"></div></div>
+            <div class="pbar-val">16 cases</div>
+          </div>
+          <div class="pbar">
+            <div class="pbar-label">Retirement Exposure (3yr)</div>
+            <div class="pbar-track"><div class="pbar-fill pf-red" style="width:80%"></div></div>
+            <div class="pbar-val">64 roles</div>
+          </div>
+          <div class="pbar">
+            <div class="pbar-label">Below-Band Items</div>
+            <div class="pbar-track"><div class="pbar-fill pf-amber" style="width:27%"></div></div>
+            <div class="pbar-val">11 staff</div>
+          </div>
+          <div class="pbar">
+            <div class="pbar-label">Vacancy Savings (vs temp offset)</div>
+            <div class="pbar-track"><div class="pbar-fill pf-green" style="width:55%"></div></div>
+            <div class="pbar-val">$0.7M net</div>
+          </div>
+        </div>
+        <div class="callout co-amber" style="margin-top:10px;margin-bottom:0;padding:9px 12px;font-size:11.5px">
+          Merit and reclass requests must be costed before approval and reconciled to the authorized salary budget before July payroll.
+        </div>
+      </div>
+      <div class="cc">
+        <div class="cc-head"><div><div class="cc-title">Salary Range Source — FY26 Grades</div><div class="cc-sub">Harvard HR published ranges · used as governance, not automatic decisions</div></div></div>
+        <div style="overflow-x:auto;margin-top:8px">
+          <table class="dtbl">
+            <thead><tr><th>Grade</th><th>Min</th><th>Midpoint</th><th>Max</th><th>Use</th></tr></thead>
+            <tbody>
+              <tr><td><strong>059</strong></td><td>$102.3K</td><td>$140.7K</td><td>$179.1K</td><td><span class="pill p-info">Senior Mgr Range</span></td></tr>
+              <tr><td><strong>058</strong></td><td>$88.4K</td><td>$120.8K</td><td>$153.2K</td><td><span class="pill p-ok">DA Range</span></td></tr>
+              <tr><td><strong>056</strong></td><td>$63.0K</td><td>$86.4K</td><td>$109.8K</td><td><span class="pill p-ok">Research Associate</span></td></tr>
+              <tr><td><strong>Faculty</strong></td><td>$204K</td><td>$228K</td><td>$296K+</td><td><span class="pill p-warn">Market-Sensitive</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout co-blue" style="margin-top:10px;margin-bottom:0;padding:9px 12px;font-size:11.5px">
+          Source: <a href="https://hr.harvard.edu/salary-ranges" target="_blank" style="color:var(--blue)">hr.harvard.edu/salary-ranges</a> · FY26 effective July 1, 2025. Use ranges as governance input alongside compensation analysis.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /pane-workframe -->
+
+</main>
+</div><!-- /shell -->
+
+<script>
+/* ━━━━━━━━ CHART COLORS ━━━━━━━━ */
+const _C='rgba(165,28,48,.85)';const _G='rgba(176,125,42,.8)';const _GR='rgba(27,107,66,.85)';
+const _B='rgba(26,77,138,.85)';const _A='rgba(180,83,9,.8)';const _ML='rgba(107,114,128,.7)';
+const _PR='rgba(91,33,182,.75)';const _LN='rgba(0,0,0,.04)';
+
+/* ━━━━━━━━ NAVIGATION ━━━━━━━━ */
+function setViewTab(view){
+  document.querySelectorAll('.vtab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('vtab-'+view)?.classList.add('active');
+  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pane-'+view)?.classList.add('active');
+}
+
+function switchView(view, dashId, navEl, scrollTo){
+  setViewTab(view);
+  if(dashId) switchDash(dashId, document.getElementById('dtab-'+dashId));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  if(navEl) navEl.classList.add('active');
+  if(scrollTo) setTimeout(()=>{
+    const el=document.getElementById(scrollTo);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  },200);
+}
+
+function switchDash(id, btn){
+  document.querySelectorAll('.dash-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  document.querySelectorAll('.dtab').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  else document.getElementById('dtab-'+id)?.classList.add('active');
+  refreshReadingActive(id);
+  const q=document.getElementById('keywordSearch')?.value||'';
+  if(q) setTimeout(()=>runKeywordSearch(q),40);
+}
+
+function selectYtab(el){
+  el.closest('.section')?.querySelectorAll('.ytab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function setAudienceView(mode, btn){
+  const notes={
+    internal:'<strong>Internal Office of Finance mode:</strong> manage close exceptions, HART/HUBS reconciliation queues, payroll and position-control cycles, report-production backlog, data QA, staffing capacity, service SLAs, and department finance partner follow-up.',
+    fas:'<strong>FAS-wide Leadership mode:</strong> Dean, division heads, department chairs, and DAs. Aggregated variance, mission impact, recommended actions, and timeline. HUID and position-level fields suppressed.',
+    university:'<strong>University / Central mode:</strong> Provost, central finance, Board. High-level operating result, structural risk narrative, corrective lever summary, and compliance posture.',
+    brief:'<strong>Meeting Briefs mode:</strong> One-page talking points formatted for specific audience. Select the meeting type to generate the appropriate brief.'
+  };
+  document.getElementById('audienceNote').innerHTML=notes[mode]||'';
+  document.getElementById('audienceNote').classList.add('show');
+  document.querySelectorAll('[id^=viewBtn]').forEach(b=>b.classList.remove('primary'));
+  if(btn) btn.classList.add('primary');
+}
+
+function setFiscalScope(val){
+  const note=document.getElementById('fyNote');
+  if(!note) return;
+  const msgs={close:'FY26 Close-Control',next:'FY27 Budget Build',rolling:'Rolling 18 Months'};
+  note.textContent=msgs[val]||'';
+}
+
+/* ━━━━━━━━ MODAL SYSTEM ━━━━━━━━ */
+const MODAL_DATA = {
+  deficit:{tag:'FY25 Net Operating Result · Harvard FAS Annual Report',title:'−$7.7M Operating Deficit — Root Cause Analysis',body:`
+    <div class="m-metric-row">
+      <div class="m-metric"><div class="m-mval neg">−$7.7M</div><div class="m-mlabel">FY25 Net Result</div></div>
+      <div class="m-metric"><div class="m-mval" style="color:var(--green)">+$2.9M</div><div class="m-mlabel">FY24 Net Result</div></div>
+      <div class="m-metric"><div class="m-mval" style="color:var(--text)">−$10.6M</div><div class="m-mlabel">Year-over-Year Swing</div></div>
+    </div>
+    <div class="callout co-cr"><h4>Oracle OAS "Explain" — Primary Deficit Drivers</h4>Personnel wage growth outpacing revenue by 2.9 percentage points ($68M in excess cost growth); endowment distribution below FY24 peak by $24M; deferred maintenance emergency spending of $12M not in the capital plan.</div>
+    <div class="m-section"><div class="m-stitle">Top Deficit Drivers (FY24 → FY25)</div><ul class="m-bullets">
+      <li><strong>Personnel cost growth — $68M:</strong> Wages and benefits grew 5.8% vs revenue growth of 2.9%. Faculty market competition with MIT, Stanford drove above-plan salary actions.</li>
+      <li><strong>Endowment distribution reduction — $24M:</strong> HMC FY25 return of 9.6% below 5-year average triggered reduced spending formula. FAS payout fell from $671M to $647M.</li>
+      <li><strong>Emergency capital spending — $12M:</strong> Unplanned HVAC and electrical failures across 4 buildings required operating expenditures outside the capital plan — directly attributable to deferred maintenance backlog.</li>
+      <li><strong>Federal ICR shortfall — $8M:</strong> Continuing resolution delays in Q1 FY25 reduced ICR income below plan.</li>
+      <li><strong>Positive offset: Continuing Education — +$26M:</strong> HES enrollment surge generated $26M above plan — without this, FY25 deficit would have been −$33M+.</li>
+    </ul></div>
+    <div class="callout co-blue"><h4>Source</h4><a href="https://news.harvard.edu/gazette/story/2025/10/harvard-reports-operating-deficit-amid-federal-funding-cuts/" target="_blank" style="color:var(--blue)">Harvard Gazette FY25 finance coverage</a> · <a href="https://www.thecrimson.com/article/2026/4/13/fas-unpublished-annual-report/" target="_blank" style="color:var(--blue)">Crimson FAS FY25 figures</a></div>`},
+
+  structural:{tag:'Structural Deficit Projection · Oracle EPM 5-Year Model',title:'−$350M Cumulative Structural Deficit (FY26–FY30)',body:`
+    <div class="m-metric-row">
+      <div class="m-metric"><div class="m-mval neg">−$350M</div><div class="m-mlabel">5-Year Cumulative</div></div>
+      <div class="m-metric"><div class="m-mval warn">~20%</div><div class="m-mlabel">% of Annual Budget</div></div>
+      <div class="m-metric"><div class="m-mval" style="color:var(--blue)">FY29</div><div class="m-mlabel">Reserves Depleted (No Action)</div></div>
+    </div>
+    <div class="callout co-amber"><h4>How the $350M Is Derived</h4>Oracle EPM baseline: FY26 deficit ~$43M, growing ~$15–20M/year as expense CAGR (5.7%) continues to outpace revenue CAGR (2.9%). By FY30, annual deficit reaches $110M+. Cumulative FY26–30: ~$350M. This is a "do nothing" scenario to frame intervention urgency — not a prediction.</div>
+    <div class="m-section"><div class="m-stitle">Corrective Lever Analysis</div><ul class="m-bullets gld">
+      <li><strong>Personnel cost envelope (hold growth to 3.5%):</strong> Reduces 5-year cumulative deficit by ~$120M. Requires dean-level commitment to headcount ceilings.</li>
+      <li><strong>Trapped fund unlock ($23M/yr × 3 yrs):</strong> Provides $69M in bridge funding while structural fixes take hold. Requires legal review of donor intent.</li>
+      <li><strong>Continuing Education growth (+$20M/yr):</strong> Highest-ROI growth lever. Every 1,000 HES students adds ~$3.5M net revenue.</li>
+      <li><strong>F&A rate protection:</strong> Maintaining the 59% rate against proposed caps prevents ~$40M in ICR loss over 5 years.</li>
+      <li><strong>Administrative overhead reduction (22.4% → 19.8%):</strong> $42M in savings over 5 years through shared-services consolidation.</li>
+    </ul></div>`},
+
+  liquidity:{tag:'Liquidity & Reserves · NACUBO Benchmarks',title:'$191M Unrestricted Reserves — 43 Days of Cash',body:`
+    <div class="m-metric-row">
+      <div class="m-metric"><div class="m-mval warn">$191M</div><div class="m-mlabel">Unrestricted Reserves</div></div>
+      <div class="m-metric"><div class="m-mval warn">43 days</div><div class="m-mlabel">Days of Cash on Hand</div></div>
+      <div class="m-metric"><div class="m-mval" style="color:var(--blue)">11%</div><div class="m-mlabel">% of Annual Expenses</div></div>
+    </div>
+    <div class="callout co-amber"><h4>Why This Is Below Best Practice</h4>NACUBO recommends R1 research universities maintain unrestricted reserves of 15–20% of annual expenses (55–73 days of cash). At 11%, FAS has limited buffer against simultaneous shocks. Moody's Aaa is maintained via University-level reserves, but FAS-level liquidity is thin.</div>
+    <div class="m-section"><div class="m-stitle">Peer Comparison — Unrestricted Reserves as % of Expenses</div><ul class="m-bullets gld">
+      <li><strong>Harvard FAS: 11%</strong> — Below threshold. Improvement priority.</li>
+      <li><strong>Yale FAS: 18.4%</strong> — Maintained through disciplined annual reserve contributions of 1.5% of budget.</li>
+      <li><strong>Princeton: 22.1%</strong> — Highest in peer group; formal reserves policy requiring 20% minimum.</li>
+      <li><strong>MIT SoS: 16.2%</strong> — Mid-range; improved from 12% after FY22 operating surplus strategy.</li>
+      <li><strong>Stanford: 19.8%</strong> — Strong position; quarterly liquidity review by CFO.</li>
+    </ul></div>`},
+
+  jaws:{tag:'The "Jaws" Effect · Oracle OAS AI Analysis',title:'Expenses Growing 2× Faster Than Revenue',body:`
+    <div class="callout co-cr"><h4>Oracle OAS "Explain" Feature Output</h4>Personnel expense CAGR of 5.8% vs revenue CAGR of 2.9% — a 2.9pp gap that on a $1.6B base produces ~$46M in annual structural excess cost. Financial aid growing 8% annually as endowment income grows at 3.8%. Federal research ICR revenue growing at only 1.2% while research overhead costs grow at 4.4%.</div>
+    <div class="m-section"><div class="m-stitle">Revenue vs Expense CAGR (FY20–FY25 Actual)</div><ul class="m-bullets">
+      <li><strong>Total Revenue CAGR: +2.9%</strong> — Driven by endowment distribution growth and HES enrollment. Constrained by flat undergrad enrollment and compressed net tuition yield.</li>
+      <li><strong>Total Expense CAGR: +5.7%</strong> — Personnel (5.8%), deferred maintenance catch-up, and benefits inflation (healthcare +6.2%/yr). The 2.8pp gap is the "jaws" spread.</li>
+      <li><strong>Personnel CAGR: +5.8%</strong> — Above US private-sector wage growth of 4.2%. Market competition with tech sector for research talent (CS, Engineering, Life Sciences) is a structural driver.</li>
+      <li><strong>Inflection point: FY22–23</strong> — Post-COVID compensation recovery, combined with the Federal Reserve's rate environment increasing benefits costs, caused the expense line to cross decisively above revenue.</li>
+    </ul></div>`},
+
+  scenarios:{tag:'Oracle EPM · Enterprise Performance Management',title:'Scenario Modeling Suite — FY26 Budget Sandbox',body:`
+    <div class="callout co-blue"><h4>Oracle EPM — How It Works</h4>Oracle EPM creates a "sandbox" copy of the FY26 budget. Scenario changes are applied WITHOUT affecting the official budget. The CFO can model any combination of economic scenarios and see projected net operating result in real time.</div>
+    <div class="m-section"><div class="m-stitle">Pre-Built Scenarios</div><ul class="m-bullets gld">
+      <li><strong>Scenario A — Baseline:</strong> Tax 1.4%, grants 0% cut, CPI 2.7%. Projected FY26 result: −$43M.</li>
+      <li><strong>Scenario B — Endowment Tax at 8%:</strong> Annual revenue reduction ~$88M for FAS. Departments relying >50% on endowment auto-flagged. Projected result: −$131M.</li>
+      <li><strong>Scenario C — Federal Freeze 20%:</strong> ICR revenue falls $32M. 12+ labs require bridge funding. Projected result: −$75M.</li>
+      <li><strong>Scenario D — Combined Stress (B+C+CPI 4%):</strong> All three shocks simultaneously. Projected: −$224M — EMERGENCY response plan triggered.</li>
+      <li><strong>Scenario E — Recovery Path:</strong> Tuition +4%, HES +2,000 students, 3% personnel CAGR cap, $23M trapped fund unlock. Projected: +$18M surplus by FY28.</li>
+    </ul></div>
+    <div class="callout co-gold"><h4>Data Authorization Note</h4>This prototype does not access Harvard backend systems. In production, Oracle Analytics would blend: (1) Harvard GL/Oracle ERP actuals; (2) CPI assumptions; (3) sponsored-award and ICR feeds; (4) HMC payout and investment assumptions; (5) enrollment and financial-aid projections.</div>`},
+
+  fundraising:{tag:'Fundraising Velocity · Current-Use Strategy',title:'$222M Fundraising — Restricted vs Flexible Strategy',body:`
+    <div class="m-metric-row">
+      <div class="m-metric"><div class="m-mval">$222M</div><div class="m-mlabel">FY25 Velocity</div></div>
+      <div class="m-metric"><div class="m-mval" style="color:var(--green)">Current Use</div><div class="m-mlabel">Priority Type</div></div>
+      <div class="m-metric"><div class="m-mval" style="color:var(--gold)">FY27</div><div class="m-mlabel">Bridge Target</div></div>
+    </div>
+    <div class="callout co-green"><h4>CFO-Development Partnership</h4>Fundraising helps most when gifts are current-use and aligned to budget pressure points. Endowment-only gifts help long term but do not solve the near-term operating gap. Prioritize current-use gifts for financial aid, research continuity, and deferred maintenance.</div>
+    <ul class="m-bullets gld">
+      <li>Give development officers a CFO-approved case statement tied to specific funding gaps.</li>
+      <li>Track restricted vs flexible gift conversion monthly.</li>
+      <li>Identify major donors with capacity for current-use unrestricted gifts before the FY27 budget season.</li>
+    </ul>`},
+
+  'alert-junClose':{tag:'Critical Alert · June Close Risk',title:'June Close Reversal Risk — $24M Exposure',body:`<div class="callout co-cr"><h4>Root Cause</h4>The $20.4M favorable YTD result is predominantly timing-driven. Open positions, grant ramp delays, and physics lab spending deferrals can reverse rapidly in June. The CFO must not release this variance as savings until all accruals are complete and the Physics, aid, and grant close exceptions are resolved.</div><ul class="m-bullets"><li><strong>Owner:</strong> Controller + Director of Budget & Planning</li><li><strong>Trigger:</strong> Accrual reversals, late purchase orders, Physics overspend acceleration, and Physics postdoc starts</li><li><strong>CFO Action:</strong> Maintain close freeze on any discretionary budget releases; schedule daily status calls from June 15–30</li><li><strong>Consequence if missed:</strong> FY26 closes unfavorably, reducing CFO credibility for FY27 budget negotiations and Board communication</li></ul>`},
+
+  'alert-aid':{tag:'Critical Alert · Financial Aid',title:'Financial Aid Demand $12.2M Above Plan',body:`<div class="callout co-cr"><h4>Root Cause</h4>Need-based aid demand is structurally rising as Harvard's no-loan policy and family-contribution caps create more aid-eligible students each year. CPI-driven changes in assessed family contribution formulas in FY26 triggered above-plan demand.</div><ul class="m-bullets"><li><strong>Owner:</strong> Harvard College Financial Aid + GSAS + FAS Finance</li><li><strong>CFO Action:</strong> Reforecast FY27 aid budget before lock; identify restricted endowment aid funds that can offset demand</li><li><strong>Communication:</strong> Dean + Board brief required</li></ul>`},
+
+  'alert-research':{tag:'Critical Alert · ICR Risk',title:'Research Continuity / ICR Risk — $16.2M Exposure',body:`<div class="callout co-cr"><h4>Root Cause</h4>Federal award timing disruption from NIH/NSF continuing resolutions and policy-driven delays has pushed award activations to Q4. Labs are spending on bridge commitments while awaiting award confirmation. ICR collection is below plan by $16.2M.</div><ul class="m-bullets"><li><strong>Owner:</strong> Research Administration + Sponsored Finance</li><li><strong>CFO Action:</strong> Approve $8.4M conditional bridge pool; stand up weekly ICR recovery desk; identify labs at risk of lab closure without bridge</li><li><strong>Communication:</strong> Provost + Lab PIs</li></ul>`},
+
+  'alert-physics':{tag:'Critical Alert · Physics Overrun',title:'Physics Third-Year Overrun — $3.2M At Risk',body:`<div class="callout co-cr"><h4>Root Cause</h4>Physics has exceeded budget for three consecutive years. FY26 drivers: emergency lab equipment replacement ($1.8M), over-plan postdoc hires ($0.8M), and conference travel above threshold ($0.6M). Chair has not submitted a corrective plan.</div><ul class="m-bullets"><li><strong>Owner:</strong> Physics Chair + DA + Science Division Dean</li><li><strong>CFO Action:</strong> Freeze discretionary spend; submit capital exception for lab equipment; defer two postdoc starts to July; require weekly close review</li><li><strong>Consequence:</strong> Third consecutive miss will require a structural budget rebase in FY27</li></ul>`},
+
+  'alert-tariff':{tag:'Watch Alert · CCB Tariff Pressure',title:'CCB Supply / Tariff Pressure — $3.5M',body:`<div class="callout co-amber"><h4>Root Cause</h4>Tariff increases on laboratory reagents, specialty chemicals, and imported scientific equipment have raised CCB's per-unit supply costs significantly above the FY26 budget assumptions. This is partly controllable through pooled procurement and grant reallocation.</div><ul class="m-bullets"><li><strong>Owner:</strong> Chemistry & Chemical Biology + Procurement</li><li><strong>CFO Action:</strong> Join University-wide pooled procurement; reallocate allowable costs to active grants; rebase FY27 supply budget</li></ul>`},
+
+  'alert-capital':{tag:'Watch Alert · Capital Backlog',title:'Capital Backlog Reserve Draw — $842M',body:`<div class="callout co-amber"><h4>Root Cause</h4>The $842M deferred maintenance backlog represents years of under-investment in building systems. Emergency repairs that should be capital work are hitting the operating budget. The capital reserve at $124M is below the $150M CFO threshold.</div><ul class="m-bullets"><li><strong>CFO Action:</strong> Prepare Board triage package; rank projects by life safety, mission, escalation risk, and reserve impact</li><li><strong>Consequence:</strong> Without triage, emergency repairs continue to land in the operating budget</li></ul>`},
+
+  'alert-workforce':{tag:'Watch Alert · Workforce Finance',title:'Merit, Reclass & Succession — $1.46M Exposure',body:`<div class="callout co-amber"><h4>Root Cause</h4>FY27 merit pool, 16 pending reclassifications, 11 below-band items, and 64 employees eligible to retire within 3 years create a complex set of workforce financial exposures that must be modeled before the FY27 budget is locked.</div><ul class="m-bullets"><li><strong>Owner:</strong> HR + Compensation + Budget & Planning</li><li><strong>CFO Action:</strong> Cost each merit/reclass request before approval; create a CFO-visible queue; model retirement backfill costs in workforce model</li></ul>`},
+
+  'data-trust':{tag:'Data QA Alert · Oracle OAS',title:'Data Trust & Source Labels — Prototype Disclosure',body:`<div class="callout co-blue"><h4>Data Provenance</h4>This dashboard blends three data layers: (1) FAS-published and Harvard Gazette–reported actuals for FY25; (2) synthetic FY26/FY27 management model calibrated to the published context; (3) Oracle EPM scenario outputs. Every value should be tagged in production as: Actual (from HART/GL), Forecast (from budget model), or Synthetic (sample/illustrative).</div><div class="m-section"><div class="m-stitle">Source References</div><ul class="m-bullets"><li><a href="https://news.harvard.edu/gazette/story/2025/10/harvard-reports-operating-deficit-amid-federal-funding-cuts/" target="_blank" style="color:var(--blue)">Harvard Gazette FY25 finance context</a></li><li><a href="https://www.fas.harvard.edu/news/2025/11/updates-fas-finances-and-workforce-planning" target="_blank" style="color:var(--blue)">FAS finance & workforce update</a></li><li><a href="https://www.thecrimson.com/article/2026/4/13/fas-unpublished-annual-report/" target="_blank" style="color:var(--blue)">Crimson FAS FY25 figures</a></li><li><a href="https://hr.harvard.edu/salary-ranges" target="_blank" style="color:var(--blue)">Harvard HR Salary Ranges</a></li><li><a href="https://registrar.fas.harvard.edu/calendars" target="_blank" style="color:var(--blue)">FAS Registrar Calendars</a></li></ul></div>`},
+
+  'dept-econ':{tag:'Department Detail · Economics',title:'Economics — On Track · FY26',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval">$42.8M</div><div class="m-mlabel">Budget</div></div><div class="m-metric"><div class="m-mval pos">$31.2M</div><div class="m-mlabel">YTD Actual</div></div><div class="m-metric"><div class="m-mval" style="color:var(--green)">−$1.4M</div><div class="m-mlabel">Favorable Variance</div></div></div><div class="callout co-green"><h4>Status</h4>Two visiting fellow positions remain open and conference expenses are below plan. June grant draws and travel reimbursements may reduce the favorable position. No corrective action needed; keep savings in contingency until June close.</div>`},
+
+  'dept-ccb':{tag:'Department Alert · Chemistry & Chemical Biology',title:'CCB — Watch: Tariff-Driven Cost Escalation',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval">$58.1M</div><div class="m-mlabel">Budget</div></div><div class="m-metric"><div class="m-mval warn">$44.6M</div><div class="m-mlabel">YTD (+$0.8M over)</div></div><div class="m-metric"><div class="m-mval" style="color:var(--amber)">$59.2M</div><div class="m-mlabel">Year-End Forecast</div></div></div><div class="callout co-amber"><h4>Root Cause</h4>Lab supply and reagent costs are above plan. Tariff and supplier concentration effects are visible. Top 20 reagent contracts, purchase orders above $25K, and grant-allowability for supplies need review.</div><ul class="m-bullets"><li>Join pooled procurement for reagents and specialty chemicals</li><li>Rebase FY27 supply budget to include tariff-adjusted unit costs</li><li>Move allowable supply costs to active grants</li></ul>`},
+
+  'dept-phys':{tag:'Critical Department Action · Physics',title:'Physics — At Risk: $3.2M Third-Year Overrun',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval neg">$67.1M</div><div class="m-mlabel">Year-End Forecast</div></div><div class="m-metric"><div class="m-mval neg">+$3.2M</div><div class="m-mlabel">Variance</div></div><div class="m-metric"><div class="m-mval" style="color:var(--amber)">81%</div><div class="m-mlabel">% Budget Used</div></div></div><div class="callout co-cr"><h4>Immediate Action Required</h4>Emergency lab equipment ($1.8M), over-plan postdoc hires ($0.8M), and above-threshold travel ($0.6M). Third consecutive overrun year. Chair/DA have not submitted corrective plan.</div><div class="m-section"><div class="m-stitle">CFO Actions</div><ul class="m-bullets"><li>Freeze all discretionary spending immediately</li><li>Submit capital exception for lab equipment — move to capital budget</li><li>Defer two postdoc starts to July 1</li><li>Require chair + DA weekly close review with Finance</li><li>Prepare structural FY27 budget rebase</li></ul></div><div class="callout co-gold"><h4>Draft Chair Communication</h4>Finance should send: "Physics variance exceeds $3.2M — third consecutive year. Immediate corrective plan required by May 30. CFO will review and must approve any travel, equipment, or new hire above $5K through June 30."</div>`},
+
+  'dept-celt':{tag:'Department Review · Celtic Languages',title:'Celtic Languages — Small-Department Structural Issue',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval">$4.2M</div><div class="m-mlabel">Budget</div></div><div class="m-metric"><div class="m-mval warn">$3.6M</div><div class="m-mlabel">YTD</div></div><div class="m-metric"><div class="m-mval" style="color:var(--amber)">$4.8M</div><div class="m-mlabel">Forecast (+$0.6M)</div></div></div><div class="callout co-blue"><h4>Root Cause</h4>Small-department volatility from salary step increases, visiting lecturer emergency coverage, and international faculty travel. A single unexpected hire or travel event represents 10%+ of the annual budget.</div><ul class="m-bullets"><li>Create 3–5% small-department contingency in FY27 budget build</li><li>Include HR step projections in FY27 model</li><li>Bundle international travel approvals with a Finance review gate</li></ul>`},
+
+  'dept-hcfa':{tag:'Critical Alert · Harvard College Financial Aid',title:'Harvard College Financial Aid — $12.2M CFO Attention',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval neg">$190.4M</div><div class="m-mlabel">Year-End Forecast</div></div><div class="m-metric"><div class="m-mval neg">+$12.2M</div><div class="m-mlabel">Above Plan</div></div><div class="m-metric"><div class="m-mval warn">84%</div><div class="m-mlabel">% Used Thru May</div></div></div><div class="callout co-cr"><h4>Root Cause</h4>Need-based aid demand exceeds plan due to enrollment-mix shifts, CPI-driven changes to assessed family contribution formulas, and appeal volume above trend. Harvard's no-loan commitment means all eligible students receive aid to full need.</div><div class="m-section"><div class="m-stitle">CFO Actions</div><ul class="m-bullets"><li>Reforecast FY27 aid budget using enrollment mix, aid rate, and appeal trend</li><li>Identify restricted endowment funds earmarked for financial aid that can offset demand</li><li>Prepare Dean + Board decision on FY27 aid reserve requirement</li><li>Model CPI sensitivity: each 1% CPI above 2.7% adds ~$2.8M in aid demand</li></ul></div>`},
+
+  'gross-tuition':{tag:'Academic Revenue · Gross Tuition',title:'Gross Tuition $312.8M — Rate & Enrollment Analysis',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval">$312.8M</div><div class="m-mlabel">FY26 Gross Tuition</div></div><div class="m-metric"><div class="m-mval">$54,768</div><div class="m-mlabel">Tuition Rate</div></div><div class="m-metric"><div class="m-mval">6,818</div><div class="m-mlabel">HC Enrollment</div></div></div><div class="callout co-blue"><h4>Context</h4>Gross tuition growth at +3.8% is outpaced by financial aid growth at +8.2%. Every $1 of gross tuition growth generates less than $1 of net revenue at the current discount rate of 58.3%. The CFO must model net tuition — not gross — as the operating revenue indicator.</div>`},
+
+  'fin-aid':{tag:'Academic Revenue · Financial Aid',title:'Financial Aid $182.4M — Demand-Driven at +8.2%',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval neg">$182.4M</div><div class="m-mlabel">FY26 Aid Commitment</div></div><div class="m-metric"><div class="m-mval neg">+8.2%</div><div class="m-mlabel">Annual Growth Rate</div></div><div class="m-metric"><div class="m-mval warn">58.3%</div><div class="m-mlabel">Discount Rate</div></div></div><div class="callout co-amber"><h4>Structural Challenge</h4>Harvard's no-loan financial aid policy means aid grows with family income distribution, CPI, and enrollment mix — all of which can move faster than tuition rate increases. The FY26 overrun of $12.2M signals that the FY27 budget must assume continued growth unless the eligibility model changes.</div>`},
+
+  'net-tuition':{tag:'Academic Revenue · Net Tuition',title:'Net Tuition $130.4M — Compressed from $142M FY23',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval warn">$130.4M</div><div class="m-mlabel">FY26 Net Tuition</div></div><div class="m-metric"><div class="m-mval neg">−$11.6M</div><div class="m-mlabel">vs FY23</div></div><div class="m-metric"><div class="m-mval">FY29F</div><div class="m-mlabel">Could reach $112M</div></div></div><div class="callout co-cr"><h4>Why This Matters</h4>Net tuition compression means that gross tuition increases now produce diminishing net revenue. If the discount rate continues to rise from 58.3% toward the NACUBO peer median of 61.4%, FAS net tuition could fall below $115M by FY29, even with 3–4% annual rate increases. The revenue model must account for this trend in every CFO scenario.</div>`},
+
+  'hes-revenue':{tag:'Academic Revenue · HES Extension',title:'HES Extension Revenue — $26M Above Plan',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval pos">14,812</div><div class="m-mlabel">HES Enrolled</div></div><div class="m-metric"><div class="m-mval pos">+612</div><div class="m-mlabel">Above Plan</div></div><div class="m-metric"><div class="m-mval pos">$26M</div><div class="m-mlabel">Revenue Above Plan</div></div></div><div class="callout co-green"><h4>Strategic Opportunity</h4>HES is the single largest flexible revenue lever available to FAS. Every 1,000 additional enrolled students adds approximately $3.5M in net revenue. The CFO and Dean should treat HES enrollment targets as a financial planning variable in every FY27 scenario, with appropriate mission-fit guardrails and capacity planning.</div>`},
+
+  'icr-total':{tag:'Sponsored Research · ICR',title:'Total ICR $162.2M — $16.2M Below Plan',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval neg">$162.2M</div><div class="m-mlabel">Collected FY26</div></div><div class="m-metric"><div class="m-mval warn">$178.4M</div><div class="m-mlabel">Budget Plan</div></div><div class="m-metric"><div class="m-mval neg">−$16.2M</div><div class="m-mlabel">Shortfall</div></div></div><div class="callout co-cr"><h4>Recovery Strategy</h4>The $16.2M gap is largely recoverable through aggressive award activation, billing completion, and bridge-funding desk management. Weekly ICR collection tracking, with named PIs and award activation status, is the minimum discipline required. The CFO should approve the $8.4M bridge pool and monitor weekly drawdowns.</div>`},
+
+  'icr-federal':{tag:'Federal Research · ICR',title:'Federal ICR $122.4M — NIH/NSF Delays',body:`<div class="callout co-amber"><h4>Root Cause</h4>NIH and NSF continuing resolutions and policy-driven award delays pushed activation timelines into Q4 FY26. Labs that expected award activation in Q2 are now operating on bridge commitments. The F&A rate of 59% is also under policy review — protection of this rate is a Board-level priority.</div><ul class="m-bullets"><li>Stand up weekly award activation tracker across all federal-funded labs</li><li>Escalate any award over $500K delayed more than 60 days to the research administration office</li><li>Protect the 59% F&A rate through the federal rate negotiation process</li></ul>`},
+
+  'icr-private':{tag:'Private Research · ICR',title:'Private ICR $39.8M — $3.2M Above Plan',body:`<div class="callout co-green"><h4>Diversification Signal</h4>Corporate and private foundation ICR growing above plan provides a partial offset to federal disruption. FAS should develop a formal corporate research partnership strategy that maintains academic freedom while growing this revenue stream as a structural diversifier over FY27–FY30.</div>`},
+
+  'restricted-total':{tag:'Restricted Funds · Balance & Spendability',title:'Restricted Funds $2.84B — Spendability Analysis',body:`<div class="callout co-gold"><h4>The Spendability Problem</h4>$2.84B in restricted balances can look like available wealth while being legally or donor-purpose constrained. The CFO needs spendability classification — not only balance reporting. Classification by legal purpose, utilization rate, age, and plausible expanded-use path is the prerequisite for any unlock sprint.</div><ul class="m-bullets gld"><li><strong>Near-term unlock target: $48.2M</strong> — identified through Oracle OAS utilization analysis</li><li><strong>Legal review required</strong> — cy pres or expanded-purpose petitions for dormant funds</li><li><strong>Donor stewardship required</strong> — any expanded use must be communicated donor-safely</li></ul>`},
+
+  'overhead':{tag:'Admin Overhead Analysis',title:'Administrative Overhead 22.4% — Peer Reduction Target',body:`<div class="m-metric-row"><div class="m-metric"><div class="m-mval warn">22.4%</div><div class="m-mlabel">FAS Overhead</div></div><div class="m-metric"><div class="m-mval" style="color:var(--green)">19.8%</div><div class="m-mlabel">CFO Target</div></div><div class="m-metric"><div class="m-mval" style="color:var(--gold)">$42M</div><div class="m-mlabel">5-Year Savings</div></div></div><div class="callout co-amber"><h4>Reduction Levers</h4>Administrative savings should come from process redesign — not service degradation. Shared-service consolidation, automation of finance and HR workflows, and spans-and-layers analysis offer the highest-ROI path. Across-the-board admin headcount cuts without service-level measures risk degrading faculty and research support.</div>`},
+
+  'cap-backlog':{tag:'Capital Projects · Deferred Maintenance',title:'$842M Deferred Maintenance Backlog — Triage Required',body:`<div class="callout co-cr"><h4>CFO Priority</h4>The $842M backlog is not a single decision — it is a portfolio of risks at different urgency levels. Triage must use: (1) life safety and code compliance (non-deferrable), (2) research mission continuity (lab systems), (3) escalation risk (problems that grow faster when delayed), and (4) reserve impact (projects that could hit the operating budget as emergency repairs). The $12M in emergency FY25 operating expenses came from this backlog.</div><ul class="m-bullets"><li>Building envelope and roofing: $142M critical + $86M near-term</li><li>HVAC and mechanical: $118M critical + $74M near-term</li><li>Electrical infrastructure: $96M critical</li><li>Lab equipment and fume hoods: $88M critical (research mission)</li></ul>`},
+
+  'compliance-email':{tag:'Automated Compliance Action · FAS Finance Policy §4.2',title:'Send Q3 Reforecast Reminder — 9 Late Units',body:`<div class="callout co-amber"><h4>Draft Auto-Generated Reminder (Oracle OAS)</h4><div style="background:var(--ink);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-size:12px;line-height:1.75;color:var(--text-2)"><strong>To:</strong> [Department Administrator] · [Department Chair — cc]<br><strong>From:</strong> FAS Office of Finance — Automated Compliance System<br><strong>Subject:</strong> ACTION REQUIRED: FY2026 Q3 Quarterly Reforecast — Overdue · [Department Name]<br><br>Our records indicate that [Department Name]'s Q3 FY2026 quarterly reforecast submission is now overdue (original deadline: May 15, 2026).<br><br><strong>Your current budget position:</strong> [Budget: $XX.XM · YTD Actual: $XX.XM · Variance: ±$X.XM]<br><br>Per FAS Finance Policy §4.2, submissions received after May 15 are subject to a 0.5% central administration tax on your FY27 budget allocation. Please submit your Q3 reforecast via the HART portal by <strong>May 22, 2026</strong>.<br><br>This is an automated message generated by Oracle OAS.</div></div><div class="callout co-blue" style="margin-bottom:0"><h4>Oracle OAS Automation</h4>In production, this email would be generated and sent automatically by Oracle Analytics, personalized with the department's actual budget position from the HART GL feed. The CFO receives a delivery confirmation and compliance tracking update.</div>`},
+
+  'memo-dean':{tag:'CFO Communication · Dean Brief',title:'Draft Dean Communication — FY26 Operating Position',body:`<div style="background:var(--ink);border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-size:12.5px;line-height:1.8;color:var(--text-2)"><strong>To:</strong> Dean of the Faculty of Arts and Sciences<br><strong>From:</strong> CFO, Faculty of Arts and Sciences<br><strong>Re:</strong> FY26 Operating Position — May Update and Close Actions Required<br><strong>Date:</strong> May 20, 2026<br><hr style="border:none;border-top:1px solid var(--border);margin:10px 0"><strong>Summary:</strong> FAS is tracking $20.4M favorable year-to-date versus plan through May. This is primarily timing-driven (vacancies, grant ramp delays), not structural savings. Five decisions require your attention before June 30.<br><br><strong>Critical items requiring Dean-level engagement:</strong><br>1. <strong>Physics:</strong> $3.2M overrun (3rd consecutive year) — intervention plan required by May 30<br>2. <strong>Financial Aid:</strong> $12.2M above plan — FY27 reforecast needed; restricted aid fund review underway<br>3. <strong>Research bridge pool:</strong> $8.4M conditional approval to protect lab continuity<br>4. <strong>Restricted-fund unlock:</strong> $48.2M identified — legal and donor review initiated<br>5. <strong>June close:</strong> Recommend holding all variance in contingency through July 15<br><br>Full supporting analysis is available in the CFO Intelligence Suite.</div>`},
+
+  'memo-board':{tag:'CFO Communication · Board Brief',title:'Board Brief — FY26 Financial Position',body:`<div style="background:var(--ink);border:1px solid var(--border);border-radius:8px;padding:16px 20px;font-size:12.5px;line-height:1.8;color:var(--text-2)"><strong>FAS FY26 Financial Summary — Board Brief · May 2026</strong><hr style="border:none;border-top:1px solid var(--border);margin:10px 0"><strong>Operating Position:</strong> FAS is tracking $20.4M favorable YTD through May — primarily timing-driven, not recurring savings.<br><strong>Year-End Outlook:</strong> $1.58B projected spend vs $1.60B budget; $20M below budget before June risk reversal.<br><strong>Structural Challenge:</strong> Expense CAGR (5.7%) continues to outpace revenue CAGR (2.9%) — the "jaws" effect. Without intervention, cumulative 5-year structural deficit could reach $350M.<br><strong>Liquidity:</strong> 43 days cash on hand — below the 60-day NACUBO best-practice threshold.<br><strong>Key Risks:</strong> June close reversal ($24M), financial aid overrun ($12.2M), ICR disruption ($16.2M), Physics overrun ($3.2M).<br><strong>Management Response:</strong> Holding variance in contingency; standing up ICR recovery desk; initiating restricted-fund review; Physics intervention memo issued.</div>`},
+
+  'wf-close':{tag:'CFO Workframe · Priority 1',title:'FY26 Close & FY27 Budget Lock',body:`<div class="callout co-cr"><h4>Why This Is Priority 1</h4>The FY26 close is the most consequential event in the CFO calendar. Releasing the $20.4M favorable variance before close is complete is the highest single risk — it can be reversed by Physics, grant acceleration, summer ramp, and aid commitments in June.</div><div class="m-section"><div class="m-stitle">Close War-Room Agenda (June 15 – July 15)</div><ul class="m-bullets"><li>Daily status call: Controller, FP&A, Physics DA, Sponsored Finance, Aid Office</li><li>Hold all discretionary budget releases until close + accruals are final</li><li>Complete Physics intervention plan and Physics capital exception by June 3</li><li>Finalize aid reforecast and restricted-aid offset analysis by June 10</li><li>Lock FY27 guidance using actual close evidence by July 20</li></ul></div>`},
+
+  'wf-research':{tag:'CFO Workframe · Priority 3',title:'Research Continuity & ICR Recovery Desk',body:`<div class="callout co-amber"><h4>Weekly Operating Discipline Required</h4>The $16.2M ICR gap is recoverable, but only through a dedicated weekly operating desk. Award activation tracking, billing completion, bridge-fund drawdown monitoring, and F&A rate protection must run simultaneously.</div><ul class="m-bullets"><li>Assign a named ICR recovery lead in Sponsored Finance</li><li>Track every federal award over $100K by activation date, billing status, and bridge-fund status</li><li>Escalate any collection delay over 30 days to the CFO level</li><li>Protect the 59% F&A rate in every federal negotiation — this is worth $40M over 5 years</li><li>Stand up private-sector ICR diversification review in parallel</li></ul>`},
+
+  'source-legend':{tag:'Data Trust & Lineage · Oracle OAS',title:'Data Source Legend — FAS CFO Intelligence Suite',body:`<div class="callout co-blue"><h4>Three Data Layers</h4><ul class="m-bullets"><li><strong>Layer 1 — FAS-Published Actuals (FY25):</strong> Harvard Gazette reporting, FAS Finance Updates, and The Crimson FAS annual report figures. Treated as published-but-not-audited management context.</li><li><strong>Layer 2 — Synthetic FY26/FY27 Management Model:</strong> Calibrated to the published FY25 context using Oracle EPM-style modeling. Figures are illustrative of the CFO decision framework — not official Harvard financial statements.</li><li><strong>Layer 3 — Oracle EPM Scenario Outputs:</strong> Stress-test scenarios built on the synthetic base. For planning and communication use only.</li></ul></div><div class="callout co-gold"><h4>In Production</h4>A production-authorized dashboard would blend only: (1) HART GL actuals; (2) CPI and economic assumptions; (3) Oracle ERP forecasts; (4) HMC payout assumptions; (5) enrollment and aid projections from the registrar and financial aid office. All source records would carry HART timestamps and authorized data-pull certificates.</div>`}
+};
+
+// Month modals
+const MONTHS = {
+  jul:{label:'July 2025',act:116,plan:120,var:-4,cause:'Summer onboarding timing, deferred lab equipment orders, mild weather reduced HVAC expense.',action:'No corrective action. Track Q2 research-spend ramp so delayed purchases do not create a June spike.'},
+  aug:{label:'August 2025',act:111,plan:115,var:-4,cause:'Summer faculty leave, low instruction activity, grants awaiting formal activation.',action:'Ensure grant activation paperwork is complete before September close.'},
+  sep:{label:'September 2025',act:126,plan:130,var:-4,cause:'Fall launch under faculty hiring plan; four searches remained open.',action:'Reforecast open searches if not filled by December.'},
+  oct:{label:'October 2025',act:131,plan:133,var:-2,cause:'Personnel timing favorable, partially offset by early cold-weather utilities.',action:'Monitor federal grant pipeline; brief CFO if grant timing exceeds $2M cumulative.'},
+  nov:{label:'November 2025',act:128,plan:130,var:-2,cause:'Administrative travel below plan; PIs delayed non-critical spend amid federal uncertainty.',action:'Send Q2 budget pacing memo to department administrators.'},
+  dec:{label:'December 2025',act:123,plan:125,var:-2,cause:'Holiday closures and year-end P-card sweeps reduced costs; Physics lab heating partly offset savings.',action:'Process budget returns by December 31 and issue FY27 budget guidance in early January.'},
+  jan:{label:'January 2026',act:118,plan:122,var:-4,cause:'Open senior faculty positions and federal award delays suppressed personnel and research spending.',action:'Escalate federal funding timing; prepare downside scenario if NIH/NSF delays continue beyond March.'},
+  feb:{label:'February 2026',act:113,plan:118,var:-5,cause:'Short month, lower benefits utilization, and conservative PI spending behavior.',action:'Update benefits assumptions for Q3 reforecast; consider moving recurring savings to contingency.'},
+  mar:{label:'March 2026',act:120,plan:125,var:-5,cause:'Facilities work moved to April and mild weather reduced heating costs.',action:'Confirm deferred work schedule and watch Physics overrun before April close.'},
+  apr:{label:'April 2026',act:132,plan:138,var:-6,cause:'Research spend remained cautious while Physics and lab-supply pressure began offsetting broader savings.',action:'Issue Physics intervention memo and schedule CFO meeting with chair and DA.'},
+  may:{label:'May 2026',act:140,plan:148,var:-8,cause:'Open roles and federal research timing remain favorable; two units still pending reconciliation.',action:'Complete close by June 3, finalize Physics plan, and prepare year-end reforecast for CFO/Dean review.'},
+  jun:{label:'June 2026 (Forecast)',act:160,plan:156,var:4,cause:'Unfavorable forecast from Physics overrun, year-end grant drawdowns, and summer program ramp.',action:'CFO action required: defer non-critical equipment, hold two postdoc starts to July, freeze discretionary travel.'}
+};
+
+function showDetailModal(key){
+  let data = MODAL_DATA[key];
+  if(!data && key.startsWith('month-')){
+    const mk = key.replace('month-','');
+    const m = MONTHS[mk];
+    if(m){
+      const bad = m.var>0;
+      data = {
+        tag:'Monthly Close Drill-Down · FAS Finance',
+        title:`${m.label} — ${bad?'+':''}${m.var}M ${bad?'Unfavorable':'Favorable'}`,
+        body:`<div class="m-metric-row">
+          <div class="m-metric"><div class="m-mval">\$${m.act}M</div><div class="m-mlabel">Actual/Forecast</div></div>
+          <div class="m-metric"><div class="m-mval" style="color:var(--text-muted)">\$${m.plan}M</div><div class="m-mlabel">Plan</div></div>
+          <div class="m-metric"><div class="m-mval" style="color:${bad?'var(--cr)':'var(--green)'}">${bad?'+':''}${m.var}M</div><div class="m-mlabel">${bad?'Unfavorable':'Favorable'}</div></div>
+        </div>
+        <div class="callout ${bad?'co-cr':'co-green'}"><h4>${bad?'Corrective Action':'Recommended Action'}</h4>${m.action}</div>
+        <div class="m-section"><div class="m-stitle">Cause Analysis</div><p>${m.cause}</p></div>`
+      };
+    }
+  }
+  if(!data){
+    data={tag:'Detail Panel',title:key.replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase()),body:`<div class="callout co-blue"><h4>Root-Cause Read</h4>This item is a management signal. Validate the data, name the owner, and set the next decision: monitor, reforecast, hold spending, rebase budget, or escalate to the CFO.</div><ul class="m-bullets"><li><strong>Validate:</strong> reconcile ledger, payroll, grant, or gift records.</li><li><strong>Name the owner:</strong> assign department, division, finance partner, or central office.</li><li><strong>Set next decision:</strong> monitor, reforecast, hold spending, rebase, or escalate.</li></ul>`};
+  }
+  document.getElementById('modalTag').textContent = data.tag||'';
+  document.getElementById('modalTitle').innerHTML = data.title||'';
+  document.getElementById('modalBody').innerHTML = (data.body||'') + '<div style="margin-top:16px"><button class="xbtn" onclick="closeModal()">Close</button></div>';
+  document.getElementById('modalBg').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function openModalData(key){ showDetailModal(key); }
+
+function closeModal(){
+  document.getElementById('modalBg').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeBgModal(e){
+  if(e.target===document.getElementById('modalBg')) closeModal();
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+
+
+/* ━━━━━ READING TRACK + KEYWORD SEARCH FIXES ━━━━━ */
+const READING_KEY='fasCfoReadingTrack_v3';
+function getCheckedReading(){
+  try{return JSON.parse(localStorage.getItem(READING_KEY)||'[]')}catch(e){return []}
+}
+function saveCheckedReading(ids){
+  try{localStorage.setItem(READING_KEY,JSON.stringify(ids))}catch(e){}
+}
+function syncReadingTrack(){
+  const checked=new Set(getCheckedReading());
+  document.querySelectorAll('.reading-step').forEach(step=>{
+    step.classList.toggle('done',checked.has(step.dataset.dash));
+  });
+  const progress=document.getElementById('readingProgress');
+  if(progress) progress.textContent=`${checked.size}/5 checked`;
+}
+function refreshReadingActive(id){
+  document.querySelectorAll('.reading-step').forEach(step=>{
+    step.classList.toggle('active',step.dataset.dash===id);
+  });
+}
+function goReadingStep(id){
+  setViewTab('analytics');
+  switchDash(id,document.getElementById('dtab-'+id));
+  const checked=new Set(getCheckedReading());
+  checked.add(id);
+  saveCheckedReading([...checked]);
+  syncReadingTrack();
+  document.getElementById('dashboardTools')?.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function resetReadingTrack(){
+  saveCheckedReading([]);
+  syncReadingTrack();
+}
+function escapeRegExp(str){return str.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')}
+function clearSearchHighlights(root){
+  if(!root) return;
+  root.querySelectorAll('mark.cfo-search-hit').forEach(mark=>{
+    const text=document.createTextNode(mark.textContent);
+    mark.replaceWith(text);
+  });
+  root.normalize();
+}
+function runKeywordSearch(query){
+  const root=document.querySelector('.pane.active .content') || document.querySelector('.pane.active');
+  const countEl=document.getElementById('searchCount');
+  clearSearchHighlights(root);
+  const q=(query||'').trim();
+  if(!root || q.length<2){ if(countEl) countEl.textContent='0 hits'; return; }
+  const rx=new RegExp(escapeRegExp(q),'gi');
+  const nodes=[];
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{
+    acceptNode(node){
+      const parent=node.parentElement;
+      if(!parent || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+      if(parent.closest('script,style,noscript,mark,input,textarea,select')) return NodeFilter.FILTER_REJECT;
+      return rx.test(node.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+  let node; while((node=walker.nextNode())) nodes.push(node);
+  let hits=0;
+  nodes.forEach(textNode=>{
+    const text=textNode.nodeValue;
+    const frag=document.createDocumentFragment();
+    let last=0;
+    text.replace(rx,(match,offset)=>{
+      if(offset>last) frag.appendChild(document.createTextNode(text.slice(last,offset)));
+      const mark=document.createElement('mark');
+      mark.className='cfo-search-hit';
+      mark.textContent=match;
+      frag.appendChild(mark);
+      hits++;
+      last=offset+match.length;
+      return match;
+    });
+    if(last<text.length) frag.appendChild(document.createTextNode(text.slice(last)));
+    textNode.replaceWith(frag);
+  });
+  if(countEl) countEl.textContent=`${hits} hit${hits===1?'':'s'}`;
+  document.querySelector('mark.cfo-search-hit')?.scrollIntoView({behavior:'smooth',block:'center'});
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  syncReadingTrack();
+  refreshReadingActive(document.querySelector('.dash-panel.active')?.id || 'd1');
+  updateScenarios();
+});
+
+/* ━━━━━━━━ SCENARIO MODELING ━━━━━━━━ */
+function updateScenarios(){
+  const taxRate = parseFloat(document.getElementById('scTaxRate')?.value)||1.4;
+  const grantCut = parseFloat(document.getElementById('scGrantCut')?.value)||0;
+  const cpi = parseFloat(document.getElementById('scInflation')?.value)||2.7;
+  const taxRateVal=document.getElementById('taxRateVal'); if(taxRateVal) taxRateVal.textContent = taxRate.toFixed(1)+'%';
+  const grantCutVal=document.getElementById('grantCutVal'); if(grantCutVal) grantCutVal.textContent = grantCut.toFixed(0)+'%';
+  const inflVal=document.getElementById('inflVal'); if(inflVal) inflVal.textContent = cpi.toFixed(1)+'%';
+  const taxImpact = Math.round(3500*(taxRate-1.4)/100*0.38);
+  const grantImpact = Math.round(284.6*(grantCut/100)*0.59*0.38);
+  const inflImpact = Math.round(Math.max(0,(cpi-2.7)*16));
+  const base = -7.7;
+  const netResult = (base - taxImpact - grantImpact - inflImpact).toFixed(1);
+  const depts = Math.min(70, 4 + Math.round((taxImpact+grantImpact)/5));
+  const nr = parseFloat(netResult);
+  const taxImpactEl=document.getElementById('sc-tax-impact'); if(taxImpactEl) taxImpactEl.textContent = '-$'+taxImpact+'M';
+  const grantImpactEl=document.getElementById('sc-grant-impact'); if(grantImpactEl) grantImpactEl.textContent = '-$'+grantImpact+'M';
+  const inflImpactEl=document.getElementById('sc-infl-impact'); if(inflImpactEl) inflImpactEl.textContent = '-$'+inflImpact+'M';
+  const netEl=document.getElementById('sc-net-result');
+  if(netEl){ netEl.textContent = '$'+netResult+'M'; netEl.style.color = nr<-100?'#DC2626':nr<-30?'#B45309':'#1B6B42'; }
+  const actions=['Monitor','Reforecast watch','Spending controls needed','Dean + Board alert','EMERGENCY response'];
+  const tier = nr<-200?4:nr<-100?3:nr<-50?2:nr<-20?1:0;
+  const actionEl=document.getElementById('sc-action'); if(actionEl) actionEl.textContent = actions[tier];
+  const deptEl=document.getElementById('sc-depts'); if(deptEl) deptEl.textContent = depts+' departments';
+  const formulaEl=document.getElementById('scenarioFormula'); if(formulaEl) formulaEl.textContent = `Formula: FY26 baseline −$7.7M − tax impact $${taxImpact}M − grant impact $${grantImpact}M − inflation $${inflImpact}M = $${netResult}M`;
+}
+
+/* ━━━━━━━━ CHARTS ━━━━━━━━ */
+function mc(id, cfg){
+  const el=document.getElementById(id);
+  if(!el || typeof Chart==='undefined') return null;
+  return new Chart(el, cfg);
+}
+
+// Revenue Mix
+mc('revMixChart',{type:'doughnut',data:{
+  labels:['Endowment Distribution (40.4%)','Sponsored Research (17.8%)','Gross Tuition (19.6%)','Gifts & Current Use (9.2%)','HES & Other (13.0%)'],
+  datasets:[{data:[40.4,17.8,19.6,9.2,13.0],backgroundColor:[_C,_B,_GR,_G,_A],borderWidth:2,borderColor:'#fff'}]
+},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{font:{size:10.5},boxWidth:10,padding:8}}}}});
+
+// Jaws
+mc('jawsChart',{type:'line',data:{
+  labels:['FY20','FY21','FY22','FY23','FY24','FY25','FY26F','FY27F','FY28F','FY29F'],
+  datasets:[
+    {label:'Total Revenue ($B)',data:[1.24,1.28,1.31,1.36,1.44,1.48,1.52,1.56,1.60,1.65],borderColor:_GR,backgroundColor:'rgba(27,107,66,.08)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:4},
+    {label:'Total Expense ($B)',data:[1.22,1.28,1.32,1.38,1.47,1.54,1.60,1.67,1.74,1.82],borderColor:_C,backgroundColor:'rgba(165,28,48,.08)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:4}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10.5},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN},ticks:{callback:v=>'$'+v+'B'}}}}});
+
+// Liquidity
+mc('liquidityChart',{type:'line',data:{
+  labels:['FY20','FY21','FY22','FY23','FY24','FY25','FY26F'],
+  datasets:[
+    {label:'Harvard FAS',data:[62,68,71,64,58,50,43],borderColor:_C,backgroundColor:'rgba(165,28,48,.1)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:5},
+    {label:'NACUBO Best Practice (60 days)',data:[60,60,60,60,60,60,60],borderColor:_GR,borderDash:[5,4],borderWidth:1.5,pointRadius:0,backgroundColor:'transparent'}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10.5},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{min:30,max:75,grid:{color:_LN},ticks:{callback:v=>v+' days'}}}}});
+
+// Faculty Cost
+mc('facultyCostChart',{type:'bar',data:{
+  labels:['Arts & Hum','Social Sci','Science','SEAS','HC Admin'],
+  datasets:[
+    {label:'FY26 Actual ($M)',data:[107.3,120.0,203.8,143.2,108.4],backgroundColor:_C,borderRadius:4},
+    {label:'FY26 Plan ($M)',data:[104.8,117.6,198.2,140.6,105.8],backgroundColor:'rgba(165,28,48,.25)',borderRadius:4}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN},ticks:{callback:v=>'$'+v+'M'}}}}});
+
+// Overhead
+mc('overheadChart',{type:'doughnut',data:{
+  labels:['Direct Academic Delivery (77.6%)','Administrative Overhead (22.4%)'],
+  datasets:[{data:[77.6,22.4],backgroundColor:[_GR,_A],borderWidth:2,borderColor:'#fff'}]
+},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'right',labels:{font:{size:10.5},boxWidth:10,padding:8}}}}});
+
+// Personnel Trend
+mc('personnelTrendChart',{type:'line',data:{
+  labels:['FY22','FY23','FY24','FY25','FY26','FY27F','FY28F','FY29F'],
+  datasets:[
+    {label:'Harvard FAS',data:[49.2,50.1,51.4,51.8,52.3,52.8,53.2,53.8],borderColor:_C,backgroundColor:'rgba(165,28,48,.1)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:5},
+    {label:'Yale',data:[47.8,48.2,48.9,49.4,49.8,null,null,null],borderColor:_G,borderDash:[4,3],tension:0.3,borderWidth:1.5,pointRadius:3,backgroundColor:'transparent'},
+    {label:'Risk Ceiling (53%)',data:[53,53,53,53,53,53,53,53],borderColor:'rgba(180,83,9,.5)',borderDash:[5,4],borderWidth:1.5,pointRadius:0,backgroundColor:'transparent'}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10.5},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{min:44,max:56,grid:{color:_LN},ticks:{callback:v=>v+'%'}}}}});
+
+// Staff Function
+mc('staffFuncChart',{type:'bar',data:{
+  labels:['Administration','Research Staff','Academic Support','Technical/IT','Facilities','Finance/HR'],
+  datasets:[{label:'FTE',data:[1248,1842,842,624,412,848],backgroundColor:[_B,_GR,'rgba(27,107,66,.6)',_G,_A,_PR],borderRadius:5}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN}}}}});
+
+// Tuition Net
+mc('tuitionNetChart',{type:'line',data:{
+  labels:['FY20','FY21','FY22','FY23','FY24','FY25','FY26','FY27F','FY28F','FY29F'],
+  datasets:[
+    {label:'Gross Tuition ($M)',data:[248,256,272,288,302,301,313,325,338,351],borderColor:_B,backgroundColor:'rgba(26,77,138,.08)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:4},
+    {label:'Net Tuition ($M)',data:[148,152,155,142,136,129,130,124,118,112],borderColor:_GR,backgroundColor:'rgba(27,107,66,.08)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:4},
+    {label:'Financial Aid ($M)',data:[100,104,117,146,166,172,183,201,220,239],borderColor:_C,borderDash:[5,4],borderWidth:1.5,pointRadius:3,backgroundColor:'transparent'}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10.5},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN},ticks:{callback:v=>'$'+v+'M'}}}}});
+
+// Aid Inflation
+mc('aidInflChart',{type:'bar',data:{
+  labels:['1% CPI','2% CPI','2.7% CPI (Current)','3% CPI','4% CPI','5% CPI'],
+  datasets:[
+    {label:'Aid Demand Growth %',data:[2.8,5.4,8.0,9.2,14.4,20.1],backgroundColor:[_GR,_GR,_G,_A,_C,_C],borderRadius:5}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN},ticks:{callback:v=>v+'%'}}}}});
+
+// Discount Rate
+mc('discountChart',{type:'line',data:{
+  labels:['FY22','FY23','FY24','FY25','FY26'],
+  datasets:[
+    {label:'Harvard FAS',data:[54.1,55.8,57.2,57.9,58.3],borderColor:_C,backgroundColor:'rgba(165,28,48,.1)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:5},
+    {label:'Yale',data:[58.2,59.1,59.8,60.4,60.9],borderColor:_G,backgroundColor:'transparent',tension:0.3,borderWidth:1.5,pointRadius:3},
+    {label:'NACUBO Peer Median',data:[61.2,61.8,62.1,62.4,61.4],borderColor:_ML,borderDash:[4,3],backgroundColor:'transparent',borderWidth:1.5,pointRadius:0}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10.5},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{min:50,max:67,grid:{color:_LN},ticks:{callback:v=>v+'%'}}}}});
+
+// Enrollment
+mc('enrollChart',{type:'bar',data:{
+  labels:['Harvard College','GSAS PhD','GSAS MA','HES / Ext Studies','Summer School'],
+  datasets:[
+    {label:'Planned FTE',data:[6820,3980,620,14200,4400],backgroundColor:'rgba(165,28,48,.3)',borderRadius:4},
+    {label:'Actual FTE',data:[6818,4002,608,14812,4318],backgroundColor:_C,borderRadius:4}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN}}}}});
+
+// ICR Scenario
+mc('icrScenChart',{type:'line',data:{
+  labels:['FY25A','FY26F','FY27F','FY28F'],
+  datasets:[
+    {label:'No Freeze (baseline)',data:[178,178,184,190],borderColor:_GR,backgroundColor:'rgba(27,107,66,.08)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:5},
+    {label:'20% Federal Cut',data:[178,162,154,148],borderColor:_A,backgroundColor:'rgba(180,83,9,.08)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:5},
+    {label:'35% Federal Cut',data:[178,148,136,124],borderColor:_C,backgroundColor:'rgba(165,28,48,.08)',fill:true,tension:0.4,borderWidth:2.5,pointRadius:5}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10.5},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN},ticks:{callback:v=>'$'+v+'M'}}}}});
+
+// ICR Type
+mc('icrTypeChart',{type:'doughnut',data:{
+  labels:['NIH ($64.2M)','NSF ($28.4M)','DOE ($18.4M)','DOD ($11.4M)','Corporate ($24.2M)','Foundation ($15.6M)'],
+  datasets:[{data:[39.6,17.5,11.4,7.0,14.9,9.6],backgroundColor:[_C,_B,_G,_ML,_GR,_PR],borderWidth:2,borderColor:'#fff'}]
+},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{font:{size:10},boxWidth:8,padding:7}}}}});
+
+// Grant Pipeline
+mc('grantPipeChart',{type:'bar',data:{
+  labels:['NIH','NSF','DOE','DOD','Private Found.','Corporate'],
+  datasets:[
+    {label:'Submitted ($M)',data:[84.2,48.6,28.4,22.8,64.2,36.4],backgroundColor:_B,borderRadius:4},
+    {label:'Awarded ($M)',data:[48.4,28.2,18.4,14.2,38.6,20.6],backgroundColor:_GR,borderRadius:4},
+    {label:'Pending ($M)',data:[28.4,12.4,8.2,6.4,18.4,8.6],backgroundColor:_G,borderRadius:4}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10},boxWidth:10}}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN},ticks:{callback:v=>'$'+v+'M'}}}}});
+
+// Bridge Funding
+mc('bridgeFundChart',{type:'bar',data:{
+  labels:['MCB Lab','SEAS-MatSci','OEB Field Sta','Chem-Physics','EPS Geochem','Astronomy','SCRB Imaging','Biophysics'],
+  datasets:[{label:'Bridge Needed ($K)',data:[840,720,680,580,560,480,440,420],backgroundColor:[_C,_C,_A,_A,_A,_G,_G,_G],borderRadius:4}]
+},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{grid:{color:_LN},ticks:{callback:v=>'$'+v+'K'}},y:{grid:{display:false}}}}});
+
+// Deferred Maintenance
+mc('maintChart',{type:'bar',data:{
+  labels:['Building Envelope','HVAC & Mech','Electrical','Lab Equipment','ADA / Code','Plumbing','Fire Safety','IT Infra'],
+  datasets:[
+    {label:'Critical/Urgent ($M)',data:[142,118,96,88,72,48,42,38],backgroundColor:_C,borderRadius:4},
+    {label:'Near-Term (<5yr) ($M)',data:[86,74,62,54,38,32,28,24],backgroundColor:_A,borderRadius:4},
+    {label:'Long-Term (>5yr) ($M)',data:[42,38,28,22,16,12,8,6],backgroundColor:_G,borderRadius:4}
+  ]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{font:{size:10},boxWidth:10}}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,grid:{color:_LN},ticks:{callback:v=>'$'+v+'M'}}}}});
+
+// Space Cost
+mc('spaceChart',{type:'bar',data:{
+  labels:['Research Labs','Wet Labs','Clinical Sim','Dry Lab/Comp','Classrooms','Faculty Office','Admin','Library','Student'],
+  datasets:[{label:'Cost per Sq Ft ($/yr)',data:[184,162,148,98,82,74,62,48,42],backgroundColor:[_C,_C,_A,_A,_G,_G,_GR,_B,_B],borderRadius:5}]
+},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false}},y:{grid:{color:_LN},ticks:{callback:v=>'$'+v+'/sqft'}}}}});
+
+</script>
+</body>
+</html>
