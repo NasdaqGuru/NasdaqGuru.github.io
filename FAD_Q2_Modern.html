@@ -29,6 +29,19 @@ table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(-
 .bar{height:8px;border-radius:999px;background:#eeece6;overflow:hidden;margin-top:5px}.fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--green));border-radius:999px}
 .footer{padding:18px 30px;color:#6d6a63;border-top:1px solid var(--line);background:#fffdf8;font-size:12px}
 @media(max-width:900px){.grid,.two{grid-template-columns:1fr}.top h1{font-size:23px}.wrap{padding:18px 14px 34px}}
+
+.audit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;margin-bottom:17px}
+.audit-card{background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--r);box-shadow:var(--shadow);padding:16px}
+.audit-card.green{border-left-color:var(--green)}.audit-card.amber{border-left-color:var(--amber)}.audit-card h3{margin:0 0 7px;color:var(--navy);font-size:18px;line-height:1.18}
+.audit-card p{margin:0;color:var(--muted)}.audit-card ul{margin:8px 0 0;padding-left:20px;color:var(--muted)}.audit-card li{margin-bottom:5px}
+.gate-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:17px}
+.gate-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;border-top:5px solid var(--amber)}
+.gate-card.green{border-top-color:var(--green)}.gate-card h3{margin:0 0 7px;color:var(--navy);font-size:18px;line-height:1.18}.gate-card p{margin:0 0 9px;color:var(--muted)}
+.gate-status{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 9px;font-size:11px;font-weight:900;margin:3px 5px 8px 0}
+.gate-status.watch{background:#fef8e6;color:var(--amber)}.gate-status.good{background:#e8f5ee;color:var(--green)}
+.decision-note{background:#fffdf8;border:1px dashed var(--line);border-radius:8px;padding:10px;margin-top:10px;color:#30343c;font-size:13px}
+@media(max-width:900px){.audit-grid,.gate-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -36,14 +49,14 @@ table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(-
   <h1>Q2 Process Modernization Proof Points</h1>
   <p>Standalone deep dive cloned from the Strategic Financial Process Transformation report, expanded for executive review and scale decisions.</p>
   <div class="actions">
-    <a class="btn" href="FAD_Process_Plan_Scannable_Cards.html">Back to main dashboard</a>
-    <a class="btn" href="FAD_Risk_Decision_Action_Center.html">Open Risk & Decision Action Center</a>
+    <a class="btn" href="https://nasdaqguru.github.io/FAD_Process_Plan.html" target="_blank" rel="noopener">Back to main dashboard</a>
+    <a class="btn" href="https://nasdaqguru.github.io/FAD_RD_Action.html" target="_blank" rel="noopener">Open Risk & Decision Action Center</a>
   </div>
 </header>
 <main class="wrap">
   <section class="hero">
     <h2>Q2 shows three modernized finance processes are ready for controlled scale.</h2>
-    <p>The evidence is strongest when cycle time, exception rate, released hours, control readiness, and adoption risk are reviewed together. The recommended posture is not broad rollout by default; it is controlled scale after each process clears its data, policy, training, and owner gates.</p>
+    <p>The evidence is strongest when cycle time, exception rate, released hours, control readiness, and adoption risk are reviewed together. The recommended posture is not broad rollout by default; it is controlled scale after each process clears its data, policy, training, owner, and compliance gates. This version adds the Controller-facing scale-gate audit so each metric is tied to a specific operational decision.</p>
   </section>
 
   <section class="kpis">
@@ -52,6 +65,24 @@ table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(-
     <div class="kpi"><span>Q2 labor value</span><b>$176K</b><small>$705.6K annualized</small></div>
     <div class="kpi"><span>Avg cycle lift</span><b>34.5%</b><small>baseline to Q2</small></div>
     <div class="kpi"><span>Exception rate</span><b>11.4%</b><small>down from 18.6%</small></div>
+  </section>
+
+  <div class="section-title">Controller Metrics Pipeline Audit</div>
+  <section class="audit-grid">
+    <article class="audit-card green">
+      <h3>Portfolio numbers tie out across the application package</h3>
+      <p>The Q2 proof-point track confirms the operating metrics used across the broader FAD application materials.</p>
+      <ul>
+        <li><strong>Average cycle lift:</strong> 34.5% baseline-to-Q2 reduction across the three modernized workflows.</li>
+        <li><strong>Exception compression:</strong> manual exception rates decreased from 18.6% historical baseline to 11.4% in Q2.</li>
+        <li><strong>Capacity release:</strong> 2,940 hours saved in Q2, equivalent to $176.4K realized process productivity value and $705.6K annualized run-rate.</li>
+      </ul>
+    </article>
+    <article class="audit-card">
+      <h3>Controller scale rule</h3>
+      <p>Do not scale on value alone. Each workflow must clear a named scale gate covering process ownership, exception controls, training readiness, data-source stability, and compliance boundaries.</p>
+      <div class="decision-note"><strong>Presentation line:</strong> “The strongest workflow is not necessarily the highest-value workflow; the strongest workflow is the one with value, controls, owners, and a documented scale path.”</div>
+    </article>
   </section>
 
   <div class="section-title">Process-Level Proof</div>
@@ -88,6 +119,31 @@ table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(-
         <div class="metric"><b>$50.4K</b><span>Q2 value</span></div>
       </div>
       <div class="callout"><strong>Scale gate:</strong> publish service-category standards and route aged exceptions to named owners weekly.</div>
+    </article>
+  </section>
+
+  <div class="section-title">Technical Scale-Gate Audit — By Workflow</div>
+  <section class="gate-grid">
+    <article class="gate-card">
+      <h3>Automated Research Grant Reporting</h3>
+      <span class="gate-status watch">74% readiness</span><span class="gate-status good">$67.2K Q2 value</span>
+      <p><strong>Controller read:</strong> highest individual quarterly yield, but lowest readiness because sponsored-research expansion requires stronger exception governance.</p>
+      <p><strong>Guardrail:</strong> approve a sponsor-condition exception catalog before scaling beyond the current controlled cohort.</p>
+      <div class="decision-note"><strong>Positioning:</strong> This shows discipline: the transformation team will not compromise Uniform Guidance or sponsor-condition compliance for a faster rollout.</div>
+    </article>
+    <article class="gate-card green">
+      <h3>Vendor Onboarding & Supplier Maintenance</h3>
+      <span class="gate-status good">88% readiness</span><span class="gate-status good">9.0% exception rate</span>
+      <p><strong>Controller read:</strong> strongest enterprise-rollout candidate because the exception rate is manageable and the AP/Procurement ownership model is clearer.</p>
+      <p><strong>Guardrail:</strong> lock required supplier, banking, tax, duplicate-screening, and risk-tier fields before request submission.</p>
+      <div class="decision-note"><strong>Positioning:</strong> This favors front-end data integrity controls over expensive manual cleanup after submission.</div>
+    </article>
+    <article class="gate-card">
+      <h3>Internal Billing / Recharge Processing</h3>
+      <span class="gate-status watch">78% readiness</span><span class="gate-status good">10.8-day Q2 cycle</span>
+      <p><strong>Controller read:</strong> cycle time improved, but broad scale depends on a consistent service-category policy and named ownership for aging exceptions.</p>
+      <p><strong>Guardrail:</strong> publish recharge policy definitions and route aged exceptions to named owners weekly.</p>
+      <div class="decision-note"><strong>Positioning:</strong> This targets the decentralized operational lag that usually stalls institutional billings.</div>
     </article>
   </section>
 
@@ -135,6 +191,19 @@ table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(-
         <tr><td><strong>Automated Research Grant Reporting</strong><div class="bar"><div class="fill" style="width:74%"></div></div></td><td class="r watch">74%</td><td>Strong value, but sponsored-research exception catalog must be approved before scale.</td></tr>
       </tbody>
     </table>
+  </section>
+
+  <div class="section-title">Scale Decision Summary</div>
+  <section class="panel">
+    <table>
+      <thead><tr><th>Workflow</th><th>Recommended posture</th><th>What must be true before scale</th><th>Controller concern addressed</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Vendor Onboarding & Supplier Maintenance</strong></td><td><span class="good">Proceed to enterprise rollout candidate</span></td><td>Required fields locked; duplicate, tax, banking, and risk-tier validations active; AP/Procurement ownership confirmed.</td><td>Procurement friction, supplier-data quality, and back-end cleanup burden.</td></tr>
+        <tr><td><strong>Internal Billing / Recharge Processing</strong></td><td><span class="watch">Controlled scale with policy sprint</span></td><td>Service-category standards published; aging exceptions routed weekly; named owners assigned by unit.</td><td>Decentralized recharge lag, policy ambiguity, and exception aging.</td></tr>
+        <tr><td><strong>Automated Research Grant Reporting</strong></td><td><span class="watch">Hold broad scale until compliance gate clears</span></td><td>Sponsor-condition exception catalog approved; OSP/Controller review path documented; reporting package tested with controlled cohort.</td><td>Uniform Guidance, sponsor-condition exceptions, and research compliance exposure.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout"><strong>Executive message:</strong> Q2 demonstrates measurable productivity gains, but the operating model remains disciplined: scale when the workflow has the right owner, stable data, documented controls, and a credible adoption path.</div>
   </section>
 </main>
 <footer class="footer">Harvard FAD Strategic Financial Process Transformation - Q2 proof-point deep dive. Source: main dashboard proof-point and operating-intelligence sections.</footer>

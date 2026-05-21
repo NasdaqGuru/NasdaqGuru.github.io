@@ -1,130 +1,326 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FAD Risk & Decision Action Center</title>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>FAD Risk &amp; Decision Action Center | Unified Governance Package</title>
 <style>
 :root{
-  --crimson:#A51C30;--navy:#1a2744;--blue:#1a5fa8;--green:#1e6b38;--amber:#8a5c00;--red:#9b2020;--gold:#b8932a;
+  --crimson:#A51C30;--navy:#1a2744;--blue:#1a5fa8;--green:#1e6b38;--amber:#8a5c00;--red:#A51C30;--gold:#b8932a;
   --paper:#fff;--bg:#f8f7f4;--line:#d6d3ca;--muted:#5c5a54;--soft:#eef0f5;
   --font:Cambria,Georgia,"Times New Roman",serif;--r:10px;--shadow:0 4px 14px rgba(26,39,68,.08);
 }
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:#2e2d2a;font-family:var(--font);font-size:14px;line-height:1.55}
-.top{background:linear-gradient(135deg,#5c0a14,#9b2020 52%,#1a2744);color:#fff;padding:22px 30px;border-bottom:4px solid var(--crimson)}
-.top h1{margin:0;font-size:28px;line-height:1.1}.top p{margin:7px 0 0;color:rgba(255,255,255,.84)}
+.top{background:linear-gradient(135deg,#1a5fa8 0%,#1a2744 68%,#243c68 100%);color:#fff;padding:22px 30px;border-bottom:4px solid var(--crimson);box-shadow:0 5px 18px rgba(26,39,68,.18)}
+.top h1{margin:0;font-size:28px;line-height:1.1}.top p{margin:7px 0 0;color:rgba(255,255,255,.86);max-width:1050px}
 .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:8px 13px;font-weight:800;font-size:12px;text-decoration:none;border:1px solid rgba(255,255,255,.28);color:#fff;background:rgba(255,255,255,.12)}
-.wrap{max-width:1280px;margin:0 auto;padding:24px 26px 42px}.hero{background:#fff;border:1px solid var(--line);border-left:5px solid var(--red);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
-.hero h2{margin:0 0 6px;font-size:22px;color:var(--navy)}.hero p{margin:0;color:var(--muted);max-width:980px}
+.wrap{max-width:1280px;margin:0 auto;padding:24px 26px 42px}.hero{background:linear-gradient(135deg,#fff 0%,#f8fbff 70%,#eef4fb 100%);border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
+.hero h2{margin:0 0 6px;font-size:22px;color:var(--navy)}.hero p{margin:0;color:var(--muted);max-width:1060px}.hero .statusline{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:11px;margin-bottom:17px}.kpi{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:14px}
-.kpi span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.55px;color:#6d6a63;font-weight:800}.kpi b{display:block;font-size:28px;line-height:1;color:var(--navy);margin-top:5px}.kpi small{display:inline-block;margin-top:7px;padding:2px 8px;border-radius:999px;background:#fdeaea;color:var(--red);font-weight:800}
-.section-title{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:#514d47;font-weight:900;margin:22px 0 11px}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;border-top:5px solid var(--red)}
-.card.amber{border-top-color:var(--amber)}.card.blue{border-top-color:var(--blue)}.card h3{margin:0 0 7px;color:var(--navy);font-size:18px;line-height:1.18}.card p{margin:0 0 10px;color:var(--muted)}
-.meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.pill{display:inline-flex;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:900}.red{background:#fdeaea;color:var(--red)}.amber{background:#fef8e6;color:var(--amber)}.blue{background:#e8f0fb;color:var(--blue)}.green{background:#e8f5ee;color:var(--green)}
-.callout{margin-top:11px;background:#e8f0fb;border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:10px;color:#30343c;font-size:13px}.stakes{background:#fdeaea;border-left-color:var(--red)}.callout strong{color:var(--navy)}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:13px}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px}
+.kpi span{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.55px;color:#6d6a63;font-weight:800}.kpi b{display:block;font-size:28px;line-height:1;color:var(--navy);margin-top:5px}.kpi small{display:inline-block;margin-top:7px;padding:2px 8px;border-radius:999px;background:#fdeaea;color:var(--red);font-weight:800}.kpi small.ok{background:#e8f5ee;color:var(--green)}.kpi small.warn{background:#fef8e6;color:var(--amber)}
+.section-title{font-size:13px;text-transform:uppercase;letter-spacing:.8px;color:#514d47;font-weight:900;margin:22px 0 11px;display:flex;align-items:center;gap:8px}.section-title:before{content:"";width:10px;height:10px;border-radius:50%;background:var(--blue);display:inline-block}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;border-top:5px solid var(--crimson)}
+.card.amber{border-top-color:var(--amber)}.card.blue{border-top-color:var(--blue)}.card.green{border-top-color:var(--green)}.card h3{margin:0 0 7px;color:var(--navy);font-size:18px;line-height:1.18}.card p{margin:0 0 10px;color:var(--muted)}
+.meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.pill{display:inline-flex;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:900;align-items:center}.red{background:#fff4f5;color:var(--crimson);border:1px solid #f5c2c9}.amber{background:#fef8e6;color:var(--amber)}.blue{background:#e8f0fb;color:var(--blue)}.green{background:#e8f5ee;color:var(--green)}.gold{background:#fdf8ee;color:var(--gold)}
+.callout{margin-top:11px;background:#e8f0fb;border-left:4px solid var(--blue);border-radius:0 8px 8px 0;padding:10px;color:#30343c;font-size:13px}.stakes{background:#fff4f5;border-left-color:var(--crimson)}.warn{background:#fef8e6;border-left-color:var(--amber)}.good{background:#e8f5ee;border-left-color:var(--green)}.callout strong{color:var(--navy)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:13px}.panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px}.panel.emergency{border-left:5px solid var(--crimson)}.panel.good{border-left:5px solid var(--green)}.panel.amber{border-left:5px solid var(--amber)}
 .panel h3{margin:0 0 8px;color:var(--navy);font-size:18px}.panel ul{margin:8px 0 0;padding-left:20px;color:var(--muted)}.panel li{margin-bottom:5px}
-table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--r);overflow:hidden}th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.55px;color:#6d6a63;background:#fffdf8;border-bottom:1px solid var(--line);padding:9px}td{border-bottom:1px solid #eeece6;padding:10px;vertical-align:top}td.c,th.c{text-align:center}
-.decision-row{display:grid;grid-template-columns:92px 1fr 170px 150px;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid #eeece6}.decision-row:last-child{border-bottom:none}.time{font-weight:900;color:var(--crimson);background:#fdeaea;border-radius:8px;padding:6px 8px;text-align:center}
+table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:var(--r);overflow:hidden}th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.55px;color:#6d6a63;background:#fffdf8;border-bottom:1px solid var(--line);padding:9px}td{border-bottom:1px solid #eeece6;padding:10px;vertical-align:top}td.c,th.c{text-align:center}.nowrap{white-space:nowrap}
+.decision-row{display:grid;grid-template-columns:92px 1fr 170px 150px;gap:10px;align-items:start;padding:10px 0;border-bottom:1px solid #eeece6}.decision-row:last-child{border-bottom:none}.time{font-weight:900;color:var(--blue);background:#e8f0fb;border-radius:8px;padding:6px 8px;text-align:center}.script-box{white-space:pre-wrap;background:#fff;border:1px solid var(--line);border-left:5px solid var(--blue);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;color:#30343c;font-size:15px;line-height:1.65}.script-box strong{color:var(--navy)}
+.protocol{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}.protocol div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;box-shadow:var(--shadow)}.protocol b{display:block;color:var(--navy);font-size:15px;margin-bottom:4px}.protocol span{display:block;color:var(--muted);font-size:13px}
+
+.stress-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin-bottom:16px}
+.stress-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;border-left:5px solid var(--blue)}
+.stress-card.warn{border-left-color:var(--amber)}.stress-card.redline{border-left-color:var(--crimson)}.stress-card.secure{border-left-color:var(--green)}
+.stress-card h3{margin:0 0 7px;color:var(--navy);font-size:18px}.stress-card p{margin:0 0 9px;color:var(--muted)}
+.stress-card ul{margin:8px 0 0 20px;color:var(--muted)}.stress-card li{margin-bottom:5px}.stress-card .gate{display:inline-flex;border-radius:999px;padding:2px 8px;font-size:11px;font-weight:900;background:#e8f0fb;color:var(--blue);margin:2px 0 8px}
+.stress-card.warn .gate{background:#fef8e6;color:var(--amber)}.stress-card.redline .gate{background:#fdeaea;color:var(--crimson)}.stress-card.secure .gate{background:#e8f5ee;color:var(--green)}
+.timeline-table td:first-child{font-weight:900;color:var(--navy);white-space:nowrap}.timeline-table td strong{color:var(--navy)}
+@media(max-width:950px){.stress-grid{grid-template-columns:1fr}}
+
 .footer{padding:18px 30px;color:#6d6a63;border-top:1px solid var(--line);background:#fffdf8;font-size:12px}
-@media(max-width:950px){.grid,.two{grid-template-columns:1fr}.decision-row{grid-template-columns:1fr}.top h1{font-size:23px}.wrap{padding:18px 14px 34px}}
+
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin:12px 0 16px}.summary-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px;border-left:5px solid var(--green)}.summary-card h3{margin:0 0 7px;color:var(--navy);font-size:18px}.summary-card p,.summary-card li{color:var(--muted);margin:0 0 6px}.summary-card ul{margin:8px 0 0 20px}.memo-box{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}.memo-head{background:linear-gradient(135deg,#f8fbff,#fff);border-bottom:1px solid var(--line);padding:14px 16px}.memo-head b{display:block;color:var(--navy);font-size:18px;margin-bottom:4px}.memo-meta{display:grid;grid-template-columns:90px 1fr;gap:6px 12px;color:var(--muted);font-size:13px}.memo-body{padding:16px 18px}.memo-body h4{margin:14px 0 6px;color:var(--crimson);font-size:15px;text-transform:uppercase;letter-spacing:.5px}.memo-body h4:first-child{margin-top:0}.memo-body p,.memo-body li{color:var(--muted);margin-bottom:6px}.memo-body ul{margin:6px 0 10px 20px}.approval-line{margin-top:14px;border-top:1px solid var(--line);padding-top:12px;color:var(--navy);font-weight:900}.checklist{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.check-item{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:14px;border-left:5px solid var(--blue)}.check-item h3{margin:0 0 6px;color:var(--navy);font-size:17px}.check-item p{margin:0;color:var(--muted)}.rhythm-steps{counter-reset:step;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}.rhythm-steps div{background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;box-shadow:var(--shadow);position:relative}.rhythm-steps div:before{counter-increment:step;content:counter(step);display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;background:var(--blue);color:#fff;font-weight:900;margin-bottom:8px}.rhythm-steps b{display:block;color:var(--navy);font-size:15px;margin-bottom:4px}.rhythm-steps span{display:block;color:var(--muted);font-size:13px}.soft-red-note{background:#fff4f5;border-left:4px solid var(--crimson);border-radius:0 8px 8px 0;padding:10px;color:#30343c;font-size:13px;margin-top:10px}.badge-ok{background:#e8f5ee;color:var(--green);border:1px solid #bee5cf}.badge-policy{background:#e8f0fb;color:var(--blue);border:1px solid #c8dcf5}
+
+@media(max-width:950px){.grid,.grid.four,.two,.protocol,.summary-grid,.checklist,.rhythm-steps{grid-template-columns:1fr}.decision-row{grid-template-columns:1fr}.top h1{font-size:23px}.wrap{padding:18px 14px 34px}}
+@media print{.actions{display:none}.wrap{padding:12px}.top{padding:18px}.card,.panel,table{break-inside:avoid}.grid,.grid.four,.two,.protocol,.summary-grid,.checklist,.rhythm-steps{grid-template-columns:1fr 1fr}}
 </style>
 </head>
 <body>
 <header class="top">
-  <h1>Risk & Decision Action Center</h1>
-  <p>Standalone deep dive cloned from the Risk & Decisions and Action Center tabs, expanded for issue triage, ownership, and executive decision cadence.</p>
-  <div class="actions">
-    <a class="btn" href="FAD_Process_Plan_Scannable_Cards.html">Back to main dashboard</a>
-    <a class="btn" href="FAD_Q2_Process_Modernization_Proof_Points.html">Open Q2 proof points</a>
-  </div>
+<h1>Risk &amp; Decision Action Center</h1>
+<p>Unified FY2027 governance package aligned to the main FAD report style: July 1 baseline, post-escalation red-flag discipline, Controller authorization memo, HUIT lineage controls, HMS data-isolation readiness, and weekly tracking rhythm.</p>
+<div class="actions">
+<a class="btn" href="https://nasdaqguru.github.io/FAD_Process_Plan.html" rel="noopener" target="_blank">Back to main dashboard</a>
+<a class="btn" href="https://nasdaqguru.github.io/FAD_Q2_Modern.html" rel="noopener" target="_blank">Open Q2 proof points</a>
+</div>
 </header>
 <main class="wrap">
-  <section class="hero">
-    <h2>Decision discipline is the control system for the transformation portfolio.</h2>
-    <p>This page separates signal from noise: critical decisions that need action now, amber items that need this-month planning, yellow items that need monitoring, and structural risks that should be handled through governance rather than ad hoc follow-up.</p>
-  </section>
+<section class="hero">
+<h2>Governance stabilized: red flags reduced from five to three.</h2>
+<p>The emergency Steering Committee escalation package closed the portfolio governance breach by moving two secondary technical issues into a unified HUIT dependency lane. Executive attention is now preserved for the three remaining financial-control milestones.</p>
+<div class="statusline"><span class="pill blue">Baseline: Jul 1, 2026 / FY2027 Day 1</span><span class="pill green">Post-protocol: 3 active red items</span><span class="pill blue">Rule satisfied: maximum 3 reds</span><span class="pill amber">Portal + Claude moved to HUIT lane</span><span class="pill red">Focus remains on financial controls</span></div>
+</section>
+<section class="kpis">
+<div class="kpi"><span>Action-center items</span><b>12</b><small>human decisions</small></div>
+<div class="kpi"><span>Red before protocol</span><b>5</b><small>threshold breached</small></div>
+<div class="kpi"><span>Active red after sequencing</span><b>3</b><small class="ok">within policy limit</small></div>
+<div class="kpi"><span>Amber after sequencing</span><b>6</b><small class="warn">act this month</small></div>
+<div class="kpi"><span>Yellow / monitor</span><b>3</b><small class="warn">track this quarter</small></div>
+<div class="kpi"><span>Steering Committee</span><b>Active</b><small class="ok">protocol triggered</small></div>
+</section>
 
-  <section class="kpis">
-    <div class="kpi"><span>Action-center items</span><b>12</b><small>human decisions</small></div>
-    <div class="kpi"><span>Critical red</span><b>5</b><small>within 7-19 days</small></div>
-    <div class="kpi"><span>Amber</span><b>4</b><small>act this month</small></div>
-    <div class="kpi"><span>Yellow</span><b>3</b><small>monitor this quarter</small></div>
-    <div class="kpi"><span>Best-practice limit</span><b>3</b><small>red items max</small></div>
-  </section>
 
-  <div class="section-title">Critical Decisions - Deep Dive</div>
-  <section class="grid">
-    <article class="card">
-      <h3>HMS Expense Modernization Adoption Crisis</h3>
-      <div class="meta"><span class="pill red">Red</span><span class="pill blue">Owner: Director + HMS Finance Dean</span><span class="pill red">5 days</span></div>
-      <p>June 30 go-live is at risk. HMS represents 22% of total Expense volume; a partial launch creates a two-tier process and weakens the FY2027 value case.</p>
-      <div class="callout stakes"><strong>Recommended:</strong> Director-led escalation with VP Finance, compliance data, peer benchmarks, and a concrete support offer.</div>
-    </article>
-    <article class="card">
-      <h3>Delegation of Authority Blocks P2P Phase 2</h3>
-      <div class="meta"><span class="pill red">Red</span><span class="pill blue">Owner: Controller Office</span><span class="pill red">7 days</span></div>
-      <p>New auto-approval thresholds require a formal Controller delegation update. Without interim authority, UAT will not reflect production approval logic.</p>
-      <div class="callout stakes"><strong>Recommended:</strong> one-page interim Controller memo for UAT, followed by full policy update within 60 days.</div>
-    </article>
-    <article class="card">
-      <h3>COA Committee Scope Vote</h3>
-      <div class="meta"><span class="pill red">Red</span><span class="pill blue">Owner: Director + Controller + COA Committee</span><span class="pill red">11 days</span></div>
-      <p>The May 28 scope vote determines whether Harvard keeps its FY2026 Q4 launch window for the highest-value structural program in the portfolio.</p>
-      <div class="callout stakes"><strong>Recommended:</strong> vote for full scope with a three-year phased implementation plan.</div>
-    </article>
-  </section>
+<div class="section-title">FY2027 Baseline Context</div>
+<section class="panel">
+  <h3>Why this package now anchors to July 1</h3>
+  <p>July 1, 2026 is treated as the FY2027 Day 1 operating baseline. The purpose is to make the package presentation-ready for a resource-constrained environment where administrative restructuring, shared-service transition, and financial process standardization must be governed together.</p>
+  <ul>
+    <li><strong>FAS Shared Administrative Clusters:</strong> use the dashboard to monitor whether expense, vendor payment, P2P, budget tracking, and local financial handoffs are moving through standard queues rather than shadow processes.</li>
+    <li><strong>Deficit-relief framing:</strong> cycle-time reduction and exception-rate improvement are framed as capacity release and workload absorption, not simply dashboard performance.</li>
+    <li><strong>HMS launch posture:</strong> keep the launch unified, provide hyper-care support, and verify row-level security before showing school-specific data.</li>
+  </ul>
+</section>
 
-  <div class="section-title">Today / This Week Decision Cadence</div>
-  <section class="panel">
-    <div class="decision-row"><div class="time">9:00 AM</div><div><strong>Review critical red flags</strong><br>Start with Controller-dependent decisions and items that could block June/July milestones.</div><div><span class="pill red">Director</span></div><div>Output: decision note</div></div>
-    <div class="decision-row"><div class="time">10:30 AM</div><div><strong>Send school-specific follow-up notes</strong><br>Prioritize FAS, HMS, HLS, and Other Units based on compliance/adoption risk.</div><div><span class="pill amber">Change Lead</span></div><div>Output: action email</div></div>
-    <div class="decision-row"><div class="time">1:00 PM</div><div><strong>Confirm calendar holds</strong><br>Schedule Controller briefing, COA scope decision, and Concur/HMS escalation.</div><div><span class="pill amber">Program Coordinator</span></div><div>Output: calendar holds</div></div>
-    <div class="decision-row"><div class="time">3:00 PM</div><div><strong>Update recommendation log</strong><br>Record selected action, owner, next date, expected outcome, and consequence if deferred.</div><div><span class="pill blue">Analytics Manager</span></div><div>Output: decision log</div></div>
-  </section>
+<div class="section-title">Final Operational Stress-Test</div>
+<section class="stress-grid">
+<article class="stress-card redline">
+<h3>UAT clock: 60-day interim authority</h3>
+<span class="gate">Controller memo expires July 20, 2026</span>
+<p>The May 21 interim Controller memo gives the P2P Phase 2 team only a temporary UAT bridge. It supports the June 15 super-user nomination and June 20 UAT readiness window, but it does not authorize production configuration.</p>
+<ul>
+<li><strong>Presentation check:</strong> state clearly that UAT may proceed, but production cannot inherit these thresholds unless the permanent Delegation of Authority update is signed before expiration.</li>
+<li><strong>Required gate:</strong> lock final policy language by July 5, route approvals by July 12, and confirm policy alignment by July 20.</li>
+<li><strong>Failure mode:</strong> if policy approval slips past July 20, UAT results remain valid as test evidence only and the August go-live enters red status.</li>
+</ul>
+</article>
+<article class="stress-card warn">
+<h3>May 28 COA scope pivot</h3>
+<span class="gate">Non-negotiable architecture milestone</span>
+<p>The May 28 COA Committee scope vote is the anchor decision for the FY2026–FY2028 roadmap. A full three-year phased scope preserves the structural runway; a partial pilot immediately changes downstream system design assumptions.</p>
+<ul>
+<li><strong>Presentation check:</strong> prepare two scenarios: full-scope approval and partial-pilot fallback.</li>
+<li><strong>Required gate:</strong> if partial pilot is selected, update architecture, KPI targets, sequencing, and savings assumptions within 48 hours.</li>
+<li><strong>Failure mode:</strong> continuing to show the full-scope roadmap after a partial-pilot vote creates a governance/data-integrity contradiction.</li>
+</ul>
+</article>
+<article class="stress-card secure">
+<h3>HUIT lineage and HMS data isolation</h3>
+<span class="gate">RLS confirmed before May 22 HMS meeting</span>
+<p>Row-Level Security by tub/school must be enforced before any HMS conversation uses school-level change-saturation or processing data. HMS needs assurance that its internal data is isolated from peer-school views.</p>
+<ul>
+<li><strong>Presentation check:</strong> say that HMS data is shown in a local operational view, not exposed for premature peer comparison.</li>
+<li><strong>Required gate:</strong> HUIT confirms RLS group mapping, ServiceNow queue lineage, and Oracle/Jaggaer table grants before the HMS meeting.</li>
+<li><strong>Failure mode:</strong> if RLS is not confirmed, use aggregate enterprise data only and hold school-specific dashboards from the meeting packet.</li>
+</ul>
+</article>
+</section>
+<table class="timeline-table">
+<thead><tr><th>Date</th><th>Operational Gate</th><th>Stress-Test Question</th><th>Required Presentation Answer</th></tr></thead>
+<tbody>
+<tr><td>May 22</td><td><strong>HMS meeting</strong></td><td>Can HMS trust local data isolation?</td><td>Yes, only if RLS by tub/school is confirmed; otherwise use aggregate data only.</td></tr>
+<tr><td>May 28</td><td><strong>COA scope vote</strong></td><td>Does the roadmap still match the approved scope?</td><td>Full scope keeps the roadmap; partial pilot triggers a 48-hour architecture and target reset.</td></tr>
+<tr><td>June 15</td><td><strong>P2P super-user nominations</strong></td><td>Are UAT participants named before test readiness?</td><td>Yes; nominations must be locked before the June 20 UAT readiness gate.</td></tr>
+<tr><td>June 20</td><td><strong>P2P Phase 2 UAT readiness</strong></td><td>Can UAT use updated auto-approval thresholds?</td><td>Yes, in non-production UAT only under the interim Controller memo.</td></tr>
+<tr><td>July 20</td><td><strong>Interim authority expiration</strong></td><td>Is permanent policy alignment complete before production?</td><td>Must be yes; no Oracle/Jaggaer production threshold change without signed permanent authority.</td></tr>
+</tbody>
+</table>
 
-  <div class="section-title">Full Action Queue</div>
-  <table>
-    <thead><tr><th>Item</th><th class="c">Urgency</th><th>Owner</th><th>Decision Needed</th><th>Recommended Action</th></tr></thead>
-    <tbody>
-      <tr><td><strong>HMS Expense Modernization - Adoption Crisis</strong></td><td class="c"><span class="pill red">Red</span></td><td>Director + HMS Finance Dean</td><td>Protect June 30 go-live or split launch.</td><td>Director + VP Finance escalation with support offer.</td></tr>
-      <tr><td><strong>Self-Service Portal UX - Go-Live at Risk</strong></td><td class="c"><span class="pill red">Red</span></td><td>HUIT Digital + Director</td><td>Keep July 15 commitment or reduce scope.</td><td>Daily UX sprint standup and must-have triage.</td></tr>
-      <tr><td><strong>Delegation of Authority - P2P Phase 2</strong></td><td class="c"><span class="pill red">Red</span></td><td>Controller Office</td><td>Authorize UAT approval thresholds.</td><td>Interim Controller memo, then formal policy update.</td></tr>
-      <tr><td><strong>ISDP DPA Amendment - Claude API</strong></td><td class="c"><span class="pill red">Red</span></td><td>AI Enablement + OGC</td><td>Confirm data classification and prompt retention.</td><td>Vendor-negotiated DPA amendment.</td></tr>
-      <tr><td><strong>COA Committee Scope Vote</strong></td><td class="c"><span class="pill red">Red</span></td><td>Director + Controller</td><td>Approve full scope, pilot, or defer.</td><td>Approve full three-year simplification scope.</td></tr>
-      <tr><td><strong>P2P Phase 2 UAT Readiness</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>HUIT + Category Mgmt</td><td>Confirm participants by June 20.</td><td>Nominate school super users by June 15.</td></tr>
-      <tr><td><strong>FY2027 Transformation Budget</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>Director + HUIT Finance</td><td>Submit full program request or baseline-only.</td><td>Submit full $1.1M program budget with ROI proof.</td></tr>
-      <tr><td><strong>Change Saturation Threshold</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>Director + Change Lead</td><td>Stagger, pause, or combine go-lives.</td><td>Keep Concur and Portal at least two weeks apart.</td></tr>
-      <tr><td><strong>Gemini Workspace Contract</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>AI Enablement + VMO</td><td>Renew, expand, or sunset by Aug 1.</td><td>Run 30-day utilization deep dive before decision.</td></tr>
-      <tr><td><strong>FAS P2P Catalog Gap</strong></td><td class="c"><span class="pill blue">Yellow</span></td><td>Analytics + Procurement</td><td>Fix catalog root cause or send compliance reminder.</td><td>Fast-track top 100 specialty suppliers.</td></tr>
-      <tr><td><strong>Finance Staff NPS Pulse</strong></td><td class="c"><span class="pill blue">Yellow</span></td><td>Change Management Lead</td><td>Run full or abbreviated survey.</td><td>Run full quarterly survey with senior sponsor email.</td></tr>
-      <tr><td><strong>Data Governance Catalog Coverage</strong></td><td class="c"><span class="pill blue">Yellow</span></td><td>Analytics Manager</td><td>Sprint to 100% or revise target.</td><td>Revise FY2026 to 95%, commit 100% in Q1 FY2027.</td></tr>
-    </tbody>
-  </table>
+<div class="section-title">Post-Escalation Status Update</div>
+<section class="summary-grid">
+<article class="summary-card">
+<h3>Governance breach closed</h3>
+<p>The emergency Steering Committee escalation package reduced the red-flag count from five down to three, satisfying the dashboard's best-practice operating rule.</p>
+<ul>
+<li><strong>Closed contradiction:</strong> the portfolio no longer shows more red items than its own governance threshold allows.</li>
+<li><strong>Executive discipline:</strong> senior attention is reserved for three financial-control milestones.</li>
+<li><strong>Technical re-sequencing:</strong> Portal UX and Claude/API parameters are now managed through one HUIT dependency lane.</li>
+</ul>
+</article>
+<article class="summary-card">
+<h3>Remaining executive focus</h3>
+<p>After re-sequencing, the active red queue is limited to decisions that can materially affect fiduciary controls, P2P Phase 2, and the FY2026–FY2028 structural roadmap.</p>
+<ul>
+<li><strong>HMS Expense Modernization:</strong> confirm unified go-live and hyper-care support.</li>
+<li><strong>Delegation of Authority:</strong> authorize UAT thresholds through an interim Controller memo.</li>
+<li><strong>COA Committee Scope Vote:</strong> lock the full-scope phased implementation runway.</li>
+</ul>
+</article>
+</section>
 
-  <div class="section-title">Structural Risk Register</div>
-  <section class="two">
-    <div class="panel">
-      <h3>Risks That Need Governance</h3>
-      <ul>
-        <li><strong>Decentralized school variation:</strong> use controlled flexibility model with approved exception criteria.</li>
-        <li><strong>Metric definition drift:</strong> lock KPI dictionary and require owner sign-off.</li>
-        <li><strong>Policy interpretation variance:</strong> create common exception taxonomy and Controller escalation thresholds.</li>
-        <li><strong>Capacity constraint:</strong> protect implementation time and decide whether backfill is needed.</li>
-      </ul>
-    </div>
-    <div class="panel">
-      <h3>Best-Practice Operating Rules</h3>
-      <ul>
-        <li><strong>Red item limit:</strong> no more than three active red flags without steering committee escalation.</li>
-        <li><strong>Decision memo standard:</strong> every red item needs owner, options, pro/con, risk, and consequence if deferred.</li>
-        <li><strong>Calendar discipline:</strong> convert decisions into dated holds, not informal follow-ups.</li>
-        <li><strong>Evidence first:</strong> lead with cycle time, exception rate, adoption, and value-at-risk.</li>
-      </ul>
-    </div>
-  </section>
+<div class="section-title">Emergency Steering Committee Agenda</div>
+<section class="panel amber">
+<h3>Meeting purpose: portfolio correction and resource realignment</h3>
+<p><strong>Target duration:</strong> 30 minutes. <strong>Participants:</strong> Director, Controller, VP Finance, HUIT representative. <strong>Decision goal:</strong> clear or downgrade at least two red flags and confirm the unified stance for HMS.</p>
+<div class="decision-row"><div class="time">00:00–00:05</div><div><strong>Governance briefing</strong><br/>Confirm the rule breach: five active red flags vs. maximum limit of three. Clarify that the meeting is for decisions, not background.</div><div><span class="pill red">Director</span></div><div>Output: breach logged</div></div>
+<div class="decision-row"><div class="time">00:05–00:15</div><div><strong>Technical re-sequencing approvals</strong><br/>Approve 14-day Portal deferral and cap AI contract expansion at pilot cohort until Q1 FY2027.</div><div><span class="pill blue">Controller + HUIT</span></div><div>Output: 2 red downgrades</div></div>
+<div class="decision-row"><div class="time">00:15–00:25</div><div><strong>Financial control unblockers</strong><br/>Confirm one-page interim Controller memo for P2P Delegation of Authority UAT and maintain COA Committee scope vote.</div><div><span class="pill amber">Controller</span></div><div>Output: dated actions</div></div>
+<div class="decision-row"><div class="time">00:25–00:30</div><div><strong>HMS escalation alignment</strong><br/>Confirm executive stance and support package for the HMS Expense Modernization meeting.</div><div><span class="pill red">VP Finance</span></div><div>Output: unified script</div></div>
+</section>
+<div class="section-title">Technical Re-Sequencing Matrix</div>
+<table>
+<thead><tr><th>High-risk initiative</th><th class="c">Before</th><th>Transformation action</th><th class="c">After</th><th>Downstream impact</th></tr></thead>
+<tbody>
+<tr><td><strong>Self-Service Portal UX</strong></td><td class="c"><span class="pill red">Red</span></td><td>Defer July 15 go-live to August 1. Stagger code freeze two weeks after Concur / P2P stabilization.</td><td class="c"><span class="pill amber">Amber</span></td><td>Prevents school-level change saturation and protects launch quality.</td></tr>
+<tr><td><strong>Claude API / ISDP DPA Amendment</strong></td><td class="c"><span class="pill red">Red</span></td><td>Freeze pilot-user cap at current levels. Defer broader legal/security expansion review to Q1 FY2027.</td><td class="c"><span class="pill amber">Amber</span></td><td>Removes legal friction from the active portfolio track while preserving learning from the pilot.</td></tr>
+<tr><td><strong>Delegation of Authority</strong></td><td class="c"><span class="pill red">Red</span></td><td>Maintain focus. Controller issues immediate one-page interim UAT authorization memo.</td><td class="c"><span class="pill red">Red until memo signed</span></td><td>Unlocks August P2P Phase 2 go-live window once signed.</td></tr>
+<tr><td><strong>COA Committee Scope Vote</strong></td><td class="c"><span class="pill red">Red</span></td><td>Maintain focus. Lock May 28 vote for full scope with a three-year phased rollout.</td><td class="c"><span class="pill red">Red until vote</span></td><td>Secures structural runway for FY2026–FY2028 simplification.</td></tr>
+</tbody>
+</table>
+<div class="section-title">Active Red Decisions After Correction</div>
+<section class="grid">
+<article class="card">
+<h3>HMS Expense Modernization Adoption Crisis</h3>
+<div class="meta"><span class="pill red">Red</span><span class="pill blue">Owner: Director + HMS Finance Dean</span><span class="pill red">5 days</span></div>
+<p>June 30 go-live is at risk. HMS represents 22% of total Expense volume; a partial launch creates a two-tier process and weakens the FY2027 value case.</p>
+<div class="callout stakes"><strong>Required action:</strong> Director-led escalation with VP Finance backing, compliance data, peer benchmarks, and a concrete hyper-care support offer.</div>
+</article>
+<article class="card">
+<h3>Delegation of Authority Blocks P2P Phase 2</h3>
+<div class="meta"><span class="pill red">Red</span><span class="pill blue">Owner: Controller Office</span><span class="pill red">7 days</span></div>
+<p>New auto-approval thresholds require a formal Controller delegation update. Without interim authority, UAT will not reflect production approval logic.</p>
+<div class="callout stakes"><strong>Required action:</strong> issue one-page interim Controller memo for UAT, followed by full policy update within 60 days.</div>
+</article>
+<article class="card">
+<h3>COA Committee Scope Vote</h3>
+<div class="meta"><span class="pill red">Red</span><span class="pill blue">Owner: Director + Controller + COA Committee</span><span class="pill red">11 days</span></div>
+<p>The May 28 scope vote determines whether Harvard keeps its FY2026 Q4 launch window for the highest-value structural program in the portfolio.</p>
+<div class="callout stakes"><strong>Required action:</strong> vote for full scope with a three-year phased implementation plan.</div>
+</article>
+</section>
+<div class="section-title">One-Page Interim Controller Authorization Memo</div>
+<section class="memo-box">
+<div class="memo-head">
+<b>MEMORANDUM</b>
+<div class="memo-meta">
+<span>TO:</span><span>Financial Process Transformation Project Team &amp; P2P Phase 2 Working Group</span>
+<span>FROM:</span><span>Office of the Controller, Harvard Financial Administration (FAD)</span>
+<span>DATE:</span><span>May 21, 2026</span>
+<span>SUBJECT:</span><span>Interim Authorization of Updated Auto-Approval Thresholds for P2P Phase 2 User Acceptance Testing (UAT)</span>
+</div>
+</div>
+<div class="memo-body">
+<h4>1. Purpose &amp; Scope</h4>
+<p>This memorandum grants temporary, interim authority to utilize the revised Procure-to-Pay (P2P) Phase 2 auto-approval thresholds strictly within the non-production User Acceptance Testing (UAT) environments. This temporary authorization ensures that system testing mirrors production logic ahead of the planned August go-live window.</p>
+<h4>2. Interim Authority Boundaries</h4>
+<ul>
+<li><strong>Authorized threshold configuration:</strong> Auto-approval limits may be modified up to the proposed FY2027 efficiency benchmarks within the UAT tenant only.</li>
+<li><strong>Duration:</strong> This interim authority is valid for a maximum of 60 days from the date of issuance, or until a formal, permanent revision to the University Delegation of Authority policy is approved, whichever occurs first.</li>
+<li><strong>Fiduciary exception safeguard:</strong> Under no circumstances shall these non-production configurations be pushed to or replicated within the Oracle Financials or Jaggaer production environments without a signed, permanent policy update.</li>
+</ul>
+<h4>3. Compliance &amp; Reconciliation Audit</h4>
+<p>The Analytics Manager shall maintain a weekly, automated configuration log verifying that no live transactional data or production workflows are impacted by these interim settings. All UAT test scripts executing under these thresholds must be archived for post-testing compliance verification by FAD Quality Assurance teams.</p>
+<p class="approval-line">APPROVED BY: Office of the Controller, Harvard University</p>
+<div class="soft-red-note"><strong>Control note:</strong> This memo is intentionally limited to non-production UAT logic. It does not authorize production approval-threshold changes, live spend routing changes, or any bypass of approved fiduciary controls.</div>
+</div>
+</section>
+
+<div class="section-title">Downgraded / Consolidated Technical Risks</div>
+<section class="grid">
+<article class="card amber">
+<h3>Self-Service Portal UX — re-sequenced</h3>
+<div class="meta"><span class="pill amber">Amber</span><span class="pill blue">Owner: HUIT Digital + Director</span></div>
+<p>Go-live shifts from July 15 to August 1. The portal remains visible but no longer consumes red-level executive attention while Concur/P2P stabilization is underway.</p>
+<div class="callout warn"><strong>Monitor:</strong> weekly UX burn-down, accessibility defects, school communications, and go/no-go criteria.</div>
+</article>
+<article class="card amber">
+<h3>Claude API / ISDP Amendment — pilot capped</h3>
+<div class="meta"><span class="pill amber">Amber</span><span class="pill blue">Owner: AI Enablement + OGC</span></div>
+<p>Expansion is frozen at the current pilot cohort. Broader security/legal review moves to Q1 FY2027 so the active portfolio can focus on financial-control priorities.</p>
+<div class="callout warn"><strong>Monitor:</strong> data classification, prompt retention, DPA terms, model-use boundaries, and pilot benefit evidence.</div>
+</article>
+<article class="card blue">
+<h3>Technical Infrastructure Risks — consolidated lane</h3>
+<div class="meta"><span class="pill blue">Single HUIT lane</span><span class="pill gold">Weekly review</span></div>
+<p>Portal UX, AI/DPA, data warehouse lineage, IAM, and API/table-access risks are consolidated into one HUIT dependency lane to prevent duplicate escalation.</p>
+<div class="callout"><strong>Decision rule: </strong>All active contradictions are resolved; escalate only if a HUIT dependency blocks a dated financial-control milestone or breaks ServiceNow, Oracle, Jaggaer, Tableau, or Power BI lineage.</div>
+</article>
+</section>
+<div class="section-title">HUIT Data Warehouse Lineage &amp; Permissions Checklist</div>
+<section class="checklist">
+<article class="check-item">
+<h3>Schema owner approvals</h3>
+<p>Verify that Oracle Financials and Jaggaer staging tables have explicit read-only service-account grants assigned for the transformation schema.</p>
+</article>
+<article class="check-item">
+<h3>ServiceNow API token expiry</h3>
+<p>Confirm that the webhook token connecting ServiceNow request-queue data to the Tableau / Power BI refresh layer uses a governed service principal and documented renewal owner.</p>
+</article>
+<article class="check-item">
+<h3>Row-level security by tub / school</h3>
+<p>Audit the user access directory so school-level finance teams, including FAS and HMS, can view only their local change-saturation and implementation data.</p>
+</article>
+<article class="check-item">
+<h3>Uniform Guidance attribute flags</h3>
+<p>Ensure ledger rows originating from sponsored awards carry a hard-coded direct-charge validation flag to isolate administrative-overhead claims from sponsored-cost treatment.</p>
+</article>
+</section>
+
+<div class="section-title">HMS Expense Modernization Escalation Script</div>
+<section class="script-box"><strong>Dean, thank you for your partnership.</strong> I want to look directly at the numbers. HMS represents 22% of Harvard's total expense processing volume. Splitting our upcoming go-live or allowing a local exception creates an unreconciled, two-tier financial architecture that active institutional audits cannot support.
+
+Right now, our enterprise manual exception rate sits at 8.4%, which creates processing friction and compliance exposure. Rolling out the modernized platform eliminates this administrative drag and recaptures thousands of operational hours across departments.
+
+We are not asking your team to shoulder this transition alone. To mitigate your local 75/100 change-saturation score, the Transformation Office is deploying a dedicated, co-branded OFA Training Cohort and launch-week sandbox clinics directly to HMS processors. We will secure your operational continuity.
+
+However, to protect institutional fiduciary controls and hit our collective efficiency targets, we need to move forward together on the unified June 30 timeline. <strong>Can we count on your confirmation to activate this hyper-care support track today?</strong></section>
+<div class="section-title">Today / This Week Decision Cadence</div>
+<section class="panel">
+<div class="decision-row"><div class="time">9:00 AM</div><div><strong>Review active red flags and downgraded items</strong><br/>Start with HMS, Delegation of Authority, and COA. Confirm Portal and AI have been formally downgraded to amber with new dates.</div><div><span class="pill red">Director</span></div><div>Output: red/amber log</div></div>
+<div class="decision-row"><div class="time">10:30 AM</div><div><strong>Send re-sequencing notes</strong><br/>Notify HUIT Digital, AI Enablement, OGC, and program owners of the revised status, decision rationale, and next checkpoint.</div><div><span class="pill amber">Change Lead</span></div><div>Output: action email</div></div>
+<div class="decision-row"><div class="time">1:00 PM</div><div><strong>Confirm calendar holds</strong><br/>Schedule Controller briefing, COA scope decision, HMS escalation, and weekly HUIT technical lane review.</div><div><span class="pill amber">Program Coordinator</span></div><div>Output: calendar holds</div></div>
+<div class="decision-row"><div class="time">3:00 PM</div><div><strong>Update recommendation log</strong><br/>Record selected action, owner, next date, expected outcome, consequence if deferred, and trigger for re-escalation.</div><div><span class="pill blue">Analytics Manager</span></div><div>Output: decision log</div></div>
+</section>
+<div class="section-title">Full Action Queue — Corrected Status</div>
+<table>
+<thead><tr><th>Item</th><th class="c">Urgency</th><th>Owner</th><th>Decision Needed</th><th>Recommended Action</th></tr></thead>
+<tbody>
+<tr><td><strong>HMS Expense Modernization - Adoption Crisis</strong></td><td class="c"><span class="pill red">Red</span></td><td>Director + HMS Finance Dean</td><td>Protect June 30 go-live or split launch.</td><td>Director + VP Finance escalation with hyper-care support offer.</td></tr>
+<tr><td><strong>Self-Service Portal UX - Go-Live Re-sequenced</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>HUIT Digital + Director</td><td>Confirm August 1 revised go-live and revised code-freeze criteria.</td><td>Defer 14 days; protect P2P/Concur stabilization; run weekly UX burn-down.</td></tr>
+<tr><td><strong>Delegation of Authority - P2P Phase 2</strong></td><td class="c"><span class="pill red">Red</span></td><td>Controller Office</td><td>Authorize UAT approval thresholds.</td><td>Interim Controller memo, then formal policy update.</td></tr>
+<tr><td><strong>ISDP DPA Amendment - Claude API</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>AI Enablement + OGC</td><td>Confirm pilot cap, data classification, and Q1 FY2027 review path.</td><td>Freeze expansion; maintain pilot evidence log; defer broader DPA review.</td></tr>
+<tr><td><strong>COA Committee Scope Vote</strong></td><td class="c"><span class="pill red">Red</span></td><td>Director + Controller</td><td>Approve full scope, pilot, or defer.</td><td>Approve full three-year simplification scope.</td></tr>
+<tr><td><strong>P2P Phase 2 UAT Readiness</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>HUIT + Category Mgmt</td><td>Confirm participants by June 20.</td><td>Nominate school super users by June 15.</td></tr>
+<tr><td><strong>FY2027 Transformation Budget</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>Director + HUIT Finance</td><td>Submit full program request or baseline-only.</td><td>Submit full $1.1M program budget with ROI proof.</td></tr>
+<tr><td><strong>Change Saturation Threshold</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>Director + Change Lead</td><td>Stagger, pause, or combine go-lives.</td><td>Keep Concur and Portal at least two weeks apart.</td></tr>
+<tr><td><strong>Gemini Workspace Contract</strong></td><td class="c"><span class="pill amber">Amber</span></td><td>AI Enablement + VMO</td><td>Renew, expand, or sunset by Aug 1.</td><td>Run 30-day utilization deep dive before decision.</td></tr>
+<tr><td><strong>FAS P2P Catalog Gap</strong></td><td class="c"><span class="pill blue">Yellow</span></td><td>Analytics + Procurement</td><td>Fix catalog root cause or send compliance reminder.</td><td>Fast-track top 100 specialty suppliers.</td></tr>
+<tr><td><strong>Finance Staff NPS Pulse</strong></td><td class="c"><span class="pill blue">Yellow</span></td><td>Change Management Lead</td><td>Run full or abbreviated survey.</td><td>Run full quarterly survey with senior sponsor email.</td></tr>
+<tr><td><strong>Data Governance Catalog Coverage</strong></td><td class="c"><span class="pill blue">Yellow</span></td><td>Analytics Manager</td><td>Sprint to 100% or revise target.</td><td>Revise FY2026 to 95%, commit 100% in Q1 FY2027.</td></tr>
+</tbody>
+</table>
+<div class="section-title">Red Item Rule Protocol</div>
+<section class="two">
+<div class="panel emergency">
+<h3>Portfolio Governance Violations Closed by This Package</h3>
+<ul>
+<li><strong>Exceeded red threshold:</strong> corrected from five red items to three active red items after formal downgrades.</li>
+<li><strong>Contradictory triggers:</strong> each red item now has an owner, dated action, and decision gate.</li>
+<li><strong>Executive overload:</strong> portal and AI are removed from red-level senior attention and managed through technical lanes.</li>
+<li><strong>Escalation status:</strong> Steering Committee protocol is now active and visible.</li>
+</ul>
+</div>
+<div class="panel good">
+<h3>Best-Practice Operating Rules</h3>
+<ul>
+<li><strong>Red item limit:</strong> no more than three active red flags without Steering Committee escalation.</li>
+<li><strong>Decision memo standard:</strong> every red item needs owner, options, pro/con, risk, and consequence if deferred.</li>
+<li><strong>Calendar discipline:</strong> convert decisions into dated holds, not informal follow-ups.</li>
+<li><strong>Evidence first:</strong> lead with cycle time, exception rate, adoption, and value-at-risk.</li>
+</ul>
+</div>
+</section>
+<div class="section-title">Weekly 5-Minute Portfolio Tracking Rhythm</div>
+<section class="rhythm-steps"><div><b>Count Active Reds</b><span>Every Monday at 9:00 AM, confirm whether active red flags exceed three. If they do, pause standard updates and activate the Steering Committee protocol.</span></div><div><b>Verify Item Ownership</b><span>Confirm that every active red or amber flag is co-signed by an operational owner and a corresponding school or central leader.</span></div><div><b>Check Date Deadlines</b><span>No row may remain listed as “ongoing.” Every decision, milestone, or deferral must carry a hard target gate.</span></div><div><b>Log Post-Decision Consequences</b><span>When an issue is downgraded or deferred, record the mandatory re-evaluation date and the trigger that would move it back to red.</span></div></section>
 </main>
-<footer class="footer">Harvard FAD Strategic Financial Process Transformation - Risk & Decision Action Center deep dive. Source: main dashboard Risk & Decisions and Action Center tabs.</footer>
+
+<div class="section-title">Executive Interview Response — HMS Launch During Austerity</div>
+<section class="panel">
+  <h3>Suggested spoken answer</h3>
+  <p>“I would frame the HMS Expense launch as a control-and-capacity decision, not just a technology rollout. In a resource-constrained FY2027 environment, the greatest risk is that local teams recreate manual workarounds to protect service continuity. My plan is to hold the July 1 baseline, verify HMS row-level data isolation before any school-specific conversation, and pair the unified go-live with co-branded hyper-care: sandbox clinics, office hours, super-user coverage, and a 30-day exception-reduction plan. That gives HMS operational support without creating a two-tier architecture that increases reconciliation effort and audit exposure.”</p>
+</section>
+
+<footer class="footer">Harvard FAD Strategic Financial Process Transformation — Risk &amp; Decision Action Center deep dive. Unified style version with post-escalation governance status, Controller UAT authorization memo, HUIT lineage checklist, HMS script, and weekly tracking rhythm.</footer>
 </body>
 </html>
