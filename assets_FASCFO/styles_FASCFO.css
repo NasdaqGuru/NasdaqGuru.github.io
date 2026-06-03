@@ -1005,6 +1005,13 @@ button {
   margin: 0;
 }
 
+.modal-help {
+  margin: -2px 0 10px !important;
+  color: #475569;
+  font-size: 12px;
+  line-height: 1.36;
+}
+
 .modal-signal-list {
   display: grid;
   gap: 8px;
@@ -2089,6 +2096,65 @@ body[data-page="intelligence-suite"] .intel-command-board .automation-stream {
   line-height: 1.35;
 }
 
+.email-command-panel {
+  background: linear-gradient(180deg, #fff, #f8fafc);
+}
+
+.email-command-grid {
+  display: grid;
+  grid-template-columns: 1.12fr repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.email-command-grid article {
+  min-height: 118px;
+  border: 1px solid #dbe3ee;
+  border-radius: 10px;
+  background: #fff;
+  padding: 11px;
+}
+
+.email-command-grid article.email-command-main {
+  border-left: 4px solid #0b2540;
+  background: #f8fafc;
+}
+
+.email-command-grid span {
+  display: block;
+  color: #64748b;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.email-command-grid strong {
+  display: block;
+  margin-top: 5px;
+  color: #071a2e;
+  font: 800 14px/1.15 var(--font);
+}
+
+.email-command-grid p {
+  margin-top: 6px;
+  color: #475569;
+  font-size: 11px;
+  line-height: 1.33;
+}
+
+.email-command-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 7px;
+  margin-top: 10px;
+}
+
+.email-command-actions .command-primary,
+.email-command-actions .command-secondary {
+  width: 100%;
+  text-decoration: none;
+}
+
 .prompt-survey-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2108,6 +2174,11 @@ body[data-page="intelligence-suite"] .intel-command-board .automation-stream {
 .prompt-survey-grid button:hover {
   border-color: #a51c30;
   background: #fff8fa;
+}
+
+.prompt-survey-grid button:focus-visible {
+  outline: 3px solid rgba(165, 28, 48, 0.22);
+  outline-offset: 2px;
 }
 
 .prompt-survey-grid b,
@@ -2665,7 +2736,8 @@ body[data-page="command-center"] .topbar h1 {
   }
 
   .command-grid,
-  .response-form {
+  .response-form,
+  .email-command-grid {
     grid-template-columns: 1fr;
   }
 

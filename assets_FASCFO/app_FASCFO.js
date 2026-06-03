@@ -530,7 +530,7 @@
     const signal = signalFor(signalId);
     if (!signal) return;
     const choice = document.getElementById("responseChoice")?.value || "On track";
-    const submittedBy = document.getElementById("responseSubmittedBy")?.value.trim() || "CFO dashboard user";
+    const submittedBy = document.getElementById("responseSubmittedBy")?.value.trim() || "Owner/team response user";
     const comment = document.getElementById("responseComment")?.value.trim() || "No comment entered.";
     const progress = document.getElementById("responseProgress")?.value || "50";
     const evidence = document.getElementById("responseEvidence")?.value.trim();
@@ -804,8 +804,8 @@
       <div class="response-form">
         <label for="responseChoice">Owner status</label>
         <select id="responseChoice">${choices}</select>
-        <label for="responseSubmittedBy">Submitted by</label>
-        <input id="responseSubmittedBy" type="text" value="${esc(latest?.submittedBy || "")}" placeholder="Name, HarvardKey, or team role">
+        <label for="responseSubmittedBy">Submitted by owner/team</label>
+        <input id="responseSubmittedBy" type="text" value="${esc(latest?.submittedBy || "")}" placeholder="Owner name, HarvardKey, team, or role">
         <label for="responseComment">Comment / blocker / decision needed</label>
         <textarea id="responseComment" placeholder="Example: Evidence is attached; one vendor item remains open; can meet Friday deadline if AP confirms aging list by noon.">${esc(latest?.comment || "")}</textarea>
         <label for="responseProgress">Progress %</label>
@@ -814,7 +814,7 @@
         <input id="responseEvidence" type="text" value="${esc(latest?.evidence || "")}" placeholder="Paste evidence link, source row, packet, or response log reference">
       </div>
       <section class="modal-section data-rule"><h3>Data automation rule</h3><p>${esc(dataSeparationRule)}</p></section>`;
-    const foot = `<button class="ghost-button" type="button" data-contact-command="${esc(signal.id)}">Contact owner team</button><a class="ghost-button" href="${esc(responseUrl(signal, preset || "On track"))}" target="_blank" rel="noopener">Open Apps Script link</a><button class="primary-button" type="button" data-submit-response="${esc(signal.id)}">Submit local response</button>`;
+    const foot = `<button class="ghost-button" type="button" data-contact-command="${esc(signal.id)}">Contact owner team</button><a class="ghost-button" href="${esc(responseUrl(signal, preset || "On track"))}" target="_blank" rel="noopener">Open Apps Script link</a><button class="primary-button" type="button" data-submit-response="${esc(signal.id)}">Submit owner response</button>`;
     openModal("Owner response", signal.id + " - " + signal.title, body, foot);
     updateHash("respond", signal.id);
   }
@@ -829,7 +829,7 @@
       ${metaGrid([["Team", contact.team], ["Email", contact.email], ["Signal", signal.id], ["Due", signal.due]])}
       <section class="modal-section owner-command-panel">
         <div class="owner-command-head">
-          <div><h3>Owner route card</h3><p>Use this scan card for email, team follow-up, or local response capture.</p></div>
+          <div><h3>Owner response command card</h3><p>Use this scan card for email, team follow-up, or local response capture.</p></div>
           <span class="status-chip ${statusClass(signal.status)}">${esc(signal.status)}</span>
         </div>
         <div class="owner-action-grid">
@@ -841,8 +841,28 @@
           <article><span>Due date</span><strong>${esc(signal.due)}</strong><p>${esc(signal.impact)}</p></article>
         </div>
       </section>
-      <section class="modal-section"><h3>Prompt survey</h3><div class="prompt-survey-grid">${responseChoices.map(function (choice) {
-        return `<button type="button" data-response-command="${esc(signal.id)}" data-response-preset="${esc(choice)}"><b>${esc(choice)}</b><span>${esc(surveyHelp(choice))}</span></button>`;
+      <section class="modal-section email-command-panel">
+        <div class="owner-email-head">
+          <h3>Email command packet</h3>
+          <span>Prompt + submit workflow</span>
+        </div>
+        <div class="email-command-grid">
+          <article class="email-command-main">
+            <span>To / route</span>
+            <strong>${esc(contact.team)}</strong>
+            <p>${esc(contact.email)}</p>
+            <div class="email-command-actions">
+              <button class="command-primary" type="button" data-response-command="${esc(signal.id)}">Submit owner response</button>
+              <a class="command-secondary" href="${esc(mailtoForSignal(signal))}">Open email draft</a>
+            </div>
+          </article>
+          <article><span>Subject</span><strong>FAS CFO response requested: ${esc(signal.id)}</strong><p>${esc(signal.title)}</p></article>
+          <article><span>CFO ask</span><strong>${esc(signal.priority)}</strong><p>${esc(signal.action)}</p></article>
+          <article><span>Evidence request</span><strong>Source row / packet</strong><p>${esc(signal.source)}</p></article>
+        </div>
+      </section>
+      <section class="modal-section"><h3>Click-to-submit prompt survey</h3><p class="modal-help">Choose an owner status below. The button opens the Response Command form with that status selected, then the owner/team can add name, blocker, progress, and evidence before submitting.</p><div class="prompt-survey-grid">${responseChoices.map(function (choice) {
+        return `<button type="button" data-response-command="${esc(signal.id)}" data-response-preset="${esc(choice)}"><b>Submit: ${esc(choice)}</b><span>${esc(surveyHelp(choice))}</span></button>`;
       }).join("")}</div></section>
       <section class="modal-section"><h3>Control response checklist</h3><div class="control-response-grid">
         <article><b>1</b><span>Status</span><p>Select the owner condition above.</p></article>
@@ -852,19 +872,19 @@
       </div></section>
       <section class="modal-section owner-email-preview">
         <div class="owner-email-head">
-          <h3>Email Response Card</h3>
-          <span>Ready for team follow-up</span>
+          <h3>Email response infographic</h3>
+          <span>Scan before sending</span>
         </div>
         <div class="owner-email-grid">
-          <article><b>Subject</b><span>FAS CFO response requested: ${esc(signal.id)}</span></article>
-          <article><b>CFO ask</b><span>${esc(signal.action)}</span></article>
-          <article><b>Prompt survey</b><span>${esc(responseChoices.join(" | "))}</span></article>
-          <article><b>Evidence</b><span>${esc(signal.source)}</span></article>
-          <article><b>Due / owner</b><span>${esc(signal.due)} | ${esc(signal.owner)}</span></article>
-          <article><b>Record rule</b><span>Reply using the stable Signal ID; source facts and owner responses stay separate.</span></article>
+          <article><b>1. Review ask</b><span>${esc(signal.action)}</span></article>
+          <article><b>2. Pick status</b><span>${esc(responseChoices.join(" | "))}</span></article>
+          <article><b>3. Submit response</b><span>Use the prompt button to log owner/team status by Signal ID.</span></article>
+          <article><b>4. Attach evidence</b><span>${esc(signal.source)}</span></article>
+          <article><b>5. Email route</b><span>${esc(contact.email)} | due ${esc(signal.due)}</span></article>
+          <article><b>6. Preserve controls</b><span>Source facts and owner responses stay separate.</span></article>
         </div>
       </section>`;
-    const foot = `<button class="ghost-button" type="button" data-copy-owner-card="${esc(signal.id)}">Copy owner card</button><a class="primary-button" href="${esc(mailtoForSignal(signal))}">Open email draft</a>`;
+    const foot = `<button class="ghost-button" type="button" data-copy-owner-card="${esc(signal.id)}">Copy email packet</button><button class="primary-button" type="button" data-response-command="${esc(signal.id)}">Submit owner response</button><a class="ghost-button" href="${esc(mailtoForSignal(signal))}">Open email draft</a>`;
     openModal("Contact team", "Contact " + contact.team, body, foot);
     updateHash("contact", signal.id);
   }
