@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Command Center Archive | FAS CFO Intelligence Suite</title>
+  <meta name="description" content="Unified FAS CFO command center archive page for the original data pipeline monitor.">
+  <link rel="stylesheet" href="../assets_FASCFO/styles_FASCFO.css?v=15">
+</head>
+<body data-page="reports-library">
+  <a class="skip-link" href="#main">Skip to archive</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="FAS CFO archive navigation">
+      <a class="brand" href="../FAS_CFO_Dashboard.html" aria-label="FAS CFO Intelligence Suite home">
+        <span class="crest" aria-hidden="true">H</span>
+        <span>
+          <strong>FAS CFO</strong>
+          <em>Intelligence Suite</em>
+        </span>
+      </a>
+      <nav class="side-nav" id="sideNav"></nav>
+      <div class="sidebar-note">
+        <strong>Archive View</strong>
+        <span>The original command-center pattern is retained in the same visual system as the live dashboard.</span>
+      </div>
+    </aside>
+
+    <div class="page-shell">
+      <header class="topbar">
+        <button class="menu-button" type="button" id="menuButton" aria-expanded="false" aria-controls="sideNav">Menu</button>
+        <div class="top-title">
+          <h1>Command Center Archive</h1>
+        </div>
+        <div class="top-actions" aria-label="Archive actions">
+          <a class="top-link" href="../FAS_CFO_Dashboard.html"><span class="chip-icon workbook" aria-hidden="true"></span>Intelligence Suite</a>
+          <a class="top-link" href="../dashboard_FASCFO.html"><span class="chip-icon report" aria-hidden="true"></span>Dashboard</a>
+          <a class="top-link" href="../command-center_FASCFO.html"><span class="chip-icon workbook" aria-hidden="true"></span>Live Command Center</a>
+          <a class="top-link" href="../reports-library_FASCFO.html"><span class="chip-icon report" aria-hidden="true"></span>Reports Library</a>
+          <button class="ghost-button" type="button" data-copy-brief="intelligence-suite">Copy Suite Brief</button>
+        </div>
+      </header>
+
+      <main id="main" class="content archive-content">
+        <div class="archive-root">
+          <section class="archive-hero">
+            <div>
+              <h2>Original command workflow, now aligned to the FAS CFO dashboard suite.</h2>
+              <p>This archive page preserves the command-center intent from the original monitor: response queue, owner routing, data automation, priority sorting, deadline routing, and briefing controls. The live command surface remains the modern Command Center.</p>
+              <div class="archive-actions">
+                <a class="primary-button" href="../command-center_FASCFO.html">Open live Command Center</a>
+                <button class="ghost-button" type="button" id="openResponseFromCommand">Open Response Center</button>
+                <a class="ghost-button" href="../FAS_CFO_Dashboard.html">Open Intelligence Suite</a>
+              </div>
+            </div>
+            <aside class="archive-scorestack" aria-label="Archive status">
+              <div><span>Archive Type</span><strong>Command Workflow</strong></div>
+              <div><span>Live Action Surface</span><strong>command-center_FASCFO.html</strong></div>
+              <div><span>Record Rule</span><strong>Responses by Signal ID</strong></div>
+            </aside>
+          </section>
+
+          <section class="archive-grid" aria-label="Command archive summary">
+            <article class="archive-card-modern">
+              <span>What This Preserves</span>
+              <h3>Original command pattern</h3>
+              <p>Owner response logging, sync status, priority engine, deadline routing, and report-studio controls from the original action workspace.</p>
+            </article>
+            <article class="archive-card-modern">
+              <span>What Changed</span>
+              <h3>Unified suite behavior</h3>
+              <p>The old standalone page format is replaced with shared suite navigation, consistent type scale, compact cards, and the same response-command modals.</p>
+            </article>
+            <article class="archive-card-modern">
+              <span>How To Use</span>
+              <h3>Archive for design traceability</h3>
+              <p>Use this to document the command architecture. Use the live Command Center for action capture, owner routing, and briefing workflow.</p>
+            </article>
+          </section>
+
+          <section class="archive-panel">
+            <div class="archive-panel-head">
+              <div>
+                <h3>Command Pattern Map</h3>
+                <p>The original command concepts are mapped to the current CFO action system.</p>
+              </div>
+              <button class="cc-text-button" type="button" data-command-run="data-rule">Copy data rule</button>
+            </div>
+            <div class="archive-route-list">
+              <article>
+                <b>Offline Queue</b>
+                <strong>CFO notes and owner responses are local-first records.</strong>
+                <span>They remain separate from financial source refreshes.</span>
+              </article>
+              <article>
+                <b>Priority Engine</b>
+                <strong>Score by status, priority, due date, and materiality.</strong>
+                <span>Open top signals in the live command center.</span>
+              </article>
+              <article>
+                <b>Owner Routing</b>
+                <strong>Contact cards create a clean follow-up packet.</strong>
+                <span>Each card includes owner, due date, ask, evidence, and response options.</span>
+              </article>
+              <article>
+                <b>Briefing Studio</b>
+                <strong>Storyboard, assets, preview, and 90-second script.</strong>
+                <span>Use the modern command page for the active briefing workflow.</span>
+              </article>
+            </div>
+          </section>
+
+          <section class="archive-panel">
+            <div class="archive-panel-head">
+              <div>
+                <h3>Modern Actions</h3>
+                <p>Use these controls instead of working in the old command-center shell.</p>
+              </div>
+            </div>
+            <div class="archive-command-row">
+              <a class="command-primary" href="../command-center_FASCFO.html">Open live Command Center</a>
+              <a class="command-secondary" href="../reports-library_FASCFO.html">Back to Reports Library</a>
+              <button class="command-secondary" type="button" id="runCommandSync">Sync owner responses</button>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="../assets_FASCFO/app_FASCFO.js?v=15"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Source Intelligence Archive | FAS CFO Intelligence Suite</title>
+  <meta name="description" content="Unified FAS CFO source intelligence archive page for the original data pipeline dashboard.">
+  <link rel="stylesheet" href="../assets_FASCFO/styles_FASCFO.css?v=15">
+</head>
+<body data-page="reports-library">
+  <a class="skip-link" href="#main">Skip to archive</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="FAS CFO archive navigation">
+      <a class="brand" href="../FAS_CFO_Dashboard.html" aria-label="FAS CFO Intelligence Suite home">
+        <span class="crest" aria-hidden="true">H</span>
+        <span>
+          <strong>FAS CFO</strong>
+          <em>Intelligence Suite</em>
+        </span>
+      </a>
+      <nav class="side-nav" id="sideNav"></nav>
+      <div class="sidebar-note">
+        <strong>Archive View</strong>
+        <span>Source intelligence is preserved here, while CFO action routing stays in the main suite.</span>
+      </div>
+    </aside>
+
+    <div class="page-shell">
+      <header class="topbar">
+        <button class="menu-button" type="button" id="menuButton" aria-expanded="false" aria-controls="sideNav">Menu</button>
+        <div class="top-title">
+          <h1>Source Intelligence Archive</h1>
+        </div>
+        <div class="top-actions" aria-label="Archive actions">
+          <a class="top-link" href="../FAS_CFO_Dashboard.html"><span class="chip-icon workbook" aria-hidden="true"></span>Intelligence Suite</a>
+          <a class="top-link" href="../dashboard_FASCFO.html"><span class="chip-icon report" aria-hidden="true"></span>Dashboard</a>
+          <a class="top-link" href="../command-center_FASCFO.html"><span class="chip-icon workbook" aria-hidden="true"></span>Command Center</a>
+          <a class="top-link" href="../reports-library_FASCFO.html"><span class="chip-icon report" aria-hidden="true"></span>Reports Library</a>
+          <button class="ghost-button" type="button" data-copy-brief="intelligence-suite">Copy Suite Brief</button>
+        </div>
+      </header>
+
+      <main id="main" class="content archive-content">
+        <div class="archive-root">
+          <section class="archive-hero">
+            <div>
+              <h2>Original dashboard intelligence, now in the same CFO suite interface.</h2>
+              <p>This page replaces the old long-form report shell with a unified archive viewer. The operational dashboard, response command, contact routing, data automation rule, and control library remain in the main FAS CFO Intelligence Suite.</p>
+              <div class="archive-actions">
+                <a class="primary-button" href="../FAS_CFO_Dashboard.html">Open live Intelligence Suite</a>
+                <button class="ghost-button" type="button" id="openResponseFromCommand">Open Response Center</button>
+                <a class="ghost-button" href="../pages_FASCFO/technical-reference_FASCFO.html">Open Data Dictionary</a>
+              </div>
+            </div>
+            <aside class="archive-scorestack" aria-label="Archive status">
+              <div><span>Archive Type</span><strong>Source Dashboard</strong></div>
+              <div><span>Daily Action Surface</span><strong>FAS_CFO_Dashboard.html</strong></div>
+              <div><span>Record Rule</span><strong>Source facts stay separate</strong></div>
+            </aside>
+          </section>
+
+          <section class="archive-grid" aria-label="Archive summary">
+            <article class="archive-card-modern">
+              <span>What This Preserves</span>
+              <h3>Original source intelligence</h3>
+              <p>Executive KPI logic, risk-register framing, source-system labels, data dictionary concepts, and the original data-pipeline monitor intent.</p>
+            </article>
+            <article class="archive-card-modern">
+              <span>What Changed</span>
+              <h3>Unified CFO interface</h3>
+              <p>The old standalone formatting has been replaced with the same sidebar, topbar, typography, card system, and command controls used by the Intelligence Suite.</p>
+            </article>
+            <article class="archive-card-modern">
+              <span>How To Use</span>
+              <h3>Archive for traceability</h3>
+              <p>Use this page to explain where the intelligence model came from. Use the main dashboard for decisions, notes, responses, and team contact.</p>
+            </article>
+          </section>
+
+          <section class="archive-panel">
+            <div class="archive-panel-head">
+              <div>
+                <h3>Archive Map</h3>
+                <p>The original report content is reorganized into the modern CFO control model.</p>
+              </div>
+              <button class="cc-text-button" type="button" data-command-run="data-rule">Copy data rule</button>
+            </div>
+            <div class="archive-route-list">
+              <article>
+                <b>Executive signals</b>
+                <strong>Risk, materiality, due date, and owner route.</strong>
+                <span>Open the live suite when the CFO needs to act on a signal.</span>
+              </article>
+              <article>
+                <b>Source evidence</b>
+                <strong>System, period, owner, row, and validation status.</strong>
+                <span>Keep source refreshes separate from owner comments and CFO notes.</span>
+              </article>
+              <article>
+                <b>Controls</b>
+                <strong>Controller stamp, human review, and publication gate.</strong>
+                <span>Control rules live in the library rather than repeating on every page.</span>
+              </article>
+              <article>
+                <b>Response commands</b>
+                <strong>Status, blocker, progress, and evidence capture.</strong>
+                <span>Route owner responses through stable Signal IDs.</span>
+              </article>
+            </div>
+          </section>
+
+          <section class="archive-panel">
+            <div class="archive-panel-head">
+              <div>
+                <h3>Modern Actions</h3>
+                <p>Use these controls instead of working in the old report shell.</p>
+              </div>
+            </div>
+            <div class="archive-command-row">
+              <a class="command-primary" href="../FAS_CFO_Dashboard.html">Return to Intelligence Suite</a>
+              <a class="command-secondary" href="../reports-library_FASCFO.html">Back to Reports Library</a>
+              <button class="command-secondary" type="button" id="runCommandSync">Sync owner responses</button>
+            </div>
+          </section>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="../assets_FASCFO/app_FASCFO.js?v=15"></script>
+</body>
+</html>
