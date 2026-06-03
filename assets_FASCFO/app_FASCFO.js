@@ -577,7 +577,7 @@
     text.value = "";
     appendAutomation("NOTE", "CFO note attached to " + signal.id + ".");
     renderCommandBoard();
-    toast("CFO note saved for " + signal.id + ".");
+    toast("CFO note record generated for " + signal.id + ".");
   }
 
   function renderNav() {
@@ -713,6 +713,20 @@
     return `<option value="${esc(signal.id)}">${esc(signal.id)} - ${esc(signal.title)}</option>`;
   }
 
+  function noteHistoryHtml(notes, compact) {
+    const recent = notes.slice(0, compact ? 2 : 3);
+    if (!recent.length) {
+      return `<div class="cc-note-empty">No CFO note records yet. Add a note above, then it will appear here and feed the generated report.</div>`;
+    }
+    return recent.map(function (note) {
+      return `<div class="cc-note-record">
+        <b>${esc(note.signalId)}</b>
+        <span>${esc(note.text)}</span>
+        <em>${esc(note.timestamp)}</em>
+      </div>`;
+    }).join("");
+  }
+
   function renderCommandBoard() {
     const board = document.getElementById("commandBoard");
     if (!board) return;
@@ -741,6 +755,8 @@
     }
     const noteStatus = document.getElementById("cfoNoteText");
     if (noteStatus && notes[0]) noteStatus.placeholder = "Latest note: " + notes[0].signalId + " - " + notes[0].text;
+    const noteHistory = document.getElementById("cfoNoteHistory");
+    if (noteHistory) noteHistory.innerHTML = noteHistoryHtml(notes, true);
     updateContactMini();
   }
 
@@ -953,11 +969,174 @@
 
   function commandTimeline() {
     return [
-      ["0:00", "Architecture", "Separate source facts from CFO notes and owner response records."],
-      ["0:15", "Priority Sort", "Show top risks by materiality, deadline pressure, and response state."],
-      ["0:45", "Owner Routing", "Open response commands and clean contact cards for accountable teams."],
-      ["1:15", "Decision Close", "Copy report script or export queue for the CFO briefing packet."]
+      ["Now", "Readout", "Open with top score, material exposure, owner route, and required CFO decision."],
+      ["Next", "Priority Sort", "Use the deterministic queue to rank materiality, deadline pressure, and response state."],
+      ["Then", "Owner Routing", "Send response commands or email cards to the accountable teams."],
+      ["Close", "Generated Report", "Copy the pre-generated report draft for briefing, follow-up, or GitHub publication."]
     ];
+  }
+
+  function generatedReportTitle() {
+    return "FAS CFO AI Pre-Generated Action Report";
+  }
+
+  function reportIntroVideoSrc() {
+    return basePath + "assets_FASCFO/media/FAS_CFO_Command_Center_FASCFO.mp4";
+  }
+
+  function reportIntroVideoHtml() {
+    const src = reportIntroVideoSrc();
+    return `<section class="report-intro-video" aria-label="FAS CFO command center introduction video">
+      <div class="report-intro-video-head">
+        <div>
+          <span>Introduction video</span>
+          <h3>FAS CFO Command Center walkthrough</h3>
+          <p>Manual playback keeps the GitHub Pages report fast until the CFO chooses to watch.</p>
+        </div>
+        <a class="mini-command link" href="${esc(src)}" target="_blank" rel="noopener">Open video</a>
+      </div>
+      <video controls preload="metadata" playsinline src="${esc(src)}">
+        Your browser does not support embedded MP4 playback.
+      </video>
+    </section>`;
+  }
+
+  function generatedReportText() {
+    const rows = commandSignalRows();
+    const topRows = rows.slice(0, 5);
+    const top = topRows[0];
+    const responses = responseLog();
+    const notes = noteLog();
+    const latestNote = notes[0];
+    const blockers = rows.filter(function (item) {
+      return item.latest && /At risk|Blocked|Need time|Reassign/i.test(item.latest.choice);
+    }).length;
+    const dueSoon = rows.filter(function (item) { return item.days <= 14; }).length;
+    const queueLines = topRows.map(function (item, index) {
+      const signal = item.signal;
+      const unit = unitFor(signal.unit);
+      const latest = item.latest ? item.latest.choice + " by " + item.latest.submittedBy : "No owner response logged";
+      return [
+        index + 1 + ". " + signal.id + " | score " + item.score,
+        "   Unit: " + (unit ? unit.title : signal.unit),
+        "   Owner: " + signal.owner + " | Due: " + signal.due + " | Impact: " + signal.impact,
+        "   Action: " + signal.action,
+        "   Response state: " + latest
+      ].join("\n");
+    }).join("\n\n");
+    const noteLines = notes.slice(0, 4).map(function (note) {
+      return "- " + note.signalId + " (" + note.timestamp + "): " + note.text;
+    }).join("\n") || "- No CFO notes have been generated in this local session.";
+    const responseLines = responses.slice(0, 4).map(function (row) {
+      return "- " + row.signalId + ": " + row.choice + " by " + row.submittedBy + " | " + row.comment;
+    }).join("\n") || "- No owner response records have been submitted in this local session.";
+    const timelineLines = commandTimeline().map(function (row) {
+      return "- " + row[0] + " | " + row[1] + ": " + row[2];
+    }).join("\n");
+    const recommendedActions = topRows.slice(0, 3).map(function (item) {
+      return "- " + item.signal.id + ": " + item.signal.action + " Owner route: " + item.signal.owner + ".";
+    }).join("\n");
+    return [
+      generatedReportTitle(),
+      "Generated: " + new Date().toLocaleString(),
+      "Mode: Local static dashboard synthesis. Inputs are dashboard source facts, deterministic priority score, owner response records, CFO notes, and the data automation rule.",
+      "Introduction video: " + reportIntroVideoSrc(),
+      "",
+      "Executive readout",
+      "- Top priority: " + (top ? top.signal.id + " - " + top.signal.title + " | score " + top.score : "No open signal"),
+      "- Queue condition: " + dueSoon + " signals due in 14 days or less; " + blockers + " signals have owner-response friction.",
+      "- CFO note feed: " + notes.length + " local note record(s). Latest: " + (latestNote ? latestNote.signalId + " - " + latestNote.text : "none"),
+      "- Response feed: " + responses.length + " local owner response record(s).",
+      "",
+      "Deterministic priority queue",
+      queueLines || "No signals available.",
+      "",
+      "Recommended CFO actions",
+      recommendedActions || "- No actions available.",
+      "",
+      "CFO notes",
+      noteLines,
+      "",
+      "Owner responses",
+      responseLines,
+      "",
+      "Report timeline",
+      timelineLines,
+      "",
+      "Data automation rule",
+      dataSeparationRule
+    ].join("\n");
+  }
+
+  function generatedReportPreviewHtml() {
+    const rows = commandSignalRows();
+    const top = rows[0];
+    const responses = responseLog();
+    const notes = noteLog();
+    const blockers = rows.filter(function (item) {
+      return item.latest && /At risk|Blocked|Need time|Reassign/i.test(item.latest.choice);
+    }).length;
+    return `<div class="ai-report-preview">
+      <div class="ai-report-badge">AI pre-generated draft</div>
+      <strong>${esc(top ? top.signal.id + " - " + top.signal.title : "No open signal")}</strong>
+      <p>Prepared locally from the deterministic priority queue, CFO notes, owner responses, and the data automation rule.</p>
+      <div class="ai-report-video-note"><span>Intro video</span><b>Included</b></div>
+      <div class="ai-report-stats">
+        <div><span>Top score</span><b>${esc(top ? top.score : 0)}</b></div>
+        <div><span>Notes</span><b>${esc(notes.length)}</b></div>
+        <div><span>Responses</span><b>${esc(responses.length)}</b></div>
+        <div><span>Blocked / risk</span><b>${esc(blockers)}</b></div>
+      </div>
+    </div>`;
+  }
+
+  function openGeneratedReport() {
+    const rows = commandSignalRows().slice(0, 5);
+    const notes = noteLog();
+    const responses = responseLog();
+    const body = `
+      <section class="generated-report-modal">
+        <div class="generated-report-cover">
+          <span>AI pre-generated draft</span>
+          <h3>${esc(generatedReportTitle())}</h3>
+          <p>This static GitHub Pages version generates the draft locally from the dashboard records. A live AI API can be connected later if you want model-written narrative.</p>
+        </div>
+        ${reportIntroVideoHtml()}
+        <div class="generated-report-grid">
+          <article><span>Queue inputs</span><strong>${esc(rows.length)}</strong><p>Top scored signals by priority, status, deadline, materiality, and response state.</p></article>
+          <article><span>CFO notes</span><strong>${esc(notes.length)}</strong><p>Local note records attached by stable Signal ID.</p></article>
+          <article><span>Owner responses</span><strong>${esc(responses.length)}</strong><p>Status, blocker, progress, comment, and evidence records.</p></article>
+        </div>
+        <section class="modal-section">
+          <h3>Executive readout</h3>
+          ${generatedReportPreviewHtml()}
+        </section>
+        <section class="modal-section">
+          <h3>Priority queue feeding this report</h3>
+          <div class="generated-report-list">
+            ${rows.map(function (item) {
+              const signal = item.signal;
+              const latest = item.latest ? item.latest.choice : "No response";
+              return `<div>
+                <b>${esc(signal.id)} | ${esc(item.score)}</b>
+                <span>${esc(signal.title)}</span>
+                <em>${esc(signal.owner)} | ${esc(signal.due)} | ${esc(latest)}</em>
+              </div>`;
+            }).join("")}
+          </div>
+        </section>
+        <section class="modal-section">
+          <h3>Quick response controls</h3>
+          <div class="generated-report-actions">
+            ${rows.slice(0, 3).map(function (item) {
+              return `<button class="mini-command" type="button" data-response-command="${esc(item.signal.id)}">Respond ${esc(item.signal.id)}</button>
+                <button class="mini-command" type="button" data-contact-command="${esc(item.signal.id)}">Email ${esc(item.signal.id)}</button>`;
+            }).join("")}
+          </div>
+        </section>
+      </section>`;
+    const foot = `<button class="ghost-button" type="button" data-copy-generated-report>Copy full report</button><button class="primary-button" type="button" data-command-run="response">Open Response Center</button>`;
+    openModal("Generated report", "AI pre-generated CFO report", body, foot);
   }
 
   function renderCommandCenter() {
@@ -967,7 +1146,6 @@
     const top = rows[0];
     const responses = responseLog();
     const notes = noteLog();
-    const automation = automationLog();
     root.innerHTML = `
       <section class="cc-hero">
         <div class="cc-hero-copy">
@@ -976,6 +1154,7 @@
           <p>Offline response capture, deterministic priority sorting, owner routing, data automation, and report-studio controls in one screen-fit board.</p>
         </div>
         <div class="cc-hero-actions">
+          <button class="primary-button" type="button" id="openGeneratedReportBtn">Open AI Report Draft</button>
           <button class="primary-button" type="button" id="openResponseFromCommand">Open Response Center</button>
           <button class="ghost-button" type="button" id="runCommandSync">Sync Owner Responses</button>
           <a class="ghost-button" href="dashboard_FASCFO.html">Open Dashboard</a>
@@ -1013,13 +1192,13 @@
           </div>
           <div class="cc-note-box">
             <select class="command-input" id="cfoNoteSignal" aria-label="Select signal for CFO note">${signals.map(signalOption).join("")}</select>
-            <textarea class="command-textarea compact" id="cfoNoteText" placeholder="Add CFO note, decision, blocker, or follow-up instruction."></textarea>
-            <button class="command-primary full" type="button" id="saveCfoNoteBtn">Save Note</button>
-          </div>
-          <div class="cc-mini-log">
-            ${automation.slice(0, 3).map(function (row) {
-              return `<div><b>${esc(row.level)}</b><span>${esc(row.text)}</span></div>`;
-            }).join("")}
+            <textarea class="command-textarea compact" id="cfoNoteText" placeholder="Add CFO note, decision, blocker, or follow-up instruction. This generates a local note record."></textarea>
+            <div class="cc-note-action-row">
+              <button class="command-primary full" type="button" id="saveCfoNoteBtn">Generate Note</button>
+              <div class="cc-note-history" id="cfoNoteHistory" aria-live="polite">
+                ${noteHistoryHtml(notes, false)}
+              </div>
+            </div>
           </div>
         </aside>
       </section>
@@ -1027,8 +1206,11 @@
       <section class="cc-lower-grid">
         <article class="cc-panel cc-priority-panel">
           <div class="cc-panel-head">
-            <div><h3>Deterministic Priority Queue</h3><p>Score = priority + status + due date + materiality + response state.</p></div>
-            <button class="cc-text-button" type="button" id="openTopPriorityBtn">Open top signal</button>
+            <div><h3>Deterministic Priority Queue</h3><p>Feeds the generated CFO report. Score = priority + status + due date + materiality + response state.</p></div>
+            <div class="cc-head-actions">
+              <button class="cc-text-button" type="button" id="openTopPriorityBtn">Open top signal</button>
+              <button class="cc-text-button" type="button" data-command-run="generated-report">Generate report</button>
+            </div>
           </div>
           <div class="cc-table-wrap">
             <table class="cc-table">
@@ -1048,24 +1230,25 @@
         </article>
 
         <article class="cc-panel">
-          <div class="cc-panel-head"><div><h3>Report Timeline</h3><p>Compact executive walkthrough for the dashboard.</p></div></div>
+          <div class="cc-panel-head"><div><h3>AI Report Timeline</h3><p>The scan order for the generated CFO report and briefing script.</p></div></div>
           <div class="cc-timeline">
             ${commandTimeline().map(function (row) {
               return `<div><time>${esc(row[0])}</time><b>${esc(row[1])}</b><span>${esc(row[2])}</span></div>`;
             }).join("")}
           </div>
-          <button class="command-secondary full" type="button" id="copyBriefingScriptBtn">Copy 90-sec script</button>
+          <div class="cc-panel-actions">
+            <button class="command-secondary full" type="button" id="copyBriefingScriptBtn">Copy 90-sec script</button>
+            <button class="command-secondary full" type="button" id="copyGeneratedReportBtn">Copy generated report</button>
+          </div>
         </article>
 
         <article class="cc-panel">
-          <div class="cc-panel-head"><div><h3>Briefing Studio</h3><p>Resource monitor, preview, and timeline readiness.</p></div></div>
-          <div class="cc-studio">
-            <div><b>Assets</b><span>Dashboard, response card, data rule, priority queue</span></div>
-            <div><b>Preview</b><span>90-second CFO system report</span></div>
-            <div><b>Timeline</b><span>4 scenes with owner-routing close</span></div>
-            <div><b>Render State</b><span>Storyboard ready</span></div>
+          <div class="cc-panel-head"><div><h3>AI Pre-Generated Report</h3><p>Ready-to-copy CFO action report from the live command records.</p></div></div>
+          ${generatedReportPreviewHtml()}
+          <div class="cc-panel-actions">
+            <button class="command-primary full" type="button" data-command-run="generated-report">Open report</button>
+            <button class="command-secondary full" type="button" data-command-run="studio-ready">Mark report ready</button>
           </div>
-          <button class="command-secondary full" type="button" data-command-run="studio-ready">Mark studio ready</button>
         </article>
       </section>`;
   }
@@ -1152,8 +1335,9 @@
           <article class="command-card">
             <span class="command-label">Add CFO Note</span>
             <select class="command-input" id="cfoNoteSignal" aria-label="Select signal for CFO note"></select>
-            <textarea class="command-textarea" id="cfoNoteText" placeholder="Add CFO note, blocker, decision, or follow-up instruction."></textarea>
-            <button class="command-primary full" type="button" id="saveCfoNoteBtn">Save Note</button>
+            <textarea class="command-textarea" id="cfoNoteText" placeholder="Add CFO note, blocker, decision, or follow-up instruction. This generates a local note record."></textarea>
+            <button class="command-primary full" type="button" id="saveCfoNoteBtn">Generate Note Record</button>
+            <div class="command-note-history" id="cfoNoteHistory" aria-live="polite">${noteHistoryHtml(noteLog(), true)}</div>
           </article>
 
           <article class="command-card">
@@ -1191,6 +1375,7 @@
           <p>Action report organized into internal CFO operating units and external or partner-facing lanes. Use this page to scan risk, route work, capture owner response, and keep evidence controls out of the CFO first-read path.</p>
         </div>
         <div class="intel-hero-actions">
+          <button class="primary-button" type="button" id="openGeneratedReportBtn">AI Report Draft</button>
           <button class="primary-button" type="button" id="openResponseFromCommand">Open Response Center</button>
           <button class="ghost-button" type="button" id="openTopPriorityBtn">Open Top Signal</button>
           <a class="ghost-button" href="dashboard_FASCFO.html">Compact Dashboard</a>
@@ -1310,6 +1495,10 @@
     }
     if (action === "briefing") {
       copyText(briefingScript());
+      return;
+    }
+    if (action === "generated-report") {
+      openGeneratedReport();
       return;
     }
     if (action === "response") {
@@ -1574,6 +1763,7 @@
     if (parts[0] === "unit") openUnitDetail(parts[1]);
     if (parts[0] === "respond") openResponseCommand(parts[1]);
     if (parts[0] === "contact") openContactTeam(parts[1]);
+    if (parts[0] === "report" && parts[1] === "generated") openGeneratedReport();
   }
 
   function renderUnitPage() {
@@ -1726,6 +1916,10 @@
         openResponseCenter();
         return;
       }
+      if (event.target.id === "openGeneratedReportBtn") {
+        openGeneratedReport();
+        return;
+      }
       if (event.target.id === "runCommandSync") {
         syncOwnerResponses();
         return;
@@ -1737,6 +1931,15 @@
       }
       if (event.target.id === "copyBriefingScriptBtn") {
         copyText(briefingScript());
+        return;
+      }
+      if (event.target.id === "copyGeneratedReportBtn") {
+        copyText(generatedReportText());
+        return;
+      }
+      const copyGeneratedReport = event.target.closest("[data-copy-generated-report]");
+      if (copyGeneratedReport) {
+        copyText(generatedReportText());
         return;
       }
       if (event.target.id === "openResponseCenterBtn") {
