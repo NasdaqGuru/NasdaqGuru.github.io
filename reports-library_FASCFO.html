@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reports Library | FAS CFO Command Dashboard</title>
+  <meta name="description" content="Modern reports library for the FAS CFO dashboard suite.">
+  <link rel="stylesheet" href="assets_FASCFO/styles_FASCFO.css?v=14">
+</head>
+<body data-page="reports-library">
+  <a class="skip-link" href="#main">Skip to reports library</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="CFO reporting unit navigation">
+      <a class="brand" href="FAS_CFO_Dashboard.html" aria-label="FAS CFO Command Dashboard home">
+        <span class="crest" aria-hidden="true">H</span>
+        <span>
+          <strong>FAS CFO</strong>
+          <em>Command Dashboard</em>
+        </span>
+      </a>
+      <nav class="side-nav" id="sideNav"></nav>
+      <div class="sidebar-note">
+        <strong>Reports</strong>
+        <span>Use the modern pages first. Legacy files remain as archive references.</span>
+      </div>
+    </aside>
+
+    <div class="page-shell">
+      <header class="topbar">
+        <button class="menu-button" type="button" id="menuButton" aria-expanded="false" aria-controls="sideNav">Menu</button>
+        <div class="top-title">
+          <h1>FAS CFO Reports Library</h1>
+        </div>
+        <div class="top-actions" aria-label="Reports library actions">
+          <a class="top-link" href="FAS_CFO_Dashboard.html"><span class="chip-icon workbook" aria-hidden="true"></span>Intelligence Suite</a>
+          <a class="top-link" href="dashboard_FASCFO.html"><span class="chip-icon report" aria-hidden="true"></span>Dashboard</a>
+          <a class="top-link" href="command-center_FASCFO.html"><span class="chip-icon workbook" aria-hidden="true"></span>Command Center</a>
+          <a class="top-link" href="pages_FASCFO/technical-reference_FASCFO.html"><span class="chip-icon dictionary" aria-hidden="true"></span>Data Dictionary</a>
+          <button class="ghost-button" type="button" data-copy-brief="overview">Copy CFO Brief</button>
+        </div>
+      </header>
+
+      <main id="main" class="content reports-content">
+        <section class="reports-hero">
+          <p class="section-kicker">Unified suite</p>
+          <h2>Reports Library</h2>
+          <p>Modern CFO pages, response commands, source references, and archived legacy files in one consistent interface.</p>
+        </section>
+
+        <section class="reports-grid" aria-label="Reports and references">
+          <article class="report-card primary">
+            <span>Action Report</span>
+            <h3>FAS CFO Intelligence Suite</h3>
+            <p>Internal and external CFO lanes, response prompts, decision queue, and shared control library.</p>
+            <a class="primary-button" href="FAS_CFO_Dashboard.html">Open Intelligence Suite</a>
+          </article>
+          <article class="report-card">
+            <span>Executive View</span>
+            <h3>FAS CFO Command Dashboard</h3>
+            <p>Compact homepage for KPI review, unit priorities, and the CFO command board.</p>
+            <a class="ghost-button" href="dashboard_FASCFO.html">Open Dashboard</a>
+          </article>
+          <article class="report-card">
+            <span>Action Board</span>
+            <h3>Command Center</h3>
+            <p>Response queue, data automation rule, priority engine, deadline routing, and briefing studio.</p>
+            <a class="ghost-button" href="command-center_FASCFO.html">Open Command Center</a>
+          </article>
+          <article class="report-card">
+            <span>Reference</span>
+            <h3>Data Dictionary</h3>
+            <p>Source labels, governance rules, control definitions, and implementation handoff notes.</p>
+            <a class="ghost-button" href="pages_FASCFO/technical-reference_FASCFO.html">Open Dictionary</a>
+          </article>
+          <article class="report-card">
+            <span>Legacy Archive</span>
+            <h3>Source Intelligence Archive</h3>
+            <p>The original full report is retained for audit and reference. Use the Intelligence Suite homepage for daily CFO action routing.</p>
+            <a class="ghost-button" href="legacy_FASCFO/FAS_CFO_Dashboard_Data_Pipeline_Monitor_FASCFO.html">Open Legacy Archive</a>
+          </article>
+        </section>
+
+        <section class="reports-strip" aria-label="Publishing guidance">
+          <div><strong>Current homepage</strong><span>Use `FAS_CFO_Dashboard.html` for the CFO Intelligence Suite on GitHub Pages.</span></div>
+          <div><strong>Compact dashboard</strong><span>Use `dashboard_FASCFO.html` for the screen-fit executive dashboard.</span></div>
+          <div><strong>Archive rule</strong><span>Legacy files are retained, cleaned, and kept out of daily navigation.</span></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets_FASCFO/app_FASCFO.js?v=14"></script>
+</body>
+</html>

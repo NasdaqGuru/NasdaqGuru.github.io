@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAS CFO Command Center</title>
+  <meta name="description" content="GitHub Pages-ready FAS CFO command center with response queue, data automation, priority sorting, and briefing studio controls.">
+  <link rel="stylesheet" href="assets_FASCFO/styles_FASCFO.css?v=14">
+</head>
+<body data-page="command-center">
+  <a class="skip-link" href="#main">Skip to command center</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="CFO reporting unit navigation">
+      <a class="brand" href="FAS_CFO_Dashboard.html" aria-label="FAS CFO Command Dashboard home">
+        <span class="crest" aria-hidden="true">H</span>
+        <span>
+          <strong>FAS CFO</strong>
+          <em>Command Center</em>
+        </span>
+      </a>
+      <nav class="side-nav" id="sideNav"></nav>
+      <div class="sidebar-note">
+        <strong>Action board</strong>
+        <span>Owner responses, CFO notes, and evidence links stay separate from source-data refreshes.</span>
+      </div>
+    </aside>
+
+    <div class="page-shell">
+      <header class="topbar">
+        <button class="menu-button" type="button" id="menuButton" aria-expanded="false" aria-controls="sideNav">Menu</button>
+        <div class="top-title">
+          <h1>FAS CFO Command Center</h1>
+        </div>
+        <div class="top-actions" aria-label="Command center actions">
+          <span class="meta-chip good"><span class="chip-icon valid" aria-hidden="true"></span>Offline Queue Ready</span>
+          <span class="meta-chip"><span class="chip-icon calendar" aria-hidden="true"></span>Priority Engine Active</span>
+          <a class="top-link" href="dashboard_FASCFO.html"><span class="chip-icon report" aria-hidden="true"></span>Dashboard</a>
+          <a class="top-link" href="FAS_CFO_Dashboard.html"><span class="chip-icon workbook" aria-hidden="true"></span>Intelligence Suite</a>
+          <a class="top-link" href="pages_FASCFO/technical-reference_FASCFO.html"><span class="chip-icon dictionary" aria-hidden="true"></span>Data Dictionary</a>
+          <button class="ghost-button" type="button" data-copy-brief="overview">Copy CFO Brief</button>
+        </div>
+      </header>
+
+      <main id="main" class="content command-center-content">
+        <section id="commandCenterRoot" class="command-center-root" aria-label="FAS CFO command center"></section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets_FASCFO/app_FASCFO.js?v=14"></script>
+</body>
+</html>

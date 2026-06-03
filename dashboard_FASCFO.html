@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FAS CFO Command Dashboard</title>
+  <meta name="description" content="GitHub Pages-ready FAS CFO dashboard reorganized by CFO reporting unit.">
+  <link rel="stylesheet" href="assets_FASCFO/styles_FASCFO.css?v=14">
+</head>
+<body data-page="overview">
+  <a class="skip-link" href="#main">Skip to dashboard</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="CFO reporting unit navigation">
+      <a class="brand" href="FAS_CFO_Dashboard.html" aria-label="FAS CFO Command Dashboard home">
+        <span class="crest" aria-hidden="true">H</span>
+        <span>
+          <strong>FAS CFO</strong>
+          <em>Command Dashboard</em>
+        </span>
+      </a>
+      <nav class="side-nav" id="sideNav"></nav>
+      <div class="sidebar-note">
+        <strong>Publishing rule</strong>
+        <span>Use this site for CFO decision review. Technical evidence remains in the reference suite.</span>
+      </div>
+    </aside>
+
+    <div class="page-shell">
+      <header class="topbar">
+        <button class="menu-button" type="button" id="menuButton" aria-expanded="false" aria-controls="sideNav">Menu</button>
+        <div class="top-title">
+          <h1>FAS CFO Command Dashboard</h1>
+        </div>
+        <div class="top-actions" aria-label="Dashboard actions">
+          <span class="meta-chip"><span class="chip-icon calendar" aria-hidden="true"></span>Report Date: May 12, 2025 (EOD)</span>
+          <span class="meta-chip good"><span class="chip-icon valid" aria-hidden="true"></span>Source Validation: All Systems Valid</span>
+          <a class="top-link" href="FAS_CFO_Dashboard.html"><span class="chip-icon workbook" aria-hidden="true"></span>Intelligence Suite</a>
+          <a class="top-link" href="pages_FASCFO/technical-reference_FASCFO.html"><span class="chip-icon dictionary" aria-hidden="true"></span>Data Dictionary</a>
+          <a class="top-link" href="reports-library_FASCFO.html"><span class="chip-icon report" aria-hidden="true"></span>Reports Library</a>
+          <a class="top-link" href="command-center_FASCFO.html"><span class="chip-icon workbook" aria-hidden="true"></span>Command Center</a>
+          <button class="alert-button" type="button" data-signal-id="CFO-004"><span class="chip-icon bell" aria-hidden="true"></span>Alerts <strong>3</strong></button>
+          <button class="ghost-button" type="button" data-copy-brief="overview">Copy CFO Brief</button>
+        </div>
+      </header>
+
+      <main id="main" class="content">
+        <section class="concept-head" aria-labelledby="overviewTitle">
+          <h2 id="overviewTitle">Executive Overview</h2>
+          <p>FAS CFO reporting units performance and priorities at a glance.</p>
+        </section>
+
+        <section class="kpi-grid" id="kpiCards" aria-label="Executive KPI cards"></section>
+
+        <section class="concept-main-grid" aria-label="Executive dashboard tables">
+          <article class="concept-panel">
+            <div class="concept-panel-head">
+              <h3>Unit Performance &amp; Priorities</h3>
+            </div>
+            <div class="concept-table-wrap">
+              <table class="concept-table unit-performance-table">
+                <thead>
+                  <tr>
+                    <th>Unit</th>
+                    <th>Overall Status</th>
+                    <th>Key Metric</th>
+                    <th>vs Target</th>
+                    <th>Top Priority</th>
+                  </tr>
+                </thead>
+                <tbody id="unitPerformanceBody"></tbody>
+              </table>
+            </div>
+            <button class="table-link" type="button" id="viewAllUnitsBtn">View all units -&gt;</button>
+          </article>
+
+          <article class="concept-panel">
+            <div class="concept-panel-head split">
+              <h3>Executive Action Queue <span>(Top 5)</span></h3>
+              <button class="mini-export" type="button" id="exportSignalsBtn">Export CSV</button>
+            </div>
+            <div class="concept-table-wrap">
+              <table class="concept-table action-table">
+                <thead>
+                  <tr>
+                    <th>Priority</th>
+                    <th>Action</th>
+                    <th>Owner</th>
+                    <th>Due Date</th>
+                    <th>Unit</th>
+                  </tr>
+                </thead>
+                <tbody id="executiveQueueBody"></tbody>
+              </table>
+            </div>
+            <button class="table-link" type="button" id="viewQueueBtn">View full action queue -&gt;</button>
+          </article>
+        </section>
+
+        <section class="command-board" id="commandBoard" aria-labelledby="commandBoardTitle">
+          <div class="command-board-head">
+            <div>
+              <h3 id="commandBoardTitle">CFO Command Board</h3>
+              <p>Respond, add CFO notes, contact owner teams, and run data automation without leaving the dashboard.</p>
+            </div>
+            <div class="command-board-actions">
+              <button class="command-primary" type="button" id="openResponseCenterBtn">Open Response Center</button>
+              <button class="command-secondary" type="button" id="syncOwnerResponsesBtn">Sync Owner Responses</button>
+            </div>
+          </div>
+
+          <div class="command-grid">
+            <article class="command-card">
+              <span class="command-label">Owner Response Status</span>
+              <strong id="responseCount">0 logged</strong>
+              <p id="responseStatusMini">No owner response has been logged in this local dashboard session.</p>
+              <button class="command-link" type="button" id="previewOwnerCardBtn">Preview owner response card</button>
+            </article>
+
+            <article class="command-card">
+              <span class="command-label">Add CFO Note</span>
+              <select class="command-input" id="cfoNoteSignal" aria-label="Select signal for CFO note"></select>
+              <textarea class="command-textarea" id="cfoNoteText" placeholder="Add CFO note, blocker, decision, or follow-up instruction."></textarea>
+              <button class="command-primary full" type="button" id="saveCfoNoteBtn">Save Note</button>
+            </article>
+
+            <article class="command-card">
+              <span class="command-label">Contact Team</span>
+              <select class="command-input" id="contactSignalSelect" aria-label="Select signal for team contact"></select>
+              <p id="contactRouteMini">Select a signal to generate a clean owner-response card.</p>
+              <div class="command-pair">
+                <button class="command-secondary" type="button" id="contactTeamBtn">Email Team</button>
+                <button class="command-secondary" type="button" id="copyOwnerCardBtn">Copy Card</button>
+              </div>
+            </article>
+
+            <article class="command-card automation-card">
+              <span class="command-label">Data Automation</span>
+              <div class="automation-stream" id="automationStream"></div>
+              <p class="automation-rule"><strong>Data rule:</strong> source refresh updates facts only; comments, evidence, email attempts, and owner responses stay separate by Signal ID.</p>
+              <button class="command-link" type="button" id="copyDataRuleBtn">Copy data rule</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="concept-footer" aria-label="Dashboard source metadata">
+          <div><span class="footer-icon calendar" aria-hidden="true"></span><strong>Data as of</strong><em>May 12, 2025 (EOD)</em></div>
+          <div><span class="footer-icon source" aria-hidden="true"></span><strong>Source Systems</strong><em>Workday, Oracle, Concur, Bank of America, eBuilder, Kuali</em></div>
+          <div><span class="footer-icon contact" aria-hidden="true"></span><strong>Contact</strong><em>fas.cfo@fas.harvard.edu</em></div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets_FASCFO/app_FASCFO.js?v=14"></script>
+</body>
+</html>
