@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cambridge Financial Intelligence Workspace</title>
+<meta name="description" content="AI-assisted, interactive financial analytics workspace for the City of Cambridge — scenario modeling, Monte Carlo simulation, anomaly detection, and drill-down visualization built on published ACFR data.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#10221c;--ink-soft:#33473f;--faint:#7c8a82;--paper:#f4f1e8;--paper-2:#ece7d8;--card:#fbfaf4;
+  --line:#d6cfbb;--line-strong:#bcb29a;--brand:#1f5c4d;--brand-deep:#143f34;--brand-bright:#2c7a64;
+  --gold:#9a7b2e;--gold-soft:#c9a94a;--green:#2f7d52;--green-bg:#e3efe4;--amber:#a9711a;--amber-bg:#f6ecd6;
+  --red:#a8362f;--red-bg:#f4dedb;--blue:#2a5878;--blue-bg:#e0ebf2;--purple:#5b4b8a;--purple-bg:#e8e3f2;
+  --shadow:0 1px 2px rgba(20,40,34,.06),0 8px 24px rgba(20,40,34,.07);--shadow-lg:0 18px 50px rgba(20,40,34,.18);
+  --radius:14px;--mono:'IBM Plex Mono',monospace;--serif:'Newsreader',Georgia,serif;--display:'Fraunces',Georgia,serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--serif);background:var(--paper);color:var(--ink);font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(rgba(20,40,34,.018) 1px,transparent 1px);background-size:4px 4px}
+.app{display:grid;grid-template-columns:250px 1fr;min-height:100vh;position:relative;z-index:1}
+.sidebar{background:var(--brand-deep);color:#e8efe9;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;border-right:1px solid rgba(0,0,0,.2)}
+.brand{padding:22px 22px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand .seal{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gold-soft);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:600;color:var(--gold-soft);font-size:16px;margin-bottom:11px}
+.brand h1{font-family:var(--display);font-weight:600;font-size:16px;line-height:1.18;color:#fff}
+.brand .sub{font-family:var(--mono);font-size:9.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--gold-soft);margin-top:7px}
+.nav{flex:1;overflow-y:auto;padding:12px 11px 18px}
+.nav::-webkit-scrollbar{width:6px}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:6px}
+.nav-group{font-family:var(--mono);font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:rgba(232,239,233,.4);padding:13px 13px 6px}
+.nav button{width:100%;text-align:left;background:none;border:none;cursor:pointer;color:rgba(232,239,233,.82);font-family:var(--serif);font-size:13.5px;padding:8px 12px;border-radius:9px;display:flex;align-items:center;gap:10px;transition:background .16s,color .16s;line-height:1.2}
+.nav button .ico{width:16px;text-align:center;font-size:13px;opacity:.85;flex-shrink:0}
+.nav button:hover{background:rgba(255,255,255,.07);color:#fff}
+.nav button.active{background:var(--brand-bright);color:#fff;box-shadow:inset 3px 0 0 var(--gold-soft)}
+.sidebar .foot{padding:12px 20px 16px;border-top:1px solid rgba(255,255,255,.1);font-family:var(--mono);font-size:9px;color:rgba(232,239,233,.5);line-height:1.7}
+.main{display:flex;flex-direction:column;min-width:0}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(244,241,232,.9);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:11px 30px;display:flex;align-items:center;gap:18px}
+.topbar .crumb{font-family:var(--mono);font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--ink-soft)}
+.topbar .crumb b{color:var(--brand)}
+.topbar .right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.ai-status{font-family:var(--mono);font-size:10px;letter-spacing:.5px;display:flex;align-items:center;gap:6px;color:var(--ink-soft);padding:5px 11px;border:1px solid var(--line);border-radius:20px;cursor:pointer;transition:border-color .15s,background .15s}
+.ai-status:hover{border-color:var(--brand);background:var(--card)}
+.ai-status .led{width:7px;height:7px;border-radius:50%;background:var(--faint)}
+.ai-status.on .led{background:var(--green);box-shadow:0 0 6px var(--green)}
+.content{padding:28px 30px 70px;max-width:1200px;width:100%;margin:0 auto}
+.view{display:none;animation:fade .32s ease}.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:11px}
+.view-title{font-family:var(--display);font-weight:600;font-size:28px;line-height:1.12;letter-spacing:-.3px;margin-bottom:8px}
+.view-sub{font-size:15.5px;color:var(--ink-soft);max-width:76ch}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.block{padding:20px 22px}
+.block h3{font-family:var(--display);font-weight:600;font-size:18px;margin-bottom:5px;letter-spacing:-.2px}
+.block h3 .ico{color:var(--gold);margin-right:7px}
+.block .lede{color:var(--ink-soft);font-size:13.5px;margin-bottom:15px;max-width:74ch}
+.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1080px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}
+.note{font-family:var(--mono);font-size:11px;color:var(--ink-soft);background:var(--paper-2);border:1px dashed var(--line-strong);border-radius:10px;padding:12px 15px;line-height:1.65}
+.badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;padding:3px 9px;border-radius:20px;font-weight:500}
+.badge.g{background:var(--green-bg);color:var(--green)}.badge.a{background:var(--amber-bg);color:var(--amber)}.badge.r{background:var(--red-bg);color:var(--red)}.badge.b{background:var(--blue-bg);color:var(--blue)}.badge.p{background:var(--purple-bg);color:var(--purple)}
+.chart-box{position:relative;width:100%}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead th{font-family:var(--mono);font-size:9.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--ink-soft);text-align:left;padding:8px 10px;border-bottom:1.5px solid var(--line-strong);font-weight:500;white-space:nowrap}
+tbody td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--paper-2)}
+td.num,th.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+td.proj,th.proj{color:var(--brand);font-style:italic}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 17px 14px;cursor:pointer;position:relative;overflow:hidden;transition:transform .16s,box-shadow .16s,border-color .16s;text-align:left;width:100%;font-family:var(--serif)}
+.kpi:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:var(--line-strong)}
+.kpi::after{content:"";position:absolute;left:0;top:0;bottom:0;width:4px}
+.kpi.s-g::after{background:var(--green)}.kpi.s-a::after{background:var(--amber)}.kpi.s-r::after{background:var(--red)}.kpi.s-b::after{background:var(--blue)}
+.kpi .label{font-family:var(--mono);font-size:9.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);line-height:1.4;min-height:25px}
+.kpi .val{font-family:var(--display);font-weight:600;font-size:25px;line-height:1;margin:8px 0 6px;letter-spacing:-.5px}
+.kpi .meta{font-size:12px;color:var(--ink-soft)}
+.kpi .spark{margin-top:8px;height:30px}
+/* controls */
+.ctrl-row{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end}
+.ctrl{flex:1;min-width:180px}
+.ctrl label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px}
+.ctrl label .v{color:var(--brand);font-weight:600;float:right}
+input[type=range]{width:100%;-webkit-appearance:none;appearance:none;height:5px;border-radius:5px;background:var(--paper-2);outline:none;border:1px solid var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--brand);cursor:pointer;border:2px solid var(--card);box-shadow:var(--shadow)}
+input[type=range]::-moz-range-thumb{width:17px;height:17px;border-radius:50%;background:var(--brand);cursor:pointer;border:2px solid var(--card)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{background:var(--card);border:none;font-family:var(--mono);font-size:10.5px;padding:6px 12px;cursor:pointer;color:var(--ink-soft);transition:background .15s,color .15s}
+.seg button.active{background:var(--brand);color:#fff}
+.seg button+button{border-left:1px solid var(--line)}
+.btn{font-family:var(--mono);font-size:10.5px;letter-spacing:.5px;text-transform:uppercase;background:var(--brand);color:#fff;border:none;padding:8px 15px;border-radius:8px;cursor:pointer;transition:background .16s}
+.btn:hover{background:var(--brand-deep)}
+.btn.ghost{background:var(--card);color:var(--brand);border:1px solid var(--line-strong)}
+.btn.ghost:hover{background:var(--paper-2)}
+.stat-pill{background:var(--paper-2);border:1px solid var(--line);border-radius:10px;padding:11px 14px}
+.stat-pill .n{font-family:var(--display);font-weight:600;font-size:20px;line-height:1}
+.stat-pill .l{font-family:var(--mono);font-size:9.5px;letter-spacing:.4px;text-transform:uppercase;color:var(--ink-soft);margin-top:5px}
+.flag{display:flex;gap:12px;padding:13px 15px;border-radius:11px;border:1px solid var(--line);background:var(--card);margin-bottom:10px;align-items:flex-start}
+.flag .sev{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.flag.high .sev{background:var(--red)}.flag.med .sev{background:var(--amber)}.flag.low .sev{background:var(--blue)}
+.flag .ft{flex:1}
+.flag .ft h4{font-family:var(--serif);font-weight:600;font-size:14.5px;margin-bottom:3px}
+.flag .ft p{font-size:13px;color:var(--ink-soft);line-height:1.5}
+.flag .zscore{font-family:var(--mono);font-size:11px;color:var(--ink-soft);white-space:nowrap;background:var(--paper-2);padding:3px 8px;border-radius:6px}
+/* recommendation cards */
+.rec{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden}
+.rec-head{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;cursor:pointer;user-select:none}
+.rec-head .pri{flex-shrink:0;margin-top:2px}
+.rec-head .rh{flex:1}
+.rec-head h3{font-family:var(--display);font-weight:600;font-size:16.5px;line-height:1.25;letter-spacing:-.2px}
+.rec-head .trig{font-size:13px;color:var(--ink-soft);margin-top:5px;line-height:1.5}
+.rec-head .chev{font-family:var(--mono);color:var(--line-strong);transition:transform .2s;margin-top:3px}
+.rec.open .rec-head .chev{transform:rotate(90deg);color:var(--brand)}
+.rec-body{display:none;padding:0 18px 18px 18px;border-top:1px solid var(--line);margin-top:0}
+.rec.open .rec-body{display:block;animation:fade .25s}
+.rec-why{font-size:13.5px;color:var(--ink-soft);line-height:1.6;background:var(--paper-2);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:11px 14px;margin:14px 0 16px}
+.rec-why b{color:var(--ink)}
+.steps-h{font-family:var(--mono);font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:11px}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:step;display:grid;gap:10px}
+ol.steps li{counter-increment:step;position:relative;padding-left:34px;font-size:14px;color:var(--ink);line-height:1.5}
+ol.steps li::before{content:counter(step);position:absolute;left:0;top:-1px;width:23px;height:23px;border-radius:50%;background:var(--brand);color:#fff;font-family:var(--mono);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.rec-foot{display:flex;gap:9px;margin-top:16px;flex-wrap:wrap}
+.rec-link{font-family:var(--mono);font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--brand);border:1px solid var(--line-strong);border-radius:7px;padding:6px 11px;cursor:pointer;background:var(--card);transition:background .15s,color .15s}
+.rec-link:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.pri-strip{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.tag{font-family:var(--mono);font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:5px;background:var(--paper-2);color:var(--ink-soft);border:1px solid var(--line)}
+/* modal */
+.modal-bg{position:fixed;inset:0;background:rgba(16,34,28,.55);backdrop-filter:blur(3px);z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
+.modal-bg.open{display:flex;animation:fade .2s}
+.modal{background:var(--card);border-radius:18px;max-width:560px;width:100%;box-shadow:var(--shadow-lg);max-height:88vh;overflow-y:auto;border:1px solid var(--line-strong)}
+.modal-head{padding:22px 24px 15px;border-bottom:1px solid var(--line);position:relative}
+.modal-head h3{font-family:var(--display);font-weight:600;font-size:20px;padding-right:30px}
+.modal-close{position:absolute;top:18px;right:20px;background:var(--paper-2);border:1px solid var(--line);width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:15px;color:var(--ink-soft)}
+.modal-body{padding:8px 24px 22px}
+.mrow{padding:12px 0;border-bottom:1px solid var(--line)}.mrow:last-child{border-bottom:none}
+.mrow .k{font-family:var(--mono);font-size:9.5px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.mrow .v{font-size:14px;color:var(--ink)}
+/* AI panel */
+.ai-drawer{position:fixed;top:0;right:0;height:100vh;width:400px;max-width:92vw;background:var(--card);border-left:1px solid var(--line-strong);box-shadow:var(--shadow-lg);z-index:90;transform:translateX(100%);transition:transform .28s ease;display:flex;flex-direction:column}
+.ai-drawer.open{transform:none}
+.ai-head{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.ai-head h3{font-family:var(--display);font-weight:600;font-size:17px;flex:1}
+.ai-head .x{background:var(--paper-2);border:1px solid var(--line);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:14px;color:var(--ink-soft)}
+.ai-body{flex:1;overflow-y:auto;padding:16px 18px;display:flex;flex-direction:column;gap:12px}
+.ai-msg{font-size:13.5px;line-height:1.55;padding:11px 14px;border-radius:12px;max-width:92%}
+.ai-msg.user{background:var(--brand);color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.ai-msg.bot{background:var(--paper-2);color:var(--ink);align-self:flex-start;border-bottom-left-radius:4px;border:1px solid var(--line)}
+.ai-msg.sys{background:var(--blue-bg);color:var(--blue);align-self:center;font-family:var(--mono);font-size:11px;text-align:center;max-width:100%}
+.ai-foot{padding:14px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:9px}
+.ai-suggest{display:flex;flex-wrap:wrap;gap:6px}
+.ai-chip{font-family:var(--mono);font-size:10px;background:var(--paper-2);border:1px solid var(--line);color:var(--ink-soft);padding:5px 9px;border-radius:14px;cursor:pointer;transition:background .15s,color .15s}
+.ai-chip:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.ai-inrow{display:flex;gap:8px}
+.ai-inrow input{flex:1;font-family:var(--serif);font-size:13.5px;padding:9px 12px;border:1px solid var(--line-strong);border-radius:9px;background:var(--paper);outline:none}
+.ai-inrow input:focus{border-color:var(--brand)}
+.ai-inrow button{background:var(--brand);color:#fff;border:none;border-radius:9px;width:40px;cursor:pointer;font-size:15px}
+.keybox{padding:14px 16px;background:var(--amber-bg);border-bottom:1px solid var(--line)}
+.keybox p{font-size:11.5px;color:var(--amber);line-height:1.5;margin-bottom:9px;font-family:var(--mono)}
+.keybox .ai-inrow input{background:#fff}
+.spin{display:inline-block;width:13px;height:13px;border:2px solid var(--line);border-top-color:var(--brand);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:860px){
+  .app{grid-template-columns:1fr}
+  .sidebar{position:fixed;left:0;top:0;z-index:60;width:240px;transform:translateX(-100%);transition:transform .25s}
+  .sidebar.show{transform:none}.mob-toggle{display:inline-flex!important}
+  .content{padding:20px 16px 60px}.topbar{padding:10px 16px}
+}
+.mob-toggle{display:none;background:var(--brand);color:#fff;border:none;width:36px;height:36px;border-radius:9px;font-size:17px;cursor:pointer;align-items:center;justify-content:center}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:55;display:none}.scrim.show{display:block}
+@media print{.sidebar,.topbar,.ai-drawer,.mob-toggle{display:none}.app{display:block}.view{display:block!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="seal">CC</div>
+      <h1>Financial Intelligence Workspace</h1>
+      <div class="sub">City of Cambridge &middot; Analytics</div>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="nav-group">Overview</div>
+      <button data-view="command" class="active"><span class="ico">&#9635;</span> Command Center</button>
+      <button data-view="actions"><span class="ico">&#9873;</span> Action Center</button>
+      <div class="nav-group">AI-Assisted Analytics</div>
+      <button data-view="forecast"><span class="ico">&#128302;</span> 2030 Forecast (Ensemble)</button>
+      <button data-view="scenario"><span class="ico">&#9881;</span> Scenario Modeler</button>
+      <button data-view="montecarlo"><span class="ico">&#8767;</span> Monte Carlo Simulation</button>
+      <button data-view="anomaly"><span class="ico">&#9888;</span> Anomaly &amp; Risk Detection</button>
+      <button data-view="sensitivity"><span class="ico">&#8644;</span> Sensitivity Analysis</button>
+      <div class="nav-group">Data</div>
+      <button data-view="explorer"><span class="ico">&#9707;</span> Metric Explorer</button>
+      <button data-view="method"><span class="ico">&#8862;</span> Methodology &amp; Data</button>
+    </nav>
+    <div class="foot">AI-assisted analytics<br>Built on published ACFR FY23&ndash;FY25</div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+  <div class="main">
+    <header class="topbar">
+      <button class="mob-toggle" id="mobToggle">&#9776;</button>
+      <div class="crumb">Cambridge Analytics &middot; <b id="crumbView">Command Center</b></div>
+      <div class="right">
+        <div class="ai-status" id="aiStatus"><span class="led"></span><span id="aiStatusText">AI: add key</span></div>
+        <button class="btn ghost" id="exportBtn">Export CSV</button>
+      </div>
+    </header>
+    <div class="content" id="content"></div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modal"></div></div>
+
+<div class="ai-drawer" id="aiDrawer">
+  <div class="ai-head">
+    <span style="font-size:18px">&#10024;</span>
+    <h3>AI Financial Analyst</h3>
+    <button class="x" id="aiClose">&times;</button>
+  </div>
+  <div class="keybox" id="keybox">
+    <p>Optional: paste an Anthropic API key to enable live Q&amp;A. The key stays in this browser tab only &mdash; it is never stored, logged, or sent anywhere except Anthropic&rsquo;s API. Leave blank to use the workspace without AI.</p>
+    <div class="ai-inrow">
+      <input type="password" id="apiKey" placeholder="sk-ant-... (optional)" autocomplete="off">
+      <button id="saveKey" title="Activate">&#10003;</button>
+    </div>
+  </div>
+  <div class="ai-body" id="aiBody"></div>
+  <div class="ai-foot">
+    <div class="ai-suggest" id="aiSuggest"></div>
+    <div class="ai-inrow">
+      <input type="text" id="aiInput" placeholder="Ask about the Cambridge data...">
+      <button id="aiSend">&#10148;</button>
+    </div>
+  </div>
+</div>
+<script>
+/* ============================================================
+   VERIFIED DATA — City of Cambridge ACFR FY2023–FY2025 + MA DLS
+   $ in millions unless noted. FY ends June 30.
+   ============================================================ */
+const DATA = {
+  meta:{updated:'FY2025 draft ACFR (1/30/2026)', sources:'Cambridge ACFR FY2024 (KPMG, unmodified), FY2025 draft, MA DLS'},
+  hist:{
+    free_cash:    {2021:214.4,2023:192.3,2024:233.2,2025:184.3},
+    fund_balance: {2023:325.6,2024:387.5,2025:366.8},
+    tax_levy:     {2023:532.6,2024:582.2,2025:628.3},
+    levy_limit:   {2023:732.6,2024:774.0,2025:817.5},
+    assessed_B:   {2023:71.1,2024:75.9,2025:76.2},
+    bonded_debt:  {2024:616.4,2025:694.3},
+    net_position: {2023:864.2,2024:1000.1},
+    total_rev:    {2023:954.5,2024:1107.7},
+    total_exp:    {2023:898.5,2024:971.8},
+    opeb:         {2023:846.2,2024:871.3},
+    pension:      {2023:111.8,2024:97.7},
+    cip5:         {2024:697.6,2025:726.1}
+  },
+  meta_metric:{
+    free_cash:{label:'Certified Free Cash',unit:'$M',fmt:'m',status:'a',vol:0.12,
+      desc:'DLS-certified non-recurring available funds. Volatile by design; best practice limits use to one-time costs, capital, and reserves.',
+      source:'Cambridge ACFR FY2025 draft; MA DLS certifications'},
+    fund_balance:{label:'General Fund Balance',unit:'$M',fmt:'m',status:'g',vol:0.07,
+      desc:'Accumulated financial capacity. Read by rating agencies as a primary resilience signal.',
+      source:'Cambridge ACFR FY2025 draft, Transmittal Letter'},
+    tax_levy:{label:'Property Tax Levy',unit:'$M',fmt:'m',status:'g',vol:0.02,
+      desc:'Largest revenue source (~68.7% of FY24 general revenues). Growth and remaining Prop 2½ capacity drive every plan.',
+      source:'Cambridge ACFR FY2025 draft'},
+    levy_limit:{label:'Prop 2½ Levy Limit',unit:'$M',fmt:'m',status:'g',vol:0.015,
+      desc:'Statutory ceiling: prior limit +2.5% + certified new growth. Gap to actual levy is taxing headroom.',
+      source:'Cambridge ACFR FY2025 draft'},
+    assessed_B:{label:'Assessed Valuation',unit:'$B',fmt:'b',status:'a',vol:0.04,
+      desc:'Total tax base. Heavily commercial; FY25 grew only +0.5%, the key early-warning signal in this dataset.',
+      source:'Cambridge ACFR FY2025 draft'},
+    bonded_debt:{label:'Outstanding Bonded Debt',unit:'$M',fmt:'m',status:'a',vol:0.08,
+      desc:'GO bonded debt funding the capital program. Mostly ≤10-year amortization — higher near-term service, lower total interest.',
+      source:'Cambridge ACFR FY2025 draft'},
+    net_position:{label:'Total Net Position',unit:'$M',fmt:'m',status:'g',vol:0.10,
+      desc:'Government-wide, full-accrual measure of whether financial position is improving over time.',
+      source:'Cambridge ACFR FY2024 MD&A'},
+    total_rev:{label:'Total Revenues',unit:'$M',fmt:'m',status:'g',vol:0.09,
+      desc:'Full-accrual resource base. FY24 jump partly reflects one-time ARPA/FEMA items.',
+      source:'Cambridge ACFR FY2024 MD&A'},
+    total_exp:{label:'Total Expenses',unit:'$M',fmt:'m',status:'a',vol:0.05,
+      desc:'Full cost of services. Recurring growth (~8–9%/yr) vs recurring revenue is the sustainability question.',
+      source:'Cambridge ACFR FY2024 MD&A'},
+    opeb:{label:'Net OPEB Liability',unit:'$M',fmt:'m',status:'a',vol:0.03,
+      desc:'Retiree health liability, pre-funded through an irrevocable trust. Growing ~3%/yr.',
+      source:'Cambridge ACFR FY2024 MD&A'},
+    pension:{label:'Net Pension Liability',unit:'$M',fmt:'m',status:'g',vol:0.10,
+      desc:'Proportionate share of net pension liability. Trending down, partially offsetting OPEB growth.',
+      source:'Cambridge ACFR FY2024 MD&A'},
+    cip5:{label:'5-Year Capital Plan',unit:'$M',fmt:'m',status:'g',vol:0.04,
+      desc:'Rolling five-year CIP total. Primary driver of future debt issuance.',
+      source:'Cambridge ACFR FY2024 & FY2025'}
+  }
+};
+const FMT=(v,f)=> f==='b'?'$'+v.toFixed(1)+'B':f==='m'?'$'+v.toFixed(0)+'M':(''+v);
+const FMT1=(v,f)=> f==='b'?'$'+v.toFixed(2)+'B':'$'+v.toFixed(1)+'M';
+
+/* ============================================================
+   STATISTICAL ENGINE — real, transparent, client-side
+   ============================================================ */
+const STAT = {
+  // Ordinary least squares linear regression on {year:value}
+  linreg(series){
+    const xs=Object.keys(series).map(Number).sort((a,b)=>a-b);
+    const ys=xs.map(x=>series[x]);
+    const n=xs.length, mx=xs.reduce((a,b)=>a+b,0)/n, my=ys.reduce((a,b)=>a+b,0)/n;
+    let sxy=0,sxx=0,syy=0;
+    for(let i=0;i<n;i++){sxy+=(xs[i]-mx)*(ys[i]-my);sxx+=(xs[i]-mx)**2;syy+=(ys[i]-my)**2;}
+    const slope=sxx?sxy/sxx:0, intercept=my-slope*mx;
+    const r2=(sxx&&syy)?(sxy*sxy)/(sxx*syy):0;
+    // residual standard error
+    let sse=0; for(let i=0;i<n;i++){const pred=slope*xs[i]+intercept;sse+=(ys[i]-pred)**2;}
+    const se=n>2?Math.sqrt(sse/(n-2)):Math.abs(my*0.05);
+    return {slope,intercept,r2,se,n,xs,ys,mx,my,sxx};
+  },
+  predict(fit,year){return fit.slope*year+fit.intercept;},
+  // CAGR between first & last
+  cagr(series){
+    const xs=Object.keys(series).map(Number).sort((a,b)=>a-b);
+    const f=series[xs[0]],l=series[xs[xs.length-1]],yrs=xs[xs.length-1]-xs[0];
+    return (f>0&&l>0&&yrs>0)?Math.pow(l/f,1/yrs)-1:0;
+  },
+  // 95% prediction interval half-width at a future x (t≈2 for small n)
+  predInterval(fit,year){
+    if(fit.n<=2) return null;
+    const t=2.0;
+    const lev=1+1/fit.n+((year-fit.mx)**2)/(fit.sxx||1);
+    return t*fit.se*Math.sqrt(lev);
+  },
+  // Gaussian random via Box-Muller
+  gauss(){let u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);},
+  // Monte Carlo: simulate a value `steps` years ahead given annual growth mean/sd
+  monteCarlo(start,growthMean,growthSd,steps,runs){
+    const ends=[]; const paths=[];
+    for(let r=0;r<runs;r++){
+      let v=start; const path=[v];
+      for(let s=0;s<steps;s++){ const g=growthMean+growthSd*this.gauss(); v=v*(1+g); path.push(v); }
+      ends.push(v); if(r<40)paths.push(path);
+    }
+    ends.sort((a,b)=>a-b);
+    const pct=p=>ends[Math.min(ends.length-1,Math.floor(p/100*ends.length))];
+    const mean=ends.reduce((a,b)=>a+b,0)/ends.length;
+    return {ends,paths,mean,p5:pct(5),p25:pct(25),p50:pct(50),p75:pct(75),p95:pct(95),min:ends[0],max:ends[ends.length-1]};
+  },
+  // z-scores of year-over-year % changes to flag anomalies
+  anomalies(series){
+    const xs=Object.keys(series).map(Number).sort((a,b)=>a-b);
+    if(xs.length<3) return [];
+    const chg=[]; for(let i=1;i<xs.length;i++){chg.push({yr:xs[i],pct:(series[xs[i]]-series[xs[i-1]])/series[xs[i-1]]});}
+    const m=chg.reduce((a,b)=>a+b.pct,0)/chg.length;
+    const sd=Math.sqrt(chg.reduce((a,b)=>a+(b.pct-m)**2,0)/chg.length)||1e-9;
+    return chg.map(c=>({...c,z:(c.pct-m)/sd,mean:m,sd}));
+  },
+  // Holt linear (double exponential smoothing) with damping phi; forecasts to a horizon
+  holt(series,alpha,beta,phi){
+    const xs=Object.keys(series).map(Number).sort((a,b)=>a-b);
+    const ys=xs.map(x=>series[x]);
+    if(ys.length<2) return null;
+    alpha=alpha??0.6; beta=beta??0.3; phi=phi??0.85;
+    let level=ys[0], trend=ys[1]-ys[0];
+    for(let i=1;i<ys.length;i++){
+      const prevL=level;
+      level=alpha*ys[i]+(1-alpha)*(level+phi*trend);
+      trend=beta*(level-prevL)+(1-beta)*phi*trend;
+    }
+    return {level,trend,phi,last:xs[xs.length-1],
+      predict(year){let f=this.level,t=this.trend,cum=0;const h=year-this.last;for(let k=1;k<=h;k++){cum+=Math.pow(this.phi,k);}return this.level+cum*this.trend;}};
+  },
+  // Ensemble of linear, CAGR-compound, and Holt damped-trend; returns blended forecast + spread band
+  ensemble(series,year){
+    const xs=Object.keys(series).map(Number).sort((a,b)=>a-b);
+    const last=xs[xs.length-1], lastV=series[last];
+    const fit=this.linreg(series), lin=this.predict(fit,year);
+    const g=this.cagr(series), comp=lastV*Math.pow(1+g,year-last);
+    const h=this.holt(series), holtV=h?h.predict(year):lin;
+    const members=[{name:'Linear (OLS)',v:lin},{name:'CAGR compound',v:comp},{name:'Holt damped trend',v:holtV}];
+    const vals=members.map(m=>m.v);
+    const mean=vals.reduce((a,b)=>a+b,0)/vals.length;
+    const sd=Math.sqrt(vals.reduce((a,b)=>a+(b-mean)**2,0)/vals.length);
+    return {members,mean,sd,lo:Math.min(...vals),hi:Math.max(...vals),
+      band:mean===0?0:sd/Math.abs(mean), last, lastV, r2:fit.r2, cagr:g};
+  }
+};
+
+/* Projection config per metric: tier A = enough points to project; B = withhold */
+const PROJ = {
+  free_cash:{tier:'A'}, tax_levy:{tier:'A'}, levy_limit:{tier:'A'}, assessed_B:{tier:'A'}, cip5:{tier:'A'},
+  fund_balance:{tier:'A'}, // 3 pts
+  bonded_debt:{tier:'B'}, net_position:{tier:'B'}, total_rev:{tier:'B'}, total_exp:{tier:'B'}, opeb:{tier:'B'}, pension:{tier:'B'}
+};
+const TARGET_YEAR=2030;
+
+/* ============================================================
+   RECOMMENDATIONS — each tied to a real finding in the data.
+   priority: 1=urgent, 2=monitor, 3=plan. steps are concrete & sequenced.
+   ============================================================ */
+const RECS = [
+  {id:'r_audit', metric:'free_cash', priority:1, title:'Document FY2025 free-cash uses before the ACFR is finalized',
+   trigger:'Free cash fell 21.0% in FY2025 ($233.2M → $184.3M) — the largest single-year drop in the series (z = −0.98).',
+   why:'Free cash is non-recurring. If any of the FY25 decline reflects recurring operations being funded from it, that is a finding-level issue for DLS and the external auditor. The narrative must pre-empt the question.',
+   steps:[
+     'List every FY2025 free-cash appropriation (Neville Place, Federal Grant Stabilization, Debt Stabilization, DPW operations & street repairs).',
+     'Classify each as one-time, capital, or reserve — the three DLS-permitted categories.',
+     'Flag anything that looks recurring and route it to the budget office for confirmation before sign-off.',
+     'Add one MD&A sentence stating no free cash funded recurring operations (the DLS discipline test).',
+     'Show the FY21–FY25 band ($184.3M–$233.2M) so the FY25 figure reads as within range, not a collapse.']},
+  {id:'r_assess', metric:'assessed_B', priority:1, title:'Disclose commercial-valuation risk while the slowdown is early',
+   trigger:'Assessed value grew only +0.5% in FY2025, decelerating sharply from +6.7% in FY2024. The ensemble forecast still extrapolates upward — likely overstating if commercial values stay flat.',
+   why:'Cambridge’s tax base is heavily commercial (lab/office). A flat or falling commercial market shifts levy burden toward residents and weakens new-growth revenue — the single most important early-warning signal in this dataset.',
+   steps:[
+     'Split the FY2025 base into commercial vs. residential to size the concentration.',
+     'Model a flat-commercial scenario in the Scenario Modeler and capture the FY2030 delta.',
+     'Draft a disclosed-risk paragraph for the ACFR on commercial-valuation dependence.',
+     'Brief Council on tax-shift implications before the next classification hearing.',
+     'Treat the ensemble’s upward assessed-value forecast as a ceiling, not a base case, in planning.']},
+  {id:'r_levy', metric:'tax_levy', priority:2, title:'Surface the narrowing levy-to-limit headroom to Council now',
+   trigger:'The levy is growing ~8.6%/yr while the Prop 2½ limit grows ~5.6%/yr. Excess capacity narrowed from $200.0M (FY23) to $189.1M (FY25) and the forecast methods disagree by ±9.7%.',
+   why:'Levy growth outpacing limit growth compresses future flexibility. Surfacing it early is a governance courtesy; discovering it late forces abrupt choices.',
+   steps:[
+     'Build a levy-vs-limit exhibit for the statistical section showing the closing gap by year.',
+     'Add the year-over-year narrowing ($−2.4M, then $−9.4M) as an explicit callout.',
+     'Project headroom to FY2030 using the ensemble blend, not the most aggressive single method.',
+     'Confirm new-growth assumptions with Assessing before locking out-year levy estimates.',
+     'Give Council a one-page read: ample capacity today, but a monitored, narrowing trend.']},
+  {id:'r_debt', metric:'bonded_debt', priority:2, title:'Anchor the debt trend on the 10-year series before forecasting',
+   trigger:'Bonded debt rose 12.6% (FY24 → FY25). Only two comparable years exist, so the workspace withholds a forecast — an honest gap, not a finished analysis.',
+   why:'A two-point trend cannot support a credible 5-year projection. Debt is decision-grade only when shown against the legal debt margin and a real multi-year series.',
+   steps:[
+     'Pull the 10-year debt series from the ACFR statistical section (Ratios of Outstanding Debt by Type).',
+     'Load it so the ensemble can replace the withheld projection with a defensible trend.',
+     'Present outstanding debt as a percentage of the legal debt margin, never in isolation.',
+     'Tie the FY25 increase to its drivers (school construction, fire HQ, infrastructure) in the MD&A.',
+     'State the ≤10-year amortization policy so higher near-term service reads as intentional.']},
+  {id:'r_obl', metric:'opeb', priority:3, title:'Pair pension and OPEB into one long-term-obligation exhibit',
+   trigger:'OPEB rose +$25.1M while pension fell −$14.1M (net +$11.0M). Shown separately, the two liabilities tell a confusing story.',
+   why:'Readers misjudge the City’s long-term position when these move in opposite directions on separate pages. One paired exhibit shows the true net direction.',
+   steps:[
+     'Place net pension ($97.7M) next to net OPEB ($871.3M) in a single exhibit.',
+     'Compute and state the combined movement (+$11.0M net).',
+     'Note the OPEB trust pre-funding ($27.8M contribution vs $25.8M benefits) as a mitigant.',
+     'Explain the pension decline (investment performance + contributions) in the MD&A.',
+     'Carry the paired exhibit forward each year for a consistent obligations narrative.']},
+  {id:'r_fwd', metric:null, priority:3, title:'Adopt the ensemble blend as the planning baseline',
+   trigger:'Across metrics, single-method forecasts diverge by up to ±9.7%. The ensemble blend reduces any one method’s bias.',
+   why:'Planning off one trend line bakes in that method’s bias. The blend, with its disclosed agreement band, is a more defensible anchor for multi-year decisions.',
+   steps:[
+     'Use the blended FY2030 figure as the base case in planning documents.',
+     'Carry the method-agreement band as the explicit uncertainty range.',
+     'Re-run the Monte Carlo view to stress-test the downside (P5) for volatile metrics like free cash.',
+     'Refresh all forecasts when the FY2025 ACFR is finalized and again each close.',
+     'Flag any metric where method agreement is "Low" as directional-only in materials.']}
+];
+const PRI={1:{lbl:'Urgent',cls:'r'},2:{lbl:'Monitor',cls:'a'},3:{lbl:'Plan',cls:'b'}};
+/* ============================================================ HELPERS ============================================================ */
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const PAL={brand:'#1f5c4d',gold:'#9a7b2e',red:'#a8362f',blue:'#2a5878',purple:'#5b4b8a',green:'#2f7d52',amber:'#a9711a'};
+let CHARTS={};
+function destroyChart(id){if(CHARTS[id]){CHARTS[id].destroy();delete CHARTS[id];}}
+function mkChart(id,cfg){const el=document.getElementById(id);if(!el)return;destroyChart(id);CHARTS[id]=new Chart(el,cfg);}
+const sIco={g:'Stable',a:'Monitor',r:'Action'};
+Chart.defaults.font.family="'IBM Plex Mono', monospace";
+Chart.defaults.font.size=10;
+Chart.defaults.color='#33473f';
+
+/* shared: projection series for a metric (linreg + CAGR + PI band) */
+function projectMetric(key,growthOverride){
+  const s=DATA.hist[key], fit=STAT.linreg(s);
+  const xs=Object.keys(s).map(Number).sort((a,b)=>a-b);
+  const last=xs[xs.length-1], lastV=s[last];
+  const cagr=STAT.cagr(s);
+  const out={hist:s,xs,last,lastV,fit,cagr,lin:{},cagrP:{},piHi:{},piLo:{}};
+  const g = growthOverride!=null?growthOverride:cagr;
+  for(let y=last+1;y<=TARGET_YEAR;y++){
+    out.lin[y]=STAT.predict(fit,y);
+    out.cagrP[y]=lastV*Math.pow(1+g,y-last);
+    const pi=STAT.predInterval(fit,y);
+    if(pi!=null){out.piHi[y]=out.lin[y]+pi;out.piLo[y]=Math.max(0,out.lin[y]-pi);}
+  }
+  return out;
+}
+
+/* ============================================================ VIEWS ============================================================ */
+const VIEWS={};
+
+/* ---------- COMMAND CENTER ---------- */
+VIEWS.command=()=>{
+  const order=['free_cash','fund_balance','tax_levy','assessed_B','bonded_debt','net_position','opeb','pension'];
+  let cards='';
+  order.forEach(k=>{
+    const m=DATA.meta_metric[k],s=DATA.hist[k],xs=Object.keys(s).map(Number).sort((a,b)=>a-b);
+    const last=xs[xs.length-1],prev=xs[xs.length-2];
+    const chg=prev?((s[last]-s[prev])/s[prev]*100):0;
+    cards+=`<button class="kpi s-${m.status}" data-metric="${k}">
+      <div class="label">${m.label}</div>
+      <div class="val">${FMT(s[last],m.fmt)}</div>
+      <div class="meta"><span class="badge ${m.status}">${sIco[m.status]}</span> FY${last} ${chg>=0?'+':''}${chg.toFixed(1)}%</div>
+      <div class="spark"><canvas id="sp_${k}"></canvas></div>
+    </button>`;
+  });
+  return `<div class="eyebrow">Overview</div>
+  <h1 class="view-title">Financial Intelligence Command Center</h1>
+  <p class="view-sub">A live analytical workspace over the City&rsquo;s published ACFR data (FY2023&ndash;FY2025). Click any metric for detail; use the left nav for scenario modeling, Monte Carlo simulation, anomaly detection, and sensitivity analysis. Open the AI analyst (top-right) to ask questions in plain language.</p>
+  <div class="divider"></div>
+  <div class="grid g4">${cards}</div>
+  <div class="note" style="margin-top:18px">&#9873; <b>New &mdash; the <a href="#" id="goActions" style="color:var(--brand);font-weight:600">Action Center</a></b> turns these analytics into prioritized recommendations with step-by-step actions. Each KPI popup also includes its recommended action. All figures are reported actuals from the City&rsquo;s ACFR; FY2025 is the draft ACFR (1/30/2026), subject to final audit. Projections and simulations are transparent statistical models &mdash; not official City forecasts.</div>`;
+};
+VIEWS.command.after=()=>{
+  ['free_cash','fund_balance','tax_levy','assessed_B','bonded_debt','net_position','opeb','pension'].forEach(k=>{
+    const s=DATA.hist[k],xs=Object.keys(s).map(Number).sort((a,b)=>a-b);
+    mkChart('sp_'+k,{type:'line',data:{labels:xs,datasets:[{data:xs.map(x=>s[x]),borderColor:PAL.brand,borderWidth:2,pointRadius:0,tension:.3,fill:true,backgroundColor:'rgba(31,92,77,.08)'}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{enabled:false}},scales:{x:{display:false},y:{display:false}}}});
+  });
+  $$('[data-metric]').forEach(c=>c.addEventListener('click',()=>openMetric(c.dataset.metric)));
+  const ga=$('#goActions');if(ga)ga.addEventListener('click',e=>{e.preventDefault();render('actions');});
+};
+
+/* ---------- ACTION CENTER ---------- */
+VIEWS.actions=()=>{
+  const sorted=[...RECS].sort((a,b)=>a.priority-b.priority);
+  const counts={1:0,2:0,3:0};RECS.forEach(r=>counts[r.priority]++);
+  const cards=sorted.map(r=>{
+    const p=PRI[r.priority];
+    const steps=r.steps.map(s=>`<li>${s}</li>`).join('');
+    const links=[];
+    if(r.metric)links.push(`<button class="rec-link" data-go-metric="${r.metric}">&#9707; Open ${DATA.meta_metric[r.metric].label}</button>`);
+    if(['r_levy','r_assess','r_fwd'].includes(r.id))links.push(`<button class="rec-link" data-go-view="scenario">&#9881; Model it</button>`);
+    if(r.id==='r_fwd'||r.id==='r_debt')links.push(`<button class="rec-link" data-go-view="forecast">&#128302; Forecast</button>`);
+    if(r.id==='r_audit'||r.id==='r_assess')links.push(`<button class="rec-link" data-go-view="anomaly">&#9888; Anomalies</button>`);
+    links.push(`<button class="rec-link" data-ai-rec="${r.id}">&#10024; Ask AI</button>`);
+    return `<div class="rec" data-rec="${r.id}">
+      <div class="rec-head">
+        <span class="badge ${p.cls} pri">${p.lbl}</span>
+        <div class="rh"><h3>${r.title}</h3><div class="trig">${r.trigger}</div></div>
+        <span class="chev">&#9656;</span>
+      </div>
+      <div class="rec-body">
+        <div class="rec-why"><b>Why it matters:</b> ${r.why}</div>
+        <div class="steps-h">Recommended steps</div>
+        <ol class="steps">${steps}</ol>
+        <div class="rec-foot">${links.join('')}</div>
+      </div>
+    </div>`;
+  }).join('');
+  return `<div class="eyebrow">Overview</div>
+  <h1 class="view-title">Action Center</h1>
+  <p class="view-sub">The analytics turned into decisions. Each recommendation below is triggered by a specific finding in the data &mdash; an anomaly, a narrowing margin, a forecast divergence &mdash; and comes with the concrete steps to act on it. Click a card to expand the steps; use the buttons to jump to the supporting analysis or ask the AI analyst.</p>
+  <div class="divider"></div>
+  <div class="pri-strip">
+    <div class="stat-pill"><div class="n" style="color:var(--red)">${counts[1]}</div><div class="l">Urgent &mdash; act before ACFR sign-off</div></div>
+    <div class="stat-pill"><div class="n" style="color:var(--amber)">${counts[2]}</div><div class="l">Monitor &mdash; surface to Council</div></div>
+    <div class="stat-pill"><div class="n" style="color:var(--blue)">${counts[3]}</div><div class="l">Plan &mdash; strengthen the model</div></div>
+  </div>
+  ${cards}
+  <div class="note" style="margin-top:6px">Recommendations are generated from the reported ACFR data and this workspace&rsquo;s statistical analysis &mdash; they are professional reporting suggestions, not official City policy. Verify against the final audited ACFR before acting.</div>`;
+};
+VIEWS.actions.after=()=>{
+  $$('.rec-head').forEach(h=>h.addEventListener('click',()=>h.parentElement.classList.toggle('open')));
+  // open the first (urgent) card by default
+  const first=$('.rec');if(first)first.classList.add('open');
+  $$('[data-go-metric]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openMetric(b.dataset.goMetric);}));
+  $$('[data-go-view]').forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();render(b.dataset.goView);}));
+  $$('[data-ai-rec]').forEach(b=>b.addEventListener('click',e=>{
+    e.stopPropagation();
+    const r=RECS.find(x=>x.id===b.dataset.aiRec);if(!r)return;
+    openAI();
+    const q=`Regarding this finding for the City of Cambridge: "${r.trigger}" — explain in plain language why it matters for a finance director and what the first step should be.`;
+    $('#aiInput').value=q;
+    if(typeof sendAI==='function'&&API_KEY)sendAI();
+    else pushAI('sys','Loaded the question. Add an API key for an AI explanation, or follow the numbered steps in the card — they are the recommended actions.');
+  }));
+};
+
+/* ---------- 2030 ENSEMBLE FORECAST ---------- */
+VIEWS.forecast=()=>{
+  const opts=Object.keys(DATA.meta_metric).map(k=>`<option value="${k}"${k==='free_cash'?' selected':''}>${DATA.meta_metric[k].label}</option>`).join('');
+  return `<div class="eyebrow">AI-Assisted Analytics</div>
+  <h1 class="view-title">2030 Forecast &mdash; Ensemble Model</h1>
+  <p class="view-sub">Rather than trust one trend line, this view runs <b>three forecasting methods</b> &mdash; ordinary-least-squares linear regression, CAGR compounding, and Holt damped-trend exponential smoothing &mdash; then blends them. Where the methods agree, confidence is high; where they diverge, the band widens and the model says so. This is ensemble forecasting: a standard ML technique that reduces any single method&rsquo;s bias.</p>
+  <div class="divider"></div>
+  <div class="ctrl-row" style="margin-bottom:16px">
+    <div class="ctrl" style="max-width:300px"><label>Metric</label>
+      <select id="fcMetric" style="width:100%;font-family:var(--serif);font-size:14px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper)">${opts}</select></div>
+    <button class="btn ghost" id="fcExplain">&#10024; Explain with AI</button>
+  </div>
+  <div class="grid g2" style="align-items:start">
+    <div class="card block">
+      <h3><span class="ico">&#128302;</span>Blended forecast to FY2030</h3>
+      <div class="chart-box" style="height:280px"><canvas id="fcChart"></canvas></div>
+      <div id="fcAgree" style="margin-top:12px"></div>
+    </div>
+    <div class="card block">
+      <h3 style="font-size:16px"><span class="ico">&#9707;</span>Method comparison</h3>
+      <div id="fcStats" class="grid g2" style="margin-bottom:14px"></div>
+      <div id="fcTable"></div>
+      <div class="note" id="fcNote" style="margin-top:14px"></div>
+    </div>
+  </div>
+  <div class="card block" style="margin-top:16px">
+    <h3 style="font-size:15px"><span class="ico">&#9636;</span>Ensemble across all metrics &mdash; FY2030 blended forecast vs. last actual</h3>
+    <div class="chart-box" style="height:300px"><canvas id="fcAll"></canvas></div>
+    <div class="note" style="margin-top:12px">Metrics with only two reported years (debt, net position, revenue, expenses, OPEB, pension) are shown with a <b>low-confidence</b> marker &mdash; an ensemble of three methods over two points is still extrapolation. Treat those as directional, not decision-grade, until the ACFR 10-year series is loaded.</div>
+  </div>`;
+};
+VIEWS.forecast.after=()=>{
+  const sel=$('#fcMetric');
+  function build(){
+    const key=sel.value,m=DATA.meta_metric[key],s=DATA.hist[key];
+    const xs=Object.keys(s).map(Number).sort((a,b)=>a-b);const last=xs[xs.length-1],lastV=s[last];
+    const fit=STAT.linreg(s),g=STAT.cagr(s),h=STAT.holt(s);
+    const fyrs=[];for(let y=last+1;y<=TARGET_YEAR;y++)fyrs.push(y);
+    const labels=[...xs,...fyrs];
+    const pad=arr=>{const z=xs.map(()=>null);z[z.length-1]=lastV;return z.concat(arr);};
+    const linP=fyrs.map(y=>STAT.predict(fit,y));
+    const cagrP=fyrs.map(y=>lastV*Math.pow(1+g,y-last));
+    const holtP=fyrs.map(y=>h.predict(y));
+    const blend=fyrs.map((y,i)=>(linP[i]+cagrP[i]+holtP[i])/3);
+    const hi=fyrs.map((y,i)=>Math.max(linP[i],cagrP[i],holtP[i]));
+    const lo=fyrs.map((y,i)=>Math.min(linP[i],cagrP[i],holtP[i]));
+    const histData=xs.map(x=>s[x]).concat(fyrs.map(()=>null));
+    mkChart('fcChart',{type:'line',data:{labels,datasets:[
+      {label:'Ensemble hi',data:pad(hi),borderColor:'transparent',backgroundColor:'rgba(91,75,138,.13)',fill:'+1',pointRadius:0,tension:.25},
+      {label:'Ensemble lo',data:pad(lo),borderColor:'transparent',pointRadius:0,tension:.25},
+      {label:'Actual',data:histData,borderColor:PAL.brand,borderWidth:2.5,pointRadius:3,tension:.25},
+      {label:'Blended forecast',data:pad(blend),borderColor:PAL.purple,borderWidth:2.5,borderDash:[6,3],pointRadius:3,tension:.25},
+      {label:'Linear',data:pad(linP),borderColor:PAL.blue,borderWidth:1,borderDash:[2,2],pointRadius:0,tension:.25},
+      {label:'CAGR',data:pad(cagrP),borderColor:PAL.gold,borderWidth:1,borderDash:[2,2],pointRadius:0,tension:.25},
+      {label:'Holt',data:pad(holtP),borderColor:PAL.green,borderWidth:1,borderDash:[2,2],pointRadius:0,tension:.25}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:11,font:{size:8.5},filter:i=>!i.text.includes('Ensemble')}},tooltip:{callbacks:{label:c=>c.parsed.y==null?null:c.dataset.label+': '+FMT1(c.parsed.y,m.fmt)}}},scales:{y:{ticks:{callback:v=>FMT(v,m.fmt)},grid:{color:'rgba(0,0,0,.04)'}},x:{grid:{display:false}}}}});
+    const e=STAT.ensemble(s,TARGET_YEAR);
+    const conf=e.band<0.04?'High':e.band<0.10?'Moderate':'Low';
+    const confCls=e.band<0.04?'g':e.band<0.10?'a':'r';
+    $('#fcAgree').innerHTML=`<div class="flag ${confCls==='g'?'low':confCls==='a'?'med':'high'}" style="margin-bottom:0"><span class="sev"></span><div class="ft"><h4>Method agreement: ${conf}</h4><p>The three methods span ${FMT1(e.lo,m.fmt)}&ndash;${FMT1(e.hi,m.fmt)} for FY2030 (±${(e.band*100).toFixed(1)}% around the blend). ${conf==='High'?'Tight agreement — a dependable planning anchor.':conf==='Moderate'?'Moderate divergence — use the blend but watch the band.':'Wide divergence — treat as directional only.'}</p></div></div>`;
+    $('#fcStats').innerHTML=`
+      <div class="stat-pill"><div class="n" style="color:var(--purple)">${FMT1(e.mean,m.fmt)}</div><div class="l">Blended FY2030</div></div>
+      <div class="stat-pill"><div class="n">±${(e.band*100).toFixed(1)}%</div><div class="l">Method spread</div></div>`;
+    const tierB=PROJ[key].tier==='B';
+    $('#fcTable').innerHTML=`<table><thead><tr><th>Method</th><th class="num">FY2030</th><th class="num">vs blend</th></tr></thead><tbody>
+      ${e.members.map(mm=>`<tr><td>${mm.name}</td><td class="num">${FMT1(mm.v,m.fmt)}</td><td class="num">${mm.v>=e.mean?'+':''}${FMT1(mm.v-e.mean,m.fmt)}</td></tr>`).join('')}
+      <tr style="border-top:1.5px solid var(--line-strong)"><td><b>Blended</b></td><td class="num"><b>${FMT1(e.mean,m.fmt)}</b></td><td class="num">&mdash;</td></tr>
+      </tbody></table>`;
+    $('#fcNote').innerHTML=`From FY${last} actual (${FMT1(lastV,m.fmt)}). Linear R² <b>${fit.r2.toFixed(3)}</b>, historical CAGR <b>${(g*100).toFixed(2)}%/yr</b>, Holt damped (φ=0.85). ${tierB?'<b style="color:var(--red)">Low confidence:</b> only '+xs.length+' reported points — directional only.':''} ${key==='assessed_B'?' <b>Caveat:</b> all methods extrapolate upward, but FY25 assessed value grew only +0.5% — the forecast likely overstates if commercial values stay flat.':''}`;
+    window.__fcCurrent={key,label:m.label,e,fit,g,last,lastV};
+  }
+  // all-metrics ensemble bar
+  function buildAll(){
+    const labels=[],actual=[],fc=[],cols=[];
+    Object.keys(DATA.hist).forEach(k=>{
+      const m=DATA.meta_metric[k],s=DATA.hist[k];const xs=Object.keys(s).map(Number).sort((a,b)=>a-b);
+      const e=STAT.ensemble(s,TARGET_YEAR);
+      labels.push(m.label);actual.push(s[xs[xs.length-1]]);fc.push(e.mean);
+      cols.push(PROJ[k].tier==='B'?'rgba(168,54,47,.4)':'rgba(91,75,138,.55)');
+    });
+    mkChart('fcAll',{type:'bar',data:{labels,datasets:[
+      {label:'Last actual',data:actual,backgroundColor:'rgba(31,92,77,.5)',borderColor:PAL.brand,borderWidth:1},
+      {label:'FY2030 blended forecast',data:fc,backgroundColor:cols,borderColor:PAL.purple,borderWidth:1}
+    ]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:12,font:{size:9}}},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.parsed.x.toFixed(0)+(DATA.meta_metric[Object.keys(DATA.hist)[c.dataIndex]].fmt==='b'?'B':'M')}}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>'$'+v}},y:{grid:{display:false},ticks:{font:{size:8.5}}}}}});
+  }
+  sel.addEventListener('change',build);
+  $('#fcExplain').addEventListener('click',()=>{
+    const c=window.__fcCurrent;if(!c)return;
+    openAI();
+    const q=`Explain the FY2030 ensemble forecast for ${c.label}: linear says ${FMT1(c.e.members[0].v,DATA.meta_metric[c.key].fmt)}, CAGR says ${FMT1(c.e.members[1].v,DATA.meta_metric[c.key].fmt)}, Holt says ${FMT1(c.e.members[2].v,DATA.meta_metric[c.key].fmt)}, blended ${FMT1(c.e.mean,DATA.meta_metric[c.key].fmt)} (±${(c.e.band*100).toFixed(1)}%). What should a finance director take from this?`;
+    $('#aiInput').value=q;
+    if(typeof sendAI==='function'&&API_KEY)sendAI();
+    else pushAI('sys','Forecast loaded into the question box. Add an API key to get an AI explanation, or read the method comparison table — it shows exactly how the three methods differ.');
+  });
+  build();buildAll();
+};
+
+/* ---------- SCENARIO MODELER ---------- */
+let scenState={metric:'tax_levy',growth:null,infl:2.5};
+VIEWS.scenario=()=>{
+  const opts=Object.keys(DATA.meta_metric).filter(k=>PROJ[k].tier==='A'||['fund_balance'].includes(k))
+    .map(k=>`<option value="${k}">${DATA.meta_metric[k].label}</option>`).join('');
+  return `<div class="eyebrow">AI-Assisted Analytics</div>
+  <h1 class="view-title">Scenario Modeler</h1>
+  <p class="view-sub">Drag the assumptions and watch the projection to FY2030 recompute live. The baseline growth is the metric&rsquo;s own historical CAGR; override it to model optimistic or stressed scenarios. This is deterministic scenario math on reported history &mdash; transparent, not a forecast.</p>
+  <div class="divider"></div>
+  <div class="grid g2" style="align-items:start">
+    <div class="card block">
+      <h3><span class="ico">&#9881;</span>Assumptions</h3>
+      <div class="ctrl" style="margin-bottom:16px">
+        <label>Metric</label>
+        <select id="scMetric" style="width:100%;font-family:var(--serif);font-size:14px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper)">${opts}</select>
+      </div>
+      <div class="ctrl" style="margin-bottom:16px">
+        <label>Annual growth rate <span class="v" id="scGrowthV">—</span></label>
+        <input type="range" id="scGrowth" min="-10" max="15" step="0.1">
+      </div>
+      <div class="ctrl" style="margin-bottom:16px">
+        <label>Stress shock in FY2027 <span class="v" id="scShockV">0%</span></label>
+        <input type="range" id="scShock" min="-25" max="10" step="1" value="0">
+      </div>
+      <div class="seg" id="scPreset">
+        <button data-preset="cagr" class="active">Historical CAGR</button>
+        <button data-preset="opt">Optimistic</button>
+        <button data-preset="stress">Stress</button>
+      </div>
+      <div id="scStats" class="grid g2" style="margin-top:18px"></div>
+    </div>
+    <div class="card block">
+      <h3><span class="ico">&#8599;</span>Projection to FY2030</h3>
+      <div class="chart-box" style="height:280px"><canvas id="scChart"></canvas></div>
+      <div class="note" id="scNote" style="margin-top:14px"></div>
+    </div>
+  </div>`;
+};
+VIEWS.scenario.after=()=>{
+  const sel=$('#scMetric'),g=$('#scGrowth'),sh=$('#scShock');
+  function syncBaseline(){
+    const cagr=STAT.cagr(DATA.hist[sel.value])*100;
+    g.value=cagr.toFixed(1);scenState.growth=cagr;
+    $('#scGrowthV').textContent=cagr.toFixed(1)+'%';
+  }
+  function preset(p){
+    const cagr=STAT.cagr(DATA.hist[sel.value])*100;
+    if(p==='cagr'){g.value=cagr.toFixed(1);sh.value=0;}
+    else if(p==='opt'){g.value=(cagr+2).toFixed(1);sh.value=0;}
+    else if(p==='stress'){g.value=(cagr-3).toFixed(1);sh.value=-15;}
+    render();
+  }
+  function render(){
+    const key=sel.value,m=DATA.meta_metric[key];
+    const growth=parseFloat(g.value)/100, shock=parseFloat(sh.value)/100;
+    $('#scGrowthV').textContent=parseFloat(g.value).toFixed(1)+'%';
+    $('#scShockV').textContent=parseFloat(sh.value).toFixed(0)+'%';
+    const s=DATA.hist[key],xs=Object.keys(s).map(Number).sort((a,b)=>a-b);
+    const last=xs[xs.length-1],lastV=s[last];
+    // scenario path
+    const labels=[...xs];const histVals=xs.map(x=>s[x]);
+    const scen=[];let v=lastV;
+    for(let y=last+1;y<=TARGET_YEAR;y++){v=v*(1+growth);if(y===2027)v=v*(1+shock);labels.push(y);scen.push(v);}
+    // baseline (historical CAGR, no shock)
+    const cagr=STAT.cagr(s);let bv=lastV;const base=[];
+    for(let y=last+1;y<=TARGET_YEAR;y++){bv=bv*(1+cagr);base.push(bv);}
+    const histPad=histVals.concat(scen.map(()=>null));
+    const scenPad=xs.map(()=>null);scenPad[scenPad.length-1]=lastV;const scenLine=scenPad.concat(scen);
+    const basePad=xs.map(()=>null);basePad[basePad.length-1]=lastV;const baseLine=basePad.concat(base);
+    mkChart('scChart',{type:'line',data:{labels,datasets:[
+      {label:'Actual',data:histPad,borderColor:PAL.brand,borderWidth:2.5,pointRadius:3,tension:.25},
+      {label:'Baseline (CAGR)',data:baseLine,borderColor:PAL.gold,borderWidth:1.5,borderDash:[3,3],pointRadius:0,tension:.25},
+      {label:'Your scenario',data:scenLine,borderColor:PAL.red,borderWidth:2.5,borderDash:[6,3],pointRadius:3,tension:.25}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:12,font:{size:9}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y==null?'—':FMT1(c.parsed.y,m.fmt))}}},
+      scales:{y:{ticks:{callback:v=>FMT(v,m.fmt)},grid:{color:'rgba(0,0,0,.04)'}},x:{grid:{display:false}}}}});
+    const end=scen[scen.length-1],baseEnd=base[base.length-1];
+    const diff=end-baseEnd;
+    $('#scStats').innerHTML=`
+      <div class="stat-pill"><div class="n">${FMT1(end,m.fmt)}</div><div class="l">FY2030 scenario</div></div>
+      <div class="stat-pill"><div class="n">${FMT1(baseEnd,m.fmt)}</div><div class="l">FY2030 baseline</div></div>
+      <div class="stat-pill"><div class="n" style="color:${diff>=0?'var(--green)':'var(--red)'}">${diff>=0?'+':''}${FMT1(diff,m.fmt)}</div><div class="l">Δ vs baseline</div></div>
+      <div class="stat-pill"><div class="n">${(growth*100).toFixed(1)}%</div><div class="l">Applied growth</div></div>`;
+    $('#scNote').innerHTML=`Baseline uses the historical CAGR of <b>${(cagr*100).toFixed(2)}%/yr</b> from FY${xs[0]}–FY${last}. Your scenario applies <b>${(growth*100).toFixed(1)}%/yr</b>${shock?` with a <b>${(shock*100).toFixed(0)}%</b> one-time shock in FY2027`:''}. All paths compound from the last reported actual (${FMT1(lastV,m.fmt)}, FY${last}).`;
+  }
+  sel.addEventListener('change',()=>{syncBaseline();render();});
+  g.addEventListener('input',render);sh.addEventListener('input',render);
+  $$('#scPreset button').forEach(b=>b.addEventListener('click',()=>{$$('#scPreset button').forEach(x=>x.classList.remove('active'));b.classList.add('active');preset(b.dataset.preset);}));
+  syncBaseline();render();
+};
+
+/* ---------- MONTE CARLO ---------- */
+VIEWS.montecarlo=()=>{
+  const opts=Object.keys(DATA.meta_metric).map(k=>`<option value="${k}"${k==='free_cash'?' selected':''}>${DATA.meta_metric[k].label}</option>`).join('');
+  return `<div class="eyebrow">AI-Assisted Analytics</div>
+  <h1 class="view-title">Monte Carlo Simulation</h1>
+  <p class="view-sub">Instead of a single projection line, simulate thousands of possible FY2030 outcomes by sampling annual growth from a distribution centered on the metric&rsquo;s history. The fan shows the range of futures and the probability bands &mdash; a Box-Muller Gaussian process running live in your browser.</p>
+  <div class="divider"></div>
+  <div class="grid g2" style="align-items:start">
+    <div class="card block">
+      <h3><span class="ico">&#8767;</span>Simulation inputs</h3>
+      <div class="ctrl" style="margin-bottom:16px">
+        <label>Metric</label>
+        <select id="mcMetric" style="width:100%;font-family:var(--serif);font-size:14px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper)">${opts}</select>
+      </div>
+      <div class="ctrl" style="margin-bottom:16px">
+        <label>Annual volatility (σ) <span class="v" id="mcVolV">—</span></label>
+        <input type="range" id="mcVol" min="1" max="30" step="0.5">
+      </div>
+      <div class="ctrl" style="margin-bottom:16px">
+        <label>Simulation runs <span class="v" id="mcRunsV">5,000</span></label>
+        <input type="range" id="mcRuns" min="1000" max="20000" step="1000" value="5000">
+      </div>
+      <button class="btn" id="mcRun">&#8635; Re-run simulation</button>
+      <div id="mcStats" class="grid g2" style="margin-top:18px"></div>
+    </div>
+    <div class="card block">
+      <h3><span class="ico">&#9776;</span>Outcome fan to FY2030</h3>
+      <div class="chart-box" style="height:240px"><canvas id="mcFan"></canvas></div>
+      <h3 style="font-size:14px;margin-top:18px"><span class="ico">&#9612;</span>FY2030 outcome distribution</h3>
+      <div class="chart-box" style="height:150px"><canvas id="mcHist"></canvas></div>
+    </div>
+  </div>
+  <div class="note" id="mcNote" style="margin-top:16px"></div>`;
+};
+VIEWS.montecarlo.after=()=>{
+  const sel=$('#mcMetric'),vol=$('#mcVol'),runs=$('#mcRuns');
+  function syncVol(){const v=DATA.meta_metric[sel.value].vol*100;vol.value=v;$('#mcVolV').textContent=v.toFixed(1)+'%';}
+  function run(){
+    const key=sel.value,m=DATA.meta_metric[key],s=DATA.hist[key];
+    const xs=Object.keys(s).map(Number).sort((a,b)=>a-b);
+    const last=xs[xs.length-1],lastV=s[last];
+    const gmean=STAT.cagr(s), gsd=parseFloat(vol.value)/100, R=parseInt(runs.value);
+    $('#mcVolV').textContent=parseFloat(vol.value).toFixed(1)+'%';
+    $('#mcRunsV').textContent=R.toLocaleString();
+    const steps=TARGET_YEAR-last;
+    const mc=STAT.monteCarlo(lastV,gmean,gsd,steps,R);
+    // fan: percentile paths per year
+    const yrs=[];for(let y=last;y<=TARGET_YEAR;y++)yrs.push(y);
+    // recompute percentile bands per step using a fresh sim capturing per-year
+    const perYear=Array.from({length:steps+1},()=>[]);
+    for(let r=0;r<R;r++){let v=lastV;perYear[0].push(v);for(let st=1;st<=steps;st++){v=v*(1+gmean+gsd*STAT.gauss());perYear[st].push(v);}}
+    const band=p=>perYear.map(arr=>{const a=[...arr].sort((x,y)=>x-y);return a[Math.min(a.length-1,Math.floor(p/100*a.length))];});
+    const p5=band(5),p25=band(25),p50=band(50),p75=band(75),p95=band(95);
+    mkChart('mcFan',{type:'line',data:{labels:yrs,datasets:[
+      {label:'P95',data:p95,borderColor:'transparent',backgroundColor:'rgba(31,92,77,.08)',fill:'+1',pointRadius:0,tension:.2},
+      {label:'P75',data:p75,borderColor:'transparent',backgroundColor:'rgba(31,92,77,.14)',fill:'+1',pointRadius:0,tension:.2},
+      {label:'P50 (median)',data:p50,borderColor:PAL.brand,borderWidth:2.5,backgroundColor:'rgba(31,92,77,.14)',fill:'+1',pointRadius:0,tension:.2},
+      {label:'P25',data:p25,borderColor:'transparent',backgroundColor:'rgba(31,92,77,.08)',fill:'+1',pointRadius:0,tension:.2},
+      {label:'P5',data:p5,borderColor:'transparent',pointRadius:0,tension:.2}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+FMT1(c.parsed.y,m.fmt)}}},scales:{y:{ticks:{callback:v=>FMT(v,m.fmt)},grid:{color:'rgba(0,0,0,.04)'}},x:{grid:{display:false}}}}});
+    // histogram of ends
+    const bins=18,lo=mc.min,hi=mc.max,w=(hi-lo)/bins||1;const counts=new Array(bins).fill(0);
+    mc.ends.forEach(e=>{let b=Math.min(bins-1,Math.floor((e-lo)/w));counts[b]++;});
+    const blabels=counts.map((_,i)=>FMT(lo+w*(i+.5),m.fmt));
+    mkChart('mcHist',{type:'bar',data:{labels:blabels,datasets:[{data:counts,backgroundColor:'rgba(42,88,120,.55)',borderColor:PAL.blue,borderWidth:1}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>'~'+c[0].label,label:c=>c.parsed.y+' runs'}}},scales:{y:{display:false},x:{ticks:{maxRotation:60,font:{size:8},maxTicksLimit:9},grid:{display:false}}}}});
+    $('#mcStats').innerHTML=`
+      <div class="stat-pill"><div class="n">${FMT1(mc.p50,m.fmt)}</div><div class="l">Median (P50)</div></div>
+      <div class="stat-pill"><div class="n">${FMT1(mc.mean,m.fmt)}</div><div class="l">Mean</div></div>
+      <div class="stat-pill"><div class="n" style="color:var(--red)">${FMT1(mc.p5,m.fmt)}</div><div class="l">Downside (P5)</div></div>
+      <div class="stat-pill"><div class="n" style="color:var(--green)">${FMT1(mc.p95,m.fmt)}</div><div class="l">Upside (P95)</div></div>`;
+    const spread=((mc.p95-mc.p5)/mc.p50*100);
+    $('#mcNote').innerHTML=`Simulated <b>${R.toLocaleString()} paths</b> for <b>${m.label}</b> from FY${last} (${FMT1(lastV,m.fmt)}) to FY2030, sampling annual growth ~ Normal(mean ${(gmean*100).toFixed(2)}%, σ ${(gsd*100).toFixed(1)}%). The 90% interval (P5–P95) spans <b>${FMT1(mc.p5,m.fmt)} – ${FMT1(mc.p95,m.fmt)}</b>, a ${spread.toFixed(0)}% spread around the median &mdash; wider spreads reflect higher historical volatility. Re-running resamples; small variation between runs is expected and itself illustrates sampling uncertainty.`;
+  }
+  sel.addEventListener('change',()=>{syncVol();run();});
+  vol.addEventListener('input',run);runs.addEventListener('input',()=>{$('#mcRunsV').textContent=parseInt(runs.value).toLocaleString();});
+  $('#mcRun').addEventListener('click',run);
+  syncVol();run();
+};
+
+/* ---------- ANOMALY DETECTION ---------- */
+VIEWS.anomaly=()=>{
+  return `<div class="eyebrow">AI-Assisted Analytics</div>
+  <h1 class="view-title">Anomaly &amp; Risk Detection</h1>
+  <p class="view-sub">Statistical scan of every metric&rsquo;s year-over-year movement. Each annual change is scored against that metric&rsquo;s own volatility (a z-score); years beyond ±1.25σ are flagged for review. This is how a reviewer spots the numbers that need a footnote &mdash; computed live, with the threshold adjustable.</p>
+  <div class="divider"></div>
+  <div class="ctrl-row" style="margin-bottom:18px">
+    <div class="ctrl" style="max-width:340px"><label>Sensitivity threshold <span class="v" id="anThV">±1.25 σ</span></label><input type="range" id="anTh" min="0.5" max="2.5" step="0.05" value="1.25"></div>
+    <div class="seg" id="anSort"><button data-sort="sev" class="active">By severity</button><button data-sort="yr">By year</button></div>
+  </div>
+  <div class="grid g2" style="align-items:start">
+    <div><div id="anFlags"></div></div>
+    <div class="card block"><h3 style="font-size:15px"><span class="ico">&#9707;</span>Volatility map</h3><p class="lede">Each metric&rsquo;s largest single-year move, in σ.</p><div class="chart-box" style="height:300px"><canvas id="anChart"></canvas></div></div>
+  </div>`;
+};
+VIEWS.anomaly.after=()=>{
+  const th=$('#anTh');let sortMode='sev';
+  function build(){
+    const thresh=parseFloat(th.value);$('#anThV').textContent='±'+thresh.toFixed(2)+' σ';
+    let all=[];
+    Object.keys(DATA.hist).forEach(k=>{
+      const m=DATA.meta_metric[k];const an=STAT.anomalies(DATA.hist[k]);
+      an.forEach(a=>all.push({key:k,label:m.label,fmt:m.fmt,...a}));
+    });
+    const flagged=all.filter(a=>Math.abs(a.z)>=thresh);
+    flagged.sort((a,b)=> sortMode==='sev'?Math.abs(b.z)-Math.abs(a.z):b.yr-a.yr);
+    const sev=z=>Math.abs(z)>=1.75?'high':Math.abs(z)>=1.0?'med':'low';
+    $('#anFlags').innerHTML=flagged.length?flagged.map(a=>`
+      <div class="flag ${sev(a.z)}"><span class="sev"></span>
+        <div class="ft"><h4>${a.label} &mdash; FY${a.yr}</h4>
+        <p>Year-over-year change of <b>${(a.pct*100>=0?'+':'')+(a.pct*100).toFixed(1)}%</b>, versus a typical move of ${(a.mean*100).toFixed(1)}% (±${(a.sd*100).toFixed(1)}%) for this metric. ${Math.abs(a.z)>=1.75?'Material outlier — should carry a clear narrative explanation in the ACFR.':Math.abs(a.z)>=1.0?'Notable move worth a footnote.':'Mild deviation.'}</p></div>
+      <span class="zscore">z = ${a.z>=0?'+':''}${a.z.toFixed(2)}</span></div>`).join('')
+      :`<div class="note">No movements exceed ±${thresh.toFixed(2)}σ. Lower the threshold to surface milder deviations.</div>`;
+    // volatility map: max |z| per metric
+    const labels=[],vals=[],cols=[];
+    Object.keys(DATA.hist).forEach(k=>{
+      const an=STAT.anomalies(DATA.hist[k]);if(!an.length)return;
+      const mx=an.reduce((p,c)=>Math.abs(c.z)>Math.abs(p.z)?c:p,an[0]);
+      labels.push(DATA.meta_metric[k].label);vals.push(Math.abs(mx.z));
+      cols.push(Math.abs(mx.z)>=1.75?PAL.red:Math.abs(mx.z)>=1.0?PAL.amber:PAL.blue);
+    });
+    mkChart('anChart',{type:'bar',data:{labels,datasets:[{data:vals,backgroundColor:cols.map(c=>c+'99'),borderColor:cols,borderWidth:1.5}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'max move: '+c.parsed.x.toFixed(2)+'σ'}}},scales:{x:{grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>v+'σ'}},y:{grid:{display:false},ticks:{font:{size:9}}}}}});
+  }
+  th.addEventListener('input',build);
+  $$('#anSort button').forEach(b=>b.addEventListener('click',()=>{$$('#anSort button').forEach(x=>x.classList.remove('active'));b.classList.add('active');sortMode=b.dataset.sort;build();}));
+  build();
+};
+
+/* ---------- SENSITIVITY ---------- */
+VIEWS.sensitivity=()=>{
+  return `<div class="eyebrow">AI-Assisted Analytics</div>
+  <h1 class="view-title">Sensitivity Analysis</h1>
+  <p class="view-sub">Which assumption matters most? This tornado chart shows how far the FY2030 projection of a chosen metric moves when its growth assumption is flexed ±1, 2, and 3 percentage points. Longer bars mean the outcome is more sensitive to that assumption &mdash; where forecasting discipline pays off most.</p>
+  <div class="divider"></div>
+  <div class="grid g2" style="align-items:start">
+    <div class="card block">
+      <h3><span class="ico">&#8644;</span>Driver</h3>
+      <div class="ctrl" style="margin-bottom:16px"><label>Metric</label>
+        <select id="seMetric" style="width:100%;font-family:var(--serif);font-size:14px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper)">${Object.keys(DATA.meta_metric).map(k=>`<option value="${k}"${k==='tax_levy'?' selected':''}>${DATA.meta_metric[k].label}</option>`).join('')}</select></div>
+      <div id="seStats"></div>
+    </div>
+    <div class="card block">
+      <h3><span class="ico">&#9636;</span>Tornado &mdash; FY2030 sensitivity to growth</h3>
+      <div class="chart-box" style="height:230px"><canvas id="seChart"></canvas></div>
+      <div class="note" id="seNote" style="margin-top:14px"></div>
+    </div>
+  </div>`;
+};
+VIEWS.sensitivity.after=()=>{
+  const sel=$('#seMetric');
+  function build(){
+    const key=sel.value,m=DATA.meta_metric[key],s=DATA.hist[key];
+    const xs=Object.keys(s).map(Number).sort((a,b)=>a-b);const last=xs[xs.length-1],lastV=s[last];
+    const cagr=STAT.cagr(s);const steps=TARGET_YEAR-last;
+    const base=lastV*Math.pow(1+cagr,steps);
+    const deltas=[3,2,1];const labels=[],lo=[],hi=[];
+    deltas.forEach(d=>{
+      labels.push('±'+d+' pp');
+      lo.push(lastV*Math.pow(1+cagr-d/100,steps)-base);
+      hi.push(lastV*Math.pow(1+cagr+d/100,steps)-base);
+    });
+    mkChart('seChart',{type:'bar',data:{labels,datasets:[
+      {label:'Downside',data:lo,backgroundColor:'rgba(168,54,47,.55)',borderColor:PAL.red,borderWidth:1},
+      {label:'Upside',data:hi,backgroundColor:'rgba(47,125,82,.55)',borderColor:PAL.green,borderWidth:1}
+    ]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:12,font:{size:9}}},tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.parsed.x>=0?'+':'')+FMT1(c.parsed.x,m.fmt)+' vs base'}}},
+      scales:{x:{stacked:false,grid:{color:'rgba(0,0,0,.04)'},ticks:{callback:v=>(v>=0?'+':'')+FMT(v,m.fmt)}},y:{stacked:true,grid:{display:false}}}}});
+    const sw=hi[0]-lo[0];
+    $('#seStats').innerHTML=`
+      <div class="stat-pill" style="margin-bottom:10px"><div class="n">${FMT1(base,m.fmt)}</div><div class="l">FY2030 baseline (CAGR ${(cagr*100).toFixed(2)}%)</div></div>
+      <div class="stat-pill" style="margin-bottom:10px"><div class="n">${FMT1(sw,m.fmt)}</div><div class="l">Total swing at ±3pp</div></div>
+      <div class="stat-pill"><div class="n">${(sw/base*100).toFixed(0)}%</div><div class="l">Swing as % of baseline</div></div>`;
+    $('#seNote').innerHTML=`Flexing <b>${m.label}</b> growth by ±3pp around its ${(cagr*100).toFixed(2)}% CAGR moves the FY2030 outcome by <b>${FMT1(sw,m.fmt)}</b> (${(sw/base*100).toFixed(0)}% of baseline). The longer the bars, the more a small estimation error compounds over ${steps} years &mdash; so this is where assumption discipline and monitoring matter most.`;
+  }
+  sel.addEventListener('change',build);build();
+};
+
+/* ---------- METRIC EXPLORER ---------- */
+let expState={metric:'free_cash',showProj:true,showPI:true};
+VIEWS.explorer=()=>{
+  return `<div class="eyebrow">Data</div>
+  <h1 class="view-title">Metric Explorer</h1>
+  <p class="view-sub">Drill into any single metric: reported history, linear projection to FY2030, and a 95% prediction interval where the data supports one. Toggle layers and read the full data table and source.</p>
+  <div class="divider"></div>
+  <div class="ctrl-row" style="margin-bottom:16px">
+    <div class="ctrl" style="max-width:300px"><label>Metric</label>
+      <select id="exMetric" style="width:100%;font-family:var(--serif);font-size:14px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:8px;background:var(--paper)">${Object.keys(DATA.meta_metric).map(k=>`<option value="${k}">${DATA.meta_metric[k].label}</option>`).join('')}</select></div>
+    <label style="font-family:var(--mono);font-size:11px;display:flex;align-items:center;gap:7px;cursor:pointer"><input type="checkbox" id="exProj" checked> Show projection</label>
+    <label style="font-family:var(--mono);font-size:11px;display:flex;align-items:center;gap:7px;cursor:pointer"><input type="checkbox" id="exPI" checked> Show 95% interval</label>
+  </div>
+  <div class="grid g2" style="align-items:start">
+    <div class="card block"><h3 style="font-size:15px" id="exTitle"></h3><p class="lede" id="exDesc"></p><div class="chart-box" style="height:260px"><canvas id="exChart"></canvas></div></div>
+    <div class="card block"><h3 style="font-size:15px"><span class="ico">&#8862;</span>Data &amp; statistics</h3><div id="exTable"></div></div>
+  </div>`;
+};
+VIEWS.explorer.after=()=>{
+  const sel=$('#exMetric'),cp=$('#exProj'),ci=$('#exPI');
+  function build(){
+    const key=sel.value,m=DATA.meta_metric[key];const p=projectMetric(key);
+    $('#exTitle').textContent=m.label+' ('+m.unit+')';$('#exDesc').textContent=m.desc;
+    const tierB=PROJ[key].tier==='B';
+    const fyrs=[];for(let y=p.last+1;y<=TARGET_YEAR;y++)fyrs.push(y);
+    const labels=[...p.xs,...fyrs];
+    const histData=p.xs.map(x=>p.hist[x]).concat(fyrs.map(()=>null));
+    const projData=p.xs.map(()=>null);projData[projData.length-1]=p.lastV;
+    const proj=cp.checked&&!tierB?projData.concat(fyrs.map(y=>p.lin[y])):[];
+    const ds=[{label:'Actual',data:histData,borderColor:PAL.brand,borderWidth:2.5,pointRadius:3,tension:.25}];
+    if(cp.checked&&!tierB)ds.push({label:'Projection',data:proj,borderColor:PAL.gold,borderWidth:2,borderDash:[6,3],pointRadius:3,tension:.25});
+    if(ci.checked&&!tierB&&Object.keys(p.piHi).length){
+      const hi=p.xs.map(()=>null);hi[hi.length-1]=p.lastV;const piHi=hi.concat(fyrs.map(y=>p.piHi[y]));
+      const loA=p.xs.map(()=>null);loA[loA.length-1]=p.lastV;const piLo=loA.concat(fyrs.map(y=>p.piLo[y]));
+      ds.push({label:'95% upper',data:piHi,borderColor:'transparent',backgroundColor:'rgba(154,123,46,.12)',fill:'+1',pointRadius:0,tension:.25});
+      ds.push({label:'95% lower',data:piLo,borderColor:'transparent',pointRadius:0,tension:.25});
+    }
+    mkChart('exChart',{type:'line',data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{boxWidth:12,font:{size:9},filter:i=>!i.text.includes('95%')}},tooltip:{callbacks:{label:c=>c.parsed.y==null?null:c.dataset.label+': '+FMT1(c.parsed.y,m.fmt)}}},scales:{y:{ticks:{callback:v=>FMT(v,m.fmt)},grid:{color:'rgba(0,0,0,.04)'}},x:{grid:{display:false}}}}});
+    // table
+    let rows=p.xs.map(x=>`<tr><td>FY${x}</td><td class="num">${FMT1(p.hist[x],m.fmt)}</td><td class="num">actual</td></tr>`).join('');
+    if(!tierB)fyrs.forEach(y=>{rows+=`<tr><td class="proj">FY${y}</td><td class="num proj">${FMT1(p.lin[y],m.fmt)}</td><td class="num proj">proj.</td></tr>`;});
+    const tierNote=tierB?`<div class="note" style="margin-bottom:12px"><b>Projection withheld.</b> Only ${p.xs.length} reported data points — too few for a credible trend. Load the ACFR statistical-section 10-year series to extend this.</div>`:'';
+    $('#exTable').innerHTML=tierNote+`<table><thead><tr><th>Year</th><th class="num">Value</th><th class="num">Type</th></tr></thead><tbody>${rows}</tbody></table>
+      <div class="grid g2" style="margin-top:14px">
+        <div class="stat-pill"><div class="n">${(p.cagr*100).toFixed(2)}%</div><div class="l">Historical CAGR</div></div>
+        <div class="stat-pill"><div class="n">${p.fit.r2.toFixed(3)}</div><div class="l">Linear fit R²</div></div>
+      </div>
+      <div class="note" style="margin-top:12px">Source: ${m.source}</div>`;
+  }
+  sel.addEventListener('change',build);cp.addEventListener('change',build);ci.addEventListener('change',build);
+  build();
+};
+
+/* ---------- METHODOLOGY ---------- */
+VIEWS.method=()=>{
+  let rows='';Object.keys(DATA.hist).forEach(k=>{
+    const m=DATA.meta_metric[k],s=DATA.hist[k],xs=Object.keys(s).map(Number).sort((a,b)=>a-b);
+    rows+=`<tr><td>${m.label}</td><td class="num">${xs.length}</td><td class="num">${(STAT.cagr(s)*100).toFixed(2)}%</td><td class="num">${STAT.linreg(s).r2.toFixed(3)}</td><td><span class="badge ${PROJ[k].tier==='A'?'g':'a'}">${PROJ[k].tier==='A'?'Projects':'Withheld'}</span></td></tr>`;
+  });
+  return `<div class="eyebrow">Data</div>
+  <h1 class="view-title">Methodology &amp; Data</h1>
+  <p class="view-sub">Full transparency on the models. Nothing here is a black box: every projection, band, and flag is reproducible from the reported ACFR figures using standard statistics.</p>
+  <div class="divider"></div>
+  <div class="card block" style="margin-bottom:16px">
+    <h3><span class="ico">&#8862;</span>Methods used</h3>
+    <div class="grid g2" style="margin-top:6px">
+      <div><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6"><b>Linear regression (OLS)</b> — fits a trend line to reported history; R² reports goodness of fit. Used in Scenario, Sensitivity, and Explorer.</p></div>
+      <div><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6"><b>CAGR</b> — compound annual growth between first and last actual. The baseline growth assumption everywhere.</p></div>
+      <div><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6"><b>Monte Carlo (Box-Muller Gaussian)</b> — samples thousands of growth paths to produce a probability distribution of FY2030 outcomes.</p></div>
+      <div><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6"><b>Z-score anomaly detection</b> — scores each year&rsquo;s change against the metric&rsquo;s own mean and standard deviation of changes.</p></div>
+      <div><p style="font-size:13.5px;color:var(--ink-soft);line-height:1.6"><b>Ensemble forecast (2030)</b> — blends linear, CAGR, and Holt damped-trend exponential smoothing; the spread between methods becomes the confidence band.</p></div>
+    </div>
+  </div>
+  <div class="card block" style="margin-bottom:16px">
+    <h3><span class="ico">&#9707;</span>Per-metric model status</h3>
+    <table><thead><tr><th>Metric</th><th class="num">Data pts</th><th class="num">CAGR</th><th class="num">Linear R²</th><th>Projection</th></tr></thead><tbody>${rows}</tbody></table>
+    <div class="note" style="margin-top:12px">Metrics with only two reported years are marked <b>Withheld</b> — two points cannot support a credible five-year projection. They appear as actuals only until the 10-year statistical-section series is loaded.</div>
+  </div>
+  <div class="card block">
+    <h3><span class="ico">&#10024;</span>About the AI analyst</h3>
+    <p class="lede">The optional AI panel (top-right) sends your question plus this workspace&rsquo;s data summary to Anthropic&rsquo;s API using a key you provide, and returns a grounded plain-language answer. Without a key, the workspace is fully functional — every chart, simulation, and flag works offline. The key lives only in this browser tab; it is never stored or transmitted anywhere except Anthropic.</p>
+    <div class="note">Data: ${DATA.meta.sources}. FY2025 is the draft ACFR (subject to final audit). All projections and simulations are statistical models of reported history, not official City forecasts.</div>
+  </div>`;
+};
+/* ============================================================ CONTROLLER ============================================================ */
+const titles={command:'Command Center',actions:'Action Center',forecast:'2030 Forecast (Ensemble)',scenario:'Scenario Modeler',montecarlo:'Monte Carlo Simulation',anomaly:'Anomaly & Risk Detection',sensitivity:'Sensitivity Analysis',explorer:'Metric Explorer',method:'Methodology & Data'};
+const content=$('#content');
+function render(view){
+  Object.values(CHARTS).forEach(c=>c.destroy());CHARTS={};
+  content.innerHTML=`<div class="view active">${VIEWS[view]()}</div>`;
+  $('#crumbView').textContent=titles[view]||view;
+  $$('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===view));
+  window.scrollTo({top:0,behavior:'auto'});
+  if(VIEWS[view].after)VIEWS[view].after();
+  closeDrawer();
+}
+$$('#nav button').forEach(b=>b.addEventListener('click',()=>render(b.dataset.view)));
+
+/* metric modal */
+const modalBg=$('#modalBg'),modal=$('#modal');
+function openMetric(key){
+  const m=DATA.meta_metric[key],s=DATA.hist[key],xs=Object.keys(s).map(Number).sort((a,b)=>a-b);
+  const last=xs[xs.length-1],prev=xs[xs.length-2];
+  const p=projectMetric(key);const tierB=PROJ[key].tier==='B';
+  let series=xs.map(x=>`<tr><td>FY${x}</td><td class="num">${FMT1(s[x],m.fmt)}</td></tr>`).join('');
+  const rec=RECS.find(r=>r.metric===key);
+  const recBlock=rec?`<div class="mrow"><div class="k">Recommended action</div><div class="v">
+      <div style="font-weight:600;margin-bottom:8px">${rec.title}</div>
+      <ol class="steps" style="margin-bottom:12px">${rec.steps.map(st=>`<li>${st}</li>`).join('')}</ol>
+      <button class="rec-link" id="mGoAct">&#9873; Open in Action Center</button></div></div>`:'';
+  modal.innerHTML=`<div class="modal-head"><span class="badge ${m.status}">${sIco[m.status]}</span>
+    <h3 style="margin-top:9px">${m.label}</h3><button class="modal-close" id="mc">&times;</button></div>
+    <div class="modal-body">
+      <div class="mrow"><div class="k">What it is</div><div class="v">${m.desc}</div></div>
+      <div class="mrow"><div class="k">Latest</div><div class="v">FY${last}: <b>${FMT1(s[last],m.fmt)}</b>${prev?` (${s[last]>=s[prev]?'+':''}${((s[last]-s[prev])/s[prev]*100).toFixed(1)}% vs FY${prev})`:''}</div></div>
+      <div class="mrow"><div class="k">Reported series</div><div class="v"><table style="margin-top:4px">${series}</table></div></div>
+      <div class="mrow"><div class="k">Statistics</div><div class="v">Historical CAGR <b>${(p.cagr*100).toFixed(2)}%/yr</b> · Linear fit R² <b>${p.fit.r2.toFixed(3)}</b>${tierB?' · projection withheld (≤2 data points)':` · FY2030 linear projection <b>${FMT1(p.lin[2030],m.fmt)}</b>`}</div></div>
+      ${recBlock}
+      <div class="mrow"><div class="k">Source</div><div class="v" style="font-family:var(--mono);font-size:11.5px;color:var(--ink-soft)">${m.source}</div></div>
+    </div>`;
+  modalBg.classList.add('open');$('#mc').onclick=()=>modalBg.classList.remove('open');
+  const ga=$('#mGoAct');if(ga)ga.onclick=()=>{modalBg.classList.remove('open');render('actions');};
+}
+modalBg.addEventListener('click',e=>{if(e.target===modalBg)modalBg.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){modalBg.classList.remove('open');}});
+
+/* export CSV */
+$('#exportBtn').addEventListener('click',()=>{
+  const metrics=Object.keys(DATA.hist);
+  const yrs=[...new Set(metrics.flatMap(k=>Object.keys(DATA.hist[k])))].map(Number).sort((a,b)=>a-b);
+  let csv='Metric,'+yrs.map(y=>'FY'+y).join(',')+',CAGR,LinearR2,FY2030_proj\n';
+  metrics.forEach(k=>{
+    const s=DATA.hist[k],p=projectMetric(k),tierB=PROJ[k].tier==='B';
+    csv+=`"${DATA.meta_metric[k].label}",`+yrs.map(y=>s[y]!=null?s[y]:'').join(',')
+      +`,${(p.cagr*100).toFixed(2)}%,${p.fit.r2.toFixed(3)},${tierB?'withheld':p.lin[2030].toFixed(1)}\n`;
+  });
+  const b=new Blob([csv],{type:'text/csv'});const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);a.download='cambridge_financial_analytics.csv';a.click();
+});
+
+/* mobile drawer */
+const sidebar=$('#sidebar'),scrim=$('#scrim');
+function closeDrawer(){sidebar.classList.remove('show');scrim.classList.remove('show');}
+$('#mobToggle').addEventListener('click',()=>{sidebar.classList.toggle('show');scrim.classList.toggle('show');});
+scrim.addEventListener('click',closeDrawer);
+
+/* ============================================================ AI ANALYST (optional, key-gated) ============================================================ */
+let API_KEY=null;
+const aiDrawer=$('#aiDrawer'),aiBody=$('#aiBody');
+function openAI(){aiDrawer.classList.add('open');if(!aiBody.dataset.init){aiBody.dataset.init='1';
+  pushAI('sys','AI analyst ready. '+(API_KEY?'Key active — ask anything about the Cambridge data.':'Add an Anthropic API key above to enable live Q&A, or browse the analytics without it.'));}}
+function closeAI(){aiDrawer.classList.remove('open');}
+$('#aiStatus').addEventListener('click',openAI);
+$('#aiClose').addEventListener('click',closeAI);
+function setAIStatus(){const el=$('#aiStatus');if(API_KEY){el.classList.add('on');$('#aiStatusText').textContent='AI: active';$('#keybox').style.display='none';}else{el.classList.remove('on');$('#aiStatusText').textContent='AI: add key';}}
+$('#saveKey').addEventListener('click',()=>{const k=$('#apiKey').value.trim();if(k){API_KEY=k;setAIStatus();pushAI('sys','Key activated for this tab. Ask a question below.');}});
+function pushAI(role,text){const d=document.createElement('div');d.className='ai-msg '+role;d.innerHTML=text;aiBody.appendChild(d);aiBody.scrollTop=aiBody.scrollHeight;return d;}
+
+/* compact data context for grounding the model */
+function dataContext(){
+  let lines=['City of Cambridge financial data (from published ACFR FY2023-FY2025, $ in millions unless noted):'];
+  Object.keys(DATA.hist).forEach(k=>{
+    const m=DATA.meta_metric[k],s=DATA.hist[k];
+    const pts=Object.keys(s).map(y=>`FY${y}=${s[y]}`).join(', ');
+    lines.push(`- ${m.label} (${m.unit}): ${pts}. CAGR ${(STAT.cagr(s)*100).toFixed(1)}%.`);
+  });
+  lines.push('Note: FY2025 is draft ACFR, subject to audit. Projections are statistical, not official forecasts.');
+  return lines.join('\n');
+}
+const SUGG=['Why did free cash drop in FY2025?','Summarize the top 3 risks for City Council.','Is the levy approaching its limit?','What does the assessed-value slowdown mean?'];
+function renderSuggest(){$('#aiSuggest').innerHTML=SUGG.map(s=>`<span class="ai-chip">${s}</span>`).join('');
+  $$('#aiSuggest .ai-chip').forEach(c=>c.addEventListener('click',()=>{$('#aiInput').value=c.textContent;sendAI();}));}
+async function sendAI(){
+  const inp=$('#aiInput');const q=inp.value.trim();if(!q)return;inp.value='';
+  pushAI('user',q.replace(/</g,'&lt;'));
+  if(!API_KEY){pushAI('bot','I can&rsquo;t answer live without an API key — add one in the box above to enable AI Q&A. In the meantime, the <b>Scenario</b>, <b>Monte Carlo</b>, <b>Anomaly</b>, and <b>Sensitivity</b> views answer most questions visually and need no key.');return;}
+  const loading=pushAI('bot','<span class="spin"></span> Analyzing…');
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,
+        system:'You are a careful municipal-finance analyst. Answer ONLY from the data provided. Be concise (2-4 sentences), cite specific figures, and never invent numbers. If the data is insufficient, say so. Remember FY2025 is draft and projections are statistical, not official forecasts.',
+        messages:[{role:'user',content:dataContext()+'\n\nQuestion: '+q}]})});
+    if(!res.ok){const t=await res.text();throw new Error(res.status+' '+t.slice(0,120));}
+    const j=await res.json();const txt=(j.content&&j.content.map(b=>b.text||'').join('\n'))||'(no response)';
+    loading.innerHTML=txt.replace(/</g,'&lt;').replace(/\n/g,'<br>');
+  }catch(e){loading.innerHTML='<b style="color:var(--red)">Error:</b> '+String(e.message||e).replace(/</g,'&lt;')+'<br><span style="font-size:11px;color:var(--ink-soft)">Check the key is valid and has access. The browser-direct header is enabled; some keys/orgs may still block browser calls.</span>';}
+}
+$('#aiSend').addEventListener('click',sendAI);
+$('#aiInput').addEventListener('keydown',e=>{if(e.key==='Enter')sendAI();});
+renderSuggest();setAIStatus();
+
+/* init */
+render('command');
+</script>
+</body></html>
