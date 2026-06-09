@@ -4061,4 +4061,743 @@ html,body{max-width:100%;overflow-x:hidden!important}
 </script>
 <!-- /FIN visual zipcode map and data graphics patch -->
 
+<!-- FIN annual work plan and payment calendar patch - added 2026-06-08 -->
+<style id="fin-workplan-style">
+.fin-workplan-shell{display:grid;gap:14px;margin-bottom:16px}
+.fin-workplan-hero{border:1px solid var(--line-strong);border-radius:18px;background:linear-gradient(180deg,#fff,#f6fbff);box-shadow:var(--shadow);padding:16px}
+.fin-workplan-hero h2{margin:0 0 6px;color:var(--ink);font-size:22px;letter-spacing:-.02em}.fin-workplan-hero p{margin:0;color:var(--ink-soft);font-size:13.5px;line-height:1.5;max-width:1050px}
+.fin-workplan-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}.fin-workplan-kpi{border:1px solid var(--line);border-radius:13px;background:#fff;padding:12px}.fin-workplan-kpi b{display:block;color:var(--brand);font-size:24px;line-height:1}.fin-workplan-kpi span{display:block;margin-top:5px;color:var(--ink-soft);font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:800}
+.fin-workplan-tabs{display:flex;gap:8px;flex-wrap:wrap}.fin-workplan-tabs button{border:1px solid var(--line-strong);border-radius:999px;background:#fff;color:var(--brand);font-family:Cambria,Georgia,serif;font-size:12px;font-weight:800;padding:8px 11px;cursor:pointer}.fin-workplan-tabs button.active,.fin-workplan-tabs button:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.fin-workplan-panel{display:none;border:1px solid var(--line);border-radius:16px;background:#fff;padding:14px;box-shadow:0 8px 20px rgba(8,64,128,.045)}.fin-workplan-panel.active{display:block}.fin-workplan-panel h3{margin:0 0 8px;color:var(--ink);font-size:18px}.fin-workplan-panel .lede{margin:0 0 12px;color:var(--ink-soft);font-size:13px;line-height:1.55;max-width:980px}
+.fin-division-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.fin-division-card{border:1px solid var(--line);border-radius:13px;background:#fbfdff;padding:12px}.fin-division-card h4{margin:0 0 4px;color:var(--ink);font-size:16px}.fin-division-card p{margin:0;color:var(--ink-soft);font-size:12px;line-height:1.4}.fin-division-card ul{margin:9px 0 0;padding-left:18px;color:var(--ink-soft);font-size:12px;line-height:1.4}.fin-division-card li{margin:4px 0}.fin-owner-chip{display:inline-flex;border:1px solid var(--line);background:#eef6ff;color:var(--brand);border-radius:999px;padding:4px 7px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;margin:7px 0}
+.fin-control-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.fin-control-card{border:1px solid var(--line);border-radius:13px;background:#fbfdff;padding:12px}.fin-control-card h4{margin:0;color:var(--ink);font-size:16px}.fin-control-card p{margin:6px 0 0;color:var(--ink-soft);font-size:12.5px;line-height:1.45}.fin-control-card .mini{display:grid;grid-template-columns:96px 1fr;gap:7px;margin-top:10px;font-size:12px}.fin-control-card .mini b{color:var(--brand)}.fin-control-card .mini span{color:var(--ink-soft)}
+.fin-cycle{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.fin-cycle-step{border:1px solid var(--line);border-radius:13px;background:#fff;padding:12px;position:relative}.fin-cycle-step:before{content:attr(data-step);display:inline-flex;border-radius:999px;background:#eef6ff;border:1px solid var(--line);color:var(--brand);font-size:10px;font-weight:900;padding:4px 7px;margin-bottom:8px}.fin-cycle-step h4{margin:0 0 5px;color:var(--ink);font-size:15px}.fin-cycle-step p{margin:0;color:var(--ink-soft);font-size:12px;line-height:1.45}
+.fin-payment-table{width:100%;border-collapse:separate;border-spacing:0 7px}.fin-payment-table th{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-soft);text-align:left;padding:4px 8px}.fin-payment-table td{background:#fbfdff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px 8px;font-size:12.5px;color:var(--ink-soft);vertical-align:top}.fin-payment-table td:first-child{border-left:1px solid var(--line);border-radius:10px 0 0 10px;color:var(--ink);font-weight:900}.fin-payment-table td:last-child{border-right:1px solid var(--line);border-radius:0 10px 10px 0}.fin-pay-pill{display:inline-flex;border-radius:999px;border:1px solid var(--line);background:#fff;color:var(--brand);font-size:10px;font-weight:900;padding:4px 7px;text-transform:uppercase}
+.fin-workplan-source{border:1px dashed var(--line-strong);border-radius:13px;background:#f8fbff;padding:11px 13px;color:var(--ink-soft);font-size:12px;line-height:1.55}.fin-workplan-source b{color:var(--ink)}
+.month-event.fin-workplan,.month-event.payment{border-left-width:5px}.month-event.payment{background:#fff8eb}.month-event.fin-workplan{background:#f7fbff}
+@media(max-width:1180px){.fin-workplan-kpis,.fin-cycle{grid-template-columns:repeat(2,minmax(0,1fr))}.fin-division-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.fin-control-grid{grid-template-columns:1fr}}
+@media(max-width:720px){.fin-workplan-kpis,.fin-cycle,.fin-division-grid{grid-template-columns:1fr}.fin-workplan-tabs button{width:100%;text-align:left}.fin-payment-table,.fin-payment-table thead,.fin-payment-table tbody,.fin-payment-table tr,.fin-payment-table th,.fin-payment-table td{display:block}.fin-payment-table thead{display:none}.fin-payment-table td{border-left:1px solid var(--line);border-right:1px solid var(--line);border-radius:0}.fin-payment-table td:first-child{border-radius:10px 10px 0 0}.fin-payment-table td:last-child{border-radius:0 0 10px 10px}}
+</style>
+<script id="fin-workplan-script">
+(function(){
+  function h(v){return String(v == null ? '' : v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function fmtDate(s){try{return dFmt(s);}catch(_e){return s;}}
+
+  var FIN_DIVISION_PLANS=[
+    {name:'Comptroller / Accounting', manager:'Comptroller', cadence:'Monthly close; quarterly reporting; annual ACFR lead', duties:['Own ACFR production calendar, PBC list, state financial statements, free cash package, and audit support.','Coordinate division work-plan status with Treasury, Payroll, Revenue, Assessing, Budget, and Purchasing.','Resolve close exceptions before they become audit or free-cash certification issues.']},
+    {name:'Treasury / Cash Management', manager:'Treasurer / Cash Manager', cadence:'Daily cash; monthly cash flow; quarterly policy attestation', duties:['Analyze cash position, prepare monthly cash flow analysis, review daily balances, and set funding levels.','Execute investments under the investment policy and MGL c. 44 sections 55/55A.','Monitor trust fund receipts, expenditures, reconciliations, and restricted-use evidence.']},
+    {name:'Revenue / Collections', manager:'Revenue Manager / Collector', cadence:'Daily receipts; monthly receivable control; tax commitment cycle', duties:['Coordinate tax commitment controls, collections, turnovers, abatements, exemptions, and receivable reporting.','Support RECAP inputs and tax-rate communication materials.','Escalate collection, turnover, and reconciliation issues before month-end.']},
+    {name:'Assessing', manager:'Assessor / Assessing Lead', cadence:'Annual valuation, new growth, classification, overlay', duties:['Lead new-growth support, overlay status, classification options, and tax-rate input validation.','Support annual tax commitment and RECAP package.','Maintain evidence for residential/commercial impact analysis.']},
+    {name:'Budget Office', manager:'Budget Director', cadence:'Monthly variance; quarterly forecast; annual budget cycle', duties:['Coordinate divisional annual work plans with budget calendar, forecast assumptions, and department submissions.','Maintain appropriation pacing, transfer watch, and deficit-risk queue.','Tie capital, debt, free cash, and reserve decisions to recurring/nonrecurring funding logic.']},
+    {name:'Payroll', manager:'Payroll Manager', cadence:'Each payroll; quarterly IRS/DOR returns; annual W-2/1099 support', duties:['Prepare quarterly tax returns and resolve payroll tax issues with IRS and Massachusetts DOR.','Keep zero-penalty log, exception queue, and payment/deposit evidence.','Coordinate payroll interface controls with accounting and financial systems.']},
+    {name:'Purchasing', manager:'Purchasing Lead', cadence:'Monthly procurement review; three-year banking IFB cycle', duties:['Run banking services IFB every three years with Chapter 30B procurement controls.','Analyze bids, document scoring, and route award recommendation.','Oversee bank conversion playbook if the selected institution changes.']},
+    {name:'Capital Finance / Debt', manager:'Treasurer / Capital Finance Lead', cadence:'Monthly debt model; rating/OS cycle; payment controls', duties:['Prepare rating agency presentation, debt projections, and annual official statement with financial advisors.','Ensure debt service payments are scheduled, funded, approved, and released on time.','Reconcile debt tables to ACFR, official statement, trustee invoices, and continuing disclosure evidence.']},
+    {name:'Financial Systems / Policy', manager:'Financial Systems Manager / Policy Lead', cadence:'Monthly access/interface review; policy watch', duties:['Maintain system controls, access reviews, interface exception tracking, and evidence repository.','Review and update investment policy and related finance policies as state law or practice changes.','Publish manager-ready guidance when ACFR, GASB, GAAP, DLS, IRS, or procurement requirements change.']}
+  ];
+
+  var FIN_PAYMENT_REMINDERS=[
+    {id:'fin-pay-941-q2-2026',type:'payment',title:'T-7 payroll tax packet: 2026 Q2 Form 941 / DOR reconciliation',owner:'Payroll Manager',urgency:'High',workstream:'Payroll / Tax Payment Controls',due:'2026-07-24',deadline:'2026-07-31',evidence:'Form 941 worksheet, EFTPS/DOR confirmation, payroll register, exception log.',nextAction:'Validate federal and state deposits, resolve open notices, and prepare filing packet one week before deadline.'},
+    {id:'fin-pay-debt-aug-2026',type:'payment',title:'T-7 debt service funding check: August trustee schedule',owner:'Treasurer / Capital Finance',urgency:'High',workstream:'Debt Service Payments',due:'2026-07-24',deadline:'2026-08-01',evidence:'Trustee invoice, debt schedule, warrant authorization, cash position.',nextAction:'Confirm cash availability and initiate payment approval. Replace provisional date with actual debt schedule date.'},
+    {id:'fin-cash-q1-2027',type:'payment',title:'T-7 quarterly cash report evidence lock: FY27 Q1',owner:'Treasury / Comptroller',urgency:'Medium',workstream:'Cash Reporting',due:'2026-09-23',deadline:'2026-09-30',evidence:'Cash book, bank reconciliation, accountant GL tie-out, variance log.',nextAction:'Lock cash-report support one week before quarter close.'},
+    {id:'fin-pay-941-q3-2026',type:'payment',title:'T-7 payroll tax packet: 2026 Q3 Form 941 / DOR reconciliation',owner:'Payroll Manager',urgency:'High',workstream:'Payroll / Tax Payment Controls',due:'2026-10-26',deadline:'2026-11-02',evidence:'Form 941 worksheet, EFTPS/DOR confirmation, payroll register, exception log.',nextAction:'Weekend-adjusted alert for the Oct. 31 filing deadline; confirm no deposit or notice exceptions remain.'},
+    {id:'fin-cash-q2-2027',type:'payment',title:'T-7 quarterly cash report evidence lock: FY27 Q2',owner:'Treasury / Comptroller',urgency:'Medium',workstream:'Cash Reporting',due:'2026-12-24',deadline:'2026-12-31',evidence:'Cash book, bank reconciliation, accountant GL tie-out, variance log.',nextAction:'Tie cash book to bank statements and GL before quarter close.'},
+    {id:'fin-pay-941-q4-2026',type:'payment',title:'T-7 payroll tax packet: 2026 Q4 Form 941 / DOR reconciliation',owner:'Payroll Manager',urgency:'High',workstream:'Payroll / Tax Payment Controls',due:'2027-01-25',deadline:'2027-02-01',evidence:'Form 941 worksheet, EFTPS/DOR confirmation, payroll register, exception log.',nextAction:'Weekend-adjusted alert for Jan. 31 due date; prepare IRS and DOR issue closeout log.'},
+    {id:'fin-pay-debt-feb-2027',type:'payment',title:'T-7 debt service funding check: February trustee schedule',owner:'Treasurer / Capital Finance',urgency:'High',workstream:'Debt Service Payments',due:'2027-01-25',deadline:'2027-02-01',evidence:'Trustee invoice, debt schedule, warrant authorization, cash position.',nextAction:'Confirm scheduled payment, cash funding level, approvals, and trustee delivery path.'},
+    {id:'fin-cash-q3-2027',type:'payment',title:'T-7 quarterly cash report evidence lock: FY27 Q3',owner:'Treasury / Comptroller',urgency:'Medium',workstream:'Cash Reporting',due:'2027-03-24',deadline:'2027-03-31',evidence:'Cash book, bank reconciliation, accountant GL tie-out, variance log.',nextAction:'Resolve unreconciled deposits, wires, payroll, and vendor warrants before quarter close.'},
+    {id:'fin-pay-941-q1-2027',type:'payment',title:'T-7 payroll tax packet: 2027 Q1 Form 941 / DOR reconciliation',owner:'Payroll Manager',urgency:'High',workstream:'Payroll / Tax Payment Controls',due:'2027-04-23',deadline:'2027-04-30',evidence:'Form 941 worksheet, EFTPS/DOR confirmation, payroll register, exception log.',nextAction:'Validate quarter deposits and resolve IRS or Massachusetts DOR issues before filing.'},
+    {id:'fin-cash-annual-2027',type:'payment',title:'T-7 annual cash report and trust fund evidence lock',owner:'Treasury / Comptroller',urgency:'High',workstream:'Cash Reporting',due:'2027-06-23',deadline:'2027-06-30',evidence:'Annual cash book, trust fund receipts/expenditures, bank reconciliations, GL tie-out.',nextAction:'Finalize annual cash and trust-fund evidence one week before fiscal year close.'}
+  ];
+
+  var FIN_WORKPLAN_EVENTS=[
+    {id:'fin-plan-kickoff-2027',title:'Annual finance division work-plan kickoff',owner:'Assistant City Manager for Fiscal Affairs with divisional managers',urgency:'High',workstream:'Finance Division Work Plans',due:'2026-07-06',evidence:'Manager work-plan template, owner matrix, statutory calendar, KPI baseline.',nextAction:'Assign each Finance division a deliverable calendar, evidence owner, backup owner, and escalation path.'},
+    {id:'fin-cash-jul-2026',title:'Monthly cash position and funding-level analysis',owner:'Treasury / Cash Management',urgency:'Medium',workstream:'Cash / Investments',due:'2026-07-08',evidence:'Daily balance log, cash-flow model, investment ledger, warrant forecast.',nextAction:'Review daily balances and execute investments under policy after funding levels are approved.'},
+    {id:'fin-policy-aug-2026',title:'Investment policy review and state-law compliance check',owner:'Treasurer / Policy Lead',urgency:'Medium',workstream:'Cash / Investments',due:'2026-08-07',evidence:'Investment policy, MGL c.44 sections 55/55A reference, bank/investment inventory.',nextAction:'Mark policy updates needed and document eligible investment vehicles.'},
+    {id:'fin-trust-sep-2026',title:'Trust fund receipts and expenditures review',owner:'Treasury / Comptroller',urgency:'Medium',workstream:'Trust Funds',due:'2026-09-16',evidence:'Trust fund ledger, restricted purpose list, receipts, expenditures, bank tie-out.',nextAction:'Confirm all trust activity has authority, purpose, and reconciliation support.'},
+    {id:'fin-free-cash-sep-2026',title:'State financial statements and free cash package readiness',owner:'Comptroller / ACFR Lead',urgency:'High',workstream:'ACFR / State Reporting / Free Cash',due:'2026-09-18',evidence:'June 30 balance sheet, supporting schedules, cash/receivable reconciliations, DLS upload checklist.',nextAction:'Clear items that would delay DLS free cash certification.'},
+    {id:'fin-recap-commit-oct-2026',title:'Annual tax commitment and RECAP command review',owner:'Assessing / Revenue / Comptroller / Budget',urgency:'Escalate',workstream:'Tax Commitment / RECAP',due:'2026-10-09',evidence:'RECAP workbook, new growth, overlay, appropriations, local receipts, Gateway access list.',nextAction:'Resolve logical edits, sign-off routing, and taxpayer impact materials before submission cycle.'},
+    {id:'fin-cash-nov-2026',title:'Monthly cash flow and investment execution review',owner:'Treasury / Cash Management',urgency:'Medium',workstream:'Cash / Investments',due:'2026-11-09',evidence:'Daily balances, funding forecast, investment purchases/maturities, policy attestation.',nextAction:'Set liquidity minimum, invest available funds, and document any exception to policy.'},
+    {id:'fin-acfr-state-dec-2026',title:'ACFR, State Financial Statements, and DLS support reconciliation',owner:'Comptroller / Reporting Lead',urgency:'High',workstream:'ACFR / State Reporting / Free Cash',due:'2026-12-08',evidence:'ACFR drafts, Schedule A support, DLS schedules, auditor open-items list.',nextAction:'Reconcile ACFR tables to state reporting support and clear remaining auditor asks.'},
+    {id:'fin-banking-ifb-feb-2027',title:'Three-year banking services IFB cycle readiness',owner:'Purchasing Lead / Treasurer',urgency:'Medium',workstream:'Banking Services IFB',due:'2027-02-05',evidence:'Current bank contract, service fee analysis, lockbox/ACH/wire requirements, Chapter 30B file.',nextAction:'Confirm whether FY2028 is the next IFB year; draft specifications and evaluation matrix.'},
+    {id:'fin-banking-score-mar-2027',title:'Banking bid analysis and conversion playbook review',owner:'Purchasing Lead / Treasurer / Financial Systems',urgency:'Medium',workstream:'Banking Services IFB',due:'2027-03-05',evidence:'Bid scoring model, conversion checklist, file format inventory, department communication plan.',nextAction:'Prepare bid-analysis template and conversion governance if a new bank is selected.'},
+    {id:'fin-rating-mar-2027',title:'Rating agency presentation and debt projection lock',owner:'Treasurer / Capital Finance / Financial Advisors',urgency:'High',workstream:'Rating / Debt / Official Statement',due:'2027-03-12',evidence:'Rating presentation, reserve history, debt model, capital plan, ACFR tables.',nextAction:'Lock evidence and debt projections for rating agency review.'},
+    {id:'fin-os-apr-2027',title:'Annual Official Statement and debt table tie-out',owner:'Treasurer / Bond Counsel / Financial Advisors',urgency:'High',workstream:'Rating / Debt / Official Statement',due:'2027-04-09',evidence:'Official Statement draft, debt schedules, continuing disclosure, ACFR crosswalk.',nextAction:'Reconcile all OS tables and disclosures to audited statements and debt records.'},
+    {id:'fin-fyclose-jun-2027',title:'FY27 year-end cash, trust, payroll, debt and ACFR close command',owner:'Deputy Finance Director with divisional managers',urgency:'High',workstream:'Finance Division Work Plans',due:'2027-06-16',evidence:'Close calendar, cash cutoff, payroll cutoff, trust ledger, debt payment log, ACFR PBC index.',nextAction:'Confirm all divisional managers can meet June 30 close, payment, and evidence deadlines.'}
+  ];
+
+  window.FIN_WORKPLAN_DIVISIONS=FIN_DIVISION_PLANS;
+  window.FIN_WORKPLAN_EVENTS=FIN_WORKPLAN_EVENTS;
+  window.FIN_PAYMENT_REMINDERS=FIN_PAYMENT_REMINDERS;
+
+  function eventById(id){
+    return FIN_WORKPLAN_EVENTS.concat(FIN_PAYMENT_REMINDERS).filter(function(e){return e.id===id;})[0];
+  }
+
+  function ensureOpsEvents(){
+    if(typeof OPS_FIXED_EVENTS === 'undefined' || !Array.isArray(OPS_FIXED_EVENTS)) return;
+    var existing={};
+    OPS_FIXED_EVENTS.forEach(function(e){existing[e.id]=true;});
+    FIN_WORKPLAN_EVENTS.concat(FIN_PAYMENT_REMINDERS).forEach(function(e){
+      if(existing[e.id]) return;
+      OPS_FIXED_EVENTS.push({id:e.id,title:e.title,owner:e.owner,urgency:e.urgency,workstream:e.workstream,due:e.due,evidence:e.evidence,nextAction:e.nextAction,finWorkplan:true,type:e.type || 'workplan',deadline:e.deadline || ''});
+    });
+  }
+
+  function divisionCards(){
+    return '<div class="fin-division-grid">'+FIN_DIVISION_PLANS.map(function(d){
+      return '<article class="fin-division-card"><h4>'+h(d.name)+'</h4><span class="fin-owner-chip">'+h(d.manager)+'</span><p>'+h(d.cadence)+'</p><ul>'+d.duties.map(function(x){return '<li>'+h(x)+'</li>';}).join('')+'</ul></article>';
+    }).join('')+'</div>';
+  }
+
+  function cashPanel(){
+    var cards=[
+      ['Daily cash balances','Treasury reviews bank balances, deposits, wires, warrants, and liquidity against next seven-day obligations.','Daily','Daily cash position, bank portal export, warrant forecast'],
+      ['Monthly cash flow analysis','Cash manager prepares a 12-month cash-flow view and validates funding levels for payroll, vendors, debt service, capital draws, and trusts.','Monthly','Cash model, GL tie-out, revenue receipts, expenditure forecast'],
+      ['Invest available funds','Available funds are invested only after minimum liquidity is protected and the action is documented against the investment policy.','Daily / as needed','Investment ledger, maturity ladder, policy attestation'],
+      ['Policy and state-law watch','Investment policy is reviewed at least annually and when state law, DLS guidance, bank products, or risk posture changes.','Annual + trigger based','Policy change log, legal reference, manager sign-off'],
+      ['Trust fund monitoring','Trust fund receipts and expenditures are reviewed for purpose, authority, balance, reconciliation, and supporting documentation.','Quarterly','Trust ledger, receipt/expenditure support, restricted-use review'],
+      ['Banking services oversight','Bank service levels, fees, collateral/security, ACH/wire controls, lockbox, positive pay, and conversion readiness are reviewed before each three-year IFB cycle.','Quarterly','Bank analysis, service issues, IFB file']
+    ];
+    return '<div class="fin-control-grid">'+cards.map(function(c){return '<article class="fin-control-card"><h4>'+h(c[0])+'</h4><p>'+h(c[1])+'</p><div class="mini"><b>Cadence</b><span>'+h(c[2])+'</span><b>Evidence</b><span>'+h(c[3])+'</span></div></article>';}).join('')+'</div>';
+  }
+
+  function bankingCycle(){
+    var steps=[
+      ['1','Year 1: monitor','Maintain current-bank scorecard, fees, service issues, control exceptions, collateral/security posture, and conversion readiness.'],
+      ['2','Year 2: prepare IFB','Draft Chapter 30B IFB specifications, required services, implementation timeline, bid forms, and objective evaluation criteria.'],
+      ['3','Year 3: issue and analyze bids','Issue IFB, receive bids, test responsiveness/responsibility, compare costs, services, controls, and transition risk.'],
+      ['4','Conversion if needed','If award changes banks, run cutover governance for lockbox, ACH/wires, payroll, positive pay, ERP files, deposits, and public communications.']
+    ];
+    return '<div class="fin-cycle">'+steps.map(function(s){return '<article class="fin-cycle-step" data-step="'+h(s[0])+'"><h4>'+h(s[1])+'</h4><p>'+h(s[2])+'</p></article>';}).join('')+'</div>';
+  }
+
+  function acfrTaxDebtPanel(){
+    var cards=[
+      ['ACFR / State Financial Statements / Free Cash','Comptroller leads the ACFR, state reporting support, June 30 balance sheet package, and DLS free cash certification evidence.','ACFR tracker, state schedules, balance sheet, cash/receivable reconciliation'],
+      ['Annual Tax Commitment / RECAP','Assessing, Revenue, Budget, Comptroller, and leadership coordinate new growth, overlay, appropriations, local receipts, Gateway access, recap edits, and tax-bill readiness.','RECAP workbook, tax commitment, classification materials, DLS support'],
+      ['Rating Agency / Debt / Official Statement','Treasury and Capital Finance prepare rating presentation, debt projections, annual official statement, debt table tie-outs, and continuing disclosure materials with advisors.','Rating deck, debt model, OS draft, ACFR crosswalk, advisor review log'],
+      ['Payroll tax returns and issue resolution','Payroll prepares quarterly IRS and Massachusetts DOR returns, closes notices, tracks deposits, and maintains zero-penalty evidence.','Form 941 support, EFTPS/DOR confirmations, exception log, notice resolution file']
+    ];
+    return '<div class="fin-control-grid">'+cards.map(function(c){return '<article class="fin-control-card"><h4>'+h(c[0])+'</h4><p>'+h(c[1])+'</p><div class="mini"><b>Evidence</b><span>'+h(c[2])+'</span></div></article>';}).join('')+'</div>';
+  }
+
+  function paymentTable(){
+    return '<table class="fin-payment-table"><thead><tr><th>Alert date</th><th>Deadline</th><th>Control</th><th>Owner</th><th>Evidence</th></tr></thead><tbody>'+FIN_PAYMENT_REMINDERS.map(function(e){
+      return '<tr><td>'+fmtDate(e.due)+'<br><span class="fin-pay-pill">T-7 alert</span></td><td>'+fmtDate(e.deadline)+'</td><td><b>'+h(e.title)+'</b><br>'+h(e.nextAction)+'</td><td>'+h(e.owner)+'</td><td>'+h(e.evidence)+'</td></tr>';
+    }).join('')+'</tbody></table>';
+  }
+
+  function sourceNote(){
+    return '<div class="fin-workplan-source"><b>Source anchors:</b> IRS Form 941 is due by the last day of the month after quarter end; Mass. DLS describes the treasurer role as cash, investments, banking services, debt, and state reporting; DLS cash-book guidance calls for monthly cash reconciliation; DLS tax-rate and free-cash guidance drives RECAP and certification timing; Chapter 30B competitive sealed bidding governs IFB controls. Cambridge-specific debt-service dates should be imported from the official debt schedule and trustee invoices.</div>';
+  }
+
+  function workPlanSection(){
+    return '<section class="fin-workplan-shell" id="finAnnualWorkPlan"><div class="fin-workplan-hero"><h2>Annual Finance Work Plans and Payment Calendar</h2><p>Manager-owned annual work plans across Finance divisions, with daily cash controls, monthly cash-flow analysis, investment-policy oversight, trust-fund monitoring, three-year banking IFB governance, ACFR/state/free-cash reporting, RECAP/tax commitment, rating/debt/official statement, payroll tax returns, quarterly cash reports, and T-7 payment reminders.</p><div class="fin-workplan-kpis"><div class="fin-workplan-kpi"><b>'+FIN_DIVISION_PLANS.length+'</b><span>Finance divisions</span></div><div class="fin-workplan-kpi"><b>'+FIN_WORKPLAN_EVENTS.length+'</b><span>Work-plan events</span></div><div class="fin-workplan-kpi"><b>'+FIN_PAYMENT_REMINDERS.length+'</b><span>T-7 payment alerts</span></div><div class="fin-workplan-kpi"><b>3 yr</b><span>Banking IFB cycle</span></div></div></div><div class="fin-workplan-tabs"><button type="button" class="active" data-fin-plan-tab="divisions">Division plans</button><button type="button" data-fin-plan-tab="cash">Cash & investments</button><button type="button" data-fin-plan-tab="banking">Banking IFB</button><button type="button" data-fin-plan-tab="reporting">ACFR / tax / debt</button><button type="button" data-fin-plan-tab="payments">Payment alerts</button></div><div class="fin-workplan-panel active" data-fin-plan-panel="divisions"><h3>Divisional manager work plans</h3><p class="lede">Each Finance division gets a manager-owned annual plan with cadence, evidence, backup ownership, and escalation path.</p>'+divisionCards()+'</div><div class="fin-workplan-panel" data-fin-plan-panel="cash"><h3>Cash, investment, and trust controls</h3><p class="lede">Daily cash balances, monthly cash flow, investment execution, policy review, and trust activity are treated as one treasury control cycle.</p>'+cashPanel()+'</div><div class="fin-workplan-panel" data-fin-plan-panel="banking"><h3>Banking services IFB every three years</h3><p class="lede">The work plan separates monitoring, IFB preparation, bid analysis, and bank conversion governance so the City is not forced into a rushed changeover.</p>'+bankingCycle()+'</div><div class="fin-workplan-panel" data-fin-plan-panel="reporting"><h3>ACFR, state, RECAP, rating, debt, and tax reporting</h3><p class="lede">Annual reporting and debt-market work share one evidence calendar so ACFR tables, state submissions, free cash, RECAP, debt projections, and official statements reconcile.</p>'+acfrTaxDebtPanel()+'</div><div class="fin-workplan-panel" data-fin-plan-panel="payments"><h3>Payment and filing alerts placed one week before deadlines</h3><p class="lede">These calendar controls are deliberately set before the deadline. Replace provisional debt-service dates with the City debt schedule and trustee invoices.</p>'+paymentTable()+'</div>'+sourceNote()+'</section>';
+  }
+
+  function bindWorkPlanTabs(){
+    document.querySelectorAll('[data-fin-plan-tab]').forEach(function(btn){
+      if(btn.dataset.finPlanBound) return;
+      btn.dataset.finPlanBound='1';
+      btn.addEventListener('click',function(){
+        var tab=btn.getAttribute('data-fin-plan-tab');
+        document.querySelectorAll('[data-fin-plan-tab]').forEach(function(b){b.classList.toggle('active',b===btn);});
+        document.querySelectorAll('[data-fin-plan-panel]').forEach(function(panel){panel.classList.toggle('active',panel.getAttribute('data-fin-plan-panel')===tab);});
+      });
+    });
+  }
+
+  function overrideCalendarView(){
+    if(typeof VIEWS === 'undefined') return;
+    VIEWS.opsCalendar=function(){
+      ensureOpsEvents();
+      var fixed=(typeof OPS_FIXED_EVENTS !== 'undefined' && Array.isArray(OPS_FIXED_EVENTS)) ? OPS_FIXED_EVENTS : [];
+      var projects=(typeof MERGED_PROJECTS !== 'undefined' && Array.isArray(MERGED_PROJECTS)) ? MERGED_PROJECTS : [];
+      var work=[].concat(projects.map(function(p){return p.workstream;}),fixed.map(function(e){return e.workstream;})).filter(Boolean).filter(function(v,i,a){return a.indexOf(v)===i;}).sort();
+      return '<div class="eyebrow">Annual Finance Work Plan Calendar</div><h1 class="view-title">FY2027 Calendar: Finance work plans, payment alerts, and reporting deadlines</h1><p class="view-sub">Manager-owned Finance division plans with payment reminders placed about one week before filing, debt-service, cash-report, and annual close deadlines.</p><div class="divider"></div>'+workPlanSection()+'<div class="card block" style="margin-bottom:14px"><div class="filter-grid" style="grid-template-columns:repeat(3,minmax(160px,1fr))"><div><label>Workstream</label><select id="calWorkstream"><option>All</option>'+work.map(function(x){return '<option>'+h(x)+'</option>';}).join('')+'</select></div><div><label>Urgency</label><select id="calUrgency"><option>All</option><option>Escalate</option><option>High</option><option>Medium</option><option>Low</option></select></div><div><label>Calendar rule</label><select disabled><option>T-7 payment alerts + processing-fit adjustments</option></select></div></div><div class="note">Calendar controls now include annual Finance work plans, quarterly/payroll tax reminders, debt-service funding checks, cash-report evidence locks, and banking-services IFB governance. Debt-service dates marked as trustee-schedule controls should be replaced with the City official debt schedule.</div></div><div class="month-board" id="fy27CalendarBoard"></div>';
+    };
+    VIEWS.opsCalendar.after=function(){
+      ensureOpsEvents();
+      ['calWorkstream','calUrgency'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('change',renderOpsCalendar);});
+      renderOpsCalendar();
+      bindWorkPlanTabs();
+    };
+  }
+
+  function overrideModal(){
+    var original=(typeof openMergedEventModal === 'function') ? openMergedEventModal : null;
+    try{
+      openMergedEventModal=function(id){
+        var e=eventById(id);
+        if(e && typeof modalShell === 'function'){
+          modalShell(e.title,(e.type==='payment'?'Payment alert':'Finance work plan')+' - '+e.urgency,[
+            ['Owner',h(e.owner)],
+            ['Calendar alert',fmtDate(e.due)+(e.deadline ? ' / deadline '+fmtDate(e.deadline) : '')],
+            ['Workstream',h(e.workstream)],
+            ['Evidence',h(e.evidence)],
+            ['Next action',h(e.nextAction)],
+            ['Control note',e.type==='payment'?'Alert is intentionally about one week before the listed deadline. Debt-service dates must be loaded from the official debt schedule.':'Manager-owned work-plan checkpoint for annual Finance operations.']
+          ]);
+          return;
+        }
+        if(original) return original(id);
+      };
+      window.openMergedEventModal=openMergedEventModal;
+    }catch(_err){}
+  }
+
+  function tagCalendarEvents(){
+    document.querySelectorAll('[data-event]').forEach(function(el){
+      var id=el.getAttribute('data-event');
+      var e=eventById(id);
+      if(!e) return;
+      el.classList.add(e.type==='payment'?'payment':'fin-workplan');
+    });
+  }
+
+  var oldRender=(typeof renderOpsCalendar === 'function') ? renderOpsCalendar : null;
+  if(oldRender){
+    try{
+      renderOpsCalendar=function(){
+        ensureOpsEvents();
+        oldRender();
+        tagCalendarEvents();
+      };
+      window.renderOpsCalendar=renderOpsCalendar;
+    }catch(_err){}
+  }
+
+  ensureOpsEvents();
+  overrideModal();
+  overrideCalendarView();
+  if(location.hash==='#opsCalendar' || (document.getElementById('topViewJump') && document.getElementById('topViewJump').value==='opsCalendar')){
+    try{ render('opsCalendar'); }catch(_e){}
+  }
+})();
+</script>
+<!-- /FIN annual work plan and payment calendar patch -->
+
+<!-- FIN benchmark interpretation patch - added 2026-06-08 -->
+<style id="fin-benchmark-style">
+.fin-benchmark-shell{display:grid;gap:14px;margin-bottom:18px}
+.fin-benchmark-quick{border:1px solid #9ebad9;border-radius:18px;background:linear-gradient(180deg,#ffffff,#f6fbff);box-shadow:0 16px 40px rgba(7,42,87,.10);padding:15px;margin:0 0 16px}
+.fin-benchmark-quick-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;margin-bottom:12px}
+.fin-benchmark-quick-head h2{margin:0;color:#082a56;font-size:20px;letter-spacing:-.02em}
+.fin-benchmark-quick-head p{margin:5px 0 0;color:#435d79;font-size:13px;line-height:1.45;max-width:92ch}
+.fin-benchmark-quick-head button,.fin-benchmark-hero button,.fin-benchmark-actions button{border:1px solid #b9cce2;background:#fff;color:#0a55a7;border-radius:999px;padding:8px 11px;font-family:Cambria,Georgia,serif;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
+.fin-benchmark-quick-head button:hover,.fin-benchmark-hero button:hover,.fin-benchmark-actions button:hover{background:#0a55a7;color:#fff;border-color:#0a55a7}
+.fin-benchmark-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px}
+.fin-benchmark-tile{border:1px solid #d1e0ef;border-radius:13px;background:#fff;padding:11px;box-shadow:0 5px 14px rgba(7,42,87,.05);cursor:pointer;text-align:left}
+.fin-benchmark-tile:hover{border-color:#0a55a7;transform:translateY(-1px)}
+.fin-benchmark-tile .k{display:block;color:#60738a;font-family:Cambria,Georgia,serif;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}
+.fin-benchmark-tile .v{display:block;margin-top:5px;color:#082a56;font-size:22px;font-weight:900;line-height:1}
+.fin-benchmark-tile .t{display:block;margin-top:6px;color:#435d79;font-size:11.5px;line-height:1.35}
+.fin-benchmark-status{display:inline-flex;align-items:center;gap:5px;border-radius:999px;border:1px solid #c5d7ea;background:#f8fbff;color:#31516f;font-family:Cambria,Georgia,serif;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em;padding:4px 7px;margin-top:8px}
+.fin-benchmark-status.good{background:#e8f6ef;color:#0d684a;border-color:#bfe6d3}.fin-benchmark-status.watch{background:#fff4df;color:#955800;border-color:#e9d4ad}.fin-benchmark-status.concern{background:#ffe7e4;color:#b33129;border-color:#efc3bf}.fin-benchmark-status.policy{background:#eef6ff;color:#0a55a7;border-color:#c5d7ea}
+.fin-benchmark-hero{border:1px solid #9ebad9;border-radius:18px;background:linear-gradient(135deg,#ffffff 0%,#f4f9ff 70%,#edf6ff 100%);box-shadow:0 18px 42px rgba(7,42,87,.10);padding:18px}
+.fin-benchmark-hero h1{margin:0;color:#082a56;font-size:26px;line-height:1.1;letter-spacing:-.02em}
+.fin-benchmark-hero p{margin:8px 0 0;color:#435d79;font-size:14px;line-height:1.55;max-width:1050px}
+.fin-benchmark-hero .fin-benchmark-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+.fin-benchmark-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:14px}
+.fin-benchmark-kpi{border:1px solid #d1e0ef;border-radius:13px;background:#fff;padding:12px}.fin-benchmark-kpi b{display:block;color:#082a56;font-size:24px;line-height:1}.fin-benchmark-kpi span{display:block;margin-top:5px;color:#60738a;font-size:10px;text-transform:uppercase;letter-spacing:.07em;font-weight:900}
+.fin-benchmark-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.fin-benchmark-tabs button{border:1px solid #b9cce2;background:#fff;color:#0a55a7;border-radius:999px;padding:8px 10px;font-family:Cambria,Georgia,serif;font-size:12px;font-weight:800;cursor:pointer}
+.fin-benchmark-tabs button.active,.fin-benchmark-tabs button:hover{background:#0a55a7;color:#fff;border-color:#0a55a7}
+.fin-benchmark-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fin-benchmark-card{border:1px solid #d1e0ef;border-radius:15px;background:#fff;padding:13px;box-shadow:0 8px 22px rgba(7,42,87,.045);display:flex;flex-direction:column;gap:9px}
+.fin-benchmark-card.hidden,.fin-benchmark-table tr.hidden{display:none}
+.fin-benchmark-card h3{margin:0;color:#082a56;font-size:17px;line-height:1.2}.fin-benchmark-card p{margin:0;color:#435d79;font-size:12.5px;line-height:1.45}
+.fin-benchmark-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.fin-benchmark-pair div{border:1px solid #d9e7f4;border-radius:11px;background:#fbfdff;padding:9px}.fin-benchmark-pair span{display:block;color:#60738a;font-family:Cambria,Georgia,serif;font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.06em}.fin-benchmark-pair b{display:block;color:#082a56;font-size:17px;margin-top:4px}
+.fin-benchmark-how{margin:0;padding-left:18px;color:#435d79;font-size:12px;line-height:1.45}.fin-benchmark-how li{margin:3px 0}
+.fin-benchmark-source{border-top:1px solid #dbe8f4;padding-top:8px;color:#60738a;font-size:11px;line-height:1.35;margin-top:auto}.fin-benchmark-source a{color:#0a55a7;text-decoration:none}
+.fin-benchmark-table-wrap{border:1px solid #d1e0ef;border-radius:15px;background:#fff;overflow:auto}.fin-benchmark-table{width:100%;border-collapse:collapse;min-width:940px}.fin-benchmark-table th{background:#eef6ff;color:#435d79}.fin-benchmark-table td,.fin-benchmark-table th{padding:9px 10px}.fin-benchmark-table td{font-size:12.5px;line-height:1.35}.fin-benchmark-table td strong{color:#082a56}
+.fin-benchmark-note{border:1px dashed #b9cce2;border-radius:13px;background:#f8fbff;color:#435d79;font-size:12.5px;line-height:1.55;padding:12px 13px}
+.fin-benchmark-note b{color:#082a56}.fin-benchmark-note a{color:#0a55a7;text-decoration:none}
+.fin-benchmark-modal-addendum{border:1px solid #b9cce2;border-radius:13px;background:#f8fbff;padding:11px 12px;margin-bottom:12px;color:#435d79;font-size:12px;line-height:1.45}.fin-benchmark-modal-addendum h4{margin:0 0 7px;color:#082a56;font-size:15px}.fin-benchmark-modal-addendum dl{display:grid;grid-template-columns:110px 1fr;gap:6px;margin:7px 0 0}.fin-benchmark-modal-addendum dt{color:#60738a;font-weight:900;text-transform:uppercase;font-size:10px}.fin-benchmark-modal-addendum dd{margin:0}
+.fin-benchmark-peer,.fin-benchmark-zip{border:1px solid #9ebad9;border-radius:16px;background:#fff;padding:14px;margin-top:16px;box-shadow:0 10px 26px rgba(7,42,87,.07)}
+.fin-benchmark-peer h3,.fin-benchmark-zip h3{margin:0 0 8px;color:#082a56;font-size:18px}.fin-benchmark-peer p,.fin-benchmark-zip p{margin:0;color:#435d79;font-size:12.5px;line-height:1.5}
+.fin-benchmark-mini-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:10px}.fin-benchmark-mini{border:1px solid #d1e0ef;border-radius:12px;background:#fbfdff;padding:10px}.fin-benchmark-mini b{display:block;color:#082a56;font-size:18px}.fin-benchmark-mini span{display:block;color:#60738a;font-size:11px;line-height:1.35;margin-top:4px}
+@media(max-width:1180px){.fin-benchmark-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.fin-benchmark-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.fin-benchmark-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.fin-benchmark-mini-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:720px){.fin-benchmark-quick-head{display:block}.fin-benchmark-quick-head button{margin-top:10px;width:100%}.fin-benchmark-strip,.fin-benchmark-kpis,.fin-benchmark-grid,.fin-benchmark-mini-grid,.fin-benchmark-pair{grid-template-columns:1fr}.fin-benchmark-tabs button,.fin-benchmark-actions button{width:100%;text-align:left}.fin-benchmark-hero h1{font-size:22px}}
+</style>
+<script id="fin-benchmark-script">
+(function(){
+  function esc(v){return String(v == null ? '' : v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function latest(key){
+    if(typeof DATA === 'undefined' || !DATA.hist || !DATA.hist[key]) return {year:'n/a', value:0};
+    var s=DATA.hist[key], years=Object.keys(s).map(Number).sort(function(a,b){return a-b;});
+    var y=years[years.length-1];
+    return {year:y, value:Number(s[y])||0};
+  }
+  function money(v){return (typeof FMT1 === 'function') ? FMT1(v,'m') : ('$'+Number(v||0).toFixed(1)+'M');}
+  function pct(v,d){return ((Number(v)||0)/Math.max(Number(d)||0,1)*100);}
+  function pctText(v){return Number(v||0).toFixed(1)+'%';}
+  function statusLabel(s){return s==='good'?'Good':s==='watch'?'Watch':s==='concern'?'Concern':'Policy target';}
+  function statusHtml(s){return '<span class="fin-benchmark-status '+s+'">'+statusLabel(s)+'</span>';}
+  function sourceLink(label,url){return '<a href="'+url+'" target="_blank" rel="noopener noreferrer">'+esc(label)+'</a>';}
+  function zipTotals(){
+    var vals=(typeof CIVIC_ZIP_GRAPHIC_SIGNALS !== 'undefined') ? Object.keys(CIVIC_ZIP_GRAPHIC_SIGNALS).map(function(k){return CIVIC_ZIP_GRAPHIC_SIGNALS[k];}) : [];
+    function sum(k){return vals.reduce(function(a,v){return a+(Number(v[k])||0);},0);}
+    return {budget:sum('budgetM'),expense:sum('expenseM'),revenue:sum('revenueM'),capital:sum('capitalM'),variance:sum('varianceM')};
+  }
+  function makeBenchmarks(){
+    var exp=latest('total_exp'), rev=latest('total_rev'), fb=latest('fund_balance'), fc=latest('free_cash'), levy=latest('tax_levy'), limit=latest('levy_limit'), debt=latest('bonded_debt'), av=latest('assessed_B'), opeb=latest('opeb'), pension=latest('pension');
+    var structural=pct(rev.value,exp.value), reserve=pct(fb.value,exp.value), freeCash=pct(fc.value,exp.value), headroom=pct(limit.value-levy.value,limit.value), debtAv=pct(debt.value,av.value*1000), opebRev=pct(opeb.value,rev.value), pensionRev=pct(pension.value,rev.value);
+    var z=zipTotals(), zipExpense=pct(z.expense,z.budget), zipRevenue=pct(z.revenue,z.expense), zipVariance=pct(z.variance,z.budget);
+    return [
+      {id:'structural-balance',field:'Budget and revenue',title:'Structural balance',current:pctText(structural),target:'Recurring revenue at or above recurring expenditure; local watch below 100%.',status:structural>=100?'good':(structural>=98?'watch':'concern'),basis:'FY'+rev.year+' revenue divided by FY'+exp.year+' expenses.',source:sourceLink('GFOA Budget Monitoring','https://www.gfoa.org/materials/budget-monitoring'),why:'This tells whether ongoing revenue can support ongoing services before one-time resources are used.',how:['Separate recurring and one-time resources in every forecast.','Review revenue, expenditures, operations, capital, and performance measures each month.','Assign every material variance to an owner and resolution date.']},
+      {id:'fund-balance',field:'Financial position',title:'General fund balance reserve floor',current:pctText(reserve),target:'Minimum 16.7% of regular operating revenues or expenditures; Cambridge policy range should be higher if volatility warrants it.',status:reserve>=16.7?'good':(reserve>=12?'watch':'concern'),basis:'FY'+fb.year+' fund balance divided by latest expense base, FY'+exp.year+'.',source:sourceLink('GFOA Fund Balance Guidelines','https://www.gfoa.org/materials/fund-balance-guidelines-for-the-general-fund'),why:'This is the core shock absorber for revenue shortfalls, unexpected costs, tax-rate stability, and bond-rating resilience.',how:['Adopt or refresh a formal reserve policy with a stated floor.','If the floor is breached, approve a one-to-three-year replenishment plan.','Prohibit routine use of reserves for recurring operating expenses.']},
+      {id:'free-cash',field:'Financial position',title:'Certified free cash',current:pctText(freeCash),target:'DLS target: generate free cash equal to 5-7% of the annual budget; use it for one-time costs, capital, and reserve replenishment.',status:freeCash>=5?'good':(freeCash>=3?'watch':'concern'),basis:'FY'+fc.year+' free cash divided by latest expense base, FY'+exp.year+'.',source:sourceLink('Mass. DLS Free Cash','https://www.mass.gov/info-details/free-cash'),why:'Free cash is flexible but nonrecurring. A high figure is useful only if the use is disciplined.',how:['Adopt a free-cash policy covering carry-forward, pay-go capital, and reserve funding.','Do not budget uncertified free cash or use it to support recurring operations.','Tie the annual balance-sheet package to the free-cash certification calendar.']},
+      {id:'levy-headroom',field:'Budget and revenue',title:'Prop 2.5 levy-limit headroom',current:pctText(headroom),target:'Local policy guide: keep at least 10% headroom; watch 5-10%; concern below 5%.',status:headroom>=10?'good':(headroom>=5?'watch':'concern'),basis:'FY'+limit.year+' levy limit less FY'+levy.year+' tax levy, divided by levy limit.',source:sourceLink('Mass. DLS tax-rate/RECAP guidance','https://www.mass.gov/doc/chapter-5-setting-the-tax-rate/download'),why:'Headroom is policy flexibility. It matters when commercial valuation, state aid, or local receipts soften.',how:['Maintain a five-year levy-limit, new-growth, and tax-shift model.','Reconcile RECAP inputs to appropriations, local receipts, overlay, and new growth before tax-rate submission.','Show council/leadership the cost of using headroom versus preserving capacity.']},
+      {id:'debt-to-value',field:'Debt and obligations',title:'Debt to assessed value',current:pctText(debtAv),target:'Local policy guide: under 3% is strong; 3-5% watch; over 5% concern unless legally and fiscally justified.',status:debtAv<3?'good':(debtAv<5?'watch':'concern'),basis:'FY'+debt.year+' bonded debt divided by FY'+av.year+' assessed value.',source:sourceLink('GFOA Debt Management Policy','https://www.gfoa.org/materials/debt-management-policy'),why:'Debt burden is read with debt service, amortization, capital need, tax base, and rating-agency narrative.',how:['Adopt debt ratios in a written policy and review them periodically.','Use debt service as a percent of revenue/expenditure in each bond plan.','Tie official statement tables, rating presentation, debt model, and ACFR tables to one source of truth.']},
+      {id:'debt-service',field:'Debt and obligations',title:'Debt service affordability',current:'6.8%',target:'Local ceiling: keep debt service under 10% of recurring revenue; watch if trending toward 8-10%.',status:'good',basis:'Peer card operating benchmark currently shows 6.8%; replace with official debt schedule and recurring-revenue base before external use.',source:sourceLink('GFOA Debt Management Policy','https://www.gfoa.org/materials/debt-management-policy'),why:'This shows how much annual operating flexibility is consumed by fixed debt payments.',how:['Load principal/interest by payment date into the calendar.','Run annual debt projections before the rating and official statement cycle.','Set T-7 funding checks before every trustee/payment deadline.']},
+      {id:'opeb',field:'Debt and obligations',title:'OPEB liability burden',current:pctText(opebRev),target:'No universal single threshold. Best-practice target is a funded, board-approved plan with a declining liability/revenue trend.',status:'watch',basis:'FY'+opeb.year+' OPEB liability divided by FY'+rev.year+' revenue.',source:sourceLink('GFOA Debt Management Policy','https://www.gfoa.org/materials/debt-management-policy'),why:'OPEB is a long-term claim on future budgets. The direction of the plan matters more than a single year.',how:['Publish a funding policy and annual actuarial update.','Show ten-year OPEB cost pressure beside debt, pension, and capital plans.','Separate accounting liability from cash contribution decisions in the budget narrative.']},
+      {id:'pension',field:'Debt and obligations',title:'Pension liability burden',current:pctText(pensionRev),target:'Stay on a credible funding schedule; watch if liability/revenue rises or required contributions crowd out services.',status:pensionRev<15?'good':'watch',basis:'FY'+pension.year+' pension liability divided by FY'+rev.year+' revenue.',source:sourceLink('GFOA Debt Management Policy','https://www.gfoa.org/materials/debt-management-policy'),why:'Pension cost is part of the fixed-cost stack that rating agencies and budget managers track.',how:['Tie pension schedule assumptions to the long-range forecast.','Explain contribution changes in the operating budget.','Monitor pension, OPEB, and debt together rather than one at a time.']},
+      {id:'cash-reconciliation',field:'Treasury and cash',title:'Cash-book reconciliation',current:'Monthly',target:'Reconcile cash book to bank statements shortly after month end, then reconcile to the accountant general ledger monthly.',status:'policy',basis:'Operational target; current report tracks this through Treasury work-plan events.',source:sourceLink('Mass. DLS Cash Book','https://www.mass.gov/info-details/the-cash-book'),why:'Cash is the control foundation for free cash, ACFR, debt payments, trust funds, and payroll.',how:['Close bank reconciliations on a monthly calendar with named backup owner.','Investigate unreconciled items using source documents immediately.','Keep quarterly and annual cash reports linked to the same evidence file.']},
+      {id:'cash-investment',field:'Treasury and cash',title:'Eligible cash invested daily',current:'98%',target:'Local operating target: invest at least 98% of eligible cash after preserving required liquidity.',status:'good',basis:'KPI Pack current measure.',source:sourceLink('GFOA Investment Policy','https://www.gfoa.org/materials/investment-policy'),why:'Idle eligible cash loses earnings, but investment must still prioritize safety, liquidity, preservation of principal, and state-law compliance.',how:['Maintain a daily cash position and maturity ladder.','Document exceptions where cash is held for liquidity, legal, bank, or system reasons.','Review and update the investment policy at least annually.']},
+      {id:'cash-flow',field:'Treasury and cash',title:'Monthly cash-flow forecast',current:'Work-plan control',target:'Maintain a rolling 12-month cash-flow budget using three years of receipt/disbursement history and known large obligations.',status:'policy',basis:'Calendar work-plan item.',source:sourceLink('Mass. DLS cash-flow budget guidance','https://www.mass.gov/info-details/highly-recommended-treasurers-cash-flow-budget'),why:'Cash-flow forecasting identifies both liquidity shortfalls and investable surplus windows.',how:['Model payroll, benefits, warrants, retirement, debt service, capital, and large one-time payments.','Set liquidity minimums before investing surplus.','Use RAN/internal borrowing decisions only after comparing cost, timing, and legal constraints.']},
+      {id:'acfr-timeliness',field:'Reporting and compliance',title:'ACFR timeliness',current:'T+6 months target',target:'Submit the ACFR/COA package no later than six months after fiscal year end; for June 30, target December 31.',status:'policy',basis:'GFOA COA timeliness rule.',source:sourceLink('GFOA COA submission guidance','https://www.gfoa.org/coa-program-submit-an-application'),why:'A late ACFR weakens transparency, rating readiness, free-cash evidence, and official statement preparation.',how:['Run a monthly PBC/open-items list from July through issuance.','Escalate overdue reconciliations by division owner.','Crosswalk ACFR, state schedules, free cash, and official statement tables.']},
+      {id:'monthly-close',field:'Reporting and compliance',title:'Monthly close progress',current:'84%',target:'Green at or above 90% by day 7; amber 75-89%; concern below 75%.',status:'watch',basis:'KPI Pack current measure.',source:sourceLink('GFOA Budget Monitoring','https://www.gfoa.org/materials/budget-monitoring'),why:'Monthly close is the early-warning control for annual reporting, free cash, and debt-market schedules.',how:['Use one close checklist with journal, reconciliation, and approval owners.','Escalate late reconciliations before the weekly Fiscal Affairs review.','Track evidence completeness, not just speed.']},
+      {id:'payroll-tax',field:'Reporting and compliance',title:'Payroll tax filing and deposit control',current:'T-7 alerts',target:'100% on-time electronic deposits and quarterly Form 941 filings; returns are due the last day of the month after quarter end.',status:'policy',basis:'Calendar now places alerts about one week before deadlines.',source:sourceLink('IRS Form 941 instructions','https://www.irs.gov/instructions/i941'),why:'Payroll tax misses create penalties, interest, notices, and employee-service issues.',how:['Place Form 941, DOR, and EFTPS evidence in the quarterly close file.','Resolve tax-impacting payroll exceptions before the return is filed.','Use weekend/holiday adjustments and proof-of-payment retention.']},
+      {id:'payroll-exceptions',field:'Reporting and compliance',title:'Payroll exception queue',current:'12 items',target:'Green at or below 10 unresolved items; amber 11-20; concern above 20 or any tax-impacting item.',status:'watch',basis:'KPI Pack current measure.',source:sourceLink('IRS Form 941 instructions','https://www.irs.gov/instructions/i941'),why:'Payroll corrections become tax, W-2, employee-service, and audit issues if they age too long.',how:['Flag tax-impacting exceptions first.','Assign root cause by department/source feed.','Close exception patterns before quarterly filings.']},
+      {id:'banking-ifb',field:'Procurement and banking',title:'Banking services IFB',current:'3-year cycle',target:'Run banking services IFB every three years with documented specifications, criteria, bid analysis, and conversion governance.',status:'policy',basis:'User-requested cycle now in the FY2027 calendar.',source:sourceLink('Mass. Chapter 30B competitive sealed bidding','https://malegislature.gov/Laws/GeneralLaws/PartI/TitleIII/Chapter30b/Section5'),why:'Banking controls affect cash custody, fees, lockbox, ACH/wires, positive pay, deposits, and system interfaces.',how:['Maintain annual bank scorecard and fee/service issue log.','Draft IFB specifications and objective evaluation criteria before year 3.','If switching banks, run a conversion playbook for payroll, lockbox, ACH/wire, ERP files, deposits, and public communications.']},
+      {id:'zip-expense',field:'ZIP and department analytics',title:'ZIP expense to budget',current:pctText(zipExpense),target:'Good at or below 100%; watch 100-103%; concern above 103%.',status:zipExpense<=100?'good':(zipExpense<=103?'watch':'concern'),basis:'Illustrative ZIP routing layer, citywide aggregate.',source:'Internal dashboard routing model; connect official ERP/location data before external distribution.',why:'This tells whether a ZIP/dept/service routing layer is showing budget overrun pressure.',how:['Replace placeholder ZIP routing with ERP, payroll, capital, parcel, work-order, and revenue source data.','Review high expense/budget areas by department owner.','Pair dollar pressure with service-demand and staffing signals.']},
+      {id:'zip-revenue',field:'ZIP and department analytics',title:'ZIP revenue coverage',current:pctText(zipRevenue),target:'Good at or above 100%; watch 95-100%; concern below 95%.',status:zipRevenue>=100?'good':(zipRevenue>=95?'watch':'concern'),basis:'Illustrative ZIP routing layer, citywide aggregate.',source:'Internal dashboard routing model; connect official ERP/location data before external distribution.',why:'Coverage is not profit. It is a directional view of whether routed revenues offset routed expense pressure.',how:['Validate revenue geography and avoid double-counting citywide revenues.','Use coverage only with department/service context.','Footnote source assumptions in every ZIP export.']},
+      {id:'zip-variance',field:'ZIP and department analytics',title:'ZIP budget variance',current:pctText(zipVariance),target:'Good at or below 2%; watch 2-5%; concern above 5%.',status:zipVariance<=2?'good':(zipVariance<=5?'watch':'concern'),basis:'Illustrative ZIP routing layer, citywide aggregate.',source:'Internal dashboard routing model; connect official ERP/location data before external distribution.',why:'Variance is the fastest way to identify where the drilldown needs an owner action.',how:['Show variance by ZIP, department, unit, and month.','Require owner comments on watch/concern rows.','Connect project schedule and staffing data before treating a variance as performance failure.']}
+    ];
+  }
+  function byId(id){return makeBenchmarks().filter(function(b){return b.id===id;})[0];}
+  function fieldList(rows){return rows.map(function(r){return r.field;}).filter(function(v,i,a){return a.indexOf(v)===i;});}
+  function counts(rows){
+    return rows.reduce(function(a,b){a[b.status]=(a[b.status]||0)+1; return a;},{good:0,watch:0,concern:0,policy:0});
+  }
+  function cardHtml(b){
+    return '<article class="fin-benchmark-card" data-fin-benchmark-status="'+b.status+'" data-fin-benchmark-field="'+esc(b.field)+'">'+
+      '<div>'+statusHtml(b.status)+'</div><h3>'+esc(b.title)+'</h3><p>'+esc(b.why)+'</p>'+
+      '<div class="fin-benchmark-pair"><div><span>Current</span><b>'+esc(b.current)+'</b></div><div><span>Recommended</span><b>'+esc(b.target)+'</b></div></div>'+
+      '<p><b>Basis:</b> '+esc(b.basis)+'</p><ol class="fin-benchmark-how">'+b.how.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol>'+
+      '<div class="fin-benchmark-source"><b>Source:</b> '+b.source+'</div>'+
+      '</article>';
+  }
+  function quickRead(){
+    var ids=['structural-balance','fund-balance','free-cash','levy-headroom','debt-to-value'];
+    var tiles=ids.map(function(id){
+      var b=byId(id);
+      return '<button type="button" class="fin-benchmark-tile" data-fin-benchmark-detail="'+b.id+'"><span class="k">'+esc(b.title)+'</span><span class="v">'+esc(b.current)+'</span><span class="t">'+esc(b.target)+'</span>'+statusHtml(b.status)+'</button>';
+    }).join('');
+    return '<section class="fin-benchmark-quick" id="finBenchmarkQuickRead"><div class="fin-benchmark-quick-head"><div><h2>Benchmark Quick Read: is this good or bad?</h2><p>Each headline number is now compared to a recommended range from GFOA, Massachusetts DLS, IRS rules, or a clearly marked local operating policy target. Click a card for the action logic.</p></div><button type="button" data-go-view="benchmarkGuide">Open full benchmark guide</button></div><div class="fin-benchmark-strip">'+tiles+'</div></section>';
+  }
+  function guideView(){
+    var rows=makeBenchmarks(), c=counts(rows), fields=fieldList(rows);
+    var tabs='<button type="button" class="active" data-fin-benchmark-filter="all">All</button><button type="button" data-fin-benchmark-filter="good">Good</button><button type="button" data-fin-benchmark-filter="watch">Watch</button><button type="button" data-fin-benchmark-filter="concern">Concern</button><button type="button" data-fin-benchmark-filter="policy">Policy targets</button>';
+    tabs+=fields.map(function(f){return '<button type="button" data-fin-benchmark-field-filter="'+esc(f)+'">'+esc(f)+'</button>';}).join('');
+    var tableRows=rows.map(function(b){return '<tr data-fin-benchmark-status="'+b.status+'" data-fin-benchmark-field="'+esc(b.field)+'"><td><strong>'+esc(b.title)+'</strong><br>'+statusHtml(b.status)+'</td><td>'+esc(b.current)+'</td><td>'+esc(b.target)+'</td><td>'+esc(b.basis)+'</td><td>'+b.how.map(esc).join('<br>')+'</td></tr>';}).join('');
+    return '<div class="fin-benchmark-shell"><section class="fin-benchmark-hero"><div class="eyebrow">Benchmark Interpreter</div><h1>Recommended Numbers and How to Improve Them</h1><p>This view converts the report metrics into decision ranges. Hard external standards are used where they exist. Where a field has no universal public standard, the target is labeled as a local operating policy guide and should be adopted or adjusted by Cambridge leadership.</p><div class="fin-benchmark-actions"><button type="button" data-go-view="command">Executive Snapshot</button><button type="button" data-go-view="kpipack">Monthly KPI Pack</button><button type="button" data-go-view="civicDrilldown">ZIP Drilldown</button><button type="button" data-go-view="opsCalendar">Calendar</button></div><div class="fin-benchmark-kpis"><div class="fin-benchmark-kpi"><b>'+rows.length+'</b><span>benchmarks added</span></div><div class="fin-benchmark-kpi"><b>'+c.good+'</b><span>currently good</span></div><div class="fin-benchmark-kpi"><b>'+c.watch+'</b><span>watch items</span></div><div class="fin-benchmark-kpi"><b>'+c.concern+'</b><span>concern items</span></div></div></section><div class="fin-benchmark-tabs">'+tabs+'</div><section class="fin-benchmark-grid">'+rows.map(cardHtml).join('')+'</section><section class="fin-benchmark-table-wrap"><table class="fin-benchmark-table"><thead><tr><th>Measure</th><th>Current</th><th>Recommended number</th><th>How current was read</th><th>How to do it</th></tr></thead><tbody>'+tableRows+'</tbody></table></section><div class="fin-benchmark-note"><b>Caveat:</b> ZIP graphics are an internal routing model until connected to source data. Debt-service, payroll-tax, and payment dates must be reconciled to official debt schedules, trustee invoices, IRS/DOR evidence, and City records before external distribution.</div><div class="fin-benchmark-note"><b>Primary sources:</b> '+sourceLink('GFOA fund balance','https://www.gfoa.org/materials/fund-balance-guidelines-for-the-general-fund')+'; '+sourceLink('GFOA budget monitoring','https://www.gfoa.org/materials/budget-monitoring')+'; '+sourceLink('GFOA debt policy','https://www.gfoa.org/materials/debt-management-policy')+'; '+sourceLink('GFOA investment policy','https://www.gfoa.org/materials/investment-policy')+'; '+sourceLink('Mass. DLS free cash','https://www.mass.gov/info-details/free-cash')+'; '+sourceLink('Mass. DLS cash book','https://www.mass.gov/info-details/the-cash-book')+'; '+sourceLink('IRS Form 941','https://www.irs.gov/instructions/i941')+'.</div></div>';
+  }
+  function peerAddendum(){
+    return '<section class="fin-benchmark-peer"><h3>Benchmark accuracy rules for peer cards</h3><p>Peer ranks are useful only when the basis is clear. Official tax-rate peer cards can be read directionally. Illustrative operating cards should be replaced with published ACFR, budget, tax, debt, or operational evidence before external use.</p><div class="fin-benchmark-mini-grid"><div class="fin-benchmark-mini"><b>&lt;10%</b><span>Debt service/revenue local policy ceiling; lower is better when service/capital goals are still met.</span></div><div class="fin-benchmark-mini"><b>&gt;=16.7%</b><span>GFOA minimum unrestricted fund balance floor, before local risk adjustments.</span></div><div class="fin-benchmark-mini"><b>T+6 months</b><span>GFOA COA ACFR submission benchmark after fiscal year end.</span></div></div></section>';
+  }
+  function zipAddendum(){
+    var z=zipTotals(), expense=pct(z.expense,z.budget), revenue=pct(z.revenue,z.expense), variance=pct(z.variance,z.budget);
+    return '<section class="fin-benchmark-zip"><h3>ZIP drilldown interpretation rules</h3><p>These are decision rules for the ZIP + Department layer. Because the ZIP numbers are currently routing placeholders, treat the status as a model read, not an official City statistic.</p><div class="fin-benchmark-mini-grid"><div class="fin-benchmark-mini"><b>'+pctText(expense)+'</b><span>Expense / budget. Good at or below 100%; watch 100-103%; concern above 103%.</span></div><div class="fin-benchmark-mini"><b>'+pctText(revenue)+'</b><span>Revenue / expense. Good at or above 100%; watch 95-100%; concern below 95%.</span></div><div class="fin-benchmark-mini"><b>'+pctText(variance)+'</b><span>Variance / budget. Good at or below 2%; watch 2-5%; concern above 5%.</span></div></div></section>';
+  }
+  function bindBenchmarkGuide(){
+    document.querySelectorAll('[data-fin-benchmark-filter]').forEach(function(btn){
+      if(btn.dataset.finBound) return;
+      btn.dataset.finBound='1';
+      btn.addEventListener('click',function(){
+        var status=btn.getAttribute('data-fin-benchmark-filter');
+        document.querySelectorAll('.fin-benchmark-tabs button').forEach(function(b){b.classList.toggle('active',b===btn);});
+        document.querySelectorAll('[data-fin-benchmark-status]').forEach(function(el){
+          el.classList.toggle('hidden', status!=='all' && el.getAttribute('data-fin-benchmark-status')!==status);
+        });
+      });
+    });
+    document.querySelectorAll('[data-fin-benchmark-field-filter]').forEach(function(btn){
+      if(btn.dataset.finFieldBound) return;
+      btn.dataset.finFieldBound='1';
+      btn.addEventListener('click',function(){
+        var field=btn.getAttribute('data-fin-benchmark-field-filter');
+        document.querySelectorAll('.fin-benchmark-tabs button').forEach(function(b){b.classList.toggle('active',b===btn);});
+        document.querySelectorAll('[data-fin-benchmark-field]').forEach(function(el){
+          el.classList.toggle('hidden', el.getAttribute('data-fin-benchmark-field')!==field);
+        });
+      });
+    });
+    bindBenchmarkButtons();
+  }
+  function bindBenchmarkButtons(){
+    document.querySelectorAll('[data-go-view]').forEach(function(btn){
+      if(btn.dataset.finGoBound) return;
+      btn.dataset.finGoBound='1';
+      btn.addEventListener('click',function(){ if(typeof render === 'function') render(btn.getAttribute('data-go-view')); });
+    });
+    document.querySelectorAll('[data-fin-benchmark-detail]').forEach(function(btn){
+      if(btn.dataset.finBenchmarkBound) return;
+      btn.dataset.finBenchmarkBound='1';
+      btn.addEventListener('click',function(){ openFinBenchmarkModal(btn.getAttribute('data-fin-benchmark-detail')); });
+    });
+  }
+  function openFinBenchmarkModal(id){
+    var b=byId(id);
+    if(!b) return;
+    if(typeof modalShell === 'function'){
+      modalShell(b.title,'Benchmark - '+statusLabel(b.status),[
+        ['Current',esc(b.current)],
+        ['Recommended number',esc(b.target)],
+        ['How it was read',esc(b.basis)],
+        ['Why it matters',esc(b.why)],
+        ['How to do it','<ol class="steps">'+b.how.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ol>'],
+        ['Source',b.source]
+      ]);
+    }
+  }
+  window.openFinBenchmarkModal=openFinBenchmarkModal;
+  function metricBenchmarkKey(key){
+    return {free_cash:'free-cash',fund_balance:'fund-balance',tax_levy:'levy-headroom',levy_limit:'levy-headroom',bonded_debt:'debt-to-value',total_rev:'structural-balance',total_exp:'structural-balance',opeb:'opeb',pension:'pension'}[key] || '';
+  }
+  function patchMetricModal(key){
+    var id=metricBenchmarkKey(key), b=id && byId(id);
+    if(!b) return;
+    var body=document.querySelector('#modal .modal-body');
+    if(!body || body.querySelector('.fin-benchmark-modal-addendum')) return;
+    body.insertAdjacentHTML('afterbegin','<div class="fin-benchmark-modal-addendum"><h4>Benchmark interpretation: '+statusLabel(b.status)+'</h4><dl><dt>Recommended</dt><dd>'+esc(b.target)+'</dd><dt>Current read</dt><dd>'+esc(b.current)+' - '+esc(b.basis)+'</dd><dt>Action</dt><dd>'+b.how.map(esc).join('<br>')+'</dd></dl></div>');
+  }
+  function installMetricModalPatch(){
+    if(typeof openMetric !== 'function' || openMetric.__finBenchmarkWrapped) return;
+    var original=openMetric;
+    openMetric=function(key){
+      original(key);
+      setTimeout(function(){patchMetricModal(key);},0);
+    };
+    openMetric.__finBenchmarkWrapped=true;
+    window.openMetric=openMetric;
+  }
+  function installViewPatches(){
+    if(typeof VIEWS === 'undefined') return;
+    if(!VIEWS.benchmarkGuide){
+      VIEWS.benchmarkGuide=guideView;
+      VIEWS.benchmarkGuide.after=bindBenchmarkGuide;
+    }
+    if(typeof titles !== 'undefined') titles.benchmarkGuide='Benchmark Guide';
+    if(VIEWS.command && !VIEWS.command.__finBenchmarkWrapped){
+      var oldCommand=VIEWS.command;
+      VIEWS.command=function(){return quickRead()+oldCommand();};
+      VIEWS.command.__finBenchmarkWrapped=true;
+      var oldCommandAfter=oldCommand.after || VIEWS.command.after;
+      VIEWS.command.after=function(){ if(oldCommandAfter) oldCommandAfter(); bindBenchmarkButtons(); };
+    }
+    if(VIEWS.peerBenchmarks && !VIEWS.peerBenchmarks.__finBenchmarkWrapped){
+      var oldPeer=VIEWS.peerBenchmarks, oldPeerAfter=oldPeer.after;
+      VIEWS.peerBenchmarks=function(){return oldPeer()+peerAddendum();};
+      VIEWS.peerBenchmarks.__finBenchmarkWrapped=true;
+      VIEWS.peerBenchmarks.after=function(){ if(oldPeerAfter) oldPeerAfter(); bindBenchmarkButtons(); };
+    }
+    if(VIEWS.civicDrilldown && !VIEWS.civicDrilldown.__finBenchmarkWrapped){
+      var oldZip=VIEWS.civicDrilldown, oldZipAfter=oldZip.after;
+      VIEWS.civicDrilldown=function(){return oldZip()+zipAddendum();};
+      VIEWS.civicDrilldown.__finBenchmarkWrapped=true;
+      VIEWS.civicDrilldown.after=function(){ if(oldZipAfter) oldZipAfter(); bindBenchmarkButtons(); };
+    }
+  }
+  function installNav(){
+    var nav=document.getElementById('nav');
+    if(nav && !nav.querySelector('[data-view="benchmarkGuide"]')){
+      var btn=document.createElement('button');
+      btn.setAttribute('data-view','benchmarkGuide');
+      btn.innerHTML='<span class="ico">&#9636;</span> Benchmark Guide';
+      var after=nav.querySelector('[data-view="peerBenchmarks"]');
+      if(after && after.nextSibling) nav.insertBefore(btn,after.nextSibling); else nav.appendChild(btn);
+      btn.addEventListener('click',function(){ if(typeof render === 'function') render('benchmarkGuide'); });
+    }
+    var jump=document.getElementById('topViewJump');
+    if(jump && !Array.prototype.some.call(jump.options,function(o){return o.value==='benchmarkGuide';})){
+      var opt=document.createElement('option');
+      opt.value='benchmarkGuide';
+      opt.textContent='Benchmark Guide';
+      var peer=Array.prototype.filter.call(jump.options,function(o){return o.value==='peerBenchmarks';})[0];
+      if(peer && peer.nextSibling) jump.insertBefore(opt,peer.nextSibling); else jump.appendChild(opt);
+    }
+  }
+  function init(){
+    installViewPatches();
+    installNav();
+    installMetricModalPatch();
+    bindBenchmarkButtons();
+    var current=document.getElementById('topViewJump') ? document.getElementById('topViewJump').value : '';
+    if(current==='command' && !document.getElementById('finBenchmarkQuickRead') && typeof render === 'function') setTimeout(function(){render('command');},0);
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else init();
+})();
+</script>
+<!-- /FIN benchmark interpretation patch -->
+<!-- FIN city financial outlook video patch - added 2026-06-08 -->
+<style id="fin-citys-outlook-video-style">
+.fin-citys-video{border:1px solid #b9cce2;border-radius:16px;background:linear-gradient(135deg,#ffffff 0%,#edf6ff 100%);box-shadow:var(--shadow);padding:16px;margin:0 0 16px}
+.fin-citys-video-grid{display:grid;grid-template-columns:minmax(300px,.8fr) minmax(460px,1.2fr);gap:15px;align-items:stretch}
+.fin-citys-video-copy{border:1px solid #d6e4f5;border-radius:13px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.fin-citys-video-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#0a55a7;font-weight:900}
+.fin-citys-video-copy h3{margin:5px 0 8px;color:#061e45;font-size:23px;line-height:1.08;letter-spacing:-.02em}
+.fin-citys-video-copy p{margin:0;color:#244267;font-size:13.5px;line-height:1.48}
+.fin-citys-video-tags{display:flex;flex-wrap:wrap;gap:7px}.fin-citys-video-tags span{border:1px solid #c5d8ee;background:#f7fbff;border-radius:999px;padding:6px 8px;font-family:var(--mono);font-size:9px;font-weight:900;color:#0a3267;text-transform:uppercase;letter-spacing:.05em}
+.fin-citys-video-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.fin-citys-video-meta div{border:1px solid #d6e4f5;border-radius:11px;background:#f7fbff;padding:10px}.fin-citys-video-meta b{display:block;color:#061e45;font-size:17px;line-height:1}.fin-citys-video-meta span{display:block;margin-top:4px;color:#52677f;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;font-weight:900}
+.fin-citys-video-frame{border:1px solid #061e45;border-radius:14px;background:#000;overflow:hidden;box-shadow:0 16px 34px rgba(6,34,71,.18)}
+.fin-citys-video-frame video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+@media(max-width:1180px){.fin-citys-video-grid{grid-template-columns:1fr}.fin-citys-video-meta{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.fin-citys-video{padding:10px;border-radius:13px}.fin-citys-video-copy{padding:13px}.fin-citys-video-copy h3{font-size:20px}.fin-citys-video-meta{grid-template-columns:1fr}.fin-citys-video-tags span{white-space:normal}}
+</style>
+<script id="fin-citys-outlook-video-script">
+(function(){
+  var SOURCE='citys-financial-outlook.mp4';
+  var POSTER='citys-financial-outlook-poster.png';
+  function citysOutlookVideo(){
+    return '<section class="fin-citys-video" id="finCitysOutlookVideo"><div class="fin-citys-video-grid"><div class="fin-citys-video-copy"><div><div class="fin-citys-video-kicker">Forecast & Analysis Deep Dive</div><h3>City\'s Financial Outlook</h3><p>A longer explainer for the forecast pipeline, certified free cash trajectory, key watch areas, and the fiscal flexibility questions behind the numbers in this section.</p></div><div class="fin-citys-video-tags"><span>Forecast engine</span><span>Free cash</span><span>Flexibility</span><span>Watch areas</span></div><div class="fin-citys-video-meta"><div><b>7:30</b><span>video length</span></div><div><b>1280x720</b><span>source format</span></div><div><b>Unedited</b><span>source video</span></div></div></div><div class="fin-citys-video-frame"><video id="finCitysOutlookPlayer" preload="metadata" controls playsinline poster="'+POSTER+'"><source src="'+SOURCE+'" type="video/mp4"></video></div></div></section>';
+  }
+  function install(){
+    if(typeof VIEWS !== 'undefined' && VIEWS.forecast && !VIEWS.forecast.__finCitysVideoWrapped){
+      var old=VIEWS.forecast, oldAfter=VIEWS.forecast.after;
+      VIEWS.forecast=function(){return citysOutlookVideo()+old();};
+      VIEWS.forecast.__finCitysVideoWrapped=true;
+      VIEWS.forecast.after=function(){ if(oldAfter) oldAfter(); };
+      if(typeof render==='function'){
+        var current=document.getElementById('topViewJump') && document.getElementById('topViewJump').value;
+        if(current==='forecast' && !document.getElementById('finCitysOutlookVideo')) setTimeout(function(){render('forecast');},0);
+      }
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else install();
+})();
+</script>
+<!-- /FIN city financial outlook video patch -->
+<!-- FIN fiscal health video patch - added 2026-06-08 -->
+<style id="fin-fiscal-health-video-style">
+.fin-health-video{border:1px solid #d7c3e7;border-radius:16px;background:linear-gradient(135deg,#fff 0%,#fff7fd 48%,#f4f9ff 100%);box-shadow:var(--shadow);padding:16px;margin:0 0 16px}
+.fin-health-video-grid{display:grid;grid-template-columns:minmax(300px,.82fr) minmax(460px,1.18fr);gap:15px;align-items:stretch}
+.fin-health-video-copy{border:1px solid #ead5f0;border-radius:13px;background:#fff;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.fin-health-video-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#8a327f;font-weight:900}
+.fin-health-video-copy h3{margin:5px 0 8px;color:#061e45;font-size:23px;line-height:1.08;letter-spacing:-.02em}
+.fin-health-video-copy p{margin:0;color:#244267;font-size:13.5px;line-height:1.48}
+.fin-health-video-tags{display:flex;flex-wrap:wrap;gap:7px}.fin-health-video-tags span{border:1px solid #e5c7ee;background:#fff8fd;border-radius:999px;padding:6px 8px;font-family:var(--mono);font-size:9px;font-weight:900;color:#642866;text-transform:uppercase;letter-spacing:.05em}
+.fin-health-video-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.fin-health-video-meta div{border:1px solid #e6d5ef;border-radius:11px;background:#fff8fd;padding:10px}.fin-health-video-meta b{display:block;color:#061e45;font-size:17px;line-height:1}.fin-health-video-meta span{display:block;margin-top:4px;color:#52677f;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;font-weight:900}
+.fin-health-video-frame{border:1px solid #061e45;border-radius:14px;background:#000;overflow:hidden;box-shadow:0 16px 34px rgba(6,34,71,.18)}
+.fin-health-video-frame video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+@media(max-width:1180px){.fin-health-video-grid{grid-template-columns:1fr}.fin-health-video-meta{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.fin-health-video{padding:10px;border-radius:13px}.fin-health-video-copy{padding:13px}.fin-health-video-copy h3{font-size:20px}.fin-health-video-meta{grid-template-columns:1fr}.fin-health-video-tags span{white-space:normal}}
+</style>
+<script id="fin-fiscal-health-video-script">
+(function(){
+  var SOURCE='cambridge-fiscal-health.mp4';
+  var POSTER='cambridge-fiscal-health-poster.png';
+  function fiscalHealthVideo(){
+    return '<section class="fin-health-video" id="finFiscalHealthVideo"><div class="fin-health-video-grid"><div class="fin-health-video-copy"><div><div class="fin-health-video-kicker">Revenue / Levy Outlook Deep Dive</div><h3>Cambridge Fiscal Health</h3><p>A longer explainer for property tax levy, levy-limit headroom, commercial tax-base softness, and the model pipeline behind the revenue scenario controls.</p></div><div class="fin-health-video-tags"><span>Property tax levy</span><span>Levy-limit headroom</span><span>Commercial tax base</span><span>Policy flexibility</span></div><div class="fin-health-video-meta"><div><b>9:24</b><span>video length</span></div><div><b>1280x720</b><span>source format</span></div><div><b>Unedited</b><span>source video</span></div></div></div><div class="fin-health-video-frame"><video id="finFiscalHealthPlayer" preload="metadata" controls playsinline poster="'+POSTER+'"><source src="'+SOURCE+'" type="video/mp4"></video></div></div></section>';
+  }
+  function install(){
+    if(typeof VIEWS !== 'undefined' && VIEWS.scenario && !VIEWS.scenario.__finFiscalHealthWrapped){
+      var old=VIEWS.scenario, oldAfter=VIEWS.scenario.after;
+      VIEWS.scenario=function(){return fiscalHealthVideo()+old();};
+      VIEWS.scenario.__finFiscalHealthWrapped=true;
+      VIEWS.scenario.after=function(){ if(oldAfter) oldAfter(); };
+      if(typeof render==='function'){
+        var current=document.getElementById('topViewJump') && document.getElementById('topViewJump').value;
+        if(current==='scenario' && !document.getElementById('finFiscalHealthVideo')) setTimeout(function(){render('scenario');},0);
+      }
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else install();
+})();
+</script>
+<!-- /FIN fiscal health video patch -->
+<!-- FIN fiscal iceberg video patch - added 2026-06-08 -->
+<style id="fin-fiscal-iceberg-video-style">
+.fin-iceberg-video{border:1px solid #c9d8e8;border-radius:8px;background:linear-gradient(135deg,#ffffff 0%,#f5f9ff 52%,#fff8ec 100%);box-shadow:var(--shadow);padding:14px;margin:0 0 16px}
+.fin-iceberg-video-grid{display:grid;grid-template-columns:minmax(300px,.82fr) minmax(460px,1.18fr);gap:14px;align-items:stretch}
+.fin-iceberg-video-copy{border:1px solid #d6e0eb;border-radius:8px;background:#fff;padding:15px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.fin-iceberg-video-kicker{font-family:var(--mono);font-size:10px;letter-spacing:0;text-transform:uppercase;color:#285c78;font-weight:900}
+.fin-iceberg-video-copy h3{margin:5px 0 8px;color:#061e45;font-size:23px;line-height:1.08;letter-spacing:0}
+.fin-iceberg-video-copy p{margin:0;color:#244267;font-size:13.5px;line-height:1.48}
+.fin-iceberg-video-tags{display:flex;flex-wrap:wrap;gap:7px}
+.fin-iceberg-video-tags span{border:1px solid #d6e0eb;background:#f7fbff;border-radius:999px;padding:6px 8px;font-family:var(--mono);font-size:9px;font-weight:900;color:#244267;text-transform:uppercase;letter-spacing:0}
+.fin-iceberg-video-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fin-iceberg-video-meta div{border:1px solid #d6e0eb;border-radius:8px;background:#f7fbff;padding:10px}
+.fin-iceberg-video-meta b{display:block;color:#061e45;font-size:17px;line-height:1}
+.fin-iceberg-video-meta span{display:block;margin-top:4px;color:#52677f;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0;font-weight:900}
+.fin-iceberg-video-frame{border:1px solid #061e45;border-radius:8px;background:#000;overflow:hidden;box-shadow:0 16px 34px rgba(6,34,71,.18)}
+.fin-iceberg-video-frame video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+@media(max-width:1180px){.fin-iceberg-video-grid{grid-template-columns:1fr}.fin-iceberg-video-meta{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.fin-iceberg-video{padding:10px}.fin-iceberg-video-copy{padding:13px}.fin-iceberg-video-copy h3{font-size:20px}.fin-iceberg-video-meta{grid-template-columns:1fr}.fin-iceberg-video-tags span{white-space:normal}}
+</style>
+<script id="fin-fiscal-iceberg-video-script">
+(function(){
+  var SOURCE='the-fiscal-iceberg.mp4';
+  var POSTER='the-fiscal-iceberg-poster.png';
+  function fiscalIcebergVideo(){
+    return '<section class="fin-iceberg-video" id="finFiscalIcebergVideo"><div class="fin-iceberg-video-grid"><div class="fin-iceberg-video-copy"><div><div class="fin-iceberg-video-kicker">Reserves &amp; Flexibility Deep Dive</div><h3>The Fiscal Iceberg</h3><p>A visual briefing on hidden fiscal pressure: levy headroom, free-cash volatility, reserve flexibility, and the discipline of keeping recurring costs funded by recurring revenue.</p></div><div class="fin-iceberg-video-tags"><span>Levy headroom</span><span>Free cash volatility</span><span>Reserve flexibility</span><span>Recurring costs</span></div><div class="fin-iceberg-video-meta"><div><b>6:34</b><span>video length</span></div><div><b>1280x720</b><span>source format</span></div><div><b>Unedited</b><span>source video</span></div></div></div><div class="fin-iceberg-video-frame"><video id="finFiscalIcebergPlayer" preload="metadata" controls playsinline poster="'+POSTER+'"><source src="'+SOURCE+'" type="video/mp4"></video></div></div></section>';
+  }
+  function install(){
+    if(typeof VIEWS !== 'undefined' && VIEWS.montecarlo && !VIEWS.montecarlo.__finFiscalIcebergWrapped){
+      var old=VIEWS.montecarlo, oldAfter=VIEWS.montecarlo.after;
+      VIEWS.montecarlo=function(){return fiscalIcebergVideo()+old();};
+      VIEWS.montecarlo.__finFiscalIcebergWrapped=true;
+      VIEWS.montecarlo.after=function(){ if(oldAfter) oldAfter(); };
+      if(typeof render==='function'){
+        var current=document.getElementById('topViewJump') && document.getElementById('topViewJump').value;
+        if(current==='montecarlo' && !document.getElementById('finFiscalIcebergVideo')) setTimeout(function(){render('montecarlo');},0);
+      }
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else install();
+})();
+</script>
+<!-- /FIN fiscal iceberg video patch -->
+<!-- FIN resilience mandate video patch - added 2026-06-09 -->
+<style id="fin-resilience-video-style">
+.fin-resilience-video{border:1px solid #d8c7e8;border-radius:8px;background:linear-gradient(135deg,#ffffff 0%,#fff7fd 50%,#f4f9ff 100%);box-shadow:var(--shadow);padding:14px;margin:0 0 16px}
+.fin-resilience-video-grid{display:grid;grid-template-columns:minmax(300px,.82fr) minmax(460px,1.18fr);gap:14px;align-items:stretch}
+.fin-resilience-video-copy{border:1px solid #ead5f0;border-radius:8px;background:#fff;padding:15px;display:flex;flex-direction:column;justify-content:space-between;gap:14px}
+.fin-resilience-video-kicker{font-family:var(--mono);font-size:10px;letter-spacing:0;text-transform:uppercase;color:#8a327f;font-weight:900}
+.fin-resilience-video-copy h3{margin:5px 0 8px;color:#061e45;font-size:23px;line-height:1.08;letter-spacing:0}
+.fin-resilience-video-copy p{margin:0;color:#244267;font-size:13.5px;line-height:1.48}
+.fin-resilience-video-tags{display:flex;flex-wrap:wrap;gap:7px}
+.fin-resilience-video-tags span{border:1px solid #e5c7ee;background:#fff8fd;border-radius:999px;padding:6px 8px;font-family:var(--mono);font-size:9px;font-weight:900;color:#642866;text-transform:uppercase;letter-spacing:0}
+.fin-resilience-video-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fin-resilience-video-meta div{border:1px solid #e6d5ef;border-radius:8px;background:#fff8fd;padding:10px}
+.fin-resilience-video-meta b{display:block;color:#061e45;font-size:17px;line-height:1}
+.fin-resilience-video-meta span{display:block;margin-top:4px;color:#52677f;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0;font-weight:900}
+.fin-resilience-video-frame{border:1px solid #061e45;border-radius:8px;background:#000;overflow:hidden;box-shadow:0 16px 34px rgba(6,34,71,.18)}
+.fin-resilience-video-frame video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+@media(max-width:1180px){.fin-resilience-video-grid{grid-template-columns:1fr}.fin-resilience-video-meta{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.fin-resilience-video{padding:10px}.fin-resilience-video-copy{padding:13px}.fin-resilience-video-copy h3{font-size:20px}.fin-resilience-video-meta{grid-template-columns:1fr}.fin-resilience-video-tags span{white-space:normal}}
+</style>
+<script id="fin-resilience-mandate-video-script">
+(function(){
+  var SOURCE='the-resilience-mandate.mp4';
+  var POSTER='the-resilience-mandate-poster.png';
+  function resilienceVideo(){
+    return '<section class="fin-resilience-video" id="finResilienceVideo"><div class="fin-resilience-video-grid"><div class="fin-resilience-video-copy"><div><div class="fin-resilience-video-kicker">Civic Ops Resilience Briefing</div><h3>The Resilience Mandate</h3><p>A bridge into the operational cockpit: fiscal padding, transparent reporting, dynamic budgeting, and the automation pipeline that turns model outputs into management routines.</p></div><div class="fin-resilience-video-tags"><span>Dynamic budgeting</span><span>Automation pipeline</span><span>Transparency</span><span>Operating resilience</span></div><div class="fin-resilience-video-meta"><div><b>8:49</b><span>video length</span></div><div><b>1280x720</b><span>source format</span></div><div><b>Unedited</b><span>source video</span></div></div></div><div class="fin-resilience-video-frame"><video id="finResiliencePlayer" preload="metadata" controls playsinline poster="'+POSTER+'"><source src="'+SOURCE+'" type="video/mp4"></video></div></div></section>';
+  }
+  function install(){
+    if(typeof VIEWS !== 'undefined' && VIEWS.civicops && !VIEWS.civicops.__finResilienceWrapped){
+      var old=VIEWS.civicops, oldAfter=VIEWS.civicops.after;
+      VIEWS.civicops=function(){
+        var body=old();
+        var marker='<div class="divider"></div>';
+        if(typeof body==='string' && body.indexOf(marker)>=0) return body.replace(marker, marker+resilienceVideo());
+        return resilienceVideo()+body;
+      };
+      VIEWS.civicops.__finResilienceWrapped=true;
+      VIEWS.civicops.after=function(){ if(oldAfter) oldAfter(); };
+      if(typeof render==='function'){
+        var current=document.getElementById('topViewJump') && document.getElementById('topViewJump').value;
+        if(current==='civicops' && !document.getElementById('finResilienceVideo')) setTimeout(function(){render('civicops');},0);
+      }
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else install();
+})();
+</script>
+<!-- /FIN resilience mandate video patch -->
+<!-- FIN video introduction patch - added 2026-06-08 -->
+<style id="fin-video-intro-style">
+.fin-video-intro{border:1px solid #89add6;border-radius:20px;background:#061d3c;color:#fff;box-shadow:0 22px 54px rgba(6,29,60,.22);overflow:hidden;margin:0 0 18px}
+.fin-video-intro-grid{display:grid;grid-template-columns:minmax(360px,.84fr) minmax(420px,1.16fr);min-height:420px}
+.fin-video-intro-copy{position:relative;padding:28px;background-image:linear-gradient(90deg,rgba(6,29,60,.98),rgba(6,29,60,.92) 58%,rgba(6,29,60,.72)),url("cambridge-video-intro-poster.png");background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:space-between;gap:22px}
+.fin-video-intro-copy:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,0));pointer-events:none}
+.fin-video-intro-copy>*{position:relative;z-index:1}
+.fin-video-kicker{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#ffd56f;font-weight:900}
+.fin-video-intro-copy h2{margin:8px 0 10px;color:#fff;font-size:34px;line-height:1.04;letter-spacing:-.03em;max-width:11ch}
+.fin-video-intro-copy p{margin:0;color:#d6e5f7;font-size:14px;line-height:1.55;max-width:56ch}
+.fin-video-intro-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.fin-video-intro-meta div{border:1px solid rgba(255,255,255,.2);border-radius:13px;background:rgba(255,255,255,.10);padding:10px;backdrop-filter:blur(8px)}
+.fin-video-intro-meta b{display:block;color:#fff;font-size:18px;line-height:1}.fin-video-intro-meta span{display:block;margin-top:5px;color:#bfd3ec;font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:900}
+.fin-video-panel{background:#07172f;padding:16px;display:flex;flex-direction:column;gap:11px}
+.fin-video-frame{position:relative;border:1px solid rgba(255,255,255,.16);border-radius:16px;background:#000;overflow:hidden;box-shadow:0 18px 44px rgba(0,0,0,.34)}
+.fin-video-frame video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+.fin-video-chapters{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fin-video-chapters button{border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.09);color:#fff;padding:9px 10px;text-align:left;cursor:pointer;font-family:Cambria,Georgia,serif}
+.fin-video-chapters button:hover,.fin-video-chapters button.active{background:#fff;color:#062a56;border-color:#fff}
+.fin-video-chapters b{display:block;font-size:13px}.fin-video-chapters span{display:block;margin-top:3px;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;opacity:.8}
+.fin-video-note{color:#afc5df;font-size:11.5px;line-height:1.45;margin:0}
+.fin-exec-continuation{border:1px solid #bfd5ec;border-radius:8px;background:linear-gradient(135deg,#ffffff 0%,#f6fbff 52%,#fffaf0 100%);box-shadow:var(--shadow);padding:14px;margin:16px 0}
+.fin-exec-continuation-grid{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(430px,1.15fr);gap:14px;align-items:stretch}
+.fin-exec-continuation-copy{border:1px solid #d7e5f2;border-radius:8px;background:#fff;padding:15px;display:flex;flex-direction:column;gap:14px;justify-content:space-between}
+.fin-exec-continuation-kicker{font-family:var(--mono);font-size:10px;letter-spacing:0;text-transform:uppercase;color:#0753a6;font-weight:900}
+.fin-exec-continuation-copy h3{margin:5px 0 8px;color:#061e45;font-size:22px;line-height:1.08;letter-spacing:0}
+.fin-exec-continuation-copy p{margin:0;color:#244267;font-size:13.5px;line-height:1.48}
+.fin-exec-continuation-tags{display:flex;flex-wrap:wrap;gap:7px}
+.fin-exec-continuation-tags span{border:1px solid #cfe0f1;background:#f7fbff;border-radius:999px;padding:6px 8px;font-family:var(--mono);font-size:9px;font-weight:900;color:#244267;text-transform:uppercase;letter-spacing:0}
+.fin-exec-continuation-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.fin-exec-continuation-meta div{border:1px solid #d7e5f2;border-radius:8px;background:#f7fbff;padding:10px}
+.fin-exec-continuation-meta b{display:block;color:#061e45;font-size:17px;line-height:1}
+.fin-exec-continuation-meta span{display:block;margin-top:4px;color:#52677f;font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:0;font-weight:900}
+.fin-exec-continuation-frame{border:1px solid #061e45;border-radius:8px;background:#000;overflow:hidden;box-shadow:0 16px 34px rgba(6,34,71,.18)}
+.fin-exec-continuation-frame video{display:block;width:100%;aspect-ratio:16/9;background:#000}
+@media(max-width:1180px){.fin-video-intro-grid{grid-template-columns:1fr}.fin-video-intro-copy h2{max-width:16ch}.fin-video-intro-meta{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:1180px){.fin-exec-continuation-grid{grid-template-columns:1fr}.fin-exec-continuation-meta{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:720px){.fin-video-intro{border-radius:16px}.fin-video-intro-copy{padding:18px}.fin-video-intro-copy h2{font-size:26px;max-width:none}.fin-video-intro-meta,.fin-video-chapters{grid-template-columns:1fr}.fin-video-panel{padding:10px}.fin-exec-continuation{padding:10px}.fin-exec-continuation-copy{padding:13px}.fin-exec-continuation-copy h3{font-size:20px}.fin-exec-continuation-meta{grid-template-columns:1fr}.fin-exec-continuation-tags span{white-space:normal}}
+</style>
+<script id="fin-video-intro-script">
+(function(){
+  var SOURCE='cambridge-fiscal-outlook-briefing-source.mp4';
+  var VIDEO_START=0;
+  var POSTER='cambridge-video-intro-poster.png';
+  var CONT_SOURCE='city-of-cambridge-multi-year-financial-outlook.mp4';
+  var CONT_POSTER='city-of-cambridge-multi-year-financial-outlook-poster.png';
+  var chapters=[
+    {id:'full',label:'Full video',time:0,end:214,note:'Play the original briefing from the beginning.'},
+    {id:'methods',label:'Forecast method',time:15,end:106,note:'Model explanation and analytical framing.'},
+    {id:'risks',label:'Risk and benchmarks',time:106,end:214,note:'Later report narrative and decision context.'}
+  ];
+  function videoIntro(){
+    return '<section class="fin-video-intro" id="finVideoIntro"><div class="fin-video-intro-grid"><div class="fin-video-intro-copy"><div><div class="fin-video-kicker">City of Cambridge, Massachusetts</div><h2>Cambridge Fiscal Outlook</h2><p>Begin with the Cambridge fiscal outlook briefing, then continue into the interactive fiscal dashboard, benchmark guide, ZIP drilldown, work-plan calendar, and supporting analytics.</p></div><div class="fin-video-intro-meta"><div><b>FY23-FY30</b><span>briefing horizon</span></div><div><b>3:34</b><span>opening video</span></div><div><b>1 video</b><span>report opening</span></div></div></div><div class="fin-video-panel"><div class="fin-video-frame"><video id="finIntroVideo" preload="metadata" controls playsinline poster="'+POSTER+'"><source src="'+SOURCE+'" type="video/mp4"></video></div><div class="fin-video-chapters">'+chapters.map(function(c,i){return '<button type="button" class="'+(i===0?'active':'')+'" data-fin-video-start="'+c.time+'" data-fin-video-end="'+c.end+'"><b>'+c.label+'</b><span>'+c.time+'s - '+c.end+'s</span></button>';}).join('')+'</div><p class="fin-video-note">Use the chapter buttons for a short series-style presentation, or play the full video from the beginning.</p></div></div></section>';
+  }
+  function executiveContinuation(){
+    return '<section class="fin-exec-continuation" id="finExecutiveContinuationVideo"><div class="fin-exec-continuation-grid"><div class="fin-exec-continuation-copy"><div><div class="fin-exec-continuation-kicker">Executive Snapshot Follow-Up</div><h3>City of Cambridge Multi-Year Financial Outlook</h3><p>A compact follow-up to the opening: this belongs after the top indicators so viewers first see the dashboard numbers, then hear the short multi-year framing in context.</p></div><div class="fin-exec-continuation-tags"><span>Executive context</span><span>Multi-year outlook</span><span>Dashboard bridge</span><span>Follow-up briefing</span></div><div class="fin-exec-continuation-meta"><div><b>2:33</b><span>video length</span></div><div><b>1280x720</b><span>source format</span></div><div><b>Unedited</b><span>source video</span></div></div></div><div class="fin-exec-continuation-frame"><video id="finContinuationVideo" preload="metadata" controls playsinline poster="'+CONT_POSTER+'"><source src="'+CONT_SOURCE+'" type="video/mp4"></video></div></div></section>';
+  }
+  function placeExecutiveContinuation(body){
+    if(typeof body!=='string' || body.indexOf('finExecutiveContinuationVideo')>=0) return body;
+    var marker='<section class="year-rail">';
+    if(body.indexOf(marker)>=0) return body.replace(marker, executiveContinuation()+marker);
+    return body+executiveContinuation();
+  }
+  function bindVideoIntro(){
+    var video=document.getElementById('finIntroVideo');
+    if(!video || video.dataset.finVideoBound) return;
+    video.dataset.finVideoBound='1';
+    var activeEnd=chapters[0].end;
+    video.addEventListener('loadedmetadata',function(){
+      if(!video.currentTime) { try{video.currentTime=VIDEO_START;}catch(_e){} }
+    });
+    video.addEventListener('timeupdate',function(){
+      if(activeEnd && video.currentTime >= activeEnd){ video.pause(); }
+    });
+    document.querySelectorAll('[data-fin-video-start]').forEach(function(btn){
+      if(btn.dataset.finVideoChapterBound) return;
+      btn.dataset.finVideoChapterBound='1';
+      btn.addEventListener('click',function(){
+        document.querySelectorAll('[data-fin-video-start]').forEach(function(b){b.classList.toggle('active',b===btn);});
+        activeEnd=Number(btn.getAttribute('data-fin-video-end')) || 0;
+        video.currentTime=Number(btn.getAttribute('data-fin-video-start')) || VIDEO_START;
+        video.play().catch(function(){});
+      });
+    });
+  }
+  function install(){
+    if(typeof VIEWS !== 'undefined' && VIEWS.command && !VIEWS.command.__finVideoIntroWrapped){
+      var old=VIEWS.command, oldAfter=VIEWS.command.after;
+      VIEWS.command=function(){return videoIntro()+placeExecutiveContinuation(old());};
+      VIEWS.command.__finVideoIntroWrapped=true;
+      VIEWS.command.after=function(){bindVideoIntro(); if(oldAfter) oldAfter();};
+      if(typeof render==='function'){
+        var current=document.getElementById('topViewJump') && document.getElementById('topViewJump').value;
+        if(!document.getElementById('finVideoIntro') && (!current || current==='command')) setTimeout(function(){render('command');},0);
+      }
+    } else if(!document.getElementById('finVideoIntro')){
+      var content=document.getElementById('content');
+      var view=content && content.querySelector('.view.active');
+      if(view) { view.insertAdjacentHTML('afterbegin', videoIntro()); bindVideoIntro(); }
+    }
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else install();
+})();
+</script>
+<!-- /FIN video introduction patch -->
 </body></html>
