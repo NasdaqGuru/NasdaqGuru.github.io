@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>HUIT AI Enablement Dashboard — Harvard University</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root{
+  --crimson:#A51C30;--crimson-dark:#7b1322;--crimson-light:#f9eced;
+  --navy:#1a2744;--navy-light:#eef0f5;--gold:#c4a44a;
+  --pos:#1e6b38;--pos-bg:#e8f5ee;--neg:#9b2020;--neg-bg:#fdeaea;
+  --warn:#8a5c00;--warn-bg:#fef8e6;--blue:#1a5fa8;--blue-bg:#e8f0fb;
+  --purple:#5530a0;--purple-bg:#f0eafc;--teal:#0d7377;--teal-bg:#e0f5f5;
+  --gray-50:#f8f7f4;--gray-100:#eeece6;--gray-200:#d6d3ca;
+  --gray-400:#9e9b92;--gray-600:#5c5a54;--gray-800:#2e2d2a;
+  --font:-apple-system,'Segoe UI',Arial,sans-serif;
+  --r:8px;--rl:12px;--sh:0 1px 3px rgba(0,0,0,.08),0 1px 2px rgba(0,0,0,.04);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:var(--font);background:var(--gray-50);color:var(--gray-800);font-size:13px;line-height:1.5;min-height:100vh;}
+
+/* TOP BAR */
+.top-bar{background:linear-gradient(135deg,var(--navy) 0%,#0d1b3e 100%);color:#fff;padding:11px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.top-bar h1{font-size:14px;font-weight:600;}
+.top-bar p{font-size:11px;opacity:.55;margin-top:1px;}
+.hcrest{width:32px;height:32px;background:var(--crimson);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0;}
+.ai-badge{background:linear-gradient(135deg,#5530a0,#1a5fa8);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:10px;letter-spacing:.4px;}
+.ts-pill{font-size:10px;color:rgba(255,255,255,.5);background:rgba(255,255,255,.08);border-radius:4px;padding:3px 8px;}
+.ts-pill span{color:rgba(255,255,255,.85);font-weight:500;}
+.refresh-btn{background:var(--crimson);border:none;color:#fff;padding:5px 12px;border-radius:5px;font-size:11px;cursor:pointer;font-weight:500;}
+
+/* SIDEBAR */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(10,15,30,.5);z-index:1300;display:none;}
+.sidebar-overlay.show{display:block;}
+.left-sidebar{position:fixed;top:0;left:-258px;bottom:0;width:258px;background:var(--navy);z-index:1400;display:flex;flex-direction:column;transition:left .24s cubic-bezier(.4,0,.2,1);}
+.left-sidebar.open{left:0;box-shadow:6px 0 28px rgba(0,0,0,.35);}
+.sb-brand{padding:14px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:space-between;}
+.sb-brand-title{font-size:12px;font-weight:700;color:#fff;}
+.sb-brand-sub{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px;}
+.sb-close{background:rgba(255,255,255,.1);border:none;width:26px;height:26px;border-radius:50%;color:rgba(255,255,255,.7);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.sb-group{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);padding:12px 16px 4px;}
+.sb-list{flex:1;overflow-y:auto;padding-bottom:16px;scrollbar-width:none;}
+.sb-list::-webkit-scrollbar{display:none;}
+.sb-item{display:flex;align-items:center;gap:9px;padding:9px 16px;cursor:pointer;color:rgba(255,255,255,.6);font-size:11px;font-weight:500;border-left:3px solid transparent;transition:all .12s;}
+.sb-item:hover{background:rgba(255,255,255,.07);color:#fff;}
+.sb-item.active{background:rgba(165,28,48,.25);color:#fff;border-left-color:var(--crimson);}
+.sb-icon{font-size:13px;width:18px;text-align:center;}
+.sb-tag{margin-left:auto;font-size:9px;background:rgba(255,255,255,.12);padding:1px 6px;border-radius:8px;color:rgba(255,255,255,.45);}
+.sb-footer{padding:10px 16px;border-top:1px solid rgba(255,255,255,.1);font-size:10px;color:rgba(255,255,255,.3);}
+
+/* TAB NAV */
+.tab-nav{background:#fff;border-bottom:1.5px solid var(--gray-100);padding:0 10px;display:flex;position:sticky;top:0;z-index:100;box-shadow:0 1px 4px rgba(0,0,0,.06);overflow-x:auto;white-space:nowrap;scrollbar-width:none;}
+.tab-nav::-webkit-scrollbar{display:none;}
+.sb-toggle{flex-shrink:0;padding:0 13px;background:none;border:none;border-right:1px solid var(--gray-100);cursor:pointer;font-size:15px;color:var(--gray-400);display:flex;align-items:center;transition:color .12s;}
+.sb-toggle:hover{color:var(--navy);}
+.tab-btn{padding:10px 13px;background:none;border:none;border-bottom:3px solid transparent;font-size:11px;font-weight:500;color:var(--gray-400);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.tab-btn:hover{color:var(--gray-600);}
+.tab-btn.active{color:var(--crimson);border-bottom-color:var(--crimson);}
+
+/* CONTENT */
+.tab-panel{display:none;padding:22px 26px 40px;}
+.tab-panel.active{display:block;}
+.section-label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--gray-400);margin-bottom:10px;margin-top:20px;}
+.section-label:first-child{margin-top:0;}
+
+/* CARDS */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px;margin-bottom:6px;}
+.kpi-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--r);padding:13px 15px;box-shadow:var(--sh);position:relative;}
+.kpi-card.accent::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--crimson),var(--purple));border-radius:var(--r) var(--r) 0 0;}
+.kpi-label{font-size:10px;color:var(--gray-400);font-weight:500;letter-spacing:.3px;text-transform:uppercase;margin-bottom:5px;}
+.kpi-value{font-size:22px;font-weight:700;color:var(--gray-800);line-height:1;font-variant-numeric:tabular-nums;}
+.kpi-sub{font-size:10px;margin-top:5px;display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-weight:500;}
+.kpi-sub.pos{background:var(--pos-bg);color:var(--pos);}
+.kpi-sub.neg{background:var(--neg-bg);color:var(--neg);}
+.kpi-sub.neu{background:var(--gray-100);color:var(--gray-600);}
+.kpi-sub.info{background:var(--blue-bg);color:var(--blue);}
+.kpi-sub.warn{background:var(--warn-bg);color:var(--warn);}
+.kpi-sub.ai{background:var(--purple-bg);color:var(--purple);}
+
+.chart-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:16px 18px;box-shadow:var(--sh);}
+.chart-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;}
+.chart-title{font-size:13px;font-weight:600;color:var(--gray-800);}
+.chart-subtitle{font-size:11px;color:var(--gray-400);margin-top:2px;}
+.chart-legend{display:flex;flex-wrap:wrap;gap:10px;font-size:11px;color:var(--gray-600);margin-bottom:8px;}
+.chart-legend span{display:flex;align-items:center;gap:4px;}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;}
+@media(max-width:700px){.two-col,.three-col{grid-template-columns:1fr;}}
+
+/* TABLES */
+.table-wrap{overflow-x:auto;}
+.dt{width:100%;border-collapse:collapse;font-size:12px;min-width:480px;}
+.dt th{text-align:left;padding:7px 11px;font-size:10px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--gray-400);border-bottom:1.5px solid var(--gray-200);white-space:nowrap;background:var(--gray-50);}
+.dt th.r,.dt td.r{text-align:right;}
+.dt th.c,.dt td.c{text-align:center;}
+.dt td{padding:8px 11px;color:var(--gray-800);border-bottom:1px solid var(--gray-100);white-space:nowrap;}
+.dt tr:hover td{background:var(--gray-50);}
+.dt tr.total td{font-weight:700;border-top:1.5px solid var(--gray-200);background:var(--gray-50);}
+.vpos{color:var(--pos);font-weight:500;}
+.vneg{color:var(--neg);font-weight:500;}
+.vwarn{color:var(--warn);font-weight:500;}
+
+/* BADGES */
+.b{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;}
+.b-green{background:var(--pos-bg);color:var(--pos);}
+.b-red{background:var(--neg-bg);color:var(--neg);}
+.b-amber{background:var(--warn-bg);color:var(--warn);}
+.b-blue{background:var(--blue-bg);color:var(--blue);}
+.b-purple{background:var(--purple-bg);color:var(--purple);}
+.b-teal{background:var(--teal-bg);color:var(--teal);}
+.b-gray{background:var(--gray-100);color:var(--gray-600);}
+.b-ai{background:linear-gradient(135deg,#f0eafc,#e8f0fb);color:var(--purple);border:1px solid rgba(85,48,160,.2);}
+
+/* PROG */
+.prog{height:6px;background:var(--gray-100);border-radius:3px;overflow:hidden;min-width:60px;}
+.prog-fill{height:100%;border-radius:3px;}
+
+/* TOOL CARD */
+.tool-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:16px;box-shadow:var(--sh);display:flex;flex-direction:column;gap:10px;}
+.tool-header{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.tool-logo{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.tool-name{font-size:13px;font-weight:700;color:var(--gray-800);}
+.tool-vendor{font-size:10px;color:var(--gray-400);margin-top:1px;}
+.tool-stat{display:flex;justify-content:space-between;font-size:11px;padding:4px 0;border-bottom:1px solid var(--gray-100);color:var(--gray-700);}
+.tool-stat:last-child{border-bottom:none;}
+.tool-stat-val{font-weight:600;color:var(--gray-800);}
+.util-bar{height:8px;background:var(--gray-100);border-radius:4px;overflow:hidden;margin-top:4px;}
+.util-fill{height:100%;border-radius:4px;}
+
+/* EVAL CARD */
+.eval-card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:14px;box-shadow:var(--sh);}
+.eval-stage{font-size:10px;padding:2px 8px;border-radius:8px;font-weight:600;}
+
+/* RISK CARD */
+.risk-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--gray-100);}
+.risk-item:last-child{border-bottom:none;}
+.risk-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px;}
+.risk-body{flex:1;}
+.risk-title{font-size:12px;font-weight:600;color:var(--gray-800);}
+.risk-desc{font-size:11px;color:var(--gray-600);margin-top:2px;line-height:1.5;}
+
+/* EXEC BOX */
+.exec-box{background:var(--crimson-light);border:1px solid rgba(165,28,48,.15);border-left:4px solid var(--crimson);border-radius:0 var(--r) var(--r) 0;padding:14px 16px;margin-bottom:14px;}
+.exec-box h3{font-size:11px;font-weight:700;color:var(--crimson);letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;}
+.exec-item{display:flex;gap:9px;margin-bottom:7px;font-size:12px;line-height:1.6;}
+.exec-dot{width:7px;height:7px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+
+/* PROVISIONING */
+.req-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray-100);font-size:12px;}
+.req-item:last-child{border-bottom:none;}
+.req-num{font-size:10px;font-family:monospace;color:var(--gray-400);width:90px;flex-shrink:0;}
+
+/* CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:16px;}
+@media(max-width:900px){.cal-grid{grid-template-columns:repeat(2,1fr);}}
+.cal-month{background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:11px;box-shadow:var(--sh);cursor:pointer;}
+.cal-month.current{border-color:var(--crimson);}
+.cal-month-hdr{font-size:12px;font-weight:600;color:var(--gray-800);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;}
+.cal-month-cnt{font-size:10px;background:var(--crimson-light);color:var(--crimson);padding:1px 6px;border-radius:8px;font-weight:600;}
+.cal-mini{display:grid;grid-template-columns:repeat(7,1fr);gap:1px;}
+.cal-dow{font-size:8px;color:var(--gray-400);text-align:center;padding:2px 0;font-weight:500;}
+.cal-day{font-size:9px;text-align:center;padding:2px 1px;border-radius:3px;min-height:14px;position:relative;}
+.cal-day.today{background:var(--crimson);color:#fff;border-radius:50%;font-weight:700;}
+.cal-day.has-ev::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--crimson);}
+.cal-dots{display:flex;gap:3px;flex-wrap:wrap;margin-top:5px;}
+.cal-dot{width:8px;height:8px;border-radius:50%;}
+.cal-popup{position:fixed;z-index:4000;background:#fff;border-radius:var(--rl);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:14px;width:290px;max-width:90vw;border-top:4px solid var(--crimson);display:none;}
+.cal-popup.show{display:block;}
+
+/* EXPORT FAB */
+.export-fab{position:fixed;bottom:26px;right:26px;z-index:1500;background:var(--pos);color:#fff;border:none;border-radius:50px;padding:10px 16px 10px 13px;font-size:11px;font-weight:600;cursor:pointer;box-shadow:0 4px 16px rgba(30,107,56,.35);display:flex;align-items:center;gap:6px;transition:all .15s;}
+.export-fab:hover{background:#165d2a;transform:translateY(-1px);}
+
+/* FOOTER */
+.footer{background:var(--navy);color:rgba(255,255,255,.4);font-size:10px;padding:9px 22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;}
+
+/* GAUGE RING */
+.gauge-ring{position:relative;width:64px;height:64px;flex-shrink:0;}
+.gauge-ring svg{transform:rotate(-90deg);}
+.gauge-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;}
+
+@keyframes spin{to{transform:rotate(360deg);}}
+@media print{.tab-nav,.footer,.export-fab,.left-sidebar,.sidebar-overlay{display:none;}.tab-panel{display:block!important;page-break-before:always;}.tab-panel:first-of-type{page-break-before:auto;}}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sb_ov" onclick="closeSB()"></div>
+<nav class="left-sidebar" id="left_sb">
+  <div class="sb-brand">
+    <div><div class="sb-brand-title">HUIT AI Enablement Dashboard</div><div class="sb-brand-sub">Harvard University IT · FY2026</div></div>
+    <button class="sb-close" onclick="closeSB()">✕</button>
+  </div>
+  <div class="sb-list">
+    <div class="sb-group">Service Operations</div>
+    <div class="sb-item active" id="sn_overview"   onclick="sNav('overview',this)"><span class="sb-icon">📊</span>AI Portfolio Overview</div>
+    <div class="sb-item" id="sn_licenses"           onclick="sNav('licenses',this)"><span class="sb-icon">🔑</span>License Management<span class="sb-tag">Live</span></div>
+    <div class="sb-item" id="sn_provisioning"       onclick="sNav('provisioning',this)"><span class="sb-icon">⚙️</span>Provisioning Queue</div>
+    <div class="sb-group">Financial & Governance</div>
+    <div class="sb-item" id="sn_financial"          onclick="sNav('financial',this)"><span class="sb-icon">💰</span>Financial Stewardship</div>
+    <div class="sb-item" id="sn_risk"               onclick="sNav('risk',this)"><span class="sb-icon">🛡️</span>Risk & Governance</div>
+    <div class="sb-group">Growth & Strategy</div>
+    <div class="sb-item" id="sn_adoption"           onclick="sNav('adoption',this)"><span class="sb-icon">📈</span>Adoption Analytics</div>
+    <div class="sb-item" id="sn_pipeline"           onclick="sNav('pipeline',this)"><span class="sb-icon">🚀</span>Tool Evaluation Pipeline</div>
+    <div class="sb-item" id="sn_calendar"           onclick="sNav('calendar',this)"><span class="sb-icon">📅</span>AI Program Calendar</div>
+  </div>
+  <div class="sb-footer">Source: ServiceNow · Vendor APIs · Oracle · <span id="sb_ts">—</span></div>
+</nav>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <div class="hcrest">H</div>
+    <div>
+      <h1>HUIT AI Enablement Dashboard — Enterprise AI Program</h1>
+      <p>Harvard University Information Technology · AI Enablement Lead Work Sample · Confidential</p>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="ai-badge">🤖 AI Service Owner</span>
+    <div class="ts-pill">Updated: <span id="ts_d">—</span></div>
+    <button class="refresh-btn" onclick="refreshTs()">↻ Refresh</button>
+  </div>
+</div>
+
+<!-- TAB NAV -->
+<nav class="tab-nav" role="tablist">
+  <button class="sb-toggle" onclick="toggleSB()">☰</button>
+  <button class="tab-btn active" onclick="switchTab('overview',this)">📊 AI Portfolio</button>
+  <button class="tab-btn" onclick="switchTab('licenses',this)">🔑 License Mgmt</button>
+  <button class="tab-btn" onclick="switchTab('provisioning',this)">⚙️ Provisioning</button>
+  <button class="tab-btn" onclick="switchTab('financial',this)">💰 Financial</button>
+  <button class="tab-btn" onclick="switchTab('risk',this)">🛡️ Risk & Governance</button>
+  <button class="tab-btn" onclick="switchTab('adoption',this)">📈 Adoption Analytics</button>
+  <button class="tab-btn" onclick="switchTab('pipeline',this)">🚀 Tool Pipeline</button>
+  <button class="tab-btn" onclick="switchTab('calendar',this)">📅 AI Calendar</button>
+</nav>
+
+<!-- ═══ TAB 1: OVERVIEW ═══ -->
+<section class="tab-panel active" id="tab-overview">
+  <div class="section-label">Harvard Enterprise AI Portfolio — Key Metrics · May 2026</div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Total Managed Licenses</div><div class="kpi-value">15,685</div><div class="kpi-sub ai">6 AI platforms</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Users (MAU)</div><div class="kpi-value">7,422</div><div class="kpi-sub pos">47.3% utilization</div></div>
+    <div class="kpi-card"><div class="kpi-label">Annual AI Tool Spend</div><div class="kpi-value">$2.41M</div><div class="kpi-sub pos">▼ $190K under budget</div></div>
+    <div class="kpi-card"><div class="kpi-label">Schools / Units Served</div><div class="kpi-value">18</div><div class="kpi-sub neu">All Harvard schools</div></div>
+    <div class="kpi-card"><div class="kpi-label">Open Prov. Requests</div><div class="kpi-value">47</div><div class="kpi-sub warn">Avg 2.3 days SLA</div></div>
+    <div class="kpi-card"><div class="kpi-label">Tools in Risk Review</div><div class="kpi-value">4</div><div class="kpi-sub info">ISDP assessment active</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Pilot Programs</div><div class="kpi-value">3</div><div class="kpi-sub ai">Evaluation stage</div></div>
+    <div class="kpi-card"><div class="kpi-label">Cost per Active User</div><div class="kpi-value">$325/yr</div><div class="kpi-sub pos">▼ −$42 vs. FY2025</div></div>
+  </div>
+
+  <div class="section-label">Enterprise AI Tool Portfolio</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px;" id="tool_cards_grid"></div>
+
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Monthly Active Users — All Platforms</div><div class="chart-subtitle">FY2026 growth trend across managed AI tools</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:#5530a0;"></span>ChatGPT Enterprise</span><span><span class="leg-dot" style="background:#A51C30;"></span>Claude Enterprise</span><span><span class="leg-dot" style="background:#1a5fa8;"></span>M365 Copilot</span></div>
+      <div style="position:relative;height:220px;"><canvas id="c_mau_trend"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">AI Spend by Platform — FY2026</div><div class="chart-subtitle">Annual cost allocation across managed tools</div></div></div>
+      <div style="position:relative;height:220px;"><canvas id="c_spend_mix"></canvas></div>
+    </div>
+  </div>
+
+  <div class="exec-box">
+    <h3>AI Program Executive Summary — May 2026</h3>
+    <div class="exec-item"><div class="exec-dot" style="background:var(--pos);"></div><div><strong>Portfolio is on track:</strong> 7,422 active users across 6 platforms, 47.3% license utilization, and annual spend of $2.41M — $190K favorable vs. the $2.6M budget. Cost per active user decreased from $367 to $325 over FY2026 as adoption grew without proportional license increases.</div></div>
+    <div class="exec-item"><div class="exec-dot" style="background:var(--purple);"></div><div><strong>Claude Enterprise growing fastest:</strong> Monthly active users increased 28% over 90 days, driven by HUIT Finance, FAS, and HMS adoption of API-connected workflows. Utilization rate (77.5%) is the highest in the portfolio.</div></div>
+    <div class="exec-item"><div class="exec-dot" style="background:var(--warn);"></div><div><strong>M365 Copilot underutilization requires action:</strong> Only 35.6% of the 11,800-license Copilot fleet is actively used monthly. A targeted enablement campaign and use-case library are planned for Q3 to increase adoption across administrative units.</div></div>
+    <div class="exec-item"><div class="exec-dot" style="background:var(--blue);"></div><div><strong>3 pilot programs progressing:</strong> Perplexity Enterprise, NotebookLM Teams, and a custom Claude-API research assistant are in structured pilots. Evaluation frameworks and governance reviews are in progress for all three.</div></div>
+  </div>
+</section>
+
+<!-- ═══ TAB 2: LICENSE MANAGEMENT ═══ -->
+<section class="tab-panel" id="tab-licenses">
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Total Licenses Managed</div><div class="kpi-value">15,685</div><div class="kpi-sub ai">6 platforms</div></div>
+    <div class="kpi-card"><div class="kpi-label">Licenses Assigned</div><div class="kpi-value">13,940</div><div class="kpi-sub pos">88.9% assigned</div></div>
+    <div class="kpi-card"><div class="kpi-label">Unassigned / Pooled</div><div class="kpi-value">1,745</div><div class="kpi-sub neu">Reserve pool</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active (MAU)</div><div class="kpi-value">7,422</div><div class="kpi-sub info">47.3% of total</div></div>
+    <div class="kpi-card"><div class="kpi-label">Licenses Expiring <90d</div><div class="kpi-value">3</div><div class="kpi-sub warn">Renewals due</div></div>
+    <div class="kpi-card"><div class="kpi-label">Reclaimed YTD</div><div class="kpi-value">284</div><div class="kpi-sub pos">From inactive users</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">License Utilization by Platform</div><div class="chart-subtitle">% of assigned licenses with MAU in last 30 days</div></div></div>
+      <div style="position:relative;height:240px;"><canvas id="c_util_platform"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">License Allocation by School / Unit</div><div class="chart-subtitle">All platforms combined · Top 10 consumers</div></div></div>
+      <div style="position:relative;height:240px;"><canvas id="c_alloc_school"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">License Detail by Platform</div>
+  <div class="chart-card" style="margin-bottom:13px;">
+    <div class="table-wrap">
+      <table class="dt"><thead><tr>
+        <th>Platform</th><th>Vendor</th><th class="r">Total Lic.</th>
+        <th class="r">Assigned</th><th class="r">Active MAU</th><th class="r">Utilization %</th>
+        <th>Utilization Bar</th><th class="r">$/License/Mo</th>
+        <th>Contract End</th><th class="c">Status</th>
+      </tr></thead><tbody id="lic_table_tbody"></tbody></table>
+    </div>
+  </div>
+  <div class="section-label">License Allocation by School / Unit</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="dt"><thead><tr>
+        <th>School / Unit</th>
+        <th class="r">ChatGPT Ent.</th><th class="r">Claude Ent.</th>
+        <th class="r">M365 Copilot</th><th class="r">GitHub Copilot</th>
+        <th class="r">Total Assigned</th><th class="r">Active MAU</th>
+        <th class="r">Util %</th><th class="r">Monthly Cost</th>
+      </tr></thead><tbody id="school_alloc_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 3: PROVISIONING ═══ -->
+<section class="tab-panel" id="tab-provisioning">
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Open Requests</div><div class="kpi-value">47</div><div class="kpi-sub warn">In queue</div></div>
+    <div class="kpi-card"><div class="kpi-label">Avg Time-to-Provision</div><div class="kpi-value">2.3 days</div><div class="kpi-sub pos">SLA: 3 business days</div></div>
+    <div class="kpi-card"><div class="kpi-label">Auto-Provisioned Rate</div><div class="kpi-value">68.2%</div><div class="kpi-sub pos">↑ +12% vs. FY2025</div></div>
+    <div class="kpi-card"><div class="kpi-label">Pending Approval</div><div class="kpi-value">8</div><div class="kpi-sub warn">Awaiting manager sign-off</div></div>
+    <div class="kpi-card"><div class="kpi-label">Provisioned MTD</div><div class="kpi-value">312</div><div class="kpi-sub neu">May 2026</div></div>
+    <div class="kpi-card"><div class="kpi-label">Deprovisioned MTD</div><div class="kpi-value">58</div><div class="kpi-sub pos">Access control hygiene</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Provisioning Volume — FY2026 Monthly</div><div class="chart-subtitle">Provisioned vs. deprovisioned accounts by month</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:var(--purple);"></span>Provisioned</span><span><span class="leg-dot" style="background:var(--neg);"></span>Deprovisioned</span></div>
+      <div style="position:relative;height:220px;"><canvas id="c_prov_volume"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Time-to-Provision Distribution</div><div class="chart-subtitle">Days from request to active account · FY2026</div></div></div>
+      <div style="position:relative;height:220px;"><canvas id="c_ttp_dist"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Open ServiceNow Request Queue</div>
+  <div class="chart-card" style="margin-bottom:13px;">
+    <div class="table-wrap">
+      <table class="dt"><thead><tr>
+        <th>Ticket ID</th><th>Requestor School</th><th>Platform</th>
+        <th class="r">Licenses Requested</th><th>Submitted</th>
+        <th class="r">Days Open</th><th class="c">Approval Status</th>
+        <th class="c">Priority</th>
+      </tr></thead><tbody id="prov_queue_tbody"></tbody></table>
+    </div>
+  </div>
+  <div class="section-label">Access Control Policy Summary</div>
+  <div class="chart-card">
+    <div id="access_policy_list" style="padding:4px 0;"></div>
+  </div>
+</section>
+
+<!-- ═══ TAB 4: FINANCIAL ═══ -->
+<section class="tab-panel" id="tab-financial">
+  <div class="exec-box" style="border-left-color:var(--pos);background:var(--pos-bg);">
+    <h3 style="color:var(--pos);">Financial Position — FY2026</h3>
+    <div style="font-size:12px;line-height:1.7;color:var(--gray-700);">The HUIT AI Enablement program manages approximately $2.41M in annual vendor spend across 6 enterprise AI platforms, funded through a combination of central HUIT allocation and school/unit cost recovery billing. All billing is tracked by assigned license, reconciled monthly in Oracle, and distributed to schools via a transparent cost model.</div>
+  </div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">FY2026 Budget</div><div class="kpi-value">$2.60M</div><div class="kpi-sub neu">Approved</div></div>
+    <div class="kpi-card"><div class="kpi-label">FY2026 Actual (YTD)</div><div class="kpi-value">$1.84M</div><div class="kpi-sub pos">Jul–Apr</div></div>
+    <div class="kpi-card"><div class="kpi-label">Full-Year Forecast</div><div class="kpi-value">$2.41M</div><div class="kpi-sub pos">▼ $190K favorable</div></div>
+    <div class="kpi-card"><div class="kpi-label">Cost-Recovery Revenue</div><div class="kpi-value">$1.12M</div><div class="kpi-sub info">School billings YTD</div></div>
+    <div class="kpi-card"><div class="kpi-label">Net HUIT Cost</div><div class="kpi-value">$720K</div><div class="kpi-sub pos">Central subsidy YTD</div></div>
+    <div class="kpi-card"><div class="kpi-label">Largest Single Vendor</div><div class="kpi-value">OpenAI</div><div class="kpi-sub neg">$890K/yr — 37%</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Monthly AI Spend vs. Budget — FY2026</div></div></div>
+      <div class="chart-legend"><span><span class="leg-dot" style="background:var(--crimson);"></span>Actual</span><span><span class="leg-dot" style="background:#b0c9ea;border:1px dashed #1a5fa8;"></span>Budget line</span></div>
+      <div style="position:relative;height:220px;"><canvas id="c_spend_trend"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Cost Recovery Billing by School</div><div class="chart-subtitle">Annual charge-back based on assigned licenses</div></div></div>
+      <div style="position:relative;height:220px;"><canvas id="c_cost_recovery"></canvas></div>
+    </div>
+  </div>
+  <div class="section-label">Vendor Cost Detail — FY2026</div>
+  <div class="chart-card" style="margin-bottom:13px;">
+    <div class="table-wrap">
+      <table class="dt"><thead><tr>
+        <th>Platform</th><th>Vendor</th>
+        <th class="r">FY2026 Budget</th><th class="r">YTD Actual</th>
+        <th class="r">Full-Year Forecast</th><th class="r">Variance</th>
+        <th class="r">$/Active User/Mo</th><th>Billing Model</th>
+        <th class="c">Renewal</th>
+      </tr></thead><tbody id="fin_vendor_tbody"></tbody></table>
+    </div>
+  </div>
+  <div class="section-label">Cost Model: Central Subsidy vs. School Cost Recovery</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="dt"><thead><tr>
+        <th>School / Unit</th>
+        <th class="r">Licenses Assigned</th><th class="r">Annual License Cost</th>
+        <th class="r">HUIT Subsidy</th><th class="r">School Billed</th>
+        <th class="r">School Subsidy %</th><th class="c">Recovery Model</th>
+      </tr></thead><tbody id="cost_model_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 5: RISK & GOVERNANCE ═══ -->
+<section class="tab-panel" id="tab-risk">
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Tools Approved for Use</div><div class="kpi-value">12</div><div class="kpi-sub pos">Active service catalog</div></div>
+    <div class="kpi-card"><div class="kpi-label">In ISDP Security Review</div><div class="kpi-value">4</div><div class="kpi-sub warn">Active assessments</div></div>
+    <div class="kpi-card"><div class="kpi-label">Pending Governance Review</div><div class="kpi-value">6</div><div class="kpi-sub info">Awaiting AI WG review</div></div>
+    <div class="kpi-card"><div class="kpi-label">High-Risk Findings Open</div><div class="kpi-value">2</div><div class="kpi-sub neg">Vendor remediation req.</div></div>
+    <div class="kpi-card"><div class="kpi-label">Responsible AI Guidelines</div><div class="kpi-value">Published</div><div class="kpi-sub pos">v2.1 — May 2026</div></div>
+    <div class="kpi-card"><div class="kpi-label">Data Classification Policy</div><div class="kpi-value">Enforced</div><div class="kpi-sub pos">All platforms</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Tool Approval Status</div><div class="chart-subtitle">Current service catalog state</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_tool_status"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Risk Register — Active Items</div><div class="chart-subtitle">By severity and remediation status</div></div></div>
+      <div id="risk_register" style="padding:4px 0;max-height:230px;overflow-y:auto;"></div>
+    </div>
+  </div>
+  <div class="section-label">Responsible AI Framework — Harvard Principles</div>
+  <div class="chart-card" style="margin-bottom:13px;">
+    <div id="rai_framework" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;padding:4px 0;"></div>
+  </div>
+  <div class="section-label">Tool Security Assessment Register</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="dt"><thead><tr>
+        <th>Tool</th><th>Vendor</th><th>Assessment Type</th>
+        <th>ISDP Reviewer</th><th>Started</th><th>Data Class.</th>
+        <th class="c">FERPA</th><th class="c">HIPAA</th><th class="c">PCI</th>
+        <th class="c">Status</th>
+      </tr></thead><tbody id="security_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 6: ADOPTION ANALYTICS ═══ -->
+<section class="tab-panel" id="tab-adoption">
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Overall Adoption Rate</div><div class="kpi-value">47.3%</div><div class="kpi-sub pos">↑ +8.4pts YTD</div></div>
+    <div class="kpi-card"><div class="kpi-label">Power Users (Daily)</div><div class="kpi-value">2,840</div><div class="kpi-sub info">38.3% of MAU</div></div>
+    <div class="kpi-card"><div class="kpi-label">Top Use Case</div><div class="kpi-value" style="font-size:14px;">Writing Assist</div><div class="kpi-sub ai">34% of sessions</div></div>
+    <div class="kpi-card"><div class="kpi-label">Training Completions YTD</div><div class="kpi-value">1,842</div><div class="kpi-sub pos">Across all modules</div></div>
+    <div class="kpi-card"><div class="kpi-label">Knowledge Articles Live</div><div class="kpi-value">84</div><div class="kpi-sub neu">ServiceNow KB</div></div>
+    <div class="kpi-card"><div class="kpi-label">Support Tickets MTD</div><div class="kpi-value">128</div><div class="kpi-sub pos">▼ −18% vs. Apr</div></div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Monthly Active Users by School</div><div class="chart-subtitle">Combined all AI platforms · FY2026</div></div></div>
+      <div style="position:relative;height:240px;"><canvas id="c_mau_school"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Use Case Distribution</div><div class="chart-subtitle">Session type analysis · ChatGPT + Claude combined</div></div></div>
+      <div style="position:relative;height:240px;"><canvas id="c_use_cases"></canvas></div>
+    </div>
+  </div>
+  <div class="two-col" style="margin-bottom:13px;">
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Adoption Rate by School — All Platforms</div><div class="chart-subtitle">% of eligible staff with active account in last 30 days</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_adoption_school"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-header"><div><div class="chart-title">Enablement & Training Activity</div><div class="chart-subtitle">Completions by module type · FY2026 YTD</div></div></div>
+      <div style="position:relative;height:230px;"><canvas id="c_training"></canvas></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TAB 7: TOOL PIPELINE ═══ -->
+<section class="tab-panel" id="tab-pipeline">
+  <div class="exec-box" style="border-left-color:var(--purple);background:var(--purple-bg);">
+    <h3 style="color:var(--purple);">Tool Evaluation & Innovation Pipeline</h3>
+    <div style="font-size:12px;line-height:1.7;color:var(--gray-700);">The AI Enablement Lead evaluates emerging AI-enabled tools and capabilities, collaborates with partners to pilot and operationalize new services, and defines the governance/support frameworks required to scale successful pilots into sustainable, supportable services across Harvard.</div>
+  </div>
+  <div class="kpi-grid" style="margin-bottom:14px;">
+    <div class="kpi-card accent"><div class="kpi-label">Tools in Pipeline</div><div class="kpi-value">14</div><div class="kpi-sub ai">All stages</div></div>
+    <div class="kpi-card"><div class="kpi-label">Discovery Stage</div><div class="kpi-value">5</div><div class="kpi-sub neu">Initial evaluation</div></div>
+    <div class="kpi-card"><div class="kpi-label">Active Pilots</div><div class="kpi-value">3</div><div class="kpi-sub info">With governance review</div></div>
+    <div class="kpi-card"><div class="kpi-label">Security Assessment</div><div class="kpi-value">4</div><div class="kpi-sub warn">ISDP review active</div></div>
+    <div class="kpi-card"><div class="kpi-label">Pending Governance</div><div class="kpi-value">2</div><div class="kpi-sub warn">AI Working Group</div></div>
+    <div class="kpi-card"><div class="kpi-label">Approved for Scale</div><div class="kpi-value">0</div><div class="kpi-sub neu">None yet in cycle</div></div>
+  </div>
+  <div class="section-label">Pipeline Kanban — Evaluation Stages</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:11px;margin-bottom:18px;" id="pipeline_kanban"></div>
+  <div class="section-label">Tool Evaluation Detail</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="dt"><thead><tr>
+        <th>Tool</th><th>Vendor</th><th>Category</th><th>Stage</th>
+        <th>Pilot School</th><th>Lead</th><th class="r">Est. Annual Cost</th>
+        <th class="c">ISDP Status</th><th class="c">Governance</th><th>Next Step</th>
+      </tr></thead><tbody id="pipeline_tbody"></tbody></table>
+    </div>
+  </div>
+  <div class="section-label">Scaling Framework — Pilot → Production Checklist</div>
+  <div class="chart-card">
+    <div id="scale_checklist" style="padding:4px 0;"></div>
+  </div>
+</section>
+
+<!-- ═══ TAB 8: AI CALENDAR ═══ -->
+<section class="tab-panel" id="tab-calendar">
+  <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">
+    <div><div class="section-label" style="margin:0 0 2px;">AI Program Planning Calendar — FY2026/2027</div><div style="font-size:12px;color:var(--gray-600);">Harvard HUIT · AI Enablement Lead cycle view</div></div>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;" id="cal_legend"></div>
+  <div class="cal-grid" id="cal_year_grid" style="margin-bottom:16px;"></div>
+  <div class="section-label">Upcoming AI Program Milestones — Next 45 Days</div>
+  <div class="chart-card">
+    <div class="table-wrap">
+      <table class="dt"><thead><tr>
+        <th>Date</th><th>Event / Milestone</th><th>Category</th><th>Owner</th><th class="c">Priority</th><th>Notes</th>
+      </tr></thead><tbody id="cal_upcoming_tbody"></tbody></table>
+    </div>
+  </div>
+</section>
+
+<div class="cal-popup" id="cal_popup">
+  <button style="position:absolute;top:8px;right:8px;background:var(--gray-100);border:none;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:10px;" onclick="document.getElementById('cal_popup').classList.remove('show')">✕</button>
+  <div style="font-size:13px;font-weight:600;color:var(--gray-800);margin-bottom:8px;" id="cp_title"></div>
+  <div id="cp_body"></div>
+</div>
+
+<button class="export-fab" onclick="exportAll()">📥 Export Data</button>
+
+<footer class="footer">
+  <span>HUIT AI Enablement Dashboard · Harvard University IT · Work Sample — Narissara Khomkhai · Candidate: AI Enablement Lead (002871SR)</span>
+  <span>Source: ServiceNow · Vendor APIs · Oracle ERP · Harvard ISDP</span>
+</footer>
+
+<script>
+// ═══════════════ CONSTANTS ═══════════════
+const CRIMSON='#A51C30',NAVY='#1a2744',BLUE='#1a5fa8',GREEN='#1e6b38',AMBER='#8a5c00',PURPLE='#5530a0',TEAL='#0d7377';
+const TICK='#9e9b92',GRID='rgba(0,0,0,.06)';
+const charts={};
+function dc(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
+function mc(id,cfg){dc(id);charts[id]=new Chart(document.getElementById(id),cfg);return charts[id];}
+
+// ═══════════════ DATA ═══════════════
+const TOOLS=[
+  {id:'chatgpt',name:'ChatGPT Enterprise',vendor:'OpenAI',      logo:'🤖',logoColor:'#10a37f',logoText:'bg:linear-gradient(135deg,#10a37f,#1e7a5b)',
+   total:2400,assigned:2280,mau:1854,util:81.3,perLicMo:89,annCost:890000,contract:'Jun 2027',status:'Active'},
+  {id:'claude', name:'Claude Enterprise',  vendor:'Anthropic',  logo:'◆',  logoColor:CRIMSON,
+   total:800, assigned:780, mau:604, util:77.4,perLicMo:45,annCost:360000,contract:'Mar 2027',status:'Active'},
+  {id:'copilot',name:'M365 Copilot',        vendor:'Microsoft',  logo:'⊕',  logoColor:'#0078d4',
+   total:11800,assigned:11400,mau:4070,util:35.7,perLicMo:0,annCost:0,contract:'Feb 2028',status:'Active — EA'},
+  {id:'github', name:'GitHub Copilot',       vendor:'GitHub/MS',  logo:'⌥',  logoColor:'#24292e',
+   total:420, assigned:385, mau:312, util:81.0,perLicMo:19,annCost:95760,contract:'Apr 2027',status:'Active'},
+  {id:'gemini', name:'Gemini for Workspace', vendor:'Google',     logo:'✦',  logoColor:'#4285f4',
+   total:200, assigned:180, mau:128, util:71.1,perLicMo:30,annCost:72000,contract:'Aug 2026',status:'Active'},
+  {id:'perp',   name:'Perplexity Enterprise',vendor:'Perplexity', logo:'∞',  logoColor:PURPLE,
+   total:65,  assigned:45,  mau:38,  util:84.4,perLicMo:40,annCost:31200,contract:'Pilot',  status:'Pilot'},
+];
+
+const SCHOOLS=[
+  {school:'FAS',                 lic:{chatgpt:520,claude:180,copilot:2200,github:85,  gemini:40}, mau:1280},
+  {school:'HMS',                 lic:{chatgpt:380,claude:120,copilot:1800,github:60,  gemini:25}, mau:820},
+  {school:'HBS',                 lic:{chatgpt:320,claude:90, copilot:1600,github:42,  gemini:20}, mau:710},
+  {school:'SEAS',                lic:{chatgpt:280,claude:100,copilot:1400,github:95,  gemini:18}, mau:690},
+  {school:'HLS',                 lic:{chatgpt:180,claude:60, copilot:900, github:28,  gemini:14}, mau:420},
+  {school:'HKS',                 lic:{chatgpt:150,claude:50, copilot:800, github:20,  gemini:12}, mau:340},
+  {school:'HED',                 lic:{chatgpt:120,claude:40, copilot:600, github:18,  gemini:10}, mau:280},
+  {school:'CADM / HUIT',         lic:{chatgpt:180,claude:100,copilot:1100,github:55,  gemini:42}, mau:520},
+  {school:'Other Schools',       lic:{chatgpt:150,claude:40, copilot:1000,github:22,  gemini:19}, mau:362},
+];
+
+const PROV_QUEUE=[
+  {id:'RITM0088421',school:'HMS',       platform:'Claude Enterprise',  qty:25, submitted:'2026-05-12',days:4, approval:'Awaiting dept. head',priority:'High'},
+  {id:'RITM0088350',school:'FAS',       platform:'ChatGPT Enterprise', qty:40, submitted:'2026-05-11',days:5, approval:'Auto-approved',        priority:'Standard'},
+  {id:'RITM0088290',school:'HBS',       platform:'GitHub Copilot',     qty:12, submitted:'2026-05-10',days:6, approval:'Awaiting IT admin',    priority:'Standard'},
+  {id:'RITM0088180',school:'SEAS',      platform:'Claude Enterprise',  qty:50, submitted:'2026-05-08',days:8, approval:'Awaiting dept. head',  priority:'High'},
+  {id:'RITM0088090',school:'HKS',       platform:'M365 Copilot',       qty:80, submitted:'2026-05-07',days:9, approval:'Auto-approved',        priority:'Standard'},
+  {id:'RITM0087980',school:'HED',       platform:'Claude Enterprise',  qty:20, submitted:'2026-05-05',days:11,approval:'OGC data use review',   priority:'High'},
+  {id:'RITM0087840',school:'CADM',      platform:'Perplexity Ent.',    qty:15, submitted:'2026-05-03',days:13,approval:'Security review req.',   priority:'Standard'},
+  {id:'RITM0087700',school:'Other',     platform:'ChatGPT Enterprise', qty:30, submitted:'2026-05-01',days:15,approval:'Budget approval needed',priority:'Standard'},
+];
+
+const PIPELINE_TOOLS=[
+  {tool:'Perplexity Enterprise', vendor:'Perplexity AI',stage:'Pilot',         cat:'Research / Search',  pilot:'HKS, FAS',    lead:'AI Enablement Lead', cost:'$31K/yr', isdp:'Approved', gov:'In progress',   next:'Governance vote Jun 15'},
+  {tool:'NotebookLM Teams',      vendor:'Google',        stage:'Pilot',         cat:'Research / Analysis',pilot:'HMS, SEAS',   lead:'AI Enablement Lead', cost:'$48K/yr', isdp:'Approved', gov:'In progress',   next:'Pilot debrief May 30'},
+  {tool:'Claude API (Custom)',   vendor:'Anthropic',     stage:'Pilot',         cat:'Developer / Workflow',pilot:'HUIT FIN',   lead:'AI Enablement Lead', cost:'$25K/yr', isdp:'Approved', gov:'Approved',      next:'Scale planning Jun 1'},
+  {tool:'Cursor (AI Code Editor)',vendor:'Anysphere',    stage:'Security Review',cat:'Developer Tools',    pilot:'SEAS, HUIT', lead:'AI Enablement Lead', cost:'$42K/yr', isdp:'In review', gov:'Pending',       next:'ISDP assessment due Jun 30'},
+  {tool:'Glean (Enterprise AI)', vendor:'Glean',         stage:'Security Review',cat:'Enterprise Search',  pilot:'TBD',        lead:'AI Enablement Lead', cost:'$180K/yr',isdp:'In review', gov:'Pending',       next:'Vendor security questionnaire'},
+  {tool:'Cohere Command R+',     vendor:'Cohere',        stage:'Security Review',cat:'Research / AI',      pilot:'TBD',        lead:'AI Enablement Lead', cost:'TBD',     isdp:'In review', gov:'Pending',       next:'ISDP initial meeting'},
+  {tool:'Canva AI Suite',        vendor:'Canva',         stage:'Security Review',cat:'Design / Productivity',pilot:'TBD',      lead:'AI Enablement Lead', cost:'$62K/yr', isdp:'In review', gov:'Pending',       next:'FERPA data mapping'},
+  {tool:'Otter.ai Enterprise',   vendor:'Otter.ai',      stage:'Discovery',      cat:'Meeting / Transcript',pilot:'None',     lead:'AI Enablement Lead', cost:'$28K/yr', isdp:'Scheduled', gov:'Not started',   next:'ISDP intake scheduled'},
+  {tool:'Adobe Firefly Ent.',    vendor:'Adobe',         stage:'Discovery',      cat:'Creative / Design',  pilot:'None',       lead:'AI Enablement Lead', cost:'$95K/yr', isdp:'Not started',gov:'Not started',  next:'Requirements gathering'},
+  {tool:'Harvey AI (Legal)',     vendor:'Harvey AI',     stage:'Discovery',      cat:'Legal / Compliance', pilot:'HLS',        lead:'HLS + AI Lead',      cost:'$150K/yr',isdp:'Not started',gov:'Not started',  next:'HLS stakeholder meeting'},
+  {tool:'Elicit (Research AI)',  vendor:'Elicit',        stage:'Discovery',      cat:'Research Analysis',  pilot:'None',       lead:'AI Enablement Lead', cost:'$18K/yr', isdp:'Not started',gov:'Not started',  next:'Faculty interest assessment'},
+  {tool:'Zoom AI Companion +',   vendor:'Zoom',          stage:'Governance Review',cat:'Productivity/Meet.',pilot:'None',      lead:'AI Enablement Lead', cost:'Add-on',  isdp:'Approved', gov:'In progress',   next:'Working Group vote Jun 8'},
+  {tool:'Salesforce Einstein',   vendor:'Salesforce',    stage:'Governance Review',cat:'CRM / AI',          pilot:'OAD',       lead:'OAD + AI Lead',      cost:'Bundled', isdp:'Approved', gov:'In progress',   next:'AI WG positioning discussion'},
+  {tool:'Workday AI Features',   vendor:'Workday',       stage:'Discovery',      cat:'HR / Admin',         pilot:'None',       lead:'OHR + AI Lead',      cost:'Bundled', isdp:'Not started',gov:'Not started',  next:'OHR needs assessment'},
+];
+
+const RISK_ITEMS=[
+  {title:'Claude API — Student Data Classification Gap',sev:'High',  color:'var(--neg)',   status:'Vendor remediation in progress',desc:'ISDP audit identified ambiguity in Anthropic\'s API data retention policy for prompt content. Vendor notified; DPA amendment requested. No PHI/PII currently processed via API endpoint.'},
+  {title:'M365 Copilot — SharePoint Oversharing Risk',  sev:'High',  color:'var(--neg)',   status:'Mitigation deployed',            desc:'Copilot surfaces content users have access to but may not intend to share. Sensitivity label enforcement enabled in tenant. Training content updated. Monitoring via Purview.'},
+  {title:'Glean — OGC Contract Review Required',        sev:'Medium',color:'var(--warn)',  status:'OGC review in progress',          desc:'Glean accesses enterprise content repositories. Data processing agreement under OGC review. Tool on hold until legal clearance.'},
+  {title:'License Over-Provisioning — FAS Copilot',     sev:'Medium',color:'var(--warn)',  status:'Reclaim campaign in progress',    desc:'240 unactivated M365 Copilot licenses in FAS pool identified. Reclaim workflow initiated in ServiceNow. Estimated cost recovery: $21,600/yr.'},
+  {title:'Vendor SSO — GitHub Copilot Token Scope',     sev:'Low',   color:'var(--blue)',  status:'Policy documentation updated',    desc:'GitHub Copilot OAuth token scope review completed. Default token scope is read-only for repository context. No write-access grants documented.'},
+];
+
+const CAL_TYPES={
+  contracts:{label:'📋 Contracts & Renewals', color:'#A51C30',bg:'#f9eced'},
+  governance:{label:'🏛️ Governance & Policy', color:NAVY,       bg:'#eef0f5'},
+  enablement:{label:'📚 Enablement & Training',color:GREEN,      bg:'#e8f5ee'},
+  pilot:     {label:'🚀 Pilot & Launch',       color:PURPLE,     bg:'#f0eafc'},
+  financial: {label:'💰 Financial',            color:AMBER,      bg:'#fef8e6'},
+  security:  {label:'🛡️ Security & Compliance',color:'#9b2020',  bg:'#fdeaea'},
+};
+const CAL_EVENTS=[
+  {id:'c1',cal:'contracts',title:'Gemini for Workspace — Contract Renewal Decision',  date:'2026-08-01',priority:'High',  owner:'AI Enablement Lead + Procurement', notes:'Current contract expires Aug 31. Renew, renegotiate, or sunset. Usage data and cost analysis due Jul 15.'},
+  {id:'c2',cal:'contracts',title:'Claude Enterprise — Contract Review',                date:'2027-03-01',priority:'High',  owner:'AI Enablement Lead + VMO',         notes:'Annual review of Anthropic Enterprise Agreement. Usage growth trend supports expanded license negotiation.'},
+  {id:'c3',cal:'contracts',title:'ChatGPT Enterprise — Annual Renewal',               date:'2027-06-01',priority:'High',  owner:'AI Enablement Lead + Procurement', notes:'OpenAI Enterprise contract renewal. Largest single AI vendor spend ($890K/yr). Volume discount negotiation.'},
+  {id:'g1',cal:'governance',title:'AI Working Group Meeting — Tool Evaluation Votes', date:'2026-06-08',priority:'High',  owner:'AI Enablement Lead',               notes:'Governance votes on Zoom AI Companion+ and Salesforce Einstein positioning. Presentation materials due Jun 3.'},
+  {id:'g2',cal:'governance',title:'Responsible AI Policy — v2.2 Review Cycle',       date:'2026-09-15',priority:'Medium',owner:'AI WG + ISDP + OGC',               notes:'Annual policy review cycle. Updates to reflect new tool capabilities, EU AI Act implications, and expanded use cases.'},
+  {id:'g3',cal:'governance',title:'Harvard AI Steering Committee Briefing',           date:'2026-11-10',priority:'High',  owner:'AI Enablement Lead + Director',    notes:'Semi-annual briefing to Harvard AI Steering Committee. Portfolio report, adoption metrics, roadmap, and financial summary.'},
+  {id:'e1',cal:'enablement',title:'M365 Copilot — Targeted Adoption Campaign Launch', date:'2026-06-01',priority:'High',  owner:'AI Enablement Lead + Change Mgmt', notes:'3-month adoption campaign targeting administrative units. Use-case library, video series, and 1:1 school workshops. Goal: 50% MAU rate.'},
+  {id:'e2',cal:'enablement',title:'AI Responsible Use Training — Annual Refresh',     date:'2026-10-01',priority:'High',  owner:'AI Enablement Lead + OHR',         notes:'Annual required training refresh for all AI tool users. Updated for v2.2 policy. Workday Learning module deployment.'},
+  {id:'e3',cal:'enablement',title:'Claude API Workshop — School IT Leads',            date:'2026-06-20',priority:'Medium',owner:'AI Enablement Lead',               notes:'Half-day workshop on API integration patterns, guardrail implementation, and responsible use for school IT developers.'},
+  {id:'p1',cal:'pilot',    'title':'Claude API (Custom Workflows) — Scale Decision',  date:'2026-06-01',priority:'High',  owner:'AI Enablement Lead',               notes:'Pilot evaluation complete. Go/no-go for university-wide API access model. Budget and governance framework ready.'},
+  {id:'p2',cal:'pilot',    'title':'NotebookLM Teams Pilot — Debrief',                date:'2026-05-30',priority:'High',  owner:'AI Enablement Lead + HMS/SEAS',    notes:'8-week pilot ends May 30. Collect NPS, use-case documentation, and ISDP sign-off for governance recommendation.'},
+  {id:'p3',cal:'pilot',    'title':'Perplexity Enterprise — Governance Vote',         date:'2026-06-15',priority:'High',  owner:'AI Enablement Lead',               notes:'Present pilot findings to AI Working Group. Recommend: scale to FAS + HKS with full security controls.'},
+  {id:'f1',cal:'financial','title':'FY2027 AI Program Budget Submission',              date:'2026-07-01',priority:'High',  owner:'AI Enablement Lead + HUIT Finance', notes:'Annual AI program budget for FY2027. Include new tool requests, contract renewals, and adoption enablement costs. Oracle submission deadline.'},
+  {id:'f2',cal:'financial','title':'Q4 FY2026 License Reconciliation & Billing',      date:'2026-07-15',priority:'High',  owner:'AI Enablement Lead + Finance',     notes:'Annual license reconciliation. Adjust school billings for FY2026 actuals vs. budgeted licenses. Oracle journal due Jul 31.'},
+  {id:'s1',cal:'security', 'title':'ISDP Assessment Deadline — Cursor & Glean',       date:'2026-06-30',priority:'High',  owner:'ISDP + AI Enablement Lead',        notes:'Security assessments due for Cursor and Glean. Outstanding vendor questionnaires must be returned by Jun 15 for ISDP review.'},
+  {id:'s2',cal:'security', 'title':'Annual AI Tool Security Audit',                   date:'2026-10-15',priority:'High',  owner:'ISDP + AI Enablement Lead',        notes:'Annual audit of all approved AI tools. Covers data handling, access controls, logging, and vendor compliance attestations.'},
+  {id:'s3',cal:'security', 'title':'Claude API DPA Amendment — Vendor Deadline',      date:'2026-06-30',priority:'High',  owner:'AI Enablement Lead + OGC + Anthropic', notes:'Anthropic must return signed Data Processing Agreement amendment addressing student data classification gap identified in ISDP audit.'},
+];
+
+// ═══════════════ TABS ═══════════════
+const tabBuilt={};
+function switchTab(name,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(btn)btn.classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  const sn=document.getElementById('sn_'+name);if(sn)sn.classList.add('active');
+  if(!tabBuilt[name]){tabBuilt[name]=true;
+    const fns={overview:buildOverview,licenses:buildLicenses,provisioning:buildProvisioning,
+      financial:buildFinancial,risk:buildRisk,adoption:buildAdoption,pipeline:buildPipeline,calendar:buildCalendar};
+    if(fns[name])fns[name]();
+  }
+}
+function sNav(name,el){
+  const btn=document.querySelector(`.tab-btn[onclick*="'${name}'"]`);
+  if(btn)btn.click();else switchTab(name,null);
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  el.classList.add('active');closeSB();
+}
+function toggleSB(){const sb=document.getElementById('left_sb'),ov=document.getElementById('sb_ov');if(sb.classList.contains('open')){sb.classList.remove('open');ov.classList.remove('show');}else{sb.classList.add('open');ov.classList.add('show');document.getElementById('sb_ts').textContent=document.getElementById('ts_d').textContent;}}
+function closeSB(){document.getElementById('left_sb').classList.remove('open');document.getElementById('sb_ov').classList.remove('show');}
+function refreshTs(){document.getElementById('ts_d').textContent=new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit',hour12:true})+' ET';}
+
+// ═══════════════ BUILD FUNCTIONS ═══════════════
+function buildOverview(){
+  // Tool cards
+  const grid=document.getElementById('tool_cards_grid');
+  grid.innerHTML=TOOLS.map(t=>{
+    const r=24,circ=2*Math.PI*r,fill=(t.util/100)*circ;
+    const col=t.util>75?GREEN:t.util>50?BLUE:AMBER;
+    return`<div class="tool-card" style="border-top:3px solid ${col};">
+      <div class="tool-header">
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div class="tool-logo" style="background:${t.status==='Active'?'rgba(26,107,56,.08)':'rgba(85,48,160,.08)'}; font-size:20px;">${t.logo}</div>
+          <div><div class="tool-name">${t.name}</div><div class="tool-vendor">${t.vendor} · ${t.status==='Active—EA'?'Bundled':t.status}</div></div>
+        </div>
+        <div class="gauge-ring" style="width:52px;height:52px;">
+          <svg width="52" height="52" viewBox="0 0 52 52">
+            <circle cx="26" cy="26" r="${r}" fill="none" stroke="#eeece6" stroke-width="5"/>
+            <circle cx="26" cy="26" r="${r}" fill="none" stroke="${col}" stroke-width="5" stroke-dasharray="${fill.toFixed(1)} ${circ.toFixed(1)}" stroke-linecap="round"/>
+          </svg>
+          <div class="gauge-val" style="color:${col};font-size:11px;">${Math.round(t.util)}%</div>
+        </div>
+      </div>
+      <div class="tool-stat"><span>Licenses</span><span class="tool-stat-val">${t.total.toLocaleString()}</span></div>
+      <div class="tool-stat"><span>MAU</span><span class="tool-stat-val">${t.mau.toLocaleString()}</span></div>
+      <div class="tool-stat"><span>Annual Cost</span><span class="tool-stat-val">${t.annCost>0?'$'+(t.annCost/1000).toFixed(0)+'K':'EA Bundled'}</span></div>
+      <div class="tool-stat" style="border:none;"><span>Contract</span><span class="tool-stat-val">${t.contract}</span></div>
+    </div>`;
+  }).join('');
+
+  // MAU trend
+  const months=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
+  mc('c_mau_trend',{type:'line',data:{labels:months,datasets:[
+    {label:'ChatGPT',data:[1200,1350,1480,1580,1640,1520,1680,1740,1790,1830,1854],borderColor:'#10a37f',tension:.35,pointRadius:3,fill:false},
+    {label:'Claude', data:[320, 380, 440, 490, 530, 480, 540, 570, 590, 595, 604], borderColor:CRIMSON,tension:.35,pointRadius:3,fill:false},
+    {label:'Copilot',data:[2200,2400,2600,2900,3100,2800,3200,3500,3800,4000,4070],borderColor:BLUE,tension:.35,pointRadius:3,fill:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:9}},grid:{color:GRID}}}}});
+
+  mc('c_spend_mix',{type:'doughnut',data:{labels:TOOLS.map(t=>t.name.split(' ').slice(0,2).join(' ')),datasets:[{data:TOOLS.map(t=>t.annCost||0),backgroundColor:['#10a37f',CRIMSON,'rgba(0,120,212,.7)','#24292e','#4285f4',PURPLE],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:9},color:'#5c5a54'}}}}});
+}
+
+function buildLicenses(){
+  const plat=TOOLS,labels=plat.map(t=>t.name.split(' ').slice(0,2).join(' '));
+  mc('c_util_platform',{type:'bar',data:{labels,datasets:[{label:'Utilization %',data:plat.map(t=>t.util),backgroundColor:plat.map(t=>t.util>75?'rgba(30,107,56,.7)':t.util>50?'rgba(26,95,168,.65)':'rgba(176,112,0,.65)'),borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:TICK,font:{size:9},callback:v=>v+'%'},grid:{color:GRID},min:0,max:100}}}});
+
+  const schLabels=SCHOOLS.map(s=>s.school);
+  const totals=SCHOOLS.map(s=>Object.values(s.lic).reduce((a,b)=>a+b,0));
+  mc('c_alloc_school',{type:'bar',data:{labels:schLabels,datasets:[{label:'Total Licenses',data:totals,backgroundColor:'rgba(165,28,48,.65)',borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9}},grid:{color:GRID}},y:{ticks:{color:TICK,font:{size:9}},grid:{display:false}}}}});
+
+  const tbody=document.getElementById('lic_table_tbody');tbody.innerHTML='';
+  TOOLS.forEach(t=>{
+    const col=t.util>75?'var(--pos)':t.util>50?'var(--blue)':'var(--warn)';
+    tbody.innerHTML+=`<tr>
+      <td><strong>${t.name}</strong></td><td>${t.vendor}</td>
+      <td class="r">${t.total.toLocaleString()}</td><td class="r">${t.assigned.toLocaleString()}</td>
+      <td class="r">${t.mau.toLocaleString()}</td>
+      <td class="r" style="color:${col};font-weight:600;">${t.util.toFixed(1)}%</td>
+      <td><div class="prog"><div class="prog-fill" style="width:${t.util}%;background:${col};"></div></div></td>
+      <td class="r">${t.annCost>0?'$'+t.perLicMo:'Bundled'}</td>
+      <td>${t.contract}</td>
+      <td class="c"><span class="b ${t.status==='Pilot'?'b-purple':t.status.includes('EA')?'b-blue':'b-green'}">${t.status}</span></td>
+    </tr>`;
+  });
+  const tbody2=document.getElementById('school_alloc_tbody');tbody2.innerHTML='';
+  let tCG=0,tCL=0,tCOP=0,tGH=0,tot=0,tmau=0;
+  SCHOOLS.forEach(s=>{
+    const l=s.lic;const t=Object.values(l).reduce((a,b)=>a+b,0);const cost=l.chatgpt*89+l.claude*45+l.github*19+l.gemini*30;
+    tCG+=l.chatgpt;tCL+=l.claude;tCOP+=l.copilot;tGH+=l.github;tot+=t;tmau+=s.mau;
+    tbody2.innerHTML+=`<tr>
+      <td><strong>${s.school}</strong></td>
+      <td class="r">${l.chatgpt}</td><td class="r">${l.claude}</td><td class="r">${l.copilot.toLocaleString()}</td><td class="r">${l.github}</td>
+      <td class="r">${t.toLocaleString()}</td><td class="r">${s.mau.toLocaleString()}</td>
+      <td class="r">${Math.round(s.mau/t*100)}%</td>
+      <td class="r">$${Math.round(cost/1000)}K/mo</td>
+    </tr>`;
+  });
+  tbody2.innerHTML+=`<tr class="total"><td>Total</td><td class="r">${tCG}</td><td class="r">${tCL}</td><td class="r">${tCOP.toLocaleString()}</td><td class="r">${tGH}</td><td class="r">${tot.toLocaleString()}</td><td class="r">${tmau.toLocaleString()}</td><td class="r">—</td><td class="r">—</td></tr>`;
+}
+
+function buildProvisioning(){
+  const months=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May'];
+  mc('c_prov_volume',{type:'bar',data:{labels:months,datasets:[
+    {label:'Provisioned',data:[240,280,320,380,410,280,350,390,420,440,312],backgroundColor:'rgba(85,48,160,.7)',borderRadius:4},
+    {label:'Deprovisioned',data:[40,45,55,60,65,80,50,55,60,62,58],backgroundColor:'rgba(165,28,48,.55)',borderRadius:4},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:9}},grid:{color:GRID}}}}});
+  mc('c_ttp_dist',{type:'bar',data:{labels:['Same day','1 day','2 days','3 days','4-5 days','6+ days'],datasets:[{label:'Requests',data:[42,120,180,98,38,22],backgroundColor:['rgba(30,107,56,.75)','rgba(30,107,56,.6)','rgba(26,95,168,.6)','rgba(26,95,168,.5)','rgba(176,112,0,.65)','rgba(165,28,48,.65)'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:10}},grid:{display:false}},y:{ticks:{color:TICK,font:{size:9}},grid:{color:GRID}}}}});
+  const pClass={High:'b-red',Standard:'b-gray'};const aClass={'Auto-approved':'b-green','Awaiting dept. head':'b-amber','Awaiting IT admin':'b-amber','OGC data use review':'b-red','Security review req.':'b-red','Budget approval needed':'b-purple'};
+  const tbody=document.getElementById('prov_queue_tbody');tbody.innerHTML='';
+  PROV_QUEUE.forEach(r=>{tbody.innerHTML+=`<tr>
+    <td style="font-family:monospace;font-size:10px;color:var(--gray-400);">${r.id}</td>
+    <td>${r.school}</td><td><span class="b b-ai">${r.platform}</span></td>
+    <td class="r">${r.qty}</td><td>${r.submitted}</td>
+    <td class="r ${r.days>10?'vneg':r.days>5?'vwarn':''}">${r.days}d</td>
+    <td class="c"><span class="b ${aClass[r.approval]||'b-gray'}" style="font-size:10px;">${r.approval}</span></td>
+    <td class="c"><span class="b ${pClass[r.priority]||'b-gray'}">${r.priority}</span></td>
+  </tr>`;});
+  const policies=[
+    {title:'Auto-Provisioning Rule',desc:'Requests for ≤25 licenses on approved platforms from eligible Harvard email domains with valid HarvardKey are auto-provisioned within 4 hours via ServiceNow integration. No manager sign-off required for standard access tiers.'},
+    {title:'Manager Approval Required',desc:'Requests for 26–100 licenses, non-standard access tiers (API access, admin roles), or new school/unit onboarding require department head sign-off. SLA: 3 business days.'},
+    {title:'OGC / Security Review Trigger',desc:'Any request involving potential PHI, student data (FERPA-covered), research data, or restricted data classifications automatically routes to ISDP and OGC for data use review before provisioning.'},
+    {title:'Deprovisioning Policy',desc:'Accounts are automatically deprovisioned upon HarvardKey deactivation (45-day grace period). Annual access reviews reconcile active licenses against HR records. Manual deprovision tickets processed within 1 business day.'},
+  ];
+  document.getElementById('access_policy_list').innerHTML=policies.map(p=>`<div style="padding:10px 0;border-bottom:1px solid var(--gray-100);">
+    <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px;">${p.title}</div>
+    <div style="font-size:11px;color:var(--gray-600);line-height:1.55;">${p.desc}</div>
+  </div>`).join('');
+}
+
+function buildFinancial(){
+  const months=['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May (est)'];
+  const actual=[168,172,178,182,186,155,195,202,210,215,176];
+  const budget=Array(11).fill(Math.round(2600000/12/1000));
+  mc('c_spend_trend',{type:'bar',data:{labels:months,datasets:[
+    {label:'Actual ($K)',data:actual,backgroundColor:'rgba(165,28,48,.7)',borderRadius:4},
+    {label:'Budget',data:budget,type:'line',borderColor:BLUE,borderDash:[5,3],borderWidth:1.5,pointRadius:0,fill:false},
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:TICK,font:{size:9},callback:v=>'$'+v+'K'},grid:{color:GRID}}}}});
+  const schools=SCHOOLS,labels=schools.map(s=>s.school);
+  const cr=schools.map(s=>(s.lic.chatgpt*89+s.lic.claude*45+s.lic.github*19+s.lic.gemini*30)/1000);
+  mc('c_cost_recovery',{type:'bar',data:{labels,datasets:[{label:'Annual billing ($K)',data:cr.map(v=>+(v*12).toFixed(1)),backgroundColor:'rgba(30,107,56,.65)',borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9},callback:v=>'$'+v+'K'},grid:{color:GRID}},y:{ticks:{color:TICK,font:{size:9}},grid:{display:false}}}}});
+  const tbody=document.getElementById('fin_vendor_tbody');tbody.innerHTML='';
+  const vdata=[
+    {name:'ChatGPT Enterprise',vendor:'OpenAI',  budget:925000,ytd:695000,forecast:890000,cpm:40, bill:'Per seat/mo',renew:'Jun 2027'},
+    {name:'Claude Enterprise',  vendor:'Anthropic',budget:380000,ytd:280000,forecast:360000,cpm:50, bill:'Per seat/mo',renew:'Mar 2027'},
+    {name:'M365 Copilot',       vendor:'Microsoft',budget:0,     ytd:0,     forecast:0,     cpm:0,  bill:'EA Bundled',renew:'Feb 2028'},
+    {name:'GitHub Copilot',     vendor:'GitHub',  budget:102000,ytd:72000, forecast:95760, cpm:25, bill:'Per seat/mo',renew:'Apr 2027'},
+    {name:'Gemini Workspace',   vendor:'Google',  budget:82000, ytd:54000, forecast:72000, cpm:47, bill:'Per seat/mo',renew:'Aug 2026'},
+    {name:'Perplexity Ent.',    vendor:'Perplexity',budget:35000,ytd:16000,forecast:31200, cpm:42, bill:'Per seat/mo',renew:'Pilot'},
+  ];
+  vdata.forEach(v=>{const vari=v.forecast-v.budget;tbody.innerHTML+=`<tr>
+    <td><strong>${v.name}</strong></td><td>${v.vendor}</td>
+    <td class="r">$${(v.budget/1000).toFixed(0)}K</td>
+    <td class="r">$${(v.ytd/1000).toFixed(0)}K</td>
+    <td class="r">$${(v.forecast/1000).toFixed(0)}K</td>
+    <td class="r ${vari>0?'vneg':'vpos'}">${vari>0?'+':''}$${Math.round(vari/1000)}K</td>
+    <td class="r">$${v.cpm>0?v.cpm:0}/user/mo</td>
+    <td style="font-size:11px;">${v.bill}</td>
+    <td>${v.renew}</td>
+  </tr>`;});
+  const tbody2=document.getElementById('cost_model_tbody');tbody2.innerHTML='';
+  const rcModel=[{s:'FAS',pct:35},{s:'HMS',pct:50},{s:'HBS',pct:55},{s:'SEAS',pct:60},{s:'HLS',pct:40},{s:'HKS',pct:40},{s:'HED',pct:35},{s:'CADM/HUIT',pct:10}];
+  rcModel.forEach(m=>{
+    const sc=SCHOOLS.find(s=>s.school===m.s)||SCHOOLS.find(s=>s.school.includes(m.s.split('/')[0]));
+    if(!sc)return;
+    const annual=Math.round((sc.lic.chatgpt*89+sc.lic.claude*45+sc.lic.github*19+sc.lic.gemini*30)*12);
+    const billed=Math.round(annual*(m.pct/100));
+    const sub=annual-billed;
+    tbody2.innerHTML+=`<tr>
+      <td>${m.s}</td><td class="r">${Object.values(sc.lic).reduce((a,b)=>a+b,0).toLocaleString()}</td>
+      <td class="r">$${Math.round(annual/1000)}K/yr</td>
+      <td class="r vpos">$${Math.round(sub/1000)}K/yr</td>
+      <td class="r">$${Math.round(billed/1000)}K/yr</td>
+      <td class="r">${100-m.pct}%</td>
+      <td class="c"><span class="b b-blue">${m.pct>=50?'Cost Share':'Subsidized'}</span></td>
+    </tr>`;
+  });
+}
+
+function buildRisk(){
+  mc('c_tool_status',{type:'doughnut',data:{labels:['Active — Approved','Pilot / Trial','ISDP Review','Governance Review','Not Approved / Blocked'],datasets:[{data:[12,3,4,2,1],backgroundColor:[GREEN,PURPLE,AMBER,BLUE,'#9b2020'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:9},color:'#5c5a54'}}}}});
+  const rr=document.getElementById('risk_register');
+  rr.innerHTML=RISK_ITEMS.map(r=>`<div class="risk-item">
+    <div class="risk-dot" style="background:${r.color};"></div>
+    <div class="risk-body">
+      <div class="risk-title">${r.title} <span class="b ${r.sev==='High'?'b-red':r.sev==='Medium'?'b-amber':'b-blue'}">${r.sev}</span></div>
+      <div class="risk-desc">${r.desc}</div>
+      <div style="margin-top:4px;font-size:10px;font-weight:600;color:${r.color};">Status: ${r.status}</div>
+    </div>
+  </div>`).join('');
+  const rai=[
+    {icon:'🔒',title:'Privacy & Data Protection',desc:'No restricted, confidential, or FERPA/HIPAA-covered data in AI tools without explicit ISDP approval and appropriate DPA.'},
+    {icon:'🧠',title:'Human Oversight',desc:'AI outputs must be reviewed by qualified humans before use in decisions affecting individuals, finances, or institutional commitments.'},
+    {icon:'⚖️',title:'Fairness & Non-Discrimination',desc:'AI tools must not be used in ways that produce biased or discriminatory outcomes. Regular audits of high-risk use cases required.'},
+    {icon:'📋',title:'Transparency',desc:'Users must disclose AI assistance in academic work per course/program guidelines. AI-generated content must be attributed.'},
+    {icon:'🔬',title:'Accountability',desc:'Each AI tool has a designated service owner (AI Enablement Lead) accountable for governance, access, and responsible use compliance.'},
+    {icon:'🌱',title:'Sustainability',desc:'AI tool selection considers environmental impact. Usage monitoring informs right-sizing and energy efficiency decisions.'},
+  ];
+  document.getElementById('rai_framework').innerHTML=rai.map(r=>`<div style="background:var(--gray-50);border-radius:var(--r);padding:12px;border-left:3px solid var(--crimson);">
+    <div style="font-size:15px;margin-bottom:6px;">${r.icon}</div>
+    <div style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px;">${r.title}</div>
+    <div style="font-size:11px;color:var(--gray-600);line-height:1.5;">${r.desc}</div>
+  </div>`).join('');
+  const tools=['ChatGPT Enterprise','Claude Enterprise','GitHub Copilot','Gemini Workspace','Perplexity Ent.','Cursor','Glean','NotebookLM','Adobe Firefly','Zoom AI+'];
+  const stages=['Active','Active','Active','Active','Pilot','ISDP Review','ISDP Review','Pilot','Discovery','Gov. Review'];
+  const stClass={'Active':'b-green','Pilot':'b-purple','ISDP Review':'b-amber','Gov. Review':'b-blue','Discovery':'b-gray'};
+  const tbody=document.getElementById('security_tbody');tbody.innerHTML='';
+  const dataClass=['Confidential','Confidential','Internal','Internal','Internal','Restricted','Restricted','Internal','Internal','Internal'];
+  ['OpenAI','Anthropic','GitHub','Google','Perplexity','Anysphere','Glean','Google','Adobe','Zoom'].forEach((v,i)=>{
+    const isAct=stages[i]==='Active';
+    tbody.innerHTML+=`<tr>
+      <td><strong>${tools[i]}</strong></td><td>${v}</td>
+      <td>${isAct?'Annual DPA Review':stages[i]==='ISDP Review'?'Full Assessment':'Initial Assessment'}</td>
+      <td>ISDP Team</td><td>${isAct?'Completed':'In Progress'}</td>
+      <td><span class="b ${dataClass[i]==='Confidential'?'b-amber':dataClass[i]==='Restricted'?'b-red':'b-blue'}">${dataClass[i]}</span></td>
+      <td class="c">${isAct?'✓':'—'}</td>
+      <td class="c">${['ChatGPT Enterprise','Claude Enterprise'].includes(tools[i])?'—':'—'}</td>
+      <td class="c">${['GitHub Copilot'].includes(tools[i])?'—':'—'}</td>
+      <td class="c"><span class="b ${stClass[stages[i]]||'b-gray'}">${stages[i]}</span></td>
+    </tr>`;
+  });
+}
+
+function buildAdoption(){
+  const schools=SCHOOLS,labels=schools.map(s=>s.school);
+  mc('c_mau_school',{type:'bar',data:{labels,datasets:[{label:'MAU',data:schools.map(s=>s.mau),backgroundColor:'rgba(165,28,48,.7)',borderRadius:4}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9}},grid:{color:GRID}},y:{ticks:{color:TICK,font:{size:9}},grid:{display:false}}}}});
+  mc('c_use_cases',{type:'doughnut',data:{labels:['Writing & Editing','Code Generation','Research & Analysis','Data Analysis','Meeting Assist','Learning & Training','Policy / Compliance','Other'],datasets:[{data:[34,22,18,10,7,4,3,2],backgroundColor:[CRIMSON,PURPLE,BLUE,GREEN,AMBER,'#0d7377','#9b2020','#888'],borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'52%',plugins:{legend:{position:'right',labels:{boxWidth:10,font:{size:9},color:'#5c5a54'}}}}});
+  const adoptRates=[62,58,54,66,48,44,48,52,36];
+  mc('c_adoption_school',{type:'bar',data:{labels,datasets:[{label:'Adoption %',data:adoptRates,backgroundColor:adoptRates.map(v=>v>60?'rgba(30,107,56,.7)':v>50?'rgba(26,95,168,.65)':'rgba(176,112,0,.65)'),borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:TICK,font:{size:9},callback:v=>v+'%'},grid:{color:GRID}}}}});
+  mc('c_training',{type:'bar',data:{labels:['Responsible AI','Getting Started','Copilot Basics','ChatGPT Adv.','Claude API','Data Privacy','Use Case Library'],datasets:[{label:'Completions',data:[842,620,380,220,84,482,214],backgroundColor:['rgba(165,28,48,.7)','rgba(85,48,160,.65)','rgba(26,95,168,.65)','rgba(30,107,56,.65)','rgba(165,28,48,.5)','rgba(139,92,0,.65)','rgba(13,115,119,.65)'],borderRadius:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:TICK,font:{size:9},maxRotation:30},grid:{display:false}},y:{ticks:{color:TICK,font:{size:9}},grid:{color:GRID}}}}});
+}
+
+function buildPipeline(){
+  const stageGroups={Discovery:[],  'Security Review':[],'Pilot':[],'Governance Review':[]};
+  PIPELINE_TOOLS.forEach(t=>{if(stageGroups[t.stage])stageGroups[t.stage].push(t);});
+  const stageColors={'Discovery':'#9e9b92','Security Review':AMBER,'Pilot':PURPLE,'Governance Review':BLUE};
+  document.getElementById('pipeline_kanban').innerHTML=Object.entries(stageGroups).map(([stage,tools])=>`
+    <div style="background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:12px;box-shadow:var(--sh);border-top:4px solid ${stageColors[stage]};">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:${stageColors[stage]};margin-bottom:8px;">${stage} (${tools.length})</div>
+      ${tools.map(t=>`<div style="background:var(--gray-50);border-radius:6px;padding:8px;margin-bottom:6px;font-size:11px;">
+        <div style="font-weight:600;color:var(--gray-800);">${t.tool}</div>
+        <div style="color:var(--gray-400);margin-top:2px;font-size:10px;">${t.vendor} · ${t.cat}</div>
+      </div>`).join('')}
+    </div>`).join('');
+  const stageClass={'Discovery':'b-gray','Security Review':'b-amber','Pilot':'b-purple','Governance Review':'b-blue','Approved':'b-green'};
+  const isdpClass={'Approved':'b-green','In review':'b-amber','Not started':'b-gray','Scheduled':'b-blue'};
+  const tbody=document.getElementById('pipeline_tbody');tbody.innerHTML='';
+  PIPELINE_TOOLS.forEach(t=>{tbody.innerHTML+=`<tr>
+    <td><strong>${t.tool}</strong></td><td>${t.vendor}</td>
+    <td><span class="b b-gray" style="font-size:10px;">${t.cat}</span></td>
+    <td class="c"><span class="b ${stageClass[t.stage]||'b-gray'}">${t.stage}</span></td>
+    <td style="font-size:11px;">${t.pilot}</td>
+    <td style="font-size:11px;">${t.lead}</td>
+    <td class="r">${t.cost}</td>
+    <td class="c"><span class="b ${isdpClass[t.isdp]||'b-gray'}">${t.isdp}</span></td>
+    <td class="c"><span class="b ${isdpClass[t.gov]||'b-gray'}">${t.gov}</span></td>
+    <td style="font-size:11px;color:var(--gray-600);">${t.next}</td>
+  </tr>`;});
+  const checklist=[
+    {gate:'1. ISDP Security Assessment',desc:'Data classification, privacy review, DPA or vendor questionnaire complete. ISDP sign-off documented.',required:true},
+    {gate:'2. OGC Contractual Review',  desc:'Data Processing Agreement, Terms of Service, and liability terms reviewed and approved by OGC.',required:true},
+    {gate:'3. Governance Group Approval',desc:'Harvard AI Working Group vote on positioning, use cases, and responsible AI alignment.',required:true},
+    {gate:'4. Operational Readiness',   desc:'ServiceNow provisioning workflow configured; knowledge articles drafted; support runbook published.',required:true},
+    {gate:'5. Financial Model',          desc:'Cost recovery model defined; school billing framework approved; Oracle cost center mapping complete.',required:true},
+    {gate:'6. Communication & Training',desc:'Launch communications drafted; training content available; school IT lead briefing completed.',required:true},
+    {gate:'7. Service Owner Sign-Off',  desc:'AI Enablement Lead attests all gates are met and service is ready for production scale.',required:true},
+  ];
+  document.getElementById('scale_checklist').innerHTML=checklist.map((c,i)=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--gray-100);font-size:12px;">
+    <div style="width:22px;height:22px;background:${i<3?'var(--crimson)':'var(--gray-200)'};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;">${i+1}</div>
+    <div><strong style="color:var(--navy);">${c.gate}</strong><br><span style="color:var(--gray-600);">${c.desc}</span></div>
+    <span class="b ${i<3?'b-green':'b-gray'}" style="margin-left:auto;flex-shrink:0;">${i<3?'Active':'Pending'}</span>
+  </div>`).join('');
+}
+
+function buildCalendar(){
+  const legend=document.getElementById('cal_legend');
+  legend.innerHTML=Object.entries(CAL_TYPES).map(([k,t])=>`<span style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--gray-600);"><span style="width:10px;height:10px;border-radius:50%;background:${t.color};"></span>${t.label}</span>`).join('');
+  const today=new Date(), yr=2026;
+  const MNAMES=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const DOW=['Su','Mo','Tu','We','Th','Fr','Sa'];
+  const grid=document.getElementById('cal_year_grid');grid.innerHTML='';
+  for(let m=4;m<16;m++){
+    const ym=m<12?yr:yr+1,mm=m%12;
+    const evs=CAL_EVENTS.filter(e=>{const d=new Date(e.date);return d.getFullYear()===ym&&d.getMonth()===mm;});
+    const isCur=today.getFullYear()===ym&&today.getMonth()===mm;
+    const fd=new Date(ym,mm,1).getDay(),dim=new Date(ym,mm+1,0).getDate();
+    let cells=DOW.map(d=>`<div class="cal-dow">${d}</div>`).join('');
+    for(let i=0;i<fd;i++)cells+=`<div class="cal-day"></div>`;
+    for(let d=1;d<=dim;d++){
+      const de=evs.filter(e=>new Date(e.date).getDate()===d);
+      const isT=isCur&&d===today.getDate();
+      cells+=`<div class="cal-day${isT?' today':''}${de.length?' has-ev':''}">${d}</div>`;
+    }
+    const dots=evs.slice(0,8).map(e=>`<div class="cal-dot" style="background:${CAL_TYPES[e.cal]?.color||'#888'};" onclick="showCalPopup(event,'${e.id}')" title="${e.title}"></div>`).join('');
+    grid.innerHTML+=`<div class="cal-month${isCur?' current':''}">
+      <div class="cal-month-hdr">${MNAMES[mm]} ${ym}${evs.length?`<span class="cal-month-cnt">${evs.length}</span>`:''}</div>
+      <div class="cal-mini">${cells}</div>
+      <div class="cal-dots">${dots}${evs.length>8?`<span style="font-size:9px;color:var(--gray-400);">+${evs.length-8}</span>`:''}</div>
+    </div>`;
+  }
+  const t2=new Date(today.getTime()+45*24*60*60*1000);
+  const up=CAL_EVENTS.filter(e=>{const d=new Date(e.date);return d>=today&&d<=t2;}).sort((a,b)=>new Date(a.date)-new Date(b.date));
+  const pC={High:'b-red',Medium:'b-amber',Low:'b-blue'};
+  const tbody=document.getElementById('cal_upcoming_tbody');
+  tbody.innerHTML=up.length?up.map(e=>{const t=CAL_TYPES[e.cal];return`<tr>
+    <td style="font-weight:600;">${e.date}</td><td><strong>${e.title}</strong></td>
+    <td><span style="display:flex;align-items:center;gap:5px;"><span style="width:8px;height:8px;border-radius:50%;background:${t?.color};flex-shrink:0;"></span>${t?.label}</span></td>
+    <td style="font-size:11px;color:var(--gray-600);">${e.owner}</td>
+    <td class="c"><span class="b ${pC[e.priority]}">${e.priority}</span></td>
+    <td style="font-size:11px;color:var(--gray-600);white-space:normal;line-height:1.4;max-width:220px;">${e.notes.substring(0,100)}…</td>
+  </tr>`;}).join(''):`<tr><td colspan="6" style="text-align:center;color:var(--gray-400);padding:16px;">No events in next 45 days.</td></tr>`;
+  document.addEventListener('click',e=>{const p=document.getElementById('cal_popup');if(!p.contains(e.target)&&!e.target.classList.contains('cal-dot'))p.classList.remove('show');});
+}
+
+function showCalPopup(e,id){
+  e.stopPropagation();
+  const ev=CAL_EVENTS.find(x=>x.id===id);if(!ev)return;
+  const t=CAL_TYPES[ev.cal],pC={High:'b-red',Medium:'b-amber',Low:'b-blue'};
+  document.getElementById('cp_title').innerHTML=`<span style="color:${t?.color}">${t?.label}</span><br>${ev.title}`;
+  document.getElementById('cp_body').innerHTML=`
+    <div style="font-size:11px;margin-bottom:4px;"><strong style="color:var(--gray-400);">Date:</strong> ${ev.date}</div>
+    <div style="font-size:11px;margin-bottom:4px;"><strong style="color:var(--gray-400);">Owner:</strong> ${ev.owner}</div>
+    <div style="font-size:11px;margin-bottom:4px;"><strong style="color:var(--gray-400);">Priority:</strong> <span class="b ${pC[ev.priority]}">${ev.priority}</span></div>
+    <div style="font-size:11px;line-height:1.55;margin-top:6px;color:var(--gray-700);">${ev.notes}</div>`;
+  document.getElementById('cal_popup').style.borderTopColor=t?.color||CRIMSON;
+  const rect=e.target.getBoundingClientRect();
+  const p=document.getElementById('cal_popup');
+  p.style.top=Math.min(rect.bottom+8,window.innerHeight-250)+'px';
+  p.style.left=Math.min(rect.left,window.innerWidth-300)+'px';
+  p.classList.add('show');
+}
+
+function exportAll(){
+  if(typeof XLSX==='undefined'){alert('Export library loading — please try again.');return;}
+  const wb=XLSX.utils.book_new();
+  const addSheet=(data,name)=>{if(data.length){const ws=XLSX.utils.json_to_sheet(data);XLSX.utils.book_append_sheet(wb,ws,name.substring(0,31));}};
+  addSheet(TOOLS.map(t=>({Platform:t.name,Vendor:t.vendor,Total_Licenses:t.total,Assigned:t.assigned,MAU:t.mau,Utilization_Pct:t.util,Annual_Cost:t.annCost,Contract_End:t.contract,Status:t.status})),'Tool Portfolio');
+  addSheet(SCHOOLS.flatMap(s=>Object.entries(s.lic).map(([k,v])=>({School:s.school,Platform:k,Licenses:v,MAU:s.mau}))),'License Allocation');
+  addSheet(PROV_QUEUE.map(r=>({Ticket:r.id,School:r.school,Platform:r.platform,Qty:r.qty,Submitted:r.submitted,Days_Open:r.days,Approval_Status:r.approval,Priority:r.priority})),'Provisioning Queue');
+  addSheet(PIPELINE_TOOLS.map(t=>({Tool:t.tool,Vendor:t.vendor,Category:t.cat,Stage:t.stage,Pilot_School:t.pilot,Est_Cost:t.cost,ISDP_Status:t.isdp,Governance:t.gov,Next_Step:t.next})),'Tool Pipeline');
+  addSheet(RISK_ITEMS.map(r=>({Risk:r.title,Severity:r.sev,Description:r.desc,Remediation_Status:r.status})),'Risk Register');
+  addSheet(CAL_EVENTS.map(e=>({Date:e.date,Title:e.title,Category:CAL_TYPES[e.cal]?.label,Priority:e.priority,Owner:e.owner,Notes:e.notes})),'AI Program Calendar');
+  XLSX.writeFile(wb,`Harvard_HUIT_AI_Enablement_Dashboard_${new Date().toISOString().slice(0,10).replace(/-/g,'')}.xlsx`);
+}
+
+window.addEventListener('DOMContentLoaded',()=>{buildOverview();tabBuilt['overview']=true;refreshTs();});
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</body>
+</html>
