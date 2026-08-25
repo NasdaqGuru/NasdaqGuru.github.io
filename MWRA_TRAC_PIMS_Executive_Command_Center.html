@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Interactive executive dashboard for MWRA TRAC pretreatment and PIMS public reporting, FY2021-FY2025.">
+  <meta name="author" content="Narissara Khomkhai">
   <title>MWRA TRAC · PIMS Executive Intelligence Console</title>
   <style>
     :root{
@@ -48,7 +49,10 @@
     .hero-status{display:grid;grid-template-columns:1fr 1fr;gap:8px}
     .status-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:12px;padding:12px}
     .status-chip b{font-size:21px;display:block}.status-chip span{font:10px/1.3 Arial,sans-serif;text-transform:uppercase;letter-spacing:.8px;color:#d4ebef}
-    .disclaimer{position:relative;z-index:1;margin-top:18px;padding-top:13px;border-top:1px solid rgba(255,255,255,.18);font:10px/1.45 Arial,sans-serif;color:#cde3e8}
+    .candidate-credit{position:relative;z-index:1;margin-top:18px;padding:12px 14px;border:1px solid rgba(255,255,255,.22);border-radius:12px;background:rgba(255,255,255,.09);display:flex;align-items:center;gap:12px;font:11px/1.45 Arial,sans-serif;color:#e5f4f6}
+    .candidate-credit .candidate-kicker{flex:0 0 auto;padding:5px 8px;border-radius:999px;background:#f59e0b;color:#102a3a;font-size:9px;font-weight:800;letter-spacing:.55px;text-transform:uppercase}
+    .candidate-credit .candidate-copy{flex:1}.candidate-credit strong{color:#fff}.candidate-credit a{flex:0 0 auto;color:#fff;font-weight:800;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.55)}.candidate-credit a:hover,.candidate-credit a:focus{border-bottom-color:#fff}
+    .disclaimer{position:relative;z-index:1;margin-top:10px;padding-top:11px;border-top:1px solid rgba(255,255,255,.18);font:10px/1.45 Arial,sans-serif;color:#cde3e8}
     .controlbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 0 18px;padding:11px 13px;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 5px 16px rgba(8,47,73,.05);position:sticky;top:78px;z-index:45}
     .year-pills,.mini-tabs{display:flex;gap:5px;flex-wrap:wrap}
     .pill,.mini-tab{border:1px solid var(--line);background:#fff;color:#496674;border-radius:999px;padding:6px 11px;font-family:Arial,sans-serif;font-size:11px;font-weight:800}
@@ -132,7 +136,7 @@
     .close{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#f6fafb;color:var(--ink);font:21px Arial,sans-serif}.modal-body{padding:20px}.modal-body p,.modal-body li{font:12px/1.65 Arial,sans-serif;color:#405b68}.modal-body h3{color:var(--navy);font-size:16px;margin:18px 0 6px}.modal-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.modal-kpi{background:#eef6f7;border-radius:10px;padding:12px}.modal-kpi b{display:block;font-size:22px;color:var(--navy)}.modal-kpi span{font:9px Arial,sans-serif;color:var(--muted);text-transform:uppercase}.notice{padding:10px 12px;border-radius:9px;background:#f2f6f7;border-left:4px solid var(--cyan);font:10px/1.5 Arial,sans-serif;color:#516a77}
     .toast{position:fixed;right:22px;bottom:22px;background:#082f49;color:#fff;border-radius:10px;padding:11px 15px;font:11px Arial,sans-serif;z-index:300;transform:translateY(80px);opacity:0;transition:.25s}.toast.show{transform:translateY(0);opacity:1}
     @media(max-width:1200px){:root{--sidebar:205px}.kpi-grid{grid-template-columns:repeat(3,1fr)}.queue{grid-template-columns:repeat(2,1fr)}.control-matrix{grid-template-columns:repeat(2,1fr)}.pipeline{grid-template-columns:1fr 35px 1fr}.pipeline .last-arrow{display:none}.pipeline .last-node{grid-column:1/-1}.timeline{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:860px){.sidebar{display:none}.topbar{padding:0 12px}.brand{min-width:auto}.brand div,.top-title small{display:none}.top-title{padding-left:12px}.top-actions .hide-mobile{display:none}main{margin-left:0;padding:87px 14px 30px}.hero-grid,.readout,.two-col{grid-template-columns:1fr}.hero-status{margin-top:5px}.controlbar{position:relative;top:auto;align-items:flex-start;flex-direction:column}.control-meta{text-align:left}.section-head{align-items:flex-start;flex-direction:column}.section-head p{text-align:left}.kpi-grid{grid-template-columns:repeat(2,1fr)}.geo-summary{grid-template-columns:repeat(2,1fr)}.pipeline{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg)}.pipeline-lower,.queue,.timeline{grid-template-columns:1fr 1fr}.source-list{grid-template-columns:1fr}}
+    @media(max-width:860px){.sidebar{display:none}.topbar{padding:0 12px}.brand{min-width:auto}.brand div,.top-title small{display:none}.top-title{padding-left:12px}.top-actions .hide-mobile{display:none}main{margin-left:0;padding:87px 14px 30px}.hero-grid,.readout,.two-col{grid-template-columns:1fr}.hero-status{margin-top:5px}.candidate-credit{align-items:flex-start;flex-wrap:wrap}.candidate-credit .candidate-copy{flex-basis:calc(100% - 120px)}.controlbar{position:relative;top:auto;align-items:flex-start;flex-direction:column}.control-meta{text-align:left}.section-head{align-items:flex-start;flex-direction:column}.section-head p{text-align:left}.kpi-grid{grid-template-columns:repeat(2,1fr)}.geo-summary{grid-template-columns:repeat(2,1fr)}.pipeline{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg)}.pipeline-lower,.queue,.timeline{grid-template-columns:1fr 1fr}.source-list{grid-template-columns:1fr}}
     @media(max-width:530px){.hero{padding:23px 18px}.hero-status,.kpi-grid,.pipeline-lower,.queue,.timeline,.control-matrix,.modal-kpis{grid-template-columns:1fr}.top-title b{font-size:13px}.top-actions{gap:4px}.icon-btn{padding:7px 8px}.kpi{min-height:120px}.foot{flex-direction:column}}
     @media print{.topbar,.sidebar,.controlbar,.top-actions,.action button{display:none!important}main{margin:0;padding:0;background:#fff}.hero{border-radius:0;box-shadow:none}.card{box-shadow:none;break-inside:avoid}section{break-inside:avoid;margin-bottom:14px}.heat-scroll{max-height:none;overflow:visible}.modal{display:none!important}}
   </style>
@@ -177,6 +181,11 @@
           <div class="status-chip"><b>17</b><span>FY25 SIUs in SNC</span></div>
           <div class="status-chip"><b>59%</b><span>FY25 cost recovery</span></div>
         </div>
+      </div>
+      <div class="candidate-credit" aria-label="Candidate attribution">
+        <span class="candidate-kicker">Candidate work sample</span>
+        <span class="candidate-copy">Prepared and presented by <strong>Narissara Khomkhai</strong> as an example of executive reporting, data governance and project leadership for the <strong>Project Manager, PIMS</strong> position.</span>
+        <a href="https://nasdaqguru.github.io/" target="_blank" rel="noopener">View GitHub portfolio ↗</a>
       </div>
       <div class="disclaimer">Independent demonstration built from public MWRA materials; not an official MWRA production system. Geographic counts are normalized from Industrial Waste Report Appendix A and contain no confidential PIMS records.</div>
     </section>
@@ -287,7 +296,7 @@
         <a href="https://www.mwra.com/media/file/2025-12-10-mwra-board-directors-meeting-materials" target="_blank" rel="noopener">MWRA Board materials · information-management role context</a>
       </div></details>
       <details><summary>GitHub Pages publishing note</summary><div>This file has no external JavaScript, font, image or map dependency. Rename it to <code>index.html</code> for a repository root or keep the filename and link to it directly. All charts, filters, heat maps, popups and CSV export run in the browser.</div></details>
-      <div class="foot"><span>Prepared as a C-level PIMS / TRAC portfolio demonstration · Data through FY2025</span><span>Last reviewed: August 25, 2026 · America/New_York</span></div>
+      <div class="foot"><span>Candidate work sample by <strong>Narissara Khomkhai</strong> for the Project Manager, PIMS position · <a href="https://nasdaqguru.github.io/" target="_blank" rel="noopener">GitHub portfolio</a></span><span>Public data through FY2025 · Last reviewed: August 25, 2026</span></div>
     </section>
   </main>
 
