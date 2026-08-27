@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Interactive executive dashboard for MWRA TRAC pretreatment and PIMS public reporting, FY2021-FY2025.">
+  <meta name="description" content="Interactive executive decision and delivery dashboard for MWRA TRAC pretreatment, PIMS reporting, forecasts through FY2030, SOPs and project progress.">
   <meta name="author" content="Narissara Khomkhai">
-  <title>MWRA TRAC · PIMS Executive Intelligence Console</title>
+  <title>MWRA TRAC · PIMS Executive Decision &amp; Delivery Dashboard</title>
   <style>
     :root{
       --navy:#082f49;--blue:#075985;--cyan:#0891b2;--aqua:#0f766e;--mint:#dff5ef;
@@ -19,6 +19,8 @@
     button,input,select{font:inherit}
     button{cursor:pointer}
     a{color:var(--blue)}
+    :focus-visible{outline:3px solid #f59e0b;outline-offset:3px}
+    .sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
     .skip{position:fixed;left:12px;top:-60px;z-index:999;background:#fff;padding:10px 14px;border-radius:8px}
     .skip:focus{top:10px}
     .topbar{position:fixed;inset:0 0 auto 0;height:72px;z-index:80;background:linear-gradient(110deg,#052b40,#075985 64%,#087f86);color:#fff;display:flex;align-items:center;padding:0 24px;box-shadow:0 3px 16px rgba(1,30,45,.24)}
@@ -30,6 +32,9 @@
     .top-actions{display:flex;gap:8px}
     .icon-btn{border:1px solid rgba(255,255,255,.34);background:rgba(255,255,255,.09);color:#fff;border-radius:9px;padding:8px 11px;font-family:Arial,sans-serif;font-size:12px}
     .icon-btn:hover,.icon-btn:focus{background:rgba(255,255,255,.18)}
+    .view-switch{display:flex;gap:3px;padding:3px;border:1px solid rgba(255,255,255,.28);border-radius:10px;background:rgba(2,25,37,.16);margin-right:4px}.view-btn{border:0;background:transparent;color:#d7ebef;border-radius:7px;padding:6px 9px;font:800 10px Arial,sans-serif}.view-btn.active{background:#fff;color:var(--navy)}
+    .sidebar-view{display:none;background:#eef5f7;border-color:var(--line);margin:0 0 12px}.sidebar-view .view-btn{color:#526b78}.sidebar-view .view-btn.active{background:var(--navy);color:#fff}
+    .mobile-menu{display:none}
     .sidebar{position:fixed;top:72px;bottom:0;left:0;width:var(--sidebar);background:#fff;border-right:1px solid var(--line);z-index:60;padding:18px 14px;overflow:auto}
     .eyebrow{font-family:Arial,sans-serif;font-size:10px;letter-spacing:1.35px;text-transform:uppercase;font-weight:800;color:var(--cyan)}
     .sidebar .eyebrow{padding:0 11px;margin-bottom:9px}
@@ -39,6 +44,11 @@
     .nav-num{font-size:10px;color:#78909c;width:18px}
     .sidebar-note{margin-top:18px;padding:12px;border-radius:11px;background:#f1f7f8;font-family:Arial,sans-serif;font-size:10px;color:var(--muted);line-height:1.5}
     .sidebar-note b{color:var(--ink)}
+    body[data-view="executive"] #sideNav a[data-detail-nav]{display:none}
+    .nav-num-exec{display:none;font-size:10px;color:#78909c;width:18px}
+    body[data-view="executive"] #sideNav a[data-executive-nav] .nav-num{display:none}
+    body[data-view="executive"] #sideNav a[data-executive-nav] .nav-num-exec{display:inline-block}
+    body[data-view="executive"] section.detail-only{display:none}
     main{margin-left:var(--sidebar);padding:94px 28px 44px;max-width:1700px}
     section{scroll-margin-top:88px;margin-bottom:26px}
     .hero{position:relative;overflow:hidden;border-radius:22px;background:linear-gradient(125deg,#082f49,#075985 58%,#0f766e);color:#fff;padding:28px 30px 24px;box-shadow:var(--shadow)}
@@ -58,6 +68,7 @@
     .pill,.mini-tab{border:1px solid var(--line);background:#fff;color:#496674;border-radius:999px;padding:6px 11px;font-family:Arial,sans-serif;font-size:11px;font-weight:800}
     .pill:hover,.pill.active,.mini-tab:hover,.mini-tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
     .control-meta{font:11px Arial,sans-serif;color:var(--muted);text-align:right}
+    .trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:-7px 0 18px}.trust-item{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 12px;box-shadow:0 4px 12px rgba(8,47,73,.04)}.trust-item span{display:block;font:800 8px Arial,sans-serif;text-transform:uppercase;letter-spacing:.55px;color:#718792}.trust-item b{display:block;margin-top:3px;color:var(--navy);font-size:12px}.trust-item small{display:block;margin-top:3px;font:9px/1.35 Arial,sans-serif;color:var(--muted)}
     .section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin:0 2px 12px}
     .section-head h2{margin:3px 0 0;font-size:25px;line-height:1.1;color:var(--navy)}
     .section-head p{font:11px/1.45 Arial,sans-serif;color:var(--muted);margin:0;max-width:580px;text-align:right}
@@ -70,7 +81,8 @@
     .kpi .value{font-size:34px;line-height:1;margin:10px 0 7px;color:var(--navy);font-weight:800}
     .kpi .delta{font:11px/1.35 Arial,sans-serif;color:var(--muted)}
     .kpi .delta strong{color:var(--aqua)}.kpi .delta .down{color:var(--red)}
-    .source-dot{position:absolute;right:12px;top:11px;width:8px;height:8px;background:#22c55e;border-radius:50%;box-shadow:0 0 0 3px #dcfce7}
+    .kpi-target{margin-top:9px;padding-top:8px;border-top:1px solid #e5edef;font:800 8px/1.35 Arial,sans-serif;color:#526b78;text-transform:uppercase;letter-spacing:.3px}
+    .source-dot{position:absolute;right:12px;top:11px;width:10px;height:10px;padding:0;border:0;background:#22c55e;border-radius:50%;box-shadow:0 0 0 3px #dcfce7}
     .readout{display:grid;grid-template-columns:1.25fr .75fr;gap:12px;margin-top:12px}
     .exec-brief{padding:18px 20px;background:linear-gradient(135deg,#fff,#f0f8f8)}
     .exec-brief h3,.panel h3{margin:0 0 7px;font-size:17px;color:var(--navy)}
@@ -120,6 +132,18 @@
     .control-matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}
     .control-card{border:1px solid var(--line);border-radius:12px;padding:13px;background:#f9fcfc}
     .control-card b{display:block;color:var(--navy);font-size:13px}.control-card span{display:block;font:10px/1.45 Arial,sans-serif;color:var(--muted);margin-top:4px}.control-card em{display:inline-block;margin-top:8px;font:800 9px Arial,sans-serif;color:#0f766e;font-style:normal;text-transform:uppercase}
+    .strategy-grid{display:grid;grid-template-columns:minmax(0,1.06fr) minmax(390px,.94fr);gap:12px}
+    .imperative{padding:21px;background:linear-gradient(138deg,#fff,#eef8f7);position:relative;overflow:hidden}.imperative:after{content:"SOURCE";position:absolute;right:-5px;bottom:-22px;color:rgba(8,47,73,.035);font:900 72px Arial,sans-serif;letter-spacing:-4px}.imperative h3{margin:6px 0 9px;color:var(--navy);font-size:22px}.imperative p{position:relative;z-index:1;margin:0;font:12px/1.65 Arial,sans-serif;color:#3f5c68}.impact-strip{position:relative;z-index:1;display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:16px}.impact-stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px}.impact-stat b{display:block;color:var(--navy);font-size:20px}.impact-stat span{display:block;margin-top:3px;font:9px/1.35 Arial,sans-serif;color:var(--muted);text-transform:uppercase;letter-spacing:.35px}
+    .org-frame{padding:20px}.org-frame h3{margin:0 0 13px;color:var(--navy);font-size:17px}.org-level{display:flex;justify-content:center}.org-node{width:min(330px,88%);border:1px solid #b9d4db;background:#f8fcfc;border-radius:10px;padding:9px 12px;text-align:center;color:var(--navy);font:800 11px/1.3 Arial,sans-serif}.org-node.trac{background:var(--navy);border-color:var(--navy);color:#fff}.org-connector{width:2px;height:13px;background:#8ab7c0;margin:auto}.org-branches{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding-top:13px}.org-branches:before{content:"";position:absolute;left:16.5%;right:16.5%;top:0;border-top:2px solid #8ab7c0}.org-branches .org-node{width:100%;height:100%;display:grid;place-items:center;font-size:9px;font-weight:700;position:relative}.org-branches .org-node:before{content:"";position:absolute;width:2px;height:13px;background:#8ab7c0;left:50%;top:-14px}
+    .charge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.charge-card{padding:14px;border-left:4px solid var(--cyan)}.charge-card:nth-child(2){border-left-color:var(--aqua)}.charge-card:nth-child(3){border-left-color:var(--gold)}.charge-card b{display:block;color:var(--navy);font-size:14px}.charge-card p{margin:5px 0 0;font:10px/1.5 Arial,sans-serif;color:var(--muted)}
+    .portfolio-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.portfolio-card{border:1px solid var(--line);background:#fff;border-radius:14px;padding:15px;text-align:left;min-height:190px;position:relative;overflow:hidden;transition:.18s}.portfolio-card:after{content:"";position:absolute;right:-30px;bottom:-30px;width:90px;height:90px;border-radius:50%;background:#edf7f7}.portfolio-card:hover,.portfolio-card:focus{transform:translateY(-2px);border-color:#79bac6;box-shadow:0 9px 24px rgba(8,47,73,.1)}.portfolio-card .portfolio-no{display:inline-grid;place-items:center;width:29px;height:29px;border-radius:9px;background:#e7f5f3;color:#0f766e;font:800 10px Arial,sans-serif}.portfolio-card h3{font-size:15px;line-height:1.25;margin:10px 0 7px;color:var(--navy)}.portfolio-card p{margin:0 0 11px;font:10px/1.5 Arial,sans-serif;color:var(--muted)}.portfolio-card .open-label{position:absolute;left:15px;bottom:14px;z-index:1;color:var(--blue);font:800 9px Arial,sans-serif;text-transform:uppercase;letter-spacing:.45px}
+    .review-matrix{margin-top:12px}.review-matrix td{white-space:normal;vertical-align:top;text-align:left;line-height:1.45}.review-matrix th{text-align:left;white-space:normal}.review-matrix th:first-child,.review-matrix td:first-child{position:static}.review-matrix td:first-child{font-weight:800;color:var(--navy)}
+    .benchmark-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.practice-card{border:1px solid var(--line);background:#fff;border-radius:13px;padding:14px;text-align:left;min-height:154px;transition:.18s;position:relative}.practice-card:hover,.practice-card:focus{transform:translateY(-2px);border-color:#79bac6;box-shadow:0 8px 20px rgba(8,47,73,.09)}.practice-card b{display:block;color:var(--navy);font-size:14px;margin:8px 0 5px}.practice-card p{margin:0 0 19px;font:10px/1.45 Arial,sans-serif;color:var(--muted)}.practice-card .practice-open{position:absolute;left:14px;bottom:11px;color:var(--blue);font:800 9px Arial,sans-serif;text-transform:uppercase;letter-spacing:.4px}
+    .benchmark-layout{display:grid;grid-template-columns:minmax(320px,.72fr) minmax(0,1.28fr);gap:12px;margin-top:12px}.peer-chart{height:315px;position:relative}.peer-legend{display:flex;gap:9px;flex-wrap:wrap;margin:8px 0 0;font:9px Arial,sans-serif;color:var(--muted)}.peer-state{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:4px 7px;font:800 8px Arial,sans-serif;text-transform:uppercase;letter-spacing:.35px;white-space:nowrap}.peer-state.verified{background:#dff5ef;color:#0f766e}.peer-state.progress{background:#fff3d7;color:#9a5b00}.peer-state.notfound{background:#edf2f4;color:#617783}.peer-table td,.peer-table th{text-align:center;white-space:normal;min-width:92px}.peer-table td:first-child,.peer-table th:first-child{text-align:left;position:sticky;left:0}.peer-table td:first-child{font-weight:800;color:var(--navy)}.peer-table tbody tr{cursor:pointer}.benchmark-note{margin-top:10px;padding:10px 12px;border:1px dashed #b8ccd3;border-radius:10px;background:#fbfdfd;font:9.5px/1.5 Arial,sans-serif;color:var(--muted)}
+    .forecast-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}.forecast-tabs,.scenario-pills{display:flex;gap:5px;flex-wrap:wrap}.forecast-tab,.scenario-pill{border:1px solid var(--line);background:#fff;color:#496674;border-radius:999px;padding:6px 10px;font:800 10px Arial,sans-serif}.forecast-tab.active{background:var(--navy);border-color:var(--navy);color:#fff}.scenario-pill.active{background:var(--aqua);border-color:var(--aqua);color:#fff}.forecast-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(320px,.8fr);gap:12px}.forecast-chart{height:330px;position:relative}.forecast-kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.forecast-kpi{border:1px solid var(--line);background:#f9fcfc;border-radius:11px;padding:12px;min-height:104px}.forecast-kpi b{display:block;color:var(--navy);font-size:25px;line-height:1;margin:8px 0 5px}.forecast-kpi span{font:800 9px Arial,sans-serif;color:#617986;text-transform:uppercase;letter-spacing:.5px}.forecast-kpi small{display:block;font:9.5px/1.4 Arial,sans-serif;color:var(--muted)}.model-readout{margin-top:9px;padding:13px;border-radius:11px;background:linear-gradient(135deg,#edf7f7,#fff);border:1px solid #cde2e5}.model-readout h3{margin:0 0 5px;color:var(--navy);font-size:14px}.model-readout p{margin:0;font:10px/1.5 Arial,sans-serif;color:var(--muted)}
+    .flag-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.flag-card{border:1px solid var(--line);background:#fff;border-radius:12px;padding:13px;text-align:left;min-height:132px;position:relative}.flag-card.immediate{border-top:4px solid var(--red)}.flag-card.near{border-top:4px solid var(--gold)}.flag-card b{display:block;color:var(--navy);font-size:13px;margin:8px 0 5px}.flag-card p{margin:0 0 17px;font:9.5px/1.45 Arial,sans-serif;color:var(--muted)}.flag-card .flag-open{position:absolute;left:13px;bottom:10px;color:var(--blue);font:800 8.5px Arial,sans-serif;text-transform:uppercase;letter-spacing:.35px}.driver-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.driver{border:1px solid var(--line);border-radius:10px;padding:11px;background:#f9fcfc}.driver b{display:block;color:var(--navy);font-size:18px}.driver span{display:block;font:9px/1.4 Arial,sans-serif;color:var(--muted);margin-top:4px}
+    .sop-shell{display:grid;grid-template-columns:minmax(310px,.68fr) minmax(0,1.32fr);gap:12px}.sop-tabs,.tracker-filters{display:flex;gap:5px;flex-wrap:wrap}.sop-tab,.tracker-filter{border:1px solid var(--line);background:#fff;color:#496674;border-radius:999px;padding:6px 10px;font:800 10px Arial,sans-serif}.sop-tab.active{background:var(--navy);border-color:var(--navy);color:#fff}.tracker-filter.active{background:var(--aqua);border-color:var(--aqua);color:#fff}.sop-brief{padding:16px;background:linear-gradient(145deg,#edf7f7,#fff)}.sop-brief h3{margin:8px 0 6px;color:var(--navy);font-size:18px}.sop-brief p{margin:0;font:10.5px/1.55 Arial,sans-serif;color:var(--muted)}.sop-facts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.sop-fact{border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff}.sop-fact span{display:block;font:800 8px Arial,sans-serif;text-transform:uppercase;letter-spacing:.5px;color:#718792}.sop-fact b{display:block;margin-top:4px;color:var(--navy);font-size:11px}.sop-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.sop-step{position:relative;border:1px solid var(--line);border-radius:12px;padding:13px 13px 12px 42px;background:#fff;min-height:142px}.sop-step .step-no{position:absolute;left:11px;top:12px;width:23px;height:23px;border-radius:8px;background:#e1f1f4;color:var(--blue);display:grid;place-items:center;font:800 9px Arial,sans-serif}.sop-step b{display:block;color:var(--navy);font-size:13px}.sop-step p{margin:5px 0;font:9.5px/1.45 Arial,sans-serif;color:var(--muted)}.sop-step em{font:800 8px/1.35 Arial,sans-serif;color:#0f766e;font-style:normal;text-transform:uppercase;letter-spacing:.35px}.tracker-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:18px 2px 10px}.tracker-head h3{margin:2px 0 0;color:var(--navy);font-size:18px}.tracker-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:9px}.tracker-stat{border:1px solid var(--line);background:#fff;border-radius:11px;padding:10px 12px}.tracker-stat b{display:block;color:var(--navy);font-size:20px}.tracker-stat span{font:9px Arial,sans-serif;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}.tracker-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.tracker-card{padding:14px;min-height:226px;position:relative;border-top:4px solid #85c4ce}.tracker-card.immediate{border-top-color:var(--red)}.tracker-card.near{border-top-color:var(--gold)}.tracker-card.ongoing{border-top-color:var(--cyan)}.tracker-card h4{margin:8px 0 5px;color:var(--navy);font-size:14px}.tracker-card>p{margin:0;font:9.5px/1.45 Arial,sans-serif;color:var(--muted);min-height:42px}.stage-track{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin:12px 0 7px}.stage-segment{height:7px;border-radius:99px;background:#e5edef}.stage-segment.done{background:#78bbb7}.stage-segment.current{background:var(--navy)}.tracker-stage{font:800 9px Arial,sans-serif;color:var(--navy)}.tracker-next{margin-top:8px;padding:8px 9px;border-radius:8px;background:#f3f8f9;font:9px/1.4 Arial,sans-serif;color:var(--muted)}.tracker-next b{color:var(--ink)}.tracker-controls{display:flex;align-items:end;justify-content:space-between;gap:8px;margin-top:10px}.tracker-controls label{font:800 8px Arial,sans-serif;text-transform:uppercase;color:#718792}.tracker-controls select{display:block;margin-top:3px;border:1px solid var(--line);border-radius:8px;padding:5px 6px;background:#fff;color:var(--ink);font:10px Arial,sans-serif}.tracker-open{border:0;background:transparent;color:var(--blue);padding:5px 0;font:800 9px Arial,sans-serif}.tracker-note{margin-top:10px;padding:10px 12px;border:1px dashed #b8ccd3;border-radius:10px;background:#fbfdfd;font:9.5px/1.5 Arial,sans-serif;color:var(--muted)}
+    .sop-control-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}.sop-control{border:1px solid var(--line);border-radius:9px;padding:9px;background:#fff}.sop-control span{display:block;font:800 8px Arial,sans-serif;text-transform:uppercase;color:#718792}.sop-control b{display:block;margin-top:4px;color:var(--navy);font-size:10px;line-height:1.35}
     .timeline{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}
     .milestone{border-top:4px solid #85c4ce;background:#f7fbfc;border-radius:5px 5px 12px 12px;padding:13px;min-height:155px}
     .milestone.done{border-top-color:#0f766e}.milestone.current{border-top-color:var(--gold)}
@@ -127,6 +151,8 @@
     .queue{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
     .action{padding:15px;position:relative;overflow:hidden}.action:after{content:"";position:absolute;right:-23px;bottom:-25px;width:76px;height:76px;border-radius:50%;background:#edf7f7}
     .action h3{font-size:15px;margin:8px 0 6px;color:var(--navy)}.action p{font:10.5px/1.5 Arial,sans-serif;color:var(--muted);margin:0;min-height:48px}.action button{position:relative;z-index:1;margin-top:11px;border:0;background:transparent;color:var(--blue);padding:0;font:800 10px Arial,sans-serif}
+    .board-products{margin-top:12px;padding:18px}.board-products h3{margin:0;color:var(--navy);font-size:17px}.board-products>p{margin:5px 0 12px;font:10.5px/1.5 Arial,sans-serif;color:var(--muted)}.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.product-btn{border:1px solid var(--line);background:#f8fbfc;border-radius:11px;padding:12px;text-align:left;color:var(--navy);font:800 11px/1.35 Arial,sans-serif}.product-btn span{display:block;margin-top:4px;color:var(--muted);font:9px/1.4 Arial,sans-serif}.product-btn:hover,.product-btn:focus{border-color:#79bac6;background:#edf7f7}
+    .action-register{overflow:hidden}.action-register .panel-head{padding:15px 17px 4px}.action-register table{min-width:900px}.action-register th,.action-register td{text-align:left;vertical-align:top;white-space:normal}.action-register td:first-child,.action-register th:first-child{position:static}.action-register td:first-child{font-weight:800;color:var(--navy)}.action-register .decision-copy{font-weight:800;color:var(--navy)}.action-register .decision-copy small{display:block;margin-top:4px;font-weight:400;color:var(--muted);line-height:1.4}.action-register button{border:0;background:transparent;color:var(--blue);padding:0;font:800 9px Arial,sans-serif;text-transform:uppercase;letter-spacing:.35px}
     details{background:#fff;border:1px solid var(--line);border-radius:12px;margin:7px 0;overflow:hidden}summary{padding:12px 14px;cursor:pointer;font-weight:700;color:var(--navy)}details>div{padding:0 14px 14px;font:11px/1.6 Arial,sans-serif;color:var(--muted)}
     .source-list{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px}.source-list a{word-break:break-word}
     .foot{margin-top:25px;padding:18px 4px 0;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;color:var(--muted);font:10px/1.5 Arial,sans-serif}
@@ -135,34 +161,47 @@
     .modal-head{position:sticky;top:0;background:#fff;z-index:2;border-bottom:1px solid var(--line);padding:17px 20px;display:flex;align-items:center;justify-content:space-between}.modal-head h2{font-size:21px;margin:0;color:var(--navy)}
     .close{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:#f6fafb;color:var(--ink);font:21px Arial,sans-serif}.modal-body{padding:20px}.modal-body p,.modal-body li{font:12px/1.65 Arial,sans-serif;color:#405b68}.modal-body h3{color:var(--navy);font-size:16px;margin:18px 0 6px}.modal-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.modal-kpi{background:#eef6f7;border-radius:10px;padding:12px}.modal-kpi b{display:block;font-size:22px;color:var(--navy)}.modal-kpi span{font:9px Arial,sans-serif;color:var(--muted);text-transform:uppercase}.notice{padding:10px 12px;border-radius:9px;background:#f2f6f7;border-left:4px solid var(--cyan);font:10px/1.5 Arial,sans-serif;color:#516a77}
     .toast{position:fixed;right:22px;bottom:22px;background:#082f49;color:#fff;border-radius:10px;padding:11px 15px;font:11px Arial,sans-serif;z-index:300;transform:translateY(80px);opacity:0;transition:.25s}.toast.show{transform:translateY(0);opacity:1}
-    @media(max-width:1200px){:root{--sidebar:205px}.kpi-grid{grid-template-columns:repeat(3,1fr)}.queue{grid-template-columns:repeat(2,1fr)}.control-matrix{grid-template-columns:repeat(2,1fr)}.pipeline{grid-template-columns:1fr 35px 1fr}.pipeline .last-arrow{display:none}.pipeline .last-node{grid-column:1/-1}.timeline{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:860px){.sidebar{display:none}.topbar{padding:0 12px}.brand{min-width:auto}.brand div,.top-title small{display:none}.top-title{padding-left:12px}.top-actions .hide-mobile{display:none}main{margin-left:0;padding:87px 14px 30px}.hero-grid,.readout,.two-col{grid-template-columns:1fr}.hero-status{margin-top:5px}.candidate-credit{align-items:flex-start;flex-wrap:wrap}.candidate-credit .candidate-copy{flex-basis:calc(100% - 120px)}.controlbar{position:relative;top:auto;align-items:flex-start;flex-direction:column}.control-meta{text-align:left}.section-head{align-items:flex-start;flex-direction:column}.section-head p{text-align:left}.kpi-grid{grid-template-columns:repeat(2,1fr)}.geo-summary{grid-template-columns:repeat(2,1fr)}.pipeline{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg)}.pipeline-lower,.queue,.timeline{grid-template-columns:1fr 1fr}.source-list{grid-template-columns:1fr}}
-    @media(max-width:530px){.hero{padding:23px 18px}.hero-status,.kpi-grid,.pipeline-lower,.queue,.timeline,.control-matrix,.modal-kpis{grid-template-columns:1fr}.top-title b{font-size:13px}.top-actions{gap:4px}.icon-btn{padding:7px 8px}.kpi{min-height:120px}.foot{flex-direction:column}}
-    @media print{.topbar,.sidebar,.controlbar,.top-actions,.action button{display:none!important}main{margin:0;padding:0;background:#fff}.hero{border-radius:0;box-shadow:none}.card{box-shadow:none;break-inside:avoid}section{break-inside:avoid;margin-bottom:14px}.heat-scroll{max-height:none;overflow:visible}.modal{display:none!important}}
+    #boardSheet{display:none}
+    @media(max-width:1200px){:root{--sidebar:205px}.kpi-grid{grid-template-columns:repeat(3,1fr)}.queue{grid-template-columns:repeat(2,1fr)}.control-matrix{grid-template-columns:repeat(2,1fr)}.portfolio-grid,.benchmark-cards{grid-template-columns:repeat(2,1fr)}.benchmark-layout,.forecast-layout,.sop-shell{grid-template-columns:1fr}.flag-grid{grid-template-columns:repeat(2,1fr)}.tracker-grid{grid-template-columns:repeat(2,1fr)}.pipeline{grid-template-columns:1fr 35px 1fr}.pipeline .last-arrow{display:none}.pipeline .last-node{grid-column:1/-1}.timeline{grid-template-columns:repeat(3,1fr)}.trust-strip{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:860px){.sidebar{display:none}.sidebar.open{display:block;top:72px;width:min(310px,86vw);box-shadow:18px 0 40px rgba(2,25,37,.25)}.sidebar-view{display:flex}.mobile-menu{display:inline-flex}.topbar{padding:0 12px}.brand{min-width:auto}.brand div,.top-title small{display:none}.top-title{padding-left:12px}.top-actions .hide-mobile,.topbar>.view-switch{display:none}main{margin-left:0;padding:87px 14px 30px}.hero-grid,.readout,.two-col,.strategy-grid{grid-template-columns:1fr}.hero-status{margin-top:5px}.candidate-credit{align-items:flex-start;flex-wrap:wrap}.candidate-credit .candidate-copy{flex-basis:calc(100% - 120px)}.controlbar{position:relative;top:auto;align-items:flex-start;flex-direction:column}.control-meta{text-align:left}.section-head,.tracker-head{align-items:flex-start;flex-direction:column}.section-head p{text-align:left}.kpi-grid{grid-template-columns:repeat(2,1fr)}.geo-summary{grid-template-columns:repeat(2,1fr)}.pipeline{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg)}.pipeline-lower,.queue,.timeline{grid-template-columns:1fr 1fr}.sop-steps{grid-template-columns:repeat(2,1fr)}.charge-grid,.product-grid{grid-template-columns:1fr}.source-list{grid-template-columns:1fr}.sop-control-grid{grid-template-columns:1fr}}
+    @media(max-width:530px){.hero{padding:23px 18px}.hero-status,.kpi-grid,.pipeline-lower,.queue,.timeline,.control-matrix,.modal-kpis,.portfolio-grid,.impact-strip,.benchmark-cards,.forecast-kpis,.flag-grid,.driver-grid,.sop-steps,.tracker-grid,.tracker-summary{grid-template-columns:1fr}.sop-facts{grid-template-columns:1fr}.org-branches{grid-template-columns:1fr;padding-top:0}.org-branches:before,.org-branches .org-node:before{display:none}.org-branches .org-node{margin-top:6px}.top-title b{font-size:13px}.top-actions{gap:4px}.icon-btn{padding:7px 8px}.kpi{min-height:120px}.foot{flex-direction:column}.peer-chart{height:360px}.forecast-chart{height:300px}}
+    @media(max-width:530px){.trust-strip{grid-template-columns:1fr}.top-title{display:none}.brand{flex:1}.top-actions .icon-btn{font-size:10px}}
+    @media print{.topbar,.sidebar,.controlbar,.top-actions,.action button{display:none!important}main{margin:0;padding:0;background:#fff}.hero{border-radius:0;box-shadow:none}.card{box-shadow:none;break-inside:avoid}section{break-inside:avoid;margin-bottom:14px}.heat-scroll{max-height:none;overflow:visible}.modal{display:none!important}body.board-print main{display:none!important}body.board-print #boardSheet{display:block!important;padding:0;color:#102a3a}body.board-print #boardSheet .board-title{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:3px solid #075985;padding-bottom:8px;margin-bottom:10px}body.board-print #boardSheet h1{font-size:25px;color:#082f49;margin:0}body.board-print #boardSheet h2{font-size:13px;color:#075985;margin:10px 0 5px;text-transform:uppercase;letter-spacing:.5px}body.board-print #boardSheet p,body.board-print #boardSheet td,body.board-print #boardSheet th{font:9px/1.35 Arial,sans-serif}body.board-print #boardSheet .board-kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}body.board-print #boardSheet .board-kpi{border:1px solid #d9e5ea;border-radius:8px;padding:8px}body.board-print #boardSheet .board-kpi b{display:block;font-size:19px;color:#082f49}body.board-print #boardSheet table{font-size:8px}body.board-print #boardSheet th,body.board-print #boardSheet td{padding:5px 6px;position:static!important;text-align:left;white-space:normal}body.board-print #boardSheet .board-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:12px}@page{size:landscape;margin:10mm}}
   </style>
 </head>
-<body>
+<body data-view="executive">
   <a class="skip" href="#main">Skip to dashboard</a>
   <header class="topbar">
     <div class="brand"><div class="mark" aria-hidden="true">MWRA</div><div><strong>TRAC</strong><span>Toxic Reduction & Control</span></div></div>
-    <div class="top-title"><b>PIMS Executive Intelligence Console</b><small>Industrial pretreatment · compliance · field operations · information management</small></div>
+    <div class="top-title"><b>PIMS Executive Decision &amp; Delivery Dashboard</b><small>Industrial pretreatment · compliance · field operations · information management</small></div>
+    <div class="view-switch" aria-label="Report view">
+      <button class="view-btn active" data-view-mode="executive" aria-pressed="true">Executive</button>
+      <button class="view-btn" data-view-mode="full" aria-pressed="false">Full detail</button>
+    </div>
     <div class="top-actions">
       <button class="icon-btn hide-mobile" id="copyBrief">Copy brief</button>
+      <button class="icon-btn hide-mobile" id="boardBrief">1-page brief</button>
       <button class="icon-btn" id="exportCsv">Export CSV</button>
       <button class="icon-btn" id="printBtn">Print</button>
+      <button class="icon-btn mobile-menu" id="mobileMenuBtn" aria-expanded="false" aria-controls="reportSidebar" aria-label="Open report index">☰</button>
     </div>
   </header>
-  <aside class="sidebar" aria-label="Report index">
+  <aside class="sidebar" id="reportSidebar" aria-label="Report index">
     <div class="eyebrow">Executive index</div>
+    <div class="view-switch sidebar-view" aria-label="Mobile report view"><button class="view-btn active" data-view-mode="executive" aria-pressed="true">Executive</button><button class="view-btn" data-view-mode="full" aria-pressed="false">Full detail</button></div>
     <nav id="sideNav">
-      <a href="#overview" class="active"><span class="nav-num">01</span>Control tower</a>
-      <a href="#performance"><span class="nav-num">02</span>Five-year performance</a>
-      <a href="#geography"><span class="nav-num">03</span>Geographic heat map</a>
-      <a href="#industry"><span class="nav-num">04</span>Industry fields</a>
-      <a href="#systems"><span class="nav-num">05</span>PIMS control plane</a>
-      <a href="#roadmap"><span class="nav-num">06</span>Digital maturity</a>
-      <a href="#actions"><span class="nav-num">07</span>Decision queue</a>
-      <a href="#methods"><span class="nav-num">08</span>Methods & sources</a>
+      <a href="#overview" class="active" data-executive-nav><span class="nav-num">01</span><span class="nav-num-exec">01</span>Executive briefing</a>
+      <a href="#actions" data-executive-nav><span class="nav-num">02</span><span class="nav-num-exec">02</span>Decisions & actions</a>
+      <a href="#forecast" data-executive-nav><span class="nav-num">03</span><span class="nav-num-exec">03</span>Forecast & risk flags</a>
+      <a href="#performance" data-detail-nav><span class="nav-num">04</span>Performance & KPIs</a>
+      <a href="#geography" data-detail-nav><span class="nav-num">05</span>Geographic exposure</a>
+      <a href="#industry" data-detail-nav><span class="nav-num">06</span>Industry exposure</a>
+      <a href="#strategy" data-detail-nav><span class="nav-num">07</span>Strategy & portfolio</a>
+      <a href="#governance" data-executive-nav><span class="nav-num">08</span><span class="nav-num-exec">04</span>SOPs & delivery tracking</a>
+      <a href="#systems" data-detail-nav><span class="nav-num">09</span>Data & system controls</a>
+      <a href="#roadmap" data-detail-nav><span class="nav-num">10</span>Transformation roadmap</a>
+      <a href="#benchmark" data-detail-nav><span class="nav-num">11</span>Best practice & peers</a>
+      <a href="#methods" data-detail-nav><span class="nav-num">12</span>Methods & sources</a>
     </nav>
     <div class="sidebar-note"><b>Reporting basis</b><br>Five complete fiscal years: July 1, 2020–June 30, 2025. Green dots denote values transcribed from MWRA public reports.</div>
   </aside>
@@ -171,15 +210,15 @@
     <section id="overview" class="hero">
       <div class="hero-grid">
         <div>
-          <div class="eyebrow" style="color:#88e1df">Executive operations · public-data prototype</div>
+          <div class="eyebrow" style="color:#88e1df">Executive briefing · public-data prototype</div>
           <h1>See pretreatment risk before it becomes treatment risk.</h1>
           <p>A five-year control view of industrial users, permits, monitoring, inspections, enforcement, cost recovery and the PIMS data chain connecting WebSMR, laboratory results and regulatory reporting.</p>
         </div>
         <div class="hero-status">
           <div class="status-chip"><b>FY21–25</b><span>Complete trend window</span></div>
-          <div class="status-chip"><b>100%</b><span>FY25 SIUs inspected</span></div>
-          <div class="status-chip"><b>17</b><span>FY25 SIUs in SNC</span></div>
-          <div class="status-chip"><b>59%</b><span>FY25 cost recovery</span></div>
+          <div class="status-chip"><b id="heroInspection">100%</b><span id="heroInspectionLabel">FY25 SIUs inspected</span></div>
+          <div class="status-chip"><b id="heroSnc">17</b><span id="heroSncLabel">FY25 SIUs in SNC</span></div>
+          <div class="status-chip"><b id="heroRecovery">59%</b><span id="heroRecoveryLabel">FY25 cost recovery</span></div>
         </div>
       </div>
       <div class="candidate-credit" aria-label="Candidate attribution">
@@ -190,14 +229,104 @@
       <div class="disclaimer">Independent demonstration built from public MWRA materials; not an official MWRA production system. Geographic counts are normalized from Industrial Waste Report Appendix A and contain no confidential PIMS records.</div>
     </section>
 
-    <div class="controlbar" aria-label="Fiscal year controls">
+    <div class="controlbar" id="yearControls" aria-label="Fiscal year controls">
       <div class="year-pills" id="yearPills">
         <button class="pill" data-year="2021">FY21</button><button class="pill" data-year="2022">FY22</button><button class="pill" data-year="2023">FY23</button><button class="pill" data-year="2024">FY24</button><button class="pill active" data-year="2025">FY25</button>
       </div>
       <div class="control-meta"><b id="periodLabel">July 1, 2024–June 30, 2025</b><br>Click a year to update the executive layer</div>
     </div>
+    <div class="trust-strip" id="trustSummary" aria-label="Data trust summary">
+      <div class="trust-item"><span>Latest complete source</span><b>FY2025 Industrial Waste Report</b><small>Five annual reports transcribed and compared</small></div>
+      <div class="trust-item"><span>Candidate review date</span><b>August 27, 2026</b><small>Static public-source snapshot; not a live PIMS refresh</small></div>
+      <div class="trust-item"><span>Reconciliation status</span><b>FY23–FY25 city totals exact</b><small>FY21–FY22 unique-ID layers differ by one record</small></div>
+      <div class="trust-item"><span>Model posture</span><b>Planning prototype only</b><small>Five annual observations; monthly feed required</small></div>
+    </div>
 
-    <section aria-labelledby="snapshotTitle">
+    <section id="strategy" class="detail-only" aria-labelledby="strategyTitle">
+      <div class="section-head"><div><div class="eyebrow">Executive strategy & operational framework</div><h2 id="strategyTitle">Source control protects treatment, waterways and resource recovery</h2></div><p>A board-level blueprint connecting Clean Water Act pretreatment obligations to operating capacity, cost recovery and PIMS-enabled accountability.</p></div>
+      <div class="strategy-grid">
+        <article class="card imperative">
+          <span class="badge red">Strategic imperative</span>
+          <h3>Stop toxic loading before it reaches the treatment plants.</h3>
+          <p>Deer Island and Clinton are advanced wastewater treatment facilities, but they are not designed to remove every metal, petroleum product, industrial chemical or persistent organic compound. TRAC’s source-control mission protects biological treatment, collection infrastructure and workers; reduces pass-through risk to receiving waters; and helps preserve biosolids reuse through MWRA’s Bay State Fertilizer program.</p>
+          <div class="impact-strip">
+            <div class="impact-stat"><b>0</b><span>FY25 pass-through or interference events</span></div>
+            <div class="impact-stat"><b>59%</b><span>FY25 current-expense recovery</span></div>
+            <div class="impact-stat"><b>48</b><span>Permanent TRAC positions reported for FY25</span></div>
+            <div class="impact-stat"><b>Quarterly</b><span>Orange Notebook Board KPI cadence</span></div>
+          </div>
+        </article>
+        <article class="card org-frame" aria-label="MWRA executive operating alignment">
+          <h3>Executive operating alignment</h3>
+          <div class="org-level"><div class="org-node">MWRA Executive Director</div></div><div class="org-connector"></div>
+          <div class="org-level"><div class="org-node">Chief Operating Officer</div></div><div class="org-connector"></div>
+          <div class="org-level"><div class="org-node trac">Toxic Reduction & Control · TRAC</div></div><div class="org-connector"></div>
+          <div class="org-branches">
+            <div class="org-node">Permit & inspect<br>industrial and commercial users</div>
+            <div class="org-node">Field sampling<br>& monitoring operations</div>
+            <div class="org-node">Enforcement<br>& financial cost recovery</div>
+          </div>
+          <div class="notice" style="margin-top:13px">Functional briefing model for this work sample; not an official MWRA organization chart.</div>
+        </article>
+      </div>
+
+      <div class="charge-grid" aria-label="Cost recovery and accountability model">
+        <article class="card charge-card"><b>Permitting charges</b><p>Recover program effort associated with discharge volume, permit administration and the oversight demands of each industrial user.</p></article>
+        <article class="card charge-card"><b>Monitoring charges</b><p>Recover direct sampling and analytical workload, reflecting the number and complexity of regulated constituents.</p></article>
+        <article class="card charge-card"><b>Executive accountability</b><p>Pair the annual Industrial Waste Report with the quarterly “Orange Notebook” view of key MWRA performance indicators.</p></article>
+      </div>
+
+      <div class="section-head" style="margin-top:20px"><div><div class="eyebrow">High-priority portfolio</div><h2 style="font-size:21px">Four initiatives for executive sponsorship</h2></div><p>Click a portfolio card for regulatory context, executive impact, proposed action and PIMS implications.</p></div>
+      <div class="portfolio-grid">
+        <button class="portfolio-card" data-portfolio="limits"><span class="portfolio-no">01</span><h3>Industrial Pretreatment & Local Limits</h3><p>Refresh headworks loading analysis, industrial allocations and enforceable local limits to prevent interference and pass-through.</p><span class="open-label">Open portfolio brief →</span></button>
+        <button class="portfolio-card" data-portfolio="pfas"><span class="portfolio-no">02</span><h3>PFAS Source Identification & Mitigation</h3><p>Turn trace-back monitoring into prioritized source-control action while protecting biosolids reuse options and future cost exposure.</p><span class="open-label">Open portfolio brief →</span></button>
+        <button class="portfolio-card" data-portfolio="digital"><span class="portfolio-no">03</span><h3>PIMS Permitting & Sampling Automation</h3><p>Candidate-proposed modernization for digital submittals, workflow automation, third-party data intake and governed executive reporting.</p><span class="open-label">Open portfolio brief →</span></button>
+        <button class="portfolio-card" data-portfolio="ii"><span class="portfolio-no">04</span><h3>Cross-Functional I/I & Wet-Weather Coordination</h3><p>Connect community sewer rehabilitation investment with wet-weather monitoring, capacity protection and targeted runoff intelligence.</p><span class="open-label">Open portfolio brief →</span></button>
+      </div>
+
+      <article class="card panel review-matrix">
+        <div class="panel-head"><h3>Executive review matrix</h3><span class="badge gray">Decision lens</span></div>
+        <div class="heat-scroll" style="max-height:none"><table><thead><tr><th>Core initiative</th><th>Primary driver</th><th>Operational target / KPI</th><th>Key executive challenge</th></tr></thead><tbody>
+          <tr><td>Industrial Pretreatment</td><td>Federal Clean Water Act; 360 CMR 10.00</td><td>Zero pass-through or interference; defensible local limits</td><td>Protecting treatment while sustaining a workable regional compliance environment</td></tr>
+          <tr><td>PFAS Source Control</td><td>Emerging federal and MassDEP biosolids requirements</td><td>Traceable source inventory; stable biosolids reuse options</td><td>Managing diffuse sources, low detection levels and changing regulatory expectations</td></tr>
+          <tr><td>Mercury Elimination</td><td>MWRA Sewer Use Regulations</td><td>Enforce the 0.001 mg/L (1.0 µg/L) discharge threshold</td><td>Maintaining consistent compliance across dispersed dental, medical and commercial users</td></tr>
+          <tr><td>TRAC System Modernization</td><td>Auditability, efficiency and electronic reporting</td><td>Reduce permit backlog; reconcile interfaces; certify executive metrics</td><td>Preserving data integrity across complex multi-facility and multi-system profiles</td></tr>
+        </tbody></table></div>
+      </article>
+    </section>
+
+    <section id="benchmark" class="detail-only" aria-labelledby="benchmarkTitle">
+      <div class="section-head"><div><div class="eyebrow">Best practice & peer comparison</div><h2 id="benchmarkTitle">Benchmark the operating model—not incompatible raw counts</h2></div><p>EPA control-authority requirements form the baseline. King County, Portland and HRSD provide public reference practices for cost recovery, transparency, digital reporting and industry engagement.</p></div>
+      <div class="benchmark-cards" aria-label="MWRA best-practice assessment">
+        <button class="practice-card" data-practice="limits"><span class="peer-state progress">Active</span><b>Local-limits lifecycle</b><p>Complete the reassessment, version every assumption and establish a post-NPDES review cadence.</p><span class="practice-open">Open best-practice brief →</span></button>
+        <button class="practice-card" data-practice="coverage"><span class="peer-state verified">Strong</span><b>Risk-based compliance coverage</b><p>Preserve annual SIU inspection coverage while targeting sampling depth by pollutant and facility risk.</p><span class="practice-open">Open best-practice brief →</span></button>
+        <button class="practice-card" data-practice="digital"><span class="peer-state verified">Leading</span><b>CROMERR digital records</b><p>Build on approved electronic intake with end-to-end validation, reconciliation and copy-of-record controls.</p><span class="practice-open">Open best-practice brief →</span></button>
+        <button class="practice-card" data-practice="recovery"><span class="peer-state progress">Optimize</span><b>Transparent cost recovery</b><p>Pair MWRA’s two-charge structure with service tiers and explicit post-violation cost attribution.</p><span class="practice-open">Open best-practice brief →</span></button>
+        <button class="practice-card" data-practice="lineage"><span class="peer-state progress">Strengthen</span><b>Enforcement case lineage</b><p>Make every SNC and enforcement decision reproducible from rule version through closure evidence.</p><span class="practice-open">Open best-practice brief →</span></button>
+        <button class="practice-card" data-practice="engagement"><span class="peer-state progress">Opportunity</span><b>Pollution-prevention partnership</b><p>Add structured technical-assistance outcomes and recognition to reinforce prevention at the source.</p><span class="practice-open">Open best-practice brief →</span></button>
+      </div>
+
+      <div class="benchmark-layout">
+        <article class="card panel">
+          <div class="panel-head"><h3>Peer-pattern prevalence</h3><span class="badge gray">4 programs reviewed</span></div>
+          <div class="peer-chart"><canvas id="peerCanvas" role="img" aria-label="Number of reviewed pretreatment programs with public evidence for six operating capabilities"></canvas></div>
+          <div class="chart-note">Count of programs with affirmative public evidence among MWRA, King County, Portland and HRSD. In-progress capabilities are not counted as operational.</div>
+        </article>
+        <article class="card panel">
+          <div class="panel-head"><h3>Public-evidence comparison matrix</h3><span class="badge blue">Click a row</span></div>
+          <div class="heat-scroll" style="max-height:none"><table class="peer-table"><thead><tr><th>Reference program</th><th>Annual public report</th><th>CROMERR reporting</th><th>Detailed fee model</th><th>Industry engagement</th><th>Emerging contaminants</th><th>Digital posture</th></tr></thead><tbody>
+            <tr data-peer="mwra" tabindex="0"><td>MWRA · TRAC</td><td><span class="peer-state verified">FY25</span></td><td><span class="peer-state verified">Operational</span></td><td><span class="peer-state verified">Two-charge</span></td><td><span class="peer-state verified">Guidance</span></td><td><span class="peer-state verified">PFAS active</span></td><td><span class="peer-state verified">Interfaces + NETPPR</span></td></tr>
+            <tr data-peer="king" tabindex="0"><td>King County · KCIW</td><td><span class="peer-state verified">2025</span></td><td><span class="peer-state progress">Project</span></td><td><span class="peer-state verified">Tiered + violation</span></td><td><span class="peer-state verified">Awards + assistance</span></td><td><span class="peer-state notfound">Not found</span></td><td><span class="peer-state progress">CROMERR project</span></td></tr>
+            <tr data-peer="portland" tabindex="0"><td>Portland · BES</td><td><span class="peer-state verified">2024</span></td><td><span class="peer-state notfound">Not found</span></td><td><span class="peer-state verified">Base + actual cost</span></td><td><span class="peer-state verified">Guidance + awards</span></td><td><span class="peer-state notfound">Not found</span></td><td><span class="peer-state notfound">Not found</span></td></tr>
+            <tr data-peer="hrsd" tabindex="0"><td>HRSD · P3</td><td><span class="peer-state notfound">Not found</span></td><td><span class="peer-state verified">HERS operational</span></td><td><span class="peer-state notfound">Not found</span></td><td><span class="peer-state verified">P2 + compliance awards</span></td><td><span class="peer-state notfound">Not found</span></td><td><span class="peer-state verified">Portal + training</span></td></tr>
+          </tbody></table></div>
+          <div class="peer-legend"><span class="peer-state verified">Public evidence</span><span class="peer-state progress">In progress</span><span class="peer-state notfound">Not found in reviewed pages</span></div>
+          <div class="benchmark-note"><b>Interpretation guardrail:</b> this is a candidate-prepared public-source scan, not an audit or performance ranking. “Not found” means the capability was not identified on the reviewed official pages; it does not prove absence.</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="snapshot" data-nav-section="overview" aria-labelledby="snapshotTitle">
       <div class="section-head"><div><div class="eyebrow">Executive snapshot</div><h2 id="snapshotTitle">What leadership needs to know</h2></div><p>Program measures update with the selected fiscal year. Trend deltas compare with the prior year where available.</p></div>
       <div class="grid kpi-grid" id="kpiGrid"></div>
       <div class="readout">
@@ -206,7 +335,7 @@
       </div>
     </section>
 
-    <section id="performance" aria-labelledby="perfTitle">
+    <section id="performance" class="detail-only" aria-labelledby="perfTitle">
       <div class="section-head"><div><div class="eyebrow">Five-year performance</div><h2 id="perfTitle">Compliance, workload and financial trajectory</h2></div><div class="mini-tabs" id="trendTabs"><button class="mini-tab active" data-metric="snc">SNC</button><button class="mini-tab" data-metric="permits">Permits</button><button class="mini-tab" data-metric="industrialInspections">Inspections</button><button class="mini-tab" data-metric="industrialSampling">Sampling</button><button class="mini-tab" data-metric="recoveryPct">Recovery</button></div></div>
       <div class="grid two-col">
         <article class="card panel"><div class="panel-head"><h3 id="trendTitle">SIUs in significant noncompliance</h3><span class="badge blue">Reported</span></div><div class="chart-wrap"><canvas id="trendCanvas" role="img" aria-label="Five-year trend chart"></canvas></div><div class="chart-note" id="trendNote"></div></article>
@@ -218,7 +347,58 @@
       </div>
     </section>
 
-    <section id="geography" aria-labelledby="geoTitle">
+    <section id="forecast" aria-labelledby="forecastTitle">
+      <div class="section-head"><div><div class="eyebrow">AI/ML forecast & early warning</div><h2 id="forecastTitle">Next unreported year through the five-year planning horizon</h2></div><p>Interpretable planning estimates from FY21–FY25 public annual observations. Forecasts are candidate-generated, not MWRA commitments, compliance determinations or substitutes for live PIMS data.</p></div>
+      <article class="card panel">
+        <div class="forecast-controls">
+          <div class="forecast-tabs" id="forecastTabs" aria-label="Forecast metric">
+            <button class="forecast-tab active" data-forecast-metric="snc">SNC</button><button class="forecast-tab" data-forecast-metric="industrialInspections">Inspections</button><button class="forecast-tab" data-forecast-metric="industrialSampling">Sampling</button><button class="forecast-tab" data-forecast-metric="permit120">Permit timeliness</button><button class="forecast-tab" data-forecast-metric="recoveryPct">Cost recovery</button>
+          </div>
+          <div class="scenario-pills" id="scenarioPills" aria-label="Forecast scenario">
+            <button class="scenario-pill active" data-scenario="base">Base ensemble</button><button class="scenario-pill" data-scenario="control">Control gain</button><button class="scenario-pill" data-scenario="stress">Operational stress</button>
+          </div>
+        </div>
+        <div class="forecast-layout">
+          <div>
+            <div class="panel-head"><h3 id="forecastChartTitle">SIUs in significant noncompliance · actual and forecast</h3><span class="badge amber">Candidate estimate</span></div>
+            <div class="forecast-chart"><canvas id="forecastCanvas" role="img" aria-label="Actual FY2021 through FY2025 and forecast FY2026 through FY2030"></canvas></div>
+            <div class="chart-note" id="forecastNote">Solid = reported. Dashed = forecast. Shaded interval widens with horizon and reflects annual-data uncertainty, not a regulatory confidence limit.</div>
+          </div>
+          <div>
+            <div class="forecast-kpis">
+              <div class="forecast-kpi"><span>FY26 nowcast · unreported</span><b id="forecastFY26">—</b><small id="forecastFY26Range">Awaiting model</small></div>
+              <div class="forecast-kpi"><span>FY27 operating forecast</span><b id="forecastFY27">—</b><small id="forecastFY27Range">Awaiting model</small></div>
+              <div class="forecast-kpi"><span>FY30 five-year endpoint</span><b id="forecastFY30">—</b><small id="forecastFY30Range">Awaiting model</small></div>
+              <div class="forecast-kpi"><span>Model confidence</span><b id="forecastConfidence">—</b><small id="forecastFit">Five annual observations</small></div>
+              <div class="forecast-kpi"><span>FY25 holdout error</span><b id="forecastBacktest">—</b><small id="forecastBacktestNote">One-step validation</small></div>
+              <div class="forecast-kpi"><span>Operational readiness</span><b>Prototype</b><small>Monthly feature feed and drift controls required</small></div>
+            </div>
+            <div class="model-readout"><h3 id="forecastActionTitle">Recommended action</h3><p id="forecastActionText">Select a metric and scenario to route the forecast to an accountable control.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <div class="section-head" style="margin-top:18px"><div><div class="eyebrow">Immediate action flags</div><h2 style="font-size:21px">Resolve these before treating the model as operational</h2></div><p>Flags route to existing control briefs where possible; they do not repeat the full action queue below.</p></div>
+      <div class="flag-grid">
+        <button class="flag-card immediate" data-flag="feature"><span class="badge red">0–30 days</span><b>Build the monthly feature feed</b><p>Five annual points are adequate only for a planning prototype. Production forecasting needs monthly PIMS, LIMS, permit, staffing and rainfall history.</p><span class="flag-open">Open immediate-action brief →</span></button>
+        <button class="flag-card immediate" data-flag="integration"><span class="badge red">0–30 days</span><b>Reconcile both active interfaces</b><p>Forecasts inherit silent PIMS–LIMS or invoice-interface errors unless count, key, reject and replay controls are certified first.</p><span class="flag-open">Open existing control brief →</span></button>
+        <button class="flag-card near" data-flag="netppr"><span class="badge amber">30–60 days</span><b>Lock the NETPPR baseline</b><p>Retain a certified FY25 crosswalk and legacy appendix package before electronic-only reporting becomes the sole annual output.</p><span class="flag-open">Open existing control brief →</span></button>
+        <button class="flag-card near" data-flag="pfas"><span class="badge amber">30–60 days</span><b>Govern PFAS model features</b><p>Normalize analyte, method, unit, detection limit, qualifier, source class and location before predictive source ranking.</p><span class="flag-open">Open existing control brief →</span></button>
+      </div>
+
+      <details><summary>Model method, AI governance and verified additions from the attached prototype</summary><div>
+        <p><b>Forecast method.</b> A transparent ensemble blends a five-year least-squares trend, a recent three-year trend, the median annual change and a no-change anchor. Trend effects are damped across FY26–FY30. “Control gain” and “Operational stress” are explicit planning assumptions, not learned outcomes.</p>
+        <p><b>Governance.</b> Use NIST AI RMF’s Govern, Map, Measure and Manage functions: approve intended use and owners; document features and affected decisions; back-test and monitor error/drift; require human approval and a rollback path. Do not use this prototype to automate permits, SNC, enforcement or public claims.</p>
+        <p><b>Additional verified drivers found in the attachment.</b> These FY23 snapshots are useful candidates for a future monthly model but are not included in the annual forecast because one observation cannot establish a trend.</p>
+        <div class="driver-grid">
+          <div class="driver"><b>100%</b><span>Total AMP PCB detection in the reported Deer Island scan</span></div><div class="driver"><b>57%</b><span>2-butanone detection frequency</span></div><div class="driver"><b>41%</b><span>p-cresol detection frequency</span></div>
+          <div class="driver"><b>38%</b><span>Nickel removal—the FY23 metals outlier</span></div><div class="driver"><b>21 of 28</b><span>FY23 SNC facilities with discharge violations</span></div><div class="driver"><b>7 of 28</b><span>FY23 SNC facilities with reporting-only violations</span></div>
+        </div>
+        <div class="notice" style="margin-top:10px">Also verified for FY23: 201 early and 70 higher-level enforcement actions; $100,000 in penalties assessed and $20,000 collected. The attachment’s interpolated municipal, sector and FY25 values were not imported because the current dashboard already uses confirmed FY21–FY25 public totals.</div>
+      </div></details>
+    </section>
+
+    <section id="geography" class="detail-only" aria-labelledby="geoTitle">
       <div class="section-head"><div><div class="eyebrow">Geographic intelligence</div><h2 id="geoTitle">State → county → city SIU heat map</h2></div><div class="geo-controls"><input class="search" id="citySearch" type="search" placeholder="Search city…" aria-label="Search city"><select class="select" id="countyFilter" aria-label="Filter county"><option value="All">All counties</option><option>Middlesex</option><option>Suffolk</option><option>Norfolk</option><option>Worcester</option></select><select class="select" id="citySort" aria-label="Sort cities"><option value="latest">Sort: FY25 count</option><option value="delta">Sort: 5-year change</option><option value="name">Sort: city</option></select></div></div>
       <div class="geo-summary" id="countyCards"></div>
       <div class="grid two-col">
@@ -227,12 +407,12 @@
       </div>
     </section>
 
-    <section id="industry" aria-labelledby="industryTitle">
+    <section id="industry" class="detail-only" aria-labelledby="industryTitle">
       <div class="section-head"><div><div class="eyebrow">Industrial field lens</div><h2 id="industryTitle">Categorical-standard footprint</h2></div><p>Unique SIUs matched to public categorical-standard text. A facility may appear in more than one field; non-categorical SIUs are not shown.</p></div>
       <article class="card panel"><div class="panel-head"><h3>Industry field × fiscal year</h3><div class="sector-legend">Lower <span class="legend-grad"></span> Higher facility count</div></div><div class="heat-scroll" style="max-height:none"><table><thead><tr><th>Industry field</th><th>FY21</th><th>FY22</th><th>FY23</th><th>FY24</th><th>FY25</th><th>5Y Δ</th></tr></thead><tbody id="sectorHeatBody"></tbody></table></div></article>
     </section>
 
-    <section id="systems" aria-labelledby="systemsTitle">
+    <section id="systems" class="detail-only" aria-labelledby="systemsTitle">
       <div class="section-head"><div><div class="eyebrow">PIMS project control plane</div><h2 id="systemsTitle">Trace data from submission to executive decision</h2></div><p>Click any node to see the verified public status, the control objective and the Project Manager’s acceptance evidence.</p></div>
       <article class="card panel">
         <div class="pipeline">
@@ -257,7 +437,7 @@
       </article>
     </section>
 
-    <section id="roadmap" aria-labelledby="roadmapTitle">
+    <section id="roadmap" class="detail-only" aria-labelledby="roadmapTitle">
       <div class="section-head"><div><div class="eyebrow">Five-year digital maturity</div><h2 id="roadmapTitle">From electronic intake to governed reporting</h2></div><p>The milestone wording is condensed from each annual report’s Information Systems section.</p></div>
       <div class="timeline">
         <article class="milestone"><div class="year">FY2021</div><b>Build</b><p>WebSMR already accepted laboratory results through PIMS; CROMERR functionality and shared services were under development.</p></article>
@@ -270,20 +450,61 @@
 
     <section id="actions" aria-labelledby="actionsTitle">
       <div class="section-head"><div><div class="eyebrow">Executive decision queue</div><h2 id="actionsTitle">Next controls for the PIMS portfolio</h2></div><p>Recommended management actions derived from the public trend and current interface work; not statements of existing MWRA commitments.</p></div>
-      <div class="queue">
-        <article class="card action"><span class="badge red">Decide</span><h3>Own the integration release gate</h3><p>Require signed reconciliation across PIMS–LIMS and the PIMS TRAC invoice interface before each production cutover.</p><button data-action="integration">Open control brief →</button></article>
-        <article class="card action"><span class="badge amber">Monitor</span><h3>Stabilize the permit surge</h3><p>Segment dental-cycle volume from ordinary permits so throughput and timeliness are not misread by leadership.</p><button data-action="permits">Open control brief →</button></article>
-        <article class="card action"><span class="badge blue">Govern</span><h3>Lock the FY25 reporting baseline</h3><p>Preserve a crosswalk from legacy annual-report fields to NETPPR, including exclusions and changed definitions.</p><button data-action="netppr">Open control brief →</button></article>
-        <article class="card action"><span class="badge amber">Monitor</span><h3>Close SNC case lineage</h3><p>Connect sample result, limit, violation, notice and closure evidence into one auditable PIMS case chronology.</p><button data-action="snc">Open control brief →</button></article>
-        <article class="card action"><span class="badge blue">Prepare</span><h3>Make PFAS data analysis-ready</h3><p>Standardize analyte names, methods, units, qualifiers and source classes before local-limit analysis and reporting.</p><button data-action="pfas">Open control brief →</button></article>
-        <article class="card action"><span class="badge gray">Sustain</span><h3>Publish a certified metric layer</h3><p>Give executives, coordinators and public reports the same definitions while preserving role-based detail access.</p><button data-action="semantic">Open control brief →</button></article>
-      </div>
+      <article class="card action-register">
+        <div class="panel-head"><h3>Unified action and delivery register</h3><span class="badge blue">One source for decisions + progress</span></div>
+        <div class="heat-scroll" style="max-height:none;border:0;border-radius:0"><table><thead><tr><th>Priority / control</th><th>Decision and consequence</th><th>Accountable owner</th><th>Approver</th><th>Due</th><th>Stage / next gate</th></tr></thead><tbody id="actionRegisterBody"></tbody></table></div>
+      </article>
+      <article class="card board-products">
+        <h3>Board-ready communication products</h3>
+        <p>Three reusable briefing structures translate operational detail into a clear executive decision, risk statement and accountability path.</p>
+        <div class="product-grid">
+          <button class="product-btn" data-product="sampling">Sampling equipment budget memorandum<span>Capital need · benefits · deployment controls</span></button>
+          <button class="product-btn" data-product="exceedance">Local-limit exceedance executive brief<span>Incident · impact · containment · decision</span></button>
+          <button class="product-btn" data-product="ii">I/I financial assistance policy outline<span>Cross-functional criteria · outcomes · governance</span></button>
+        </div>
+      </article>
     </section>
 
-    <section id="methods" aria-labelledby="methodsTitle">
+    <section id="governance" aria-labelledby="governanceTitle">
+      <div class="section-head"><div><div class="eyebrow">SOPs, procedures & delivery governance</div><h2 id="governanceTitle">Move every PIMS change through one visible, evidence-based gate</h2></div><p>Select an operating procedure to see its accountable owner, trigger, required steps and release evidence. The tracker below is a candidate planning baseline, not an official MWRA project status report.</p></div>
+      <div class="sop-shell">
+        <article class="card sop-brief">
+          <div class="sop-tabs" id="sopTabs" aria-label="Select standard operating procedure">
+            <button class="sop-tab active" data-sop="release">Interface release</button>
+            <button class="sop-tab" data-sop="rule">Rule change</button>
+            <button class="sop-tab" data-sop="incident">Data incident</button>
+            <button class="sop-tab" data-sop="report">Annual extract</button>
+          </div>
+          <h3 id="sopTitle">Interface release & reconciliation</h3>
+          <p id="sopPurpose">A controlled path for PIMS–LIMS, invoice and external-submission changes.</p>
+          <div class="sop-facts">
+            <div class="sop-fact"><span>Accountable owner</span><b id="sopOwner">PIMS Project Manager</b></div>
+            <div class="sop-fact"><span>Procedure trigger</span><b id="sopTrigger">Schema, code, mapping or endpoint change</b></div>
+          </div>
+          <div class="sop-control-grid" id="sopControls" aria-label="Procedure control requirements"></div>
+          <div class="tracker-note"><b>Document control:</b> assign SOP ID, owner, version, approval date, effective date, training requirement, scheduled review and superseded-version archive. EPA quality guidance treats approved SOPs as controlled instructions that support consistency, lower error and defensible data.</div>
+        </article>
+        <div class="sop-steps" id="sopSteps" aria-live="polite"></div>
+      </div>
+
+      <div class="tracker-head">
+        <div><div class="eyebrow">Progress tracking system</div><h3>Executive workstream stage, evidence and next gate</h3></div>
+        <div class="tracker-filters" id="trackerFilters" aria-label="Filter delivery workstreams">
+          <button class="tracker-filter active" data-tracker-filter="all">All</button>
+          <button class="tracker-filter" data-tracker-filter="immediate">0–30 days</button>
+          <button class="tracker-filter" data-tracker-filter="near">30–60 days</button>
+          <button class="tracker-filter" data-tracker-filter="ongoing">Ongoing</button>
+        </div>
+      </div>
+      <div class="tracker-summary" id="trackerSummary"></div>
+      <div class="tracker-grid" id="trackerGrid" aria-live="polite"></div>
+      <div class="tracker-note"><b>How to use:</b> each workstream advances through Define → Design → Build → Validate → Approve → Close. Change a stage to test the tracking workflow; this standalone demonstration stores changes only in the current browser. The report-wide CSV export includes the current tracker snapshot. Before operational use, connect the same fields to the authorized MWRA project repository and require named approval evidence at every gate.</div>
+    </section>
+
+    <section id="methods" class="detail-only" aria-labelledby="methodsTitle">
       <div class="section-head"><div><div class="eyebrow">Methods & sources</div><h2 id="methodsTitle">Transparent by design</h2></div><p>Long-form documentation is folded to keep the main dashboard decision-focused.</p></div>
       <details><summary>Data definitions and transformation notes</summary><div>
-        <ul><li>The five-year trend uses MWRA Industrial Waste Reports for FY2021–FY2025, each covering July 1–June 30.</li><li>“SIUs” in executive KPIs is the greatest number designated during the fiscal year. “City SIUs” counts unique Facility IDs appearing in public Appendix A; Boston neighborhood address labels are normalized to Boston.</li><li>FY21–FY22 city totals are one below the executive maximum because the heat map uses unique facility IDs rather than maximum in-year status. FY23–FY25 reconcile exactly.</li><li>Industry-field counts are text matches to National Pretreatment Categorical Standards in Appendix A. One facility can match multiple fields. They are descriptive, not a complete industry universe.</li><li>All proposed SLAs, controls and action briefs are recommendations. No synthetic performance scores are mixed with reported program data.</li></ul>
+        <ul><li>The five-year trend uses MWRA Industrial Waste Reports for FY2021–FY2025, each covering July 1–June 30.</li><li>“SIUs” in executive KPIs is the greatest number designated during the fiscal year. “City SIUs” counts unique Facility IDs appearing in public Appendix A; Boston neighborhood address labels are normalized to Boston.</li><li>FY21–FY22 city totals are one below the executive maximum because the heat map uses unique facility IDs rather than maximum in-year status. FY23–FY25 reconcile exactly.</li><li>Industry-field counts are text matches to National Pretreatment Categorical Standards in Appendix A. One facility can match multiple fields. They are descriptive, not a complete industry universe.</li><li>The candidate forecast uses five annual observations and an interpretable damped ensemble. FY26 is a nowcast because it is complete but not represented in the public annual-report series; FY27 is the current operating-year forecast; FY30 is the fifth forecast endpoint.</li><li>The FY25 holdout check trains the same simplified ensemble on FY21–FY24 and reports the absolute error against FY25. It is a diagnostic, not a substitute for rolling validation on monthly data.</li><li>Scenario adjustments and uncertainty bands are documented planning assumptions. They are not probability statements, official MWRA targets or regulatory confidence limits. The CSV labels every forecast row as candidate-generated.</li><li>KPI target text distinguishes regulatory operating floors, directional planning lenses and context measures; the dashboard does not invent official MWRA numeric targets.</li><li>The peer matrix reviews affirmative evidence on official public pages for MWRA, King County, Portland and HRSD. “Not found” is not evidence of absence. Capability-prevalence counts exclude in-progress items and are not performance scores.</li><li>The SOPs, unified action register and tracker are candidate-proposed governance tools informed by EPA quality-system SOP guidance and control-authority responsibilities. Initial stages are planning baselines inferred from public evidence, not certified MWRA completion percentages.</li><li>All proposed SLAs, controls and action briefs are recommendations. No synthetic performance scores are mixed with reported program data.</li></ul>
       </div></details>
       <details><summary>Official source register</summary><div class="source-list">
         <a href="https://www.mwra.com/media/file/2021-industrial-waste-report" target="_blank" rel="noopener">MWRA Industrial Waste Report · FY2021</a>
@@ -292,13 +513,30 @@
         <a href="https://www.mwra.com/media/file/2024-industrial-waste-report" target="_blank" rel="noopener">MWRA Industrial Waste Report · FY2024</a>
         <a href="https://www.mwra.com/media/file/iwr-2025pdf" target="_blank" rel="noopener">MWRA Industrial Waste Report · FY2025</a>
         <a href="https://www.mwra.com/your-sewer-system/toxic-reduction-and-control-trac" target="_blank" rel="noopener">MWRA TRAC program and report archive</a>
+        <a href="https://www.mwra.com/about-mwra/reports-publications/board-directors-quarterly-report-key-indicators-mwra-performance" target="_blank" rel="noopener">MWRA Orange Notebook · quarterly Board performance indicators</a>
+        <a href="https://www.mwra.com/your-sewer-system/bay-state-fertilizer" target="_blank" rel="noopener">MWRA Bay State Fertilizer · biosolids resource recovery</a>
+        <a href="https://www.mwra.com/projects-programs/major-programs/community-support/local-ii-community-financial-assistance" target="_blank" rel="noopener">MWRA Local I/I Community Financial Assistance Program</a>
+        <a href="https://www.mass.gov/regulations/360-CMR-1000-sewer-use" target="_blank" rel="noopener">Massachusetts 360 CMR 10.00 · Sewer Use</a>
+        <a href="https://www.epa.gov/npdes/national-pretreatment-program" target="_blank" rel="noopener">U.S. EPA National Pretreatment Program</a>
+        <a href="https://www.epa.gov/npdes/pretreatment-standards-and-requirements-local-limits" target="_blank" rel="noopener">U.S. EPA Pretreatment Local Limits</a>
+        <a href="https://www.epa.gov/npdes/pretreatment-roles-and-responsibilities-control-authorities" target="_blank" rel="noopener">U.S. EPA Control Authority Responsibilities</a>
+        <a href="https://www.epa.gov/quality/epa-quality-management-tools-projects" target="_blank" rel="noopener">U.S. EPA Quality Management Tools · Standard Operating Procedures</a>
+        <a href="https://kingcounty.gov/en/dept/dnrp/waste-services/wastewater-treatment/sewer-system-services/industrial-waste/annual-report" target="_blank" rel="noopener">King County Industrial Waste · 2025 annual report</a>
+        <a href="https://kingcounty.gov/en/dept/dnrp/waste-services/wastewater-treatment/sewer-system-services/industrial-waste/forms-fees-resources/fees" target="_blank" rel="noopener">King County Industrial Waste · fees and surcharges</a>
+        <a href="https://www.portland.gov/bes/79210" target="_blank" rel="noopener">Portland Environmental Services · pretreatment reports and awards</a>
+        <a href="https://www.portland.gov/bes/31810" target="_blank" rel="noopener">Portland · industrial discharge permits and fees</a>
+        <a href="https://www.hrsd.com/online-reporting" target="_blank" rel="noopener">HRSD · CROMERR-compliant online reporting</a>
+        <a href="https://www.hrsd.com/pollution-prevention-p2-awards" target="_blank" rel="noopener">HRSD · pollution-prevention and compliance awards</a>
+        <a href="https://www.nist.gov/itl/ai-risk-management-framework/nist-ai-rmf-playbook" target="_blank" rel="noopener">NIST AI Risk Management Framework Playbook</a>
         <a href="https://www.mwra.com/media/file/q2fy2026" target="_blank" rel="noopener">MWRA Board Report · FY2026 Q2 (interface status)</a>
         <a href="https://www.mwra.com/media/file/2025-12-10-mwra-board-directors-meeting-materials" target="_blank" rel="noopener">MWRA Board materials · information-management role context</a>
       </div></details>
       <details><summary>GitHub Pages publishing note</summary><div>This file has no external JavaScript, font, image or map dependency. Rename it to <code>index.html</code> for a repository root or keep the filename and link to it directly. All charts, filters, heat maps, popups and CSV export run in the browser.</div></details>
-      <div class="foot"><span>Candidate work sample by <strong>Narissara Khomkhai</strong> for the Project Manager, PIMS position · <a href="https://nasdaqguru.github.io/" target="_blank" rel="noopener">GitHub portfolio</a></span><span>Public data through FY2025 · Last reviewed: August 25, 2026</span></div>
+      <div class="foot"><span>Candidate work sample by <strong>Narissara Khomkhai</strong> for the Project Manager, PIMS position · <a href="https://nasdaqguru.github.io/" target="_blank" rel="noopener">GitHub portfolio</a></span><span>Public data through FY2025 · Last reviewed: August 27, 2026</span></div>
     </section>
   </main>
+
+  <section id="boardSheet" aria-label="One-page executive brief"></section>
 
   <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <div class="modal-dialog"><div class="modal-head"><h2 id="modalTitle">Detail</h2><button class="close" id="modalClose" aria-label="Close dialog">×</button></div><div class="modal-body" id="modalBody"></div></div>
@@ -336,6 +574,13 @@
       'Electroplating':[2,2,2,1,1],
       'Iron & steel manufacturing':[1,1,1,1,1]
     };
+    const peerCapabilityMeta=[['annualReport','Annual public report'],['cromerr','CROMERR e-reporting'],['fees','Detailed fee recovery'],['engagement','Engagement / recognition'],['emerging','Emerging-contaminant work'],['digital','Digital program posture']];
+    const peerEvidence=[
+      {program:'MWRA TRAC',annualReport:'verified',cromerr:'verified',fees:'verified',engagement:'verified',emerging:'verified',digital:'verified'},
+      {program:'King County KCIW',annualReport:'verified',cromerr:'in_progress',fees:'verified',engagement:'verified',emerging:'not_found',digital:'in_progress'},
+      {program:'Portland BES',annualReport:'verified',cromerr:'not_found',fees:'verified',engagement:'verified',emerging:'not_found',digital:'not_found'},
+      {program:'HRSD P3',annualReport:'not_found',cromerr:'verified',fees:'not_found',engagement:'verified',emerging:'not_found',digital:'verified'}
+    ];
     const metricMeta={
       snc:{title:'SIUs in significant noncompliance',unit:'facilities',note:'Official annual program total. FY25 declined to 17 from 29 in FY24.'},
       permits:{title:'Industrial permits issued or renewed',unit:'permits',note:'FY25 includes a large five-year dental group permit renewal cycle.'},
@@ -343,25 +588,121 @@
       industrialSampling:{title:'Industrial / commercial sampling events',unit:'events',note:'Separate from non-industrial events supporting NPDES, local limits, emergencies and special projects.'},
       recoveryPct:{title:'TRAC current-expense cost recovery',unit:'percent',note:'Permit and monitoring charge recovery as a share of actual Current Expense Budget spending.'}
     };
-    let selectedYear=2025,trendMetric='snc',lastFocused=null;
+    const annualSourceUrls={
+      2021:'https://www.mwra.com/media/file/2021-industrial-waste-report',2022:'https://www.mwra.com/media/file/2022-industrial-waste-report',2023:'https://www.mwra.com/media/file/2023-industrial-waste-report',2024:'https://www.mwra.com/media/file/2024-industrial-waste-report',2025:'https://www.mwra.com/media/file/iwr-2025pdf'
+    };
+    const kpiTargetContext={
+      siu:'Context measure · no performance target inferred',
+      snc:'Directional planning lens · lower is better; no candidate numeric target',
+      permits:'Cohort-sensitive workload · compare timeliness, not raw volume alone',
+      inspected:'Regulatory operating floor · inspect every SIU annually',
+      recoveryPct:'Policy measure · no assumption that 100% recovery is the target'
+    };
+    const forecastConfigs={
+      snc:{label:'SIUs in significant noncompliance',unit:'count',min:0,max:null,uncertainty:4,controlStep:-.6,stressStep:.9,action:'Validate the FY25 step-change with facility-level case features before budgeting for continued decline; prioritize SNC rule lineage and closure evidence.'},
+      industrialInspections:{label:'Industrial facility inspections',unit:'count',min:0,max:null,uncertainty:120,controlStep:20,stressStep:-35,action:'Protect annual SIU coverage first, then route incremental inspection capacity using hazard, compliance history, process change and geography.'},
+      industrialSampling:{label:'Industrial / commercial sampling events',unit:'count',min:0,max:null,uncertainty:130,controlStep:25,stressStep:-45,action:'Use a risk-tiered sampling plan and reserve capacity for PFAS, local-limits work, emergencies and high-uncertainty facilities.'},
+      permit120:{label:'SIU permits issued within 120 days',unit:'percent',min:0,max:100,uncertainty:5,controlStep:.7,stressStep:-1.5,action:'Segment the dental renewal cycle, new permits and complex SIU renewals before using a single timeliness forecast for staffing decisions.'},
+      recoveryPct:{label:'TRAC current-expense cost recovery',unit:'percent',min:0,max:100,uncertainty:2,controlStep:.6,stressStep:-.8,action:'Build a unit-cost model by permit cohort, sampling package and enforcement stage; do not assume that 100% recovery is the policy target.'}
+    };
+    const verifiedFeatureDrivers=[
+      {year:2023,metric:'Total AMP PCB detection frequency',value:100,unit:'percent'},
+      {year:2023,metric:'2-butanone detection frequency',value:57,unit:'percent'},
+      {year:2023,metric:'p-cresol detection frequency',value:41,unit:'percent'},
+      {year:2023,metric:'Nickel removal efficiency',value:38,unit:'percent'},
+      {year:2023,metric:'SNC facilities with discharge violations',value:21,unit:'facilities'},
+      {year:2023,metric:'SNC facilities with reporting-only violations',value:7,unit:'facilities'}
+    ];
+    const progressStages=['Define','Design','Build','Validate','Approve','Close'];
+    const stageGates=['Approved scope, accountable owner and risk classification','Signed design, mapped fields and effective-dated business rules','Configuration complete with unit-test evidence','Independent reconciliation, regression testing and user acceptance','Business and regulatory approval with release and rollback readiness','Closure evidence, handoff, monitoring measure and scheduled review'];
+    const sopConfigs={
+      release:{title:'Interface release & reconciliation',purpose:'A controlled path for PIMS–LIMS, invoice and external-submission changes so data, monetary totals and regulatory records remain traceable across systems.',owner:'PIMS Project Manager + business/process owner',trigger:'Schema, code, mapping, endpoint or batch-rule change',steps:[
+        ['Log & classify','Create the change ID; identify systems, records, users, regulatory impact and rollback owner.','Approved scope + risk class'],
+        ['Map & design','Version source-to-target fields, transformations, rejects, duplicates, security roles and control totals.','Signed mapping + test plan'],
+        ['Build & unit test','Configure in a controlled environment and test success, failure, duplicate and replay paths.','Build record + unit tests'],
+        ['Reconcile & accept','Run representative volumes; reconcile counts and amounts; complete business-owner UAT.','UAT + reconciliation'],
+        ['Approve & release','Confirm cutover window, communications, backup, rollback and named production approver.','Signed release checklist'],
+        ['Monitor & close','Review first cycles, exceptions and user impact; retain evidence and lessons in the change record.','Closure + effectiveness review']
+      ]},
+      rule:{title:'Compliance rule or local-limit change',purpose:'A reproducible procedure for effective-dated permit, analyte, local-limit, SNC or enforcement logic without silently rewriting historical determinations.',owner:'TRAC regulatory owner + PIMS Project Manager',trigger:'New or revised regulation, permit condition, local limit or enforcement rule',steps:[
+        ['Open authority record','Identify citation, approval authority, affected users, pollutants, dates and confidentiality needs.','Authority + applicability memo'],
+        ['Baseline current rule','Freeze the current calculation, data sources, exceptions and historical outcomes before change.','Versioned baseline'],
+        ['Design effective rule','Define units, rounding, qualifiers, effective dates, precedence, reason codes and overrides.','Approved rule specification'],
+        ['Regression test','Test known compliant, violation, SNC, missing-data and boundary cases against expected results.','Rule test pack'],
+        ['Approve & deploy','Obtain regulatory and business approval; publish release notes and update training/SOP references.','Approval + release version'],
+        ['Verify decisions','Review early determinations, exceptions and appeals; retain both old and new rule versions.','Post-release validation']
+      ]},
+      incident:{title:'Data-quality incident & correction',purpose:'A time-bound path to contain, investigate, correct and communicate data defects without losing the original record or audit trail.',owner:'Data owner + PIMS Project Manager',trigger:'Failed reconciliation, incorrect record, interface reject, duplicate, outage or reporting discrepancy',steps:[
+        ['Detect & log','Create incident ID, timestamp, reporter, systems, records and evidence; preserve the original state.','Incident record'],
+        ['Contain & classify','Stop unsafe processing, assess regulatory and financial impact, set severity and notify owners.','Containment + severity'],
+        ['Analyze cause','Trace lineage, reproduce the defect and separate root cause from downstream symptoms.','Root-cause analysis'],
+        ['Correct & reconcile','Apply approved correction, rerun controls and prove record-, batch- and total-level agreement.','Correction + reconciliation'],
+        ['Release & notify','Secure approval, communicate affected decisions or reports and retain before/after evidence.','Approval + communication'],
+        ['Prevent recurrence','Add monitoring, tests, ownership and a due-dated corrective action; verify effectiveness.','CAPA closure review']
+      ]},
+      report:{title:'Annual regulatory extract & NETPPR submission',purpose:'A controlled reporting cycle that freezes the source, applies approved definitions and preserves exactly what was reviewed and submitted.',owner:'TRAC reporting owner + PIMS data steward',trigger:'Fiscal-year close, annual pretreatment reporting cycle or resubmission',steps:[
+        ['Open cycle','Confirm period, required forms, definitions, owners, deadlines and changes from the prior year.','Reporting calendar + RACI'],
+        ['Freeze source','Snapshot facilities, permits, samples, violations, enforcement and charge data with lineage.','Certified source snapshot'],
+        ['Validate totals','Reconcile PIMS, LIMS and finance totals; resolve duplicates, missing values and late records.','Exception log + sign-off'],
+        ['Transform & review','Apply the versioned NETPPR crosswalk and compare results with prior-year and legacy formats.','Crosswalk + variance review'],
+        ['Approve & submit','Obtain business/regulatory approval, submit through the authorized channel and retain receipt.','Signed release + receipt'],
+        ['Archive & improve','Store immutable inputs and outputs, document changes and schedule next-cycle improvements.','Archive manifest + lessons']
+      ]}
+    };
+    const sopControlMeta={
+      release:{raci:'R: interface lead · A: business owner · C: LIMS/Finance/Compliance · I: sponsor',clock:'Approve before cutover; review first two production cycles',safety:'Rollback to prior version; quarantine rejects; reconcile replay before resume'},
+      rule:{raci:'R: regulatory analyst · A: TRAC authority · C: Legal/Data/IT · I: affected users',clock:'Effective-date controlled; no retrospective rule replacement',safety:'Retain prior rule version; suspend automated decisions if regression fails'},
+      incident:{raci:'R: data owner · A: incident authority · C: Compliance/IT/Legal · I: impacted leaders',clock:'Contain immediately; severity sets notification and correction clock',safety:'Preserve original record; correct through an approved, auditable transaction'},
+      report:{raci:'R: reporting steward · A: TRAC reporting owner · C: LIMS/Finance/IT · I: executives',clock:'Milestones tied to annual submission calendar and resubmission window',safety:'Retain frozen input, transformed output, approval and submission receipt'}
+    };
+    const workstreams=[
+      {id:'integration',name:'PIMS–LIMS & invoice interfaces',window:'immediate',stage:3,owner:'PIMS PM + interface and business owners',why:'Current interface work needs one signed release gate across laboratory and financial records.',evidence:'UAT, source/target totals, rejects, duplicates, replay and rollback evidence.'},
+      {id:'feature',name:'Monthly forecasting feature feed',window:'immediate',stage:0,owner:'PIMS PM + data owners',why:'Annual public observations are not sufficient for operational prediction or drift monitoring.',evidence:'36+ monthly periods where available, dictionary, missingness, late-arrival and lineage controls.'},
+      {id:'permits',name:'Permit cohort and aging control',window:'near',stage:1,owner:'TRAC permitting owner + PIMS PM',why:'Dental renewal-cycle volume should not obscure ordinary permit timeliness, queue aging or capacity needs.',evidence:'Permit cohort definitions, aging buckets, SLA clocks, exception reasons and owner-reviewed backlog.'},
+      {id:'netppr',name:'NETPPR certified baseline',window:'near',stage:1,owner:'TRAC reporting owner + data steward',why:'The electronic reporting transition needs a preserved FY25 bridge and repeatable annual close.',evidence:'Frozen legacy extract, versioned crosswalk, variance review, submitted package and receipt.'},
+      {id:'snc',name:'SNC case lineage',window:'near',stage:1,owner:'TRAC compliance owner + PIMS PM',why:'Every significant-noncompliance determination should reproduce from rule through closure.',evidence:'Effective rule, sample and limit, reason code, notice, review, escalation and closure evidence.'},
+      {id:'pfas',name:'PFAS canonical data layer',window:'ongoing',stage:0,owner:'TRAC program owner + laboratory/data stewards',why:'Source ranking requires consistent analytes, methods, units, qualifiers and locations.',evidence:'Canonical dictionary, QA exceptions, method comparability and approved source taxonomy.'},
+      {id:'semantic',name:'Certified executive metric layer',window:'ongoing',stage:0,owner:'TRAC leadership + PIMS product owner',why:'Board, management and regulatory extracts should use the same governed definitions.',evidence:'Metric catalog, lineage, role access, reconciliation, release approval and change history.'}
+    ];
+    const deliveryMeta={
+      integration:{priority:'Decide',approver:'TRAC business owner + IT release authority',due:'0–30 days',decision:'Authorize cutover only after signed source/target reconciliation.',impact:'Silent laboratory or financial exceptions could enter production.'},
+      feature:{priority:'Decide',approver:'TRAC leadership + data owners',due:'0–30 days',decision:'Authorize a governed monthly forecasting feature feed.',impact:'Annual-only forecasts remain too weak for operational alerts.'},
+      permits:{priority:'Monitor',approver:'TRAC permitting manager',due:'30–60 days',decision:'Adopt cohort-specific permit aging and service clocks.',impact:'Dental renewal volume can mask ordinary backlog and capacity risk.'},
+      netppr:{priority:'Govern',approver:'TRAC reporting authority',due:'30–60 days',decision:'Certify the FY25 legacy-to-NETPPR baseline and annual freeze.',impact:'Future electronic-only reports may become difficult to reproduce.'},
+      snc:{priority:'Monitor',approver:'TRAC compliance authority',due:'30–60 days',decision:'Require complete rule-to-closure lineage for every SNC case.',impact:'Determinations and enforcement timing may not be reproducible.'},
+      pfas:{priority:'Prepare',approver:'TRAC program and laboratory owners',due:'Ongoing',decision:'Approve a canonical PFAS analyte, method and location model.',impact:'Source ranking may mix incomparable results or non-detect semantics.'},
+      semantic:{priority:'Sustain',approver:'TRAC executive sponsor',due:'Ongoing',decision:'Approve one certified executive metric catalog and release process.',impact:'Board, management and regulatory extracts may use different definitions.'}
+    };
+    let selectedYear=2025,trendMetric='snc',forecastMetric='snc',forecastScenario='base',selectedSop='release',trackerFilter='all',selectedView='executive',lastFocused=null,trackerState={};
+    try{trackerState=JSON.parse(localStorage.getItem('mwraPimsTrackerV1')||'{}')||{}}catch(e){trackerState={}}
+    try{selectedView=localStorage.getItem('mwraPimsViewV1')==='full'?'full':'executive'}catch(e){selectedView='executive'}
     const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
     const fmt=n=>n==null?'—':new Intl.NumberFormat('en-US',{maximumFractionDigits:1}).format(n);
     const money=n=>'$'+(n/1e6).toFixed(2)+'M';
     const pct=(v,base)=>base?((v-base)/base*100):0;
     const esc=s=>String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+    function reorderExecutiveSections(){const m=$('#main');['overview','yearControls','trustSummary','snapshot','actions','forecast','performance','geography','industry','strategy','governance','systems','roadmap','benchmark','methods'].forEach(id=>{const el=document.getElementById(id);if(el)m.appendChild(el)})}
+    function renderSop(){const d=sopConfigs[selectedSop],c=sopControlMeta[selectedSop];$('#sopTitle').textContent=d.title;$('#sopPurpose').textContent=d.purpose;$('#sopOwner').textContent=d.owner;$('#sopTrigger').textContent=d.trigger;$('#sopControls').innerHTML=`<div class="sop-control"><span>RACI</span><b>${esc(c.raci)}</b></div><div class="sop-control"><span>Service clock</span><b>${esc(c.clock)}</b></div><div class="sop-control"><span>Rollback / escalation</span><b>${esc(c.safety)}</b></div>`;$('#sopSteps').innerHTML=d.steps.map((s,i)=>`<article class="sop-step"><span class="step-no">${String(i+1).padStart(2,'0')}</span><b>${esc(s[0])}</b><p>${esc(s[1])}</p><em>Gate: ${esc(s[2])}</em></article>`).join('')}
+    function trackerStage(w){const v=Number(trackerState[w.id]);return Number.isInteger(v)&&v>=0&&v<progressStages.length?v:w.stage}
+    function saveTracker(){try{localStorage.setItem('mwraPimsTrackerV1',JSON.stringify(trackerState))}catch(e){toast('Browser storage is unavailable')}}
+    function renderTracker(){const allStages=workstreams.map(trackerStage),visible=workstreams.filter(w=>trackerFilter==='all'||w.window===trackerFilter),late=allStages.filter(s=>s>=3).length;$('#trackerSummary').innerHTML=`<div class="tracker-stat"><b>${workstreams.length}</b><span>Candidate workstreams</span></div><div class="tracker-stat"><b>${workstreams.filter(w=>w.window==='immediate').length}</b><span>Immediate priorities</span></div><div class="tracker-stat"><b>${late}</b><span>At validation or later</span></div>`;$('#trackerGrid').innerHTML=visible.map(w=>{const stage=trackerStage(w),label=w.window==='immediate'?'0–30 days':w.window==='near'?'30–60 days':'Ongoing';return `<article class="card tracker-card ${w.window}"><span class="badge ${w.window==='immediate'?'red':w.window==='near'?'amber':'blue'}">${label}</span><h4>${esc(w.name)}</h4><p>${esc(w.why)}</p><div class="stage-track" aria-label="${esc(progressStages[stage])}, stage ${stage+1} of 6">${progressStages.map((_,i)=>`<span class="stage-segment ${i<stage?'done':i===stage?'current':''}"></span>`).join('')}</div><div class="tracker-stage">Stage ${stage+1} of 6 · ${progressStages[stage]}</div><div class="tracker-next"><b>Next gate:</b> ${esc(stageGates[stage])}</div><div class="tracker-controls"><label>Tracking stage<select data-stage-key="${w.id}" aria-label="Update ${esc(w.name)} stage">${progressStages.map((s,i)=>`<option value="${i}" ${i===stage?'selected':''}>${i+1} · ${s}</option>`).join('')}</select></label><button class="tracker-open" data-workstream="${w.id}">Open brief →</button></div></article>`}).join('')||'<div class="notice">No workstreams match this filter.</div>'}
+    function renderActionRegister(){
+      $('#actionRegisterBody').innerHTML=workstreams.map(w=>{const m=deliveryMeta[w.id],stage=trackerStage(w),badge=m.priority==='Decide'?'red':m.priority==='Monitor'?'amber':m.priority==='Govern'||m.priority==='Prepare'?'blue':'gray';return `<tr><td><span class="badge ${badge}">${esc(m.priority)}</span><br><button data-register-workstream="${w.id}">${esc(w.name)} →</button></td><td><div class="decision-copy">${esc(m.decision)}<small>Delay consequence: ${esc(m.impact)}</small></div></td><td>${esc(w.owner)}</td><td>${esc(m.approver)}</td><td>${esc(m.due)}</td><td><b>${esc(progressStages[stage])}</b><br><small>${esc(stageGates[stage])}</small></td></tr>`}).join('');
+    }
+    function openWorkstream(id,t){const w=workstreams.find(x=>x.id===id),m=deliveryMeta[id],stage=trackerStage(w),label=w.window==='immediate'?'0–30 days':w.window==='near'?'30–60 days':'Ongoing';openModal(`${w.name} · delivery brief`,`<span class="badge ${w.window==='immediate'?'red':w.window==='near'?'amber':'blue'}">${label}</span><h3>Decision requested</h3><p>${esc(m.decision)}</p><h3>Accountability</h3><p><b>Owner:</b> ${esc(w.owner)}<br><b>Approver:</b> ${esc(m.approver)}<br><b>Due:</b> ${esc(m.due)}</p><h3>Current candidate stage</h3><p><b>Stage ${stage+1} of 6 · ${progressStages[stage]}</b></p><h3>Required acceptance evidence</h3><p>${esc(w.evidence)}</p><div class="notice"><b>Next gate:</b> ${esc(stageGates[stage])}</div><h3>Consequence of delay</h3><p>${esc(m.impact)}</p><h3>Stage-control rule</h3><p>Advance only when the named gate evidence is reviewed, stored and approved by the accountable owner.</p>`,t)}
     function deltaHtml(cur,prev,inverse=false,suffix='%'){
       if(prev==null)return 'Five-year baseline';const d=pct(cur,prev);const good=inverse?d<0:d>0;return `<strong class="${good?'':'down'}">${d>=0?'+':''}${d.toFixed(1)}${suffix}</strong> vs prior year`;
     }
     function renderKPIs(){
       const d=annual[selectedYear],p=annual[selectedYear-1];
       const cards=[
-        ['Significant industrial users',fmt(d.siu),p?deltaHtml(d.siu,p.siu,true):'Greatest number in year',''],
-        ['SIUs in SNC',fmt(d.snc),p?deltaHtml(d.snc,p.snc,true):'Official annual total',selectedYear===2025?'good':'risk'],
-        ['Industrial permits',fmt(d.permits),p?deltaHtml(d.permits,p.permits):'Issued or renewed',selectedYear===2025?'warn':''],
-        ['SIUs inspected',`${Math.round(d.inspected/d.siu*100)}%`,`${fmt(d.inspected)} of ${fmt(d.siu)} · all required`, 'good'],
-        ['Cost recovery',`${fmt(d.recoveryPct)}%`,`${money(d.recovered)} of ${money(d.spend)} CEB`, 'good']
+        ['siu','Significant industrial users',fmt(d.siu),p?deltaHtml(d.siu,p.siu,true):'Greatest number in year',''],
+        ['snc','SIUs in SNC',fmt(d.snc),p?deltaHtml(d.snc,p.snc,true):'Official annual total',selectedYear===2025?'good':'risk'],
+        ['permits','Industrial permits',fmt(d.permits),p?deltaHtml(d.permits,p.permits):'Issued or renewed',selectedYear===2025?'warn':''],
+        ['inspected','SIUs inspected',`${Math.round(d.inspected/d.siu*100)}%`,`${fmt(d.inspected)} of ${fmt(d.siu)} · all required`, 'good'],
+        ['recoveryPct','Cost recovery',`${fmt(d.recoveryPct)}%`,`${money(d.recovered)} of ${money(d.spend)} CEB`, 'good']
       ];
-      $('#kpiGrid').innerHTML=cards.map(c=>`<article class="card kpi ${c[3]}"><span class="source-dot" title="Reported by MWRA"></span><div class="label">${c[0]}</div><div class="value">${c[1]}</div><div class="delta">${c[2]}</div></article>`).join('');
+      $('#kpiGrid').innerHTML=cards.map(c=>`<article class="card kpi ${c[4]}"><button class="source-dot" data-kpi-source="${c[0]}" title="Open source and definition" aria-label="Open source and definition for ${c[1]}"></button><div class="label">${c[1]}</div><div class="value">${c[2]}</div><div class="delta">${c[3]}</div><div class="kpi-target">${esc(kpiTargetContext[c[0]])}</div></article>`).join('');
       const prior=p||annual[2021]; const sncDelta=p?pct(d.snc,p.snc):0;
       $('#briefTitle').textContent=`FY${String(selectedYear).slice(-2)} executive readout`;
       const extra=selectedYear===2025?' PFAS work tested 88 industries and added 117 collection-system samples.':'';
@@ -370,8 +711,35 @@
       $('#signalValue').textContent=p?`${sncDelta<0?'−':'+'}${Math.abs(sncDelta).toFixed(0)}%`:'Baseline';
       $('#signalText').textContent=p?`Year-over-year ${sncDelta<0?'decline':'increase'} in SIUs in significant noncompliance. ${sncDelta<0?'Sustain case-level follow-through and reporting validation.':'Prioritize root-cause and closure evidence by case.'}`:'Five-year comparison begins with the FY2021 public report.';
       $('#periodLabel').textContent=d.period;
+      const short=`FY${String(selectedYear).slice(-2)}`;$('#heroInspection').textContent=`${Math.round(d.inspected/d.siu*100)}%`;$('#heroInspectionLabel').textContent=`${short} SIUs inspected`;$('#heroSnc').textContent=fmt(d.snc);$('#heroSncLabel').textContent=`${short} SIUs in SNC`;$('#heroRecovery').textContent=`${fmt(d.recoveryPct)}%`;$('#heroRecoveryLabel').textContent=`${short} cost recovery`;
     }
+    function openKpiSource(key,trigger){const d=annual[selectedYear],definitions={siu:'Greatest number of Significant Industrial Users designated during the fiscal year.',snc:'Official annual count of SIUs in significant noncompliance.',permits:'Industrial permits issued or renewed during the fiscal year; cohort mix can materially affect volume.',inspected:'Annual SIU inspection coverage calculated from inspected SIUs divided by the greatest number designated.',recoveryPct:'Permitting and monitoring charges recovered as a share of actual TRAC Current Expense Budget spending.'};openModal(`${selectedYear} KPI · source and decision rule`,`<span class="badge blue">MWRA reported</span><h3>Definition</h3><p>${esc(definitions[key])}</p><h3>Selected-year value</h3><p><b>FY${String(selectedYear).slice(-2)}</b> · ${key==='siu'?fmt(d.siu):key==='snc'?fmt(d.snc):key==='permits'?fmt(d.permits):key==='inspected'?Math.round(d.inspected/d.siu*100)+'%':fmt(d.recoveryPct)+'%'}</p><h3>Target / threshold context</h3><p>${esc(kpiTargetContext[key])}</p><div class="notice"><b>Exact public source:</b> <a href="${annualSourceUrls[selectedYear]}" target="_blank" rel="noopener">MWRA Industrial Waste Report · FY${selectedYear} ↗</a></div>`,trigger)}
     function setupCanvas(canvas){const r=canvas.getBoundingClientRect(),dpr=Math.min(devicePixelRatio||1,2);canvas.width=r.width*dpr;canvas.height=r.height*dpr;const c=canvas.getContext('2d');c.setTransform(dpr,0,0,dpr,0,0);return {c,w:r.width,h:r.height}}
+    function median(a){const s=[...a].sort((x,y)=>x-y),m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2}
+    function linearFit(vals){const n=vals.length,xm=(n-1)/2,ym=vals.reduce((a,b)=>a+b,0)/n;let num=0,den=0;vals.forEach((y,x)=>{num+=(x-xm)*(y-ym);den+=(x-xm)**2});const slope=den?num/den:0,intercept=ym-slope*xm,pred=vals.map((_,x)=>intercept+slope*x),sse=vals.reduce((s,y,i)=>s+(y-pred[i])**2,0),sst=vals.reduce((s,y)=>s+(y-ym)**2,0);return {slope,intercept,r2:sst?Math.max(0,1-sse/sst):1}}
+    function clip(v,min,max){return Math.min(max==null?Infinity:max,Math.max(min==null?-Infinity:min,v))}
+    function buildForecast(key,scenario=forecastScenario){const cfg=forecastConfigs[key],actual=years.map(y=>annual[y][key]),fit=linearFit(actual),diffs=actual.slice(1).map((v,i)=>v-actual[i]),recent=(actual[4]-actual[2])/2,slope=.35*fit.slope+.10*recent+.20*median(diffs),future=[];let damped=0;for(let h=1;h<=5;h++){damped+=Math.pow(.75,h-1);let value=actual[4]+slope*damped;if(scenario==='control')value+=cfg.controlStep*h;if(scenario==='stress')value+=cfg.stressStep*h;value=clip(value,cfg.min,cfg.max);const spread=cfg.uncertainty*Math.sqrt(h)*(scenario==='stress'?1.15:scenario==='control'?.9:1);future.push({year:2025+h,value,low:clip(value-spread,cfg.min,cfg.max),high:clip(value+spread,cfg.min,cfg.max)})}return {actual,fit,slope,future}}
+    function backtestForecast(key){const cfg=forecastConfigs[key],vals=years.map(y=>annual[y][key]),train=vals.slice(0,4),fit=linearFit(train),diffs=train.slice(1).map((v,i)=>v-train[i]),recent=(train[3]-train[1])/2,slope=.35*fit.slope+.10*recent+.20*median(diffs),pred=clip(train[3]+slope,cfg.min,cfg.max),actual=vals[4],error=Math.abs(pred-actual),percent=error/Math.max(Math.abs(actual),1)*100;return {pred,actual,error,percent}}
+    function forecastFmt(v,key){return forecastConfigs[key].unit==='percent'?`${v.toFixed(1)}%`:Math.round(v).toLocaleString()}
+    function drawForecast(){
+      const cfg=forecastConfigs[forecastMetric],model=buildForecast(forecastMetric),cv=$('#forecastCanvas'),{c,w,h}=setupCanvas(cv),m={l:52,r:19,t:34,b:40},xs=Array.from({length:10},(_,i)=>m.l+(w-m.l-m.r)*i/9),band=[{value:model.actual[4],low:model.actual[4],high:model.actual[4]},...model.future],all=[...model.actual,...model.future.flatMap(d=>[d.low,d.high])],mn=Math.min(...all),mx=Math.max(...all),pad=Math.max((mx-mn)*.12,cfg.unit==='percent'?2:1),lo=clip(mn-pad,cfg.min,null),hi=clip(mx+pad,null,cfg.max),span=Math.max(hi-lo,1),y=v=>m.t+(hi-v)/span*(h-m.t-m.b),scenarioColor=forecastScenario==='stress'?'#b91c1c':forecastScenario==='control'?'#0f766e':'#0891b2',bandColor=forecastScenario==='stress'?'rgba(185,28,28,.12)':forecastScenario==='control'?'rgba(15,118,110,.12)':'rgba(8,145,178,.12)';
+      c.clearRect(0,0,w,h);c.font='9px Arial';for(let i=0;i<5;i++){const gy=m.t+(h-m.t-m.b)*i/4,val=hi-span*i/4;c.strokeStyle='#dce8ec';c.beginPath();c.moveTo(m.l,gy);c.lineTo(w-m.r,gy);c.stroke();c.fillStyle='#617986';c.textAlign='right';c.fillText(cfg.unit==='percent'?val.toFixed(0)+'%':Math.round(val).toLocaleString(),m.l-7,gy+3)}
+      c.beginPath();band.forEach((d,i)=>{const px=xs[i+4],py=y(d.high);i?c.lineTo(px,py):c.moveTo(px,py)});[...band].reverse().forEach((d,j)=>c.lineTo(xs[9-j],y(d.low)));c.closePath();c.fillStyle=bandColor;c.fill();
+      c.strokeStyle='#082f49';c.lineWidth=2.6;c.setLineDash([]);c.beginPath();model.actual.forEach((v,i)=>i?c.lineTo(xs[i],y(v)):c.moveTo(xs[i],y(v)));c.stroke();model.actual.forEach((v,i)=>{c.beginPath();c.arc(xs[i],y(v),3.5,0,Math.PI*2);c.fillStyle='#fff';c.fill();c.strokeStyle='#082f49';c.lineWidth=1.8;c.stroke()});
+      c.strokeStyle=scenarioColor;c.lineWidth=2.6;c.setLineDash([6,5]);c.beginPath();c.moveTo(xs[4],y(model.actual[4]));model.future.forEach((d,i)=>c.lineTo(xs[i+5],y(d.value)));c.stroke();c.setLineDash([]);model.future.forEach((d,i)=>{c.beginPath();c.arc(xs[i+5],y(d.value),3.5,0,Math.PI*2);c.fillStyle=scenarioColor;c.fill()});
+      c.strokeStyle='#9bb7c0';c.setLineDash([2,4]);c.beginPath();c.moveTo((xs[4]+xs[5])/2,m.t);c.lineTo((xs[4]+xs[5])/2,h-m.b);c.stroke();c.setLineDash([]);c.font='9px Arial';c.textAlign='center';Array.from({length:10},(_,i)=>2021+i).forEach((yr,i)=>{c.fillStyle=i<5?'#526b78':scenarioColor;c.fillText('FY'+String(yr).slice(-2),xs[i],h-14)});
+      c.textAlign='left';c.fillStyle='#082f49';c.fillRect(m.l,7,10,3);c.fillStyle='#526b78';c.fillText('Reported',m.l+15,12);c.strokeStyle=scenarioColor;c.setLineDash([5,4]);c.beginPath();c.moveTo(m.l+80,9);c.lineTo(m.l+92,9);c.stroke();c.setLineDash([]);c.fillStyle='#526b78';c.fillText('Forecast',m.l+97,12);
+      const f26=model.future[0],f27=model.future[1],f30=model.future[4],backtest=backtestForecast(forecastMetric),confidence=model.fit.r2>=.65?'Moderate':model.fit.r2>=.35?'Low–moderate':'Low',scenarioLabel={base:'Base ensemble',control:'Control gain',stress:'Operational stress'}[forecastScenario];
+      $('#forecastChartTitle').textContent=`${cfg.label} · reported and forecast`;
+      $('#forecastFY26').textContent=forecastFmt(f26.value,forecastMetric);$('#forecastFY26Range').textContent=`Range ${forecastFmt(f26.low,forecastMetric)}–${forecastFmt(f26.high,forecastMetric)}`;
+      $('#forecastFY27').textContent=forecastFmt(f27.value,forecastMetric);$('#forecastFY27Range').textContent=`Range ${forecastFmt(f27.low,forecastMetric)}–${forecastFmt(f27.high,forecastMetric)}`;
+      $('#forecastFY30').textContent=forecastFmt(f30.value,forecastMetric);$('#forecastFY30Range').textContent=`Range ${forecastFmt(f30.low,forecastMetric)}–${forecastFmt(f30.high,forecastMetric)}`;
+      $('#forecastConfidence').textContent=confidence;$('#forecastFit').textContent=`R² ${model.fit.r2.toFixed(2)} · 5 annual observations`;
+      $('#forecastBacktest').textContent=forecastFmt(backtest.error,forecastMetric);$('#forecastBacktestNote').textContent=`FY21–FY24 trained · FY25 ${backtest.percent.toFixed(1)}% absolute error`;
+      $('#forecastActionTitle').textContent=`${scenarioLabel} · recommended action`;$('#forecastActionText').textContent=(forecastScenario==='stress'?'Treat the upper risk band as a trigger for contingency review. ':forecastScenario==='control'?'Track whether the proposed control produces measurable movement before claiming benefit. ':'Use the interval—not the point estimate—for planning. ')+cfg.action;
+      $('#forecastNote').textContent=`Solid = reported. Dashed = ${scenarioLabel.toLowerCase()} forecast. Shaded interval widens with horizon; it is a planning uncertainty band, not a regulatory confidence limit.`;
+      cv.setAttribute('aria-label',`${cfg.label}. Reported FY2021 through FY2025; ${scenarioLabel} forecast FY2026 through FY2030. FY2027 point ${forecastFmt(f27.value,forecastMetric)}. FY2025 holdout error ${forecastFmt(backtest.error,forecastMetric)}.`);
+    }
     function drawTrend(){
       const cv=$('#trendCanvas'),{c,w,h}=setupCanvas(cv),m={l:48,r:20,t:22,b:39};const vals=years.map(y=>annual[y][trendMetric]);const min=Math.min(...vals),max=Math.max(...vals),pad=Math.max((max-min)*.3,max*.06,1),lo=Math.max(0,min-pad),hi=max+pad;
       c.clearRect(0,0,w,h);c.font='10px Arial';c.strokeStyle='#dce8ec';c.fillStyle='#607985';c.lineWidth=1;
@@ -380,7 +748,7 @@
       const grad=c.createLinearGradient(0,m.t,0,h-m.b);grad.addColorStop(0,'rgba(8,145,178,.27)');grad.addColorStop(1,'rgba(8,145,178,.01)');c.beginPath();c.moveTo(pts[0].x,h-m.b);pts.forEach(p=>c.lineTo(p.x,p.y));c.lineTo(pts[4].x,h-m.b);c.closePath();c.fillStyle=grad;c.fill();
       c.beginPath();pts.forEach((p,i)=>i?c.lineTo(p.x,p.y):c.moveTo(p.x,p.y));c.strokeStyle='#087f8c';c.lineWidth=3;c.stroke();
       pts.forEach((p,i)=>{c.beginPath();c.arc(p.x,p.y,years[i]===selectedYear?6:4,0,Math.PI*2);c.fillStyle=years[i]===selectedYear?'#f59e0b':'#fff';c.fill();c.strokeStyle='#087f8c';c.lineWidth=2;c.stroke();c.fillStyle='#526b78';c.textAlign='center';c.fillText('FY'+String(years[i]).slice(-2),p.x,h-13);c.fillStyle='#082f49';c.font='bold 10px Arial';c.fillText(trendMetric==='recoveryPct'?fmt(p.v)+'%':fmt(p.v),p.x,p.y-11);c.font='10px Arial'});c.textAlign='left';
-      const meta=metricMeta[trendMetric];$('#trendTitle').textContent=meta.title;$('#trendNote').textContent=meta.note;
+      const meta=metricMeta[trendMetric];$('#trendTitle').textContent=meta.title;$('#trendNote').textContent=meta.note;cv.setAttribute('aria-label',`${meta.title}: ${years.map((yr,i)=>`FY${String(yr).slice(-2)} ${fmt(vals[i])}${trendMetric==='recoveryPct'?' percent':''}`).join(', ')}.`);
     }
     function drawBars(){
       const cv=$('#throughputCanvas'),{c,w,h}=setupCanvas(cv),m={l:42,r:14,t:18,b:38};const series=[{k:'industrialInspections',color:'#075985'},{k:'industrialSampling',color:'#0891b2'},{k:'nonIndustrialSampling',color:'#6cb9a7'}],max=Math.max(...years.flatMap(y=>series.map(s=>annual[y][s.k])))*1.12;const group=(w-m.l-m.r)/5,bw=Math.min(17,group/4);
@@ -392,6 +760,12 @@
       const cv=$('#recoveryCanvas'),{c,w,h}=setupCanvas(cv),m={l:42,r:15,t:22,b:38};const max=65,group=(w-m.l-m.r)/5,bw=Math.min(38,group*.5);c.clearRect(0,0,w,h);c.font='9px Arial';
       for(let i=0;i<4;i++){const v=60-i*20,y=m.t+(max-v)/max*(h-m.t-m.b);c.strokeStyle='#dce8ec';c.beginPath();c.moveTo(m.l,y);c.lineTo(w-m.r,y);c.stroke();c.fillStyle='#607985';c.fillText(v+'%',10,y+3)}
       years.forEach((yr,i)=>{const v=annual[yr].recoveryPct,x=m.l+i*group+group/2-bw/2,y=m.t+(max-v)/max*(h-m.t-m.b);const g=c.createLinearGradient(0,y,0,h-m.b);g.addColorStop(0,'#0f766e');g.addColorStop(1,'#69c0ad');c.fillStyle=g;c.fillRect(x,y,bw,h-m.b-y);c.fillStyle='#082f49';c.textAlign='center';c.font='bold 10px Arial';c.fillText(fmt(v)+'%',x+bw/2,y-7);c.font='9px Arial';c.fillStyle='#526b78';c.fillText('FY'+String(yr).slice(-2),x+bw/2,h-12)});c.textAlign='left';
+    }
+    function drawPeer(){
+      const cv=$('#peerCanvas'),{c,w,h}=setupCanvas(cv),data=peerCapabilityMeta.map(([key,label])=>[label,peerEvidence.filter(p=>p[key]==='verified').length]),m={l:Math.min(166,Math.max(126,w*.42)),r:28,t:18,b:30},plotW=w-m.l-m.r,rowH=(h-m.t-m.b)/data.length;
+      c.clearRect(0,0,w,h);c.font='9px Arial';c.textAlign='center';
+      for(let i=0;i<=4;i++){const x=m.l+plotW*i/4;c.strokeStyle='#dce8ec';c.beginPath();c.moveTo(x,m.t);c.lineTo(x,h-m.b);c.stroke();c.fillStyle='#617986';c.fillText(String(i),x,h-9)}
+      c.textAlign='right';data.forEach(([label,value],i)=>{const y=m.t+i*rowH+rowH*.24,bh=Math.min(22,rowH*.5),barW=plotW*value/4;const g=c.createLinearGradient(m.l,0,m.l+plotW,0);g.addColorStop(0,'#0891b2');g.addColorStop(1,'#0f766e');c.fillStyle='#405b68';c.font='9px Arial';c.fillText(label,m.l-9,y+bh*.73);c.fillStyle='#e7eff2';c.fillRect(m.l,y,plotW,bh);c.fillStyle=g;c.fillRect(m.l,y,barW,bh);c.fillStyle='#082f49';c.font='bold 10px Arial';c.textAlign='left';c.fillText(`${value} of 4`,Math.min(m.l+barW+6,w-35),y+bh*.72);c.textAlign='right'});c.textAlign='left';
     }
     function renderWorkload(){const d=annual[2025],items=[['Industrial visits',d.industrialInspections],['Industrial samples',d.industrialSampling],['Non-industrial samples',d.nonIndustrialSampling],['Trap inspections',d.trapInspections],['Septage inspections',d.septageInspections],['Early enforcement',d.earlyEnforcement],['Higher-level actions',d.highEnforcement]],max=Math.max(...items.map(x=>x[1]));$('#workloadList').innerHTML=items.map(([n,v])=>`<div class="metric-row"><span>${n}</span><div class="track"><div class="fill" style="width:${v/max*100}%"></div></div><b>${fmt(v)}</b></div>`).join('')}
     function heatStyle(v,max){const t=max?Math.sqrt(v/max):0;const l=96-t*48,s=32+t*32;return `background:hsl(177 ${s}% ${l}%);${t>.65?'color:#fff':''}`}
@@ -417,6 +791,29 @@
       exec:['Executive semantic layer · proposed','This dashboard demonstrates a governed presentation layer above the operational system; it is not identified in the public reports as a deployed MWRA application.','Acceptance evidence: signed metric definitions; source lineage; fiscal-year snapshot; role-based drill-down; export parity; accessibility and regression tests.']
     };
     function openNode(k,t){const d=nodeDetails[k];openModal(d[0],`<span class="badge blue">Public status + PM control</span><h3>Verified public status</h3><p>${d[1]}</p><h3>Project Manager control objective</h3><p>${d[2]}</p><div class="notice">Status language is sourced; acceptance evidence is a recommended project-control design.</div>`,t)}
+    const portfolioDetails={
+      limits:{title:'Industrial Pretreatment & Local Limits Optimization',status:'Active regulatory program',driver:'Federal Clean Water Act pretreatment requirements, the MWRA Sewer Use Regulations at 360 CMR 10.00 and MWRA’s NPDES obligations.',impact:'Protect Deer Island and Clinton treatment processes, biosolids quality, collection infrastructure, workers and receiving waters from interference or pass-through.',actions:['Complete the FY25-started local-limits reassessment using updated headworks, treatment and biosolids data.','Refresh Maximum Allowable Headworks Loading and industrial-allocation models with versioned assumptions and approvals.','Use corridor and facility-level trend views to identify concentration risk before an NPDES compliance event.'],pims:'Effective-date every limit, allocation, sampling method and approval. Link each compliance determination to the exact rule version and supporting result.'},
+      pfas:{title:'PFAS Source Identification & Mitigation',status:'Emerging-contaminant priority',driver:'Evolving federal and Massachusetts expectations for PFAS in wastewater and biosolids, supported by MWRA source-identification work.',impact:'Preserve management options for biosolids, including Bay State Fertilizer, while reducing the probability of future treatment, disposal and regulatory cost shocks.',actions:['Expand low-level monitoring at industrial connections and collection-system nodes using a consistent analyte and method catalog.','Prioritize trace-back work by concentration, persistence, flow context and source confidence—not by count alone.','Develop targeted minimization-plan criteria as a proposed control for source categories supported by defensible evidence.'],pims:'Store analyte, method, unit, detection limit, qualifier, sample class, location and chain-of-custody as governed fields; preserve non-detect semantics.'},
+      digital:{title:'PIMS Permitting & Sampling Automation',status:'Candidate-proposed modernization',driver:'Operational efficiency, auditability, EPA electronic reporting and the need to reconcile WebSMR, LIMS, financial and compliance data.',impact:'Shorten permit-cycle time, reduce re-entry and reconciliation effort, and give the 48-position program a reliable operating picture without weakening regulatory controls.',actions:['Segment low-flow, group and complex industrial permits into configurable workflows with service-level clocks.','Add validated electronic submittal channels for regulated users, laboratories and authorized third-party vendors.','Use interface control totals, rejected-record queues, role-based approval and immutable reporting snapshots as release gates.'],pims:'Treat PIMS as the system of record and expose a governed executive semantic layer; “cloud” is an option to assess, not an asserted MWRA commitment.'},
+      ii:{title:'Cross-Functional I/I & Wet-Weather Coordination',status:'MWRA enterprise coordination',driver:'Collection-system capacity, sewer rehabilitation, wet-weather resilience, CSO/SSO reduction and community financial assistance outcomes.',impact:'Reduce avoidable wet-weather loading and create better context for distinguishing industrial discharge patterns from groundwater, stormwater and runoff influence.',actions:['Align TRAC wet-weather sampling plans with community sewer-rehabilitation schedules and priority basins.','Use event-based rainfall, flow and sampling context to identify anomalies requiring municipal or source-control follow-up.','Track program outcomes through shared measures while keeping ownership with the appropriate MWRA and community programs.'],pims:'Link sampling events to facility, collection-system location, rainfall window and municipal project geography without representing the I/I assistance program as TRAC-owned.'}
+    };
+    function openPortfolio(k,t){const d=portfolioDetails[k];openModal(d.title,`<span class="badge blue">${d.status}</span><h3>Regulatory / operational driver</h3><p>${d.driver}</p><h3>Executive impact</h3><p>${d.impact}</p><h3>Priority actions</h3><ul>${d.actions.map(a=>`<li>${a}</li>`).join('')}</ul><div class="notice"><b>PIMS implication:</b> ${d.pims}</div>`,t)}
+    const practiceDetails={
+      limits:{title:'Best practice · local-limits lifecycle',posture:'Active · complete and institutionalize',basis:'EPA requires approved pretreatment programs to evaluate local limits following NPDES permit issuance or reissuance, using facility capability, sludge and receiving-water needs.',evidence:'MWRA’s FY25 report documents the start of a local-limits reassessment. The executive control need is a reproducible record of pollutants of concern, headworks assumptions, treatment-removal data, allocations, approval and effective dates.',peer:'Peer discharge limits are site-specific and should not be copied. The transferable practice is the governed review lifecycle and its documented decision trail.',move:'Create a PIMS local-limits register with rule versions, calculation inputs, reviewers, public-notice milestones, effective dates and a scheduled re-evaluation trigger.'},
+      coverage:{title:'Best practice · risk-based compliance coverage',posture:'Strong · protect coverage while increasing precision',basis:'EPA control authorities must receive and analyze industrial-user reports, investigate noncompliance, and specifically inspect and sample SIUs annually.',evidence:'MWRA reported inspection of all SIUs in each of the five fiscal years in this dashboard. FY25 also included targeted PFAS work across 88 industries and 117 collection-system samples.',peer:'King County publicly couples approvals, inspections, sampling, compliance tracking and enforcement with technical assistance. The transferable practice is tiering intensity without relaxing regulatory minimums.',move:'Use a transparent risk tier based on pollutant hazard, flow, compliance history, process change, location and data quality; keep the statutory minimum visible as a non-negotiable floor.'},
+      digital:{title:'Best practice · CROMERR digital records',posture:'Leading · extend from intake to reconciliation',basis:'EPA’s electronic-reporting framework requires legal accountability, identity assurance, electronic signatures and preservation of a copy of record.',evidence:'MWRA reports EPA approval for electronic receipt of self-monitoring data and a transition to NETPPR. Public Board materials also identify current PIMS–LIMS and invoice-interface work.',peer:'HRSD’s HERS accepts electronic reports and permit applications with CROMERR legal, security and signature controls. King County’s 2025 report identifies a CROMERR project under active coordination.',move:'Adopt one release gate covering authentication, schema validation, copy of record, source/target totals, duplicate prevention, rejected-row ownership, replay and certified annual snapshots.'},
+      recovery:{title:'Best practice · transparent cost recovery',posture:'Optimize · make workload and consequence visible',basis:'EPA requires sufficient funding, resources and personnel. A defensible fee model should connect program work to regulated-user characteristics and exceptional compliance costs.',evidence:'MWRA uses permitting and monitoring charges and reported 59% recovery of FY25 TRAC current-expense spending. That figure is a financial measure, not a stand-alone judgment of adequacy.',peer:'King County uses tiered compliance-monitoring and administration fees plus post-violation charges. Portland uses permit base fees and actual monitoring and enforcement costs.',move:'Model unit cost by permit cohort, sampling package, analytical method, enforcement stage and interface effort; present options without assuming that 100% recovery is the governing policy target.'},
+      lineage:{title:'Best practice · enforcement case lineage',posture:'Strengthen · make determinations reproducible',basis:'EPA requires an Enforcement Response Plan, investigation of industrial-user noncompliance and annual reporting of compliance and enforcement activity.',evidence:'MWRA publicly reports SNC and enforcement totals. PIMS can make the underlying decision chain reproducible from the applicable limit through result validation, notice, escalation and closure.',peer:'Portland publicly documents changes to its enforcement response plan, while King County itemizes post-violation inspection, sampling and analytical work.',move:'Implement effective-dated rule logic, reason codes, reviewer approval, statutory clocks, evidence attachments and closure criteria; regression-test every SNC rule before release.'},
+      engagement:{title:'Best practice · pollution-prevention partnership',posture:'Opportunity · reinforce prevention at the source',basis:'Pretreatment succeeds when regulated users understand obligations and reduce pollutant loading before discharge, alongside inspection and enforcement.',evidence:'MWRA provides permitting guidance and source-control information. A more structured engagement layer could turn assistance into measurable prevention outcomes.',peer:'King County combines technical assistance with compliance and innovation awards; Portland recognizes sustained violation-free performance; HRSD operates pollution-prevention and pretreatment-excellence awards.',move:'Pilot a transparent recognition and technical-assistance program with eligibility, no-active-enforcement safeguards, measurable source-reduction evidence and annual outcome reporting.'}
+    };
+    function openPractice(k,t){const d=practiceDetails[k];openModal(d.title,`<span class="badge blue">${d.posture}</span><h3>EPA / regulatory basis</h3><p>${d.basis}</p><h3>MWRA public evidence</h3><p>${d.evidence}</p><h3>Peer transfer—not imitation</h3><p>${d.peer}</p><div class="notice"><b>Project Manager move:</b> ${d.move}</div>`,t)}
+    const peerDetails={
+      mwra:{title:'MWRA TRAC · benchmark brief',summary:'Regional control authority with approximately 2,000 permitted industrial dischargers, five-year public Industrial Waste Reports, CROMERR-approved electronic self-monitoring, two-part cost recovery, active PFAS source work and current PIMS interface/reporting transitions.',transfer:'Protect the existing strengths—public transparency, inspection coverage and digital intake—while adding stronger fee-to-workload analytics, case lineage and reusable executive metric governance.',sources:[['MWRA TRAC','https://www.mwra.com/your-sewer-system/toxic-reduction-and-control-trac'],['FY2025 Industrial Waste Report','https://www.mwra.com/media/file/iwr-2025pdf']]},
+      king:{title:'King County Industrial Waste · peer brief',summary:'Delegated regional pretreatment program with a 2025 public annual report, documented technical assistance and awards, tiered compliance-monitoring fees, explicit post-violation cost recovery and an active CROMERR project.',transfer:'Useful model for linking cost recovery to service intensity and violation-driven work, and for combining regulation with structured industry engagement.',sources:[['2025 annual report','https://kingcounty.gov/en/dept/dnrp/waste-services/wastewater-treatment/sewer-system-services/industrial-waste/annual-report'],['Fees and surcharges','https://kingcounty.gov/en/dept/dnrp/waste-services/wastewater-treatment/sewer-system-services/industrial-waste/forms-fees-resources/fees']]},
+      portland:{title:'Portland Environmental Services · peer brief',summary:'Municipal pretreatment program with public annual reports, source-control guidance, annual industrial awards, permit base fees and separately recoverable monitoring and enforcement costs.',transfer:'Useful model for publishing the relationship between permit category, routine oversight and exceptional enforcement cost without treating fee design as a one-size-fits-all formula.',sources:[['Pretreatment reports and awards','https://www.portland.gov/bes/79210'],['Permit and fee guide','https://www.portland.gov/bes/31810']]},
+      hrsd:{title:'HRSD P3 · peer brief',summary:'Regional wastewater utility with the HERS web-based system for CROMERR-aligned reports and permit applications, a public training library, and pollution-prevention and pretreatment-excellence awards.',transfer:'Useful model for pairing a regulated-user portal with onboarding support and positive pollution-prevention incentives. Public pages reviewed here did not establish comparable annual-report or fee-model evidence.',sources:[['HERS online reporting','https://www.hrsd.com/online-reporting'],['Pollution Prevention Awards','https://www.hrsd.com/pollution-prevention-p2-awards']]}
+    };
+    function openPeer(k,t){const d=peerDetails[k],links=d.sources.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${n} ↗</a>`).join(' &nbsp;·&nbsp; ');openModal(d.title,`<span class="badge gray">Reference program</span><h3>Public evidence reviewed</h3><p>${d.summary}</p><h3>Transferable lesson for MWRA</h3><p>${d.transfer}</p><div class="notice"><b>Official sources:</b> ${links}</div>`,t)}
     const actionDetails={
       integration:['Integration release gate','Decision: authorize cutover only after source/target counts, monetary totals, rejected rows, duplicate checks and replay tests reconcile. Name a business owner and a technical owner for every exception.','Recommended artifact: signed release checklist + interface reconciliation report.'],
       permits:['Permit-volume segmentation','Separate recurring dental group-cycle volume, new permits, SIU renewals, municipal permits and temporary dewatering work. Show timeliness by cohort so the FY25 surge does not distort ordinary workload.','Recommended artifact: permit cohort dashboard + aging queue.'],
@@ -426,19 +823,42 @@
       semantic:['Certified executive metrics','Use one governed calculation layer for management, coordinators, annual reporting and public views. Hide sensitive details by role without changing metric definitions.','Recommended artifact: metric catalog + lineage + release approval.']
     };
     function openAction(k,t){const d=actionDetails[k];openModal(d[0],`<h3>Executive control</h3><p>${d[1]}</p><div class="notice"><b>${d[2]}</b></div><h3>Minimum acceptance test</h3><ul><li>Named owner and approver</li><li>Documented input and output totals</li><li>Exception handling and replay evidence</li><li>Traceable release version and approval date</li></ul>`,t)}
-    function updateAll(){renderKPIs();renderGeo();drawTrend();$$('#yearPills .pill').forEach(b=>b.classList.toggle('active',+b.dataset.year===selectedYear))}
-    function exportCSV(){const rows=[['dataset','fiscal_year','geography_or_metric','county','value','unit']];years.forEach(y=>Object.entries(annual[y]).forEach(([k,v])=>{if(typeof v==='number')rows.push(['annual_summary',y,k,'',v,k==='recoveryPct'||k.startsWith('permit1')?'percent':'count_or_dollars'])}));years.forEach(y=>Object.entries(geo[y]).forEach(([c,v])=>rows.push(['appendix_a_geography',y,c,cityCounty[c],v,'unique_facility_ids'])));Object.entries(sectors).forEach(([s,vals])=>vals.forEach((v,i)=>rows.push(['categorical_standard',years[i],s,'',v,'matched_unique_facilities'])));const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n'),blob=new Blob([csv],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mwra_trac_pims_public_data_fy2021_fy2025.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast('CSV exported')}
-    function briefString(){const d=annual[selectedYear],p=annual[selectedYear-1];return `MWRA TRAC public-data brief · FY${selectedYear}: ${d.siu} maximum SIUs; ${d.inspected} inspected; ${d.snc} in significant noncompliance${p?` (${pct(d.snc,p.snc).toFixed(1)}% vs FY${selectedYear-1})`:''}; ${d.permits.toLocaleString()} permits issued or renewed; ${d.permit120}% of SIU permits within 120 days; ${d.recoveryPct}% cost recovery (${money(d.recovered)} recovered). Source: MWRA Industrial Waste Report FY${selectedYear}.`}
+    const flagDetails={feature:['Monthly PIMS forecasting feature feed','Create a governed monthly history for permits, facility status, inspection and sampling activity, analytes, violations, enforcement, staffing, rainfall and interface exceptions. Keep facility and sample-location keys stable across time.','Immediate acceptance evidence: 36+ months where available; data dictionary and owners; missingness and late-arrival report; source/target totals; effective-dated limits; train/validation split; reproducible monthly snapshot.']};
+    function openFlag(k,t){if(actionDetails[k])return openAction(k,t);const d=flagDetails[k];openModal(d[0],`<span class="badge red">Immediate model prerequisite</span><h3>Required action</h3><p>${d[1]}</p><div class="notice"><b>${d[2]}</b></div><h3>Guardrail</h3><p>Until this feed is available and back-tested, retain the annual forecast as an executive planning aid only.</p>`,t)}
+    const productDetails={
+      sampling:['Sampling equipment budget memorandum','Decision requested: authorize a defined equipment package and implementation envelope for automated or low-level field sampling.','Frame the request around regulatory risk avoided, staff safety, defensible data quality, coverage gained and reduced manual handling. Include total cost of ownership, calibration, maintenance, cybersecurity, training, procurement lead time and the PIMS/LIMS integration plan.','Board package: one-page decision summary; options and lifecycle cost; deployment schedule; data-quality controls; accountable owner; post-implementation measures.'],
+      exceedance:['Local-limit exceedance executive brief','Decision requested: confirm containment, escalation level and external communication path for a threshold exceedance.','State what was measured, where, when, against which effective limit and with what laboratory qualifiers. Separate confirmed facts from impact assessment, identify immediate source-control measures and show whether treatment, biosolids, worker safety or NPDES performance is at risk.','Brief structure: event chronology; regulatory basis; validation status; facility and system impact; containment; enforcement path; next sampling gate; executive decision.'],
+      ii:['I/I financial assistance policy outline','Decision requested: endorse cross-functional prioritization criteria for sewer-rehabilitation assistance and wet-weather intelligence.','Connect community project eligibility and scoring to documented I/I reduction, regional capacity, CSO/SSO outcomes, readiness and equitable delivery. Define how TRAC sampling insight may inform prioritization without transferring ownership of the assistance program to TRAC.','Policy structure: purpose and authority; eligibility; scoring; grant/loan parameters; data-sharing; outcome measures; governance; annual review and public reporting.']
+    };
+    function openProduct(k,t){const d=productDetails[k];openModal(d[0],`<span class="badge amber">Board-ready template</span><h3>${d[1]}</h3><p>${d[2]}</p><div class="notice"><b>${d[3]}</b></div>`,t)}
+    function updateView(mode){selectedView=mode==='full'?'full':'executive';document.body.dataset.view=selectedView;$$('[data-view-mode]').forEach(b=>{const on=b.dataset.viewMode===selectedView;b.classList.toggle('active',on);b.setAttribute('aria-pressed',String(on))});try{localStorage.setItem('mwraPimsViewV1',selectedView)}catch(e){}requestAnimationFrame(()=>{if(selectedView==='full'){drawTrend();drawBars();drawRecovery();drawPeer()}drawForecast()})}
+    function renderBoardSheet(){const d=annual[selectedYear],model=buildForecast(forecastMetric),f27=model.future[1],prior=annual[selectedYear-1],top=workstreams.filter(w=>w.window!=='ongoing').slice(0,4);$('#boardSheet').innerHTML=`<div class="board-title"><div><div class="eyebrow">Candidate-prepared executive decision brief</div><h1>MWRA TRAC · PIMS Executive Brief</h1></div><p><b>FY${selectedYear}</b><br>${esc(d.period)}<br>Prepared August 27, 2026</p></div><div class="board-kpis"><div class="board-kpi"><b>${fmt(d.siu)}</b>Maximum SIUs</div><div class="board-kpi"><b>${fmt(d.snc)}</b>SIUs in SNC${prior?` · ${pct(d.snc,prior.snc).toFixed(0)}% YoY`:''}</div><div class="board-kpi"><b>${Math.round(d.inspected/d.siu*100)}%</b>SIUs inspected</div><div class="board-kpi"><b>${fmt(d.permit120)}%</b>Permits within 120 days</div><div class="board-kpi"><b>${fmt(d.recoveryPct)}%</b>Cost recovery</div></div><div class="board-grid"><div><h2>Decisions and accountable delivery</h2><table><thead><tr><th>Decision</th><th>Owner / approver</th><th>Due</th><th>Stage</th></tr></thead><tbody>${top.map(w=>{const m=deliveryMeta[w.id],s=trackerStage(w);return `<tr><td><b>${esc(m.decision)}</b><br>${esc(m.impact)}</td><td>${esc(w.owner)}<br><b>${esc(m.approver)}</b></td><td>${esc(m.due)}</td><td>${esc(progressStages[s])}<br>${esc(stageGates[s])}</td></tr>`}).join('')}</tbody></table></div><div><h2>Forecast and management posture</h2><p><b>${esc(forecastConfigs[forecastMetric].label)}</b><br>FY27 ${forecastFmt(f27.value,forecastMetric)} · range ${forecastFmt(f27.low,forecastMetric)}–${forecastFmt(f27.high,forecastMetric)}<br>Scenario: ${esc({base:'Base ensemble',control:'Control gain',stress:'Operational stress'}[forecastScenario])}</p><p><b>Immediate controls:</b> certify interface reconciliation; build monthly feature history; preserve the FY25 NETPPR bridge; govern PFAS model fields.</p><p><b>Data trust:</b> five complete public annual reports through FY2025. Forecasts and delivery stages are candidate planning aids, not official MWRA targets or commitments.</p><h2>Candidate presentation</h2><p>Prepared by <b>Narissara Khomkhai</b> for the Project Manager, PIMS position · nasdaqguru.github.io</p></div></div>`}
+    function printBoardBrief(){renderBoardSheet();document.body.classList.add('board-print');const cleanup=()=>document.body.classList.remove('board-print');window.addEventListener('afterprint',cleanup,{once:true});window.print();setTimeout(cleanup,1500)}
+    function updateAll(){renderKPIs();renderGeo();drawTrend();renderBoardSheet();$$('#yearPills .pill').forEach(b=>b.classList.toggle('active',+b.dataset.year===selectedYear))}
+    function exportCSV(){const rows=[['dataset','fiscal_year','geography_or_metric','county_program_or_scenario','value','unit_or_status']];years.forEach(y=>Object.entries(annual[y]).forEach(([k,v])=>{if(typeof v==='number')rows.push(['annual_summary',y,k,'',v,k==='recoveryPct'||k.startsWith('permit1')?'percent':'count_or_dollars'])}));years.forEach(y=>Object.entries(geo[y]).forEach(([c,v])=>rows.push(['appendix_a_geography',y,c,cityCounty[c],v,'unique_facility_ids'])));Object.entries(sectors).forEach(([s,vals])=>vals.forEach((v,i)=>rows.push(['categorical_standard',years[i],s,'',v,'matched_unique_facilities'])));peerEvidence.forEach(p=>peerCapabilityMeta.forEach(([key,label])=>rows.push(['peer_public_evidence','',label,p.program,p[key],'candidate_review_status'])));Object.keys(forecastConfigs).forEach(k=>{['base','control','stress'].forEach(s=>buildForecast(k,s).future.forEach(d=>{rows.push(['candidate_forecast',d.year,`${k}_point`,s,d.value,forecastConfigs[k].unit]);rows.push(['candidate_forecast',d.year,`${k}_low`,s,d.low,forecastConfigs[k].unit]);rows.push(['candidate_forecast',d.year,`${k}_high`,s,d.high,forecastConfigs[k].unit])}));const bt=backtestForecast(k);rows.push(['candidate_backtest',2025,k,'FY21-FY24 train / FY25 holdout',bt.error,`${forecastConfigs[k].unit}_absolute_error`])});verifiedFeatureDrivers.forEach(d=>rows.push(['verified_feature_driver',d.year,d.metric,'MWRA FY23',d.value,d.unit]));workstreams.forEach(w=>{const m=deliveryMeta[w.id];rows.push(['candidate_delivery_tracker','',w.name,w.owner,m.due,`stage_${trackerStage(w)+1}_of_6_${progressStages[trackerStage(w)]}`]);rows.push(['candidate_delivery_approval','',w.name,m.approver,m.priority,'candidate_planning_control'])});const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(',')).join('\r\n'),blob=new Blob([csv],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mwra_trac_pims_public_data_forecasts_and_delivery_tracker.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500);toast('CSV exported')}
+    function briefString(){const d=annual[selectedYear],p=annual[selectedYear-1],f=buildForecast(forecastMetric).future[1],cfg=forecastConfigs[forecastMetric];return `MWRA TRAC public-data brief · FY${selectedYear}: ${d.siu} maximum SIUs; ${d.inspected} inspected; ${d.snc} in significant noncompliance${p?` (${pct(d.snc,p.snc).toFixed(1)}% vs FY${selectedYear-1})`:''}; ${d.permits.toLocaleString()} permits issued or renewed; ${d.permit120}% of SIU permits within 120 days; ${d.recoveryPct}% cost recovery (${money(d.recovered)} recovered). Candidate ${forecastScenario} FY27 forecast for ${cfg.label}: ${forecastFmt(f.value,forecastMetric)} (planning estimate; five annual observations). Source: MWRA Industrial Waste Report FY${selectedYear}.`}
     function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),2200)}
     $('#yearPills').addEventListener('click',e=>{const b=e.target.closest('[data-year]');if(!b)return;selectedYear=+b.dataset.year;updateAll()});
     $('#trendTabs').addEventListener('click',e=>{const b=e.target.closest('[data-metric]');if(!b)return;trendMetric=b.dataset.metric;$$('#trendTabs .mini-tab').forEach(x=>x.classList.toggle('active',x===b));drawTrend()});
+    $('#forecastTabs').addEventListener('click',e=>{const b=e.target.closest('[data-forecast-metric]');if(!b)return;forecastMetric=b.dataset.forecastMetric;$$('#forecastTabs .forecast-tab').forEach(x=>x.classList.toggle('active',x===b));drawForecast();renderBoardSheet()});
+    $('#scenarioPills').addEventListener('click',e=>{const b=e.target.closest('[data-scenario]');if(!b)return;forecastScenario=b.dataset.scenario;$$('#scenarioPills .scenario-pill').forEach(x=>x.classList.toggle('active',x===b));drawForecast();renderBoardSheet()});
+    $('#sopTabs').addEventListener('click',e=>{const b=e.target.closest('[data-sop]');if(!b)return;selectedSop=b.dataset.sop;$$('#sopTabs .sop-tab').forEach(x=>x.classList.toggle('active',x===b));renderSop()});
+    $('#trackerFilters').addEventListener('click',e=>{const b=e.target.closest('[data-tracker-filter]');if(!b)return;trackerFilter=b.dataset.trackerFilter;$$('#trackerFilters .tracker-filter').forEach(x=>x.classList.toggle('active',x===b));renderTracker()});
+    $('#trackerGrid').addEventListener('change',e=>{const s=e.target.closest('[data-stage-key]');if(!s)return;trackerState[s.dataset.stageKey]=+s.value;saveTracker();renderTracker();renderActionRegister();renderBoardSheet();toast('Tracker stage updated locally')});
+    $('#trackerGrid').addEventListener('click',e=>{const b=e.target.closest('[data-workstream]');if(!b)return;openWorkstream(b.dataset.workstream,b)});
+    $('#actionRegisterBody').addEventListener('click',e=>{const b=e.target.closest('[data-register-workstream]');if(!b)return;openWorkstream(b.dataset.registerWorkstream,b)});
+    $('#kpiGrid').addEventListener('click',e=>{const b=e.target.closest('[data-kpi-source]');if(!b)return;openKpiSource(b.dataset.kpiSource,b)});
+    $$('.view-btn[data-view-mode]').forEach(b=>b.addEventListener('click',()=>updateView(b.dataset.viewMode)));
+    $('#mobileMenuBtn').addEventListener('click',()=>{const open=$('#reportSidebar').classList.toggle('open');$('#mobileMenuBtn').setAttribute('aria-expanded',String(open));$('#mobileMenuBtn').setAttribute('aria-label',open?'Close report index':'Open report index')});
+    $('#sideNav').addEventListener('click',()=>{$('#reportSidebar').classList.remove('open');$('#mobileMenuBtn').setAttribute('aria-expanded','false')});
     ['input','change'].forEach(ev=>$('#citySearch').addEventListener(ev,renderGeo));$('#countyFilter').addEventListener('change',renderGeo);$('#citySort').addEventListener('change',renderGeo);
-    $$('.flow-node[data-node]').forEach(b=>b.addEventListener('click',()=>openNode(b.dataset.node,b)));$$('.action button').forEach(b=>b.addEventListener('click',()=>openAction(b.dataset.action,b)));
-    $('#modalClose').addEventListener('click',closeModal);$('#modal').addEventListener('click',e=>{if(e.target===$('#modal'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-    $('#exportCsv').addEventListener('click',exportCSV);$('#printBtn').addEventListener('click',()=>window.print());$('#copyBrief').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(briefString());toast('Executive brief copied')}catch(e){toast('Copy unavailable in this browser')}});
-    const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){$$('#sideNav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+e.target.id))}}),{rootMargin:'-25% 0px -66% 0px'});$$('main section[id]').forEach(s=>io.observe(s));
-    let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{drawTrend();drawBars();drawRecovery()},120)});
-    renderWorkload();renderSectors();updateAll();drawBars();drawRecovery();
+    $$('.flow-node[data-node]').forEach(b=>b.addEventListener('click',()=>openNode(b.dataset.node,b)));$$('.portfolio-card[data-portfolio]').forEach(b=>b.addEventListener('click',()=>openPortfolio(b.dataset.portfolio,b)));$$('.practice-card[data-practice]').forEach(b=>b.addEventListener('click',()=>openPractice(b.dataset.practice,b)));$$('[data-peer]').forEach(r=>{const open=()=>openPeer(r.dataset.peer,r);r.addEventListener('click',open);r.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}})});$$('.flag-card[data-flag]').forEach(b=>b.addEventListener('click',()=>openFlag(b.dataset.flag,b)));$$('.product-btn[data-product]').forEach(b=>b.addEventListener('click',()=>openProduct(b.dataset.product,b)));
+    $('#modalClose').addEventListener('click',closeModal);$('#modal').addEventListener('click',e=>{if(e.target===$('#modal'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='Tab'&&$('#modal').classList.contains('open')){const focusable=$$('#modal a[href],#modal button:not([disabled]),#modal input:not([disabled]),#modal select:not([disabled]),#modal textarea:not([disabled]),#modal [tabindex]:not([tabindex="-1"])');if(!focusable.length)return;const first=focusable[0],last=focusable[focusable.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+    $('#exportCsv').addEventListener('click',exportCSV);$('#printBtn').addEventListener('click',()=>window.print());$('#boardBrief').addEventListener('click',printBoardBrief);$('#copyBrief').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(briefString());toast('Executive brief copied')}catch(e){toast('Copy unavailable in this browser')}});
+    reorderExecutiveSections();
+    const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const id=e.target.dataset.navSection||e.target.id;$$('#sideNav a').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id))}}),{rootMargin:'-25% 0px -66% 0px'});$$('main section[id]').forEach(s=>io.observe(s));
+    let resizeTimer;window.addEventListener('resize',()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>{drawTrend();drawBars();drawRecovery();drawPeer();drawForecast()},120)});
+    renderWorkload();renderSectors();renderSop();renderTracker();renderActionRegister();updateAll();drawBars();drawRecovery();drawPeer();drawForecast();updateView(selectedView);
   })();
   </script>
 </body>
