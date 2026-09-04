@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrightPath AI Tutoring Platform — Project Management Package</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap');
+
+  :root {
+    --ink:       #0f1923;
+    --ink-soft:  #3a4a5c;
+    --ink-muted: #6b7e92;
+    --canvas:    #f7f9fc;
+    --surface:   #ffffff;
+    --rule:      #dde3ec;
+    --accent:    #1a56db;
+    --accent-lt: #eff4ff;
+    --accent-dk: #1040b0;
+    --teal:      #0d9488;
+    --teal-lt:   #f0fdf9;
+    --amber:     #d97706;
+    --amber-lt:  #fffbeb;
+    --red:       #dc2626;
+    --red-lt:    #fef2f2;
+    --green:     #16a34a;
+    --green-lt:  #f0fdf4;
+    --violet:    #7c3aed;
+    --violet-lt: #f5f3ff;
+    --shadow-sm: 0 1px 3px rgba(15,25,35,.07), 0 1px 2px rgba(15,25,35,.05);
+    --shadow:    0 4px 12px rgba(15,25,35,.09), 0 1px 3px rgba(15,25,35,.06);
+    --radius:    10px;
+    --radius-sm: 6px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--canvas);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 2rem;
+    display: flex; align-items: center; gap: 0;
+    height: 52px;
+    box-shadow: var(--shadow-sm);
+  }
+  .nav-brand {
+    font-size: 15px; font-weight: 700; color: var(--accent);
+    margin-right: 2rem; white-space: nowrap;
+    display: flex; align-items: center; gap: .4rem;
+  }
+  .nav-brand span { color: var(--ink); font-weight: 400; }
+  .nav-tabs {
+    display: flex; gap: 0; overflow-x: auto; flex: 1;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    display: flex; align-items: center; gap: .35rem;
+    padding: 0 .9rem; height: 52px;
+    font-size: 12.5px; font-weight: 500; color: var(--ink-muted);
+    cursor: pointer; white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color .15s, border-color .15s;
+  }
+  .nav-tab:hover { color: var(--accent); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--rule); flex-shrink: 0;
+  }
+  .nav-tab.active .tab-dot { background: var(--accent); }
+
+  /* ── Pages ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── Cover ── */
+  .cover {
+    background: linear-gradient(135deg, #0f1923 0%, #1a3a6b 60%, #1a56db 100%);
+    min-height: 420px;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4rem 3rem 3rem;
+    position: relative; overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; top: -80px; right: -80px;
+    width: 420px; height: 420px; border-radius: 50%;
+    background: rgba(26,86,219,.18);
+  }
+  .cover::after {
+    content: '';
+    position: absolute; bottom: -40px; left: -40px;
+    width: 280px; height: 280px; border-radius: 50%;
+    background: rgba(13,148,136,.12);
+  }
+  .cover-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: .12em;
+    text-transform: uppercase; color: rgba(255,255,255,.55);
+    margin-bottom: .75rem; position: relative; z-index: 1;
+  }
+  .cover-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(28px, 4vw, 46px); font-weight: 900;
+    color: #ffffff; line-height: 1.12;
+    position: relative; z-index: 1; margin-bottom: .5rem;
+  }
+  .cover-subtitle {
+    font-size: 15px; color: rgba(255,255,255,.72);
+    font-weight: 300; position: relative; z-index: 1;
+    margin-bottom: 2.5rem;
+  }
+  .cover-meta {
+    display: flex; flex-wrap: wrap; gap: 1.5rem;
+    position: relative; z-index: 1;
+  }
+  .meta-chip {
+    display: flex; flex-direction: column;
+    padding: .6rem 1rem;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: var(--radius-sm);
+    backdrop-filter: blur(6px);
+  }
+  .meta-chip label { font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: rgba(255,255,255,.5); }
+  .meta-chip strong { font-size: 13px; color: #fff; font-weight: 600; }
+
+  /* ── Section wrappers ── */
+  .section {
+    max-width: 960px; margin: 0 auto;
+    padding: 2.5rem 2rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 22px; font-weight: 700; color: var(--ink);
+    margin-bottom: 1.5rem; padding-bottom: .6rem;
+    border-bottom: 2px solid var(--accent);
+    display: flex; align-items: center; gap: .6rem;
+  }
+  .section-title .badge {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 600; padding: .2rem .5rem;
+    border-radius: 4px; background: var(--accent-lt); color: var(--accent);
+  }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 1.25rem;
+  }
+  .card-title {
+    font-size: 13px; font-weight: 600; color: var(--ink);
+    margin-bottom: .75rem;
+    display: flex; align-items: center; gap: .5rem;
+  }
+  .card-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+  .info-row {
+    display: flex; gap: .5rem;
+    font-size: 13px; padding: .35rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .info-row:last-child { border-bottom: none; }
+  .info-label { color: var(--ink-muted); min-width: 140px; flex-shrink: 0; }
+  .info-value { color: var(--ink); font-weight: 500; }
+
+  /* ── Tables ── */
+  .tbl-wrap {
+    overflow-x: auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 1.5rem;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { background: var(--ink); }
+  thead th {
+    padding: .65rem .85rem; text-align: left;
+    font-size: 11px; font-weight: 600; letter-spacing: .05em;
+    color: rgba(255,255,255,.85);
+    white-space: nowrap;
+  }
+  tbody tr { background: var(--surface); }
+  tbody tr:nth-child(even) { background: #f9fafc; }
+  tbody tr:hover { background: var(--accent-lt); }
+  td {
+    padding: .6rem .85rem; color: var(--ink-soft);
+    border-top: 1px solid var(--rule); vertical-align: top;
+  }
+  td strong { color: var(--ink); font-weight: 600; }
+
+  /* ── Pill badges ── */
+  .pill {
+    display: inline-flex; align-items: center; gap: .3rem;
+    padding: .18rem .55rem; border-radius: 20px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+  }
+  .pill.high    { background: var(--red-lt);    color: var(--red); }
+  .pill.medium  { background: var(--amber-lt);  color: var(--amber); }
+  .pill.low     { background: var(--green-lt);  color: var(--green); }
+  .pill.blue    { background: var(--accent-lt); color: var(--accent); }
+  .pill.violet  { background: var(--violet-lt); color: var(--violet); }
+  .pill.teal    { background: var(--teal-lt);   color: var(--teal); }
+  .pill.dot::before {
+    content: ''; display: inline-block;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* ── Timeline ── */
+  .timeline { position: relative; padding-left: 2rem; }
+  .timeline::before {
+    content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px;
+    width: 2px; background: var(--rule);
+  }
+  .tl-item { position: relative; margin-bottom: 1.25rem; }
+  .tl-dot {
+    position: absolute; left: -2rem; top: 4px;
+    width: 14px; height: 14px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--surface);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .tl-header {
+    display: flex; align-items: center; gap: .6rem; flex-wrap: wrap;
+    margin-bottom: .35rem;
+  }
+  .tl-phase { font-size: 13px; font-weight: 700; color: var(--ink); }
+  .tl-date { font-size: 12px; color: var(--ink-muted); }
+  .tl-body { font-size: 13px; color: var(--ink-soft); }
+  .tl-tasks {
+    margin-top: .4rem; display: flex; flex-wrap: wrap; gap: .4rem;
+  }
+  .tl-task {
+    font-size: 11.5px; padding: .18rem .5rem;
+    background: var(--accent-lt); color: var(--accent);
+    border-radius: 4px; font-weight: 500;
+  }
+
+  /* ── Risk matrix ── */
+  .risk-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .risk-card {
+    background: var(--surface); border-radius: var(--radius);
+    border: 1px solid var(--rule); box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .risk-header {
+    padding: .65rem .9rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .risk-header.high   { background: var(--red-lt);    border-bottom: 2px solid var(--red); }
+  .risk-header.medium { background: var(--amber-lt);  border-bottom: 2px solid var(--amber); }
+  .risk-header.low    { background: var(--green-lt);  border-bottom: 2px solid var(--green); }
+  .risk-id { font-size: 11px; font-weight: 700; color: var(--ink-muted); }
+  .risk-name { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: .25rem; }
+  .risk-body { padding: .75rem .9rem; }
+  .risk-row { display: flex; gap: .5rem; font-size: 12px; margin-bottom: .3rem; }
+  .risk-row .rl { color: var(--ink-muted); min-width: 90px; }
+  .risk-row .rv { color: var(--ink); font-weight: 500; }
+
+  /* ── Quality rubric ── */
+  .rubric-table table { font-size: 12.5px; }
+  .rubric-table .score-4 { background: var(--green-lt); color: var(--green); }
+  .rubric-table .score-3 { background: var(--teal-lt);  color: var(--teal); }
+  .rubric-table .score-2 { background: var(--amber-lt); color: var(--amber); }
+  .rubric-table .score-1 { background: var(--red-lt);   color: var(--red); }
+  .rubric-table td.criterion { font-weight: 600; color: var(--ink); background: #f9fafc; }
+
+  /* ── Lesson plan ── */
+  .lesson-wrap { background: var(--surface); border-radius: var(--radius); border: 1px solid var(--rule); box-shadow: var(--shadow); overflow: hidden; }
+  .lesson-header { background: linear-gradient(120deg, #0f1923, #1a3a6b); padding: 1.4rem 1.5rem; color: #fff; }
+  .lesson-header h3 { font-family: 'Playfair Display', Georgia, serif; font-size: 18px; margin-bottom: .25rem; }
+  .lesson-meta-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: .75rem; }
+  .lm { font-size: 12px; color: rgba(255,255,255,.65); }
+  .lm strong { color: #fff; font-weight: 600; }
+  .lesson-body { padding: 1.5rem; }
+  .prompt-box {
+    background: #f0f4ff; border: 1px solid #c7d9ff; border-left: 3px solid var(--accent);
+    border-radius: var(--radius-sm); padding: 1rem 1.1rem; margin-bottom: 1.25rem;
+  }
+  .prompt-box label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--accent); }
+  .prompt-box pre { font-family: 'Inter', monospace; font-size: 12px; color: var(--ink-soft); white-space: pre-wrap; margin-top: .4rem; line-height: 1.6; }
+  .lesson-section { margin-bottom: 1.25rem; }
+  .lesson-section h4 { font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: .5rem; display: flex; align-items: center; gap: .4rem; }
+  .lesson-section h4 .ico { width: 18px; height: 18px; border-radius: 4px; background: var(--accent-lt); color: var(--accent); display: inline-flex; align-items: center; justify-content: center; font-size: 10px; }
+  .lesson-list { list-style: none; }
+  .lesson-list li { font-size: 13px; color: var(--ink-soft); padding: .28rem 0 .28rem 1.2rem; position: relative; }
+  .lesson-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-size: 11px; }
+  .quiz-q { background: #f9fafc; border: 1px solid var(--rule); border-radius: var(--radius-sm); padding: .85rem 1rem; margin-bottom: .6rem; }
+  .quiz-q p { font-size: 13px; font-weight: 600; color: var(--ink); margin-bottom: .5rem; }
+  .quiz-opts { list-style: none; display: flex; flex-direction: column; gap: .25rem; }
+  .quiz-opts li { font-size: 12.5px; color: var(--ink-soft); padding: .2rem .6rem; border-radius: 4px; }
+  .quiz-opts li.correct { background: var(--green-lt); color: var(--green); font-weight: 600; }
+  .feedback-box { background: var(--teal-lt); border: 1px solid #99e6da; border-left: 3px solid var(--teal); border-radius: var(--radius-sm); padding: .85rem 1rem; font-size: 13px; color: var(--ink-soft); margin-top: .5rem; }
+
+  /* ── Stakeholder ── */
+  .stakeholder-card {
+    display: flex; gap: 1rem; align-items: flex-start;
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    padding: 1rem 1.1rem; margin-bottom: .85rem;
+  }
+  .s-avatar {
+    width: 42px; height: 42px; border-radius: 50%;
+    flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 700; color: #fff;
+  }
+  .s-name { font-size: 14px; font-weight: 700; color: var(--ink); }
+  .s-role { font-size: 12px; color: var(--ink-muted); }
+  .s-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .4rem; }
+
+  /* ── Summary KPIs ── */
+  .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .kpi {
+    background: var(--surface); border: 1px solid var(--rule);
+    border-radius: var(--radius); box-shadow: var(--shadow-sm);
+    padding: 1rem; text-align: center;
+  }
+  .kpi-val { font-size: 26px; font-weight: 800; color: var(--accent); line-height: 1.1; }
+  .kpi-lbl { font-size: 11px; color: var(--ink-muted); margin-top: .2rem; }
+
+  /* ── Utility ── */
+  p.body { font-size: 13.5px; color: var(--ink-soft); line-height: 1.7; margin-bottom: .85rem; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  @media (max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+  hr.divider { border: none; border-top: 1px solid var(--rule); margin: 1.5rem 0; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: .4rem; }
+
+  /* ── Print ── */
+  @media print {
+    nav { display: none; }
+    .page { display: block !important; page-break-before: always; }
+    .page:first-child { page-break-before: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── Navigation ── -->
+<nav>
+  <div class="nav-brand">🎓 BrightPath <span>AI</span></div>
+  <div class="nav-tabs" id="navTabs">
+    <div class="nav-tab active"   data-page="overview" onclick="show('overview',this)"><span class="tab-dot"></span>Overview</div>
+    <div class="nav-tab"          data-page="charter"  onclick="show('charter',this)"><span class="tab-dot"></span>Project Charter</div>
+    <div class="nav-tab"          data-page="stakeholders" onclick="show('stakeholders',this)"><span class="tab-dot"></span>Stakeholder Register</div>
+    <div class="nav-tab"          data-page="pmplan"   onclick="show('pmplan',this)"><span class="tab-dot"></span>PM Plan</div>
+    <div class="nav-tab"          data-page="risks"    onclick="show('risks',this)"><span class="tab-dot"></span>Risk Register</div>
+    <div class="nav-tab"          data-page="quality"  onclick="show('quality',this)"><span class="tab-dot"></span>Quality Plan</div>
+    <div class="nav-tab"          data-page="lesson"   onclick="show('lesson',this)"><span class="tab-dot"></span>Sample Lesson Plan</div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     PAGE 0 — OVERVIEW
+═══════════════════════════════════════════ -->
+<div class="page active" id="overview">
+  <div class="cover">
+    <div class="cover-eyebrow">Project Management Package · Confidential</div>
+    <div class="cover-title">BrightPath Learning<br>AI Tutoring Platform</div>
+    <div class="cover-subtitle">MVP Project Management Package — All Six Deliverables</div>
+    <div class="cover-meta">
+      <div class="meta-chip"><label>Project Sponsor</label><strong>Jay Patel</strong></div>
+      <div class="meta-chip"><label>Project Manager</label><strong>Priya Shah</strong></div>
+      <div class="meta-chip"><label>Timeline</label><strong>4 Months</strong></div>
+      <div class="meta-chip"><label>Budget</label><strong>$45,000</strong></div>
+      <div class="meta-chip"><label>Organisation</label><strong>BrightPath Learning</strong></div>
+      <div class="meta-chip"><label>Target Users</label><strong>High School Students</strong></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="kpi-row">
+      <div class="kpi"><div class="kpi-val">4</div><div class="kpi-lbl">Months to MVP</div></div>
+      <div class="kpi"><div class="kpi-val">$45K</div><div class="kpi-lbl">Total Budget</div></div>
+      <div class="kpi"><div class="kpi-val">7</div><div class="kpi-lbl">Key Team Members</div></div>
+      <div class="kpi"><div class="kpi-val">10</div><div class="kpi-lbl">Risks Registered</div></div>
+      <div class="kpi"><div class="kpi-val">6</div><div class="kpi-lbl">PM Deliverables</div></div>
+    </div>
+
+    <div class="section-title">Package Contents</div>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">📋 1. Project Charter</div>
+        <p class="body">Formal authorization document establishing project purpose, objectives, scope, constraints, and high-level timeline with sponsor sign-off.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">👥 2. Stakeholder Register</div>
+        <p class="body">Complete register of all stakeholders including influence/interest mapping, engagement strategy, and communication preferences.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">📁 3. Project Management Plan</div>
+        <p class="body">Comprehensive plan covering scope, schedule, budget, communication, and change management across all four phases.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">⚠️ 4. Risk Register</div>
+        <p class="body">Ten identified risks including AI-specific risks (bias, hallucinations, data privacy) with probability, impact, and full mitigation strategies.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">✅ 5. Quality Plan</div>
+        <p class="body">Quality assurance framework with evaluation rubrics scoring AI output accuracy, content alignment, and student experience metrics.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">📚 6. Sample Lesson Plan</div>
+        <p class="body">AI-generated lesson plan with full prompt engineering template, learning objectives, activities, a quiz, and adaptive feedback example.</p>
+      </div>
+    </div>
+
+    <div class="section-title">Executive Summary</div>
+    <p class="body">BrightPath Learning is launching an AI-powered personalized tutoring platform targeting high school students. The platform leverages generative AI to deliver custom lesson plans, adaptive practice quizzes, and individualized feedback reports — enabling a scalable, 24/7 learning experience that supplements traditional instruction.</p>
+    <p class="body">The MVP will be delivered over four months at a total budget of $45,000. The project is led by Project Manager Priya Shah under sponsorship of Jay Patel. The cross-functional team includes specialists in machine learning, content design, quality assurance, and AI ethics — ensuring both technical excellence and responsible AI deployment.</p>
+    <p class="body">This package provides the complete project management foundation: from authorization and stakeholder alignment through risk management and quality assurance, culminating in a working sample of the platform's core AI output capability.</p>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 1 — PROJECT CHARTER
+═══════════════════════════════════════════ -->
+<div class="page" id="charter">
+  <div class="section">
+    <div class="section-title">Project Charter <span class="badge">DOCUMENT 1</span></div>
+
+    <div class="card">
+      <div class="card-title">📌 Document Information</div>
+      <div class="info-row"><div class="info-label">Project Name</div><div class="info-value">BrightPath AI-Powered Personalized Tutoring Platform — MVP</div></div>
+      <div class="info-row"><div class="info-label">Project Manager</div><div class="info-value">Priya Shah</div></div>
+      <div class="info-row"><div class="info-label">Project Sponsor</div><div class="info-value">Jay Patel</div></div>
+      <div class="info-row"><div class="info-label">Prepared By</div><div class="info-value">Priya Shah, PM</div></div>
+      <div class="info-row"><div class="info-label">Version</div><div class="info-value">1.0 — Initial Release</div></div>
+      <div class="info-row"><div class="info-label">Project Start Date</div><div class="info-value">Month 1, Week 1</div></div>
+      <div class="info-row"><div class="info-label">Target Delivery Date</div><div class="info-value">Month 4, Week 4 (MVP Go-Live)</div></div>
+      <div class="info-row"><div class="info-label">Total Budget</div><div class="info-value">$45,000 (fixed)</div></div>
+      <div class="info-row"><div class="info-label">Organization</div><div class="info-value">BrightPath Learning — 150 employees providing e-learning services</div></div>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">1.1 Project Purpose &amp; Justification</div>
+    <p class="body">BrightPath Learning's current e-learning catalog delivers static content that does not adapt to individual student performance, learning pace, or knowledge gaps. As a result, struggling students fall further behind while advanced students remain under-challenged. This initiative closes that gap by deploying generative AI to produce dynamically personalized lesson plans, quizzes, and feedback at scale.</p>
+    <p class="body">The business case is grounded in three drivers: (1) growing market demand for adaptive EdTech solutions among high school students and parents; (2) competitive differentiation against generic content-delivery platforms; and (3) internal operational efficiency — AI-generated content reduces manual curriculum development hours while expanding coverage across subjects.</p>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">1.2 Project Objectives (SMART)</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Objective</th><th>Measure</th><th>Target</th><th>Timeline</th></tr></thead>
+        <tbody>
+          <tr><td><strong>O1</strong></td><td>Deploy functional MVP of AI tutoring platform</td><td>Go-live deployment</td><td>100% of core features operational</td><td>Month 4, Week 4</td></tr>
+          <tr><td><strong>O2</strong></td><td>Generate personalized lesson plans via AI</td><td>AI accuracy score on rubric</td><td>≥ 85% rubric score</td><td>Month 3</td></tr>
+          <tr><td><strong>O3</strong></td><td>Deliver adaptive practice quizzes</td><td>Curriculum alignment score</td><td>≥ 90% alignment to state standards</td><td>Month 3</td></tr>
+          <tr><td><strong>O4</strong></td><td>Produce individualized feedback reports</td><td>Educator review rating</td><td>≥ 4.0 / 5.0 educator satisfaction</td><td>Month 4</td></tr>
+          <tr><td><strong>O5</strong></td><td>Complete bias and ethics review</td><td>Ethics sign-off by Lisa Rodriguez</td><td>Zero high-severity bias findings at launch</td><td>Month 4</td></tr>
+          <tr><td><strong>O6</strong></td><td>Achieve FERPA/COPPA compliance</td><td>Legal compliance audit</td><td>Full compliance certification</td><td>Month 4</td></tr>
+          <tr><td><strong>O7</strong></td><td>Deliver within budget</td><td>Budget variance</td><td>≤ 5% variance from $45,000</td><td>Month 4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">1.3 Project Scope</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title" style="color:var(--green);">✅ In Scope</div>
+        <ul class="lesson-list">
+          <li>AI-generated personalized lesson plans (high school level, core subjects)</li>
+          <li>Adaptive practice quizzes generated by AI</li>
+          <li>Individualized student feedback reports</li>
+          <li>Prompt engineering library and AI model integration</li>
+          <li>Ethics and bias review framework</li>
+          <li>FERPA / COPPA compliance implementation</li>
+          <li>Internal QA testing with sample student profiles</li>
+          <li>Educator/admin review dashboard (MVP)</li>
+          <li>Data privacy controls and student PII protection</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title" style="color:var(--red);">❌ Out of Scope</div>
+        <ul class="lesson-list">
+          <li>Live one-on-one AI tutoring (chat/voice)</li>
+          <li>Full LMS integration (Phase 2)</li>
+          <li>Parent portal and family analytics</li>
+          <li>Mobile native app development</li>
+          <li>Elementary or college-level curriculum</li>
+          <li>Automated essay grading</li>
+          <li>Payment/subscription billing system</li>
+          <li>Third-party school district integrations</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">1.4 High-Level Milestones</div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header"><span class="tl-phase">Phase 1 — Foundation</span><span class="tl-date">Weeks 1–4</span><span class="pill blue dot">Month 1</span></div>
+        <div class="tl-body">Project kickoff, team onboarding, technology stack selection, data privacy framework established, AI model vendor evaluation complete.</div>
+        <div class="tl-tasks"><span class="tl-task">Kickoff Meeting</span><span class="tl-task">Tech Stack Selection</span><span class="tl-task">Privacy Framework</span><span class="tl-task">Vendor Evaluation</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header"><span class="tl-phase">Phase 2 — Development</span><span class="tl-date">Weeks 5–10</span><span class="pill blue dot">Months 2–3</span></div>
+        <div class="tl-body">Prompt engineering library built, AI model integrated, lesson plan generation tested, quiz engine developed, bias testing initiated.</div>
+        <div class="tl-tasks"><span class="tl-task">Prompt Library</span><span class="tl-task">AI Integration</span><span class="tl-task">Quiz Engine</span><span class="tl-task">Bias Testing v1</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header"><span class="tl-phase">Phase 3 — QA &amp; Ethics</span><span class="tl-date">Weeks 11–14</span><span class="pill blue dot">Month 4 early</span></div>
+        <div class="tl-body">Full QA cycle, ethics review and sign-off, compliance audit, educator beta feedback collected, hallucination mitigation validated.</div>
+        <div class="tl-tasks"><span class="tl-task">Full QA Cycle</span><span class="tl-task">Ethics Sign-Off</span><span class="tl-task">Compliance Audit</span><span class="tl-task">Beta Feedback</span></div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-header"><span class="tl-phase">Phase 4 — Launch</span><span class="tl-date">Weeks 15–16</span><span class="pill teal dot">Month 4 end</span></div>
+        <div class="tl-body">MVP go-live deployment, monitoring dashboards active, incident response protocols ready, post-launch review scheduled.</div>
+        <div class="tl-tasks"><span class="tl-task">MVP Go-Live</span><span class="tl-task">Monitoring Active</span><span class="tl-task">Post-Launch Review</span></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">1.5 Budget Summary</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Allocation</th><th>% of Budget</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td><strong>AI Model / API Costs</strong></td><td>$12,000</td><td>26.7%</td><td>LLM API tokens, model inference, cloud compute</td></tr>
+          <tr><td><strong>Software & Infrastructure</strong></td><td>$8,000</td><td>17.8%</td><td>Cloud hosting, databases, dev tools, licenses</td></tr>
+          <tr><td><strong>Content & Curriculum</strong></td><td>$7,000</td><td>15.6%</td><td>Curriculum mapping, prompt library, content review</td></tr>
+          <tr><td><strong>QA & Testing</strong></td><td>$5,500</td><td>12.2%</td><td>QA tooling, bias testing tools, test data sets</td></tr>
+          <tr><td><strong>Ethics & Compliance</strong></td><td>$4,500</td><td>10.0%</td><td>Legal counsel, privacy audit, ethics review hours</td></tr>
+          <tr><td><strong>Project Management</strong></td><td>$4,000</td><td>8.9%</td><td>PM tools, documentation, coordination overhead</td></tr>
+          <tr><td><strong>Training & Onboarding</strong></td><td>$2,000</td><td>4.4%</td><td>Team upskilling, educator training materials</td></tr>
+          <tr><td><strong>Contingency Reserve (5%)</strong></td><td>$2,000</td><td>4.4%</td><td>Reserved for unplanned risks</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>$45,000</strong></td><td><strong>100%</strong></td><td>Fixed budget — no overrun authority</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">1.6 Assumptions, Constraints &amp; Dependencies</div>
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">📐 Assumptions</div>
+        <ul class="lesson-list">
+          <li>LLM API provider is selected by end of Week 2</li>
+          <li>Team members are available 60–80% of capacity during project</li>
+          <li>Existing BrightPath curriculum content can be used for training/testing</li>
+          <li>No major regulatory changes during the 4-month period</li>
+          <li>Sponsor Jay Patel will resolve blockers within 48 hours</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-title">🔒 Constraints</div>
+        <ul class="lesson-list">
+          <li>Fixed budget of $45,000 — no cost overrun authority</li>
+          <li>Hard deadline: 4-month MVP delivery</li>
+          <li>All student data must remain within compliant cloud regions (FERPA)</li>
+          <li>All medium and high risks must have documented mitigation plans</li>
+          <li>AI output must pass ethics review before launch</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">1.7 Authorization</div>
+    <div class="card">
+      <div class="two-col">
+        <div>
+          <div class="info-row"><div class="info-label">Project Sponsor</div><div class="info-value">Jay Patel</div></div>
+          <div class="info-row"><div class="info-label">Signature</div><div class="info-value">______________________</div></div>
+          <div class="info-row"><div class="info-label">Date Approved</div><div class="info-value">______________________</div></div>
+        </div>
+        <div>
+          <div class="info-row"><div class="info-label">Project Manager</div><div class="info-value">Priya Shah</div></div>
+          <div class="info-row"><div class="info-label">Signature</div><div class="info-value">______________________</div></div>
+          <div class="info-row"><div class="info-label">Date Signed</div><div class="info-value">______________________</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 2 — STAKEHOLDER REGISTER
+═══════════════════════════════════════════ -->
+<div class="page" id="stakeholders">
+  <div class="section">
+    <div class="section-title">Stakeholder Register <span class="badge">DOCUMENT 2</span></div>
+
+    <div class="tbl-wrap" style="margin-bottom:2rem;">
+      <table>
+        <thead>
+          <tr>
+            <th>Stakeholder</th><th>Role / Title</th><th>Interest</th><th>Influence</th>
+            <th>Engagement Strategy</th><th>Communication</th><th>Expectations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Jay Patel</strong></td>
+            <td>Project Sponsor / Executive</td>
+            <td><span class="pill high dot">Very High</span></td>
+            <td><span class="pill high dot">Very High</span></td>
+            <td>Manage closely — regular strategic alignment</td>
+            <td>Bi-weekly executive briefing; escalation channel</td>
+            <td>On-time, on-budget MVP; ROI visibility; risk oversight</td>
+          </tr>
+          <tr>
+            <td><strong>Priya Shah</strong></td>
+            <td>Project Manager</td>
+            <td><span class="pill high dot">Very High</span></td>
+            <td><span class="pill high dot">High</span></td>
+            <td>Manage closely — day-to-day project driver</td>
+            <td>Daily standups; weekly status reports</td>
+            <td>Clear scope, authority, and stakeholder cooperation</td>
+          </tr>
+          <tr>
+            <td><strong>Raj Kumar</strong></td>
+            <td>ML Lead</td>
+            <td><span class="pill high dot">High</span></td>
+            <td><span class="pill high dot">High</span></td>
+            <td>Collaborate — technical decision partner</td>
+            <td>Weekly tech sprint reviews; Slack channel</td>
+            <td>Clear AI requirements, model evaluation freedom, GPU budget</td>
+          </tr>
+          <tr>
+            <td><strong>Sarah Miller</strong></td>
+            <td>Content Lead</td>
+            <td><span class="pill high dot">High</span></td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td>Collaborate — curriculum quality gatekeeper</td>
+            <td>Weekly content review; shared prompt library</td>
+            <td>Curriculum alignment standards, educator sign-off process</td>
+          </tr>
+          <tr>
+            <td><strong>David Chen</strong></td>
+            <td>QA Lead</td>
+            <td><span class="pill high dot">High</span></td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td>Collaborate — quality gate authority</td>
+            <td>Weekly QA status; bug tracker access</td>
+            <td>Testable requirements, access to AI outputs, clear pass criteria</td>
+          </tr>
+          <tr>
+            <td><strong>Lisa Rodriguez</strong></td>
+            <td>Ethics Officer / AI Safety</td>
+            <td><span class="pill high dot">High</span></td>
+            <td><span class="pill high dot">High</span></td>
+            <td>Manage closely — ethics gate for launch</td>
+            <td>Bi-weekly ethics review; written sign-off required</td>
+            <td>Full access to AI outputs, bias test data, and model card</td>
+          </tr>
+          <tr>
+            <td><strong>Mark Thompson</strong></td>
+            <td>Administrator</td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td>Keep informed — operational support</td>
+            <td>Weekly operational updates; procurement requests</td>
+            <td>Clear procurement timelines, vendor contacts, budget codes</td>
+          </tr>
+          <tr>
+            <td><strong>High School Students</strong></td>
+            <td>Primary End Users</td>
+            <td><span class="pill high dot">Very High</span></td>
+            <td><span class="pill low dot">Low</span></td>
+            <td>Monitor — represented in QA by sample profiles</td>
+            <td>Not directly; represented via educator feedback</td>
+            <td>Accurate, engaging, bias-free, age-appropriate content</td>
+          </tr>
+          <tr>
+            <td><strong>Educators / Teachers</strong></td>
+            <td>Secondary Users / Reviewers</td>
+            <td><span class="pill high dot">High</span></td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td>Keep satisfied — beta review panel</td>
+            <td>Beta survey; monthly educator newsletter</td>
+            <td>Curriculum accuracy, transparency of AI, override capability</td>
+          </tr>
+          <tr>
+            <td><strong>BrightPath Leadership</strong></td>
+            <td>Organizational Leadership (150 staff)</td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td>Keep informed — organizational change</td>
+            <td>Monthly all-hands update; launch announcement</td>
+            <td>Clear launch narrative, impact on existing services</td>
+          </tr>
+          <tr>
+            <td><strong>LLM API Vendor</strong></td>
+            <td>Technology Partner</td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td>Monitor — vendor SLA management</td>
+            <td>Contract-based; support tickets; SLA reviews</td>
+            <td>Contractual compliance, data privacy guarantees</td>
+          </tr>
+          <tr>
+            <td><strong>Legal / Compliance</strong></td>
+            <td>Regulatory Oversight</td>
+            <td><span class="pill medium dot">Medium</span></td>
+            <td><span class="pill high dot">High</span></td>
+            <td>Manage closely — FERPA/COPPA gatekeepers</td>
+            <td>Monthly legal review; compliance audit at Phase 4</td>
+            <td>FERPA, COPPA compliance; data retention policies documented</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">Influence / Interest Matrix</div>
+    <div class="card">
+      <div style="display:grid;grid-template-columns:auto 1fr 1fr;gap:0;border:1px solid var(--rule);border-radius:var(--radius-sm);overflow:hidden;font-size:12px;">
+        <div style="background:#f9fafc;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);padding:.5rem .75rem;font-weight:700;color:var(--ink-muted);">INFLUENCE ↕ / INTEREST →</div>
+        <div style="background:#f9fafc;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);padding:.5rem .75rem;text-align:center;font-weight:600;color:var(--ink-soft);">LOW INTEREST</div>
+        <div style="background:#f9fafc;border-bottom:1px solid var(--rule);padding:.5rem .75rem;text-align:center;font-weight:600;color:var(--ink-soft);">HIGH INTEREST</div>
+        <div style="border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);padding:.6rem .75rem;font-weight:600;color:var(--ink-soft);font-size:11px;">HIGH INFLUENCE</div>
+        <div style="border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);padding:.6rem .75rem;background:var(--amber-lt);">Keep Satisfied<br><span style="color:var(--ink-muted);">Legal/Compliance, BrightPath Leadership</span></div>
+        <div style="border-bottom:1px solid var(--rule);padding:.6rem .75rem;background:var(--green-lt);"><strong>Manage Closely</strong><br><span style="color:var(--ink-muted);">Jay Patel, Priya Shah, Raj Kumar, Lisa Rodriguez</span></div>
+        <div style="border-right:1px solid var(--rule);padding:.6rem .75rem;font-weight:600;color:var(--ink-soft);font-size:11px;">LOW INFLUENCE</div>
+        <div style="border-right:1px solid var(--rule);padding:.6rem .75rem;background:#f9fafc;">Monitor<br><span style="color:var(--ink-muted);">LLM Vendor, Mark Thompson</span></div>
+        <div style="padding:.6rem .75rem;background:var(--accent-lt);">Keep Informed<br><span style="color:var(--ink-muted);">Students, Educators, Sarah Miller, David Chen</span></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">Core Team Profiles</div>
+    <div class="stakeholder-card">
+      <div class="s-avatar" style="background:#1a56db;">JS</div>
+      <div>
+        <div class="s-name">Jay Patel</div>
+        <div class="s-role">Project Sponsor — Executive Leadership</div>
+        <div class="s-tags">
+          <span class="pill blue">Sponsor</span><span class="pill high">High Influence</span>
+          <span class="pill teal">Budget Authority</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:.4rem;">Ultimate authority on budget and strategic direction. Approves major scope changes. Receives bi-weekly executive briefings and escalations within 48 hours.</p>
+      </div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="s-avatar" style="background:#0d9488;">PS</div>
+      <div>
+        <div class="s-name">Priya Shah</div>
+        <div class="s-role">Project Manager — Day-to-Day Leadership</div>
+        <div class="s-tags">
+          <span class="pill teal">PM Lead</span><span class="pill blue">Decision Maker</span>
+          <span class="pill medium">Risk Owner</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:.4rem;">Accountable for end-to-end delivery within scope, budget, and timeline. Runs daily standups, weekly status reports, and all stakeholder coordination.</p>
+      </div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="s-avatar" style="background:#7c3aed;">RK</div>
+      <div>
+        <div class="s-name">Raj Kumar</div>
+        <div class="s-role">ML Lead — AI/Model Engineering</div>
+        <div class="s-tags">
+          <span class="pill violet">ML Engineering</span><span class="pill blue">Prompt Engineering</span>
+          <span class="pill teal">Model Selection</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:.4rem;">Owns AI model selection, integration, and performance. Responsible for building the prompt engineering library, output validation, and hallucination mitigation.</p>
+      </div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="s-avatar" style="background:#16a34a;">SM</div>
+      <div>
+        <div class="s-name">Sarah Miller</div>
+        <div class="s-role">Content Lead — Curriculum &amp; Pedagogy</div>
+        <div class="s-tags">
+          <span class="pill teal">Curriculum Alignment</span><span class="pill blue">Content Standards</span>
+          <span class="pill low">Educator Liaison</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:.4rem;">Ensures all AI-generated content aligns with high school curriculum standards. Reviews and approves lesson plan templates and quiz question quality.</p>
+      </div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="s-avatar" style="background:#d97706;">DC</div>
+      <div>
+        <div class="s-name">David Chen</div>
+        <div class="s-role">QA Lead — Quality Assurance &amp; Testing</div>
+        <div class="s-tags">
+          <span class="pill medium">QA Authority</span><span class="pill blue">Test Execution</span>
+          <span class="pill teal">Rubric Scoring</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:.4rem;">Owns quality assurance framework and go/no-go gates. Executes rubric-based evaluation of AI outputs, manages bug tracker, and signs off on each phase.</p>
+      </div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="s-avatar" style="background:#dc2626;">LR</div>
+      <div>
+        <div class="s-name">Lisa Rodriguez</div>
+        <div class="s-role">Ethics Officer — AI Safety &amp; Bias Review</div>
+        <div class="s-tags">
+          <span class="pill high">Ethics Gate</span><span class="pill red">Bias Review</span>
+          <span class="pill violet">Launch Authority</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:.4rem;">No launch proceeds without Lisa's written sign-off. Owns bias testing, hallucination review, content safety audits, and the ethical AI framework documentation.</p>
+      </div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="s-avatar" style="background:#6b7e92;">MT</div>
+      <div>
+        <div class="s-name">Mark Thompson</div>
+        <div class="s-role">Administrator — Operations &amp; Procurement</div>
+        <div class="s-tags">
+          <span class="pill medium">Procurement</span><span class="pill low">Vendor Mgmt</span>
+        </div>
+        <p style="font-size:12.5px;color:var(--ink-soft);margin-top:.4rem;">Manages vendor contracts, budget tracking, tool licensing, and administrative coordination. Primary point of contact for procurement and onboarding logistics.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 3 — PROJECT MANAGEMENT PLAN
+═══════════════════════════════════════════ -->
+<div class="page" id="pmplan">
+  <div class="section">
+    <div class="section-title">Project Management Plan <span class="badge">DOCUMENT 3</span></div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">3.1 Scope Management</div>
+    <p class="body">Scope is governed by the Project Charter. Any addition, deletion, or modification to in-scope deliverables requires a formal Change Request submitted to Priya Shah, reviewed within 48 hours, and approved by Jay Patel if the change affects budget, timeline, or objectives. The Work Breakdown Structure (WBS) is maintained in the project's shared workspace and versioned at each phase gate.</p>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>WBS Code</th><th>Deliverable</th><th>Owner</th><th>Phase</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>1.0</td><td><strong>Project Initiation</strong></td><td>Priya Shah</td><td>Month 1</td><td><span class="pill blue">Planning</span></td></tr>
+          <tr><td>1.1</td><td>Project Charter</td><td>Priya Shah</td><td>Week 1</td><td><span class="pill blue">Complete</span></td></tr>
+          <tr><td>1.2</td><td>Stakeholder Register</td><td>Priya Shah</td><td>Week 1</td><td><span class="pill blue">Complete</span></td></tr>
+          <tr><td>1.3</td><td>Risk Register (initial)</td><td>Priya Shah + Team</td><td>Week 2</td><td><span class="pill blue">In Progress</span></td></tr>
+          <tr><td>2.0</td><td><strong>Technology Foundation</strong></td><td>Raj Kumar</td><td>Month 1–2</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>2.1</td><td>LLM API selection &amp; contract</td><td>Raj Kumar / Mark Thompson</td><td>Week 2–3</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>2.2</td><td>Cloud infrastructure setup</td><td>Raj Kumar</td><td>Week 3–4</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>2.3</td><td>Data privacy / FERPA controls</td><td>Raj Kumar + Legal</td><td>Week 4</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>3.0</td><td><strong>AI Content Engine</strong></td><td>Raj Kumar + Sarah Miller</td><td>Month 2–3</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>3.1</td><td>Prompt engineering library</td><td>Raj Kumar</td><td>Week 5–7</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>3.2</td><td>Lesson plan generator</td><td>Raj Kumar</td><td>Week 6–8</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>3.3</td><td>Quiz engine</td><td>Raj Kumar</td><td>Week 7–9</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>3.4</td><td>Feedback report generator</td><td>Raj Kumar + Sarah Miller</td><td>Week 8–10</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>4.0</td><td><strong>QA &amp; Ethics Review</strong></td><td>David Chen + Lisa Rodriguez</td><td>Month 3–4</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>4.1</td><td>Rubric-based QA evaluation</td><td>David Chen</td><td>Week 11–13</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>4.2</td><td>Bias and fairness audit</td><td>Lisa Rodriguez</td><td>Week 11–14</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>4.3</td><td>Compliance certification</td><td>Legal + Lisa Rodriguez</td><td>Week 14</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>5.0</td><td><strong>MVP Launch</strong></td><td>Priya Shah</td><td>Month 4</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>5.1</td><td>Educator beta testing</td><td>Sarah Miller</td><td>Week 13–15</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>5.2</td><td>Go-live deployment</td><td>Raj Kumar</td><td>Week 16</td><td><span class="pill medium">Planned</span></td></tr>
+          <tr><td>5.3</td><td>Post-launch review</td><td>Priya Shah</td><td>Week 16</td><td><span class="pill medium">Planned</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">3.2 Schedule Management</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Phase</th><th>Weeks</th><th>Key Activities</th><th>Phase Gate</th><th>Gate Owner</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Phase 1 — Foundation</strong></td><td>1–4</td>
+            <td>Kickoff, team setup, tech stack selection, privacy framework, vendor contract</td>
+            <td>Phase 1 Review: Tech stack confirmed, FERPA controls in place</td>
+            <td>Priya Shah + Jay Patel</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 2 — Development</strong></td><td>5–10</td>
+            <td>Prompt library, AI integration, lesson generator, quiz engine, feedback engine</td>
+            <td>Phase 2 Review: All three AI generators producing outputs</td>
+            <td>Priya Shah + Raj Kumar</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 3 — QA &amp; Ethics</strong></td><td>11–14</td>
+            <td>Full QA cycle, bias audit, hallucination testing, compliance audit, beta feedback</td>
+            <td>Phase 3 Review: QA pass, Ethics sign-off, Compliance certification</td>
+            <td>David Chen + Lisa Rodriguez</td>
+          </tr>
+          <tr>
+            <td><strong>Phase 4 — Launch</strong></td><td>15–16</td>
+            <td>Final fixes, go-live deployment, monitoring setup, post-launch review</td>
+            <td>MVP Live: All objectives verified, monitoring active</td>
+            <td>Priya Shah + Jay Patel</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">3.3 Communication Plan</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Communication</th><th>Audience</th><th>Frequency</th><th>Format</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Daily Standup</strong></td><td>Core team (all leads)</td><td>Daily (15 min)</td><td>Video call / async update</td><td>Priya Shah</td></tr>
+          <tr><td><strong>Weekly Status Report</strong></td><td>All stakeholders</td><td>Weekly (Friday)</td><td>Written report + dashboard</td><td>Priya Shah</td></tr>
+          <tr><td><strong>Executive Briefing</strong></td><td>Jay Patel</td><td>Bi-weekly</td><td>Executive summary (1 page)</td><td>Priya Shah</td></tr>
+          <tr><td><strong>Technical Sprint Review</strong></td><td>Raj Kumar, David Chen</td><td>Weekly</td><td>Sprint demo + backlog review</td><td>Raj Kumar</td></tr>
+          <tr><td><strong>Content Review</strong></td><td>Sarah Miller, Lisa Rodriguez</td><td>Weekly</td><td>Shared review workspace</td><td>Sarah Miller</td></tr>
+          <tr><td><strong>Ethics Review</strong></td><td>Lisa Rodriguez</td><td>Bi-weekly</td><td>Bias audit report + discussion</td><td>Lisa Rodriguez</td></tr>
+          <tr><td><strong>Phase Gate Review</strong></td><td>All stakeholders</td><td>End of each phase</td><td>Formal review meeting + sign-off</td><td>Priya Shah</td></tr>
+          <tr><td><strong>Risk Review</strong></td><td>PM + Leads</td><td>Bi-weekly</td><td>Risk register update + discussion</td><td>Priya Shah</td></tr>
+          <tr><td><strong>Escalation</strong></td><td>Jay Patel</td><td>As needed (within 24h)</td><td>Email + call</td><td>Priya Shah</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">3.4 Change Management</div>
+    <div class="card">
+      <div class="card-title">Change Control Process</div>
+      <div style="display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--ink-soft);">
+        <span style="padding:.3rem .7rem;background:var(--accent-lt);color:var(--accent);border-radius:4px;font-weight:600;">Request Submitted</span>
+        <span>→</span>
+        <span style="padding:.3rem .7rem;background:var(--amber-lt);color:var(--amber);border-radius:4px;font-weight:600;">PM Reviews (48h)</span>
+        <span>→</span>
+        <span style="padding:.3rem .7rem;background:var(--violet-lt);color:var(--violet);border-radius:4px;font-weight:600;">Impact Assessment</span>
+        <span>→</span>
+        <span style="padding:.3rem .7rem;background:var(--teal-lt);color:var(--teal);border-radius:4px;font-weight:600;">Sponsor Approval</span>
+        <span>→</span>
+        <span style="padding:.3rem .7rem;background:var(--green-lt);color:var(--green);border-radius:4px;font-weight:600;">Implement &amp; Log</span>
+      </div>
+      <hr class="divider">
+      <ul class="lesson-list">
+        <li>Any change to scope, budget, or schedule requires a written Change Request form</li>
+        <li>Minor changes (no budget / timeline impact) approved by Priya Shah only</li>
+        <li>Changes affecting budget or timeline require Jay Patel's written approval</li>
+        <li>All approved changes are logged in the Change Log and reflected in the WBS</li>
+        <li>No change may reduce ethics, bias, or compliance requirements</li>
+      </ul>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">3.5 Resource Plan</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Resource</th><th>Role</th><th>Phase 1</th><th>Phase 2</th><th>Phase 3</th><th>Phase 4</th><th>Est. Hours</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Priya Shah</strong></td><td>PM</td><td>100%</td><td>80%</td><td>80%</td><td>100%</td><td>~260h</td></tr>
+          <tr><td><strong>Raj Kumar</strong></td><td>ML Lead</td><td>80%</td><td>100%</td><td>60%</td><td>80%</td><td>~280h</td></tr>
+          <tr><td><strong>Sarah Miller</strong></td><td>Content Lead</td><td>40%</td><td>80%</td><td>80%</td><td>60%</td><td>~210h</td></tr>
+          <tr><td><strong>David Chen</strong></td><td>QA Lead</td><td>20%</td><td>40%</td><td>100%</td><td>80%</td><td>~200h</td></tr>
+          <tr><td><strong>Lisa Rodriguez</strong></td><td>Ethics Officer</td><td>40%</td><td>40%</td><td>100%</td><td>60%</td><td>~200h</td></tr>
+          <tr><td><strong>Mark Thompson</strong></td><td>Admin</td><td>60%</td><td>20%</td><td>20%</td><td>40%</td><td>~120h</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 4 — RISK REGISTER
+═══════════════════════════════════════════ -->
+<div class="page" id="risks">
+  <div class="section">
+    <div class="section-title">Risk Register <span class="badge">DOCUMENT 4</span></div>
+    <p class="body">All medium and high risks carry documented mitigation strategies as required by the Project Charter. Risks are scored on a 1–5 scale for Probability (P) and Impact (I). Risk Score = P × I. High = 12–25 | Medium = 6–10 | Low = 1–5.</p>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Risk</th><th>Category</th><th>P</th><th>I</th><th>Score</th><th>Level</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>R01</strong></td><td>AI model produces biased content against protected student groups</td>
+            <td><span class="pill violet">AI Ethics</span></td>
+            <td>4</td><td>5</td><td><strong>20</strong></td><td><span class="pill high dot">HIGH</span></td><td>Lisa Rodriguez</td>
+          </tr>
+          <tr>
+            <td><strong>R02</strong></td><td>AI hallucinations generate factually incorrect academic content</td>
+            <td><span class="pill violet">AI Quality</span></td>
+            <td>4</td><td>5</td><td><strong>20</strong></td><td><span class="pill high dot">HIGH</span></td><td>Raj Kumar</td>
+          </tr>
+          <tr>
+            <td><strong>R03</strong></td><td>Student PII/data privacy breach — FERPA/COPPA violation</td>
+            <td><span class="pill red">Compliance</span></td>
+            <td>3</td><td>5</td><td><strong>15</strong></td><td><span class="pill high dot">HIGH</span></td><td>Raj Kumar + Legal</td>
+          </tr>
+          <tr>
+            <td><strong>R04</strong></td><td>Budget overrun due to high AI API token costs</td>
+            <td><span class="pill medium">Financial</span></td>
+            <td>3</td><td>4</td><td><strong>12</strong></td><td><span class="pill high dot">HIGH</span></td><td>Mark Thompson</td>
+          </tr>
+          <tr>
+            <td><strong>R05</strong></td><td>AI-generated content misaligned with curriculum standards</td>
+            <td><span class="pill blue">Content Quality</span></td>
+            <td>3</td><td>4</td><td><strong>12</strong></td><td><span class="pill high dot">HIGH</span></td><td>Sarah Miller</td>
+          </tr>
+          <tr>
+            <td><strong>R06</strong></td><td>Key team member unavailability / attrition during development</td>
+            <td><span class="pill medium">Resource</span></td>
+            <td>3</td><td>3</td><td><strong>9</strong></td><td><span class="pill medium dot">MEDIUM</span></td><td>Priya Shah</td>
+          </tr>
+          <tr>
+            <td><strong>R07</strong></td><td>LLM API vendor rate limits or outage disrupting development</td>
+            <td><span class="pill medium">Technical</span></td>
+            <td>2</td><td>4</td><td><strong>8</strong></td><td><span class="pill medium dot">MEDIUM</span></td><td>Raj Kumar</td>
+          </tr>
+          <tr>
+            <td><strong>R08</strong></td><td>Prompt injection attacks on student-facing inputs</td>
+            <td><span class="pill red">Security</span></td>
+            <td>3</td><td>4</td><td><strong>12</strong></td><td><span class="pill high dot">HIGH</span></td><td>Raj Kumar</td>
+          </tr>
+          <tr>
+            <td><strong>R09</strong></td><td>Educator adoption resistance to AI-generated content</td>
+            <td><span class="pill blue">Stakeholder</span></td>
+            <td>3</td><td>3</td><td><strong>9</strong></td><td><span class="pill medium dot">MEDIUM</span></td><td>Sarah Miller</td>
+          </tr>
+          <tr>
+            <td><strong>R10</strong></td><td>Scope creep from stakeholder feature requests post-charter</td>
+            <td><span class="pill blue">Project Mgmt</span></td>
+            <td>4</td><td>3</td><td><strong>12</strong></td><td><span class="pill high dot">HIGH</span></td><td>Priya Shah</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">Detailed Risk Cards — High &amp; Medium (Mitigation Required)</div>
+
+    <div class="risk-grid">
+      <div class="risk-card">
+        <div class="risk-header high">
+          <div><div class="risk-id">R01 · HIGH · Score 20</div><div class="risk-name">AI Bias Against Student Groups</div></div>
+          <span class="pill high">P:4 I:5</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Lisa Rodriguez</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">AI outputs differ in quality, tone, or complexity based on student demographic inputs</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Conduct structured bias testing across gender, ethnicity, and disability using diverse test profiles. Implement bias detection checklist. No launch without Lisa's written sign-off. Establish ongoing bias monitoring post-launch.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Remove demographic inputs from prompts; fallback to universal tone templates</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Bi-weekly — formal audit in Phase 3</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header high">
+          <div><div class="risk-id">R02 · HIGH · Score 20</div><div class="risk-name">AI Hallucinations — Factual Errors</div></div>
+          <span class="pill high">P:4 I:5</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Raj Kumar</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">AI generates incorrect formulas, dates, historical facts, or scientific information</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Implement Retrieval-Augmented Generation (RAG) with verified curriculum sources. Mandatory educator review before student delivery. Structured output validation layer. Fact-check rubric scoring for every output category.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Human educator review gate activated for all flagged outputs; rollback to curated content bank</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Weekly during Phase 2; bi-weekly Phase 3–4</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header high">
+          <div><div class="risk-id">R03 · HIGH · Score 15</div><div class="risk-name">Student Data Privacy Breach</div></div>
+          <span class="pill high">P:3 I:5</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Raj Kumar + Legal</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">PII leaked to LLM API, breach of FERPA/COPPA, unauthorized data access</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">PII anonymization before LLM API calls. Data Processing Agreement with vendor. Encrypted storage (AES-256). Role-based access controls. FERPA/COPPA compliance audit in Phase 4. No PII in prompts policy enforced by code review.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Incident response plan activated within 1 hour; legal notification within 72h per FERPA</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Monthly privacy review; compliance audit Week 14</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header high">
+          <div><div class="risk-id">R04 · HIGH · Score 12</div><div class="risk-name">Budget Overrun — API Token Costs</div></div>
+          <span class="pill high">P:3 I:4</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Mark Thompson</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">Token usage exceeds forecast; API pricing changes; inefficient prompt design</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Token budget alerts set at 70% and 90% of allocation. Prompt efficiency optimization by Raj Kumar. Response caching for repeated query patterns. Bi-weekly budget review. Contingency reserve of $2,000 available.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Reduce token limits per response; switch to smaller model for lower-complexity tasks</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Bi-weekly budget review with Mark Thompson</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header high">
+          <div><div class="risk-id">R05 · HIGH · Score 12</div><div class="risk-name">Curriculum Misalignment</div></div>
+          <span class="pill high">P:3 I:4</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Sarah Miller</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">AI output does not meet state/national curriculum standards or grade-level expectations</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Curriculum standards mapped to prompt templates before development begins. Sarah Miller reviews all output templates. QA rubric includes curriculum alignment scoring (target ≥90%). Educator beta panel validates alignment in Phase 3.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Lock prompts to specific standards references; educator approval required before student delivery</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Weekly content review throughout Phase 2–3</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header high">
+          <div><div class="risk-id">R08 · HIGH · Score 12</div><div class="risk-name">Prompt Injection Attacks</div></div>
+          <span class="pill high">P:3 I:4</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Raj Kumar</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">Students manipulate input fields to override system prompts or extract system instructions</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Input sanitization and validation on all student-facing fields. System prompt isolation (not exposed to user). Output filtering for off-topic or harmful responses. Security testing in QA phase including adversarial input testing.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Rate limiting on API calls per user; session termination on detected injection pattern</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Security review in Phase 3; penetration test before launch</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header high">
+          <div><div class="risk-id">R10 · HIGH · Score 12</div><div class="risk-name">Scope Creep</div></div>
+          <span class="pill high">P:4 I:3</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Priya Shah</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">Stakeholders request additional features after charter is signed; "just one more thing" additions</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Formal Change Control Process enforced. All requests logged and assessed. Charter in-scope/out-of-scope list shared with all stakeholders at kickoff. Jay Patel empowered to reject requests that threaten timeline or budget.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Deferred Features Backlog created for Phase 2; no additions accepted within 4 weeks of launch</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Scope lock confirmed at each Phase Gate</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header medium">
+          <div><div class="risk-id">R06 · MEDIUM · Score 9</div><div class="risk-name">Key Team Member Unavailability</div></div>
+          <span class="pill medium">P:3 I:3</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Priya Shah</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">Lead team member departs, is ill, or becomes unavailable during critical phases</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Cross-training between team members documented by Month 2. All work versioned and documented in shared workspace. Succession contacts identified for each lead role. Priya Shah maintains 10% buffer capacity for coverage.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Engage BrightPath's 150-person staff for short-term backfill; expedited contractor search if needed</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Monthly — resource check at each phase gate</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header medium">
+          <div><div class="risk-id">R07 · MEDIUM · Score 8</div><div class="risk-name">LLM API Outage / Rate Limits</div></div>
+          <span class="pill medium">P:2 I:4</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Raj Kumar</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">LLM vendor experiences outage; rate limiting blocks development or user access</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Select vendor with ≥99.9% SLA. Implement API response caching for common queries. Architect system with fallback to secondary LLM provider. Monitor API status with automated alerts.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Failover to pre-generated content cache; switch to backup LLM API within 2 hours</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Weekly technical review with Raj Kumar</div></div>
+        </div>
+      </div>
+
+      <div class="risk-card">
+        <div class="risk-header medium">
+          <div><div class="risk-id">R09 · MEDIUM · Score 9</div><div class="risk-name">Educator Adoption Resistance</div></div>
+          <span class="pill medium">P:3 I:3</span>
+        </div>
+        <div class="risk-body">
+          <div class="risk-row"><div class="rl">Owner</div><div class="rv">Sarah Miller</div></div>
+          <div class="risk-row"><div class="rl">Trigger</div><div class="rv">Educators distrust AI-generated content; unwilling to adopt platform or reject outputs</div></div>
+          <div class="risk-row"><div class="rl">Mitigation</div><div class="rv">Involve educator beta panel from Phase 3. Build educator override and editing capabilities into MVP. Provide transparent AI explainability — educators see how content is generated. Launch educator training program.</div></div>
+          <div class="risk-row"><div class="rl">Contingency</div><div class="rv">Increase educator control features; reposition platform as AI-assisted rather than AI-autonomous</div></div>
+          <div class="risk-row"><div class="rl">Review Date</div><div class="rv">Beta feedback survey in Phase 3; adoption metrics tracked post-launch</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 5 — QUALITY PLAN
+═══════════════════════════════════════════ -->
+<div class="page" id="quality">
+  <div class="section">
+    <div class="section-title">Quality Plan <span class="badge">DOCUMENT 5</span></div>
+
+    <p class="body">The Quality Plan defines how BrightPath Learning will ensure the AI tutoring platform consistently delivers accurate, pedagogically sound, unbiased, and student-appropriate content. It covers quality objectives, evaluation rubrics, testing protocols, and the continuous improvement process.</p>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">5.1 Quality Objectives</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Objective</th><th>Metric</th><th>Target</th><th>Owner</th></tr></thead>
+        <tbody>
+          <tr><td><strong>AI Output Accuracy</strong></td><td>Rubric-scored factual accuracy rate</td><td>≥ 85% score on accuracy dimension</td><td>David Chen</td></tr>
+          <tr><td><strong>Curriculum Alignment</strong></td><td>% of outputs aligned to defined standards</td><td>≥ 90% alignment</td><td>Sarah Miller</td></tr>
+          <tr><td><strong>Bias-Free Content</strong></td><td>Bias test pass rate across demographic profiles</td><td>0 high-severity findings at launch</td><td>Lisa Rodriguez</td></tr>
+          <tr><td><strong>Hallucination Rate</strong></td><td>% of outputs with factual errors detected</td><td>≤ 5% hallucination rate</td><td>Raj Kumar</td></tr>
+          <tr><td><strong>Educator Satisfaction</strong></td><td>Educator review rating (1–5 scale)</td><td>≥ 4.0 / 5.0</td><td>Sarah Miller</td></tr>
+          <tr><td><strong>Age-Appropriateness</strong></td><td>Flesch-Kincaid grade level score</td><td>Grades 9–12 range (FK 9–14)</td><td>David Chen</td></tr>
+          <tr><td><strong>Response Consistency</strong></td><td>Output variance for identical prompts</td><td>≤ 10% variance in key facts</td><td>Raj Kumar</td></tr>
+          <tr><td><strong>Compliance</strong></td><td>FERPA / COPPA audit findings</td><td>Zero non-compliant findings at audit</td><td>Legal + Lisa Rodriguez</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">5.2 AI Output Evaluation Rubric</div>
+    <p class="body">All AI-generated outputs (lesson plans, quizzes, feedback reports) are evaluated using this standardized rubric. Scoring is conducted by David Chen (QA Lead) with domain input from Sarah Miller (Content Lead). Each criterion is scored 1–4. A total weighted score below 3.0 triggers remediation before output is accepted.</p>
+
+    <div class="tbl-wrap rubric-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Criterion</th><th>Weight</th>
+            <th class="score-4">4 — Excellent</th>
+            <th class="score-3">3 — Proficient</th>
+            <th class="score-2">2 — Developing</th>
+            <th class="score-1">1 — Inadequate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="criterion">Factual Accuracy</td><td>25%</td>
+            <td class="score-4">All facts verified; zero errors; sources traceable</td>
+            <td class="score-3">≤1 minor factual error; no misleading content</td>
+            <td class="score-2">2–3 minor errors; no major errors</td>
+            <td class="score-1">≥1 major factual error; content unreliable</td>
+          </tr>
+          <tr>
+            <td class="criterion">Curriculum Alignment</td><td>25%</td>
+            <td class="score-4">Fully aligned to stated standards with explicit references</td>
+            <td class="score-3">Aligned with minor gaps; objectives clearly addressed</td>
+            <td class="score-2">Partially aligned; some objectives missed</td>
+            <td class="score-1">Misaligned; objectives not addressed</td>
+          </tr>
+          <tr>
+            <td class="criterion">Pedagogical Soundness</td><td>15%</td>
+            <td class="score-4">Clear learning progression; scaffolded; uses evidence-based methods</td>
+            <td class="score-3">Logical progression; most pedagogical principles applied</td>
+            <td class="score-2">Some structure; inconsistent pedagogical approach</td>
+            <td class="score-1">No clear pedagogical structure</td>
+          </tr>
+          <tr>
+            <td class="criterion">Bias &amp; Fairness</td><td>20%</td>
+            <td class="score-4">No detectable bias across all demographic test profiles</td>
+            <td class="score-3">No significant bias; minor language notes corrected</td>
+            <td class="score-2">Low-severity bias detected; remediation required</td>
+            <td class="score-1">High-severity bias; REJECT — ethics review required</td>
+          </tr>
+          <tr>
+            <td class="criterion">Age-Appropriateness</td><td>10%</td>
+            <td class="score-4">Perfect grade-level match; vocabulary and complexity ideal</td>
+            <td class="score-3">Appropriate; minor vocabulary adjustments needed</td>
+            <td class="score-2">Occasionally too advanced or too simple</td>
+            <td class="score-1">Inappropriate for target grade level</td>
+          </tr>
+          <tr>
+            <td class="criterion">Clarity &amp; Engagement</td><td>5%</td>
+            <td class="score-4">Clear, engaging, varied examples; student-friendly tone</td>
+            <td class="score-3">Clear and readable; mostly engaging</td>
+            <td class="score-2">Adequate clarity; limited engagement</td>
+            <td class="score-1">Confusing, dry, or off-putting tone</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-title">📊 Scoring Thresholds</div>
+        <div class="info-row"><div class="info-label"><span class="pill green dot">Accept</span></div><div class="info-value">Weighted score ≥ 3.5</div></div>
+        <div class="info-row"><div class="info-label"><span class="pill medium dot">Conditional</span></div><div class="info-value">Weighted score 3.0–3.49 → Revision required before delivery</div></div>
+        <div class="info-row"><div class="info-label"><span class="pill high dot">Reject</span></div><div class="info-value">Weighted score &lt; 3.0 OR any Bias score = 1 → Full remediation + re-evaluation</div></div>
+        <div class="info-row"><div class="info-label"><span class="pill red dot">Escalate</span></div><div class="info-value">Any high-severity bias finding → Lisa Rodriguez + Raj Kumar immediate review</div></div>
+      </div>
+      <div class="card">
+        <div class="card-title">🔁 Quality Testing Cadence</div>
+        <div class="info-row"><div class="info-label">Phase 2</div><div class="info-value">10 sample outputs per feature; weekly rubric scoring</div></div>
+        <div class="info-row"><div class="info-label">Phase 3</div><div class="info-value">50 outputs per feature; full bias testing across 5 demographic profiles</div></div>
+        <div class="info-row"><div class="info-label">Pre-Launch</div><div class="info-value">100-output stress test; educator beta panel review; final rubric pass required</div></div>
+        <div class="info-row"><div class="info-label">Post-Launch</div><div class="info-value">Weekly sample of 20 outputs; monthly full rubric audit</div></div>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">5.3 Bias Testing Protocol</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Test Dimension</th><th>Test Method</th><th>Profiles Tested</th><th>Pass Criterion</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Gender</strong></td><td>Parallel prompt testing with gendered name cues</td><td>Male / Female / Non-binary / Gender-neutral</td><td>Output quality variance ≤ 5%</td></tr>
+          <tr><td><strong>Ethnicity / Culture</strong></td><td>Name-based and context-based cue testing</td><td>5 diverse ethnicity-associated name sets</td><td>No differential vocabulary or complexity</td></tr>
+          <tr><td><strong>Disability</strong></td><td>Prompts mentioning learning accommodations</td><td>ADHD, dyslexia, visual impairment contexts</td><td>No stereotyping; appropriate accommodation language</td></tr>
+          <tr><td><strong>Socioeconomic</strong></td><td>Context cues (school type, resource level)</td><td>Public / Private / Under-resourced school contexts</td><td>Equal quality and aspiration across contexts</td></tr>
+          <tr><td><strong>Geographic</strong></td><td>State/region context in prompts</td><td>Urban / Rural / Suburban contexts</td><td>No differential treatment or assumptions</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">5.4 Hallucination Mitigation Strategy</div>
+    <div class="card">
+      <ul class="lesson-list">
+        <li><strong>RAG Implementation:</strong> Retrieval-Augmented Generation grounds AI outputs in verified curriculum sources, textbooks, and standards documents</li>
+        <li><strong>Structured Output Validation:</strong> AI outputs pass through a validation layer that checks factual claims against a curated knowledge base</li>
+        <li><strong>Confidence Flagging:</strong> Low-confidence outputs are flagged for mandatory educator review before student delivery</li>
+        <li><strong>Hallucination Test Suite:</strong> Dedicated test set of 50 questions with known correct answers; AI responses scored for accuracy</li>
+        <li><strong>Human-in-the-Loop Gate:</strong> During Phase 3, all outputs reviewed by Sarah Miller before entering QA rubric</li>
+        <li><strong>Post-Launch Monitoring:</strong> Student and educator flagging system; flagged content reviewed within 24 hours and corrected or withdrawn</li>
+      </ul>
+    </div>
+
+    <div class="section-title" style="font-size:16px;border-bottom-width:1px;">5.5 Phase Gate Quality Requirements</div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Phase Gate</th><th>Quality Requirements to Proceed</th><th>Approver</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Phase 1 → 2</strong></td><td>Tech stack confirmed, FERPA controls implemented, QA plan approved by David Chen</td><td>Priya Shah</td></tr>
+          <tr><td><strong>Phase 2 → 3</strong></td><td>All three AI generators producing outputs; initial rubric score ≥ 3.0 on sample set; no high-severity security issues</td><td>Priya Shah + David Chen</td></tr>
+          <tr><td><strong>Phase 3 → 4</strong></td><td>Full rubric score ≥ 3.5; zero high-severity bias findings; FERPA compliance certified; Ethics sign-off from Lisa Rodriguez</td><td>David Chen + Lisa Rodriguez</td></tr>
+          <tr><td><strong>Launch</strong></td><td>All Phase 3 criteria met; educator beta satisfaction ≥ 4.0; monitoring dashboards active; incident response plan tested</td><td>Jay Patel (final approval)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     PAGE 6 — SAMPLE AI LESSON PLAN
+═══════════════════════════════════════════ -->
+<div class="page" id="lesson">
+  <div class="section">
+    <div class="section-title">Sample AI-Generated Lesson Plan <span class="badge">DOCUMENT 6</span></div>
+    <p class="body">The following illustrates a complete AI-generated lesson plan produced using BrightPath's prompt engineering framework. The prompt template, AI output, and an example adaptive feedback report are shown below.</p>
+
+    <div class="lesson-wrap">
+      <div class="lesson-header">
+        <h3>The Role of Natural Selection in Evolutionary Adaptation</h3>
+        <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:.25rem;">Sample AI-Generated Personalized Lesson Plan</div>
+        <div class="lesson-meta-row">
+          <div class="lm"><strong>Subject:</strong> Biology</div>
+          <div class="lm"><strong>Grade Level:</strong> 10th Grade (Age 15–16)</div>
+          <div class="lm"><strong>Duration:</strong> 50 minutes</div>
+          <div class="lm"><strong>Standards:</strong> NGSS HS-LS4-2, HS-LS4-4</div>
+          <div class="lm"><strong>Difficulty:</strong> Intermediate</div>
+          <div class="lm"><strong>Learning Style:</strong> Visual-Kinesthetic</div>
+        </div>
+      </div>
+
+      <div class="lesson-body">
+
+        <!-- Prompt Engineering Template -->
+        <div class="prompt-box">
+          <label>⚙️ Prompt Engineering Template Used</label>
+          <pre>
+SYSTEM: You are BrightPath AI Tutor — an expert high school educator specializing in personalized learning. Your outputs must be factually accurate, curriculum-aligned, age-appropriate, and free from bias. Do not include personal identifying information. Always cite applicable academic standards.
+
+USER PROMPT:
+Generate a complete, personalized lesson plan for a [10th grade] student with the following profile:
+- Subject: [Biology]
+- Topic: [Natural Selection and Evolutionary Adaptation]
+- Current proficiency: [Intermediate — understands basic genetics, unfamiliar with population-level selection]
+- Learning style: [Visual-Kinesthetic]
+- Accommodations: [None specified]
+- Time available: [50 minutes]
+- Standards alignment: [NGSS HS-LS4-2, HS-LS4-4]
+
+Output format:
+1. Learning Objectives (3–5, measurable, Bloom's Taxonomy aligned)
+2. Prior Knowledge Check (2–3 questions)
+3. Lesson Outline (with time allocations)
+4. Key Vocabulary (5–8 terms with definitions)
+5. Main Activity (hands-on or visual)
+6. Practice Quiz (4 questions with answer key)
+7. Personalized Feedback Report
+8. Extension Activity (for enrichment)
+
+Constraints: Age-appropriate language (Flesch-Kincaid Grade 10–11). No political or controversial framings. All facts must be verifiable against standard biology textbooks. Flag any low-confidence claims with [REVIEW NEEDED].
+          </pre>
+        </div>
+
+        <!-- Learning Objectives -->
+        <div class="lesson-section">
+          <h4><span class="ico">🎯</span> Learning Objectives</h4>
+          <p style="font-size:12px;color:var(--ink-muted);margin-bottom:.5rem;">After completing this lesson, the student will be able to:</p>
+          <ul class="lesson-list">
+            <li><strong>Define</strong> natural selection and explain Darwin's four key conditions (variation, heritability, competition, differential survival)</li>
+            <li><strong>Analyze</strong> a real-world example (e.g., peppered moths) to identify which organisms survive and reproduce in changing environments</li>
+            <li><strong>Predict</strong> how a specific environmental change would alter the frequency of traits in a population over generations</li>
+            <li><strong>Evaluate</strong> evidence for natural selection using population trait data and explain why it supports the theory of evolution</li>
+            <li><strong>Construct</strong> a simple diagram showing how a trait's frequency changes in a population across three generations</li>
+          </ul>
+        </div>
+
+        <!-- Prior Knowledge Check -->
+        <div class="lesson-section">
+          <h4><span class="ico">🔍</span> Prior Knowledge Check</h4>
+          <div class="quiz-q">
+            <p>1. What is a gene, and how does it relate to an organism's physical traits?</p>
+            <span style="font-size:12px;color:var(--ink-muted);"><em>Expected: Students describe genes as DNA segments that code for proteins expressed as physical traits (phenotype)</em></span>
+          </div>
+          <div class="quiz-q">
+            <p>2. Why might two organisms of the same species look slightly different from each other?</p>
+            <span style="font-size:12px;color:var(--ink-muted);"><em>Expected: Students mention genetic variation through mutation, sexual reproduction, or allele differences</em></span>
+          </div>
+          <div class="quiz-q">
+            <p>3. What does it mean for an organism to be "well adapted" to its environment?</p>
+            <span style="font-size:12px;color:var(--ink-muted);"><em>Expected: Students describe having traits that improve survival, finding food, avoiding predators, and reproducing</em></span>
+          </div>
+        </div>
+
+        <!-- Lesson Outline -->
+        <div class="lesson-section">
+          <h4><span class="ico">📋</span> Lesson Outline</h4>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Time</th><th>Activity</th><th>Method</th><th>Materials</th></tr></thead>
+              <tbody>
+                <tr><td>0–5 min</td><td>Prior Knowledge Check &amp; Hook Question</td><td>Discussion</td><td>Whiteboard prompt</td></tr>
+                <tr><td>5–15 min</td><td>Introduction: Darwin's Four Conditions</td><td>Visual diagram + explanation</td><td>Annotated diagram handout</td></tr>
+                <tr><td>15–30 min</td><td>Core Activity: Peppered Moth Simulation</td><td>Kinesthetic simulation game</td><td>Printed moth cards, background sheets</td></tr>
+                <tr><td>30–40 min</td><td>Population Trait Chart Analysis</td><td>Data interpretation</td><td>Trait frequency chart (3 generations)</td></tr>
+                <tr><td>40–47 min</td><td>Practice Quiz (4 questions)</td><td>Independent assessment</td><td>Quiz sheet</td></tr>
+                <tr><td>47–50 min</td><td>Wrap-Up &amp; Preview Extension</td><td>Summary discussion</td><td>Exit ticket prompt</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Key Vocabulary -->
+        <div class="lesson-section">
+          <h4><span class="ico">📖</span> Key Vocabulary</h4>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem;">
+            <div class="quiz-q"><p style="margin-bottom:.15rem;">Natural Selection</p><span style="font-size:12px;color:var(--ink-soft);">The process by which organisms with advantageous heritable traits survive and reproduce more successfully than others in their environment.</span></div>
+            <div class="quiz-q"><p style="margin-bottom:.15rem;">Adaptation</p><span style="font-size:12px;color:var(--ink-soft);">A heritable trait that increases an organism's fitness in a given environment.</span></div>
+            <div class="quiz-q"><p style="margin-bottom:.15rem;">Fitness</p><span style="font-size:12px;color:var(--ink-soft);">An organism's ability to survive and reproduce relative to others in the same population.</span></div>
+            <div class="quiz-q"><p style="margin-bottom:.15rem;">Variation</p><span style="font-size:12px;color:var(--ink-soft);">Differences in traits among individuals in a population, arising from genetic differences.</span></div>
+            <div class="quiz-q"><p style="margin-bottom:.15rem;">Heritability</p><span style="font-size:12px;color:var(--ink-soft);">The proportion of trait variation in a population that is attributable to genetic rather than environmental factors.</span></div>
+            <div class="quiz-q"><p style="margin-bottom:.15rem;">Selection Pressure</p><span style="font-size:12px;color:var(--ink-soft);">An environmental factor that affects which organisms survive and reproduce.</span></div>
+            <div class="quiz-q"><p style="margin-bottom:.15rem;">Allele Frequency</p><span style="font-size:12px;color:var(--ink-soft);">The proportion of a particular allele relative to all alleles of that gene in a population.</span></div>
+            <div class="quiz-q"><p style="margin-bottom:.15rem;">Differential Reproduction</p><span style="font-size:12px;color:var(--ink-soft);">The variation in reproductive success among individuals, driven by differences in fitness.</span></div>
+          </div>
+        </div>
+
+        <!-- Main Activity -->
+        <div class="lesson-section">
+          <h4><span class="ico">🦋</span> Main Activity: Peppered Moth Simulation</h4>
+          <p style="font-size:13px;color:var(--ink-soft);margin-bottom:.6rem;">This kinesthetic activity simulates predation pressure on two moth variants across two environments. Students act as "birds" selecting moths from backgrounds, recording survival, and calculating trait frequency change across three simulated generations.</p>
+          <div class="tbl-wrap">
+            <table>
+              <thead><tr><th>Setup Step</th><th>Detail</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Materials</strong></td><td>50 white moth cards, 50 dark moth cards, light bark background sheet, dark soot-covered background sheet</td></tr>
+                <tr><td><strong>Round 1</strong></td><td>Spread moths on light bark. Student "birds" remove 10 moths in 30 seconds. Count survivors by color. Record frequency.</td></tr>
+                <tr><td><strong>Environmental Shift</strong></td><td>Announce industrial pollution: switch to dark background. Surviving moths reproduce — double their count.</td></tr>
+                <tr><td><strong>Round 2 & 3</strong></td><td>Repeat predation on dark background. Record frequency after each generation. Students graph allele frequency change.</td></tr>
+                <tr><td><strong>Discussion</strong></td><td>Which moth color increased? Why? What would happen if pollution ended? Connect to Darwin's four conditions.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Practice Quiz -->
+        <div class="lesson-section">
+          <h4><span class="ico">✏️</span> Practice Quiz</h4>
+
+          <div class="quiz-q">
+            <p>1. A population of beetles lives on green leaves. Over many generations, the proportion of green beetles increases while brown beetles decline. Which of Darwin's conditions BEST explains this change?</p>
+            <ul class="quiz-opts">
+              <li>A. Variation — beetles can be different colors</li>
+              <li class="correct">B. Differential survival — green beetles are less visible to predators and survive longer ✓</li>
+              <li>C. Heritability — color is passed from parent to offspring</li>
+              <li>D. Competition — beetles compete for leaf resources</li>
+            </ul>
+          </div>
+
+          <div class="quiz-q">
+            <p>2. In the peppered moth example, a sudden increase in air pollution darkened tree bark. What would you predict would happen to the frequency of dark-colored moths over the next 10 generations?</p>
+            <ul class="quiz-opts">
+              <li>A. Dark moth frequency would decrease because pollution is harmful</li>
+              <li>B. Dark moth frequency would stay the same because mutations are random</li>
+              <li class="correct">C. Dark moth frequency would increase because dark moths are better camouflaged on darkened bark ✓</li>
+              <li>D. Both moth variants would go extinct due to pollution stress</li>
+            </ul>
+          </div>
+
+          <div class="quiz-q">
+            <p>3. A student claims: "Natural selection creates the variations that allow organisms to survive." Identify the error in this claim and correct it.</p>
+            <ul class="quiz-opts">
+              <li class="correct">Natural selection does NOT create variation — it acts on existing variation that arises from random mutation and genetic recombination. Selection simply determines which variants survive and reproduce. ✓</li>
+            </ul>
+          </div>
+
+          <div class="quiz-q">
+            <p>4. Which scenario does NOT represent natural selection?</p>
+            <ul class="quiz-opts">
+              <li>A. Cheetahs that run faster catch more prey and produce more offspring</li>
+              <li>B. Bacteria that are resistant to antibiotics survive treatment and reproduce</li>
+              <li class="correct">C. A farmer selectively breeds the largest tomatoes each season ✓ (This is artificial selection)</li>
+              <li>D. Brightly colored male birds attract more mates and produce more offspring</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Feedback Report -->
+        <div class="lesson-section">
+          <h4><span class="ico">💬</span> AI-Generated Personalized Feedback Report</h4>
+          <div class="feedback-box">
+            <strong>Great work on today's lesson!</strong> Here's your personalized summary:<br><br>
+            <strong>✅ Strengths Demonstrated:</strong> You showed strong analytical thinking in the moth simulation — correctly identifying that camouflage is the key selection pressure and accurately tracking trait frequency across generations. Your response to Question 3 showed excellent understanding of the common misconception about variation vs. selection.<br><br>
+            <strong>🎯 Areas to Strengthen:</strong> Question 4 revealed a slight confusion between natural selection and artificial selection — remember that natural selection is driven by the environment, while artificial selection is directed by human choice. A helpful tip: ask yourself "Is there a human making the choice?" If yes, it's artificial.<br><br>
+            <strong>📊 Your Performance:</strong> 3 out of 4 quiz questions correct (75%). You're on track for the Intermediate proficiency level. One more review of artificial vs. natural selection and you'll be ready to advance.<br><br>
+            <strong>📚 Recommended Next Step:</strong> Try the extension activity below, then explore the Hardy-Weinberg Equilibrium to see how mathematically we can predict allele frequency changes in populations — the next step after natural selection!
+          </div>
+        </div>
+
+        <!-- Extension -->
+        <div class="lesson-section">
+          <h4><span class="ico">🚀</span> Extension Activity (Enrichment)</h4>
+          <p style="font-size:13px;color:var(--ink-soft);">Research the evolution of antibiotic-resistant bacteria — specifically MRSA (Methicillin-resistant Staphylococcus aureus). Map the rise of resistance to Darwin's four conditions: (1) What was the variation? (2) Is resistance heritable? (3) What was the selection pressure? (4) Which bacteria survived and reproduced? Prepare a 1-page summary with a trait-frequency timeline. This connects natural selection to a real, ongoing public health challenge.</p>
+        </div>
+
+        <div style="background:var(--canvas);border:1px solid var(--rule);border-radius:var(--radius-sm);padding:.85rem 1rem;margin-top:.5rem;">
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;font-size:12px;color:var(--ink-muted);">
+            <span>📋 <strong>QA Rubric Score:</strong> 3.8 / 4.0 (Accept)</span>
+            <span>🎯 <strong>Curriculum Alignment:</strong> NGSS HS-LS4-2 ✓ NGSS HS-LS4-4 ✓</span>
+            <span>⚖️ <strong>Bias Review:</strong> Pass — Lisa Rodriguez</span>
+            <span>📊 <strong>Reading Level:</strong> Flesch-Kincaid Grade 10.4 ✓</span>
+            <span>🔍 <strong>Hallucination Risk:</strong> Low — all facts verified against Campbell Biology 12e</span>
+          </div>
+        </div>
+
+      </div><!-- /lesson-body -->
+    </div><!-- /lesson-wrap -->
+  </div>
+</div>
+
+<script>
+function show(pageId, tab) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  tab.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
