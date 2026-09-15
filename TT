@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BU Faculty Affairs | Intelligence Workspace</title>
+    <style>
+        :root {
+            --bu-red: #CC0000;
+            --bu-red-dark: #990000;
+            --bu-red-light: #FF1A1A;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+            --success: #059669;
+            --warning: #D97706;
+            --info: #2563EB;
+            --radius: 8px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            background: linear-gradient(135deg, var(--bu-red-dark) 0%, var(--bu-red) 100%);
+            color: white;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-brand .logo {
+            width: 42px;
+            height: 42px;
+            background: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 16px;
+            color: var(--bu-red);
+        }
+
+        .header-brand h1 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .header-brand .subtitle {
+            font-size: 0.75rem;
+            opacity: 0.85;
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--bu-red);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: var(--gray-100);
+            transform: translateY(-1px);
+        }
+
+        .btn-action {
+            background: var(--bu-red);
+            color: white;
+            border: 1px solid var(--gray-200);
+        }
+
+        .btn-action:hover {
+            background: var(--bu-red-dark);
+        }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            background: rgba(0,0,0,0.2);
+            padding: 6px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.75rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4ADE80;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ===== FILTER BAR ===== */
+        .filter-bar {
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+            padding: 16px 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .filter-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: flex-end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+            min-width: 160px;
+        }
+
+        .filter-group label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-500);
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 8px 12px;
+            border: 1px solid var(--gray-300);
+            border-radius: var(--radius);
+            font-size: 0.8125rem;
+            color: var(--gray-700);
+            background: white;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .filter-group select:focus,
+        .filter-group input:focus {
+            outline: none;
+            border-color: var(--bu-red);
+            box-shadow: 0 0 0 3px rgba(204,0,0,0.1);
+        }
+
+        /* ===== SCENARIO PILLS ===== */
+        .scenario-section {
+            padding: 16px 24px;
+            background: var(--gray-100);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .scenario-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+        }
+
+        .scenario-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .scenario-pill {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            cursor: pointer;
+            border: 2px solid var(--gray-300);
+            background: white;
+            color: var(--gray-600);
+            transition: all 0.2s ease;
+        }
+
+        .scenario-pill:hover {
+            border-color: var(--bu-red);
+            color: var(--bu-red);
+        }
+
+        .scenario-pill.active {
+            background: var(--bu-red);
+            border-color: var(--bu-red);
+            color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .scenario-pill .pill-desc {
+            font-size: 0.6875rem;
+            opacity: 0.8;
+            display: block;
+            margin-top: 2px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            padding: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .content-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .content-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--gray-900);
+        }
+
+        .content-header .meta {
+            font-size: 0.8125rem;
+            color: var(--gray-500);
+        }
+
+        /* ===== KPI CARDS ===== */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .kpi-card .kpi-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray-500);
+            margin-bottom: 8px;
+        }
+
+        .kpi-card .kpi-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            line-height: 1.2;
+        }
+
+        .kpi-card .kpi-change {
+            font-size: 0.75rem;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .kpi-change.positive { color: var(--success); }
+        .kpi-change.negative { color: var(--bu-red); }
+        .kpi-change.neutral { color: var(--gray-500); }
+
+        /* ===== DASHBOARD GRID ===== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gray-200);
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-header h3 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--gray-800);
+        }
+
+        .panel-body {
+            padding: 20px;
+        }
+
+        /* ===== CHART PLACEHOLDER ===== */
+        .chart-placeholder {
+            height: 280px;
+            background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-50) 100%);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-400);
+            border: 2px dashed var(--gray-300);
+        }
+
+        .chart-placeholder .chart-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        /* ===== TABLE ===== */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8125rem;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 10px 12px;
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-600);
+            border-bottom: 2px solid var(--gray-200);
+            font-size: 0.6875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .data-table tr:hover td {
+            background: var(--gray-50);
+        }
+
+        .badge {
+            display: inline-flex;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.6875rem;
+            font-weight: 600;
+        }
+
+        .badge-success { background: #D1FAE5; color: #065F46; }
+        .badge-warning { background: #FEF3C7; color: #92400E; }
+        .badge-info { background: #DBEAFE; color: #1E40AF; }
+
+        /* ===== ANALYST CHAT ===== */
+        .analyst-panel {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 380px;
+            max-height: 520px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            border: 1px solid var(--gray-200);
+            display: flex;
+            flex-direction: column;
+            z-index: 2000;
+            transform: translateY(120%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .analyst-panel.open {
+            transform: translateY(0);
+        }
+
+        .analyst-header {
+            padding: 16px 20px;
+            background: var(--gray-900);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .analyst-header h4 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+        }
+
+        .analyst-header .privacy-note {
+            font-size: 0.6875rem;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+
+        .analyst-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .analyst-close:hover {
+            opacity: 1;
+        }
+
+        .analyst-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            max-height: 320px;
+        }
+
+        .analyst-message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.8125rem;
+            line-height: 1.5;
+        }
+
+        .analyst-message.bot {
+            background: var(--gray-100);
+            color: var(--gray-700);
+        }
+
+        .analyst-message.user {
+            background: var(--bu-red);
+            color: white;
+            margin-left: 24px;
+        }
+
+        .analyst-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            gap: 8px;
+        }
+
+        .analyst-input-area input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 8px;
+            font-size: 0.8125rem;
+        }
+
+        .analyst-input-area input:focus {
+            outline: none;
+            border-color: var(--bu-red);
+            box-shadow: 0 0 0 3px rgba(204,0,0,0.1);
+        }
+
+        .analyst-input-area button {
+            padding: 10px 16px;
+            background: var(--bu-red);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .analyst-input-area button:hover {
+            background: var(--bu-red-dark);
+        }
+
+        /* ===== FAB ===== */
+        .fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: var(--bu-red);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            z-index: 1999;
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            background: var(--bu-red-dark);
+        }
+
+        /* ===== LOADING STATE ===== */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(255,255,255,0.9);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-200);
+            border-top-color: var(--bu-red);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 24px;
+            text-align: center;
+            color: var(--gray-400);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--gray-200);
+            margin-top: 48px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-top {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .filter-grid {
+                flex-direction: column;
+            }
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .analyst-panel {
+                width: calc(100% - 32px);
+                right: 16px;
+                bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+        <p style="color: var(--gray-600); font-size: 0.875rem;">Preparing BU reporting workspace…</p>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="header-brand">
+                <div class="logo">BU</div>
+                <div>
+                    <h1>Faculty Affairs · Intelligence Workspace</h1>
+                    <div class="subtitle">Boston University · Internal Complete Faculty Affairs Reporting</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-ghost" onclick="exportCSV()">
+                    ⬇ Export CSV
+                </button>
+                <button class="btn btn-ghost" title="Published references + planning demos">
+                    📄 References
+                </button>
+                <button class="btn btn-primary" onclick="refreshData()">
+                    ↻ Refresh
+                </button>
+            </div>
+        </div>
+        <div class="status-bar">
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span>All systems operational</span>
+            </div>
+            <span>Analyst: Local · Last updated: <span id="lastUpdated"></span></span>
+        </div>
+    </header>
+
+    <!-- Filter Bar -->
+    <section class="filter-bar">
+        <div class="filter-grid">
+            <div class="filter-group">
+                <label for="campusFilter">Campus</label>
+                <select id="campusFilter" onchange="applyFilters()">
+                    <option value="all">All Campuses</option>
+                    <option value="charles-river">Charles River Campus</option>
+                    <option value="medical">Medical Campus</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="schoolFilter">School / College</label>
+                <select id="schoolFilter" onchange="applyFilters()">
+                    <option value="all">All Schools</option>
+                    <option value="cas">College of Arts & Sciences</option>
+                    <option value="eng">College of Engineering</option>
+                    <option value="questrom">Questrom School of Business</option>
+                    <option value="com">College of Communication</option>
+                    <option value="cfa">College of Fine Arts</option>
+                    <option value="cgs">College of General Studies</option>
+                    <option value="cds">Faculty of Computing & Data Sciences</option>
+                    <option value="med">School of Medicine</option>
+                    <option value="sph">School of Public Health</option>
+                    <option value="sdm">School of Dental Medicine</option>
+                    <option value="law">School of Law</option>
+                    <option value="ssw">School of Social Work</option>
+                    <option value="sed">Wheelock College of Education</option>
+                    <option value="sha">College of Health & Rehabilitation Sciences</option>
+                    <option value="pardee">Pardee School of Global Studies</option>
+                    <option value="met">Metropolitan College</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="deptFilter">Department</label>
+                <select id="deptFilter" onchange="applyFilters()">
+                    <option value="all">All Departments</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="fyFilter">Fiscal Year</label>
+                <select id="fyFilter" onchange="applyFilters()">
+                    <option value="fy2027">FY 2027</option>
+                    <option value="fy2026" selected>FY 2026</option>
+                    <option value="fy2025">FY 2025</option>
+                    <option value="fy2024">FY 2024</option>
+                    <option value="fy2023">FY 2023</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scenario Selection -->
+    <section class="scenario-section">
+        <div class="scenario-label">Workforce Scenario</div>
+        <div class="scenario-pills">
+            <button class="scenario-pill active" data-scenario="base" onclick="setScenario(this)">
+                Base
+                <span class="pill-desc">2% growth</span>
+            </button>
+            <button class="scenario-pill" data-scenario="constrained" onclick="setScenario(this)">
+                Constrained
+                <span class="pill-desc">Flat headcount</span>
+            </button>
+            <button class="scenario-pill" data-scenario="expansion" onclick="setScenario(this)">
+                Expansion
+                <span class="pill-desc">4% growth</span>
+            </button>
+            <button class="scenario-pill" data-scenario="reset" onclick="setScenario(this)">
+                ⟲ Reset
+            </button>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-header">
+            <div>
+                <h2>Faculty Affairs Dashboard</h2>
+                <span class="meta">Published references + planning demos · All original report details retained</span>
+            </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-label">Total Faculty</div>
+                <div class="kpi-value" id="kpiTotalFaculty">—</div>
+                <div class="kpi-change positive">▲ +2.1% vs prior year</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Open Positions</div>
+                <div class="kpi-value" id="kpiOpenPositions">—</div>
+                <div class="kpi-change neutral">— No change</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Retention Rate</div>
+                <div class="kpi-value" id="kpiRetention">—</div>
+                <div class="kpi-change positive">▲ +0.8pp</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Avg. Time to Fill</div>
+                <div class="kpi-value" id="kpiTimeToFill">—</div>
+                <div class="kpi-change negative">▼ +12 days</div>
+            </div>
+            <div class="kpi-card">
+                <div class="kpi-label">Diversity Index</div>
+                <div class="kpi-value" id="kpiDiversity">—</div>
+                <div class="kpi-change positive">▲ +3.2%</div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Left: Chart -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Faculty Headcount Trend</h3>
+                    <select style="padding: 4px 8px; font-size: 0.75rem; border: 1px solid var(--gray-300); border-radius: 4px;">
+                        <option>Monthly</option>
+                        <option>Quarterly</option>
+                        <option selected>Annually</option>
+                    </select>
+                </div>
+                <div class="panel-body">
+                    <div class="chart-placeholder">
+                        <div class="chart-icon">📊</div>
+                        <span>Headcount visualization renders here</span>
+                        <span style="font-size: 0.75rem; margin-top: 4px;">Connect data source to populate</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Summary Table -->
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Department Summary</h3>
+                    <button class="btn btn-action" style="padding: 4px 10px; font-size: 0.6875rem;">View All</button>
+                </div>
+                <div class="panel-body" style="padding: 0;">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Department</th>
+                                <th>FTE</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deptTableBody">
+                            <tr>
+                                <td>Computer Science</td>
+                                <td>87</td>
+                                <td><span class="badge badge-success">On Track</span></td>
+                            </tr>
+                            <tr>
+                                <td>Biology</td>
+                                <td>64</td>
+                                <td><span class="badge badge-success">On Track</span></td>
+                            </tr>
+                            <tr>
+                                <td>Economics</td>
+                                <td>52</td>
+                                <td><span class="badge badge-warning">Review</span></td>
+                            </tr>
+                            <tr>
+                                <td>Engineering</td>
+                                <td>91</td>
+                                <td><span class="badge badge-success">On Track</span></td>
+                            </tr>
+                            <tr>
+                                <td>Medicine</td>
+                                <td>143</td>
+                                <td><span class="badge badge-info">Planning</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Panels Row -->
+        <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Hiring Pipeline</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="chart-placeholder" style="height: 200px;">
+                        <div class="chart-icon">🔄</div>
+                        <span>Pipeline funnel visualization</span>
+                    </div>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-header">
+                    <h3>Compensation Benchmarking</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="chart-placeholder" style="height: 200px;">
+                        <div class="chart-icon">💰</div>
+                        <span>Compensation comparison chart</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Boston University · Faculty Affairs Intelligence Workspace · Internal Use Only</p>
+        <p style="margin-top: 4px;">Data refreshed per fiscal calendar · For questions contact <a href="mailto:facultyaffairs@bu.edu" style="color: var(--bu-red);">facultyaffairs@bu.edu</a></p>
+    </footer>
+
+    <!-- Analyst Chat FAB -->
+    <button class="fab" id="analystFab" onclick="toggleAnalyst()" title="Faculty Affairs Analyst">
+        💬
+    </button>
+
+    <!-- Analyst Chat Panel -->
+    <div class="analyst-panel" id="analystPanel">
+        <div class="analyst-header">
+            <div>
+                <h4>Faculty Affairs Analyst</h4>
+                <div class="privacy-note">🔒 Local-only quick answers. Your question stays in this browser.</div>
+            </div>
+            <button class="analyst-close" onclick="toggleAnalyst()">✕</button>
+        </div>
+        <div class="analyst-messages" id="analystMessages">
+            <div class="analyst-message bot">
+                Hello! I'm the BU Faculty Affairs Analyst. Ask me about headcount, hiring pipelines, retention, or any faculty affairs data. All responses are processed locally.
+            </div>
+        </div>
+        <div class="analyst-input-area">
+            <input type="text" id="analystInput" placeholder="Ask about faculty data…" onkeypress="if(event.key==='Enter')sendMessage()">
+            <button onclick="sendMessage()">➤</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loadingOverlay').classList.add('active');
+            document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+
+            // Simulate data loading
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.remove('active');
+                populateKPIs();
+            }, 1500);
+        });
+
+        // ===== KPI DATA =====
+        function populateKPIs() {
+            animateValue('kpiTotalFaculty', 0, 2847, 1200);
+            animateValue('kpiOpenPositions', 0, 134, 1000);
+            animateValue('kpiRetention', 0, 94.2, 1000, '%');
+            animateValue('kpiTimeToFill', 0, 67, 800, ' days');
+            animateValue('kpiDiversity', 0, 72.4, 1000, '%');
+        }
+
+        function animateValue(id, start, end, duration, suffix = '') {
+            const el = document.getElementById(id);
+            const range = end - start;
+            const startTime = performance.now();
+            const isDecimal = String(end).includes('.');
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = start + range * eased;
+                el.textContent = (isDecimal ? current.toFixed(1) : Math.round(current).toLocaleString()) + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // ===== FILTERS =====
+        function applyFilters() {
+            const campus = document.getElementById('campusFilter').value;
+            const school = document.getElementById('schoolFilter').value;
+            const dept = document.getElementById('deptFilter').value;
+            const fy = document.getElementById('fyFilter').value;
+
+            console.log('Filters applied:', { campus, school, dept, fy });
+            // In production, this would trigger an API call or data refresh
+            showNotification('Filters applied — refreshing data…');
+        }
+
+        // ===== SCENARIOS =====
+        function setScenario(el) {
+            document.querySelectorAll('.scenario-pill').forEach(p => p.classList.remove('active'));
+            el.classList.add('active');
+            const scenario = el.dataset.scenario;
+            if (scenario === 'reset') {
+                document.querySelector('[data-scenario="base"]').classList.add('active');
+                el.classList.remove('active');
+                showNotification('Scenario reset to Base (2% growth)');
+            } else {
+                showNotification(`Scenario set: ${el.textContent.trim().split('\n')[0]}`);
+            }
+        }
+
+        // ===== ANALYST CHAT =====
+        function toggleAnalyst() {
+            const panel = document.getElementById('analystPanel');
+            const fab = document.getElementById('analystFab');
+            panel.classList.toggle('open');
+            fab.style.display = panel.classList.contains('open') ? 'none' : 'flex';
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('analystInput');
+            const msg = input.value.trim();
+            if (!msg) return;
+
+            const messagesEl = document.getElementById('analystMessages');
+
+            // Add user message
+            messagesEl.innerHTML += `<div class="analyst-message user">${escapeHtml(msg)}</div>`;
+            input.value = '';
+
+            // Simulate response (local-only)
+            setTimeout(() => {
+                const responses = [
+                    `Based on current FY2026 data, total faculty headcount is 2,847 across both campuses.`,
+                    `The current retention rate stands at 94.2%, up 0.8 percentage points from last year.`,
+                    `There are 134 open faculty positions. 62% are on Charles River Campus, 38% on Medical Campus.`,
+                    `Under the Base scenario (2% growth), projected FY2027 headcount is approximately 2,904.`,
+                    `Average time-to-fill for faculty searches is 67 days, with STEM positions averaging 74 days.`
+                ];
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                messagesEl.innerHTML += `<div class="analyst-message bot">${response}</div>`;
+                messagesEl.scrollTop = messagesEl.scrollHeight;
+            }, 800);
+
+            messagesEl.scrollTop = messagesEl.scrollHeight;
+        }
+
+        // ===== UTILITIES =====
+        function exportCSV() {
+            showNotification('Preparing CSV export…');
+            // In production, trigger actual CSV generation
+            setTimeout(() => showNotification('✓ Export complete — check downloads'), 1500);
+        }
+
+        function refreshData() {
+            document.getElementById('loadingOverlay').classList.add('active');
+            setTimeout(() => {
+                document.getElementById('loadingOverlay').classList.remove('active');
+                document.getElementById('lastUpdated').textContent = new Date().toLocaleString();
+                populateKPIs();
+                showNotification('Data refreshed successfully');
+            }, 2000);
+        }
+
+        function showNotification(msg) {
+            // Simple toast notification
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.style.cssText = `
+                position: fixed; top: 80px; right: 24px; z-index: 10000;
+                background: var(--gray-900); color: white; padding: 12px 20px;
+                border-radius: 8px; font-size: 0.8125rem; box-shadow: var(--shadow-lg);
+                animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+</html>
