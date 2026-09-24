@@ -4,13 +4,14 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Faculty Affairs AI Assistant — Lifecycle Plan</title>
-<meta name="description" content="One-page lifecycle plan for the Faculty Affairs AI Assistant & Insights Hub — responsible AI for faculty operations." />
+<meta name="description" content="Lifecycle plan for the Faculty Affairs AI Assistant & Insights Hub — with interactive gate decision analysis." />
 <style>
 /* ============ TOKENS ============ */
 :root{
   --navy:#0B2545; --navy-2:#12345F; --navy-3:#1B3A63;
   --teal:#1B98A0; --teal-2:#3FC1C9;
   --gold:#F2A900; --gold-2:#FFC94A;
+  --purple:#7B61FF; --purple-2:#A08CFF;
   --bg:#F4F6F8; --card:#FFFFFF; --ink:#0F1B2D; --muted:#5B6B7F;
   --line:#DCE3EA;
   --ok:#1E9E6A; --warn:#E8A33D; --bad:#D64545; --idle:#B7C2CE;
@@ -20,127 +21,63 @@
   --max:1180px;
   --ff:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
   --fh:'Montserrat','Open Sans',-apple-system,'Segoe UI',sans-serif;
+  --mono:'SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:88px}
-body{
-  margin:0;font-family:var(--ff);color:var(--ink);background:var(--bg);
-  line-height:1.6;-webkit-font-smoothing:antialiased;
-}
+body{margin:0;font-family:var(--ff);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+body.modal-open{overflow:hidden}
 h1,h2,h3,h4{font-family:var(--fh);line-height:1.2;margin:0 0 .5em;letter-spacing:-.02em}
 p{margin:0 0 1em}
 a{color:var(--teal);text-decoration:none}
 a:hover{text-decoration:underline}
 img,svg{max-width:100%}
 
-/* ============ A11Y ============ */
-.skip{
-  position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--navy);
-  padding:12px 20px;font-weight:700;z-index:999;border-radius:0 0 8px 0;
-}
+.skip{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--navy);padding:12px 20px;font-weight:700;z-index:999;border-radius:0 0 8px 0}
 .skip:focus{left:0}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-/* ============ LAYOUT ============ */
 .wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
 section{padding:76px 0;position:relative}
 section.tint{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.eyebrow{
-  font-family:var(--fh);font-size:.74rem;font-weight:800;letter-spacing:.16em;
-  text-transform:uppercase;color:var(--teal);margin:0 0 10px;
-}
+.eyebrow{font-family:var(--fh);font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
 .sec-title{font-size:clamp(1.6rem,3.4vw,2.35rem);color:var(--navy)}
 .sec-lede{color:var(--muted);font-size:1.05rem;max-width:70ch;margin-bottom:40px}
 
-/* ============ TOPBAR ============ */
-.topbar{
-  position:sticky;top:0;z-index:100;background:rgba(11,37,69,.92);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border-bottom:1px solid rgba(255,255,255,.1);
-}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(11,37,69,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1)}
 .topbar .wrap{display:flex;align-items:center;gap:20px;height:68px}
 .brand{display:flex;align-items:center;gap:11px;color:#fff;font-family:var(--fh);font-weight:800;font-size:.95rem;letter-spacing:-.01em;flex-shrink:0}
-.brand .dot{
-  width:30px;height:30px;border-radius:9px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--teal-2),var(--teal) 55%,var(--gold));
-  display:grid;place-items:center;font-size:.85rem;
-}
+.brand .dot{width:30px;height:30px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,var(--teal-2),var(--teal) 55%,var(--gold));display:grid;place-items:center;font-size:.85rem}
 .navlinks{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
 .navlinks::-webkit-scrollbar{display:none}
-.navlinks a{
-  color:rgba(255,255,255,.75);font-size:.82rem;font-weight:600;padding:8px 12px;
-  border-radius:8px;white-space:nowrap;transition:.2s;text-decoration:none;
-}
+.navlinks a{color:rgba(255,255,255,.75);font-size:.82rem;font-weight:600;padding:8px 12px;border-radius:8px;white-space:nowrap;transition:.2s;text-decoration:none}
 .navlinks a:hover{color:#fff;background:rgba(255,255,255,.1);text-decoration:none}
 .progress-rail{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal-2),var(--gold));width:0;transition:width .15s linear}
 
-/* ============ HERO ============ */
-.hero{
-  background:
-    radial-gradient(900px 500px at 78% 12%,rgba(27,152,160,.35),transparent 62%),
-    radial-gradient(700px 500px at 12% 92%,rgba(242,169,0,.18),transparent 60%),
-    linear-gradient(160deg,var(--navy) 0%,#071a33 100%);
-  color:#fff;padding:74px 0 84px;overflow:hidden;
-}
+.hero{background:radial-gradient(900px 500px at 78% 12%,rgba(27,152,160,.35),transparent 62%),radial-gradient(700px 500px at 12% 92%,rgba(242,169,0,.18),transparent 60%),linear-gradient(160deg,var(--navy) 0%,#071a33 100%);color:#fff;padding:74px 0 84px;overflow:hidden}
 .hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
-.hero-badge{
-  display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.2);padding:7px 15px;border-radius:100px;
-  font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
-  color:var(--teal-2);margin-bottom:22px;
-}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:7px 15px;border-radius:100px;font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal-2);margin-bottom:22px}
 .hero h1{font-size:clamp(2rem,4.6vw,3.15rem);margin-bottom:18px}
-.hero h1 .accent{
-  background:linear-gradient(100deg,var(--teal-2),var(--gold-2));
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
+.hero h1 .accent{background:linear-gradient(100deg,var(--teal-2),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p.lede{font-size:1.08rem;color:rgba(255,255,255,.78);max-width:56ch}
 .hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
-.chip{
-  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);
-  padding:7px 14px;border-radius:100px;font-size:.79rem;font-weight:600;color:rgba(255,255,255,.88);
-}
+.chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);padding:7px 14px;border-radius:100px;font-size:.79rem;font-weight:600;color:rgba(255,255,255,.88)}
 .chip.gold{background:rgba(242,169,0,.16);border-color:rgba(242,169,0,.4);color:var(--gold-2)}
-
-/* --- orbit visual --- */
 .orbit{position:relative;width:100%;max-width:430px;aspect-ratio:1;margin:0 auto}
-.ring{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  border-radius:50%;border:1px dashed rgba(255,255,255,.18);
-}
+.ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px dashed rgba(255,255,255,.18)}
 .ring.r1{width:71%;height:71%;animation:spin 34s linear infinite}
 .ring.r2{width:52%;height:52%;border-color:rgba(63,193,201,.32);animation:spin 22s linear infinite reverse}
 .ring.r3{width:92%;height:92%;border-color:rgba(255,255,255,.08);animation:spin 48s linear infinite}
 @keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-.orb-core{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:38%;aspect-ratio:1;border-radius:50%;
-  background:linear-gradient(140deg,var(--teal),#0d6f77);
-  box-shadow:0 0 0 10px rgba(27,152,160,.16),0 0 60px rgba(27,152,160,.5);
-  display:grid;place-items:center;text-align:center;padding:12px;
-  font-family:var(--fh);font-weight:800;font-size:.8rem;line-height:1.25;color:#fff;
-}
-.orb{
-  position:absolute;transform:translate(-50%,-50%);
-  display:flex;flex-direction:column;align-items:center;gap:6px;width:96px;
-  opacity:0;animation:pop .5s cubic-bezier(.34,1.56,.64,1) forwards;
-}
+.orb-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38%;aspect-ratio:1;border-radius:50%;background:linear-gradient(140deg,var(--teal),#0d6f77);box-shadow:0 0 0 10px rgba(27,152,160,.16),0 0 60px rgba(27,152,160,.5);display:grid;place-items:center;text-align:center;padding:12px;font-family:var(--fh);font-weight:800;font-size:.8rem;line-height:1.25;color:#fff}
+.orb{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;width:96px;opacity:0;animation:pop .5s cubic-bezier(.34,1.56,.64,1) forwards}
 @keyframes pop{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
-.orb i{
-  width:44px;height:44px;border-radius:13px;display:grid;place-items:center;
-  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
-  font-size:1.15rem;font-style:normal;backdrop-filter:blur(6px);
-  transition:.25s;
-}
+.orb i{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);font-size:1.15rem;font-style:normal;backdrop-filter:blur(6px);transition:.25s}
 .orb span{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.82);text-align:center;letter-spacing:.02em}
 .orb:hover i{background:var(--gold);border-color:var(--gold);transform:scale(1.12)}
 
-/* ============ CARDS / GENERIC ============ */
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
-  padding:26px;box-shadow:var(--sh);transition:transform .25s,box-shadow .25s;
-}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--sh);transition:transform .25s,box-shadow .25s}
 .card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
 .grid{display:grid;gap:22px}
 .g2{grid-template-columns:repeat(2,1fr)}
@@ -149,33 +86,22 @@ section.tint{background:#fff;border-top:1px solid var(--line);border-bottom:1px 
 @media(max-width:900px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}.hero .wrap{grid-template-columns:1fr;gap:36px}}
 
-/* ============ DECISION ============ */
 .decision-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
 @media(max-width:900px){.decision-grid{grid-template-columns:1fr}}
 .funnel{display:flex;flex-direction:column;gap:10px;align-items:center}
-.funnel-row{
-  width:var(--w);background:linear-gradient(90deg,var(--navy),var(--navy-3));
-  color:#fff;border-radius:var(--r-sm);padding:14px 20px;text-align:center;
-  font-weight:700;font-size:.9rem;font-family:var(--fh);
-  opacity:0;transform:translateY(14px);transition:.55s cubic-bezier(.2,.7,.3,1);
-}
+.funnel-row{width:var(--w);background:linear-gradient(90deg,var(--navy),var(--navy-3));color:#fff;border-radius:var(--r-sm);padding:14px 20px;text-align:center;font-weight:700;font-size:.9rem;font-family:var(--fh);opacity:0;transform:translateY(14px);transition:.55s cubic-bezier(.2,.7,.3,1)}
 .funnel-row.in{opacity:1;transform:none}
 .funnel-row.out{background:linear-gradient(90deg,var(--teal),#14818a)}
 .funnel-row.out.gold{background:linear-gradient(90deg,var(--gold),#d99400);color:var(--navy)}
 .funnel-row.out.slate{background:linear-gradient(90deg,#4b6076,#3a4c60)}
 .paths{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin-top:8px}
-.path{
-  background:#fff;border:2px solid var(--line);border-radius:var(--r-sm);padding:14px 10px;
-  text-align:center;font-size:.76rem;font-weight:700;color:var(--navy);
-  opacity:0;transform:translateY(14px);transition:.5s;
-}
+.path{background:#fff;border:2px solid var(--line);border-radius:var(--r-sm);padding:14px 10px;text-align:center;font-size:.76rem;font-weight:700;color:var(--navy);opacity:0;transform:translateY(14px);transition:.5s}
 .path.in{opacity:1;transform:none}
 .path b{display:block;font-size:1.35rem;margin-bottom:4px}
 .path.p1{border-color:var(--teal)}
 .path.p2{border-color:var(--gold)}
 .path.p3{border-color:#8a9bb0}
 
-/* --- gauges --- */
 .gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
 @media(max-width:760px){.gauges{grid-template-columns:repeat(2,1fr)}}
 .gauge-card{text-align:center;padding:20px 12px}
@@ -184,80 +110,43 @@ section.tint{background:#fff;border-top:1px solid var(--line);border-bottom:1px 
 .g-bg{stroke:var(--line)}
 .g-val{stroke:var(--teal);transition:stroke-dashoffset 1.5s cubic-bezier(.3,.8,.3,1)}
 .gauge-card:nth-child(2) .g-val{stroke:var(--gold)}
-.gauge-card:nth-child(3) .g-val{stroke:#7B61FF}
+.gauge-card:nth-child(3) .g-val{stroke:var(--purple)}
 .gauge-card:nth-child(4) .g-val{stroke:var(--ok)}
 .gauge-wrap{position:relative;display:inline-grid;place-items:center}
-.gauge-num{
-  position:absolute;font-family:var(--fh);font-weight:800;font-size:1.28rem;color:var(--navy);
-}
+.gauge-num{position:absolute;font-family:var(--fh);font-weight:800;font-size:1.28rem;color:var(--navy)}
 .gauge-label{font-size:.79rem;font-weight:700;color:var(--muted);margin-top:10px;letter-spacing:.02em}
 .gauge-sub{font-size:.68rem;color:var(--idle);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
 
-/* ============ LIFECYCLE FLOW ============ */
 .flow{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 18px;scrollbar-width:thin}
-.flow-btn{
-  position:relative;flex:1 0 168px;background:#fff;border:1.5px solid var(--line);
-  border-radius:12px;padding:18px 16px 18px 18px;text-align:left;cursor:pointer;
-  font-family:var(--ff);transition:.25s;box-shadow:0 2px 8px rgba(11,37,69,.05);
-  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%,16px 50%);
-  padding-left:28px;
-}
+.flow-btn{position:relative;flex:1 0 168px;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:18px 16px 18px 28px;text-align:left;cursor:pointer;font-family:var(--ff);transition:.25s;box-shadow:0 2px 8px rgba(11,37,69,.05);clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%,16px 50%)}
 .flow-btn:first-child{clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%)}
 .flow-btn:last-child{clip-path:polygon(0 0,100% 0,100% 100%,0 100%,16px 50%)}
 .flow-btn:hover{border-color:var(--teal);transform:translateY(-2px)}
-.flow-btn[aria-selected="true"]{
-  background:linear-gradient(135deg,var(--navy),var(--navy-3));border-color:var(--navy);color:#fff;
-}
+.flow-btn[aria-selected="true"]{background:linear-gradient(135deg,var(--navy),var(--navy-3));border-color:var(--navy);color:#fff}
 .flow-btn[aria-selected="true"] .fb-num{background:var(--gold);color:var(--navy)}
 .flow-btn[aria-selected="true"] .fb-name{color:#fff}
-.flow-btn[aria-selected="true"] .fb-ico{filter:grayscale(0) brightness(1.3)}
-.fb-num{
-  display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;
-  background:var(--bg);color:var(--navy);font-family:var(--fh);font-weight:800;font-size:.78rem;
-  margin-bottom:9px;transition:.25s;
-}
+.fb-num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--bg);color:var(--navy);font-family:var(--fh);font-weight:800;font-size:.78rem;margin-bottom:9px;transition:.25s}
 .fb-ico{font-size:1.1rem;display:block;margin-bottom:4px}
 .fb-name{display:block;font-size:.86rem;font-weight:700;color:var(--navy);transition:.25s}
 
-/* --- stage panel --- */
-.stage-panel{
-  background:#fff;border:1px solid var(--line);border-radius:var(--r);
-  padding:34px;box-shadow:var(--sh);animation:fade .4s ease;
-}
+.stage-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:34px;box-shadow:var(--sh);animation:fade .4s ease}
 @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .sp-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
 .sp-head h3{font-size:1.45rem;margin:0;color:var(--navy)}
-.sp-deliv{
-  display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#EAF7F8,#F3FBFC);
-  border:1px solid #BFE5E8;color:#0d6f77;padding:9px 16px;border-radius:100px;
-  font-size:.8rem;font-weight:700;
-}
+.sp-deliv{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#EAF7F8,#F3FBFC);border:1px solid #BFE5E8;color:#0d6f77;padding:9px 16px;border-radius:100px;font-size:.8rem;font-weight:700}
 .sp-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:32px}
 @media(max-width:820px){.sp-cols{grid-template-columns:1fr;gap:22px}}
 .sp-cols h4{font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
 .sp-list{list-style:none;padding:0;margin:0}
 .sp-list li{position:relative;padding-left:26px;margin-bottom:10px;font-size:.92rem;color:#2c3e50}
-.sp-list li::before{
-  content:'';position:absolute;left:0;top:.5em;width:9px;height:9px;border-radius:50%;
-  background:var(--teal);box-shadow:0 0 0 3px rgba(27,152,160,.16);
-}
+.sp-list li::before{content:'';position:absolute;left:0;top:.5em;width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 3px rgba(27,152,160,.16)}
 .exit-chips{display:flex;flex-wrap:wrap;gap:8px}
-.exit-chips span{
-  background:var(--bg);border:1px solid var(--line);border-radius:8px;
-  padding:7px 12px;font-size:.78rem;font-weight:600;color:var(--navy);
-}
+.exit-chips span{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:.78rem;font-weight:600;color:var(--navy)}
 .owner-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)}
-.owner{
-  font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
-  color:var(--muted);background:var(--bg);padding:6px 11px;border-radius:6px;
-}
+.owner{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg);padding:6px 11px;border-radius:6px}
 
-/* ============ MODEL CHART ============ */
 .metric-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
-.metric-tabs button{
-  background:#fff;border:1.5px solid var(--line);border-radius:100px;padding:9px 20px;
-  font-family:var(--ff);font-size:.83rem;font-weight:700;color:var(--muted);cursor:pointer;transition:.2s;
-}
+.metric-tabs button{background:#fff;border:1.5px solid var(--line);border-radius:100px;padding:9px 20px;font-family:var(--ff);font-size:.83rem;font-weight:700;color:var(--muted);cursor:pointer;transition:.2s}
 .metric-tabs button:hover{border-color:var(--teal);color:var(--teal)}
 .metric-tabs button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
 .bars{display:flex;flex-direction:column;gap:20px}
@@ -265,228 +154,523 @@ section.tint{background:#fff;border-top:1px solid var(--line);border-bottom:1px 
 @media(max-width:640px){.bar-row{grid-template-columns:1fr;gap:6px}.bar-row .bar-val{text-align:left}}
 .bar-name{font-size:.86rem;font-weight:700;color:var(--navy)}
 .bar-track{height:30px;background:var(--bg);border-radius:8px;overflow:hidden;position:relative}
-.bar-fill{
-  height:100%;border-radius:8px;background:linear-gradient(90deg,var(--teal),var(--teal-2));
-  width:0;transition:width .8s cubic-bezier(.3,.9,.3,1);display:grid;align-items:center;
-  padding-left:12px;color:#fff;font-size:.74rem;font-weight:800;
-}
+.bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--teal),var(--teal-2));width:0;transition:width .8s cubic-bezier(.3,.9,.3,1);display:grid;align-items:center;padding-left:12px;color:#fff;font-size:.74rem;font-weight:800}
 .bar-row.best .bar-fill{background:linear-gradient(90deg,var(--navy),var(--navy-3))}
 .bar-row.best .bar-name::after{content:' ★';color:var(--gold)}
 .bar-val{font-family:var(--fh);font-weight:800;font-size:.95rem;color:var(--navy);text-align:right}
-.bar-note{
-  margin-top:22px;padding:14px 18px;background:#FFF8E6;border-left:4px solid var(--gold);
-  border-radius:0 8px 8px 0;font-size:.84rem;color:#6b5215;
-}
+.bar-note{margin-top:22px;padding:14px 18px;background:#FFF8E6;border-left:4px solid var(--gold);border-radius:0 8px 8px 0;font-size:.84rem;color:#6b5215}
 
-/* ============ PIPELINE / ACCORDION ============ */
 .pipe{display:flex;gap:0;overflow-x:auto;margin-bottom:24px;padding-bottom:6px}
-.pipe-btn{
-  flex:1 0 160px;background:#fff;border:1.5px solid var(--line);border-right:none;
-  padding:18px 16px;cursor:pointer;font-family:var(--ff);text-align:center;transition:.25s;
-}
+.pipe-btn{flex:1 0 160px;background:#fff;border:1.5px solid var(--line);border-right:none;padding:18px 16px;cursor:pointer;font-family:var(--ff);text-align:center;transition:.25s}
 .pipe-btn:first-child{border-radius:12px 0 0 12px}
 .pipe-btn:last-child{border-radius:0 12px 12px 0;border-right:1.5px solid var(--line)}
 .pipe-btn:hover{background:#F0FBFB}
 .pipe-btn[aria-expanded="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
-.pipe-btn[aria-expanded="true"] .pb-ico{transform:scale(1.15)}
 .pb-ico{font-size:1.4rem;display:block;margin-bottom:7px;transition:.25s}
 .pb-t{font-size:.82rem;font-weight:800;display:block}
 .pb-s{font-size:.68rem;opacity:.7;font-weight:600}
-.pipe-body{
-  display:none;background:#fff;border:1px solid var(--line);border-radius:var(--r);
-  padding:24px 28px;box-shadow:var(--sh);
-}
+.pipe-body{display:none;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 28px;box-shadow:var(--sh)}
 .pipe-body.open{display:block;animation:fade .35s ease}
 .pipe-body ul{margin:0;padding-left:20px}
 .pipe-body li{margin-bottom:8px;font-size:.9rem}
 
-/* ============ GATES ============ */
 .gate-grid{display:grid;gap:16px}
-.gate{
-  background:#fff;border:1px solid var(--line);border-left:5px solid var(--idle);
-  border-radius:var(--r-sm);padding:20px 24px;display:grid;
-  grid-template-columns:62px 1fr auto;gap:20px;align-items:center;transition:.3s;
-}
+.gate{background:#fff;border:1px solid var(--line);border-left:5px solid var(--idle);border-radius:var(--r-sm);padding:20px 24px;display:grid;grid-template-columns:62px 1fr auto;gap:20px;align-items:center;transition:.3s}
 .gate:hover{box-shadow:var(--sh)}
 .gate[data-status="go"]{border-left-color:var(--ok)}
 .gate[data-status="warn"]{border-left-color:var(--warn)}
 .gate[data-status="no"]{border-left-color:var(--bad)}
 @media(max-width:760px){.gate{grid-template-columns:52px 1fr;gap:14px}.gate .gate-right{grid-column:2}}
-.gate-id{
-  font-family:var(--fh);font-weight:800;font-size:1.05rem;color:var(--navy);
-  background:var(--bg);border-radius:10px;height:52px;display:grid;place-items:center;
-}
+.gate-id{font-family:var(--fh);font-weight:800;font-size:1.05rem;color:var(--navy);background:var(--bg);border-radius:10px;height:52px;display:grid;place-items:center}
 .gate h4{margin:0 0 4px;font-size:1rem;color:var(--navy)}
 .gate p{margin:0;font-size:.84rem;color:var(--muted)}
-.gate-crit{
-  display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);
-  font-size:.85rem;
-}
+.gate-crit{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);font-size:.85rem}
 .gate.open .gate-crit{display:block;animation:fade .3s ease}
 .gate-crit ul{margin:0;padding-left:18px}
 .gate-crit li{margin-bottom:6px}
 .gate-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
-.status-btn{
-  border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:7px 15px;
-  font-family:var(--ff);font-size:.76rem;font-weight:800;cursor:pointer;
-  display:inline-flex;align-items:center;gap:8px;transition:.2s;min-width:118px;justify-content:center;
-}
+.status-btn{border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:7px 15px;font-family:var(--ff);font-size:.76rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.2s;min-width:118px;justify-content:center}
 .status-btn:hover{border-color:var(--navy)}
 .sdot{width:9px;height:9px;border-radius:50%;background:var(--idle);transition:.2s}
 .gate[data-status="go"] .sdot{background:var(--ok)}
 .gate[data-status="warn"] .sdot{background:var(--warn)}
 .gate[data-status="no"] .sdot{background:var(--bad)}
-.expand-btn{
-  background:none;border:none;color:var(--teal);font-weight:700;font-size:.8rem;
-  cursor:pointer;font-family:var(--ff);padding:2px;
-}
+.expand-btn{background:none;border:none;color:var(--teal);font-weight:700;font-size:.8rem;cursor:pointer;font-family:var(--ff);padding:2px}
 .expand-btn::after{content:' ▾';transition:.2s;display:inline-block}
 .gate.open .expand-btn::after{transform:rotate(180deg)}
-
-/* ============ RISKS ============ */
-.risk{
-  background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:0;
-  overflow:hidden;box-shadow:var(--sh);transition:.3s;border-top:4px solid var(--teal);
+.analyze-btn{
+  display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--navy),var(--navy-3));
+  color:#fff;border:none;border-radius:100px;padding:8px 16px;font-family:var(--ff);
+  font-size:.76rem;font-weight:800;cursor:pointer;transition:.25s;
 }
+.analyze-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(11,37,69,.28)}
+
+.risk{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:0;overflow:hidden;box-shadow:var(--sh);transition:.3s;border-top:4px solid var(--teal)}
 .risk:nth-child(2){border-top-color:var(--gold)}
-.risk:nth-child(3){border-top-color:#7B61FF}
+.risk:nth-child(3){border-top-color:var(--purple)}
 .risk:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
-.risk-head{padding:24px 24px 16px;cursor:pointer;display:flex;gap:14px;align-items:flex-start}
+.risk-head{padding:24px 24px 16px;display:flex;gap:14px;align-items:flex-start}
 .risk-ico{font-size:1.6rem;line-height:1}
 .risk h4{margin:0 0 4px;font-size:1.02rem;color:var(--navy)}
 .risk .sev{font-size:.68rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--bad)}
 .risk-body{padding:0 24px 24px;font-size:.88rem;color:#33475b}
-.risk-body h5{
-  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
-  margin:0 0 8px;font-family:var(--fh);
-}
+.risk-body h5{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-family:var(--fh)}
 .risk-body ul{margin:0 0 16px;padding-left:18px}
 .risk-body li{margin-bottom:6px}
-.owner-tag{
-  display:inline-block;background:var(--bg);border-radius:6px;padding:5px 11px;
-  font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
-}
+.owner-tag{display:inline-block;background:var(--bg);border-radius:6px;padding:5px 11px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 
-/* ============ RACI ============ */
 .raci-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:#fff;box-shadow:var(--sh)}
 table.raci{border-collapse:collapse;width:100%;min-width:680px;font-size:.86rem}
 table.raci th,table.raci td{padding:13px 15px;text-align:center;border-bottom:1px solid var(--line)}
-table.raci thead th{
-  background:var(--navy);color:#fff;font-family:var(--fh);font-size:.74rem;
-  letter-spacing:.08em;text-transform:uppercase;font-weight:700;
-}
+table.raci thead th{background:var(--navy);color:#fff;font-family:var(--fh);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
 table.raci tbody th{text-align:left;font-weight:700;color:var(--navy);background:#FAFBFC}
 table.raci tbody tr:last-child th,table.raci tbody tr:last-child td{border-bottom:none}
 table.raci tbody tr:hover td,table.raci tbody tr:hover th{background:#F2FAFB}
-.rc{font-family:var(--fh);font-weight:800;font-size:.78rem;width:30px;height:30px;
-  display:inline-grid;place-items:center;border-radius:8px;color:#fff}
+.rc{font-family:var(--fh);font-weight:800;font-size:.78rem;width:30px;height:30px;display:inline-grid;place-items:center;border-radius:8px;color:#fff}
 .rc.R{background:var(--teal)}
 .rc.A{background:var(--navy)}
 .rc.C{background:var(--gold);color:var(--navy)}
 .rc.I{background:#C3CDD8;color:#41505F}
 
-/* ============ GANTT ============ */
 .gantt{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--sh);overflow-x:auto}
 .gantt-inner{min-width:760px}
 .gantt-head,.gantt-row{display:grid;grid-template-columns:180px repeat(12,1fr);align-items:center;gap:0}
-.gantt-head div{
-  font-size:.66rem;font-weight:800;color:var(--muted);text-align:center;
-  letter-spacing:.05em;text-transform:uppercase;padding:8px 0;
-}
+.gantt-head div{font-size:.66rem;font-weight:800;color:var(--muted);text-align:center;letter-spacing:.05em;text-transform:uppercase;padding:8px 0}
 .gantt-head div:first-child{text-align:left}
 .gantt-row{border-top:1px solid var(--line);padding:9px 0}
 .gantt-row .g-name{font-size:.82rem;font-weight:700;color:var(--navy);padding-right:12px}
 .gantt-track{grid-column:2 / span 12;position:relative;height:26px;background:repeating-linear-gradient(90deg,transparent,transparent calc(8.333% - 1px),var(--line) calc(8.333% - 1px),var(--line) 8.333%);border-radius:6px}
-.g-bar{
-  position:absolute;top:3px;height:20px;border-radius:6px;
-  background:linear-gradient(90deg,var(--teal),var(--teal-2));
-  display:grid;align-items:center;padding-left:10px;color:#fff;font-size:.68rem;font-weight:800;
-  white-space:nowrap;overflow:hidden;width:0;transition:width .9s cubic-bezier(.3,.9,.3,1);
-}
+.g-bar{position:absolute;top:3px;height:20px;border-radius:6px;background:linear-gradient(90deg,var(--teal),var(--teal-2));display:grid;align-items:center;padding-left:10px;color:#fff;font-size:.68rem;font-weight:800;white-space:nowrap;overflow:hidden;width:0;transition:width .9s cubic-bezier(.3,.9,.3,1)}
 .g-bar.b2{background:linear-gradient(90deg,#2E6FA8,#4A90C9)}
 .g-bar.b3{background:linear-gradient(90deg,var(--navy),var(--navy-3))}
-.g-bar.b4{background:linear-gradient(90deg,#7B61FF,#A08CFF)}
+.g-bar.b4{background:linear-gradient(90deg,var(--purple),var(--purple-2))}
 .g-bar.b5{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:var(--navy)}
 .g-bar.b6{background:linear-gradient(90deg,#1E9E6A,#3FC98D)}
-.g-milestone{
-  position:absolute;top:50%;width:14px;height:14px;background:#fff;border:3px solid var(--bad);
-  transform:translate(-50%,-50%) rotate(45deg);border-radius:3px;z-index:3;cursor:help;
-}
+.g-milestone{position:absolute;top:50%;width:14px;height:14px;background:#fff;border:3px solid var(--bad);transform:translate(-50%,-50%) rotate(45deg);border-radius:3px;z-index:3;cursor:help}
 .g-milestone[data-gate="G1"]{border-color:#1E9E6A}
 .g-milestone[data-gate="G2"]{border-color:#E8A33D}
 .g-milestone[data-gate="G3"]{border-color:#1B98A0}
 .g-milestone[data-gate="G4"]{border-color:#7B61FF}
 .g-milestone[data-gate="G5"]{border-color:#D64545}
-.g-today{
-  position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--bad);z-index:4;
-  display:none;
-}
-.g-today::after{
-  content:'TODAY';position:absolute;top:-16px;left:50%;transform:translateX(-50%);
-  font-size:.58rem;font-weight:800;color:var(--bad);letter-spacing:.08em;
-}
 
-/* ============ CTA ============ */
-.cta{
-  background:linear-gradient(150deg,var(--navy) 0%,#071a33 100%);
-  color:#fff;border-radius:var(--r);padding:52px 44px;position:relative;overflow:hidden;
-}
-.cta::after{
-  content:'';position:absolute;right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;
-  background:radial-gradient(circle,rgba(27,152,160,.4),transparent 68%);
-}
+/* MONITORING */
+.mon-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 20px;box-shadow:var(--sh);margin-bottom:28px}
+.mon-status{display:flex;align-items:center;gap:10px;font-size:.86rem;font-weight:700;color:var(--navy)}
+.live-dot{width:10px;height:10px;border-radius:50%;background:var(--ok);position:relative;flex-shrink:0}
+.live-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--ok);animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{opacity:.7;transform:scale(.7)}80%,100%{opacity:0;transform:scale(1.6)}}
+.mon-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:var(--muted)}
+.mon-meta b{color:var(--navy);font-family:var(--fh)}
+.mon-actions{display:flex;gap:8px;flex-wrap:wrap}
+.mon-actions button{background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:7px 14px;font-family:var(--ff);font-size:.75rem;font-weight:700;color:var(--navy);cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.mon-actions button:hover{border-color:var(--teal);color:var(--teal);background:#F0FBFB}
+.mon-actions button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+
+.tracker-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px}
+@media(max-width:1020px){.tracker-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.tracker-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:440px){.tracker-grid{grid-template-columns:1fr}}
+.tracker-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:16px 16px 12px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:.25s}
+.tracker-card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.tracker-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal)}
+.tracker-card[data-kpi="hallucination"]::before{background:var(--gold)}
+.tracker-card[data-kpi="csat"]::before{background:var(--purple)}
+.tracker-card[data-kpi="drift"]::before{background:#2E6FA8}
+.tracker-card[data-kpi="escalation"]::before{background:var(--ok)}
+.tracker-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.tracker-label{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tracker-pill{font-size:.62rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:100px;background:rgba(30,158,106,.12);color:var(--ok)}
+.tracker-pill.warn{background:rgba(232,163,61,.16);color:#a86f12}
+.tracker-pill.bad{background:rgba(214,69,69,.14);color:var(--bad)}
+.tracker-val{font-family:var(--fh);font-weight:800;font-size:1.7rem;color:var(--navy);line-height:1;margin:6px 0 2px}
+.tracker-delta{font-size:.74rem;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:5px}
+.tracker-delta.up{color:var(--ok)}
+.tracker-delta.down{color:var(--bad)}
+.spark{display:block;width:100%;height:34px;margin-top:10px;overflow:visible}
+.spark path.line{fill:none;stroke:var(--teal);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.tracker-card[data-kpi="hallucination"] .spark path.line{stroke:var(--gold)}
+.tracker-card[data-kpi="csat"] .spark path.line{stroke:var(--purple)}
+.tracker-card[data-kpi="drift"] .spark path.line{stroke:#2E6FA8}
+.tracker-card[data-kpi="escalation"] .spark path.line{stroke:var(--ok)}
+.spark path.area{fill:rgba(27,152,160,.12);stroke:none}
+.tracker-card[data-kpi="hallucination"] .spark path.area{fill:rgba(242,169,0,.14)}
+.tracker-card[data-kpi="csat"] .spark path.area{fill:rgba(123,97,255,.14)}
+.tracker-card[data-kpi="drift"] .spark path.area{fill:rgba(46,111,168,.14)}
+.tracker-card[data-kpi="escalation"] .spark path.area{fill:rgba(30,158,106,.14)}
+.spark circle.last{fill:#fff;stroke-width:2}
+.tracker-card[data-kpi="containment"] .spark circle.last{stroke:var(--teal)}
+.tracker-card[data-kpi="hallucination"] .spark circle.last{stroke:var(--gold)}
+.tracker-card[data-kpi="csat"] .spark circle.last{stroke:var(--purple)}
+.tracker-card[data-kpi="drift"] .spark circle.last{stroke:#2E6FA8}
+.tracker-card[data-kpi="escalation"] .spark circle.last{stroke:var(--ok)}
+
+.chart-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;box-shadow:var(--sh);margin-bottom:28px}
+.chart-head{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.chart-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.chart-head p{margin:0;font-size:.84rem;color:var(--muted)}
+.chart-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.78rem;font-weight:700;color:var(--muted)}
+.chart-legend span{display:inline-flex;align-items:center;gap:7px}
+.lg-line{width:18px;height:3px;border-radius:2px;background:var(--teal)}
+.lg-line.gold{background:var(--gold)}
+.lg-line.dashed{background:none;border-top:2px dashed var(--bad);height:0}
+#driftChart{width:100%;height:280px;display:block}
+#driftChart .grid-line{stroke:var(--line);stroke-width:1;stroke-dasharray:2 4}
+#driftChart .axis-text{fill:var(--muted);font-size:10px;font-family:var(--ff);font-weight:600}
+#driftChart .area-teal{fill:rgba(27,152,160,.08)}
+#driftChart .line-teal{fill:none;stroke:var(--teal);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+#driftChart .line-gold{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:5 4}
+#driftChart .threshold-line{stroke:var(--bad);stroke-width:1.5;stroke-dasharray:6 4;opacity:.6}
+#driftChart .threshold-label{fill:var(--bad);font-size:9px;font-weight:800;letter-spacing:.05em}
+#driftChart .point{fill:#fff;stroke-width:2.5}
+#driftChart .point.teal{stroke:var(--teal)}
+#driftChart .point.gold{stroke:var(--gold)}
+#driftChart .point.warn{fill:var(--warn);stroke:#fff}
+#driftChart .today-line{stroke:var(--bad);stroke-width:1.5;stroke-dasharray:3 3;opacity:.7}
+#driftChart .today-label{fill:var(--bad);font-size:9px;font-weight:800}
+
+.trigger-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px;box-shadow:var(--sh);margin-bottom:28px}
+.trigger-wrap h3{margin:0 0 6px;font-size:1.1rem;color:var(--navy)}
+.trigger-wrap > p{margin:0 0 22px;font-size:.88rem;color:var(--muted)}
+.trigger-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;align-items:center}
+@media(max-width:940px){.trigger-flow{grid-template-columns:1fr;gap:8px}}
+.tr-step{background:linear-gradient(135deg,#F8FBFC,#EEF6F7);border:1.5px solid #C9E5E8;border-radius:12px;padding:16px 14px;text-align:center;transition:.25s}
+.tr-step:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 8px 18px rgba(27,152,160,.14)}
+.tr-step.crit{background:linear-gradient(135deg,#FFF5F5,#FFEAEA);border-color:#F0C0C0}
+.tr-step.act{background:linear-gradient(135deg,#FFF9EC,#FFF2D6);border-color:#F0D9A0}
+.tr-num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--navy);color:#fff;font-family:var(--fh);font-weight:800;font-size:.72rem;margin-bottom:8px}
+.tr-step.crit .tr-num{background:var(--bad)}
+.tr-step.act .tr-num{background:var(--gold);color:var(--navy)}
+.tr-step b{display:block;font-family:var(--fh);font-size:.84rem;color:var(--navy);margin-bottom:4px}
+.tr-step span{display:block;font-size:.72rem;color:var(--muted);line-height:1.4}
+.tr-arrow{display:grid;place-items:center;font-size:1.4rem;color:#C9E5E8;font-weight:800}
+@media(max-width:940px){.tr-arrow{transform:rotate(90deg);padding:2px 0}}
+
+.checkpoint-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:28px}
+.checkpoint-head{padding:24px 28px 0}
+.checkpoint-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.checkpoint-head p{margin:0 0 20px;font-size:.88rem;color:var(--muted)}
+.checkpoint-scroll{overflow-x:auto}
+table.checkpoint{border-collapse:collapse;width:100%;min-width:820px;font-size:.85rem}
+table.checkpoint thead th{background:var(--navy);color:#fff;font-family:var(--fh);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:12px 16px;text-align:left}
+table.checkpoint tbody td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+table.checkpoint tbody tr:last-child td{border-bottom:none}
+table.checkpoint tbody tr:hover td{background:#F2FAFB}
+table.checkpoint td strong{color:var(--navy);font-family:var(--fh);font-size:.84rem}
+.cp-freq{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;padding:5px 11px;border-radius:100px;white-space:nowrap}
+.cp-freq.daily{background:rgba(27,152,160,.12);color:#0d6f77}
+.cp-freq.weekly{background:rgba(46,111,168,.12);color:#1e4f80}
+.cp-freq.monthly{background:rgba(123,97,255,.13);color:#543cc9}
+.cp-freq.quarterly{background:rgba(242,169,0,.16);color:#a86f12}
+.cp-freq.annual{background:rgba(214,69,69,.12);color:var(--bad)}
+.cp-freq.pre{background:rgba(30,158,106,.12);color:var(--ok)}
+.cp-owner{display:inline-block;background:var(--bg);border-radius:6px;padding:4px 10px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+
+.incident-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:28px}
+.incident-head{padding:24px 28px 0;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:flex-start}
+.incident-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.incident-head p{margin:0;font-size:.88rem;color:var(--muted)}
+.incident-scroll{overflow-x:auto;padding-top:18px}
+table.incident{border-collapse:collapse;width:100%;min-width:780px;font-size:.84rem}
+table.incident thead th{background:#F4F6F8;color:var(--muted);font-family:var(--fh);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;padding:11px 16px;text-align:left;border-bottom:1px solid var(--line)}
+table.incident tbody td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+table.incident tbody tr:last-child td{border-bottom:none}
+table.incident tbody tr:hover td{background:#F8FBFC}
+.inc-id{font-family:var(--mono);font-weight:700;color:var(--navy);font-size:.78rem}
+.inc-sev{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;padding:4px 9px;border-radius:100px}
+.inc-sev.sev1{background:rgba(214,69,69,.14);color:var(--bad)}
+.inc-sev.sev2{background:rgba(232,163,61,.18);color:#a86f12}
+.inc-sev.sev3{background:rgba(27,152,160,.12);color:#0d6f77}
+.inc-sev.closed{background:rgba(30,158,106,.12);color:var(--ok)}
+
+.thresholds{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:28px}
+@media(max-width:900px){.thresholds{grid-template-columns:1fr}}
+.th-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 26px;box-shadow:var(--sh)}
+.th-card h4{margin:0 0 16px;font-size:1rem;color:var(--navy);display:flex;align-items:center;gap:9px}
+.th-list{list-style:none;padding:0;margin:0}
+.th-list li{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:11px 0;border-bottom:1px dashed var(--line);font-size:.86rem}
+.th-list li:last-child{border-bottom:none}
+.th-list b{color:var(--navy);font-weight:700}
+.th-list small{display:block;color:var(--muted);font-size:.74rem;margin-top:2px}
+.th-badge{font-family:var(--fh);font-weight:800;font-size:.72rem;padding:5px 10px;border-radius:100px;white-space:nowrap}
+.th-badge.ok{background:rgba(30,158,106,.12);color:var(--ok)}
+.th-badge.warn{background:rgba(232,163,61,.18);color:#a86f12}
+.th-badge.bad{background:rgba(214,69,69,.14);color:var(--bad)}
+
+.lineage{background:linear-gradient(135deg,#F8FBFC,#EEF6F7);border:1px dashed #C9E5E8;border-radius:var(--r);padding:24px 28px}
+.lineage h4{margin:0 0 14px;font-size:.95rem;color:var(--navy)}
+.lineage-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:820px){.lineage-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.lineage-grid{grid-template-columns:1fr}}
+.lin-item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;transition:.25s}
+.lin-item:hover{border-color:var(--teal);transform:translateY(-2px)}
+.lin-item b{display:block;font-family:var(--fh);font-size:.82rem;color:var(--navy);margin-bottom:3px}
+.lin-item span{font-size:.74rem;color:var(--muted)}
+
+.cta{background:linear-gradient(150deg,var(--navy) 0%,#071a33 100%);color:#fff;border-radius:var(--r);padding:52px 44px;position:relative;overflow:hidden}
+.cta::after{content:'';position:absolute;right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(27,152,160,.4),transparent 68%)}
 .cta h3{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:12px}
 .cta p{color:rgba(255,255,255,.78);max-width:60ch}
 .cta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:28px 0;position:relative;z-index:2}
 @media(max-width:760px){.cta-grid{grid-template-columns:1fr}}
-.cta-item{
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
-  border-radius:12px;padding:16px 20px;display:flex;gap:13px;align-items:flex-start;
-  font-size:.9rem;transition:.25s;
-}
+.cta-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:16px 20px;display:flex;gap:13px;align-items:flex-start;font-size:.9rem;transition:.25s}
 .cta-item:hover{background:rgba(255,255,255,.14);transform:translateX(4px)}
 .cta-item b{display:block;color:#fff;font-family:var(--fh);font-size:.9rem}
 .cta-item span{color:rgba(255,255,255,.68);font-size:.82rem}
 .cta-foot{display:flex;flex-wrap:wrap;gap:14px;align-items:center;position:relative;z-index:2}
-.btn{
-  display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--navy);
-  font-weight:800;font-family:var(--fh);font-size:.87rem;padding:13px 26px;border-radius:100px;
-  border:none;cursor:pointer;transition:.25s;text-decoration:none;
-}
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--navy);font-weight:800;font-family:var(--fh);font-size:.87rem;padding:13px 26px;border-radius:100px;border:none;cursor:pointer;transition:.25s;text-decoration:none}
 .btn:hover{background:var(--gold-2);transform:translateY(-2px);box-shadow:0 10px 26px rgba(242,169,0,.3);text-decoration:none}
 .btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.35);color:#fff}
 .btn.ghost:hover{background:rgba(255,255,255,.12);box-shadow:none}
 
-/* ============ FOOTER ============ */
 footer{background:#071a33;color:rgba(255,255,255,.6);padding:38px 0;font-size:.82rem}
 footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
 footer a{color:var(--teal-2)}
 .foot-dots{display:flex;gap:7px}
 .foot-dots i{width:9px;height:9px;border-radius:50%;background:var(--teal);opacity:.5}
 .foot-dots i:nth-child(2){background:var(--gold)}
-.foot-dots i:nth-child(3){background:#7B61FF}
+.foot-dots i:nth-child(3){background:var(--purple)}
 
-/* ============ REVEAL ============ */
 .reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.3,1)}
 .reveal.in{opacity:1;transform:none}
+
+/* ============================================
+   GATE DECISION MODAL
+   ============================================ */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:500;background:rgba(7,26,51,.72);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:grid;place-items:center;padding:24px;
+  opacity:0;pointer-events:none;transition:opacity .28s ease;
+}
+.modal-backdrop[hidden]{display:none}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal{
+  background:#fff;border-radius:20px;width:min(1040px,100%);max-height:92vh;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 40px 90px rgba(0,0,0,.4);
+  transform:translateY(20px) scale(.97);transition:transform .32s cubic-bezier(.2,.8,.3,1);
+}
+.modal-backdrop.open .modal{transform:none}
+
+.modal-head{
+  padding:24px 32px;border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:64px 1fr auto;gap:20px;align-items:center;
+  background:linear-gradient(135deg,#F8FBFC,#FFFFFF);
+  position:relative;
+}
+@media(max-width:680px){.modal-head{grid-template-columns:48px 1fr;gap:14px;padding:20px 20px}.modal-verdict{grid-column:2}}
+.modal-gate-id{
+  width:64px;height:64px;border-radius:16px;display:grid;place-items:center;
+  font-family:var(--fh);font-weight:800;font-size:1.35rem;color:#fff;
+  background:linear-gradient(135deg,var(--navy),var(--navy-3));
+  box-shadow:0 10px 24px rgba(11,37,69,.22);flex-shrink:0;
+}
+@media(max-width:680px){.modal-gate-id{width:48px;height:48px;font-size:1rem;border-radius:12px}}
+.modal-head h3{margin:0 0 3px;font-size:1.3rem;color:var(--navy)}
+.modal-head p{margin:0;font-size:.86rem;color:var(--muted)}
+.modal-verdict{
+  font-family:var(--fh);font-weight:800;font-size:.86rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:12px 22px;border-radius:100px;
+  background:rgba(30,158,106,.14);color:var(--ok);
+  border:2px solid rgba(30,158,106,.3);white-space:nowrap;
+  transition:.3s;
+}
+.modal-verdict.cond{background:rgba(232,163,61,.16);color:#a86f12;border-color:rgba(232,163,61,.4)}
+.modal-verdict.hold{background:rgba(46,111,168,.13);color:#1e4f80;border-color:rgba(46,111,168,.3)}
+.modal-verdict.nogo{background:rgba(214,69,69,.13);color:var(--bad);border-color:rgba(214,69,69,.3)}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
+  border:none;background:var(--bg);color:var(--muted);font-size:1.3rem;line-height:1;
+  cursor:pointer;display:grid;place-items:center;transition:.2s;font-family:var(--ff);
+}
+.modal-close:hover{background:var(--bad);color:#fff;transform:rotate(90deg)}
+
+.modal-body{
+  padding:28px 32px 8px;overflow-y:auto;flex:1;
+}
+@media(max-width:680px){.modal-body{padding:20px 20px 8px}}
+
+/* Probability block */
+.prob-block{
+  display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;
+  background:linear-gradient(135deg,#F8FBFC,#EEF6F7);
+  border:1px solid #C9E5E8;border-radius:14px;padding:24px 28px;margin-bottom:24px;
+}
+@media(max-width:680px){.prob-block{grid-template-columns:1fr;gap:18px;text-align:center}}
+.prob-ring-wrap{position:relative;width:132px;height:132px;display:grid;place-items:center;flex-shrink:0}
+.prob-ring{width:132px;height:132px;transform:rotate(-90deg)}
+.prob-ring circle{fill:none;stroke-width:10;stroke-linecap:round}
+.prob-ring .pr-bg{stroke:rgba(11,37,69,.08)}
+.prob-ring .pr-val{stroke:var(--ok);transition:stroke-dashoffset .9s cubic-bezier(.3,.8,.3,1),stroke .4s}
+.prob-ring .pr-val.cond{stroke:var(--warn)}
+.prob-ring .pr-val.hold{stroke:#2E6FA8}
+.prob-ring .pr-val.nogo{stroke:var(--bad)}
+.prob-num{
+  position:absolute;font-family:var(--fh);font-weight:800;font-size:1.9rem;
+  color:var(--navy);line-height:1;
+}
+.prob-num small{display:block;font-size:.62rem;font-weight:800;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+.prob-info h4{margin:0 0 6px;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.prob-info .prob-headline{font-family:var(--fh);font-weight:800;font-size:1.15rem;color:var(--navy);margin-bottom:12px}
+.prob-bar-track{
+  height:14px;background:rgba(11,37,69,.08);border-radius:100px;overflow:hidden;
+  position:relative;margin-bottom:10px;
+}
+.prob-bar-fill{
+  height:100%;border-radius:100px;width:0;
+  background:linear-gradient(90deg,var(--teal),var(--ok));
+  transition:width .9s cubic-bezier(.3,.8,.3,1),background .4s;
+}
+.prob-bar-fill.cond{background:linear-gradient(90deg,var(--gold),var(--gold-2))}
+.prob-bar-fill.hold{background:linear-gradient(90deg,#2E6FA8,#4A90C9)}
+.prob-bar-fill.nogo{background:linear-gradient(90deg,var(--bad),#E87A7A)}
+.prob-scale{display:flex;justify-content:space-between;font-size:.64rem;font-weight:800;color:var(--idle);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+.prob-meta{display:flex;flex-wrap:wrap;gap:18px;font-size:.8rem;color:var(--muted)}
+.prob-meta b{font-family:var(--fh);color:var(--navy);font-weight:800}
+.prob-formula{
+  font-family:var(--mono);font-size:.72rem;color:var(--muted);
+  background:#fff;border:1px solid var(--line);border-radius:8px;
+  padding:8px 12px;margin-top:12px;overflow-x:auto;white-space:nowrap;
+}
+
+/* Section headings in modal */
+.m-sec-title{
+  font-family:var(--fh);font-size:.74rem;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin:24px 0 12px;
+  display:flex;align-items:center;gap:10px;
+}
+.m-sec-title::after{content:'';flex:1;height:1px;background:var(--line)}
+
+/* Criteria */
+.crit-list{display:flex;flex-direction:column;gap:8px}
+.crit-row{
+  display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;
+  background:#fff;border:1.5px solid var(--line);border-radius:10px;
+  padding:12px 16px;cursor:pointer;transition:.22s;
+}
+.crit-row:hover{border-color:var(--teal);background:#F8FDFD}
+.crit-row.verified{border-color:rgba(30,158,106,.4);background:rgba(30,158,106,.04)}
+.crit-row.assumed{border-color:rgba(232,163,61,.45);background:rgba(232,163,61,.05)}
+@media(max-width:680px){.crit-row{grid-template-columns:auto 1fr;gap:10px}.crit-score,.crit-weight{grid-column:2}}
+.crit-check{
+  width:22px;height:22px;border-radius:6px;border:2px solid var(--line);
+  display:grid;place-items:center;flex-shrink:0;transition:.2s;
+  font-size:.8rem;color:transparent;font-weight:900;
+}
+.crit-row.verified .crit-check{background:var(--ok);border-color:var(--ok);color:#fff}
+.crit-row.assumed .crit-check{background:transparent;border-color:var(--warn);color:var(--warn)}
+.crit-label{font-size:.86rem;font-weight:600;color:var(--navy);line-height:1.35}
+.crit-label small{display:block;font-size:.72rem;color:var(--muted);font-weight:500;margin-top:2px}
+.crit-score{
+  font-family:var(--fh);font-weight:800;font-size:.86rem;color:var(--navy);
+  background:var(--bg);padding:5px 11px;border-radius:8px;white-space:nowrap;
+}
+.crit-weight{
+  font-size:.72rem;font-weight:800;color:var(--muted);letter-spacing:.04em;
+  white-space:nowrap;
+}
+
+/* Pros / cons */
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:680px){.pc-grid{grid-template-columns:1fr}}
+.pc-card{
+  background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;
+  border-top:3px solid var(--ok);
+}
+.pc-card.cons{border-top-color:var(--bad)}
+.pc-card h4{
+  margin:0 0 12px;font-size:.86rem;color:var(--navy);
+  display:flex;align-items:center;gap:8px;font-family:var(--fh);
+}
+.pc-card ul{list-style:none;padding:0;margin:0}
+.pc-card li{
+  position:relative;padding-left:22px;margin-bottom:9px;font-size:.84rem;
+  color:#33475b;line-height:1.45;
+}
+.pc-card li:last-child{margin-bottom:0}
+.pc-card.pros li::before{
+  content:'✓';position:absolute;left:0;top:0;color:var(--ok);font-weight:900;font-size:.8rem;
+}
+.pc-card.cons li::before{
+  content:'!';position:absolute;left:2px;top:0;color:var(--bad);font-weight:900;font-size:.86rem;
+}
+
+/* EV / calculations */
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
+@media(max-width:680px){.ev-grid{grid-template-columns:1fr}}
+.ev-card{
+  background:linear-gradient(135deg,#F8FBFC,#FFFFFF);border:1px solid var(--line);
+  border-radius:12px;padding:16px 18px;
+}
+.ev-card.highlight{
+  background:linear-gradient(135deg,#0B2545,#12345F);border-color:var(--navy);color:#fff;
+}
+.ev-card.highlight .ev-label{color:rgba(255,255,255,.65)}
+.ev-card.highlight .ev-val{color:var(--gold-2)}
+.ev-card.highlight .ev-sub{color:rgba(255,255,255,.6)}
+.ev-label{font-size:.66rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ev-val{font-family:var(--fh);font-weight:800;font-size:1.25rem;color:var(--navy);line-height:1.15}
+.ev-sub{font-size:.72rem;color:var(--muted);margin-top:3px;line-height:1.4}
+.ev-formula{
+  font-family:var(--mono);font-size:.7rem;color:var(--muted);
+  background:#fff;border:1px solid var(--line);border-radius:8px;
+  padding:8px 12px;margin-top:12px;overflow-x:auto;white-space:nowrap;
+}
+.ev-card.highlight .ev-formula{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+
+/* Scenario bar */
+.scenario-bar{
+  display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+  background:var(--bg);border:1px solid var(--line);border-radius:100px;
+  padding:7px 10px;margin-bottom:20px;
+}
+.scenario-bar > span{
+  font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);padding:0 8px 0 6px;
+}
+.sc-btn{
+  background:#fff;border:1.5px solid var(--line);border-radius:100px;
+  padding:7px 16px;font-family:var(--ff);font-size:.76rem;font-weight:700;
+  color:var(--muted);cursor:pointer;transition:.2s;
+}
+.sc-btn:hover{border-color:var(--teal);color:var(--teal)}
+.sc-btn[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.sc-btn.resolve{margin-left:auto;background:linear-gradient(135deg,var(--teal),#14818a);border-color:var(--teal);color:#fff}
+.sc-btn.resolve:hover{background:linear-gradient(135deg,#14818a,#0d6f77);color:#fff}
+
+/* Modal footer */
+.modal-foot{
+  padding:18px 32px;border-top:1px solid var(--line);background:#FAFBFC;
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+}
+@media(max-width:680px){.modal-foot{padding:16px 20px}}
+.modal-foot .mf-note{font-size:.76rem;color:var(--muted);max-width:52ch}
+.modal-foot .mf-note b{color:var(--navy);font-family:var(--fh)}
+.mf-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-sm{
+  font-family:var(--ff);font-weight:800;font-size:.8rem;padding:10px 20px;
+  border-radius:100px;border:none;cursor:pointer;transition:.22s;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.btn-sm.primary{background:var(--navy);color:#fff}
+.btn-sm.primary:hover{background:var(--navy-3);transform:translateY(-1px)}
+.btn-sm.ghost{background:#fff;border:1.5px solid var(--line);color:var(--navy)}
+.btn-sm.ghost:hover{border-color:var(--navy)}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
   .reveal{opacity:1;transform:none}
   html{scroll-behavior:auto}
 }
-
-/* ============ PRINT ============ */
 @media print{
-  .topbar,.cta-foot,.expand-btn,.status-btn,.metric-tabs,.flow{display:none !important}
+  .topbar,.cta-foot,.expand-btn,.status-btn,.metric-tabs,.flow,.mon-actions,.analyze-btn{display:none !important}
   body{background:#fff;font-size:10pt}
+  .modal-backdrop{display:none !important}
   section{padding:16px 0;page-break-inside:avoid}
   .hero{background:#0B2545 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:22px 0}
   .hero .wrap{grid-template-columns:1fr}
   .orbit{display:none}
-  .card,.gate,.risk,.stage-panel,.gantt{box-shadow:none;border:1px solid #ccc}
-  .pipe-body,.gate-crit{display:block !important}
-  a[href]::after{content:' (' attr(href) ')';font-size:8pt;color:#666}
+  .card,.gate,.risk,.stage-panel,.gantt,.tracker-card,.chart-card,.trigger-wrap,.checkpoint-wrap,.incident-wrap,.th-card{box-shadow:none;border:1px solid #ccc}
 }
 </style>
 </head>
@@ -494,22 +678,13 @@ footer a{color:var(--teal-2)}
 
 <a class="skip" href="#main">Skip to content</a>
 
-<!-- ================= TOPBAR ================= -->
 <header class="topbar">
   <div class="wrap">
-    <div class="brand">
-      <span class="dot" aria-hidden="true">🎓</span>
-      <span>Faculty Affairs · AI Lifecycle</span>
-    </div>
+    <div class="brand"><span class="dot" aria-hidden="true">🎓</span><span>Faculty Affairs · AI Lifecycle</span></div>
     <nav class="navlinks" aria-label="Section navigation">
-      <a href="#decision">Decision</a>
-      <a href="#lifecycle">Lifecycle</a>
-      <a href="#stages">Stages</a>
-      <a href="#gates">Gates</a>
-      <a href="#risks">Risks</a>
-      <a href="#governance">Governance</a>
-      <a href="#roadmap">Roadmap</a>
-      <a href="#ask">Ask</a>
+      <a href="#decision">Decision</a><a href="#lifecycle">Lifecycle</a><a href="#stages">Stages</a>
+      <a href="#gates">Gates</a><a href="#risks">Risks</a><a href="#governance">Governance</a>
+      <a href="#roadmap">Roadmap</a><a href="#monitoring">Monitoring</a><a href="#ask">Ask</a>
     </nav>
   </div>
   <div class="progress-rail" id="rail" role="presentation"></div>
@@ -517,34 +692,24 @@ footer a{color:var(--teal-2)}
 
 <main id="main">
 
-<!-- ================= HERO ================= -->
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap">
     <div>
       <span class="hero-badge">● Lifecycle Plan · 12-Week Pilot</span>
       <h1 id="hero-title">Faculty Affairs <span class="accent">AI Assistant</span><br>&amp; Insights Hub</h1>
-      <p class="lede">
-        Responsible AI that resolves faculty and staff inquiries, triages workflows, and turns
-        operational insight into better process, workforce planning, and faculty experience.
-      </p>
+      <p class="lede">Responsible AI that resolves faculty and staff inquiries, triages workflows, and turns operational insight into better process, workforce planning, and faculty experience.</p>
       <div class="hero-meta">
-        <span class="chip">🎯 Containment ≥ 40%</span>
-        <span class="chip">⭐ Faculty experience ≥ 4.5/5</span>
-        <span class="chip">✅ Guidance accuracy ≥ 99%</span>
-        <span class="chip gold">🛡 Escalation recall ≥ 95%</span>
+        <span class="chip">🎯 Containment ≥ 40%</span><span class="chip">⭐ Faculty experience ≥ 4.5/5</span>
+        <span class="chip">✅ Guidance accuracy ≥ 99%</span><span class="chip gold">🛡 Escalation recall ≥ 95%</span>
       </div>
       <div class="hero-meta" style="margin-top:22px">
-        <a class="btn" href="#ask">Review the ask →</a>
-        <a class="btn ghost" href="#lifecycle">Jump to lifecycle</a>
+        <a class="btn" href="#gates">Open gate analysis →</a>
+        <a class="btn ghost" href="#monitoring">Live monitoring</a>
       </div>
     </div>
-
-    <div class="orbit" role="img" aria-label="Hub-and-spoke diagram: AI assistant at the center of six faculty affairs domains — policy, leaves, promotions, onboarding, workload, and benefits.">
-      <div class="ring r3"></div>
-      <div class="ring r1"></div>
-      <div class="ring r2"></div>
+    <div class="orbit" role="img" aria-label="Hub-and-spoke diagram: AI assistant at the center of six faculty affairs domains.">
+      <div class="ring r3"></div><div class="ring r1"></div><div class="ring r2"></div>
       <div class="orb-core">AI<br>Assistant</div>
-
       <div class="orb" style="top:14.3%;left:50%;animation-delay:.10s"><i>📘</i><span>Policy</span></div>
       <div class="orb" style="top:32.1%;left:81%;animation-delay:.20s"><i>🌿</i><span>Leaves</span></div>
       <div class="orb" style="top:67.9%;left:81%;animation-delay:.30s"><i>🏅</i><span>Promotions</span></div>
@@ -555,16 +720,11 @@ footer a{color:var(--teal-2)}
   </div>
 </section>
 
-<!-- ================= DECISION ================= -->
 <section id="decision" class="tint" aria-labelledby="dec-title">
   <div class="wrap">
     <p class="eyebrow reveal">Stage 0 · The Decision</p>
     <h2 class="sec-title reveal" id="dec-title">One decision, three paths, measurable outcomes</h2>
-    <p class="sec-lede reveal">
-      For every inbound inquiry, the system decides <strong>auto-resolve</strong>,
-      <strong>agent-assist</strong>, or <strong>human escalation</strong> — and when to retrain or roll back.
-      Aggregated trends feed process improvement and workforce planning.
-    </p>
+    <p class="sec-lede reveal">For every inbound inquiry, the system decides <strong>auto-resolve</strong>, <strong>agent-assist</strong>, or <strong>human escalation</strong> — and when to retrain or roll back.</p>
 
     <div class="decision-grid">
       <div class="card reveal">
@@ -581,53 +741,36 @@ footer a{color:var(--teal-2)}
           </div>
         </div>
       </div>
-
       <div class="reveal">
         <h3 style="font-size:1.05rem;color:var(--navy);margin-bottom:18px">Target KPI dashboard</h3>
         <div class="gauges">
           <div class="card gauge-card">
             <div class="gauge-wrap">
-              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
-                <circle class="g-bg" cx="60" cy="60" r="52"></circle>
-                <circle class="g-val" cx="60" cy="60" r="52" data-pct="40"></circle>
-              </svg>
+              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"></circle><circle class="g-val" cx="60" cy="60" r="52" data-pct="40"></circle></svg>
               <span class="gauge-num">40%</span>
             </div>
-            <div class="gauge-label">Containment</div>
-            <div class="gauge-sub">Baseline: 0%</div>
+            <div class="gauge-label">Containment</div><div class="gauge-sub">Baseline: 0%</div>
           </div>
           <div class="card gauge-card">
             <div class="gauge-wrap">
-              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
-                <circle class="g-bg" cx="60" cy="60" r="52"></circle>
-                <circle class="g-val" cx="60" cy="60" r="52" data-pct="90"></circle>
-              </svg>
+              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"></circle><circle class="g-val" cx="60" cy="60" r="52" data-pct="90"></circle></svg>
               <span class="gauge-num">4.5</span>
             </div>
-            <div class="gauge-label">Faculty experience</div>
-            <div class="gauge-sub">out of 5.0</div>
+            <div class="gauge-label">Faculty experience</div><div class="gauge-sub">out of 5.0</div>
           </div>
           <div class="card gauge-card">
             <div class="gauge-wrap">
-              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
-                <circle class="g-bg" cx="60" cy="60" r="52"></circle>
-                <circle class="g-val" cx="60" cy="60" r="52" data-pct="99"></circle>
-              </svg>
+              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"></circle><circle class="g-val" cx="60" cy="60" r="52" data-pct="99"></circle></svg>
               <span class="gauge-num">99%</span>
             </div>
-            <div class="gauge-label">Guidance accuracy</div>
-            <div class="gauge-sub">incorrect &lt; 1%</div>
+            <div class="gauge-label">Guidance accuracy</div><div class="gauge-sub">incorrect &lt; 1%</div>
           </div>
           <div class="card gauge-card">
             <div class="gauge-wrap">
-              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
-                <circle class="g-bg" cx="60" cy="60" r="52"></circle>
-                <circle class="g-val" cx="60" cy="60" r="52" data-pct="95"></circle>
-              </svg>
+              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"></circle><circle class="g-val" cx="60" cy="60" r="52" data-pct="95"></circle></svg>
               <span class="gauge-num">95%</span>
             </div>
-            <div class="gauge-label">Escalation recall</div>
-            <div class="gauge-sub">no missed handoffs</div>
+            <div class="gauge-label">Escalation recall</div><div class="gauge-sub">no missed handoffs</div>
           </div>
         </div>
       </div>
@@ -635,339 +778,105 @@ footer a{color:var(--teal-2)}
   </div>
 </section>
 
-<!-- ================= LIFECYCLE FLOW ================= -->
 <section id="lifecycle" aria-labelledby="lc-title">
   <div class="wrap">
     <p class="eyebrow reveal">Lifecycle</p>
     <h2 class="sec-title reveal" id="lc-title">Six stages · one deliverable each</h2>
     <p class="sec-lede reveal">Select a stage to see its deliverable, activities, exit criteria, and owners.</p>
-
     <div class="flow reveal" role="tablist" aria-label="Lifecycle stages" id="flowTabs">
-      <button class="flow-btn" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true" data-stage="1">
-        <span class="fb-num">01</span><span class="fb-ico">🎯</span><span class="fb-name">Problem definition</span>
-      </button>
-      <button class="flow-btn" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" data-stage="2">
-        <span class="fb-num">02</span><span class="fb-ico">🗂</span><span class="fb-name">Data readiness</span>
-      </button>
-      <button class="flow-btn" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" data-stage="3">
-        <span class="fb-num">03</span><span class="fb-ico">🧠</span><span class="fb-name">Model development</span>
-      </button>
-      <button class="flow-btn" role="tab" id="tab-4" aria-controls="panel-4" aria-selected="false" data-stage="4">
-        <span class="fb-num">04</span><span class="fb-ico">🛡</span><span class="fb-name">Validation</span>
-      </button>
-      <button class="flow-btn" role="tab" id="tab-5" aria-controls="panel-5" aria-selected="false" data-stage="5">
-        <span class="fb-num">05</span><span class="fb-ico">🚀</span><span class="fb-name">Deployment</span>
-      </button>
-      <button class="flow-btn" role="tab" id="tab-6" aria-controls="panel-6" aria-selected="false" data-stage="6">
-        <span class="fb-num">06</span><span class="fb-ico">📊</span><span class="fb-name">Monitoring</span>
-      </button>
+      <button class="flow-btn" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true" data-stage="1"><span class="fb-num">01</span><span class="fb-ico">🎯</span><span class="fb-name">Problem definition</span></button>
+      <button class="flow-btn" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" data-stage="2"><span class="fb-num">02</span><span class="fb-ico">🗂</span><span class="fb-name">Data readiness</span></button>
+      <button class="flow-btn" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" data-stage="3"><span class="fb-num">03</span><span class="fb-ico">🧠</span><span class="fb-name">Model development</span></button>
+      <button class="flow-btn" role="tab" id="tab-4" aria-controls="panel-4" aria-selected="false" data-stage="4"><span class="fb-num">04</span><span class="fb-ico">🛡</span><span class="fb-name">Validation</span></button>
+      <button class="flow-btn" role="tab" id="tab-5" aria-controls="panel-5" aria-selected="false" data-stage="5"><span class="fb-num">05</span><span class="fb-ico">🚀</span><span class="fb-name">Deployment</span></button>
+      <button class="flow-btn" role="tab" id="tab-6" aria-controls="panel-6" aria-selected="false" data-stage="6"><span class="fb-num">06</span><span class="fb-ico">📊</span><span class="fb-name">Monitoring</span></button>
     </div>
   </div>
 </section>
 
-<!-- ================= STAGE DETAIL ================= -->
 <section id="stages" class="tint" style="padding-top:0;border-top:none" aria-label="Stage details">
   <div class="wrap">
-
-    <!-- STAGE 1 -->
     <div class="stage-panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0">
-      <div class="sp-head">
-        <div>
-          <p class="eyebrow" style="margin-bottom:6px">Stage 01</p>
-          <h3>Problem definition</h3>
-        </div>
-        <span class="sp-deliv">📄 Decision Charter &amp; KPI Tree</span>
-      </div>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px">Stage 01</p><h3>Problem definition</h3></div><span class="sp-deliv">📄 Decision Charter &amp; KPI Tree</span></div>
       <div class="sp-cols">
-        <div>
-          <h4>What happens</h4>
-          <ul class="sp-list">
-            <li>Define the decision: auto-resolve, agent-assist, or human escalation.</li>
-            <li>Map current-state workflows across policy, leaves, promotions, onboarding, workload, benefits.</li>
-            <li>Set decision rights, baseline metrics, targets, and guardrails.</li>
-            <li>Build the KPI tree: containment · accuracy · speed · experience · compliance.</li>
-            <li>Quantify ROI and the funding case for pilot.</li>
-          </ul>
-          <div class="owner-row">
-            <span class="owner">Owner: Faculty Affairs Strategy</span>
-            <span class="owner">Approver: VP / Dean</span>
-          </div>
-        </div>
-        <div>
-          <h4>Exit criteria</h4>
-          <div class="exit-chips">
-            <span>Decision documented</span>
-            <span>KPI measurable &amp; &gt; baseline</span>
-            <span>Named owner</span>
-            <span>ROI approved</span>
-          </div>
-        </div>
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Define the decision: auto-resolve, agent-assist, or human escalation.</li>
+          <li>Map current-state workflows across policy, leaves, promotions, onboarding, workload, benefits.</li>
+          <li>Set decision rights, baseline metrics, targets, and guardrails.</li>
+          <li>Build the KPI tree: containment · accuracy · speed · experience · compliance.</li>
+          <li>Quantify ROI and the funding case for pilot.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Faculty Affairs Strategy</span><span class="owner">Approver: VP / Dean</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips"><span>Decision documented</span><span>KPI measurable &amp; &gt; baseline</span><span>Named owner</span><span>ROI approved</span></div></div>
       </div>
     </div>
-
-    <!-- STAGE 2 -->
     <div class="stage-panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" tabindex="0" hidden>
-      <div class="sp-head">
-        <div>
-          <p class="eyebrow" style="margin-bottom:6px">Stage 02</p>
-          <h3>Data readiness</h3>
-        </div>
-        <span class="sp-deliv">🗂 Data &amp; Governance Pack</span>
-      </div>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px">Stage 02</p><h3>Data readiness</h3></div><span class="sp-deliv">🗂 Data &amp; Governance Pack</span></div>
       <div class="sp-cols">
-        <div>
-          <h4>What happens</h4>
-          <ul class="sp-list">
-            <li>Inventory sources: HRIS, faculty records, policy documents, ticket history.</li>
-            <li>Secure access approvals and role-based permissions.</li>
-            <li>Complete PII classification, DPIA, retention, and audit logging.</li>
-            <li>Score data quality to ≥ 95%; build taxonomy and intent map.</li>
-            <li>Write labeling guide; validate with inter-rater agreement κ &gt; 0.8.</li>
-          </ul>
-          <div class="owner-row">
-            <span class="owner">Owner: Data &amp; Digital Strategy</span>
-            <span class="owner">Partner: IT · Legal · Security</span>
-          </div>
-        </div>
-        <div>
-          <h4>Exit criteria</h4>
-          <div class="exit-chips">
-            <span>Access approved</span>
-            <span>Quality ≥ 95%</span>
-            <span>κ &gt; 0.8</span>
-            <span>DPIA signed</span>
-            <span>Retention defined</span>
-          </div>
-        </div>
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Inventory sources: HRIS, faculty records, policy documents, ticket history.</li>
+          <li>Secure access approvals and role-based permissions.</li>
+          <li>Complete PII classification, DPIA, retention, and audit logging.</li>
+          <li>Score data quality to ≥ 95%; build taxonomy and intent map.</li>
+          <li>Write labeling guide; validate with inter-rater agreement κ &gt; 0.8.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Data &amp; Digital Strategy</span><span class="owner">Partner: IT · Legal · Security</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips"><span>Access approved</span><span>Quality ≥ 95%</span><span>κ &gt; 0.8</span><span>DPIA signed</span><span>Retention defined</span></div></div>
       </div>
     </div>
-
-    <!-- STAGE 3 -->
     <div class="stage-panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3" tabindex="0" hidden>
-      <div class="sp-head">
-        <div>
-          <p class="eyebrow" style="margin-bottom:6px">Stage 03</p>
-          <h3>Model development</h3>
-        </div>
-        <span class="sp-deliv">🧠 Model Card &amp; Benchmark Report</span>
-      </div>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px">Stage 03</p><h3>Model development</h3></div><span class="sp-deliv">🧠 Model Card &amp; Benchmark Report</span></div>
       <div class="sp-cols">
-        <div>
-          <h4>What happens</h4>
-          <ul class="sp-list">
-            <li>Build baselines: rules engine, search/FAQ, and current human handling.</li>
-            <li>Build candidates: retrieval-augmented generation (RAG) over governed policy corpus.</li>
-            <li>Benchmark accuracy, hallucination, latency, cost per chat, and integration fit.</li>
-            <li>Publish a model card documenting data, limits, and intended use.</li>
-          </ul>
-          <div class="owner-row">
-            <span class="owner">Owner: ML Engineering</span>
-            <span class="owner">Partner: IT · Consultants</span>
-          </div>
-        </div>
-        <div>
-          <h4>Exit criteria</h4>
-          <div class="exit-chips">
-            <span>+10% vs baseline</span>
-            <span>Hallucination ≤ 1%</span>
-            <span>Latency &lt; 2s</span>
-            <span>Cost &lt; $0.10/chat</span>
-          </div>
-        </div>
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Build baselines: rules engine, search/FAQ, and current human handling.</li>
+          <li>Build candidates: retrieval-augmented generation (RAG) over governed policy corpus.</li>
+          <li>Benchmark accuracy, hallucination, latency, cost per chat, and integration fit.</li>
+          <li>Publish a model card documenting data, limits, and intended use.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: ML Engineering</span><span class="owner">Partner: IT · Consultants</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips"><span>+10% vs baseline</span><span>Hallucination ≤ 1%</span><span>Latency &lt; 2s</span><span>Cost &lt; $0.10/chat</span></div></div>
       </div>
     </div>
-
-    <!-- STAGE 4 -->
     <div class="stage-panel" id="panel-4" role="tabpanel" aria-labelledby="tab-4" tabindex="0" hidden>
-      <div class="sp-head">
-        <div>
-          <p class="eyebrow" style="margin-bottom:6px">Stage 04</p>
-          <h3>Validation</h3>
-        </div>
-        <span class="sp-deliv">✅ Validation Report</span>
-      </div>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px">Stage 04</p><h3>Validation</h3></div><span class="sp-deliv">✅ Validation Report</span></div>
       <div class="sp-cols">
-        <div>
-          <h4>What happens</h4>
-          <ul class="sp-list">
-            <li>Evaluate against a frozen golden set of real faculty inquiries.</li>
-            <li>Red-team for prompt injection, jailbreaks, and policy misuse.</li>
-            <li>Test bias and fairness across faculty rank, department, and demographics.</li>
-            <li>Run a shadow pilot — AI answers scored, but not shown to faculty.</li>
-            <li>Obtain Legal, Security, and Accessibility sign-off.</li>
-          </ul>
-          <div class="owner-row">
-            <span class="owner">Owner: Validation &amp; Risk</span>
-            <span class="owner">Sign-off: Legal · Security</span>
-          </div>
-        </div>
-        <div>
-          <h4>Exit criteria</h4>
-          <div class="exit-chips">
-            <span>Red-team pass</span>
-            <span>Recall ≥ 95%</span>
-            <span>Incorrect &lt; 1%</span>
-            <span>No Sev-1/2 risks</span>
-          </div>
-        </div>
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Evaluate against a frozen golden set of real faculty inquiries.</li>
+          <li>Red-team for prompt injection, jailbreaks, and policy misuse.</li>
+          <li>Test bias and fairness across faculty rank, department, and demographics.</li>
+          <li>Run a shadow pilot — AI answers scored, but not shown to faculty.</li>
+          <li>Obtain Legal, Security, and Accessibility sign-off.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Validation &amp; Risk</span><span class="owner">Sign-off: Legal · Security</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips"><span>Red-team pass</span><span>Recall ≥ 95%</span><span>Incorrect &lt; 1%</span><span>No Sev-1/2 risks</span></div></div>
       </div>
     </div>
-
-    <!-- STAGE 5 -->
     <div class="stage-panel" id="panel-5" role="tabpanel" aria-labelledby="tab-5" tabindex="0" hidden>
-      <div class="sp-head">
-        <div>
-          <p class="eyebrow" style="margin-bottom:6px">Stage 05</p>
-          <h3>Deployment</h3>
-        </div>
-        <span class="sp-deliv">🚀 Release &amp; Rollback Runbook</span>
-      </div>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px">Stage 05</p><h3>Deployment</h3></div><span class="sp-deliv">🚀 Release &amp; Rollback Runbook</span></div>
       <div class="sp-cols">
-        <div>
-          <h4>What happens</h4>
-          <ul class="sp-list">
-            <li>Integrate with CRM, ITSM, faculty portal, and HRIS.</li>
-            <li>Release progressively: canary → 2-week pilot → scale.</li>
-            <li>Ship behind feature flags with a tested rollback in under 15 minutes.</li>
-            <li>Train faculty affairs staff and pilot champions; publish AI disclosure.</li>
-          </ul>
-          <div class="owner-row">
-            <span class="owner">Owner: IT &amp; Faculty Affairs Ops</span>
-            <span class="owner">Comms: Faculty Affairs</span>
-          </div>
-        </div>
-        <div>
-          <h4>Exit criteria</h4>
-          <div class="exit-chips">
-            <span>Pilot meets KPI</span>
-            <span>Experience ≥ 4.5</span>
-            <span>Rollback &lt; 15 min</span>
-            <span>Ops owner named</span>
-          </div>
-        </div>
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Integrate with CRM, ITSM, faculty portal, and HRIS.</li>
+          <li>Release progressively: canary → 2-week pilot → scale.</li>
+          <li>Ship behind feature flags with a tested rollback in under 15 minutes.</li>
+          <li>Train faculty affairs staff and pilot champions; publish AI disclosure.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: IT &amp; Faculty Affairs Ops</span><span class="owner">Comms: Faculty Affairs</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips"><span>Pilot meets KPI</span><span>Experience ≥ 4.5</span><span>Rollback &lt; 15 min</span><span>Ops owner named</span></div></div>
       </div>
     </div>
-
-    <!-- STAGE 6 -->
     <div class="stage-panel" id="panel-6" role="tabpanel" aria-labelledby="tab-6" tabindex="0" hidden>
-      <div class="sp-head">
-        <div>
-          <p class="eyebrow" style="margin-bottom:6px">Stage 06</p>
-          <h3>Monitoring</h3>
-        </div>
-        <span class="sp-deliv">📊 Monitoring Dashboard &amp; Retraining Playbook</span>
-      </div>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px">Stage 06</p><h3>Monitoring</h3></div><span class="sp-deliv">📊 Monitoring Dashboard &amp; Retraining Playbook</span></div>
       <div class="sp-cols">
-        <div>
-          <h4>What happens</h4>
-          <ul class="sp-list">
-            <li>Track drift, hallucination rate, CSAT, containment, and escalation errors.</li>
-            <li>Alert on threshold breaches with automated incident routing.</li>
-            <li>Define retraining triggers: drift &gt; X, accuracy drop, policy change.</li>
-            <li>Feed aggregated trends into process improvement and workforce planning.</li>
-            <li>Maintain a monthly model review with named accountability.</li>
-          </ul>
-          <div class="owner-row">
-            <span class="owner">Owner: Data &amp; Digital Strategy</span>
-            <span class="owner">Partner: IT · Faculty Affairs Ops</span>
-          </div>
-        </div>
-        <div>
-          <h4>Exit criteria</h4>
-          <div class="exit-chips">
-            <span>Dashboard live</span>
-            <span>Triggers defined</span>
-            <span>Owner assigned</span>
-            <span>Monthly review set</span>
-          </div>
-        </div>
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Track drift, hallucination rate, CSAT, containment, and escalation errors.</li>
+          <li>Alert on threshold breaches with automated incident routing.</li>
+          <li>Define retraining triggers: drift &gt; X, accuracy drop, policy change.</li>
+          <li>Feed aggregated trends into process improvement and workforce planning.</li>
+          <li>Maintain a monthly model review with named accountability.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Data &amp; Digital Strategy</span><span class="owner">Partner: IT · Faculty Affairs Ops</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips"><span>Dashboard live</span><span>Triggers defined</span><span>Owner assigned</span><span>Monthly review set</span></div></div>
       </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- ================= MODEL CHART ================= -->
-<section id="model" aria-labelledby="model-title">
-  <div class="wrap">
-    <p class="eyebrow reveal">Stage 03 · Evidence</p>
-    <h2 class="sec-title reveal" id="model-title">Candidate models vs. baselines</h2>
-    <p class="sec-lede reveal">Toggle a metric to compare lanes. The RAG/LLM candidate must beat baseline by ≥10% relative on accuracy while staying inside guardrails.</p>
-
-    <div class="card reveal" style="padding:34px">
-      <div class="metric-tabs" role="group" aria-label="Select metric">
-        <button data-metric="accuracy" aria-pressed="true">Accuracy ↑</button>
-        <button data-metric="hallucination" aria-pressed="false">Hallucination ↓</button>
-        <button data-metric="cost" aria-pressed="false">Cost / chat ↓</button>
-        <button data-metric="latency" aria-pressed="false">Latency ↓</button>
-      </div>
-
-      <div class="bars" id="bars" aria-live="polite"></div>
-
-      <p class="bar-note">
-        <strong>Human baseline reference:</strong> 88% accuracy · 0.4% hallucination ·
-        $4.50 per interaction · ~180s first response. The AI must match human accuracy on
-        low-risk intents while escalating high-risk intents (promotion, tenure, leave, benefits) 100% of the time.
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- ================= DATA PIPELINE ================= -->
-<section id="pipeline" class="tint" aria-labelledby="pipe-title">
-  <div class="wrap">
-    <p class="eyebrow reveal">Stage 02 · Data &amp; Governance</p>
-    <h2 class="sec-title reveal" id="pipe-title">Four chambers of data readiness</h2>
-    <p class="sec-lede reveal">Click a chamber to expand its checklist. All four must be green before Stage 03 begins.</p>
-
-    <div class="pipe reveal" id="pipe">
-      <button class="pipe-btn" aria-expanded="true" aria-controls="pb-1">
-        <span class="pb-ico">🗄</span><span class="pb-t">Sources</span><span class="pb-s">Inventory</span>
-      </button>
-      <button class="pipe-btn" aria-expanded="false" aria-controls="pb-2">
-        <span class="pb-ico">🔑</span><span class="pb-t">Access</span><span class="pb-s">Approvals</span>
-      </button>
-      <button class="pipe-btn" aria-expanded="false" aria-controls="pb-3">
-        <span class="pb-ico">📐</span><span class="pb-t">Quality</span><span class="pb-s">≥ 95%</span>
-      </button>
-      <button class="pipe-btn" aria-expanded="false" aria-controls="pb-4">
-        <span class="pb-ico">🛡</span><span class="pb-t">Governance</span><span class="pb-s">PII · DPIA</span>
-      </button>
-    </div>
-
-    <div class="pipe-body open" id="pb-1">
-      <h4 style="color:var(--navy);font-family:var(--fh);margin-top:0">Source inventory</h4>
-      <ul>
-        <li><strong>HRIS</strong> — appointments, ranks, tenure status, leave balances.</li>
-        <li><strong>Faculty records</strong> — promotion and reappointment dossiers, workload assignments.</li>
-        <li><strong>Policy corpus</strong> — handbooks, collective agreements, procedure documents.</li>
-        <li><strong>Ticket history</strong> — 24 months of inquiries with resolution outcomes.</li>
-      </ul>
-    </div>
-    <div class="pipe-body" id="pb-2">
-      <h4 style="color:var(--navy);font-family:var(--fh);margin-top:0">Access &amp; approvals</h4>
-      <ul>
-        <li>Formal data-sharing agreements with HRIS and IT system owners.</li>
-        <li>Role-based access control; least-privilege for model and analytics users.</li>
-        <li>Service accounts with scoped, auditable read-only permissions.</li>
-      </ul>
-    </div>
-    <div class="pipe-body" id="pb-3">
-      <h4 style="color:var(--navy);font-family:var(--fh);margin-top:0">Quality &amp; labeling</h4>
-      <ul>
-        <li>Completeness, freshness, and duplication scoring to a ≥95% threshold.</li>
-        <li>Canonical taxonomy and intent map across all six domains.</li>
-        <li>Labeling guide with dual-annotation QA; target κ &gt; 0.8.</li>
-      </ul>
-    </div>
-    <div class="pipe-body" id="pb-4">
-      <h4 style="color:var(--navy);font-family:var(--fh);margin-top:0">Governance &amp; privacy</h4>
-      <ul>
-        <li>Data classification with PII redaction before model ingestion.</li>
-        <li>DPIA completed and signed; retention schedule documented.</li>
-        <li>Immutable audit logs for every query, response, and escalation.</li>
-        <li>Workforce insights reported in aggregate only.</li>
-      </ul>
     </div>
   </div>
 </section>
@@ -978,28 +887,26 @@ footer a{color:var(--teal-2)}
     <p class="eyebrow reveal">Governance</p>
     <h2 class="sec-title reveal" id="gates-title">Five stage gates — go / no-go</h2>
     <p class="sec-lede reveal">
-      Expand a gate for acceptance criteria. Click the status chip to cycle
-      <strong>Not started → At risk → Go → No-go</strong>. Status is saved in your browser.
+      Click <strong>“Open decision analysis”</strong> on any gate to see its live recommendation, probability of success,
+      weighted criteria, pros &amp; cons, and expected value. Toggle criteria on/off and the numbers recalculate instantly.
     </p>
 
     <div class="gate-grid" id="gateGrid">
-
       <article class="gate reveal" data-status="idle" data-gate="G1">
         <div class="gate-id">G1</div>
         <div>
           <h4>Problem–Solution Fit</h4>
           <p>Sponsor approves decision, KPI, baseline, ROI, and owner.</p>
           <button class="expand-btn" aria-expanded="false">Criteria</button>
-          <div class="gate-crit">
-            <ul>
-              <li>Decision and decision rights documented.</li>
-              <li>KPI measurable and strictly better than baseline.</li>
-              <li>Single accountable owner named.</li>
-              <li>No-go if scope or ownership is unclear.</li>
-            </ul>
-          </div>
+          <div class="gate-crit"><ul>
+            <li>Decision and decision rights documented.</li>
+            <li>KPI measurable and strictly better than baseline.</li>
+            <li>Single accountable owner named.</li>
+            <li>No-go if scope or ownership is unclear.</li>
+          </ul></div>
         </div>
         <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G1">📊 Open decision analysis</button>
           <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
         </div>
       </article>
@@ -1010,16 +917,15 @@ footer a{color:var(--teal-2)}
           <h4>Data Readiness</h4>
           <p>Access, quality, labeling, and privacy all cleared.</p>
           <button class="expand-btn" aria-expanded="false">Criteria</button>
-          <div class="gate-crit">
-            <ul>
-              <li>All source access approved in writing.</li>
-              <li>Data quality ≥ 95%; inter-rater agreement κ &gt; 0.8.</li>
-              <li>PII classification, DPIA, and retention signed off.</li>
-              <li>No-go if privacy or retention is unresolved.</li>
-            </ul>
-          </div>
+          <div class="gate-crit"><ul>
+            <li>All source access approved in writing.</li>
+            <li>Data quality ≥ 95%; inter-rater agreement κ &gt; 0.8.</li>
+            <li>PII classification, DPIA, and retention signed off.</li>
+            <li>No-go if privacy or retention is unresolved.</li>
+          </ul></div>
         </div>
         <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G2">📊 Open decision analysis</button>
           <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
         </div>
       </article>
@@ -1030,15 +936,14 @@ footer a{color:var(--teal-2)}
           <h4>Model Build</h4>
           <p>Candidate beats baseline inside cost and latency limits.</p>
           <button class="expand-btn" aria-expanded="false">Criteria</button>
-          <div class="gate-crit">
-            <ul>
-              <li>≥ 10% relative improvement in resolution accuracy vs baseline.</li>
-              <li>Hallucination ≤ 1%; latency &lt; 2s; cost &lt; $0.10 per chat.</li>
-              <li>Model card published with intended use and limits.</li>
-            </ul>
-          </div>
+          <div class="gate-crit"><ul>
+            <li>≥ 10% relative improvement in resolution accuracy vs baseline.</li>
+            <li>Hallucination ≤ 1%; latency &lt; 2s; cost &lt; $0.10 per chat.</li>
+            <li>Model card published with intended use and limits.</li>
+          </ul></div>
         </div>
         <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G3">📊 Open decision analysis</button>
           <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
         </div>
       </article>
@@ -1049,16 +954,15 @@ footer a{color:var(--teal-2)}
           <h4>Validation &amp; Risk</h4>
           <p>Safety, fairness, and escalation reliability proven.</p>
           <button class="expand-btn" aria-expanded="false">Criteria</button>
-          <div class="gate-crit">
-            <ul>
-              <li>Red-team pass with no open critical findings.</li>
-              <li>Escalation recall ≥ 95%; incorrect guidance &lt; 1%.</li>
-              <li>Faculty experience non-inferior to human-only in shadow pilot.</li>
-              <li>Security and Legal sign-off; no Sev-1 or Sev-2 risks.</li>
-            </ul>
-          </div>
+          <div class="gate-crit"><ul>
+            <li>Red-team pass with no open critical findings.</li>
+            <li>Escalation recall ≥ 95%; incorrect guidance &lt; 1%.</li>
+            <li>Faculty experience non-inferior to human-only in shadow pilot.</li>
+            <li>Security and Legal sign-off; no Sev-1 or Sev-2 risks.</li>
+          </ul></div>
         </div>
         <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G4">📊 Open decision analysis</button>
           <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
         </div>
       </article>
@@ -1069,97 +973,68 @@ footer a{color:var(--teal-2)}
           <h4>Deployment Pilot</h4>
           <p>Two-week pilot meets KPI with a proven rollback.</p>
           <button class="expand-btn" aria-expanded="false">Criteria</button>
-          <div class="gate-crit">
-            <ul>
-              <li>Containment ≥ 40% sustained across the pilot window.</li>
-              <li>Faculty experience ≥ 4.5/5.</li>
-              <li>Rollback tested end-to-end in under 15 minutes.</li>
-              <li>Operations owner assigned and on-call rota published.</li>
-            </ul>
-          </div>
+          <div class="gate-crit"><ul>
+            <li>Containment ≥ 40% sustained across the pilot window.</li>
+            <li>Faculty experience ≥ 4.5/5.</li>
+            <li>Rollback tested end-to-end in under 15 minutes.</li>
+            <li>Operations owner assigned and on-call rota published.</li>
+          </ul></div>
         </div>
         <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G5">📊 Open decision analysis</button>
           <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
         </div>
       </article>
-
     </div>
   </div>
 </section>
 
-<!-- ================= RISKS ================= -->
+<!-- RISKS -->
 <section id="risks" class="tint" aria-labelledby="risk-title">
   <div class="wrap">
     <p class="eyebrow reveal">Risk Register</p>
     <h2 class="sec-title reveal" id="risk-title">Three risks that matter most</h2>
-    <p class="sec-lede reveal">Each risk has a named owner, a mitigation set, and a signal that tells us it's materializing.</p>
-
+    <p class="sec-lede reveal">Each risk has a named owner, mitigation set, and an early-warning signal.</p>
     <div class="grid g3">
       <article class="risk reveal">
-        <div class="risk-head">
-          <span class="risk-ico" aria-hidden="true">🗄</span>
-          <div>
-            <h4>Data privacy &amp; PII exposure</h4>
-            <span class="sev">Severity: High</span>
-          </div>
-        </div>
+        <div class="risk-head"><span class="risk-ico" aria-hidden="true">🗄</span><div><h4>Data privacy &amp; PII exposure</h4><span class="sev">Severity: High</span></div></div>
         <div class="risk-body">
           <p>Faculty records contain sensitive personal, medical, and employment data. Improper handling risks regulatory breach and faculty trust.</p>
-          <h5>Mitigations</h5>
-          <ul>
+          <h5>Mitigations</h5><ul>
             <li>Data classification with PII redaction before ingestion.</li>
             <li>Role-based access control and least-privilege service accounts.</li>
             <li>DPIA, retention schedule, and immutable audit logs.</li>
             <li>Workforce insights reported only in aggregate.</li>
           </ul>
-          <h5>Early signal</h5>
-          <p style="font-size:.84rem;margin:0 0 16px">Unclassified field detected in ingestion pipeline.</p>
+          <h5>Early signal</h5><p style="font-size:.84rem;margin:0 0 16px">Unclassified field detected in ingestion pipeline.</p>
           <span class="owner-tag">Owner: Data Governance · Legal</span>
         </div>
       </article>
-
       <article class="risk reveal">
-        <div class="risk-head">
-          <span class="risk-ico" aria-hidden="true">🧩</span>
-          <div>
-            <h4>Hallucination &amp; incorrect guidance</h4>
-            <span class="sev">Severity: High</span>
-          </div>
-        </div>
+        <div class="risk-head"><span class="risk-ico" aria-hidden="true">🧩</span><div><h4>Hallucination &amp; incorrect guidance</h4><span class="sev">Severity: High</span></div></div>
         <div class="risk-body">
           <p>Confidently wrong answers about promotion timelines, leave entitlements, or benefits can cause real harm to faculty careers.</p>
-          <h5>Mitigations</h5>
-          <ul>
+          <h5>Mitigations</h5><ul>
             <li>Retrieval-augmented generation with mandatory citations.</li>
             <li>Confidence thresholds with refusal and graceful fallback.</li>
             <li>Human review for all high-risk intents.</li>
             <li>Continuous red-teaming and adversarial evaluation.</li>
           </ul>
-          <h5>Early signal</h5>
-          <p style="font-size:.84rem;margin:0 0 16px">Citation-missing responses or confidence below threshold trending up.</p>
+          <h5>Early signal</h5><p style="font-size:.84rem;margin:0 0 16px">Citation-missing responses or confidence below threshold trending up.</p>
           <span class="owner-tag">Owner: ML Engineering · Validation</span>
         </div>
       </article>
-
       <article class="risk reveal">
-        <div class="risk-head">
-          <span class="risk-ico" aria-hidden="true">👥</span>
-          <div>
-            <h4>Adoption &amp; trust</h4>
-            <span class="sev">Severity: Medium–High</span>
-          </div>
-        </div>
+        <div class="risk-head"><span class="risk-ico" aria-hidden="true">👥</span><div><h4>Adoption &amp; trust</h4><span class="sev">Severity: Medium–High</span></div></div>
         <div class="risk-body">
           <p>Faculty and staff may distrust automated guidance, bypass the tool, or perceive it as replacing human judgment.</p>
-          <h5>Mitigations</h5>
-          <ul>
+          <h5>Mitigations</h5><ul>
             <li>Co-design with faculty and staff from Stage 01.</li>
             <li>Pilot champions embedded in each school.</li>
             <li>Explicit AI disclosure and one-click escalation to a human.</li>
             <li>Publish time-savings and fairness metrics transparently.</li>
           </ul>
-          <h5>Early signal</h5>
-          <p style="font-size:.84rem;margin:0 0 16px">Escalation-on-first-message rate rising above 30%.</p>
+          <h5>Early signal</h5><p style="font-size:.84rem;margin:0 0 16px">Escalation-on-first-message rate rising above 30%.</p>
           <span class="owner-tag">Owner: Faculty Affairs Ops · Comms</span>
         </div>
       </article>
@@ -1167,170 +1042,229 @@ footer a{color:var(--teal-2)}
   </div>
 </section>
 
-<!-- ================= GOVERNANCE / RACI ================= -->
+<!-- GOVERNANCE -->
 <section id="governance" aria-labelledby="gov-title">
   <div class="wrap">
     <p class="eyebrow reveal">Governance</p>
     <h2 class="sec-title reveal" id="gov-title">RACI &amp; operating cadence</h2>
-    <p class="sec-lede reveal">
-      <strong>R</strong> = Responsible · <strong>A</strong> = Accountable ·
-      <strong>C</strong> = Consulted · <strong>I</strong> = Informed
-    </p>
-
+    <p class="sec-lede reveal"><strong>R</strong> = Responsible · <strong>A</strong> = Accountable · <strong>C</strong> = Consulted · <strong>I</strong> = Informed</p>
     <div class="raci-scroll reveal">
       <table class="raci">
         <caption class="sr">RACI matrix for the Faculty Affairs AI Assistant lifecycle</caption>
-        <thead>
-          <tr>
-            <th scope="col">Activity</th>
-            <th scope="col">Faculty Affairs</th>
-            <th scope="col">Data &amp; Digital</th>
-            <th scope="col">IT</th>
-            <th scope="col">Legal / Security</th>
-            <th scope="col">Consultants</th>
-          </tr>
-        </thead>
+        <thead><tr><th scope="col">Activity</th><th scope="col">Faculty Affairs</th><th scope="col">Data &amp; Digital</th><th scope="col">IT</th><th scope="col">Legal / Security</th><th scope="col">Consultants</th></tr></thead>
         <tbody>
-          <tr>
-            <th scope="row">Decision charter &amp; KPI</th>
-            <td><span class="rc A">A</span></td><td><span class="rc R">R</span></td>
-            <td><span class="rc C">C</span></td><td><span class="rc I">I</span></td><td><span class="rc C">C</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Data access &amp; DPIA</th>
-            <td><span class="rc C">C</span></td><td><span class="rc R">R</span></td>
-            <td><span class="rc R">R</span></td><td><span class="rc A">A</span></td><td><span class="rc C">C</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Model build &amp; benchmark</th>
-            <td><span class="rc C">C</span></td><td><span class="rc A">A</span></td>
-            <td><span class="rc R">R</span></td><td><span class="rc I">I</span></td><td><span class="rc R">R</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Validation &amp; red-team</th>
-            <td><span class="rc C">C</span></td><td><span class="rc R">R</span></td>
-            <td><span class="rc C">C</span></td><td><span class="rc A">A</span></td><td><span class="rc C">C</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Deployment &amp; rollback</th>
-            <td><span class="rc C">C</span></td><td><span class="rc C">C</span></td>
-            <td><span class="rc A">A</span></td><td><span class="rc C">C</span></td><td><span class="rc I">I</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Monitoring &amp; retraining</th>
-            <td><span class="rc C">C</span></td><td><span class="rc A">A</span></td>
-            <td><span class="rc R">R</span></td><td><span class="rc I">I</span></td><td><span class="rc I">I</span></td>
-          </tr>
-          <tr>
-            <th scope="row">Faculty communications</th>
-            <td><span class="rc A">A</span></td><td><span class="rc C">C</span></td>
-            <td><span class="rc I">I</span></td><td><span class="rc C">C</span></td><td><span class="rc I">I</span></td>
-          </tr>
+          <tr><th scope="row">Decision charter &amp; KPI</th><td><span class="rc A">A</span></td><td><span class="rc R">R</span></td><td><span class="rc C">C</span></td><td><span class="rc I">I</span></td><td><span class="rc C">C</span></td></tr>
+          <tr><th scope="row">Data access &amp; DPIA</th><td><span class="rc C">C</span></td><td><span class="rc R">R</span></td><td><span class="rc R">R</span></td><td><span class="rc A">A</span></td><td><span class="rc C">C</span></td></tr>
+          <tr><th scope="row">Model build &amp; benchmark</th><td><span class="rc C">C</span></td><td><span class="rc A">A</span></td><td><span class="rc R">R</span></td><td><span class="rc I">I</span></td><td><span class="rc R">R</span></td></tr>
+          <tr><th scope="row">Validation &amp; red-team</th><td><span class="rc C">C</span></td><td><span class="rc R">R</span></td><td><span class="rc C">C</span></td><td><span class="rc A">A</span></td><td><span class="rc C">C</span></td></tr>
+          <tr><th scope="row">Deployment &amp; rollback</th><td><span class="rc C">C</span></td><td><span class="rc C">C</span></td><td><span class="rc A">A</span></td><td><span class="rc C">C</span></td><td><span class="rc I">I</span></td></tr>
+          <tr><th scope="row">Monitoring &amp; retraining</th><td><span class="rc C">C</span></td><td><span class="rc A">A</span></td><td><span class="rc R">R</span></td><td><span class="rc I">I</span></td><td><span class="rc I">I</span></td></tr>
+          <tr><th scope="row">Faculty communications</th><td><span class="rc A">A</span></td><td><span class="rc C">C</span></td><td><span class="rc I">I</span></td><td><span class="rc C">C</span></td><td><span class="rc I">I</span></td></tr>
         </tbody>
       </table>
     </div>
-
     <div class="grid g3" style="margin-top:26px">
-      <div class="card reveal">
-        <h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">📅 Weekly steering</h4>
-        <p style="margin:0;font-size:.86rem;color:var(--muted)">Program risks, blockers, gate readiness. 30 minutes.</p>
-      </div>
-      <div class="card reveal">
-        <h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">✅ Gate sign-off</h4>
-        <p style="margin:0;font-size:.86rem;color:var(--muted)">Sponsor + Legal/Security + IT + Faculty Affairs Ops.</p>
-      </div>
-      <div class="card reveal">
-        <h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">📈 Monthly sponsor review</h4>
-        <p style="margin:0;font-size:.86rem;color:var(--muted)">KPI performance, drift, retraining decisions, ROI.</p>
-      </div>
+      <div class="card reveal"><h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">📅 Weekly steering</h4><p style="margin:0;font-size:.86rem;color:var(--muted)">Program risks, blockers, gate readiness. 30 minutes.</p></div>
+      <div class="card reveal"><h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">✅ Gate sign-off</h4><p style="margin:0;font-size:.86rem;color:var(--muted)">Sponsor + Legal/Security + IT + Faculty Affairs Ops.</p></div>
+      <div class="card reveal"><h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">📈 Monthly sponsor review</h4><p style="margin:0;font-size:.86rem;color:var(--muted)">KPI performance, drift, retraining decisions, ROI.</p></div>
     </div>
   </div>
 </section>
 
-<!-- ================= ROADMAP ================= -->
+<!-- ROADMAP -->
 <section id="roadmap" class="tint" aria-labelledby="road-title">
   <div class="wrap">
     <p class="eyebrow reveal">Timeline</p>
     <h2 class="sec-title reveal" id="road-title">Twelve weeks to pilot</h2>
-    <p class="sec-lede reveal">Diamonds mark gate decisions. The red line tracks today.</p>
-
+    <p class="sec-lede reveal">Diamonds mark gate decisions. Click any gate above for the full decision analysis.</p>
     <div class="gantt reveal">
       <div class="gantt-inner" id="gantt">
-        <div class="gantt-head">
-          <div>Stage</div>
-          <div>W1</div><div>W2</div><div>W3</div><div>W4</div><div>W5</div><div>W6</div>
-          <div>W7</div><div>W8</div><div>W9</div><div>W10</div><div>W11</div><div>W12</div>
-        </div>
-
-        <div class="gantt-row">
-          <span class="g-name">① Problem definition</span>
-          <div class="gantt-track">
-            <div class="g-bar" data-start="1" data-end="2">Charter</div>
-            <div class="g-milestone" data-gate="G1" style="left:4.16%" title="G1 · Problem–Solution Fit"></div>
-          </div>
-        </div>
-
-        <div class="gantt-row">
-          <span class="g-name">② Data readiness</span>
-          <div class="gantt-track">
-            <div class="g-bar b2" data-start="2" data-end="5">Governance pack</div>
-            <div class="g-milestone" data-gate="G2" style="left:37.5%" title="G2 · Data Readiness"></div>
-          </div>
-        </div>
-
-        <div class="gantt-row">
-          <span class="g-name">③ Model development</span>
-          <div class="gantt-track">
-            <div class="g-bar b3" data-start="4" data-end="8">Baselines + RAG</div>
-            <div class="g-milestone" data-gate="G3" style="left:62.5%" title="G3 · Model Build"></div>
-          </div>
-        </div>
-
-        <div class="gantt-row">
-          <span class="g-name">④ Validation</span>
-          <div class="gantt-track">
-            <div class="g-bar b4" data-start="7" data-end="10">Red-team + shadow</div>
-            <div class="g-milestone" data-gate="G4" style="left:79.16%" title="G4 · Validation &amp; Risk"></div>
-          </div>
-        </div>
-
-        <div class="gantt-row">
-          <span class="g-name">⑤ Deployment pilot</span>
-          <div class="gantt-track">
-            <div class="g-bar b5" data-start="9" data-end="12">Canary → Pilot</div>
-            <div class="g-milestone" data-gate="G5" style="left:95.8%" title="G5 · Deployment Pilot"></div>
-          </div>
-        </div>
-
-        <div class="gantt-row">
-          <span class="g-name">⑥ Monitoring</span>
-          <div class="gantt-track">
-            <div class="g-bar b6" data-start="10" data-end="12">Ongoing</div>
-          </div>
-        </div>
-
+        <div class="gantt-head"><div>Stage</div><div>W1</div><div>W2</div><div>W3</div><div>W4</div><div>W5</div><div>W6</div><div>W7</div><div>W8</div><div>W9</div><div>W10</div><div>W11</div><div>W12</div></div>
+        <div class="gantt-row"><span class="g-name">① Problem definition</span><div class="gantt-track"><div class="g-bar" data-start="1" data-end="2">Charter</div><div class="g-milestone" data-gate="G1" style="left:4.16%" title="G1 · Problem–Solution Fit"></div></div></div>
+        <div class="gantt-row"><span class="g-name">② Data readiness</span><div class="gantt-track"><div class="g-bar b2" data-start="2" data-end="5">Governance pack</div><div class="g-milestone" data-gate="G2" style="left:37.5%" title="G2 · Data Readiness"></div></div></div>
+        <div class="gantt-row"><span class="g-name">③ Model development</span><div class="gantt-track"><div class="g-bar b3" data-start="4" data-end="8">Baselines + RAG</div><div class="g-milestone" data-gate="G3" style="left:62.5%" title="G3 · Model Build"></div></div></div>
+        <div class="gantt-row"><span class="g-name">④ Validation</span><div class="gantt-track"><div class="g-bar b4" data-start="7" data-end="10">Red-team + shadow</div><div class="g-milestone" data-gate="G4" style="left:79.16%" title="G4 · Validation &amp; Risk"></div></div></div>
+        <div class="gantt-row"><span class="g-name">⑤ Deployment pilot</span><div class="gantt-track"><div class="g-bar b5" data-start="9" data-end="12">Canary → Pilot</div><div class="g-milestone" data-gate="G5" style="left:95.8%" title="G5 · Deployment Pilot"></div></div></div>
+        <div class="gantt-row"><span class="g-name">⑥ Monitoring</span><div class="gantt-track"><div class="g-bar b6" data-start="10" data-end="12">Ongoing</div></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= ASK ================= -->
+<!-- MONITORING -->
+<section id="monitoring" aria-labelledby="mon-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Stage 06 · Live Operations</p>
+    <h2 class="sec-title reveal" id="mon-title">Monitoring checkpoints &amp; continuous tracking</h2>
+    <p class="sec-lede reveal">Every metric has an owner, a cadence, a threshold, and a defined action.</p>
+
+    <div class="mon-bar reveal">
+      <div class="mon-status"><span class="live-dot" aria-hidden="true"></span><span>Monitoring active · Pilot Week 2</span></div>
+      <div class="mon-meta">
+        <span>Last refresh: <b id="lastRefresh">just now</b></span>
+        <span>Alerts (24h): <b style="color:var(--warn)">2</b></span>
+        <span>Open incidents: <b style="color:var(--bad)">1</b></span>
+      </div>
+      <div class="mon-actions" role="group" aria-label="Monitoring controls">
+        <button type="button" data-mon-action="refresh">↻ Simulate refresh</button>
+        <button type="button" data-mon-action="pause" aria-pressed="false">⏸ Pause stream</button>
+        <button type="button" data-mon-action="export">⤓ Export snapshot</button>
+      </div>
+    </div>
+
+    <div class="tracker-grid" id="trackerGrid">
+      <div class="tracker-card reveal" data-kpi="containment">
+        <div class="tracker-head"><span class="tracker-label">Containment</span><span class="tracker-pill" data-pill>On track</span></div>
+        <div class="tracker-val" data-val>41.2%</div>
+        <div class="tracker-delta up" data-delta>▲ 2.1% vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="tracker-card reveal" data-kpi="hallucination">
+        <div class="tracker-head"><span class="tracker-label">Hallucination</span><span class="tracker-pill" data-pill>On track</span></div>
+        <div class="tracker-val" data-val>0.7%</div>
+        <div class="tracker-delta up" data-delta>▼ 0.2% vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="tracker-card reveal" data-kpi="csat">
+        <div class="tracker-head"><span class="tracker-label">Faculty exp.</span><span class="tracker-pill" data-pill>On track</span></div>
+        <div class="tracker-val" data-val>4.6</div>
+        <div class="tracker-delta up" data-delta>▲ 0.1 vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="tracker-card reveal" data-kpi="drift">
+        <div class="tracker-head"><span class="tracker-label">Drift score</span><span class="tracker-pill warn" data-pill>Watch</span></div>
+        <div class="tracker-val" data-val>0.18</div>
+        <div class="tracker-delta down" data-delta>▲ 0.04 vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="tracker-card reveal" data-kpi="escalation">
+        <div class="tracker-head"><span class="tracker-label">Escalation recall</span><span class="tracker-pill" data-pill>On track</span></div>
+        <div class="tracker-val" data-val>96.4%</div>
+        <div class="tracker-delta up" data-delta>▲ 0.8% vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+    </div>
+
+    <div class="chart-card reveal">
+      <div class="chart-head">
+        <div><h3>Model performance &amp; drift — trailing 12 weeks</h3><p>Accuracy and hallucination tracked weekly against guardrails.</p></div>
+        <div class="chart-legend" aria-hidden="true">
+          <span><span class="lg-line"></span>Accuracy</span>
+          <span><span class="lg-line gold"></span>Hallucination</span>
+          <span><span class="lg-line dashed"></span>Alert threshold</span>
+        </div>
+      </div>
+      <svg id="driftChart" viewBox="0 0 720 280" role="img" aria-label="Line chart of model accuracy and hallucination rate over 12 weeks with alert thresholds."></svg>
+    </div>
+
+    <div class="trigger-wrap reveal">
+      <h3>Retraining trigger workflow</h3>
+      <p>Any trigger opens an automatic review ticket, routed to the model owner. Severity determines the response.</p>
+      <div class="trigger-flow" role="list">
+        <div class="tr-step" role="listitem"><span class="tr-num">1</span><b>Trigger fires</b><span>Drift &gt; 0.25 · accuracy drop &gt; 3pts · hallucination &gt; 1.5% · policy change</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step act" role="listitem"><span class="tr-num">2</span><b>Auto-triage</b><span>Incident ticket created, severity assigned, on-call model owner paged</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step crit" role="listitem"><span class="tr-num">3</span><b>Decide</b><span>Retrain · Rollback · Watch. Sev-1 auto-rolls back within 15 min</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step" role="listitem"><span class="tr-num">4</span><b>Re-validate</b><span>Golden set + red-team + shadow run before promotion</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step act" role="listitem"><span class="tr-num">5</span><b>Redeploy</b><span>Canary → pilot → scale. Postmortem logged within 5 business days</span></div>
+      </div>
+    </div>
+
+    <div class="checkpoint-wrap reveal">
+      <div class="checkpoint-head"><h3>Monitoring checkpoints</h3><p>Who checks what, how often, and against which threshold.</p></div>
+      <div class="checkpoint-scroll">
+        <table class="checkpoint">
+          <caption class="sr">Monitoring checkpoints by cadence, metric, threshold, owner, and action</caption>
+          <thead><tr><th scope="col">Cadence</th><th scope="col">Checkpoint</th><th scope="col">Metric / threshold</th><th scope="col">Owner</th><th scope="col">If breached</th></tr></thead>
+          <tbody>
+            <tr><td><span class="cp-freq daily">Daily</span></td><td><strong>Health &amp; uptime</strong><br>Availability, latency p95, error rate</td><td>Uptime ≥ 99.5% · p95 &lt; 2.0s · errors &lt; 1%</td><td><span class="cp-owner">IT On-call</span></td><td>Page on-call; auto-fallback to human queue.</td></tr>
+            <tr><td><span class="cp-freq daily">Daily</span></td><td><strong>Safety scan</strong><br>Hallucination sampling on random 50 chats</td><td>Hallucination ≤ 1.0%</td><td><span class="cp-owner">Validation</span></td><td>Quarantine flagged responses; escalate to model owner.</td></tr>
+            <tr><td><span class="cp-freq weekly">Weekly</span></td><td><strong>KPI review</strong><br>Containment · CSAT · escalation recall</td><td>Containment ≥ 40% · CSAT ≥ 4.5 · recall ≥ 95%</td><td><span class="cp-owner">Data &amp; Digital</span></td><td>Steering review; tune thresholds or intents.</td></tr>
+            <tr><td><span class="cp-freq weekly">Weekly</span></td><td><strong>Drift monitor</strong><br>Input distribution and embedding drift</td><td>Drift score ≤ 0.25</td><td><span class="cp-owner">ML Engineering</span></td><td>Open retraining review if ≥ 2 consecutive weeks.</td></tr>
+            <tr><td><span class="cp-freq weekly">Weekly</span></td><td><strong>Adoption pulse</strong><br>Usage, first-message escalations</td><td>Escalation-on-first &lt; 30%</td><td><span class="cp-owner">Faculty Affairs Ops</span></td><td>Reach out to champions; refresh comms.</td></tr>
+            <tr><td><span class="cp-freq monthly">Monthly</span></td><td><strong>Bias &amp; fairness audit</strong><br>Accuracy parity across rank, dept, demographics</td><td>Max gap ≤ 3 pts</td><td><span class="cp-owner">Validation · Legal</span></td><td>Halt high-risk intents pending review.</td></tr>
+            <tr><td><span class="cp-freq monthly">Monthly</span></td><td><strong>Retraining decision</strong><br>Model card, changelog, retrain or hold</td><td>Documented decision on record</td><td><span class="cp-owner">ML Engineering</span></td><td>Escalate to sponsor if no decision is recorded.</td></tr>
+            <tr><td><span class="cp-freq quarterly">Quarterly</span></td><td><strong>Governance review</strong><br>Policy alignment, DPIA refresh, access audit</td><td>All controls signed off</td><td><span class="cp-owner">Legal · Security</span></td><td>Suspend scale-up; remediate before next release.</td></tr>
+            <tr><td><span class="cp-freq quarterly">Quarterly</span></td><td><strong>ROI &amp; impact review</strong><br>Time saved, cost/chat, faculty experience</td><td>Cost/chat ≤ $0.10 · positive net ROI</td><td><span class="cp-owner">Faculty Affairs Strategy</span></td><td>Re-scope scope or funding; escalate to sponsor.</td></tr>
+            <tr><td><span class="cp-freq annual">Annual</span></td><td><strong>External audit</strong><br>Independent model and control audit</td><td>No critical findings</td><td><span class="cp-owner">Sponsor · Internal Audit</span></td><td>Remediation plan within 30 days.</td></tr>
+            <tr><td><span class="cp-freq pre">On change</span></td><td><strong>Pre-release gate</strong><br>Any model, prompt, or policy update</td><td>Golden set + red-team pass</td><td><span class="cp-owner">Validation</span></td><td>Block release until pass; document in changelog.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="incident-wrap reveal">
+      <div class="incident-head">
+        <div><h3>Incident &amp; alert log</h3><p>Sample log from the first two pilot weeks. Every alert produces a ticket, an owner, and a resolution within SLA.</p></div>
+        <div class="mon-actions"><button type="button" id="logFilter" aria-pressed="false">Filter: open only</button></div>
+      </div>
+      <div class="incident-scroll">
+        <table class="incident">
+          <caption class="sr">Incident and alert log with severity, status, owner, and resolution</caption>
+          <thead><tr><th scope="col">ID</th><th scope="col">Opened</th><th scope="col">Signal</th><th scope="col">Severity</th><th scope="col">Owner</th><th scope="col">Status</th><th scope="col">Resolution</th></tr></thead>
+          <tbody id="incidentBody">
+            <tr data-status="open"><td class="inc-id">INC-0042</td><td>W2 · Mon 09:14</td><td>Hallucination spike on leave-policy intent (4 responses)</td><td><span class="inc-sev sev1">Sev-1</span></td><td>ML Engineering</td><td><span class="inc-sev sev1">Open</span></td><td>Rolled back prompt v3.2; re-validating v3.3.</td></tr>
+            <tr data-status="closed"><td class="inc-id">INC-0041</td><td>W2 · Tue 14:02</td><td>Latency p95 exceeded 2.5s for 6 minutes</td><td><span class="inc-sev sev3">Sev-3</span></td><td>IT On-call</td><td><span class="inc-sev closed">Closed</span></td><td>Cache warm-up; no user impact.</td></tr>
+            <tr data-status="closed"><td class="inc-id">INC-0040</td><td>W2 · Wed 11:48</td><td>Drift score crossed 0.20 for workload intent</td><td><span class="inc-sev sev2">Sev-2</span></td><td>ML Engineering</td><td><span class="inc-sev closed">Closed</span></td><td>New policy document ingested; retrain scheduled.</td></tr>
+            <tr data-status="closed"><td class="inc-id">INC-0039</td><td>W1 · Fri 16:30</td><td>Escalation miss on benefits appeal (1 case)</td><td><span class="inc-sev sev2">Sev-2</span></td><td>Validation</td><td><span class="inc-sev closed">Closed</span></td><td>Intent rule tightened; test added to golden set.</td></tr>
+            <tr data-status="closed"><td class="inc-id">INC-0038</td><td>W1 · Thu 09:05</td><td>Unclassified field surfaced in ingestion log</td><td><span class="inc-sev sev2">Sev-2</span></td><td>Data Governance</td><td><span class="inc-sev closed">Closed</span></td><td>Field classified and added to redaction rules.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="thresholds">
+      <div class="th-card reveal">
+        <h4><span aria-hidden="true">📊</span> Performance thresholds</h4>
+        <ul class="th-list">
+          <li><div><b>Containment</b><small>Auto-resolve share of total inquiries</small></div><span class="th-badge ok">≥ 40%</span></li>
+          <li><div><b>Faculty experience</b><small>CSAT on assisted and auto-resolved chats</small></div><span class="th-badge ok">≥ 4.5 / 5</span></li>
+          <li><div><b>Guidance accuracy</b><small>Correctness on frozen golden set</small></div><span class="th-badge ok">≥ 99%</span></li>
+          <li><div><b>Escalation recall</b><small>High-risk intents correctly escalated</small></div><span class="th-badge ok">≥ 95%</span></li>
+          <li><div><b>Latency p95</b><small>End-to-end response time</small></div><span class="th-badge ok">&lt; 2.0 s</span></li>
+        </ul>
+      </div>
+      <div class="th-card reveal">
+        <h4><span aria-hidden="true">🚨</span> Alert thresholds &amp; actions</h4>
+        <ul class="th-list">
+          <li><div><b>Hallucination rate</b><small>Sampled daily on 50 random chats</small></div><span class="th-badge warn">≥ 1.0% warn</span></li>
+          <li><div><b>Drift score</b><small>Input + embedding distribution shift</small></div><span class="th-badge warn">≥ 0.20 warn</span></li>
+          <li><div><b>Drift score</b><small>Two consecutive weeks above watch band</small></div><span class="th-badge bad">≥ 0.25 retrain</span></li>
+          <li><div><b>Escalation miss</b><small>High-risk case not routed to human</small></div><span class="th-badge bad">Any → Sev-1</span></li>
+          <li><div><b>Uptime</b><small>Service availability over rolling 24h</small></div><span class="th-badge bad">&lt; 99.5% page</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lineage reveal">
+      <h4>🔗 Tracking lineage &amp; retention</h4>
+      <div class="lineage-grid">
+        <div class="lin-item"><b>Query log</b><span>Every chat stored with hash + timestamp · 24 months</span></div>
+        <div class="lin-item"><b>Response log</b><span>Citations, model version, confidence · 24 months</span></div>
+        <div class="lin-item"><b>Decision log</b><span>Route chosen, escalation reason · 24 months</span></div>
+        <div class="lin-item"><b>Alert &amp; incident</b><span>Severity, owner, MTTR · 36 months</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="ask" aria-labelledby="ask-title">
   <div class="wrap">
     <div class="cta reveal">
       <h3 id="ask-title">The ask</h3>
       <p>Approve Stage Gate 1 and fund the four-week data readiness and governance sprint so the pilot can begin on schedule.</p>
-
       <div class="cta-grid">
         <div class="cta-item"><span aria-hidden="true">✅</span><div><b>Approve G1</b><span>Confirm decision, KPI, baseline, and owner.</span></div></div>
         <div class="cta-item"><span aria-hidden="true">💰</span><div><b>Fund data sprint</b><span>Four weeks: access, quality, DPIA, taxonomy.</span></div></div>
-        <div class="cta-item"><span aria-hidden="true">🗓</span><div><b>Confirm cadence</b><span>Weekly steering and named gate signatories.</span></div></div>
+        <div class="cta-item"><span aria-hidden="true">📡</span><div><b>Stand up monitoring</b><span>Dashboard, checkpoints, on-call rota, alerting.</span></div></div>
         <div class="cta-item"><span aria-hidden="true">📌</span><div><b>Next gate</b><span>G2 · Data Readiness in three weeks.</span></div></div>
       </div>
-
       <div class="cta-foot">
-        <a class="btn" href="#decision">Back to decision ↑</a>
-        <a class="btn ghost" href="#gates">Review gates</a>
+        <a class="btn" href="#gates">Open gate analysis ↑</a>
+        <a class="btn ghost" href="#monitoring">Review monitoring</a>
         <span style="font-size:.82rem;color:rgba(255,255,255,.55)">Responsible AI that strengthens faculty experience and decision-making.</span>
       </div>
     </div>
@@ -1341,21 +1275,602 @@ footer a{color:var(--teal-2)}
 
 <footer>
   <div class="wrap">
-    <div>
-      <strong style="color:#fff;font-family:var(--fh)">Faculty Affairs, Data &amp; Digital Strategy</strong><br>
-      AI Assistant &amp; Insights Hub · Lifecycle Plan v1.0
-    </div>
+    <div><strong style="color:#fff;font-family:var(--fh)">Faculty Affairs, Data &amp; Digital Strategy</strong><br>AI Assistant &amp; Insights Hub · Lifecycle Plan v1.2</div>
     <div class="foot-dots" aria-hidden="true"><i></i><i></i><i></i></div>
     <div><a href="#main">Back to top</a></div>
   </div>
 </footer>
+
+<!-- ============================================================
+     GATE DECISION MODAL
+     ============================================================ -->
+<div class="modal-backdrop" id="gateModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-head">
+      <div class="modal-gate-id" id="modalGateId">G1</div>
+      <div>
+        <h3 id="modalTitle">Problem–Solution Fit</h3>
+        <p id="modalDesc">Sponsor approves decision, KPI, baseline, ROI, and owner.</p>
+      </div>
+      <div class="modal-verdict" id="modalVerdict" data-verdict>GO</div>
+      <button class="modal-close" type="button" id="modalClose" aria-label="Close decision analysis">×</button>
+    </div>
+
+    <div class="modal-body" id="modalBody">
+
+      <!-- Scenario bar -->
+      <div class="scenario-bar" role="group" aria-label="Scenario simulator">
+        <span>Scenario</span>
+        <button type="button" class="sc-btn" data-scenario="base" aria-pressed="true">Base case</button>
+        <button type="button" class="sc-btn" data-scenario="optimistic" aria-pressed="false">Optimistic</button>
+        <button type="button" class="sc-btn" data-scenario="pessimistic" aria-pressed="false">Pessimistic</button>
+        <button type="button" class="sc-btn resolve" id="resolveBtn">✓ Resolve all open items</button>
+      </div>
+
+      <!-- Probability block -->
+      <div class="prob-block">
+        <div class="prob-ring-wrap">
+          <svg class="prob-ring" viewBox="0 0 132 132" aria-hidden="true">
+            <circle class="pr-bg" cx="66" cy="66" r="56"></circle>
+            <circle class="pr-val" id="probRing" cx="66" cy="66" r="56"></circle>
+          </svg>
+          <div class="prob-num"><span id="probNum">0</span>%<small>Success</small></div>
+        </div>
+        <div class="prob-info">
+          <h4>Likelihood of success</h4>
+          <div class="prob-headline" id="probHeadline">Calculating…</div>
+          <div class="prob-bar-track"><div class="prob-bar-fill" id="probBar"></div></div>
+          <div class="prob-scale"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+          <div class="prob-meta">
+            <span>Readiness score: <b id="readinessScore">—</b></span>
+            <span>Confidence band: <b id="confidenceBand">—</b></span>
+            <span>Base rate: <b id="baseRate">—</b></span>
+          </div>
+          <div class="prob-formula" id="probFormula">P(success) = 1 / (1 + e^(−(score − 60) / 16))</div>
+        </div>
+      </div>
+
+      <!-- Criteria -->
+      <div class="m-sec-title">Weighted criteria — click to toggle verification</div>
+      <div class="crit-list" id="critList"></div>
+      <p style="font-size:.76rem;color:var(--muted);margin-top:10px">
+        <strong style="color:var(--navy)">Verified</strong> = evidence on file (full weight).
+        <strong style="color:#a86f12">Assumed</strong> = not yet evidenced (75% weight applied).
+      </p>
+
+      <!-- Pros / cons -->
+      <div class="m-sec-title">Recommendation analysis</div>
+      <div class="pc-grid">
+        <div class="pc-card pros">
+          <h4>✅ Reasons to proceed</h4>
+          <ul id="prosList"></ul>
+        </div>
+        <div class="pc-card cons">
+          <h4>⚠️ Reasons to hold or remediate</h4>
+          <ul id="consList"></ul>
+        </div>
+      </div>
+
+      <!-- Expected value -->
+      <div class="m-sec-title">Expected value calculation</div>
+      <div class="ev-grid">
+        <div class="ev-card">
+          <div class="ev-label">Probability of success</div>
+          <div class="ev-val" id="evP">—</div>
+          <div class="ev-sub">Risk-adjusted likelihood this gate delivers</div>
+        </div>
+        <div class="ev-card">
+          <div class="ev-label">Projected benefit</div>
+          <div class="ev-val" id="evBenefit">—</div>
+          <div class="ev-sub">Annual value if gate succeeds</div>
+        </div>
+        <div class="ev-card">
+          <div class="ev-label">Cost to proceed</div>
+          <div class="ev-val" id="evCost">—</div>
+          <div class="ev-sub">Investment to move to next gate</div>
+        </div>
+      </div>
+      <div class="ev-card highlight" style="margin-top:14px">
+        <div class="ev-label">Expected value</div>
+        <div class="ev-val" id="evResult">—</div>
+        <div class="ev-sub" id="evInterpretation">—</div>
+        <div class="ev-formula" id="evFormula">EV = P(success) × Benefit − (1 − P) × Cost</div>
+      </div>
+
+      <!-- Sensitivity -->
+      <div class="m-sec-title">Sensitivity — what changes the answer</div>
+      <div class="ev-card">
+        <div class="ev-sub" style="font-size:.84rem;color:#33475b" id="sensitivityText">—</div>
+      </div>
+
+    </div>
+
+    <div class="modal-foot">
+      <div class="mf-note">
+        <b id="footRec">Recommendation:</b> <span id="footRecText">—</span>
+      </div>
+      <div class="mf-actions">
+        <button type="button" class="btn-sm ghost" id="modalCloseBtn">Close</button>
+        <button type="button" class="btn-sm primary" id="applyStatusBtn">Apply to gate status</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
 (function(){
   'use strict';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- Scroll progress rail ---------- */
+  /* ============================================================
+     GATE DECISION MODEL
+     ============================================================ */
+  var GATE_MODELS = {
+    G1: {
+      id:'G1',
+      name:'Problem–Solution Fit',
+      desc:'Sponsor approves decision, KPI, baseline, ROI, and owner.',
+      baseRate: 0.62,
+      benefit: 420000,
+      cost: 180000,
+      criteria: [
+        {id:'c1', label:'Decision & decision rights documented', weight:0.20, score:90, verified:true,
+         evidence:'Charter signed by VP on W1', owner:'Faculty Affairs Strategy'},
+        {id:'c2', label:'KPI measurable and > baseline', weight:0.25, score:85, verified:true,
+         evidence:'Baseline: 0% containment; target 40%', owner:'Data & Digital Strategy'},
+        {id:'c3', label:'Single accountable owner named', weight:0.20, score:95, verified:true,
+         evidence:'Owner: Director, Faculty Affairs Ops', owner:'Faculty Affairs'},
+        {id:'c4', label:'ROI & funding case approved', weight:0.20, score:80, verified:false,
+         evidence:'Draft model; awaiting finance sign-off', owner:'Faculty Affairs Strategy'},
+        {id:'c5', label:'Stakeholder alignment across schools', weight:0.15, score:80, verified:true,
+         evidence:'5 of 6 deans briefed; one pending', owner:'Faculty Affairs Ops'}
+      ],
+      pros:[
+        'Decision is concrete and bounded to three routes',
+        'KPI tree links directly to faculty experience',
+        'Sponsor has authority to fund and unblock',
+        'Baseline is measurable against current manual handling',
+        'Owner is named and accountable'
+      ],
+      cons:[
+        'ROI model depends on adoption assumptions not yet tested',
+        'One dean not yet briefed — political risk',
+        'Cost per chat target may shift with model choice',
+        'Scope could expand to staff HR inquiries if not bounded'
+      ],
+      sensitivity:'If ROI is verified, probability rises to about 82%. If stakeholder alignment slips below 70, probability falls to about 74% and the recommendation drops to Conditional Go.'
+    },
+
+    G2: {
+      id:'G2',
+      name:'Data Readiness',
+      desc:'Access, quality, labeling, and privacy all cleared.',
+      baseRate: 0.55,
+      benefit: 380000,
+      cost: 150000,
+      criteria: [
+        {id:'c1', label:'All source access approved in writing', weight:0.25, score:85, verified:true,
+         evidence:'DSAs signed with HRIS and IT', owner:'Data & Digital Strategy'},
+        {id:'c2', label:'Data quality ≥ 95%', weight:0.25, score:88, verified:true,
+         evidence:'94.6% on 3 of 4 sources; one at 91%', owner:'Data Engineering'},
+        {id:'c3', label:'Label agreement κ > 0.8', weight:0.20, score:76, verified:false,
+         evidence:'κ = 0.71 on promotions intent', owner:'Validation'},
+        {id:'c4', label:'DPIA, PII, retention signed off', weight:0.20, score:70, verified:false,
+         evidence:'DPIA drafted; retention schedule in review', owner:'Legal · Security'},
+        {id:'c5', label:'Taxonomy & intent map complete', weight:0.10, score:82, verified:true,
+         evidence:'6 domains mapped; edge cases tagged', owner:'Data & Digital Strategy'}
+      ],
+      pros:[
+        'Most sources already accessible under signed agreements',
+        'Policy corpus is well-maintained and versioned',
+        'Quality above threshold on 3 of 4 sources',
+        'Taxonomy covers all six faculty affairs domains'
+      ],
+      cons:[
+        'DPIA not signed — hard blocker under policy',
+        'Label agreement below target on promotions intent',
+        'Retention schedule still in draft',
+        'One source at 91% quality drags the average'
+      ],
+      sensitivity:'Resolving DPIA and κ pushes probability to about 78% but not to Go — the weighted score is structurally capped by the DPIA weight. This gate should be treated as a remediation gate, not a pass/fail.'
+    },
+
+    G3: {
+      id:'G3',
+      name:'Model Build',
+      desc:'Candidate beats baseline inside cost and latency limits.',
+      baseRate: 0.58,
+      benefit: 350000,
+      cost: 120000,
+      criteria: [
+        {id:'c1', label:'≥ 10% relative improvement in accuracy', weight:0.30, score:92, verified:true,
+         evidence:'RAG candidate 93% vs 71% best baseline', owner:'ML Engineering'},
+        {id:'c2', label:'Hallucination ≤ 1%', weight:0.25, score:85, verified:true,
+         evidence:'0.9% on golden set; edge intents higher', owner:'ML Engineering'},
+        {id:'c3', label:'Latency < 2s', weight:0.15, score:95, verified:true,
+         evidence:'p95 = 1.6s end-to-end', owner:'IT'},
+        {id:'c4', label:'Cost < $0.10 per chat', weight:0.15, score:74, verified:false,
+         evidence:'8.0¢ average; trending up on long contexts', owner:'ML Engineering'},
+        {id:'c5', label:'Model card published', weight:0.15, score:80, verified:true,
+         evidence:'Published; failure modes section incomplete', owner:'ML Engineering'}
+      ],
+      pros:[
+        'Accuracy exceeds the +10% target by a wide margin',
+        'Latency well inside guardrail',
+        'Baselines fully documented and reproducible',
+        'Model card published with intended use'
+      ],
+      cons:[
+        'Cost trending toward the ceiling on long contexts',
+        'Hallucination near limit on edge intents',
+        'Model card incomplete on failure modes',
+        'No stress test yet under peak concurrency'
+      ],
+      sensitivity:'If cost stays under 8¢ and hallucination holds at 0.9%, probability rises to about 88%. If cost crosses 10¢, probability falls to about 76% and the recommendation drops to Conditional Go.'
+    },
+
+    G4: {
+      id:'G4',
+      name:'Validation & Risk',
+      desc:'Safety, fairness, and escalation reliability proven.',
+      baseRate: 0.50,
+      benefit: 310000,
+      cost: 90000,
+      criteria: [
+        {id:'c1', label:'Red-team pass, no critical findings', weight:0.25, score:78, verified:true,
+         evidence:'No critical exploits; one injection vector open', owner:'Validation'},
+        {id:'c2', label:'Escalation recall ≥ 95%', weight:0.25, score:96, verified:true,
+         evidence:'96.4% on high-risk intent set', owner:'Validation'},
+        {id:'c3', label:'Incorrect guidance < 1%', weight:0.20, score:82, verified:true,
+         evidence:'0.9% on shadow pilot', owner:'Validation'},
+        {id:'c4', label:'Bias/fairness gap ≤ 3 points', weight:0.15, score:74, verified:false,
+         evidence:'4.2pt gap on one demographic slice', owner:'Validation · Legal'},
+        {id:'c5', label:'Legal & Security sign-off', weight:0.15, score:68, verified:false,
+         evidence:'Security cleared; Legal pending retention language', owner:'Legal · Security'}
+      ],
+      pros:[
+        'Escalation recall is strong and above target',
+        'Red-team found no critical exploits',
+        'Shadow pilot shows CSAT non-inferior to human-only',
+        'Security has cleared the technical control set'
+      ],
+      cons:[
+        'Bias gap on one demographic slice exceeds target',
+        'Legal sign-off pending on retention language',
+        'Red-team flagged a prompt-injection vector on tool calls',
+        'Fairness audit only covers one quarter of data'
+      ],
+      sensitivity:'This is the highest-risk gate. Closing the bias gap and securing Legal sign-off lifts probability to about 79% — still Conditional Go. Any new critical red-team finding drops it to about 55% and triggers a Hold.'
+    },
+
+    G5: {
+      id:'G5',
+      name:'Deployment Pilot',
+      desc:'Two-week pilot meets KPI with a proven rollback.',
+      baseRate: 0.66,
+      benefit: 280000,
+      cost: 60000,
+      criteria: [
+        {id:'c1', label:'Containment ≥ 40% sustained', weight:0.30, score:88, verified:true,
+         evidence:'41.2% week 2 average', owner:'Data & Digital Strategy'},
+        {id:'c2', label:'Faculty experience ≥ 4.5 / 5', weight:0.25, score:92, verified:true,
+         evidence:'4.6 average across pilot cohorts', owner:'Faculty Affairs Ops'},
+        {id:'c3', label:'Rollback tested < 15 min', weight:0.20, score:95, verified:true,
+         evidence:'End-to-end drill: 11 minutes', owner:'IT'},
+        {id:'c4', label:'Ops owner & on-call rota', weight:0.15, score:85, verified:true,
+         evidence:'Owner named; weekend coverage thin', owner:'Faculty Affairs Ops'},
+        {id:'c5', label:'Comms & training complete', weight:0.10, score:78, verified:false,
+         evidence:'4 of 6 schools trained', owner:'Faculty Affairs Comms'}
+      ],
+      pros:[
+        'All primary KPIs met or exceeded in pilot',
+        'Rollback proven end-to-end in 11 minutes',
+        'Faculty experience non-inferior and trending up',
+        'Incident response worked as designed'
+      ],
+      cons:[
+        'Comms and training not yet reached all schools',
+        'On-call rota thin on weekends',
+        'Cost per chat at the upper bound',
+        'One open Sev-1 incident from week 2'
+      ],
+      sensitivity:'Clearing the open Sev-1 and completing school training lifts probability to about 86%. If a second Sev-1 occurs during scale-up, probability falls to about 68% and the recommendation drops to Conditional Go with a scale pause.'
+    }
+  };
+
+  var ASSUMED_DISCOUNT = 0.75;
+
+  /* ---- compute functions ---- */
+  function computeScore(criteria, discount){
+    var total = 0, raw = 0;
+    criteria.forEach(function(c){
+      var s = c.score * (c.verified ? 1 : discount);
+      total += c.weight * s;
+      raw += c.weight * c.score;
+    });
+    return {adjusted: total, raw: raw};
+  }
+
+  function computeProbability(score){
+    var p = 1 / (1 + Math.exp(-(score - 60) / 16));
+    return Math.min(0.92, Math.max(0.05, p));
+  }
+
+  function getVerdict(p){
+    if (p >= 0.80) return {key:'go', label:'GO', cls:'', text:'Proceed to next stage'};
+    if (p >= 0.65) return {key:'cond', label:'CONDITIONAL GO', cls:'cond', text:'Proceed with named conditions'};
+    if (p >= 0.45) return {key:'hold', label:'HOLD', cls:'hold', text:'Remediate before proceeding'};
+    return {key:'nogo', label:'NO-GO', cls:'nogo', text:'Do not proceed in current form'};
+  }
+
+  function formatMoney(v){
+    if (Math.abs(v) >= 1000000) return '$' + (v/1000000).toFixed(2) + 'M';
+    if (Math.abs(v) >= 1000) return '$' + Math.round(v/1000) + 'K';
+    return '$' + Math.round(v);
+  }
+
+  /* ============================================================
+     MODAL CONTROLLER
+     ============================================================ */
+  var modal = document.getElementById('gateModal');
+  var modalBody = document.getElementById('modalBody');
+  var currentGate = null;
+  var scenario = 'base';
+  var lastFocused = null;
+
+  function getWorkingCriteria(gate){
+    return gate.criteria.map(function(c){ return Object.assign({}, c); });
+  }
+
+  function applyScenario(criteria, sc){
+    if (sc === 'base') return criteria;
+    return criteria.map(function(c){
+      var copy = Object.assign({}, c);
+      if (sc === 'optimistic'){
+        copy.score = Math.min(100, Math.round(c.score * 1.08));
+      } else if (sc === 'pessimistic'){
+        copy.score = Math.round(c.score * 0.78);
+      }
+      return copy;
+    });
+  }
+
+  function renderModal(){
+    if (!currentGate) return;
+    var gate = GATE_MODELS[currentGate];
+    var criteria = applyScenario(getWorkingCriteria(gate), scenario);
+    var scoreObj = computeScore(criteria, ASSUMED_DISCOUNT);
+    var p = computeProbability(scoreObj.adjusted);
+    var verdict = getVerdict(p);
+
+    /* header */
+    document.getElementById('modalGateId').textContent = gate.id;
+    document.getElementById('modalTitle').textContent = gate.name;
+    document.getElementById('modalDesc').textContent = gate.desc;
+    var vEl = document.getElementById('modalVerdict');
+    vEl.textContent = verdict.label;
+    vEl.className = 'modal-verdict ' + verdict.cls;
+
+    /* probability ring */
+    var CIRC = 2 * Math.PI * 56;
+    var ring = document.getElementById('probRing');
+    ring.style.strokeDasharray = CIRC;
+    ring.style.strokeDashoffset = CIRC * (1 - p);
+    ring.className = 'pr-val ' + verdict.cls;
+
+    /* number count-up */
+    var numEl = document.getElementById('probNum');
+    if (reduced){
+      numEl.textContent = (p * 100).toFixed(0);
+    } else {
+      var start = parseInt(numEl.textContent, 10) || 0;
+      var end = p * 100;
+      var t0 = performance.now();
+      var dur = 700;
+      (function tick(now){
+        var k = Math.min(1, (now - t0) / dur);
+        var eased = 1 - Math.pow(1 - k, 3);
+        numEl.textContent = Math.round(start + (end - start) * eased);
+        if (k < 1) requestAnimationFrame(tick);
+      })(performance.now());
+    }
+
+    /* bar */
+    var bar = document.getElementById('probBar');
+    bar.style.width = (p * 100) + '%';
+    bar.className = 'prob-bar-fill ' + verdict.cls;
+
+    /* headline */
+    document.getElementById('probHeadline').textContent =
+      verdict.label + ' — ' + verdict.text;
+
+    /* meta */
+    document.getElementById('readinessScore').textContent =
+      scoreObj.adjusted.toFixed(1) + ' / 100';
+    var band = Math.max(3, Math.round((1 - p) * 14));
+    document.getElementById('confidenceBand').textContent =
+      '± ' + band + ' pts';
+    document.getElementById('baseRate').textContent =
+      Math.round(gate.baseRate * 100) + '%';
+    document.getElementById('probFormula').textContent =
+      'P = 1/(1+e^(−(' + scoreObj.adjusted.toFixed(1) + '−60)/16)) = ' + (p * 100).toFixed(1) + '%';
+
+    /* criteria list */
+    var list = document.getElementById('critList');
+    list.innerHTML = '';
+    criteria.forEach(function(c, idx){
+      var row = document.createElement('div');
+      row.className = 'crit-row ' + (c.verified ? 'verified' : 'assumed');
+      row.setAttribute('role', 'button');
+      row.setAttribute('tabindex', '0');
+      row.setAttribute('aria-pressed', c.verified ? 'true' : 'false');
+
+      var check = document.createElement('span');
+      check.className = 'crit-check';
+      check.textContent = c.verified ? '✓' : '!';
+
+      var label = document.createElement('span');
+      label.className = 'crit-label';
+      label.innerHTML = c.label + '<small>' + c.evidence + ' · ' + c.owner + '</small>';
+
+      var score = document.createElement('span');
+      score.className = 'crit-score';
+      score.textContent = c.score;
+
+      var weight = document.createElement('span');
+      weight.className = 'crit-weight';
+      weight.textContent = 'w ' + Math.round(c.weight * 100) + '%';
+
+      row.appendChild(check);
+      row.appendChild(label);
+      row.appendChild(score);
+      row.appendChild(weight);
+
+      function toggle(){
+        gate.criteria[idx].verified = !gate.criteria[idx].verified;
+        renderModal();
+      }
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', function(e){
+        if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+      });
+
+      list.appendChild(row);
+    });
+
+    /* pros / cons */
+    var prosEl = document.getElementById('prosList');
+    var consEl = document.getElementById('consList');
+    prosEl.innerHTML = gate.pros.map(function(x){ return '<li>' + x + '</li>'; }).join('');
+    consEl.innerHTML = gate.cons.map(function(x){ return '<li>' + x + '</li>'; }).join('');
+
+    /* expected value */
+    var ev = p * gate.benefit - (1 - p) * gate.cost;
+    document.getElementById('evP').textContent = (p * 100).toFixed(1) + '%';
+    document.getElementById('evBenefit').textContent = formatMoney(gate.benefit) + ' / yr';
+    document.getElementById('evCost').textContent = formatMoney(gate.cost);
+    document.getElementById('evResult').textContent = formatMoney(ev);
+    document.getElementById('evFormula').textContent =
+      'EV = ' + p.toFixed(3) + ' × ' + formatMoney(gate.benefit) +
+      ' − ' + (1 - p).toFixed(3) + ' × ' + formatMoney(gate.cost) +
+      ' = ' + formatMoney(ev);
+    document.getElementById('evInterpretation').textContent =
+      ev > 0
+        ? 'Positive expected value. Proceeding is rational even accounting for failure cost.'
+        : 'Negative expected value. Do not proceed without reducing cost or raising probability.';
+
+    /* sensitivity */
+    document.getElementById('sensitivityText').textContent = gate.sensitivity;
+
+    /* footer */
+    document.getElementById('footRecText').textContent =
+      verdict.label + ' · ' + (p * 100).toFixed(1) + '% probability · EV ' + formatMoney(ev);
+  }
+
+  function openModal(gateId){
+    currentGate = gateId;
+    scenario = 'base';
+    document.querySelectorAll('.sc-btn[data-scenario]').forEach(function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-scenario') === 'base' ? 'true' : 'false');
+    });
+    lastFocused = document.activeElement;
+    modal.hidden = false;
+    requestAnimationFrame(function(){ modal.classList.add('open'); });
+    document.body.classList.add('modal-open');
+    renderModal();
+    setTimeout(function(){ document.getElementById('modalClose').focus(); }, 50);
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    setTimeout(function(){
+      modal.hidden = true;
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }, 280);
+  }
+
+  /* open buttons */
+  document.querySelectorAll('[data-analyze]').forEach(function(btn){
+    btn.addEventListener('click', function(){ openModal(btn.getAttribute('data-analyze')); });
+  });
+
+  /* close handlers */
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !modal.hidden) closeModal();
+  });
+
+  /* focus trap */
+  modal.addEventListener('keydown', function(e){
+    if (e.key !== 'Tab') return;
+    var focusables = modal.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (!focusables.length) return;
+    var first = focusables[0];
+    var last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first){
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last){
+      e.preventDefault(); first.focus();
+    }
+  });
+
+  /* scenario buttons */
+  document.querySelectorAll('.sc-btn[data-scenario]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      scenario = btn.getAttribute('data-scenario');
+      document.querySelectorAll('.sc-btn[data-scenario]').forEach(function(b){
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+      renderModal();
+    });
+  });
+
+  /* resolve all open items */
+  document.getElementById('resolveBtn').addEventListener('click', function(){
+    if (!currentGate) return;
+    GATE_MODELS[currentGate].criteria.forEach(function(c){ c.verified = true; });
+    renderModal();
+  });
+
+  /* apply to gate status */
+  document.getElementById('applyStatusBtn').addEventListener('click', function(){
+    if (!currentGate) return;
+    var gate = GATE_MODELS[currentGate];
+    var criteria = applyScenario(getWorkingCriteria(gate), scenario);
+    var scoreObj = computeScore(criteria, ASSUMED_DISCOUNT);
+    var p = computeProbability(scoreObj.adjusted);
+    var verdict = getVerdict(p);
+
+    var gateEl = document.querySelector('.gate[data-gate="' + currentGate + '"]');
+    if (gateEl){
+      var statusKey = verdict.key === 'go' ? 'go'
+                    : verdict.key === 'cond' ? 'warn'
+                    : verdict.key === 'hold' ? 'warn'
+                    : 'no';
+      var labels = {go:'Go', warn:'At risk', no:'No-go', idle:'Not started'};
+      gateEl.setAttribute('data-status', statusKey);
+      var txt = gateEl.querySelector('.stxt');
+      if (txt) txt.textContent = labels[statusKey];
+      /* persist */
+      try {
+        var saved = JSON.parse(localStorage.getItem('fa-ai-gates-v1') || '{}');
+        saved[currentGate] = statusKey;
+        localStorage.setItem('fa-ai-gates-v1', JSON.stringify(saved));
+      } catch(e){}
+    }
+    closeModal();
+  });
+
+  /* ============================================================
+     EXISTING PAGE INTERACTIONS
+     ============================================================ */
   var rail = document.getElementById('rail');
   function onScroll(){
     var h = document.documentElement;
@@ -1366,15 +1881,11 @@ footer a{color:var(--teal-2)}
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
 
-  /* ---------- Reveal on scroll ---------- */
   var revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window && !reduced){
     var ro = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
-        if (e.isIntersecting){
-          e.target.classList.add('in');
-          ro.unobserve(e.target);
-        }
+        if (e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); }
       });
     }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
     revealEls.forEach(function(el, i){
@@ -1385,7 +1896,6 @@ footer a{color:var(--teal-2)}
     revealEls.forEach(function(el){ el.classList.add('in'); });
   }
 
-  /* ---------- Funnel rows ---------- */
   var funnelRows = document.querySelectorAll('.funnel-row, .path');
   if ('IntersectionObserver' in window && !reduced){
     var fo = new IntersectionObserver(function(entries){
@@ -1402,29 +1912,28 @@ footer a{color:var(--teal-2)}
     funnelRows.forEach(function(el){ el.classList.add('in'); });
   }
 
-  /* ---------- KPI gauges ---------- */
-  var CIRC = 2 * Math.PI * 52;
+  var CIRC_G = 2 * Math.PI * 52;
   document.querySelectorAll('.gauge .g-val').forEach(function(c){
-    c.style.strokeDasharray = CIRC;
-    c.style.strokeDashoffset = CIRC;
+    c.style.strokeDasharray = CIRC_G;
+    c.style.strokeDashoffset = CIRC_G;
   });
   function fillGauges(){
     document.querySelectorAll('.gauge .g-val').forEach(function(c){
       var pct = parseFloat(c.getAttribute('data-pct')) || 0;
-      c.style.strokeDashoffset = CIRC * (1 - pct / 100);
+      c.style.strokeDashoffset = CIRC_G * (1 - pct / 100);
     });
   }
   if ('IntersectionObserver' in window && !reduced){
-    var go = new IntersectionObserver(function(entries){
+    var gObs = new IntersectionObserver(function(entries){
       entries.forEach(function(e){
-        if (e.isIntersecting){ fillGauges(); go.disconnect(); }
+        if (e.isIntersecting){ fillGauges(); gObs.disconnect(); }
       });
     }, {threshold:0.4});
     var g0 = document.querySelector('.gauges');
-    if (g0) go.observe(g0);
+    if (g0) gObs.observe(g0);
   } else { fillGauges(); }
 
-  /* ---------- Lifecycle tabs ---------- */
+  /* lifecycle tabs */
   var tabs = Array.prototype.slice.call(document.querySelectorAll('.flow-btn'));
   var panels = Array.prototype.slice.call(document.querySelectorAll('.stage-panel'));
   function selectStage(n){
@@ -1433,9 +1942,7 @@ footer a{color:var(--teal-2)}
       t.setAttribute('aria-selected', on ? 'true' : 'false');
       t.tabIndex = on ? 0 : -1;
     });
-    panels.forEach(function(p){
-      p.hidden = (p.id !== 'panel-' + n);
-    });
+    panels.forEach(function(p){ p.hidden = (p.id !== 'panel-' + n); });
   }
   tabs.forEach(function(t, i){
     t.addEventListener('click', function(){ selectStage(t.getAttribute('data-stage')); });
@@ -1453,117 +1960,18 @@ footer a{color:var(--teal-2)}
     });
   });
 
-  /* ---------- Model metric chart ---------- */
-  var METRICS = {
-    accuracy: {
-      label: 'Accuracy', unit: '%', max: 100, decimals: 0, higherBetter: true,
-      target: 'Target ≥ 92%',
-      rows: [
-        {name:'Rules baseline', value:62},
-        {name:'Search / FAQ', value:71},
-        {name:'RAG + LLM ★', value:93, best:true}
-      ]
-    },
-    hallucination: {
-      label: 'Hallucination', unit: '%', max: 2, decimals: 1, higherBetter: false,
-      target: 'Target ≤ 1.0%',
-      rows: [
-        {name:'Rules baseline', value:0.0},
-        {name:'Search / FAQ', value:1.5},
-        {name:'RAG + LLM ★', value:0.9, best:true}
-      ]
-    },
-    cost: {
-      label: 'Cost per chat', unit: '¢', max: 10, decimals: 1, higherBetter: false,
-      target: 'Target ≤ 10¢',
-      rows: [
-        {name:'Rules baseline', value:0.1},
-        {name:'Search / FAQ', value:0.5},
-        {name:'RAG + LLM ★', value:8.0, best:true}
-      ]
-    },
-    latency: {
-      label: 'Latency', unit: 's', max: 3, decimals: 1, higherBetter: false,
-      target: 'Target < 2.0s',
-      rows: [
-        {name:'Rules baseline', value:0.2},
-        {name:'Search / FAQ', value:0.4},
-        {name:'RAG + LLM ★', value:1.6, best:true}
-      ]
-    }
-  };
-  var barsEl = document.getElementById('bars');
-  function fmt(v, d){ return d === 0 ? Math.round(v).toString() : v.toFixed(d); }
-  function renderMetric(key){
-    var m = METRICS[key];
-    if (!m || !barsEl) return;
-    barsEl.innerHTML = '';
-
-    m.rows.forEach(function(r){
-      var pct = Math.max(3, Math.min(100, (r.value / m.max) * 100));
-      var row = document.createElement('div');
-      row.className = 'bar-row' + (r.best ? ' best' : '');
-
-      var name = document.createElement('div');
-      name.className = 'bar-name';
-      name.textContent = r.name;
-
-      var track = document.createElement('div');
-      track.className = 'bar-track';
-      var fill = document.createElement('div');
-      fill.className = 'bar-fill';
-      track.appendChild(fill);
-
-      var val = document.createElement('div');
-      val.className = 'bar-val';
-      val.textContent = fmt(r.value, m.decimals) + m.unit;
-
-      row.appendChild(name);
-      row.appendChild(track);
-      row.appendChild(val);
-      barsEl.appendChild(row);
-
-      requestAnimationFrame(function(){ fill.style.width = pct + '%'; });
-    });
-
-    var note = document.createElement('p');
-    note.className = 'bar-note';
-    note.style.marginTop = '14px';
-    note.style.background = 'transparent';
-    note.style.border = 'none';
-    note.style.padding = '0';
-    note.style.color = 'var(--muted)';
-    note.style.fontSize = '.8rem';
-    note.textContent = m.target + (m.higherBetter ? ' · higher is better' : ' · lower is better');
-    barsEl.appendChild(note);
-  }
-  document.querySelectorAll('.metric-tabs button').forEach(function(b){
-    b.addEventListener('click', function(){
-      document.querySelectorAll('.metric-tabs button').forEach(function(x){
-        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
-      });
-      renderMetric(b.getAttribute('data-metric'));
-    });
-  });
-  renderMetric('accuracy');
-
-  /* ---------- Data pipeline accordion ---------- */
+  /* pipeline */
   var pipeBtns = Array.prototype.slice.call(document.querySelectorAll('.pipe-btn'));
   var pipeBodies = Array.prototype.slice.call(document.querySelectorAll('.pipe-body'));
   pipeBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       var targetId = btn.getAttribute('aria-controls');
-      pipeBtns.forEach(function(b){
-        var open = (b === btn);
-        b.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-      pipeBodies.forEach(function(p){
-        p.classList.toggle('open', p.id === targetId);
-      });
+      pipeBtns.forEach(function(b){ b.setAttribute('aria-expanded', b === btn ? 'true' : 'false'); });
+      pipeBodies.forEach(function(p){ p.classList.toggle('open', p.id === targetId); });
     });
   });
 
-  /* ---------- Gate expand + status cycle ---------- */
+  /* gate expand + status */
   var STATUS = [
     {key:'idle', label:'Not started'},
     {key:'warn', label:'At risk'},
@@ -1573,18 +1981,14 @@ footer a{color:var(--teal-2)}
   var STORE_KEY = 'fa-ai-gates-v1';
   var saved = {};
   try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e){ saved = {}; }
-
   function applyStatus(gate, key){
     var s = STATUS.filter(function(x){ return x.key === key; })[0] || STATUS[0];
     gate.setAttribute('data-status', s.key);
     var txt = gate.querySelector('.stxt');
     if (txt) txt.textContent = s.label;
   }
-
   document.querySelectorAll('.gate').forEach(function(gate){
     var id = gate.getAttribute('data-gate');
-
-    // expand criteria
     var eb = gate.querySelector('.expand-btn');
     if (eb){
       eb.addEventListener('click', function(){
@@ -1592,8 +1996,6 @@ footer a{color:var(--teal-2)}
         eb.setAttribute('aria-expanded', open ? 'true' : 'false');
       });
     }
-
-    // status chip
     var sb = gate.querySelector('[data-cycle]');
     if (sb){
       sb.setAttribute('aria-label', 'Cycle status for gate ' + id);
@@ -1606,36 +2008,173 @@ footer a{color:var(--teal-2)}
         try { localStorage.setItem(STORE_KEY, JSON.stringify(saved)); } catch(e){}
       });
     }
-
     applyStatus(gate, saved[id] || 'idle');
   });
 
-  /* ---------- Gantt: bars + today marker ---------- */
+  /* gantt */
   var COLS = 12;
   document.querySelectorAll('.g-bar').forEach(function(bar){
     var s = parseInt(bar.getAttribute('data-start'), 10);
     var e = parseInt(bar.getAttribute('data-end'), 10);
-    var leftPct = ((s - 1) / COLS) * 100;
-    var widthPct = ((e - s + 1) / COLS) * 100;
-    bar.style.left = leftPct + '%';
-    requestAnimationFrame(function(){ bar.style.width = widthPct + '%'; });
+    bar.style.left = ((s - 1) / COLS) * 100 + '%';
+    requestAnimationFrame(function(){ bar.style.width = ((e - s + 1) / COLS) * 100 + '%'; });
   });
 
-  // Optional: set PILOT_START to a real date to show the "today" line.
-  var PILOT_START = null; // e.g. new Date('2026-01-05')
-  if (PILOT_START){
-    var weeksIn = (Date.now() - PILOT_START.getTime()) / (1000*60*60*24*7);
-    if (weeksIn >= 0 && weeksIn <= COLS){
-      var pct = (weeksIn / COLS) * 100;
-      document.querySelectorAll('.gantt-track').forEach(function(t){
-        var line = document.createElement('div');
-        line.className = 'g-today';
-        line.style.left = pct + '%';
-        line.style.display = 'block';
-        t.appendChild(line);
-      });
-    }
+  /* sparklines */
+  var SPARK_DATA = {
+    containment:   [22, 25, 28, 30, 31, 33, 35, 36, 37, 38, 39.1, 41.2],
+    hallucination: [2.4, 2.1, 1.9, 1.7, 1.6, 1.4, 1.3, 1.2, 1.0, 0.9, 0.9, 0.7],
+    csat:          [4.1, 4.1, 4.2, 4.2, 4.3, 4.3, 4.4, 4.4, 4.5, 4.5, 4.5, 4.6],
+    drift:         [0.05, 0.06, 0.07, 0.08, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.14, 0.18],
+    escalation:    [88, 89, 90, 91, 91, 92, 93, 93, 94, 95, 95.6, 96.4]
+  };
+  function renderSparkline(svg, data){
+    var W = 100, H = 34, P = 3;
+    var min = Math.min.apply(null, data);
+    var max = Math.max.apply(null, data);
+    if (min === max){ min -= 1; max += 1; }
+    var range = max - min;
+    var stepX = (W - P * 2) / (data.length - 1);
+    var pts = data.map(function(v, i){
+      return {x: P + i * stepX, y: H - P - ((v - min) / range) * (H - P * 2)};
+    });
+    var linePath = 'M ' + pts.map(function(p){ return p.x.toFixed(2) + ' ' + p.y.toFixed(2); }).join(' L ');
+    var areaPath = linePath + ' L ' + pts[pts.length - 1].x.toFixed(2) + ' ' + (H - P) + ' L ' + pts[0].x.toFixed(2) + ' ' + (H - P) + ' Z';
+    svg.innerHTML = '';
+    var area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    area.setAttribute('class', 'area'); area.setAttribute('d', areaPath);
+    svg.appendChild(area);
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    line.setAttribute('class', 'line'); line.setAttribute('d', linePath);
+    svg.appendChild(line);
+    var last = pts[pts.length - 1];
+    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('class', 'last');
+    circle.setAttribute('cx', last.x.toFixed(2));
+    circle.setAttribute('cy', last.y.toFixed(2));
+    circle.setAttribute('r', '3');
+    svg.appendChild(circle);
   }
+  document.querySelectorAll('.tracker-card').forEach(function(card){
+    var key = card.getAttribute('data-kpi');
+    var svg = card.querySelector('.spark');
+    if (svg && SPARK_DATA[key]) renderSparkline(svg, SPARK_DATA[key]);
+  });
+
+  /* drift chart */
+  function renderDriftChart(){
+    var svg = document.getElementById('driftChart');
+    if (!svg) return;
+    var W = 720, H = 280;
+    var pad = {t:24, r:26, b:38, l:44};
+    var innerW = W - pad.l - pad.r;
+    var innerH = H - pad.t - pad.b;
+    var weeks = 12;
+    var accuracy = [64, 68, 72, 76, 80, 84, 87, 89, 90, 91, 92, 93];
+    var halluc   = [2.4, 2.1, 1.9, 1.7, 1.6, 1.4, 1.3, 1.2, 1.0, 0.9, 0.9, 0.7];
+    var yMax = 100, yMin = 0;
+    function x(i){ return pad.l + (i / (weeks - 1)) * innerW; }
+    function y(v){ return pad.t + innerH - ((v - yMin) / (yMax - yMin)) * innerH; }
+    var parts = [];
+    [0, 25, 50, 75, 100].forEach(function(v){
+      parts.push('<line class="grid-line" x1="' + pad.l + '" x2="' + (W - pad.r) + '" y1="' + y(v) + '" y2="' + y(v) + '"/>');
+      parts.push('<text class="axis-text" x="' + (pad.l - 8) + '" y="' + (y(v) + 3) + '" text-anchor="end">' + v + '</text>');
+    });
+    for (var i = 0; i < weeks; i++){
+      parts.push('<text class="axis-text" x="' + x(i) + '" y="' + (H - pad.b + 16) + '" text-anchor="middle">W' + (i + 1) + '</text>');
+    }
+    var accLine = accuracy.map(function(v, i){ return (i === 0 ? 'M' : 'L') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+    var accArea = accLine + ' L ' + x(weeks - 1).toFixed(1) + ' ' + (H - pad.b) + ' L ' + x(0).toFixed(1) + ' ' + (H - pad.b) + ' Z';
+    parts.push('<path class="area-teal" d="' + accArea + '"/>');
+    parts.push('<path class="line-teal" d="' + accLine + '"/>');
+    var halLine = halluc.map(function(v, i){ return (i === 0 ? 'M' : 'L') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+    parts.push('<path class="line-gold" d="' + halLine + '"/>');
+    parts.push('<line class="threshold-line" x1="' + pad.l + '" x2="' + (W - pad.r) + '" y1="' + y(1.5) + '" y2="' + y(1.5) + '"/>');
+    parts.push('<text class="threshold-label" x="' + (W - pad.r - 4) + '" y="' + (y(1.5) - 4) + '" text-anchor="end">HALLUCINATION LIMIT 1.5%</text>');
+    accuracy.forEach(function(v, i){
+      var cls = (i === weeks - 1) ? 'point teal' : (v < 75 ? 'point warn' : 'point teal');
+      parts.push('<circle class="' + cls + '" cx="' + x(i) + '" cy="' + y(v) + '" r="' + (i === weeks - 1 ? 4 : 3) + '"/>');
+    });
+    halluc.forEach(function(v, i){
+      parts.push('<circle class="point gold" cx="' + x(i) + '" cy="' + y(v) + '" r="2.6"/>');
+    });
+    var todayX = x(weeks - 1);
+    parts.push('<line class="today-line" x1="' + todayX + '" x2="' + todayX + '" y1="' + pad.t + '" y2="' + (H - pad.b) + '"/>');
+    parts.push('<text class="today-label" x="' + todayX + '" y="' + (pad.t - 8) + '" text-anchor="middle">TODAY</text>');
+    svg.innerHTML = parts.join('');
+  }
+  if ('IntersectionObserver' in window && !reduced){
+    var dObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ renderDriftChart(); dObs.disconnect(); }
+      });
+    }, {threshold:0.25});
+    var dc = document.getElementById('driftChart');
+    if (dc) dObs.observe(dc);
+  } else { renderDriftChart(); }
+
+  /* monitoring actions */
+  var lastRefreshEl = document.getElementById('lastRefresh');
+  document.querySelectorAll('[data-mon-action]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var action = btn.getAttribute('data-mon-action');
+      if (action === 'refresh'){
+        btn.setAttribute('aria-pressed', 'true');
+        setTimeout(function(){ btn.setAttribute('aria-pressed', 'false'); }, 900);
+        if (lastRefreshEl){
+          lastRefreshEl.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+        }
+        Object.keys(SPARK_DATA).forEach(function(k){
+          var arr = SPARK_DATA[k];
+          var last = arr[arr.length - 1];
+          arr[arr.length - 1] = Math.max(0, last + (Math.random() - 0.5) * (last * 0.03));
+        });
+        document.querySelectorAll('.tracker-card').forEach(function(card){
+          var key = card.getAttribute('data-kpi');
+          var svg = card.querySelector('.spark');
+          if (svg && SPARK_DATA[key]) renderSparkline(svg, SPARK_DATA[key]);
+        });
+      }
+      if (action === 'pause'){
+        var paused = btn.getAttribute('aria-pressed') === 'true';
+        btn.setAttribute('aria-pressed', paused ? 'false' : 'true');
+        btn.textContent = paused ? '⏸ Pause stream' : '▶ Resume stream';
+      }
+      if (action === 'export'){
+        btn.setAttribute('aria-pressed', 'true');
+        setTimeout(function(){ btn.setAttribute('aria-pressed', 'false'); }, 900);
+        var summary = {
+          exported: new Date().toISOString(),
+          kpis: {containment: 41.2, hallucination: 0.7, csat: 4.6, drift: 0.18, escalation_recall: 96.4},
+          open_incidents: 1, alerts_24h: 2
+        };
+        var blob = new Blob([JSON.stringify(summary, null, 2)], {type:'application/json'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'faculty-affairs-ai-monitoring-snapshot.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    });
+  });
+
+  /* incident filter */
+  var logFilter = document.getElementById('logFilter');
+  if (logFilter){
+    logFilter.addEventListener('click', function(){
+      var on = logFilter.getAttribute('aria-pressed') === 'true';
+      var next = !on;
+      logFilter.setAttribute('aria-pressed', next ? 'true' : 'false');
+      logFilter.textContent = next ? 'Showing: open only' : 'Filter: open only';
+      document.querySelectorAll('#incidentBody tr').forEach(function(tr){
+        tr.style.display = (next && tr.getAttribute('data-status') !== 'open') ? 'none' : '';
+      });
+    });
+  }
+
 })();
 </script>
 </body>
