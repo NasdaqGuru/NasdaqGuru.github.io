@@ -1,0 +1,2480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lifecycle Plan Hub — Faculty Affairs AI + Predictive Maintenance</title>
+<meta name="description" content="Two lifecycle plans: Faculty Affairs AI Assistant and Predictive Maintenance — with interactive gate decision analysis." />
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --navy:#0B2545; --navy-2:#12345F; --navy-3:#1B3A63;
+  --teal:#1B98A0; --teal-2:#3FC1C9;
+  --gold:#F2A900; --gold-2:#FFC94A;
+  --purple:#7B61FF; --purple-2:#A08CFF;
+  --rust:#C05621; --rust-2:#E8853D;
+  --bg:#F4F6F8; --card:#FFFFFF; --ink:#0F1B2D; --muted:#5B6B7F;
+  --line:#DCE3EA;
+  --ok:#1E9E6A; --warn:#E8A33D; --bad:#D64545; --idle:#B7C2CE;
+  --r:16px; --r-sm:10px;
+  --sh:0 8px 24px rgba(11,37,69,.08);
+  --sh-lg:0 18px 48px rgba(11,37,69,.14);
+  --max:1180px;
+  --ff:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --fh:'Montserrat','Open Sans',-apple-system,'Segoe UI',sans-serif;
+  --mono:'SFMono-Regular',Menlo,Consolas,'Liberation Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{margin:0;font-family:var(--ff);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+body.modal-open{overflow:hidden}
+h1,h2,h3,h4{font-family:var(--fh);line-height:1.2;margin:0 0 .5em;letter-spacing:-.02em}
+p{margin:0 0 1em}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+img,svg{max-width:100%}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--navy);padding:12px 20px;font-weight:700;z-index:999;border-radius:0 0 8px 0}
+.skip:focus{left:0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+section{padding:76px 0;position:relative}
+section.tint{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.eyebrow{font-family:var(--fh);font-size:.74rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);margin:0 0 10px}
+.sec-title{font-size:clamp(1.6rem,3.4vw,2.35rem);color:var(--navy)}
+.sec-lede{color:var(--muted);font-size:1.05rem;max-width:70ch;margin-bottom:40px}
+
+.topbar{position:sticky;top:0;z-index:100;background:rgba(11,37,69,.92);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.1)}
+.topbar .wrap{display:flex;align-items:center;gap:20px;height:68px}
+.brand{display:flex;align-items:center;gap:11px;color:#fff;font-family:var(--fh);font-weight:800;font-size:.95rem;letter-spacing:-.01em;flex-shrink:0}
+.brand .dot{width:30px;height:30px;border-radius:9px;flex-shrink:0;background:linear-gradient(135deg,var(--teal-2),var(--teal) 55%,var(--gold));display:grid;place-items:center;font-size:.85rem}
+.navlinks{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{color:rgba(255,255,255,.75);font-size:.82rem;font-weight:600;padding:8px 12px;border-radius:8px;white-space:nowrap;transition:.2s;text-decoration:none}
+.navlinks a:hover{color:#fff;background:rgba(255,255,255,.1);text-decoration:none}
+.progress-rail{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal-2),var(--gold));width:0;transition:width .15s linear}
+
+.hero{background:radial-gradient(900px 500px at 78% 12%,rgba(27,152,160,.35),transparent 62%),radial-gradient(700px 500px at 12% 92%,rgba(242,169,0,.18),transparent 60%),linear-gradient(160deg,var(--navy) 0%,#071a33 100%);color:#fff;padding:74px 0 84px;overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:7px 15px;border-radius:100px;font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--teal-2);margin-bottom:22px}
+.hero h1{font-size:clamp(2rem,4.6vw,3.15rem);margin-bottom:18px}
+.hero h1 .accent{background:linear-gradient(100deg,var(--teal-2),var(--gold-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lede{font-size:1.08rem;color:rgba(255,255,255,.78);max-width:56ch}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);padding:7px 14px;border-radius:100px;font-size:.79rem;font-weight:600;color:rgba(255,255,255,.88)}
+.chip.gold{background:rgba(242,169,0,.16);border-color:rgba(242,169,0,.4);color:var(--gold-2)}
+.chip.rust{background:rgba(192,86,33,.2);border-color:rgba(192,86,33,.5);color:var(--rust-2)}
+.orbit{position:relative;width:100%;max-width:430px;aspect-ratio:1;margin:0 auto}
+.ring{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1px dashed rgba(255,255,255,.18)}
+.ring.r1{width:71%;height:71%;animation:spin 34s linear infinite}
+.ring.r2{width:52%;height:52%;border-color:rgba(63,193,201,.32);animation:spin 22s linear infinite reverse}
+.ring.r3{width:92%;height:92%;border-color:rgba(255,255,255,.08);animation:spin 48s linear infinite}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.orb-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38%;aspect-ratio:1;border-radius:50%;background:linear-gradient(140deg,var(--teal),#0d6f77);box-shadow:0 0 0 10px rgba(27,152,160,.16),0 0 60px rgba(27,152,160,.5);display:grid;place-items:center;text-align:center;padding:12px;font-family:var(--fh);font-weight:800;font-size:.8rem;line-height:1.25;color:#fff}
+.orb{position:absolute;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:6px;width:96px;opacity:0;animation:pop .5s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes pop{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.orb i{width:44px;height:44px;border-radius:13px;display:grid;place-items:center;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);font-size:1.15rem;font-style:normal;backdrop-filter:blur(6px);transition:.25s}
+.orb span{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.82);text-align:center;letter-spacing:.02em}
+.orb:hover i{background:var(--gold);border-color:var(--gold);transform:scale(1.12)}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--sh);transition:transform .25s,box-shadow .25s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+.grid{display:grid;gap:22px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}.hero .wrap{grid-template-columns:1fr;gap:36px}}
+
+.decision-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+@media(max-width:900px){.decision-grid{grid-template-columns:1fr}}
+.funnel{display:flex;flex-direction:column;gap:10px;align-items:center}
+.funnel-row{width:var(--w);background:linear-gradient(90deg,var(--navy),var(--navy-3));color:#fff;border-radius:var(--r-sm);padding:14px 20px;text-align:center;font-weight:700;font-size:.9rem;font-family:var(--fh);opacity:0;transform:translateY(14px);transition:.55s cubic-bezier(.2,.7,.3,1)}
+.funnel-row.in{opacity:1;transform:none}
+.funnel-row.out{background:linear-gradient(90deg,var(--teal),#14818a)}
+.funnel-row.out.gold{background:linear-gradient(90deg,var(--gold),#d99400);color:var(--navy)}
+.funnel-row.out.slate{background:linear-gradient(90deg,#4b6076,#3a4c60)}
+.paths{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin-top:8px}
+.path{background:#fff;border:2px solid var(--line);border-radius:var(--r-sm);padding:14px 10px;text-align:center;font-size:.76rem;font-weight:700;color:var(--navy);opacity:0;transform:translateY(14px);transition:.5s}
+.path.in{opacity:1;transform:none}
+.path b{display:block;font-size:1.35rem;margin-bottom:4px}
+.path.p1{border-color:var(--teal)}
+.path.p2{border-color:var(--gold)}
+.path.p3{border-color:#8a9bb0}
+
+.gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:760px){.gauges{grid-template-columns:repeat(2,1fr)}}
+.gauge-card{text-align:center;padding:20px 12px}
+.gauge{width:112px;height:112px;transform:rotate(-90deg)}
+.gauge circle{fill:none;stroke-width:11;stroke-linecap:round}
+.g-bg{stroke:var(--line)}
+.g-val{stroke:var(--teal);transition:stroke-dashoffset 1.5s cubic-bezier(.3,.8,.3,1)}
+.gauge-card:nth-child(2) .g-val{stroke:var(--gold)}
+.gauge-card:nth-child(3) .g-val{stroke:var(--purple)}
+.gauge-card:nth-child(4) .g-val{stroke:var(--ok)}
+.gauge-wrap{position:relative;display:inline-grid;place-items:center}
+.gauge-num{position:absolute;font-family:var(--fh);font-weight:800;font-size:1.28rem;color:var(--navy)}
+.gauge-label{font-size:.79rem;font-weight:700;color:var(--muted);margin-top:10px;letter-spacing:.02em}
+.gauge-sub{font-size:.68rem;color:var(--idle);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
+
+.flow{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 18px;scrollbar-width:thin}
+.flow-btn{position:relative;flex:1 0 168px;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:18px 16px 18px 28px;text-align:left;cursor:pointer;font-family:var(--ff);transition:.25s;box-shadow:0 2px 8px rgba(11,37,69,.05);clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%,16px 50%)}
+.flow-btn:first-child{clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%)}
+.flow-btn:last-child{clip-path:polygon(0 0,100% 0,100% 100%,0 100%,16px 50%)}
+.flow-btn:hover{border-color:var(--teal);transform:translateY(-2px)}
+.flow-btn[aria-selected="true"]{background:linear-gradient(135deg,var(--navy),var(--navy-3));border-color:var(--navy);color:#fff}
+.flow-btn[aria-selected="true"] .fb-num{background:var(--gold);color:var(--navy)}
+.flow-btn[aria-selected="true"] .fb-name{color:#fff}
+.fb-num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--bg);color:var(--navy);font-family:var(--fh);font-weight:800;font-size:.78rem;margin-bottom:9px;transition:.25s}
+.fb-ico{font-size:1.1rem;display:block;margin-bottom:4px}
+.fb-name{display:block;font-size:.86rem;font-weight:700;color:var(--navy);transition:.25s}
+
+.stage-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:34px;box-shadow:var(--sh);animation:fade .4s ease}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sp-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+.sp-head h3{font-size:1.45rem;margin:0;color:var(--navy)}
+.sp-deliv{display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#EAF7F8,#F3FBFC);border:1px solid #BFE5E8;color:#0d6f77;padding:9px 16px;border-radius:100px;font-size:.8rem;font-weight:700}
+.sp-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:32px}
+@media(max-width:820px){.sp-cols{grid-template-columns:1fr;gap:22px}}
+.sp-cols h4{font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.sp-list{list-style:none;padding:0;margin:0}
+.sp-list li{position:relative;padding-left:26px;margin-bottom:10px;font-size:.92rem;color:#2c3e50}
+.sp-list li::before{content:'';position:absolute;left:0;top:.5em;width:9px;height:9px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 3px rgba(27,152,160,.16)}
+.exit-chips{display:flex;flex-wrap:wrap;gap:8px}
+.exit-chips span{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:7px 12px;font-size:.78rem;font-weight:600;color:var(--navy)}
+.owner-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)}
+.owner{font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg);padding:6px 11px;border-radius:6px}
+
+.metric-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.metric-tabs button{background:#fff;border:1.5px solid var(--line);border-radius:100px;padding:9px 20px;font-family:var(--ff);font-size:.83rem;font-weight:700;color:var(--muted);cursor:pointer;transition:.2s}
+.metric-tabs button:hover{border-color:var(--teal);color:var(--teal)}
+.metric-tabs button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.bars{display:flex;flex-direction:column;gap:20px}
+.bar-row{display:grid;grid-template-columns:150px 1fr 92px;gap:16px;align-items:center}
+@media(max-width:640px){.bar-row{grid-template-columns:1fr;gap:6px}.bar-row .bar-val{text-align:left}}
+.bar-name{font-size:.86rem;font-weight:700;color:var(--navy)}
+.bar-track{height:30px;background:var(--bg);border-radius:8px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,var(--teal),var(--teal-2));width:0;transition:width .8s cubic-bezier(.3,.9,.3,1);display:grid;align-items:center;padding-left:12px;color:#fff;font-size:.74rem;font-weight:800}
+.bar-row.best .bar-fill{background:linear-gradient(90deg,var(--navy),var(--navy-3))}
+.bar-row.best .bar-name::after{content:' ★';color:var(--gold)}
+.bar-val{font-family:var(--fh);font-weight:800;font-size:.95rem;color:var(--navy);text-align:right}
+.bar-note{margin-top:22px;padding:14px 18px;background:#FFF8E6;border-left:4px solid var(--gold);border-radius:0 8px 8px 0;font-size:.84rem;color:#6b5215}
+
+.pipe{display:flex;gap:0;overflow-x:auto;margin-bottom:24px;padding-bottom:6px}
+.pipe-btn{flex:1 0 160px;background:#fff;border:1.5px solid var(--line);border-right:none;padding:18px 16px;cursor:pointer;font-family:var(--ff);text-align:center;transition:.25s}
+.pipe-btn:first-child{border-radius:12px 0 0 12px}
+.pipe-btn:last-child{border-radius:0 12px 12px 0;border-right:1.5px solid var(--line)}
+.pipe-btn:hover{background:#F0FBFB}
+.pipe-btn[aria-expanded="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pb-ico{font-size:1.4rem;display:block;margin-bottom:7px;transition:.25s}
+.pb-t{font-size:.82rem;font-weight:800;display:block}
+.pb-s{font-size:.68rem;opacity:.7;font-weight:600}
+.pipe-body{display:none;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 28px;box-shadow:var(--sh)}
+.pipe-body.open{display:block;animation:fade .35s ease}
+.pipe-body ul{margin:0;padding-left:20px}
+.pipe-body li{margin-bottom:8px;font-size:.9rem}
+
+.gate-grid{display:grid;gap:16px}
+.gate{background:#fff;border:1px solid var(--line);border-left:5px solid var(--idle);border-radius:var(--r-sm);padding:20px 24px;display:grid;grid-template-columns:62px 1fr auto;gap:20px;align-items:center;transition:.3s}
+.gate:hover{box-shadow:var(--sh)}
+.gate[data-status="go"]{border-left-color:var(--ok)}
+.gate[data-status="warn"]{border-left-color:var(--warn)}
+.gate[data-status="no"]{border-left-color:var(--bad)}
+@media(max-width:760px){.gate{grid-template-columns:52px 1fr;gap:14px}.gate .gate-right{grid-column:2}}
+.gate-id{font-family:var(--fh);font-weight:800;font-size:1.05rem;color:var(--navy);background:var(--bg);border-radius:10px;height:52px;display:grid;place-items:center}
+.gate h4{margin:0 0 4px;font-size:1rem;color:var(--navy)}
+.gate p{margin:0;font-size:.84rem;color:var(--muted)}
+.gate-crit{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);font-size:.85rem}
+.gate.open .gate-crit{display:block;animation:fade .3s ease}
+.gate-crit ul{margin:0;padding-left:18px}
+.gate-crit li{margin-bottom:6px}
+.gate-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.status-btn{border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:7px 15px;font-family:var(--ff);font-size:.76rem;font-weight:800;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:.2s;min-width:118px;justify-content:center}
+.status-btn:hover{border-color:var(--navy)}
+.sdot{width:9px;height:9px;border-radius:50%;background:var(--idle);transition:.2s}
+.gate[data-status="go"] .sdot{background:var(--ok)}
+.gate[data-status="warn"] .sdot{background:var(--warn)}
+.gate[data-status="no"] .sdot{background:var(--bad)}
+.expand-btn{background:none;border:none;color:var(--teal);font-weight:700;font-size:.8rem;cursor:pointer;font-family:var(--ff);padding:2px}
+.expand-btn::after{content:' ▾';transition:.2s;display:inline-block}
+.gate.open .expand-btn::after{transform:rotate(180deg)}
+.analyze-btn{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--navy),var(--navy-3));color:#fff;border:none;border-radius:100px;padding:8px 16px;font-family:var(--ff);font-size:.76rem;font-weight:800;cursor:pointer;transition:.25s}
+.analyze-btn:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(11,37,69,.28)}
+.analyze-btn.rust{background:linear-gradient(135deg,var(--rust),#9c4418)}
+
+.risk{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:0;overflow:hidden;box-shadow:var(--sh);transition:.3s;border-top:4px solid var(--teal)}
+.risk:nth-child(2){border-top-color:var(--gold)}
+.risk:nth-child(3){border-top-color:var(--purple)}
+.risk:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.risk-head{padding:24px 24px 16px;display:flex;gap:14px;align-items:flex-start}
+.risk-ico{font-size:1.6rem;line-height:1}
+.risk h4{margin:0 0 4px;font-size:1.02rem;color:var(--navy)}
+.risk .sev{font-size:.68rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--bad)}
+.risk-body{padding:0 24px 24px;font-size:.88rem;color:#33475b}
+.risk-body h5{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px;font-family:var(--fh)}
+.risk-body ul{margin:0 0 16px;padding-left:18px}
+.risk-body li{margin-bottom:6px}
+.owner-tag{display:inline-block;background:var(--bg);border-radius:6px;padding:5px 11px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+
+.raci-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:#fff;box-shadow:var(--sh)}
+table.raci{border-collapse:collapse;width:100%;min-width:680px;font-size:.86rem}
+table.raci th,table.raci td{padding:13px 15px;text-align:center;border-bottom:1px solid var(--line)}
+table.raci thead th{background:var(--navy);color:#fff;font-family:var(--fh);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700}
+table.raci tbody th{text-align:left;font-weight:700;color:var(--navy);background:#FAFBFC}
+table.raci tbody tr:last-child th,table.raci tbody tr:last-child td{border-bottom:none}
+table.raci tbody tr:hover td,table.raci tbody tr:hover th{background:#F2FAFB}
+.rc{font-family:var(--fh);font-weight:800;font-size:.78rem;width:30px;height:30px;display:inline-grid;place-items:center;border-radius:8px;color:#fff}
+.rc.R{background:var(--teal)}
+.rc.A{background:var(--navy)}
+.rc.C{background:var(--gold);color:var(--navy)}
+.rc.I{background:#C3CDD8;color:#41505F}
+
+.gantt{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--sh);overflow-x:auto}
+.gantt-inner{min-width:760px}
+.gantt-head,.gantt-row{display:grid;grid-template-columns:180px repeat(12,1fr);align-items:center;gap:0}
+.gantt-head div{font-size:.66rem;font-weight:800;color:var(--muted);text-align:center;letter-spacing:.05em;text-transform:uppercase;padding:8px 0}
+.gantt-head div:first-child{text-align:left}
+.gantt-row{border-top:1px solid var(--line);padding:9px 0}
+.gantt-row .g-name{font-size:.82rem;font-weight:700;color:var(--navy);padding-right:12px}
+.gantt-track{grid-column:2 / span 12;position:relative;height:26px;background:repeating-linear-gradient(90deg,transparent,transparent calc(8.333% - 1px),var(--line) calc(8.333% - 1px),var(--line) 8.333%);border-radius:6px}
+.g-bar{position:absolute;top:3px;height:20px;border-radius:6px;background:linear-gradient(90deg,var(--teal),var(--teal-2));display:grid;align-items:center;padding-left:10px;color:#fff;font-size:.68rem;font-weight:800;white-space:nowrap;overflow:hidden;width:0;transition:width .9s cubic-bezier(.3,.9,.3,1)}
+.g-bar.b2{background:linear-gradient(90deg,#2E6FA8,#4A90C9)}
+.g-bar.b3{background:linear-gradient(90deg,var(--navy),var(--navy-3))}
+.g-bar.b4{background:linear-gradient(90deg,var(--purple),var(--purple-2))}
+.g-bar.b5{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:var(--navy)}
+.g-bar.b6{background:linear-gradient(90deg,#1E9E6A,#3FC98D)}
+.g-bar.rust{background:linear-gradient(90deg,var(--rust),var(--rust-2))}
+.g-milestone{position:absolute;top:50%;width:14px;height:14px;background:#fff;border:3px solid var(--bad);transform:translate(-50%,-50%) rotate(45deg);border-radius:3px;z-index:3;cursor:help}
+.g-milestone[data-gate="G1"]{border-color:#1E9E6A}
+.g-milestone[data-gate="G2"]{border-color:#E8A33D}
+.g-milestone[data-gate="G3"]{border-color:#1B98A0}
+.g-milestone[data-gate="G4"]{border-color:#7B61FF}
+.g-milestone[data-gate="G5"]{border-color:#D64545}
+
+.mon-bar{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:14px 20px;box-shadow:var(--sh);margin-bottom:28px}
+.mon-status{display:flex;align-items:center;gap:10px;font-size:.86rem;font-weight:700;color:var(--navy)}
+.live-dot{width:10px;height:10px;border-radius:50%;background:var(--ok);position:relative;flex-shrink:0}
+.live-dot::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--ok);animation:pulse 2s ease-out infinite}
+@keyframes pulse{0%{opacity:.7;transform:scale(.7)}80%,100%{opacity:0;transform:scale(1.6)}}
+.mon-meta{display:flex;flex-wrap:wrap;gap:16px;font-size:.78rem;color:var(--muted)}
+.mon-meta b{color:var(--navy);font-family:var(--fh)}
+.mon-actions{display:flex;gap:8px;flex-wrap:wrap}
+.mon-actions button{background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:7px 14px;font-family:var(--ff);font-size:.75rem;font-weight:700;color:var(--navy);cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px}
+.mon-actions button:hover{border-color:var(--teal);color:var(--teal);background:#F0FBFB}
+.mon-actions button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+
+.tracker-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;margin-bottom:28px}
+@media(max-width:1020px){.tracker-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:680px){.tracker-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:440px){.tracker-grid{grid-template-columns:1fr}}
+.tracker-card{background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:16px 16px 12px;box-shadow:var(--sh);position:relative;overflow:hidden;transition:.25s}
+.tracker-card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.tracker-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--teal)}
+.tracker-card[data-kpi="hallucination"]::before{background:var(--gold)}
+.tracker-card[data-kpi="csat"]::before{background:var(--purple)}
+.tracker-card[data-kpi="drift"]::before{background:#2E6FA8}
+.tracker-card[data-kpi="escalation"]::before{background:var(--ok)}
+.tracker-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:8px}
+.tracker-label{font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tracker-pill{font-size:.62rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:3px 8px;border-radius:100px;background:rgba(30,158,106,.12);color:var(--ok)}
+.tracker-pill.warn{background:rgba(232,163,61,.16);color:#a86f12}
+.tracker-pill.bad{background:rgba(214,69,69,.14);color:var(--bad)}
+.tracker-val{font-family:var(--fh);font-weight:800;font-size:1.7rem;color:var(--navy);line-height:1;margin:6px 0 2px}
+.tracker-delta{font-size:.74rem;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:5px}
+.tracker-delta.up{color:var(--ok)}
+.tracker-delta.down{color:var(--bad)}
+.spark{display:block;width:100%;height:34px;margin-top:10px;overflow:visible}
+.spark path.line{fill:none;stroke:var(--teal);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.tracker-card[data-kpi="hallucination"] .spark path.line{stroke:var(--gold)}
+.tracker-card[data-kpi="csat"] .spark path.line{stroke:var(--purple)}
+.tracker-card[data-kpi="drift"] .spark path.line{stroke:#2E6FA8}
+.tracker-card[data-kpi="escalation"] .spark path.line{stroke:var(--ok)}
+.spark path.area{fill:rgba(27,152,160,.12);stroke:none}
+.tracker-card[data-kpi="hallucination"] .spark path.area{fill:rgba(242,169,0,.14)}
+.tracker-card[data-kpi="csat"] .spark path.area{fill:rgba(123,97,255,.14)}
+.tracker-card[data-kpi="drift"] .spark path.area{fill:rgba(46,111,168,.14)}
+.tracker-card[data-kpi="escalation"] .spark path.area{fill:rgba(30,158,106,.14)}
+.spark circle.last{fill:#fff;stroke-width:2}
+.tracker-card[data-kpi="containment"] .spark circle.last{stroke:var(--teal)}
+.tracker-card[data-kpi="hallucination"] .spark circle.last{stroke:var(--gold)}
+.tracker-card[data-kpi="csat"] .spark circle.last{stroke:var(--purple)}
+.tracker-card[data-kpi="drift"] .spark circle.last{stroke:#2E6FA8}
+.tracker-card[data-kpi="escalation"] .spark circle.last{stroke:var(--ok)}
+
+.chart-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;box-shadow:var(--sh);margin-bottom:28px}
+.chart-head{display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:flex-start;margin-bottom:20px}
+.chart-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.chart-head p{margin:0;font-size:.84rem;color:var(--muted)}
+.chart-legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.78rem;font-weight:700;color:var(--muted)}
+.chart-legend span{display:inline-flex;align-items:center;gap:7px}
+.lg-line{width:18px;height:3px;border-radius:2px;background:var(--teal)}
+.lg-line.gold{background:var(--gold)}
+.lg-line.dashed{background:none;border-top:2px dashed var(--bad);height:0}
+#driftChart{width:100%;height:280px;display:block}
+#driftChart .grid-line{stroke:var(--line);stroke-width:1;stroke-dasharray:2 4}
+#driftChart .axis-text{fill:var(--muted);font-size:10px;font-family:var(--ff);font-weight:600}
+#driftChart .area-teal{fill:rgba(27,152,160,.08)}
+#driftChart .line-teal{fill:none;stroke:var(--teal);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+#driftChart .line-gold{fill:none;stroke:var(--gold);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;stroke-dasharray:5 4}
+#driftChart .threshold-line{stroke:var(--bad);stroke-width:1.5;stroke-dasharray:6 4;opacity:.6}
+#driftChart .threshold-label{fill:var(--bad);font-size:9px;font-weight:800;letter-spacing:.05em}
+#driftChart .point{fill:#fff;stroke-width:2.5}
+#driftChart .point.teal{stroke:var(--teal)}
+#driftChart .point.gold{stroke:var(--gold)}
+#driftChart .point.warn{fill:var(--warn);stroke:#fff}
+#driftChart .today-line{stroke:var(--bad);stroke-width:1.5;stroke-dasharray:3 3;opacity:.7}
+#driftChart .today-label{fill:var(--bad);font-size:9px;font-weight:800}
+
+.trigger-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:28px;box-shadow:var(--sh);margin-bottom:28px}
+.trigger-wrap h3{margin:0 0 6px;font-size:1.1rem;color:var(--navy)}
+.trigger-wrap > p{margin:0 0 22px;font-size:.88rem;color:var(--muted)}
+.trigger-flow{display:grid;grid-template-columns:repeat(5,1fr);gap:0;align-items:center}
+@media(max-width:940px){.trigger-flow{grid-template-columns:1fr;gap:8px}}
+.tr-step{background:linear-gradient(135deg,#F8FBFC,#EEF6F7);border:1.5px solid #C9E5E8;border-radius:12px;padding:16px 14px;text-align:center;transition:.25s}
+.tr-step:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 8px 18px rgba(27,152,160,.14)}
+.tr-step.crit{background:linear-gradient(135deg,#FFF5F5,#FFEAEA);border-color:#F0C0C0}
+.tr-step.act{background:linear-gradient(135deg,#FFF9EC,#FFF2D6);border-color:#F0D9A0}
+.tr-step.rust{background:linear-gradient(135deg,#FFF3EC,#FFE8DA);border-color:#F0C9A8}
+.tr-num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--navy);color:#fff;font-family:var(--fh);font-weight:800;font-size:.72rem;margin-bottom:8px}
+.tr-step.crit .tr-num{background:var(--bad)}
+.tr-step.act .tr-num{background:var(--gold);color:var(--navy)}
+.tr-step.rust .tr-num{background:var(--rust)}
+.tr-step b{display:block;font-family:var(--fh);font-size:.84rem;color:var(--navy);margin-bottom:4px}
+.tr-step span{display:block;font-size:.72rem;color:var(--muted);line-height:1.4}
+.tr-arrow{display:grid;place-items:center;font-size:1.4rem;color:#C9E5E8;font-weight:800}
+@media(max-width:940px){.tr-arrow{transform:rotate(90deg);padding:2px 0}}
+
+.checkpoint-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:28px}
+.checkpoint-head{padding:24px 28px 0}
+.checkpoint-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.checkpoint-head p{margin:0 0 20px;font-size:.88rem;color:var(--muted)}
+.checkpoint-scroll{overflow-x:auto}
+table.checkpoint{border-collapse:collapse;width:100%;min-width:820px;font-size:.85rem}
+table.checkpoint thead th{background:var(--navy);color:#fff;font-family:var(--fh);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:12px 16px;text-align:left}
+table.checkpoint tbody td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+table.checkpoint tbody tr:last-child td{border-bottom:none}
+table.checkpoint tbody tr:hover td{background:#F2FAFB}
+table.checkpoint td strong{color:var(--navy);font-family:var(--fh);font-size:.84rem}
+.cp-freq{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;padding:5px 11px;border-radius:100px;white-space:nowrap}
+.cp-freq.daily{background:rgba(27,152,160,.12);color:#0d6f77}
+.cp-freq.weekly{background:rgba(46,111,168,.12);color:#1e4f80}
+.cp-freq.monthly{background:rgba(123,97,255,.13);color:#543cc9}
+.cp-freq.quarterly{background:rgba(242,169,0,.16);color:#a86f12}
+.cp-freq.annual{background:rgba(214,69,69,.12);color:var(--bad)}
+.cp-freq.pre{background:rgba(30,158,106,.12);color:var(--ok)}
+.cp-owner{display:inline-block;background:var(--bg);border-radius:6px;padding:4px 10px;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+
+.incident-wrap{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);overflow:hidden;margin-bottom:28px}
+.incident-head{padding:24px 28px 0;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:flex-start}
+.incident-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.incident-head p{margin:0;font-size:.88rem;color:var(--muted)}
+.incident-scroll{overflow-x:auto;padding-top:18px}
+table.incident{border-collapse:collapse;width:100%;min-width:780px;font-size:.84rem}
+table.incident thead th{background:#F4F6F8;color:var(--muted);font-family:var(--fh);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;padding:11px 16px;text-align:left;border-bottom:1px solid var(--line)}
+table.incident tbody td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+table.incident tbody tr:last-child td{border-bottom:none}
+table.incident tbody tr:hover td{background:#F8FBFC}
+.inc-id{font-family:var(--mono);font-weight:700;color:var(--navy);font-size:.78rem}
+.inc-sev{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;padding:4px 9px;border-radius:100px}
+.inc-sev.sev1{background:rgba(214,69,69,.14);color:var(--bad)}
+.inc-sev.sev2{background:rgba(232,163,61,.18);color:#a86f12}
+.inc-sev.sev3{background:rgba(27,152,160,.12);color:#0d6f77}
+.inc-sev.closed{background:rgba(30,158,106,.12);color:var(--ok)}
+
+.thresholds{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-bottom:28px}
+@media(max-width:900px){.thresholds{grid-template-columns:1fr}}
+.th-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px 26px;box-shadow:var(--sh)}
+.th-card h4{margin:0 0 16px;font-size:1rem;color:var(--navy);display:flex;align-items:center;gap:9px}
+.th-list{list-style:none;padding:0;margin:0}
+.th-list li{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;padding:11px 0;border-bottom:1px dashed var(--line);font-size:.86rem}
+.th-list li:last-child{border-bottom:none}
+.th-list b{color:var(--navy);font-weight:700}
+.th-list small{display:block;color:var(--muted);font-size:.74rem;margin-top:2px}
+.th-badge{font-family:var(--fh);font-weight:800;font-size:.72rem;padding:5px 10px;border-radius:100px;white-space:nowrap}
+.th-badge.ok{background:rgba(30,158,106,.12);color:var(--ok)}
+.th-badge.warn{background:rgba(232,163,61,.18);color:#a86f12}
+.th-badge.bad{background:rgba(214,69,69,.14);color:var(--bad)}
+
+.lineage{background:linear-gradient(135deg,#F8FBFC,#EEF6F7);border:1px dashed #C9E5E8;border-radius:var(--r);padding:24px 28px}
+.lineage h4{margin:0 0 14px;font-size:.95rem;color:var(--navy)}
+.lineage-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:820px){.lineage-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.lineage-grid{grid-template-columns:1fr}}
+.lin-item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px;transition:.25s}
+.lin-item:hover{border-color:var(--teal);transform:translateY(-2px)}
+.lin-item b{display:block;font-family:var(--fh);font-size:.82rem;color:var(--navy);margin-bottom:3px}
+.lin-item span{font-size:.74rem;color:var(--muted)}
+
+/* ============================================
+   USE CASE 2 — PREDICTIVE MAINTENANCE
+   ============================================ */
+.usecase-banner{
+  background:linear-gradient(135deg,#1a0f05,#3d1f0a 60%,#5c2e10);
+  color:#fff;border-radius:var(--r);padding:44px 44px 40px;
+  position:relative;overflow:hidden;margin-bottom:44px;
+}
+.usecase-banner::after{
+  content:'';position:absolute;right:-100px;top:-100px;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(192,86,33,.45),transparent 68%);
+}
+.usecase-tag{
+  display:inline-flex;align-items:center;gap:9px;
+  background:rgba(232,133,61,.18);border:1px solid rgba(232,133,61,.45);
+  color:var(--rust-2);padding:7px 15px;border-radius:100px;
+  font-size:.76rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  margin-bottom:18px;
+}
+.usecase-banner h2{font-size:clamp(1.7rem,3.6vw,2.5rem);margin-bottom:14px;position:relative;z-index:2}
+.usecase-banner h2 .accent{
+  background:linear-gradient(100deg,var(--rust-2),var(--gold-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.usecase-banner p{color:rgba(255,255,255,.78);max-width:72ch;font-size:1.02rem;position:relative;z-index:2;margin:0}
+.usecase-banner .banner-chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;position:relative;z-index:2}
+
+.pdm-kpi-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;margin-bottom:32px}
+@media(max-width:900px){.pdm-kpi-grid{grid-template-columns:1fr}}
+.pdm-kpi-primary{
+  background:linear-gradient(135deg,#1a0f05,#3d1f0a);
+  color:#fff;border-radius:var(--r);padding:30px 32px;position:relative;overflow:hidden;
+  box-shadow:var(--sh-lg);
+}
+.pdm-kpi-primary::after{
+  content:'';position:absolute;right:-60px;bottom:-60px;width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,133,61,.35),transparent 70%);
+}
+.pdm-kpi-primary .kp-label{
+  font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--rust-2);margin-bottom:10px;position:relative;z-index:2;
+}
+.pdm-kpi-primary .kp-val{
+  font-family:var(--fh);font-weight:800;font-size:clamp(2rem,4vw,2.8rem);
+  line-height:1;margin-bottom:10px;position:relative;z-index:2;
+}
+.pdm-kpi-primary .kp-val .accent{
+  background:linear-gradient(100deg,var(--rust-2),var(--gold-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.pdm-kpi-primary .kp-sub{
+  font-size:.88rem;color:rgba(255,255,255,.72);max-width:52ch;
+  position:relative;z-index:2;line-height:1.55;
+}
+.pdm-kpi-primary .kp-baseline{
+  margin-top:16px;padding-top:16px;border-top:1px solid rgba(255,255,255,.14);
+  font-size:.8rem;color:rgba(255,255,255,.6);position:relative;z-index:2;
+}
+.pdm-kpi-primary .kp-baseline b{color:var(--gold-2);font-family:var(--fh)}
+
+.pdm-guardrails{display:flex;flex-direction:column;gap:12px}
+.gr-card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:16px 20px;display:flex;align-items:center;gap:14px;
+  box-shadow:var(--sh);transition:.25s;
+}
+.gr-card:hover{transform:translateY(-2px);box-shadow:var(--sh-lg)}
+.gr-ico{
+  width:40px;height:40px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#FFF3EC,#FFE8DA);font-size:1.15rem;flex-shrink:0;
+}
+.gr-body{flex:1;min-width:0}
+.gr-body b{display:block;font-family:var(--fh);font-size:.88rem;color:var(--navy);margin-bottom:2px}
+.gr-body span{font-size:.78rem;color:var(--muted);display:block;line-height:1.4}
+.gr-target{
+  font-family:var(--fh);font-weight:800;font-size:.9rem;color:var(--rust);
+  background:rgba(192,86,33,.1);padding:6px 12px;border-radius:8px;white-space:nowrap;
+}
+
+/* PdM lifecycle tabs */
+.pdm-flow{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 18px;scrollbar-width:thin}
+.pdm-flow-btn{
+  position:relative;flex:1 0 168px;background:#fff;border:1.5px solid var(--line);
+  border-radius:12px;padding:18px 16px 18px 28px;text-align:left;cursor:pointer;
+  font-family:var(--ff);transition:.25s;box-shadow:0 2px 8px rgba(11,37,69,.05);
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%,16px 50%);
+}
+.pdm-flow-btn:first-child{clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%)}
+.pdm-flow-btn:last-child{clip-path:polygon(0 0,100% 0,100% 100%,0 100%,16px 50%)}
+.pdm-flow-btn:hover{border-color:var(--rust);transform:translateY(-2px)}
+.pdm-flow-btn[aria-selected="true"]{
+  background:linear-gradient(135deg,#3d1f0a,#1a0f05);border-color:#3d1f0a;color:#fff;
+}
+.pdm-flow-btn[aria-selected="true"] .pfb-num{background:var(--rust-2);color:#fff}
+.pdm-flow-btn[aria-selected="true"] .pfb-name{color:#fff}
+.pfb-num{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;background:var(--bg);color:var(--navy);font-family:var(--fh);font-weight:800;font-size:.78rem;margin-bottom:9px;transition:.25s}
+.pfb-ico{font-size:1.1rem;display:block;margin-bottom:4px}
+.pfb-name{display:block;font-size:.86rem;font-weight:700;color:var(--navy);transition:.25s}
+
+.pdm-panel{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:34px;box-shadow:var(--sh);animation:fade .4s ease}
+.pdm-panel .sp-deliv{
+  background:linear-gradient(135deg,#FFF3EC,#FFE8DA);border-color:#F0C9A8;color:#9c4418;
+}
+.pdm-panel .sp-list li::before{background:var(--rust);box-shadow:0 0 0 3px rgba(192,86,33,.16)}
+
+/* Scenario matrix */
+.scenario-wrap{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh);overflow:hidden;margin-bottom:28px;
+}
+.scenario-head{padding:24px 28px 0}
+.scenario-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.scenario-head p{margin:0 0 20px;font-size:.88rem;color:var(--muted)}
+.scenario-scroll{overflow-x:auto}
+table.scenario{border-collapse:collapse;width:100%;min-width:820px;font-size:.85rem}
+table.scenario thead th{
+  background:linear-gradient(135deg,#3d1f0a,#5c2e10);color:#fff;font-family:var(--fh);
+  font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+  padding:12px 16px;text-align:left;
+}
+table.scenario tbody td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+table.scenario tbody tr:last-child td{border-bottom:none}
+table.scenario tbody tr:hover td{background:#FFF8F3}
+table.scenario td strong{color:var(--navy);font-family:var(--fh);font-size:.86rem}
+.sc-dim{
+  display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:.72rem;
+  text-transform:uppercase;letter-spacing:.06em;padding:5px 11px;border-radius:100px;
+  background:rgba(192,86,33,.1);color:var(--rust);white-space:nowrap;
+}
+.sc-tag{
+  display:inline-block;background:var(--bg);border:1px solid var(--line);border-radius:6px;
+  padding:3px 9px;font-size:.72rem;font-weight:700;color:var(--navy);margin:0 4px 4px 0;
+}
+
+/* Monitoring triggers */
+.trigger-table-wrap{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh);overflow:hidden;margin-bottom:28px;
+}
+.trigger-table-head{padding:24px 28px 0}
+.trigger-table-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.trigger-table-head p{margin:0 0 20px;font-size:.88rem;color:var(--muted)}
+.trigger-scroll{overflow-x:auto}
+table.trigger-tbl{border-collapse:collapse;width:100%;min-width:820px;font-size:.85rem}
+table.trigger-tbl thead th{
+  background:linear-gradient(135deg,#3d1f0a,#5c2e10);color:#fff;font-family:var(--fh);
+  font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+  padding:12px 16px;text-align:left;
+}
+table.trigger-tbl tbody td{padding:14px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+table.trigger-tbl tbody tr:last-child td{border-bottom:none}
+table.trigger-tbl tbody tr:hover td{background:#FFF8F3}
+table.trigger-tbl td strong{color:var(--navy);font-family:var(--fh);font-size:.84rem}
+.trig-sev{
+  display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:.68rem;
+  text-transform:uppercase;letter-spacing:.06em;padding:4px 9px;border-radius:100px;white-space:nowrap;
+}
+.trig-sev.crit{background:rgba(214,69,69,.14);color:var(--bad)}
+.trig-sev.warn{background:rgba(232,163,61,.18);color:#a86f12}
+.trig-sev.info{background:rgba(27,152,160,.12);color:#0d6f77}
+
+/* Interactive checklist */
+.checklist-wrap{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--sh);overflow:hidden;margin-bottom:28px;
+}
+.checklist-head{padding:24px 28px 0;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:flex-start}
+.checklist-head h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy)}
+.checklist-head p{margin:0;font-size:.88rem;color:var(--muted)}
+.checklist-progress{
+  display:flex;align-items:center;gap:12px;font-size:.78rem;font-weight:700;color:var(--muted);
+}
+.checklist-progress .cp-ring{
+  width:44px;height:44px;transform:rotate(-90deg);
+}
+.checklist-progress .cp-ring circle{fill:none;stroke-width:6;stroke-linecap:round}
+.checklist-progress .cp-bg{stroke:var(--line)}
+.checklist-progress .cp-val{stroke:var(--rust);transition:stroke-dashoffset .6s ease}
+.checklist-progress .cp-num{
+  position:absolute;font-family:var(--fh);font-weight:800;font-size:.78rem;color:var(--navy);
+}
+.cp-wrap{position:relative;display:grid;place-items:center}
+.checklist-groups{padding:20px 28px 28px;display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+@media(max-width:820px){.checklist-groups{grid-template-columns:1fr}}
+.cl-group{
+  background:linear-gradient(135deg,#FFFDFB,#FFF8F3);
+  border:1px solid #F0D9C8;border-radius:12px;padding:18px 20px;
+}
+.cl-group h4{
+  margin:0 0 14px;font-size:.86rem;color:var(--navy);
+  display:flex;align-items:center;gap:9px;font-family:var(--fh);
+}
+.cl-group h4 .cl-ico{
+  width:28px;height:28px;border-radius:8px;display:grid;place-items:center;
+  background:var(--rust);color:#fff;font-size:.85rem;
+}
+.cl-group h4 .cl-count{
+  margin-left:auto;font-size:.7rem;font-weight:800;color:var(--muted);
+  background:#fff;border:1px solid var(--line);border-radius:100px;padding:3px 9px;
+}
+.cl-item{
+  display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:flex-start;
+  padding:10px 0;border-bottom:1px dashed rgba(192,86,33,.15);cursor:pointer;
+}
+.cl-item:last-child{border-bottom:none}
+.cl-item input{
+  appearance:none;-webkit-appearance:none;width:20px;height:20px;border-radius:6px;
+  border:2px solid var(--line);cursor:pointer;transition:.2s;flex-shrink:0;margin-top:1px;
+  position:relative;
+}
+.cl-item input:checked{background:var(--rust);border-color:var(--rust)}
+.cl-item input:checked::after{
+  content:'✓';position:absolute;inset:0;display:grid;place-items:center;
+  color:#fff;font-weight:900;font-size:.78rem;
+}
+.cl-item label{
+  font-size:.84rem;color:#33475b;line-height:1.45;cursor:pointer;
+}
+.cl-item input:checked + label{
+  color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(192,86,33,.4);
+}
+.cl-item label b{color:var(--navy);font-family:var(--fh);font-weight:700}
+.cl-item label small{display:block;font-size:.72rem;color:var(--muted);margin-top:2px}
+
+/* PdM gate wrapper */
+.pdm-gate-section{
+  background:linear-gradient(135deg,#FFFDFB,#FFF6EF);
+  border:1px solid #F0D9C8;border-radius:var(--r);
+  padding:32px;margin-top:8px;
+}
+.pdm-gate-section > h3{
+  font-size:1.15rem;color:var(--navy);margin:0 0 6px;
+}
+.pdm-gate-section > p{font-size:.88rem;color:var(--muted);margin:0 0 24px}
+.pdm-gate-section .gate-id{
+  background:rgba(192,86,33,.1);color:var(--rust);
+}
+.pdm-gate-section .gate h4{color:var(--navy)}
+.pdm-gate-section .analyze-btn{
+  background:linear-gradient(135deg,var(--rust),#9c4418);
+}
+
+/* CTA */
+.cta{background:linear-gradient(150deg,var(--navy) 0%,#071a33 100%);color:#fff;border-radius:var(--r);padding:52px 44px;position:relative;overflow:hidden}
+.cta::after{content:'';position:absolute;right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(27,152,160,.4),transparent 68%)}
+.cta h3{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:12px}
+.cta p{color:rgba(255,255,255,.78);max-width:60ch}
+.cta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:28px 0;position:relative;z-index:2}
+@media(max-width:760px){.cta-grid{grid-template-columns:1fr}}
+.cta-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:16px 20px;display:flex;gap:13px;align-items:flex-start;font-size:.9rem;transition:.25s}
+.cta-item:hover{background:rgba(255,255,255,.14);transform:translateX(4px)}
+.cta-item b{display:block;color:#fff;font-family:var(--fh);font-size:.9rem}
+.cta-item span{color:rgba(255,255,255,.68);font-size:.82rem}
+.cta-foot{display:flex;flex-wrap:wrap;gap:14px;align-items:center;position:relative;z-index:2}
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--navy);font-weight:800;font-family:var(--fh);font-size:.87rem;padding:13px 26px;border-radius:100px;border:none;cursor:pointer;transition:.25s;text-decoration:none}
+.btn:hover{background:var(--gold-2);transform:translateY(-2px);box-shadow:0 10px 26px rgba(242,169,0,.3);text-decoration:none}
+.btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.35);color:#fff}
+.btn.ghost:hover{background:rgba(255,255,255,.12);box-shadow:none}
+.btn.rust{background:var(--rust);color:#fff}
+.btn.rust:hover{background:#9c4418;box-shadow:0 10px 26px rgba(192,86,33,.35)}
+
+footer{background:#071a33;color:rgba(255,255,255,.6);padding:38px 0;font-size:.82rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+footer a{color:var(--teal-2)}
+.foot-dots{display:flex;gap:7px}
+.foot-dots i{width:9px;height:9px;border-radius:50%;background:var(--teal);opacity:.5}
+.foot-dots i:nth-child(2){background:var(--gold)}
+.foot-dots i:nth-child(3){background:var(--rust)}
+
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* Modal */
+.modal-backdrop{
+  position:fixed;inset:0;z-index:500;background:rgba(7,26,51,.72);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:grid;place-items:center;padding:24px;
+  opacity:0;pointer-events:none;transition:opacity .28s ease;
+}
+.modal-backdrop[hidden]{display:none}
+.modal-backdrop.open{opacity:1;pointer-events:auto}
+.modal{
+  background:#fff;border-radius:20px;width:min(1040px,100%);max-height:92vh;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 40px 90px rgba(0,0,0,.4);
+  transform:translateY(20px) scale(.97);transition:transform .32s cubic-bezier(.2,.8,.3,1);
+}
+.modal-backdrop.open .modal{transform:none}
+.modal-head{
+  padding:24px 32px;border-bottom:1px solid var(--line);
+  display:grid;grid-template-columns:64px 1fr auto;gap:20px;align-items:center;
+  background:linear-gradient(135deg,#F8FBFC,#FFFFFF);position:relative;
+}
+@media(max-width:680px){.modal-head{grid-template-columns:48px 1fr;gap:14px;padding:20px 20px}.modal-verdict{grid-column:2}}
+.modal-gate-id{
+  width:64px;height:64px;border-radius:16px;display:grid;place-items:center;
+  font-family:var(--fh);font-weight:800;font-size:1.35rem;color:#fff;
+  background:linear-gradient(135deg,var(--navy),var(--navy-3));
+  box-shadow:0 10px 24px rgba(11,37,69,.22);flex-shrink:0;
+}
+.modal-gate-id.rust{background:linear-gradient(135deg,var(--rust),#9c4418);box-shadow:0 10px 24px rgba(192,86,33,.28)}
+@media(max-width:680px){.modal-gate-id{width:48px;height:48px;font-size:1rem;border-radius:12px}}
+.modal-head h3{margin:0 0 3px;font-size:1.3rem;color:var(--navy)}
+.modal-head p{margin:0;font-size:.86rem;color:var(--muted)}
+.modal-verdict{
+  font-family:var(--fh);font-weight:800;font-size:.86rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:12px 22px;border-radius:100px;
+  background:rgba(30,158,106,.14);color:var(--ok);
+  border:2px solid rgba(30,158,106,.3);white-space:nowrap;transition:.3s;
+}
+.modal-verdict.cond{background:rgba(232,163,61,.16);color:#a86f12;border-color:rgba(232,163,61,.4)}
+.modal-verdict.hold{background:rgba(46,111,168,.13);color:#1e4f80;border-color:rgba(46,111,168,.3)}
+.modal-verdict.nogo{background:rgba(214,69,69,.13);color:var(--bad);border-color:rgba(214,69,69,.3)}
+.modal-close{
+  position:absolute;top:16px;right:16px;width:38px;height:38px;border-radius:50%;
+  border:none;background:var(--bg);color:var(--muted);font-size:1.3rem;line-height:1;
+  cursor:pointer;display:grid;place-items:center;transition:.2s;font-family:var(--ff);
+}
+.modal-close:hover{background:var(--bad);color:#fff;transform:rotate(90deg)}
+.modal-body{padding:28px 32px 8px;overflow-y:auto;flex:1}
+@media(max-width:680px){.modal-body{padding:20px 20px 8px}}
+.prob-block{
+  display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;
+  background:linear-gradient(135deg,#F8FBFC,#EEF6F7);
+  border:1px solid #C9E5E8;border-radius:14px;padding:24px 28px;margin-bottom:24px;
+}
+@media(max-width:680px){.prob-block{grid-template-columns:1fr;gap:18px;text-align:center}}
+.prob-ring-wrap{position:relative;width:132px;height:132px;display:grid;place-items:center;flex-shrink:0}
+.prob-ring{width:132px;height:132px;transform:rotate(-90deg)}
+.prob-ring circle{fill:none;stroke-width:10;stroke-linecap:round}
+.prob-ring .pr-bg{stroke:rgba(11,37,69,.08)}
+.prob-ring .pr-val{stroke:var(--ok);transition:stroke-dashoffset .9s cubic-bezier(.3,.8,.3,1),stroke .4s}
+.prob-ring .pr-val.cond{stroke:var(--warn)}
+.prob-ring .pr-val.hold{stroke:#2E6FA8}
+.prob-ring .pr-val.nogo{stroke:var(--bad)}
+.prob-num{position:absolute;font-family:var(--fh);font-weight:800;font-size:1.9rem;color:var(--navy);line-height:1}
+.prob-num small{display:block;font-size:.62rem;font-weight:800;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-top:4px}
+.prob-info h4{margin:0 0 6px;font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.prob-info .prob-headline{font-family:var(--fh);font-weight:800;font-size:1.15rem;color:var(--navy);margin-bottom:12px}
+.prob-bar-track{height:14px;background:rgba(11,37,69,.08);border-radius:100px;overflow:hidden;position:relative;margin-bottom:10px}
+.prob-bar-fill{height:100%;border-radius:100px;width:0;background:linear-gradient(90deg,var(--teal),var(--ok));transition:width .9s cubic-bezier(.3,.8,.3,1),background .4s}
+.prob-bar-fill.cond{background:linear-gradient(90deg,var(--gold),var(--gold-2))}
+.prob-bar-fill.hold{background:linear-gradient(90deg,#2E6FA8,#4A90C9)}
+.prob-bar-fill.nogo{background:linear-gradient(90deg,var(--bad),#E87A7A)}
+.prob-scale{display:flex;justify-content:space-between;font-size:.64rem;font-weight:800;color:var(--idle);letter-spacing:.06em;text-transform:uppercase;margin-bottom:14px}
+.prob-meta{display:flex;flex-wrap:wrap;gap:18px;font-size:.8rem;color:var(--muted)}
+.prob-meta b{font-family:var(--fh);color:var(--navy);font-weight:800}
+.prob-formula{font-family:var(--mono);font-size:.72rem;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-top:12px;overflow-x:auto;white-space:nowrap}
+.m-sec-title{
+  font-family:var(--fh);font-size:.74rem;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--teal);margin:24px 0 12px;
+  display:flex;align-items:center;gap:10px;
+}
+.m-sec-title.rust{color:var(--rust)}
+.m-sec-title::after{content:'';flex:1;height:1px;background:var(--line)}
+.crit-list{display:flex;flex-direction:column;gap:8px}
+.crit-row{
+  display:grid;grid-template-columns:auto 1fr auto auto;gap:14px;align-items:center;
+  background:#fff;border:1.5px solid var(--line);border-radius:10px;
+  padding:12px 16px;cursor:pointer;transition:.22s;
+}
+.crit-row:hover{border-color:var(--teal);background:#F8FDFD}
+.crit-row.verified{border-color:rgba(30,158,106,.4);background:rgba(30,158,106,.04)}
+.crit-row.assumed{border-color:rgba(232,163,61,.45);background:rgba(232,163,61,.05)}
+@media(max-width:680px){.crit-row{grid-template-columns:auto 1fr;gap:10px}.crit-score,.crit-weight{grid-column:2}}
+.crit-check{width:22px;height:22px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;flex-shrink:0;transition:.2s;font-size:.8rem;color:transparent;font-weight:900}
+.crit-row.verified .crit-check{background:var(--ok);border-color:var(--ok);color:#fff}
+.crit-row.assumed .crit-check{background:transparent;border-color:var(--warn);color:var(--warn)}
+.crit-label{font-size:.86rem;font-weight:600;color:var(--navy);line-height:1.35}
+.crit-label small{display:block;font-size:.72rem;color:var(--muted);font-weight:500;margin-top:2px}
+.crit-score{font-family:var(--fh);font-weight:800;font-size:.86rem;color:var(--navy);background:var(--bg);padding:5px 11px;border-radius:8px;white-space:nowrap}
+.crit-weight{font-size:.72rem;font-weight:800;color:var(--muted);letter-spacing:.04em;white-space:nowrap}
+.pc-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:680px){.pc-grid{grid-template-columns:1fr}}
+.pc-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;border-top:3px solid var(--ok)}
+.pc-card.cons{border-top-color:var(--bad)}
+.pc-card h4{margin:0 0 12px;font-size:.86rem;color:var(--navy);display:flex;align-items:center;gap:8px;font-family:var(--fh)}
+.pc-card ul{list-style:none;padding:0;margin:0}
+.pc-card li{position:relative;padding-left:22px;margin-bottom:9px;font-size:.84rem;color:#33475b;line-height:1.45}
+.pc-card li:last-child{margin-bottom:0}
+.pc-card.pros li::before{content:'✓';position:absolute;left:0;top:0;color:var(--ok);font-weight:900;font-size:.8rem}
+.pc-card.cons li::before{content:'!';position:absolute;left:2px;top:0;color:var(--bad);font-weight:900;font-size:.86rem}
+.ev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:4px}
+@media(max-width:680px){.ev-grid{grid-template-columns:1fr}}
+.ev-card{background:linear-gradient(135deg,#F8FBFC,#FFFFFF);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+.ev-card.highlight{background:linear-gradient(135deg,#0B2545,#12345F);border-color:var(--navy);color:#fff}
+.ev-card.highlight .ev-label{color:rgba(255,255,255,.65)}
+.ev-card.highlight .ev-val{color:var(--gold-2)}
+.ev-card.highlight .ev-sub{color:rgba(255,255,255,.6)}
+.ev-label{font-size:.66rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.ev-val{font-family:var(--fh);font-weight:800;font-size:1.25rem;color:var(--navy);line-height:1.15}
+.ev-sub{font-size:.72rem;color:var(--muted);margin-top:3px;line-height:1.4}
+.ev-formula{font-family:var(--mono);font-size:.7rem;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-top:12px;overflow-x:auto;white-space:nowrap}
+.ev-card.highlight .ev-formula{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+.scenario-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:100px;padding:7px 10px;margin-bottom:20px}
+.scenario-bar > span{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:0 8px 0 6px}
+.sc-btn{background:#fff;border:1.5px solid var(--line);border-radius:100px;padding:7px 16px;font-family:var(--ff);font-size:.76rem;font-weight:700;color:var(--muted);cursor:pointer;transition:.2s}
+.sc-btn:hover{border-color:var(--teal);color:var(--teal)}
+.sc-btn[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.sc-btn.resolve{margin-left:auto;background:linear-gradient(135deg,var(--teal),#14818a);border-color:var(--teal);color:#fff}
+.sc-btn.resolve:hover{background:linear-gradient(135deg,#14818a,#0d6f77);color:#fff}
+.modal-foot{padding:18px 32px;border-top:1px solid var(--line);background:#FAFBFC;display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between}
+@media(max-width:680px){.modal-foot{padding:16px 20px}}
+.modal-foot .mf-note{font-size:.76rem;color:var(--muted);max-width:52ch}
+.modal-foot .mf-note b{color:var(--navy);font-family:var(--fh)}
+.mf-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn-sm{font-family:var(--ff);font-weight:800;font-size:.8rem;padding:10px 20px;border-radius:100px;border:none;cursor:pointer;transition:.22s;display:inline-flex;align-items:center;gap:7px}
+.btn-sm.primary{background:var(--navy);color:#fff}
+.btn-sm.primary:hover{background:var(--navy-3);transform:translateY(-1px)}
+.btn-sm.ghost{background:#fff;border:1.5px solid var(--line);color:var(--navy)}
+.btn-sm.ghost:hover{border-color:var(--navy)}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+@media print{
+  .topbar,.cta-foot,.expand-btn,.status-btn,.metric-tabs,.flow,.pdm-flow,.mon-actions,.analyze-btn{display:none !important}
+  body{background:#fff;font-size:10pt}
+  .modal-backdrop{display:none !important}
+  section{padding:16px 0;page-break-inside:avoid}
+  .hero,.usecase-banner{background:#0B2545 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:22px 0}
+  .hero .wrap{grid-template-columns:1fr}
+  .orbit{display:none}
+  .card,.gate,.risk,.stage-panel,.pdm-panel,.gantt,.tracker-card,.chart-card,.trigger-wrap,.checkpoint-wrap,.incident-wrap,.th-card{box-shadow:none;border:1px solid #ccc}
+}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand"><span class="dot" aria-hidden="true">🎓</span><span>Lifecycle Plan Hub</span></div>
+    <nav class="navlinks" aria-label="Section navigation">
+      <a href="#decision">Faculty AI</a>
+      <a href="#gates">Gates</a>
+      <a href="#monitoring">Monitoring</a>
+      <a href="#pdm">Predictive Maint.</a>
+      <a href="#pdm-scenarios">Scenarios</a>
+      <a href="#pdm-triggers">Triggers</a>
+      <a href="#pdm-checklist">Checklist</a>
+      <a href="#ask">Ask</a>
+    </nav>
+  </div>
+  <div class="progress-rail" id="rail" role="presentation"></div>
+</header>
+
+<main id="main">
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div>
+      <span class="hero-badge">● Two Lifecycle Plans · One Governance Framework</span>
+      <h1 id="hero-title">Lifecycle Plan <span class="accent">Hub</span><br>Faculty AI + Predictive Maintenance</h1>
+      <p class="lede">
+        Two responsible-AI initiatives under one operating model: a Faculty Affairs AI Assistant for inquiry triage,
+        and a Predictive Maintenance system for critical campus assets. Same six-stage lifecycle, same gate discipline,
+        same monitoring rigor.
+      </p>
+      <div class="hero-meta">
+        <span class="chip">🎓 Faculty Affairs AI</span>
+        <span class="chip rust">⚙️ Predictive Maintenance</span>
+        <span class="chip gold">📊 5 Stage Gates Each</span>
+        <span class="chip">📡 Live Monitoring</span>
+      </div>
+      <div class="hero-meta" style="margin-top:22px">
+        <a class="btn" href="#decision">Faculty AI plan →</a>
+        <a class="btn rust" href="#pdm">Predictive Maint. plan →</a>
+      </div>
+    </div>
+    <div class="orbit" role="img" aria-label="Two lifecycle plans at the center of a shared governance framework.">
+      <div class="ring r3"></div><div class="ring r1"></div><div class="ring r2"></div>
+      <div class="orb-core">Lifecycle<br>Hub</div>
+      <div class="orb" style="top:14.3%;left:50%;animation-delay:.10s"><i>🎓</i><span>Faculty AI</span></div>
+      <div class="orb" style="top:32.1%;left:81%;animation-delay:.20s"><i>⚙️</i><span>Predictive</span></div>
+      <div class="orb" style="top:67.9%;left:81%;animation-delay:.30s"><i>📊</i><span>Gates</span></div>
+      <div class="orb" style="top:85.7%;left:50%;animation-delay:.40s"><i>📡</i><span>Monitoring</span></div>
+      <div class="orb" style="top:67.9%;left:19%;animation-delay:.50s"><i>🛡</i><span>Governance</span></div>
+      <div class="orb" style="top:32.1%;left:19%;animation-delay:.60s"><i>🔁</i><span>Retraining</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= USE CASE 1: FACULTY AFFAIRS AI ================= -->
+<section id="decision" class="tint" aria-labelledby="dec-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Use Case 1 · Faculty Affairs AI</p>
+    <h2 class="sec-title reveal" id="dec-title">One decision, three paths, measurable outcomes</h2>
+    <p class="sec-lede reveal">For every inbound inquiry, the system decides <strong>auto-resolve</strong>, <strong>agent-assist</strong>, or <strong>human escalation</strong> — and when to retrain or roll back.</p>
+
+    <div class="decision-grid">
+      <div class="card reveal">
+        <h3 style="font-size:1.05rem;color:var(--navy)">Inquiry triage funnel</h3>
+        <div class="funnel">
+          <div class="funnel-row" style="--w:100%">100% inbound inquiries</div>
+          <div class="funnel-row" style="--w:84%">Intent + policy classification</div>
+          <div class="funnel-row" style="--w:68%">Confidence &amp; risk scoring</div>
+          <div class="funnel-row out" style="--w:52%">Route decision</div>
+          <div class="paths">
+            <div class="path p1"><b>40%</b>Auto-resolve</div>
+            <div class="path p2"><b>35%</b>Agent-assist</div>
+            <div class="path p3"><b>25%</b>Human escalation</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <h3 style="font-size:1.05rem;color:var(--navy);margin-bottom:18px">Target KPI dashboard</h3>
+        <div class="gauges">
+          <div class="card gauge-card">
+            <div class="gauge-wrap"><svg class="gauge" viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"></circle><circle class="g-val" cx="60" cy="60" r="52" data-pct="40"></circle></svg><span class="gauge-num">40%</span></div>
+            <div class="gauge-label">Containment</div><div class="gauge-sub">Baseline: 0%</div>
+          </div>
+          <div class="card gauge-card">
+            <div class="gauge-wrap"><svg class="gauge" viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"></circle><circle class="g-val" cx="60" cy="60" r="52" data-pct="90"></circle></svg><span class="gauge-num">4.5</span></div>
+            <div class="gauge-label">Faculty experience</div><div class="gauge-sub">out of 5.0</div>
+          </div>
+          <div class="card gauge-card">
+            <div class="gauge-wrap"><svg class="gauge" viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"></circle><circle class="g-val" cx="60" cy="60" r="52" data-pct="99"></circle></svg><span class="gauge-num">99%</span></div>
+            <div class="gauge-label">Guidance accuracy</div><div class="gauge-sub">incorrect &lt; 1%</div>
+          </div>
+          <div class="card gauge-card">
+            <div class="gauge-wrap"><svg class="gauge" viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"></circle><circle class="g-val" cx="60" cy="60" r="52" data-pct="95"></circle></svg><span class="gauge-num">95%</span></div>
+            <div class="gauge-label">Escalation recall</div><div class="gauge-sub">no missed handoffs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GATES (Faculty AI) -->
+<section id="gates" aria-labelledby="gates-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Use Case 1 · Governance</p>
+    <h2 class="sec-title reveal" id="gates-title">Five stage gates — go / no-go</h2>
+    <p class="sec-lede reveal">Click <strong>“Open decision analysis”</strong> on any gate for a live recommendation, probability of success, weighted criteria, pros &amp; cons, and expected value.</p>
+
+    <div class="gate-grid" id="gateGrid">
+      <article class="gate reveal" data-status="idle" data-gate="G1">
+        <div class="gate-id">G1</div>
+        <div><h4>Problem–Solution Fit</h4><p>Sponsor approves decision, KPI, baseline, ROI, and owner.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit"><ul><li>Decision and decision rights documented.</li><li>KPI measurable and strictly better than baseline.</li><li>Single accountable owner named.</li><li>No-go if scope or ownership is unclear.</li></ul></div>
+        </div>
+        <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G1">📊 Open decision analysis</button>
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+      <article class="gate reveal" data-status="idle" data-gate="G2">
+        <div class="gate-id">G2</div>
+        <div><h4>Data Readiness</h4><p>Access, quality, labeling, and privacy all cleared.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit"><ul><li>All source access approved in writing.</li><li>Data quality ≥ 95%; inter-rater agreement κ &gt; 0.8.</li><li>PII classification, DPIA, and retention signed off.</li><li>No-go if privacy or retention is unresolved.</li></ul></div>
+        </div>
+        <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G2">📊 Open decision analysis</button>
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+      <article class="gate reveal" data-status="idle" data-gate="G3">
+        <div class="gate-id">G3</div>
+        <div><h4>Model Build</h4><p>Candidate beats baseline inside cost and latency limits.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit"><ul><li>≥ 10% relative improvement in resolution accuracy vs baseline.</li><li>Hallucination ≤ 1%; latency &lt; 2s; cost &lt; $0.10 per chat.</li><li>Model card published with intended use and limits.</li></ul></div>
+        </div>
+        <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G3">📊 Open decision analysis</button>
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+      <article class="gate reveal" data-status="idle" data-gate="G4">
+        <div class="gate-id">G4</div>
+        <div><h4>Validation &amp; Risk</h4><p>Safety, fairness, and escalation reliability proven.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit"><ul><li>Red-team pass with no open critical findings.</li><li>Escalation recall ≥ 95%; incorrect guidance &lt; 1%.</li><li>Faculty experience non-inferior to human-only in shadow pilot.</li><li>Security and Legal sign-off; no Sev-1 or Sev-2 risks.</li></ul></div>
+        </div>
+        <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G4">📊 Open decision analysis</button>
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+      <article class="gate reveal" data-status="idle" data-gate="G5">
+        <div class="gate-id">G5</div>
+        <div><h4>Deployment Pilot</h4><p>Two-week pilot meets KPI with a proven rollback.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit"><ul><li>Containment ≥ 40% sustained across the pilot window.</li><li>Faculty experience ≥ 4.5/5.</li><li>Rollback tested end-to-end in under 15 minutes.</li><li>Operations owner assigned and on-call rota published.</li></ul></div>
+        </div>
+        <div class="gate-right">
+          <button class="analyze-btn" data-analyze="G5">📊 Open decision analysis</button>
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- MONITORING (Faculty AI) -->
+<section id="monitoring" class="tint" aria-labelledby="mon-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Use Case 1 · Live Operations</p>
+    <h2 class="sec-title reveal" id="mon-title">Faculty AI monitoring &amp; tracking</h2>
+    <p class="sec-lede reveal">Five KPIs, one drift chart, a retraining trigger workflow, and a full checkpoint schedule.</p>
+
+    <div class="mon-bar reveal">
+      <div class="mon-status"><span class="live-dot" aria-hidden="true"></span><span>Monitoring active · Pilot Week 2</span></div>
+      <div class="mon-meta">
+        <span>Last refresh: <b id="lastRefresh">just now</b></span>
+        <span>Alerts (24h): <b style="color:var(--warn)">2</b></span>
+        <span>Open incidents: <b style="color:var(--bad)">1</b></span>
+      </div>
+      <div class="mon-actions" role="group" aria-label="Monitoring controls">
+        <button type="button" data-mon-action="refresh">↻ Simulate refresh</button>
+        <button type="button" data-mon-action="pause" aria-pressed="false">⏸ Pause stream</button>
+        <button type="button" data-mon-action="export">⤓ Export snapshot</button>
+      </div>
+    </div>
+
+    <div class="tracker-grid" id="trackerGrid">
+      <div class="tracker-card reveal" data-kpi="containment">
+        <div class="tracker-head"><span class="tracker-label">Containment</span><span class="tracker-pill" data-pill>On track</span></div>
+        <div class="tracker-val" data-val>41.2%</div>
+        <div class="tracker-delta up" data-delta>▲ 2.1% vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="tracker-card reveal" data-kpi="hallucination">
+        <div class="tracker-head"><span class="tracker-label">Hallucination</span><span class="tracker-pill" data-pill>On track</span></div>
+        <div class="tracker-val" data-val>0.7%</div>
+        <div class="tracker-delta up" data-delta>▼ 0.2% vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="tracker-card reveal" data-kpi="csat">
+        <div class="tracker-head"><span class="tracker-label">Faculty exp.</span><span class="tracker-pill" data-pill>On track</span></div>
+        <div class="tracker-val" data-val>4.6</div>
+        <div class="tracker-delta up" data-delta>▲ 0.1 vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="tracker-card reveal" data-kpi="drift">
+        <div class="tracker-head"><span class="tracker-label">Drift score</span><span class="tracker-pill warn" data-pill>Watch</span></div>
+        <div class="tracker-val" data-val>0.18</div>
+        <div class="tracker-delta down" data-delta>▲ 0.04 vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+      <div class="tracker-card reveal" data-kpi="escalation">
+        <div class="tracker-head"><span class="tracker-label">Escalation recall</span><span class="tracker-pill" data-pill>On track</span></div>
+        <div class="tracker-val" data-val>96.4%</div>
+        <div class="tracker-delta up" data-delta>▲ 0.8% vs last week</div>
+        <svg class="spark" viewBox="0 0 100 34" preserveAspectRatio="none" aria-hidden="true"></svg>
+      </div>
+    </div>
+
+    <div class="chart-card reveal">
+      <div class="chart-head">
+        <div><h3>Model performance &amp; drift — trailing 12 weeks</h3><p>Accuracy and hallucination tracked weekly against guardrails.</p></div>
+        <div class="chart-legend" aria-hidden="true">
+          <span><span class="lg-line"></span>Accuracy</span>
+          <span><span class="lg-line gold"></span>Hallucination</span>
+          <span><span class="lg-line dashed"></span>Alert threshold</span>
+        </div>
+      </div>
+      <svg id="driftChart" viewBox="0 0 720 280" role="img" aria-label="Line chart of model accuracy and hallucination rate over 12 weeks."></svg>
+    </div>
+
+    <div class="trigger-wrap reveal">
+      <h3>Retraining trigger workflow</h3>
+      <p>Any trigger opens an automatic review ticket, routed to the model owner.</p>
+      <div class="trigger-flow" role="list">
+        <div class="tr-step" role="listitem"><span class="tr-num">1</span><b>Trigger fires</b><span>Drift &gt; 0.25 · accuracy drop &gt; 3pts · hallucination &gt; 1.5% · policy change</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step act" role="listitem"><span class="tr-num">2</span><b>Auto-triage</b><span>Incident ticket created, severity assigned, on-call model owner paged</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step crit" role="listitem"><span class="tr-num">3</span><b>Decide</b><span>Retrain · Rollback · Watch. Sev-1 auto-rolls back within 15 min</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step" role="listitem"><span class="tr-num">4</span><b>Re-validate</b><span>Golden set + red-team + shadow run before promotion</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step act" role="listitem"><span class="tr-num">5</span><b>Redeploy</b><span>Canary → pilot → scale. Postmortem logged within 5 business days</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     USE CASE 2: PREDICTIVE MAINTENANCE
+     ============================================================ -->
+<section id="pdm" class="tint" aria-labelledby="pdm-title" style="border-top:4px solid var(--rust)">
+  <div class="wrap">
+    <div class="usecase-banner reveal">
+      <span class="usecase-tag">● Use Case 2 · Facilities &amp; Operations</span>
+      <h2 id="pdm-title">Predictive Maintenance <span class="accent">Lifecycle Plan</span></h2>
+      <p>
+        For every monitored asset — chillers, boilers, elevators, pumps, generators, air handlers —
+        the model predicts failure risk and the system decides <strong>continue normal operation</strong>,
+        <strong>schedule maintenance within X days</strong>, <strong>inspect immediately</strong>, or <strong>take offline</strong>.
+        Same lifecycle discipline as the Faculty AI initiative, adapted for physical assets.
+      </p>
+      <div class="banner-chips">
+        <span class="chip rust">⚙️ Critical campus assets</span>
+        <span class="chip rust">📉 Reduce unplanned downtime</span>
+        <span class="chip rust">🔧 CMMS-integrated work orders</span>
+        <span class="chip rust">🛡 Safety-first escalation</span>
+      </div>
+    </div>
+
+    <!-- KPI definition -->
+    <p class="eyebrow reveal">KPI Definition</p>
+    <h3 class="sec-title reveal" style="font-size:clamp(1.3rem,2.6vw,1.8rem);margin-bottom:24px">What success looks like</h3>
+
+    <div class="pdm-kpi-grid">
+      <div class="pdm-kpi-primary reveal">
+        <div class="kp-label">Primary KPI</div>
+        <div class="kp-val"><span class="accent">−30%</span> unplanned downtime</div>
+        <div class="kp-sub">
+          Reduce unplanned asset downtime by 30% within 12 months of full rollout,
+          measured as total hours of unplanned outage across critical assets versus the
+          prior 12-month baseline.
+        </div>
+        <div class="kp-baseline">
+          <b>Baseline:</b> 1,840 unplanned downtime hours / year across 42 critical assets<br>
+          <b>Target:</b> ≤ 1,288 hours / year by month 12 · <b>Pilot target:</b> ≥ 20% reduction in 90 days
+        </div>
+      </div>
+
+      <div class="pdm-guardrails reveal">
+        <div class="gr-card">
+          <span class="gr-ico" aria-hidden="true">⚠️</span>
+          <div class="gr-body"><b>False positive rate</b><span>Don't over-schedule — unnecessary maintenance erodes trust</span></div>
+          <span class="gr-target">≤ 10%</span>
+        </div>
+        <div class="gr-card">
+          <span class="gr-ico" aria-hidden="true">🛡</span>
+          <div class="gr-body"><b>Safety incidents</b><span>Zero safety incidents attributable to model decisions</span></div>
+          <span class="gr-target">= 0</span>
+        </div>
+        <div class="gr-card">
+          <span class="gr-ico" aria-hidden="true">⚡</span>
+          <div class="gr-body"><b>Asset availability</b><span>Availability of critical systems must not degrade</span></div>
+          <span class="gr-target">≥ 99%</span>
+        </div>
+        <div class="gr-card">
+          <span class="gr-ico" aria-hidden="true">🔧</span>
+          <div class="gr-body"><b>MTTR reduction</b><span>Mean time to repair improves with early intervention</span></div>
+          <span class="gr-target">−15%</span>
+        </div>
+        <div class="gr-card">
+          <span class="gr-ico" aria-hidden="true">💰</span>
+          <div class="gr-body"><b>Maintenance cost / asset</b><span>Total maintenance spend per asset stays within budget</span></div>
+          <span class="gr-target">≤ baseline</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6 lifecycle stages -->
+    <p class="eyebrow reveal" style="margin-top:36px">Lifecycle</p>
+    <h3 class="sec-title reveal" style="font-size:clamp(1.3rem,2.6vw,1.8rem);margin-bottom:24px">Six stages · one deliverable each</h3>
+    <p class="sec-lede reveal">Select a stage to see its deliverable, activities, exit criteria, and owners.</p>
+
+    <div class="pdm-flow reveal" role="tablist" aria-label="Predictive maintenance lifecycle stages" id="pdmTabs">
+      <button class="pdm-flow-btn" role="tab" id="pdm-tab-1" aria-controls="pdm-panel-1" aria-selected="true" data-pdm-stage="1"><span class="pfb-num">01</span><span class="pfb-ico">🎯</span><span class="pfb-name">Problem definition</span></button>
+      <button class="pdm-flow-btn" role="tab" id="pdm-tab-2" aria-controls="pdm-panel-2" aria-selected="false" data-pdm-stage="2"><span class="pfb-num">02</span><span class="pfb-ico">📡</span><span class="pfb-name">Data readiness</span></button>
+      <button class="pdm-flow-btn" role="tab" id="pdm-tab-3" aria-controls="pdm-panel-3" aria-selected="false" data-pdm-stage="3"><span class="pfb-num">03</span><span class="pfb-ico">🧠</span><span class="pfb-name">Model development</span></button>
+      <button class="pdm-flow-btn" role="tab" id="pdm-tab-4" aria-controls="pdm-panel-4" aria-selected="false" data-pdm-stage="4"><span class="pfb-num">04</span><span class="pfb-ico">🛡</span><span class="pfb-name">Validation</span></button>
+      <button class="pdm-flow-btn" role="tab" id="pdm-tab-5" aria-controls="pdm-panel-5" aria-selected="false" data-pdm-stage="5"><span class="pfb-num">05</span><span class="pfb-ico">🚀</span><span class="pfb-name">Deployment</span></button>
+      <button class="pdm-flow-btn" role="tab" id="pdm-tab-6" aria-controls="pdm-panel-6" aria-selected="false" data-pdm-stage="6"><span class="pfb-num">06</span><span class="pfb-ico">📊</span><span class="pfb-name">Monitoring</span></button>
+    </div>
+
+    <!-- PdM stage panels -->
+    <div class="pdm-panel" id="pdm-panel-1" role="tabpanel" aria-labelledby="pdm-tab-1" tabindex="0">
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px;color:var(--rust)">Stage 01</p><h3>Problem definition</h3></div><span class="sp-deliv">📄 Decision Charter &amp; Asset Criticality Matrix</span></div>
+      <div class="sp-cols">
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Define the decision: continue, schedule maintenance, inspect now, or take offline.</li>
+          <li>Build the asset criticality matrix — rank assets by failure impact, cost, and safety.</li>
+          <li>Identify target failure modes per asset class (bearing, belt, refrigerant, winding, valve, sensor).</li>
+          <li>Establish baseline: current unplanned downtime hours, cost per failure, MTTR.</li>
+          <li>Set guardrails: false positive ceiling, safety floor, availability floor.</li>
+          <li>Quantify ROI: avoided downtime × cost per hour vs. program cost.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Facilities &amp; Operations</span><span class="owner">Approver: VP Operations</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips">
+          <span>Decision documented</span><span>Criticality matrix signed</span><span>Baseline measured</span><span>ROI approved</span><span>Owner named</span>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pdm-panel" id="pdm-panel-2" role="tabpanel" aria-labelledby="pdm-tab-2" tabindex="0" hidden>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px;color:var(--rust)">Stage 02</p><h3>Data readiness</h3></div><span class="sp-deliv">📡 Sensor &amp; Data Readiness Pack</span></div>
+      <div class="sp-cols">
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Inventory sensors: vibration, temperature, pressure, current, flow, run-hours.</li>
+          <li>Map asset registry: make, model, install date, duty cycle, service history.</li>
+          <li>Extract maintenance logs: work orders, parts replaced, failure codes, technician notes.</li>
+          <li>Integrate weather and occupancy data — ambient conditions drive asset load.</li>
+          <li>Label failure events: type, severity, lead time, root cause where known.</li>
+          <li>Establish governance: sensor data ownership, retention, calibration schedule.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Facilities Data &amp; Digital</span><span class="owner">Partner: IT · OT · Vendors</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips">
+          <span>Sensor coverage ≥ 90%</span><span>≥ 24 months failure history</span><span>Data quality ≥ 95%</span><span>Failure labels complete</span><span>Governance signed</span>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pdm-panel" id="pdm-panel-3" role="tabpanel" aria-labelledby="pdm-tab-3" tabindex="0" hidden>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px;color:var(--rust)">Stage 03</p><h3>Model development</h3></div><span class="sp-deliv">🧠 Model Card &amp; Benchmark Report</span></div>
+      <div class="sp-cols">
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Baselines: calendar-based maintenance, threshold alarms, statistical process control.</li>
+          <li>Candidates: anomaly detection (Isolation Forest, autoencoder), survival analysis (Weibull), classification (XGBoost, LSTM), remaining useful life (RUL) regression.</li>
+          <li>Benchmark: prediction accuracy, lead time (days of warning), false positive rate, false negative rate.</li>
+          <li>Evaluate per asset class and per failure mode — one model rarely fits all.</li>
+          <li>Publish model card: training data window, asset coverage, known failure modes, limits.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: ML Engineering</span><span class="owner">Partner: Facilities Engineering · Vendors</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips">
+          <span>Beats baseline on failure prediction</span><span>FPR ≤ 15%</span><span>Lead time ≥ 7 days</span><span>Model card published</span><span>Latency &lt; 5s</span>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pdm-panel" id="pdm-panel-4" role="tabpanel" aria-labelledby="pdm-tab-4" tabindex="0" hidden>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px;color:var(--rust)">Stage 04</p><h3>Validation</h3></div><span class="sp-deliv">✅ Validation Report &amp; Failure Mode Coverage Matrix</span></div>
+      <div class="sp-cols">
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Seasonal holdout: test on summer peak, winter heating, shoulder, and humidity seasons.</li>
+          <li>Machine holdout: test on assets not seen in training — new, old, different OEMs.</li>
+          <li>Failure-type holdout: test on each failure mode; document coverage gaps.</li>
+          <li>Operating-mode stress: startup, steady-state, peak load, idle, transient.</li>
+          <li>Cost-of-error analysis: weight false negatives (missed failure) vs false positives (over-scheduling).</li>
+          <li>Shadow mode: run predictions alongside current maintenance for 90 days.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Validation &amp; Reliability Eng</span><span class="owner">Sign-off: Safety · Facilities Ops</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips">
+          <span>Seasonal holdout pass</span><span>Machine holdout pass</span><span>Failure coverage ≥ 80%</span><span>Stress test pass</span><span>Safety sign-off</span>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pdm-panel" id="pdm-panel-5" role="tabpanel" aria-labelledby="pdm-tab-5" tabindex="0" hidden>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px;color:var(--rust)">Stage 05</p><h3>Deployment</h3></div><span class="sp-deliv">🚀 Release &amp; Rollback Runbook</span></div>
+      <div class="sp-cols">
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Integrate with CMMS: predictions become work orders with priority and lead time.</li>
+          <li>Route alerts: continue / schedule / inspect / offline — with clear ownership per route.</li>
+          <li>Canary on one asset class (e.g., air handlers) for 30 days before broader rollout.</li>
+          <li>Rollback plan: revert to calendar-based maintenance within one maintenance cycle.</li>
+          <li>Technician training: how to read predictions, how to give feedback, how to override.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Facilities Ops &amp; IT/OT</span><span class="owner">Comms: Facilities Leadership</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips">
+          <span>90-day pilot on one asset class</span><span>Downtime −20%</span><span>False alarm rate acceptable</span><span>CMMS integration stable</span><span>Technician adoption</span>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pdm-panel" id="pdm-panel-6" role="tabpanel" aria-labelledby="pdm-tab-6" tabindex="0" hidden>
+      <div class="sp-head"><div><p class="eyebrow" style="margin-bottom:6px;color:var(--rust)">Stage 06</p><h3>Monitoring</h3></div><span class="sp-deliv">📊 Monitoring Dashboard &amp; Retraining Playbook</span></div>
+      <div class="sp-cols">
+        <div><h4>What happens</h4><ul class="sp-list">
+          <li>Track prediction accuracy, lead time, false positive and false negative rates.</li>
+          <li>Monitor drift after maintenance — asset baseline shifts after service.</li>
+          <li>Monitor new parts — signature changes after component replacement.</li>
+          <li>Monitor sensor drift — data quality checks catch calibration issues.</li>
+          <li>Monitor seasonal drift — ambient conditions shift normal operating envelope.</li>
+          <li>Define retraining triggers and run monthly model review with named owner.</li>
+        </ul>
+        <div class="owner-row"><span class="owner">Owner: Facilities Data &amp; Digital</span><span class="owner">Partner: Reliability Eng · IT/OT</span></div></div>
+        <div><h4>Exit criteria</h4><div class="exit-chips">
+          <span>Dashboard live</span><span>Triggers defined</span><span>Owner assigned</span><span>Monthly review set</span><span>Technician feedback loop</span>
+        </div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PdM validation scenarios -->
+<section id="pdm-scenarios" aria-labelledby="scen-title">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="color:var(--rust)">PdM Validation</p>
+    <h2 class="sec-title reveal" id="scen-title">Validation scenarios</h2>
+    <p class="sec-lede reveal">
+      A predictive maintenance model must hold up across seasons, machines, failure types, and operating modes.
+      Each dimension is a holdout — the model is tested on scenarios it has not seen in training.
+    </p>
+
+    <div class="scenario-wrap reveal">
+      <div class="scenario-head">
+        <h3>Four validation dimensions</h3>
+        <p>Every dimension is a separate holdout. All four must pass before deployment.</p>
+      </div>
+      <div class="scenario-scroll">
+        <table class="scenario">
+          <caption class="sr">Validation scenarios by dimension, cases, and what is tested</caption>
+          <thead>
+            <tr>
+              <th scope="col">Dimension</th>
+              <th scope="col">Scenarios</th>
+              <th scope="col">What we test</th>
+              <th scope="col">Pass criteria</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="sc-dim">🌡 Seasons</span></td>
+              <td>
+                <span class="sc-tag">Summer peak</span>
+                <span class="sc-tag">Winter heating</span>
+                <span class="sc-tag">Shoulder</span>
+                <span class="sc-tag">Humidity / monsoon</span>
+              </td>
+              <td>Model performance under different ambient temperature, humidity, and load profiles.</td>
+              <td>Accuracy drop ≤ 5 pts vs. training-season baseline.</td>
+            </tr>
+            <tr>
+              <td><span class="sc-dim">⚙️ Machines</span></td>
+              <td>
+                <span class="sc-tag">New (&lt;1yr)</span>
+                <span class="sc-tag">Mid-life (1–5yr)</span>
+                <span class="sc-tag">Aged (&gt;10yr)</span>
+                <span class="sc-tag">Different OEMs</span>
+                <span class="sc-tag">Different duty cycles</span>
+              </td>
+              <td>Generalization across the asset population — not just the machines seen in training.</td>
+              <td>Machine holdout accuracy within 8 pts of in-sample; no asset class below 70%.</td>
+            </tr>
+            <tr>
+              <td><span class="sc-dim">🔧 Failure types</span></td>
+              <td>
+                <span class="sc-tag">Bearing wear</span>
+                <span class="sc-tag">Belt degradation</span>
+                <span class="sc-tag">Refrigerant leak</span>
+                <span class="sc-tag">Motor winding</span>
+                <span class="sc-tag">Valve stuck</span>
+                <span class="sc-tag">Sensor fault</span>
+              </td>
+              <td>Coverage of each failure mode — does the model catch it, and with how much lead time?</td>
+              <td>≥ 80% of failure modes covered; lead time ≥ 7 days for each covered mode.</td>
+            </tr>
+            <tr>
+              <td><span class="sc-dim">🔄 Operating modes</span></td>
+              <td>
+                <span class="sc-tag">Startup</span>
+                <span class="sc-tag">Steady-state</span>
+                <span class="sc-tag">Peak load</span>
+                <span class="sc-tag">Idle</span>
+                <span class="sc-tag">Transient</span>
+              </td>
+              <td>Robustness across operating regimes — does the model confuse normal transients with failures?</td>
+              <td>False positive rate ≤ 10% in each mode; no mode above 15%.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card reveal" style="background:linear-gradient(135deg,#FFF8F3,#FFFDFB);border-color:#F0D9C8">
+      <h4 style="color:var(--rust);font-size:.86rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px">Cost-of-error weighting</h4>
+      <p style="font-size:.9rem;color:#33475b;margin-bottom:0">
+        <strong>False negative</strong> (missed failure) → unplanned downtime, safety risk, emergency repair cost. Weight: <strong>10×</strong>.
+        <strong>False positive</strong> (unnecessary maintenance) → over-scheduling, technician time, parts waste, trust erosion. Weight: <strong>1×</strong>.
+        The model is tuned to favour catching failures over avoiding false alarms — but the false positive rate is capped at 10% to protect adoption.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- PdM monitoring triggers -->
+<section id="pdm-triggers" class="tint" aria-labelledby="trig-title">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="color:var(--rust)">PdM Monitoring</p>
+    <h2 class="sec-title reveal" id="trig-title">Monitoring triggers</h2>
+    <p class="sec-lede reveal">
+      Predictive maintenance models decay differently from language models. The biggest triggers are
+      <strong>maintenance events</strong> and <strong>part replacements</strong> — both change the asset's normal signature.
+    </p>
+
+    <div class="trigger-table-wrap reveal">
+      <div class="trigger-table-head">
+        <h3>Trigger → signal → action</h3>
+        <p>Every trigger has a severity, an owner, and a defined action. Severity determines whether the response is retrain, re-baseline, or rollback.</p>
+      </div>
+      <div class="trigger-scroll">
+        <table class="trigger-tbl">
+          <caption class="sr">Monitoring triggers for predictive maintenance with severity, signal, action, and owner</caption>
+          <thead>
+            <tr>
+              <th scope="col">Trigger</th>
+              <th scope="col">Signal</th>
+              <th scope="col">Severity</th>
+              <th scope="col">Action</th>
+              <th scope="col">Owner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Drift after maintenance</strong><br><span style="font-size:.76rem;color:var(--muted)">Asset signature shifts after service</span></td>
+              <td>Post-maintenance baseline differs &gt; 2σ from pre-maintenance</td>
+              <td><span class="trig-sev warn">Watch</span></td>
+              <td>Re-baseline asset; re-validate model on 30 days of post-maintenance data.</td>
+              <td>Reliability Eng</td>
+            </tr>
+            <tr>
+              <td><strong>New part installed</strong><br><span style="font-size:.76rem;color:var(--muted)">Component replacement changes signature</span></td>
+              <td>Vibration, current, or temperature signature diverges from fleet</td>
+              <td><span class="trig-sev warn">Watch</span></td>
+              <td>Flag asset for 30-day observation; compare new signature to fleet baseline.</td>
+              <td>Reliability Eng</td>
+            </tr>
+            <tr>
+              <td><strong>Sensor drift or failure</strong><br><span style="font-size:.76rem;color:var(--muted)">Data quality degrades</span></td>
+              <td>Flatlines, out-of-range values, or missing readings &gt; 2%</td>
+              <td><span class="trig-sev crit">Critical</span></td>
+              <td>Calibrate or replace sensor; exclude asset from model until data quality restored.</td>
+              <td>IT/OT</td>
+            </tr>
+            <tr>
+              <td><strong>Seasonal drift</strong><br><span style="font-size:.76rem;color:var(--muted)">Ambient conditions shift normal envelope</span></td>
+              <td>Accuracy drops &gt; 5 pts during season transition</td>
+              <td><span class="trig-sev info">Info</span></td>
+              <td>Adjust thresholds; re-validate seasonal model; consider seasonal model variant.</td>
+              <td>ML Engineering</td>
+            </tr>
+            <tr>
+              <td><strong>Model decay</strong><br><span style="font-size:.76rem;color:var(--muted)">Prediction accuracy degrades over time</span></td>
+              <td>Rolling 30-day accuracy drops &gt; 5 pts below validation</td>
+              <td><span class="trig-sev crit">Critical</span></td>
+              <td>Open retraining review; if safety-critical asset, revert to calendar-based maintenance.</td>
+              <td>ML Engineering</td>
+            </tr>
+            <tr>
+              <td><strong>New asset added</strong><br><span style="font-size:.76rem;color:var(--muted)">No historical data for the asset</span></td>
+              <td>Asset not in training set</td>
+              <td><span class="trig-sev info">Info</span></td>
+              <td>Run in shadow mode for 90 days; collect baseline before enabling predictions.</td>
+              <td>Facilities Ops</td>
+            </tr>
+            <tr>
+              <td><strong>Load change</strong><br><span style="font-size:.76rem;color:var(--muted)">Occupancy or duty cycle shifts</span></td>
+              <td>Run-hours or load profile changes &gt; 20%</td>
+              <td><span class="trig-sev info">Info</span></td>
+              <td>Re-estimate normal operating envelope; adjust anomaly thresholds.</td>
+              <td>Facilities Ops</td>
+            </tr>
+            <tr>
+              <td><strong>False negative</strong><br><span style="font-size:.76rem;color:var(--muted)">Missed failure — post-mortem</span></td>
+              <td>Actual failure occurred without prediction</td>
+              <td><span class="trig-sev crit">Critical</span></td>
+              <td>Root cause analysis; add to golden set; review model coverage for that failure mode.</td>
+              <td>Reliability Eng · ML</td>
+            </tr>
+            <tr>
+              <td><strong>False positive spike</strong><br><span style="font-size:.76rem;color:var(--muted)">Too many unnecessary work orders</span></td>
+              <td>FPR &gt; 15% over rolling 7 days for any asset class</td>
+              <td><span class="trig-sev warn">Watch</span></td>
+              <td>Tune thresholds; review with technicians; consider confidence floor adjustment.</td>
+              <td>ML Engineering</td>
+            </tr>
+            <tr>
+              <td><strong>Safety override</strong><br><span style="font-size:.76rem;color:var(--muted)">Any safety-related prediction error</span></td>
+              <td>Model decision contributed to unsafe condition</td>
+              <td><span class="trig-sev crit">Critical</span></td>
+              <td>Immediate rollback to calendar-based maintenance; safety review within 24 hours.</td>
+              <td>Safety Officer</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="trigger-wrap reveal">
+      <h3>Post-maintenance re-baseline workflow</h3>
+      <p>Every maintenance event changes the asset. This workflow runs automatically after each completed work order.</p>
+      <div class="trigger-flow" role="list">
+        <div class="tr-step" role="listitem"><span class="tr-num">1</span><b>Work order closed</b><span>CMMS emits completion event with parts replaced and work performed</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step act" role="listitem"><span class="tr-num">2</span><b>Collect new baseline</b><span>30 days of post-maintenance sensor data captured for re-baselining</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step rust" role="listitem"><span class="tr-num">3</span><b>Compare signatures</b><span>New signature vs. fleet baseline vs. pre-maintenance signature</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step" role="listitem"><span class="tr-num">4</span><b>Re-baseline or flag</b><span>If within 2σ: re-baseline. If outside: flag for engineering review</span></div>
+        <div class="tr-arrow" aria-hidden="true">→</div>
+        <div class="tr-step act" role="listitem"><span class="tr-num">5</span><b>Re-enable predictions</b><span>Asset returns to active monitoring with updated baseline</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PdM monitoring checklist -->
+<section id="pdm-checklist" aria-labelledby="cl-title">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="color:var(--rust)">PdM Operations</p>
+    <h2 class="sec-title reveal" id="cl-title">Monitoring checklist</h2>
+    <p class="sec-lede reveal">
+      The operational checklist for the predictive maintenance program.
+      Tick items off as you go — your progress is saved in the browser.
+    </p>
+
+    <div class="checklist-wrap reveal">
+      <div class="checklist-head">
+        <div>
+          <h3>PdM monitoring checklist</h3>
+          <p>Grouped by cadence. Click any item to mark it complete.</p>
+        </div>
+        <div class="checklist-progress">
+          <div class="cp-wrap">
+            <svg class="cp-ring" viewBox="0 0 44 44" aria-hidden="true">
+              <circle class="cp-bg" cx="22" cy="22" r="18"></circle>
+              <circle class="cp-val" id="clRing" cx="22" cy="22" r="18"></circle>
+            </svg>
+            <span class="cp-num" id="clPct">0%</span>
+          </div>
+          <span id="clCount">0 / 0 complete</span>
+        </div>
+      </div>
+
+      <div class="checklist-groups" id="checklistGroups">
+
+        <div class="cl-group">
+          <h4><span class="cl-ico">📅</span>Daily <span class="cl-count" data-cl-count="daily">0/0</span></h4>
+          <label class="cl-item"><input type="checkbox" data-cl="d1"><span><b>Sensor health</b><small>All sensors reporting; no flatlines, no out-of-range values</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="d2"><span><b>Data completeness</b><small>≥ 98% of expected readings received in last 24h</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="d3"><span><b>Alert volume</b><small>No more than X alerts per asset per day</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="d4"><span><b>Critical alerts routed</b><small>Any "inspect immediately" alert acknowledged by on-call</small></span></label>
+        </div>
+
+        <div class="cl-group">
+          <h4><span class="cl-ico">📊</span>Weekly <span class="cl-count" data-cl-count="weekly">0/0</span></h4>
+          <label class="cl-item"><input type="checkbox" data-cl="w1"><span><b>Prediction accuracy</b><small>Compare predicted vs. actual failures for the week</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="w2"><span><b>False positive review</b><small>Review all false alarms with technicians</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="w3"><span><b>False negative review</b><small>Post-mortem any missed failure</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="w4"><span><b>Maintenance feedback</b><small>Technician notes on completed work orders reviewed</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="w5"><span><b>Drift score</b><small>Per-asset drift within watch band</small></span></label>
+        </div>
+
+        <div class="cl-group">
+          <h4><span class="cl-ico">🗓</span>Monthly <span class="cl-count" data-cl-count="monthly">0/0</span></h4>
+          <label class="cl-item"><input type="checkbox" data-cl="m1"><span><b>Model performance by asset class</b><small>Accuracy, lead time, FPR per class</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="m2"><span><b>Sensor calibration status</b><small>Calibration current for all monitored sensors</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="m3"><span><b>Cost per asset vs. baseline</b><small>Maintenance spend within budget</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="m4"><span><b>Availability vs. target</b><small>≥ 99% for critical assets</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="m5"><span><b>Technician feedback loop</b><small>Feedback reviewed and acted on</small></span></label>
+        </div>
+
+        <div class="cl-group">
+          <h4><span class="cl-ico">📈</span>Quarterly <span class="cl-count" data-cl-count="quarterly">0/0</span></h4>
+          <label class="cl-item"><input type="checkbox" data-cl="q1"><span><b>Retraining decision</b><small>Retrain / hold / retire — documented with rationale</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="q2"><span><b>Model card update</b><small>Reflect current data, coverage, and limits</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="q3"><span><b>Sensor audit</b><small>Physical inspection of sensor installation and wiring</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="q4"><span><b>ROI review</b><small>Downtime hours avoided, cost saved, program cost</small></span></label>
+        </div>
+
+        <div class="cl-group">
+          <h4><span class="cl-ico">🔧</span>After every maintenance event <span class="cl-count" data-cl-count="maint">0/0</span></h4>
+          <label class="cl-item"><input type="checkbox" data-cl="a1"><span><b>Re-baseline asset</b><small>Capture 30 days of post-maintenance data</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="a2"><span><b>Validate model on post-maintenance data</b><small>Confirm predictions still accurate</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="a3"><span><b>Update maintenance log</b><small>Parts replaced, work performed, technician notes</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="a4"><span><b>Compare new signature to fleet</b><small>Flag anomalies for engineering review</small></span></label>
+        </div>
+
+        <div class="cl-group">
+          <h4><span class="cl-ico">🔩</span>After part replacement <span class="cl-count" data-cl-count="part">0/0</span></h4>
+          <label class="cl-item"><input type="checkbox" data-cl="p1"><span><b>Re-baseline asset</b><small>New part changes signature — old baseline is invalid</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="p2"><span><b>Flag for 30-day observation</b><small>Watch for abnormal behaviour during break-in</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="p3"><span><b>Compare new signature to fleet</b><small>Confirm new part behaves like fleet baseline</small></span></label>
+          <label class="cl-item"><input type="checkbox" data-cl="p4"><span><b>Update parts inventory</b><small>Record replacement for warranty and reliability tracking</small></span></label>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PdM gates -->
+<section id="pdm-gates" class="tint" aria-labelledby="pdm-gates-title">
+  <div class="wrap">
+    <p class="eyebrow reveal" style="color:var(--rust)">PdM Governance</p>
+    <h2 class="sec-title reveal" id="pdm-gates-title">Predictive maintenance stage gates</h2>
+    <p class="sec-lede reveal">Same gate discipline as the Faculty AI initiative, adapted for physical assets and safety-critical decisions.</p>
+
+    <div class="pdm-gate-section reveal">
+      <h3>Five gates — go / no-go</h3>
+      <p>Click <strong>“Open decision analysis”</strong> on any gate for a live recommendation with probability of success, weighted criteria, pros &amp; cons, and expected value.</p>
+
+      <div class="gate-grid" style="margin-top:24px">
+        <article class="gate" data-status="idle" data-gate="PDM-G1">
+          <div class="gate-id">P1</div>
+          <div><h4>Problem–Solution Fit</h4><p>Asset criticality, failure modes, baseline, ROI approved.</p>
+            <button class="expand-btn" aria-expanded="false">Criteria</button>
+            <div class="gate-crit"><ul><li>Asset criticality matrix signed off.</li><li>Target failure modes identified and ranked.</li><li>Baseline downtime and cost measured.</li><li>ROI model approved by sponsor.</li></ul></div>
+          </div>
+          <div class="gate-right">
+            <button class="analyze-btn rust" data-analyze="PDM-G1">📊 Open decision analysis</button>
+            <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+          </div>
+        </article>
+
+        <article class="gate" data-status="idle" data-gate="PDM-G2">
+          <div class="gate-id">P2</div>
+          <div><h4>Data Readiness</h4><p>Sensor coverage, failure history, labeling, governance cleared.</p>
+            <button class="expand-btn" aria-expanded="false">Criteria</button>
+            <div class="gate-crit"><ul><li>Sensor coverage ≥ 90% of critical assets.</li><li>≥ 24 months of historical failure data.</li><li>Data quality ≥ 95%; failure events labeled.</li><li>Sensor governance and retention signed off.</li></ul></div>
+          </div>
+          <div class="gate-right">
+            <button class="analyze-btn rust" data-analyze="PDM-G2">📊 Open decision analysis</button>
+            <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+          </div>
+        </article>
+
+        <article class="gate" data-status="idle" data-gate="PDM-G3">
+          <div class="gate-id">P3</div>
+          <div><h4>Model Build</h4><p>Candidate beats baseline with acceptable lead time and false positive rate.</p>
+            <button class="expand-btn" aria-expanded="false">Criteria</button>
+            <div class="gate-crit"><ul><li>Beats baseline on failure prediction.</li><li>False positive rate ≤ 15%.</li><li>Lead time ≥ 7 days on covered failure modes.</li><li>Model card published; inference latency &lt; 5s.</li></ul></div>
+          </div>
+          <div class="gate-right">
+            <button class="analyze-btn rust" data-analyze="PDM-G3">📊 Open decision analysis</button>
+            <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+          </div>
+        </article>
+
+        <article class="gate" data-status="idle" data-gate="PDM-G4">
+          <div class="gate-id">P4</div>
+          <div><h4>Validation &amp; Safety</h4><p>Seasonal, machine, and failure-type holdouts pass; safety sign-off obtained.</p>
+            <button class="expand-btn" aria-expanded="false">Criteria</button>
+            <div class="gate-crit"><ul><li>Seasonal holdout pass (all four seasons).</li><li>Machine holdout pass (new, aged, different OEMs).</li><li>Failure-type coverage ≥ 80% with lead time ≥ 7 days.</li><li>Safety sign-off; no open Sev-1 findings.</li></ul></div>
+          </div>
+          <div class="gate-right">
+            <button class="analyze-btn rust" data-analyze="PDM-G4">📊 Open decision analysis</button>
+            <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+          </div>
+        </article>
+
+        <article class="gate" data-status="idle" data-gate="PDM-G5">
+          <div class="gate-id">P5</div>
+          <div><h4>Deployment Pilot</h4><p>90-day pilot on one asset class meets KPI with proven rollback.</p>
+            <button class="expand-btn" aria-expanded="false">Criteria</button>
+            <div class="gate-crit"><ul><li>90-day pilot on one asset class completed.</li><li>Downtime reduced ≥ 20% on pilot assets.</li><li>False alarm rate acceptable to technicians.</li><li>CMMS integration stable; rollback tested.</li></ul></div>
+          </div>
+          <div class="gate-right">
+            <button class="analyze-btn rust" data-analyze="PDM-G5">📊 Open decision analysis</button>
+            <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMBINED ASK -->
+<section id="ask" aria-labelledby="ask-title">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h3 id="ask-title">The ask — both initiatives</h3>
+      <p>Approve the founding gates for both lifecycle plans and fund the data readiness sprints so both pilots can begin on schedule.</p>
+      <div class="cta-grid">
+        <div class="cta-item"><span aria-hidden="true">🎓</span><div><b>Faculty AI · Approve G1</b><span>Confirm decision, KPI, baseline, and owner.</span></div></div>
+        <div class="cta-item"><span aria-hidden="true">⚙️</span><div><b>PdM · Approve P1</b><span>Confirm asset criticality, failure modes, and ROI.</span></div></div>
+        <div class="cta-item"><span aria-hidden="true">💰</span><div><b>Fund both data sprints</b><span>Faculty: access, quality, DPIA. PdM: sensors, failure labels, governance.</span></div></div>
+        <div class="cta-item"><span aria-hidden="true">📡</span><div><b>Stand up shared monitoring</b><span>One dashboard framework, two use cases, unified on-call.</span></div></div>
+      </div>
+      <div class="cta-foot">
+        <a class="btn" href="#gates">Faculty AI gates ↑</a>
+        <a class="btn rust" href="#pdm-gates">PdM gates ↑</a>
+        <span style="font-size:.82rem;color:rgba(255,255,255,.55)">Two responsible-AI initiatives. One governance framework.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><strong style="color:#fff;font-family:var(--fh)">Lifecycle Plan Hub</strong><br>Faculty Affairs AI + Predictive Maintenance · v2.0</div>
+    <div class="foot-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div><a href="#main">Back to top</a></div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-backdrop" id="gateModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-head">
+      <div class="modal-gate-id" id="modalGateId">G1</div>
+      <div>
+        <h3 id="modalTitle">Problem–Solution Fit</h3>
+        <p id="modalDesc">Sponsor approves decision, KPI, baseline, ROI, and owner.</p>
+      </div>
+      <div class="modal-verdict" id="modalVerdict" data-verdict>GO</div>
+      <button class="modal-close" type="button" id="modalClose" aria-label="Close decision analysis">×</button>
+    </div>
+
+    <div class="modal-body" id="modalBody">
+      <div class="scenario-bar" role="group" aria-label="Scenario simulator">
+        <span>Scenario</span>
+        <button type="button" class="sc-btn" data-scenario="base" aria-pressed="true">Base case</button>
+        <button type="button" class="sc-btn" data-scenario="optimistic" aria-pressed="false">Optimistic</button>
+        <button type="button" class="sc-btn" data-scenario="pessimistic" aria-pressed="false">Pessimistic</button>
+        <button type="button" class="sc-btn resolve" id="resolveBtn">✓ Resolve all open items</button>
+      </div>
+
+      <div class="prob-block">
+        <div class="prob-ring-wrap">
+          <svg class="prob-ring" viewBox="0 0 132 132" aria-hidden="true">
+            <circle class="pr-bg" cx="66" cy="66" r="56"></circle>
+            <circle class="pr-val" id="probRing" cx="66" cy="66" r="56"></circle>
+          </svg>
+          <div class="prob-num"><span id="probNum">0</span>%<small>Success</small></div>
+        </div>
+        <div class="prob-info">
+          <h4>Likelihood of success</h4>
+          <div class="prob-headline" id="probHeadline">Calculating…</div>
+          <div class="prob-bar-track"><div class="prob-bar-fill" id="probBar"></div></div>
+          <div class="prob-scale"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+          <div class="prob-meta">
+            <span>Readiness score: <b id="readinessScore">—</b></span>
+            <span>Confidence band: <b id="confidenceBand">—</b></span>
+            <span>Base rate: <b id="baseRate">—</b></span>
+          </div>
+          <div class="prob-formula" id="probFormula">P(success) = 1 / (1 + e^(−(score − 60) / 16))</div>
+        </div>
+      </div>
+
+      <div class="m-sec-title" id="critTitle">Weighted criteria — click to toggle verification</div>
+      <div class="crit-list" id="critList"></div>
+      <p style="font-size:.76rem;color:var(--muted);margin-top:10px">
+        <strong style="color:var(--navy)">Verified</strong> = evidence on file (full weight).
+        <strong style="color:#a86f12">Assumed</strong> = not yet evidenced (75% weight applied).
+      </p>
+
+      <div class="m-sec-title" id="recTitle">Recommendation analysis</div>
+      <div class="pc-grid">
+        <div class="pc-card pros"><h4>✅ Reasons to proceed</h4><ul id="prosList"></ul></div>
+        <div class="pc-card cons"><h4>⚠️ Reasons to hold or remediate</h4><ul id="consList"></ul></div>
+      </div>
+
+      <div class="m-sec-title" id="evTitle">Expected value calculation</div>
+      <div class="ev-grid">
+        <div class="ev-card"><div class="ev-label">Probability of success</div><div class="ev-val" id="evP">—</div><div class="ev-sub">Risk-adjusted likelihood this gate delivers</div></div>
+        <div class="ev-card"><div class="ev-label">Projected benefit</div><div class="ev-val" id="evBenefit">—</div><div class="ev-sub">Annual value if gate succeeds</div></div>
+        <div class="ev-card"><div class="ev-label">Cost to proceed</div><div class="ev-val" id="evCost">—</div><div class="ev-sub">Investment to move to next gate</div></div>
+      </div>
+      <div class="ev-card highlight" style="margin-top:14px">
+        <div class="ev-label">Expected value</div>
+        <div class="ev-val" id="evResult">—</div>
+        <div class="ev-sub" id="evInterpretation">—</div>
+        <div class="ev-formula" id="evFormula">EV = P(success) × Benefit − (1 − P) × Cost</div>
+      </div>
+
+      <div class="m-sec-title" id="sensTitle">Sensitivity — what changes the answer</div>
+      <div class="ev-card"><div class="ev-sub" style="font-size:.84rem;color:#33475b" id="sensitivityText">—</div></div>
+    </div>
+
+    <div class="modal-foot">
+      <div class="mf-note"><b id="footRec">Recommendation:</b> <span id="footRecText">—</span></div>
+      <div class="mf-actions">
+        <button type="button" class="btn-sm ghost" id="modalCloseBtn">Close</button>
+        <button type="button" class="btn-sm primary" id="applyStatusBtn">Apply to gate status</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ============================================================
+     GATE MODELS — Faculty AI (G1..G5) + Predictive Maintenance (PDM-G1..PDM-G5)
+     ============================================================ */
+  var GATE_MODELS = {
+    /* ---- FACULTY AI ---- */
+    G1: {
+      id:'G1', name:'Problem–Solution Fit', desc:'Sponsor approves decision, KPI, baseline, ROI, and owner.',
+      baseRate: 0.62, benefit: 420000, cost: 180000,
+      criteria: [
+        {id:'c1', label:'Decision & decision rights documented', weight:0.20, score:90, verified:true, evidence:'Charter signed by VP on W1', owner:'Faculty Affairs Strategy'},
+        {id:'c2', label:'KPI measurable and > baseline', weight:0.25, score:85, verified:true, evidence:'Baseline: 0% containment; target 40%', owner:'Data & Digital Strategy'},
+        {id:'c3', label:'Single accountable owner named', weight:0.20, score:95, verified:true, evidence:'Owner: Director, Faculty Affairs Ops', owner:'Faculty Affairs'},
+        {id:'c4', label:'ROI & funding case approved', weight:0.20, score:80, verified:false, evidence:'Draft model; awaiting finance sign-off', owner:'Faculty Affairs Strategy'},
+        {id:'c5', label:'Stakeholder alignment across schools', weight:0.15, score:80, verified:true, evidence:'5 of 6 deans briefed; one pending', owner:'Faculty Affairs Ops'}
+      ],
+      pros:['Decision is concrete and bounded to three routes','KPI tree links directly to faculty experience','Sponsor has authority to fund and unblock','Baseline is measurable against current manual handling','Owner is named and accountable'],
+      cons:['ROI model depends on adoption assumptions not yet tested','One dean not yet briefed — political risk','Cost per chat target may shift with model choice','Scope could expand to staff HR inquiries if not bounded'],
+      sensitivity:'If ROI is verified, probability rises to about 82%. If stakeholder alignment slips below 70, probability falls to about 74% and the recommendation drops to Conditional Go.'
+    },
+    G2: {
+      id:'G2', name:'Data Readiness', desc:'Access, quality, labeling, and privacy all cleared.',
+      baseRate: 0.55, benefit: 380000, cost: 150000,
+      criteria: [
+        {id:'c1', label:'All source access approved in writing', weight:0.25, score:85, verified:true, evidence:'DSAs signed with HRIS and IT', owner:'Data & Digital Strategy'},
+        {id:'c2', label:'Data quality ≥ 95%', weight:0.25, score:88, verified:true, evidence:'94.6% on 3 of 4 sources; one at 91%', owner:'Data Engineering'},
+        {id:'c3', label:'Label agreement κ > 0.8', weight:0.20, score:76, verified:false, evidence:'κ = 0.71 on promotions intent', owner:'Validation'},
+        {id:'c4', label:'DPIA, PII, retention signed off', weight:0.20, score:70, verified:false, evidence:'DPIA drafted; retention schedule in review', owner:'Legal · Security'},
+        {id:'c5', label:'Taxonomy & intent map complete', weight:0.10, score:82, verified:true, evidence:'6 domains mapped; edge cases tagged', owner:'Data & Digital Strategy'}
+      ],
+      pros:['Most sources already accessible under signed agreements','Policy corpus is well-maintained and versioned','Quality above threshold on 3 of 4 sources','Taxonomy covers all six faculty affairs domains'],
+      cons:['DPIA not signed — hard blocker under policy','Label agreement below target on promotions intent','Retention schedule still in draft','One source at 91% quality drags the average'],
+      sensitivity:'Resolving DPIA and κ pushes probability to about 78% but not to Go — the weighted score is structurally capped by the DPIA weight. This gate should be treated as a remediation gate.'
+    },
+    G3: {
+      id:'G3', name:'Model Build', desc:'Candidate beats baseline inside cost and latency limits.',
+      baseRate: 0.58, benefit: 350000, cost: 120000,
+      criteria: [
+        {id:'c1', label:'≥ 10% relative improvement in accuracy', weight:0.30, score:92, verified:true, evidence:'RAG candidate 93% vs 71% best baseline', owner:'ML Engineering'},
+        {id:'c2', label:'Hallucination ≤ 1%', weight:0.25, score:85, verified:true, evidence:'0.9% on golden set; edge intents higher', owner:'ML Engineering'},
+        {id:'c3', label:'Latency < 2s', weight:0.15, score:95, verified:true, evidence:'p95 = 1.6s end-to-end', owner:'IT'},
+        {id:'c4', label:'Cost < $0.10 per chat', weight:0.15, score:74, verified:false, evidence:'8.0¢ average; trending up on long contexts', owner:'ML Engineering'},
+        {id:'c5', label:'Model card published', weight:0.15, score:80, verified:true, evidence:'Published; failure modes section incomplete', owner:'ML Engineering'}
+      ],
+      pros:['Accuracy exceeds the +10% target by a wide margin','Latency well inside guardrail','Baselines fully documented and reproducible','Model card published with intended use'],
+      cons:['Cost trending toward the ceiling on long contexts','Hallucination near limit on edge intents','Model card incomplete on failure modes','No stress test yet under peak concurrency'],
+      sensitivity:'If cost stays under 8¢ and hallucination holds at 0.9%, probability rises to about 88%. If cost crosses 10¢, probability falls to about 76%.'
+    },
+    G4: {
+      id:'G4', name:'Validation & Risk', desc:'Safety, fairness, and escalation reliability proven.',
+      baseRate: 0.50, benefit: 310000, cost: 90000,
+      criteria: [
+        {id:'c1', label:'Red-team pass, no critical findings', weight:0.25, score:78, verified:true, evidence:'No critical exploits; one injection vector open', owner:'Validation'},
+        {id:'c2', label:'Escalation recall ≥ 95%', weight:0.25, score:96, verified:true, evidence:'96.4% on high-risk intent set', owner:'Validation'},
+        {id:'c3', label:'Incorrect guidance < 1%', weight:0.20, score:82, verified:true, evidence:'0.9% on shadow pilot', owner:'Validation'},
+        {id:'c4', label:'Bias/fairness gap ≤ 3 points', weight:0.15, score:74, verified:false, evidence:'4.2pt gap on one demographic slice', owner:'Validation · Legal'},
+        {id:'c5', label:'Legal & Security sign-off', weight:0.15, score:68, verified:false, evidence:'Security cleared; Legal pending retention language', owner:'Legal · Security'}
+      ],
+      pros:['Escalation recall is strong and above target','Red-team found no critical exploits','Shadow pilot shows CSAT non-inferior to human-only','Security has cleared the technical control set'],
+      cons:['Bias gap on one demographic slice exceeds target','Legal sign-off pending on retention language','Red-team flagged a prompt-injection vector on tool calls','Fairness audit only covers one quarter of data'],
+      sensitivity:'Closing the bias gap and securing Legal sign-off lifts probability to about 79% — still Conditional Go. Any new critical red-team finding drops it to about 55% and triggers a Hold.'
+    },
+    G5: {
+      id:'G5', name:'Deployment Pilot', desc:'Two-week pilot meets KPI with a proven rollback.',
+      baseRate: 0.66, benefit: 280000, cost: 60000,
+      criteria: [
+        {id:'c1', label:'Containment ≥ 40% sustained', weight:0.30, score:88, verified:true, evidence:'41.2% week 2 average', owner:'Data & Digital Strategy'},
+        {id:'c2', label:'Faculty experience ≥ 4.5 / 5', weight:0.25, score:92, verified:true, evidence:'4.6 average across pilot cohorts', owner:'Faculty Affairs Ops'},
+        {id:'c3', label:'Rollback tested < 15 min', weight:0.20, score:95, verified:true, evidence:'End-to-end drill: 11 minutes', owner:'IT'},
+        {id:'c4', label:'Ops owner & on-call rota', weight:0.15, score:85, verified:true, evidence:'Owner named; weekend coverage thin', owner:'Faculty Affairs Ops'},
+        {id:'c5', label:'Comms & training complete', weight:0.10, score:78, verified:false, evidence:'4 of 6 schools trained', owner:'Faculty Affairs Comms'}
+      ],
+      pros:['All primary KPIs met or exceeded in pilot','Rollback proven end-to-end in 11 minutes','Faculty experience non-inferior and trending up','Incident response worked as designed'],
+      cons:['Comms and training not yet reached all schools','On-call rota thin on weekends','Cost per chat at the upper bound','One open Sev-1 incident from week 2'],
+      sensitivity:'Clearing the open Sev-1 and completing school training lifts probability to about 86%. If a second Sev-1 occurs, probability falls to about 68%.'
+    },
+
+    /* ---- PREDICTIVE MAINTENANCE ---- */
+    'PDM-G1': {
+      id:'P1', name:'Problem–Solution Fit (PdM)', desc:'Asset criticality, failure modes, baseline, ROI approved.',
+      baseRate: 0.60, benefit: 920000, cost: 340000,
+      criteria: [
+        {id:'c1', label:'Asset criticality matrix signed off', weight:0.20, score:90, verified:true, evidence:'42 critical assets ranked by impact', owner:'Facilities & Operations'},
+        {id:'c2', label:'Target failure modes identified and ranked', weight:0.25, score:85, verified:true, evidence:'6 failure modes mapped across 4 asset classes', owner:'Reliability Eng'},
+        {id:'c3', label:'Baseline downtime and cost measured', weight:0.20, score:88, verified:true, evidence:'1,840 unplanned hours/year; $2.1M cost', owner:'Facilities Finance'},
+        {id:'c4', label:'ROI model approved', weight:0.20, score:80, verified:false, evidence:'Draft model; awaiting CFO sign-off', owner:'Facilities & Operations'},
+        {id:'c5', label:'Named owner and steering committee', weight:0.15, score:92, verified:true, evidence:'Owner: Director of Facilities; steering formed', owner:'VP Operations'}
+      ],
+      pros:['Criticality matrix gives clear prioritization','Baseline is well-measured with 12 months of data','Failure modes are concrete and engineerable','Sponsor has authority to fund and unblock'],
+      cons:['ROI still pending CFO sign-off','Cost per failure varies widely by asset class','Vendor data-sharing agreements not yet in place','Scope could expand beyond critical assets'],
+      sensitivity:'If CFO approves the ROI model, probability rises to about 84%. If vendor data-sharing stalls, probability falls to about 70% and the recommendation drops to Conditional Go.'
+    },
+    'PDM-G2': {
+      id:'P2', name:'Data Readiness (PdM)', desc:'Sensor coverage, failure history, labeling, governance cleared.',
+      baseRate: 0.52, benefit: 780000, cost: 280000,
+      criteria: [
+        {id:'c1', label:'Sensor coverage ≥ 90% of critical assets', weight:0.25, score:82, verified:true, evidence:'38 of 42 assets instrumented; 4 pending', owner:'IT/OT'},
+        {id:'c2', label:'≥ 24 months historical failure data', weight:0.25, score:78, verified:true, evidence:'CMMS logs go back 30 months; some gaps', owner:'Facilities Data'},
+        {id:'c3', label:'Data quality ≥ 95%', weight:0.20, score:86, verified:true, evidence:'94.2% on 3 of 4 sensor streams', owner:'Facilities Data'},
+        {id:'c4', label:'Failure events labeled and classified', weight:0.15, score:72, verified:false, evidence:'68% labeled; historical notes inconsistent', owner:'Reliability Eng'},
+        {id:'c5', label:'Sensor governance and retention signed off', weight:0.15, score:80, verified:false, evidence:'Draft policy; retention schedule in review', owner:'IT · Legal'}
+      ],
+      pros:['Sensor coverage nearly complete on critical assets','CMMS logs provide deep historical baseline','Data quality strong on primary sensor streams','Failure mode taxonomy being standardized'],
+      cons:['4 assets still without sensors — coverage gap','Failure event labeling inconsistent across years','Governance and retention policy still in draft','Vendor sensor data formats not yet unified'],
+      sensitivity:'Finishing sensor installation and standardizing failure labels lifts probability to about 76% — still Conditional Go. Governance sign-off is the binding constraint.'
+    },
+    'PDM-G3': {
+      id:'P3', name:'Model Build (PdM)', desc:'Candidate beats baseline with acceptable lead time and false positive rate.',
+      baseRate: 0.56, benefit: 680000, cost: 220000,
+      criteria: [
+        {id:'c1', label:'Beats baseline on failure prediction', weight:0.30, score:88, verified:true, evidence:'RUL model catches 84% vs 61% for calendar baseline', owner:'ML Engineering'},
+        {id:'c2', label:'False positive rate ≤ 15%', weight:0.20, score:80, verified:true, evidence:'13.2% overall; higher on new assets', owner:'ML Engineering'},
+        {id:'c3', label:'Lead time ≥ 7 days', weight:0.20, score:85, verified:true, evidence:'Median 11 days; some modes only 4 days', owner:'Reliability Eng'},
+        {id:'c4', label:'Model card published', weight:0.15, score:82, verified:true, evidence:'Published; failure mode coverage section incomplete', owner:'ML Engineering'},
+        {id:'c5', label:'Inference latency < 5s', weight:0.15, score:95, verified:true, evidence:'p95 = 2.8s on edge inference', owner:'IT/OT'}
+      ],
+      pros:['Significant improvement over calendar-based baseline','Lead time well above target for most failure modes','Inference runs on edge — low latency and no cloud dependency','Model card documents intended use and limits'],
+      cons:['Lead time below target on bearing wear (4 days)','False positive rate higher on newly installed assets','Failure mode coverage incomplete on sensor faults','No stress test under high-frequency data streams'],
+      sensitivity:'Improving bearing-wear lead time to 7 days lifts probability to about 85%. If false positive rate crosses 15% on new assets, probability falls to about 74%.'
+    },
+    'PDM-G4': {
+      id:'P4', name:'Validation & Safety (PdM)', desc:'Seasonal, machine, and failure-type holdouts pass; safety sign-off obtained.',
+      baseRate: 0.48, benefit: 640000, cost: 180000,
+      criteria: [
+        {id:'c1', label:'Seasonal holdout pass (all four seasons)', weight:0.20, score:82, verified:true, evidence:'Summer and winter pass; shoulder season marginal', owner:'Validation'},
+        {id:'c2', label:'Machine holdout pass', weight:0.20, score:76, verified:true, evidence:'New assets below target; aged assets pass', owner:'Validation'},
+        {id:'c3', label:'Failure-type coverage ≥ 80%', weight:0.20, score:78, verified:false, evidence:'74% coverage; sensor faults not covered', owner:'Reliability Eng'},
+        {id:'c4', label:'Stress test pass (operating modes)', weight:0.20, score:72, verified:false, evidence:'Transient mode produces false positives', owner:'Validation'},
+        {id:'c5', label:'Safety sign-off; no open Sev-1 findings', weight:0.20, score:68, verified:false, evidence:'Safety review pending; one Sev-2 open', owner:'Safety Officer'}
+      ],
+      pros:['Summer and winter holdouts pass cleanly','Aged asset performance strong — most of the fleet','Inference robust under steady-state and peak load','No safety incidents during shadow mode'],
+      cons:['New assets below target — cold-start problem','Sensor-fault failure mode not covered','Transient mode produces false positives','Safety sign-off still pending with one open Sev-2'],
+      sensitivity:'Closing the sensor-fault coverage gap and clearing the Sev-2 lifts probability to about 76% — Conditional Go. Any new safety finding drops it to about 52% and triggers a Hold.'
+    },
+    'PDM-G5': {
+      id:'P5', name:'Deployment Pilot (PdM)', desc:'90-day pilot on one asset class meets KPI with proven rollback.',
+      baseRate: 0.64, benefit: 580000, cost: 140000,
+      criteria: [
+        {id:'c1', label:'90-day pilot on one asset class complete', weight:0.25, score:92, verified:true, evidence:'Air handlers (14 assets) piloted for 90 days', owner:'Facilities Ops'},
+        {id:'c2', label:'Downtime reduced ≥ 20% on pilot assets', weight:0.25, score:88, verified:true, evidence:'26% reduction vs. same period last year', owner:'Facilities Ops'},
+        {id:'c3', label:'False alarm rate acceptable to technicians', weight:0.20, score:78, verified:true, evidence:'12% FPR; technicians report some fatigue', owner:'Facilities Ops'},
+        {id:'c4', label:'CMMS integration stable', weight:0.15, score:85, verified:true, evidence:'Work orders auto-generated; some duplicates', owner:'IT/OT'},
+        {id:'c5', label:'Rollback tested and documented', weight:0.15, score:90, verified:true, evidence:'Reverted to calendar-based in 2 hours', owner:'IT/OT'}
+      ],
+      pros:['Downtime reduction exceeded target (26% vs 20%)','Rollback proven and documented','CMMS integration auto-generates work orders','Technicians engaged and providing feedback'],
+      cons:['False alarm rate causes some technician fatigue','Work order duplicates need de-duplication logic','Pilot only covered one asset class','Weekend on-call coverage still thin'],
+      sensitivity:'De-duplicating work orders and reducing FPR to 10% lifts probability to about 86%. If a Sev-1 safety incident occurs during scale-up, probability falls to about 60% and scale pauses.'
+    }
+  };
+
+  var ASSUMED_DISCOUNT = 0.75;
+
+  function computeScore(criteria, discount){
+    var total = 0, raw = 0;
+    criteria.forEach(function(c){
+      var s = c.score * (c.verified ? 1 : discount);
+      total += c.weight * s;
+      raw += c.weight * c.score;
+    });
+    return {adjusted: total, raw: raw};
+  }
+  function computeProbability(score){
+    var p = 1 / (1 + Math.exp(-(score - 60) / 16));
+    return Math.min(0.92, Math.max(0.05, p));
+  }
+  function getVerdict(p){
+    if (p >= 0.80) return {key:'go', label:'GO', cls:'', text:'Proceed to next stage'};
+    if (p >= 0.65) return {key:'cond', label:'CONDITIONAL GO', cls:'cond', text:'Proceed with named conditions'};
+    if (p >= 0.45) return {key:'hold', label:'HOLD', cls:'hold', text:'Remediate before proceeding'};
+    return {key:'nogo', label:'NO-GO', cls:'nogo', text:'Do not proceed in current form'};
+  }
+  function formatMoney(v){
+    if (Math.abs(v) >= 1000000) return '$' + (v/1000000).toFixed(2) + 'M';
+    if (Math.abs(v) >= 1000) return '$' + Math.round(v/1000) + 'K';
+    return '$' + Math.round(v);
+  }
+
+  /* ============================================================
+     MODAL CONTROLLER
+     ============================================================ */
+  var modal = document.getElementById('gateModal');
+  var currentGate = null;
+  var scenario = 'base';
+  var lastFocused = null;
+
+  function getWorkingCriteria(gate){
+    return gate.criteria.map(function(c){ return Object.assign({}, c); });
+  }
+  function applyScenario(criteria, sc){
+    if (sc === 'base') return criteria;
+    return criteria.map(function(c){
+      var copy = Object.assign({}, c);
+      if (sc === 'optimistic') copy.score = Math.min(100, Math.round(c.score * 1.08));
+      else if (sc === 'pessimistic') copy.score = Math.round(c.score * 0.78);
+      return copy;
+    });
+  }
+
+  function renderModal(){
+    if (!currentGate) return;
+    var gate = GATE_MODELS[currentGate];
+    var criteria = applyScenario(getWorkingCriteria(gate), scenario);
+    var scoreObj = computeScore(criteria, ASSUMED_DISCOUNT);
+    var p = computeProbability(scoreObj.adjusted);
+    var verdict = getVerdict(p);
+    var isRust = currentGate.indexOf('PDM') === 0;
+
+    document.getElementById('modalGateId').textContent = gate.id;
+    document.getElementById('modalTitle').textContent = gate.name;
+    document.getElementById('modalDesc').textContent = gate.desc;
+    document.getElementById('modalGateId').className = 'modal-gate-id' + (isRust ? ' rust' : '');
+    var vEl = document.getElementById('modalVerdict');
+    vEl.textContent = verdict.label;
+    vEl.className = 'modal-verdict ' + verdict.cls;
+
+    /* section titles colour */
+    ['critTitle','recTitle','evTitle','sensTitle'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.className = 'm-sec-title' + (isRust ? ' rust' : '');
+    });
+
+    var CIRC = 2 * Math.PI * 56;
+    var ring = document.getElementById('probRing');
+    ring.style.strokeDasharray = CIRC;
+    ring.style.strokeDashoffset = CIRC * (1 - p);
+    ring.className = 'pr-val ' + verdict.cls;
+
+    var numEl = document.getElementById('probNum');
+    if (reduced){ numEl.textContent = (p * 100).toFixed(0); }
+    else {
+      var start = parseInt(numEl.textContent, 10) || 0;
+      var end = p * 100;
+      var t0 = performance.now();
+      (function tick(now){
+        var k = Math.min(1, (now - t0) / 700);
+        var eased = 1 - Math.pow(1 - k, 3);
+        numEl.textContent = Math.round(start + (end - start) * eased);
+        if (k < 1) requestAnimationFrame(tick);
+      })(performance.now());
+    }
+
+    var bar = document.getElementById('probBar');
+    bar.style.width = (p * 100) + '%';
+    bar.className = 'prob-bar-fill ' + verdict.cls;
+
+    document.getElementById('probHeadline').textContent = verdict.label + ' — ' + verdict.text;
+    document.getElementById('readinessScore').textContent = scoreObj.adjusted.toFixed(1) + ' / 100';
+    var band = Math.max(3, Math.round((1 - p) * 14));
+    document.getElementById('confidenceBand').textContent = '± ' + band + ' pts';
+    document.getElementById('baseRate').textContent = Math.round(gate.baseRate * 100) + '%';
+    document.getElementById('probFormula').textContent =
+      'P = 1/(1+e^(−(' + scoreObj.adjusted.toFixed(1) + '−60)/16)) = ' + (p * 100).toFixed(1) + '%';
+
+    var list = document.getElementById('critList');
+    list.innerHTML = '';
+    criteria.forEach(function(c, idx){
+      var row = document.createElement('div');
+      row.className = 'crit-row ' + (c.verified ? 'verified' : 'assumed');
+      row.setAttribute('role', 'button');
+      row.setAttribute('tabindex', '0');
+      row.setAttribute('aria-pressed', c.verified ? 'true' : 'false');
+      var check = document.createElement('span'); check.className = 'crit-check'; check.textContent = c.verified ? '✓' : '!';
+      var label = document.createElement('span'); label.className = 'crit-label';
+      label.innerHTML = c.label + '<small>' + c.evidence + ' · ' + c.owner + '</small>';
+      var score = document.createElement('span'); score.className = 'crit-score'; score.textContent = c.score;
+      var weight = document.createElement('span'); weight.className = 'crit-weight'; weight.textContent = 'w ' + Math.round(c.weight * 100) + '%';
+      row.appendChild(check); row.appendChild(label); row.appendChild(score); row.appendChild(weight);
+      function toggle(){ gate.criteria[idx].verified = !gate.criteria[idx].verified; renderModal(); }
+      row.addEventListener('click', toggle);
+      row.addEventListener('keydown', function(e){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); } });
+      list.appendChild(row);
+    });
+
+    document.getElementById('prosList').innerHTML = gate.pros.map(function(x){ return '<li>' + x + '</li>'; }).join('');
+    document.getElementById('consList').innerHTML = gate.cons.map(function(x){ return '<li>' + x + '</li>'; }).join('');
+
+    var ev = p * gate.benefit - (1 - p) * gate.cost;
+    document.getElementById('evP').textContent = (p * 100).toFixed(1) + '%';
+    document.getElementById('evBenefit').textContent = formatMoney(gate.benefit) + ' / yr';
+    document.getElementById('evCost').textContent = formatMoney(gate.cost);
+    document.getElementById('evResult').textContent = formatMoney(ev);
+    document.getElementById('evFormula').textContent =
+      'EV = ' + p.toFixed(3) + ' × ' + formatMoney(gate.benefit) +
+      ' − ' + (1 - p).toFixed(3) + ' × ' + formatMoney(gate.cost) +
+      ' = ' + formatMoney(ev);
+    document.getElementById('evInterpretation').textContent =
+      ev > 0 ? 'Positive expected value. Proceeding is rational even accounting for failure cost.'
+             : 'Negative expected value. Do not proceed without reducing cost or raising probability.';
+
+    document.getElementById('sensitivityText').textContent = gate.sensitivity;
+    document.getElementById('footRecText').textContent =
+      verdict.label + ' · ' + (p * 100).toFixed(1) + '% probability · EV ' + formatMoney(ev);
+  }
+
+  function openModal(gateId){
+    currentGate = gateId;
+    scenario = 'base';
+    document.querySelectorAll('.sc-btn[data-scenario]').forEach(function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-scenario') === 'base' ? 'true' : 'false');
+    });
+    lastFocused = document.activeElement;
+    modal.hidden = false;
+    requestAnimationFrame(function(){ modal.classList.add('open'); });
+    document.body.classList.add('modal-open');
+    renderModal();
+    setTimeout(function(){ document.getElementById('modalClose').focus(); }, 50);
+  }
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    setTimeout(function(){
+      modal.hidden = true;
+      if (lastFocused && lastFocused.focus) lastFocused.focus();
+    }, 280);
+  }
+
+  document.querySelectorAll('[data-analyze]').forEach(function(btn){
+    btn.addEventListener('click', function(){ openModal(btn.getAttribute('data-analyze')); });
+  });
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  document.getElementById('modalCloseBtn').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !modal.hidden) closeModal(); });
+  modal.addEventListener('keydown', function(e){
+    if (e.key !== 'Tab') return;
+    var focusables = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+    if (!focusables.length) return;
+    var first = focusables[0], last = focusables[focusables.length - 1];
+    if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  });
+  document.querySelectorAll('.sc-btn[data-scenario]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      scenario = btn.getAttribute('data-scenario');
+      document.querySelectorAll('.sc-btn[data-scenario]').forEach(function(b){
+        b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+      });
+      renderModal();
+    });
+  });
+  document.getElementById('resolveBtn').addEventListener('click', function(){
+    if (!currentGate) return;
+    GATE_MODELS[currentGate].criteria.forEach(function(c){ c.verified = true; });
+    renderModal();
+  });
+  document.getElementById('applyStatusBtn').addEventListener('click', function(){
+    if (!currentGate) return;
+    var gate = GATE_MODELS[currentGate];
+    var criteria = applyScenario(getWorkingCriteria(gate), scenario);
+    var scoreObj = computeScore(criteria, ASSUMED_DISCOUNT);
+    var p = computeProbability(scoreObj.adjusted);
+    var verdict = getVerdict(p);
+    var gateEl = document.querySelector('.gate[data-gate="' + currentGate + '"]');
+    if (gateEl){
+      var statusKey = verdict.key === 'go' ? 'go' : (verdict.key === 'cond' || verdict.key === 'hold') ? 'warn' : 'no';
+      var labels = {go:'Go', warn:'At risk', no:'No-go', idle:'Not started'};
+      gateEl.setAttribute('data-status', statusKey);
+      var txt = gateEl.querySelector('.stxt');
+      if (txt) txt.textContent = labels[statusKey];
+      try {
+        var saved = JSON.parse(localStorage.getItem('fa-ai-gates-v2') || '{}');
+        saved[currentGate] = statusKey;
+        localStorage.setItem('fa-ai-gates-v2', JSON.stringify(saved));
+      } catch(e){}
+    }
+    closeModal();
+  });
+
+  /* ============================================================
+     PAGE INTERACTIONS
+     ============================================================ */
+  var rail = document.getElementById('rail');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    rail.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduced){
+    var ro = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target); }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    revealEls.forEach(function(el, i){
+      el.style.transitionDelay = (Math.min(i,6) * 40) + 'ms';
+      ro.observe(el);
+    });
+  } else { revealEls.forEach(function(el){ el.classList.add('in'); }); }
+
+  var funnelRows = document.querySelectorAll('.funnel-row, .path');
+  if ('IntersectionObserver' in window && !reduced){
+    var fo = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          var idx = Array.prototype.indexOf.call(funnelRows, e.target);
+          setTimeout(function(){ e.target.classList.add('in'); }, idx * 110);
+          fo.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.3});
+    funnelRows.forEach(function(el){ fo.observe(el); });
+  } else { funnelRows.forEach(function(el){ el.classList.add('in'); }); }
+
+  var CIRC_G = 2 * Math.PI * 52;
+  document.querySelectorAll('.gauge .g-val').forEach(function(c){
+    c.style.strokeDasharray = CIRC_G; c.style.strokeDashoffset = CIRC_G;
+  });
+  function fillGauges(){
+    document.querySelectorAll('.gauge .g-val').forEach(function(c){
+      var pct = parseFloat(c.getAttribute('data-pct')) || 0;
+      c.style.strokeDashoffset = CIRC_G * (1 - pct / 100);
+    });
+  }
+  if ('IntersectionObserver' in window && !reduced){
+    var gObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ fillGauges(); gObs.disconnect(); } });
+    }, {threshold:0.4});
+    var g0 = document.querySelector('.gauges');
+    if (g0) gObs.observe(g0);
+  } else { fillGauges(); }
+
+  /* Faculty AI lifecycle tabs */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.flow-btn'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.stage-panel'));
+  function selectStage(n){
+    tabs.forEach(function(t){
+      var on = t.getAttribute('data-stage') === String(n);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach(function(p){ p.hidden = (p.id !== 'panel-' + n); });
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ selectStage(t.getAttribute('data-stage')); });
+    t.addEventListener('keydown', function(e){
+      var k = e.key, next = null;
+      if (k === 'ArrowRight') next = (i + 1) % tabs.length;
+      if (k === 'ArrowLeft')  next = (i - 1 + tabs.length) % tabs.length;
+      if (k === 'Home') next = 0;
+      if (k === 'End')  next = tabs.length - 1;
+      if (next !== null){ e.preventDefault(); tabs[next].focus(); selectStage(tabs[next].getAttribute('data-stage')); }
+    });
+  });
+
+  /* PdM lifecycle tabs */
+  var pdmTabs = Array.prototype.slice.call(document.querySelectorAll('.pdm-flow-btn'));
+  var pdmPanels = Array.prototype.slice.call(document.querySelectorAll('.pdm-panel'));
+  function selectPdmStage(n){
+    pdmTabs.forEach(function(t){
+      var on = t.getAttribute('data-pdm-stage') === String(n);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+    });
+    pdmPanels.forEach(function(p){ p.hidden = (p.id !== 'pdm-panel-' + n); });
+  }
+  pdmTabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ selectPdmStage(t.getAttribute('data-pdm-stage')); });
+    t.addEventListener('keydown', function(e){
+      var k = e.key, next = null;
+      if (k === 'ArrowRight') next = (i + 1) % pdmTabs.length;
+      if (k === 'ArrowLeft')  next = (i - 1 + pdmTabs.length) % pdmTabs.length;
+      if (k === 'Home') next = 0;
+      if (k === 'End')  next = pdmTabs.length - 1;
+      if (next !== null){ e.preventDefault(); pdmTabs[next].focus(); selectPdmStage(pdmTabs[next].getAttribute('data-pdm-stage')); }
+    });
+  });
+
+  /* gate expand + status */
+  var STATUS = [
+    {key:'idle', label:'Not started'},
+    {key:'warn', label:'At risk'},
+    {key:'go',   label:'Go'},
+    {key:'no',   label:'No-go'}
+  ];
+  var STORE_KEY = 'fa-ai-gates-v2';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e){ saved = {}; }
+  function applyStatus(gate, key){
+    var s = STATUS.filter(function(x){ return x.key === key; })[0] || STATUS[0];
+    gate.setAttribute('data-status', s.key);
+    var txt = gate.querySelector('.stxt');
+    if (txt) txt.textContent = s.label;
+  }
+  document.querySelectorAll('.gate').forEach(function(gate){
+    var id = gate.getAttribute('data-gate');
+    var eb = gate.querySelector('.expand-btn');
+    if (eb){
+      eb.addEventListener('click', function(){
+        var open = gate.classList.toggle('open');
+        eb.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+    var sb = gate.querySelector('[data-cycle]');
+    if (sb){
+      sb.setAttribute('aria-label', 'Cycle status for gate ' + id);
+      sb.addEventListener('click', function(){
+        var cur = gate.getAttribute('data-status') || 'idle';
+        var idx = STATUS.map(function(x){ return x.key; }).indexOf(cur);
+        var next = STATUS[(idx + 1) % STATUS.length];
+        applyStatus(gate, next.key);
+        saved[id] = next.key;
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(saved)); } catch(e){}
+      });
+    }
+    applyStatus(gate, saved[id] || 'idle');
+  });
+
+  /* gantt */
+  var COLS = 12;
+  document.querySelectorAll('.g-bar').forEach(function(bar){
+    var s = parseInt(bar.getAttribute('data-start'), 10);
+    var e = parseInt(bar.getAttribute('data-end'), 10);
+    bar.style.left = ((s - 1) / COLS) * 100 + '%';
+    requestAnimationFrame(function(){ bar.style.width = ((e - s + 1) / COLS) * 100 + '%'; });
+  });
+
+  /* sparklines */
+  var SPARK_DATA = {
+    containment:   [22, 25, 28, 30, 31, 33, 35, 36, 37, 38, 39.1, 41.2],
+    hallucination: [2.4, 2.1, 1.9, 1.7, 1.6, 1.4, 1.3, 1.2, 1.0, 0.9, 0.9, 0.7],
+    csat:          [4.1, 4.1, 4.2, 4.2, 4.3, 4.3, 4.4, 4.4, 4.5, 4.5, 4.5, 4.6],
+    drift:         [0.05, 0.06, 0.07, 0.08, 0.10, 0.11, 0.12, 0.13, 0.14, 0.15, 0.14, 0.18],
+    escalation:    [88, 89, 90, 91, 91, 92, 93, 93, 94, 95, 95.6, 96.4]
+  };
+  function renderSparkline(svg, data){
+    var W = 100, H = 34, P = 3;
+    var min = Math.min.apply(null, data), max = Math.max.apply(null, data);
+    if (min === max){ min -= 1; max += 1; }
+    var range = max - min;
+    var stepX = (W - P * 2) / (data.length - 1);
+    var pts = data.map(function(v, i){ return {x: P + i * stepX, y: H - P - ((v - min) / range) * (H - P * 2)}; });
+    var linePath = 'M ' + pts.map(function(p){ return p.x.toFixed(2) + ' ' + p.y.toFixed(2); }).join(' L ');
+    var areaPath = linePath + ' L ' + pts[pts.length - 1].x.toFixed(2) + ' ' + (H - P) + ' L ' + pts[0].x.toFixed(2) + ' ' + (H - P) + ' Z';
+    svg.innerHTML = '';
+    var area = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    area.setAttribute('class', 'area'); area.setAttribute('d', areaPath); svg.appendChild(area);
+    var line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    line.setAttribute('class', 'line'); line.setAttribute('d', linePath); svg.appendChild(line);
+    var last = pts[pts.length - 1];
+    var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('class', 'last');
+    circle.setAttribute('cx', last.x.toFixed(2)); circle.setAttribute('cy', last.y.toFixed(2)); circle.setAttribute('r', '3');
+    svg.appendChild(circle);
+  }
+  document.querySelectorAll('.tracker-card').forEach(function(card){
+    var key = card.getAttribute('data-kpi');
+    var svg = card.querySelector('.spark');
+    if (svg && SPARK_DATA[key]) renderSparkline(svg, SPARK_DATA[key]);
+  });
+
+  /* drift chart */
+  function renderDriftChart(){
+    var svg = document.getElementById('driftChart'); if (!svg) return;
+    var W = 720, H = 280;
+    var pad = {t:24, r:26, b:38, l:44};
+    var innerW = W - pad.l - pad.r, innerH = H - pad.t - pad.b;
+    var weeks = 12;
+    var accuracy = [64, 68, 72, 76, 80, 84, 87, 89, 90, 91, 92, 93];
+    var halluc   = [2.4, 2.1, 1.9, 1.7, 1.6, 1.4, 1.3, 1.2, 1.0, 0.9, 0.9, 0.7];
+    var yMax = 100, yMin = 0;
+    function x(i){ return pad.l + (i / (weeks - 1)) * innerW; }
+    function y(v){ return pad.t + innerH - ((v - yMin) / (yMax - yMin)) * innerH; }
+    var parts = [];
+    [0, 25, 50, 75, 100].forEach(function(v){
+      parts.push('<line class="grid-line" x1="' + pad.l + '" x2="' + (W - pad.r) + '" y1="' + y(v) + '" y2="' + y(v) + '"/>');
+      parts.push('<text class="axis-text" x="' + (pad.l - 8) + '" y="' + (y(v) + 3) + '" text-anchor="end">' + v + '</text>');
+    });
+    for (var i = 0; i < weeks; i++){
+      parts.push('<text class="axis-text" x="' + x(i) + '" y="' + (H - pad.b + 16) + '" text-anchor="middle">W' + (i + 1) + '</text>');
+    }
+    var accLine = accuracy.map(function(v, i){ return (i === 0 ? 'M' : 'L') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+    var accArea = accLine + ' L ' + x(weeks - 1).toFixed(1) + ' ' + (H - pad.b) + ' L ' + x(0).toFixed(1) + ' ' + (H - pad.b) + ' Z';
+    parts.push('<path class="area-teal" d="' + accArea + '"/>');
+    parts.push('<path class="line-teal" d="' + accLine + '"/>');
+    var halLine = halluc.map(function(v, i){ return (i === 0 ? 'M' : 'L') + x(i).toFixed(1) + ' ' + y(v).toFixed(1); }).join(' ');
+    parts.push('<path class="line-gold" d="' + halLine + '"/>');
+    parts.push('<line class="threshold-line" x1="' + pad.l + '" x2="' + (W - pad.r) + '" y1="' + y(1.5) + '" y2="' + y(1.5) + '"/>');
+    parts.push('<text class="threshold-label" x="' + (W - pad.r - 4) + '" y="' + (y(1.5) - 4) + '" text-anchor="end">HALLUCINATION LIMIT 1.5%</text>');
+    accuracy.forEach(function(v, i){
+      var cls = (i === weeks - 1) ? 'point teal' : (v < 75 ? 'point warn' : 'point teal');
+      parts.push('<circle class="' + cls + '" cx="' + x(i) + '" cy="' + y(v) + '" r="' + (i === weeks - 1 ? 4 : 3) + '"/>');
+    });
+    halluc.forEach(function(v, i){
+      parts.push('<circle class="point gold" cx="' + x(i) + '" cy="' + y(v) + '" r="2.6"/>');
+    });
+    var todayX = x(weeks - 1);
+    parts.push('<line class="today-line" x1="' + todayX + '" x2="' + todayX + '" y1="' + pad.t + '" y2="' + (H - pad.b) + '"/>');
+    parts.push('<text class="today-label" x="' + todayX + '" y="' + (pad.t - 8) + '" text-anchor="middle">TODAY</text>');
+    svg.innerHTML = parts.join('');
+  }
+  if ('IntersectionObserver' in window && !reduced){
+    var dObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting){ renderDriftChart(); dObs.disconnect(); } });
+    }, {threshold:0.25});
+    var dc = document.getElementById('driftChart'); if (dc) dObs.observe(dc);
+  } else { renderDriftChart(); }
+
+  /* monitoring actions */
+  var lastRefreshEl = document.getElementById('lastRefresh');
+  document.querySelectorAll('[data-mon-action]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var action = btn.getAttribute('data-mon-action');
+      if (action === 'refresh'){
+        btn.setAttribute('aria-pressed', 'true');
+        setTimeout(function(){ btn.setAttribute('aria-pressed', 'false'); }, 900);
+        if (lastRefreshEl){
+          lastRefreshEl.textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+        }
+        Object.keys(SPARK_DATA).forEach(function(k){
+          var arr = SPARK_DATA[k];
+          var last = arr[arr.length - 1];
+          arr[arr.length - 1] = Math.max(0, last + (Math.random() - 0.5) * (last * 0.03));
+        });
+        document.querySelectorAll('.tracker-card').forEach(function(card){
+          var key = card.getAttribute('data-kpi');
+          var svg = card.querySelector('.spark');
+          if (svg && SPARK_DATA[key]) renderSparkline(svg, SPARK_DATA[key]);
+        });
+      }
+      if (action === 'pause'){
+        var paused = btn.getAttribute('aria-pressed') === 'true';
+        btn.setAttribute('aria-pressed', paused ? 'false' : 'true');
+        btn.textContent = paused ? '⏸ Pause stream' : '▶ Resume stream';
+      }
+      if (action === 'export'){
+        btn.setAttribute('aria-pressed', 'true');
+        setTimeout(function(){ btn.setAttribute('aria-pressed', 'false'); }, 900);
+        var summary = {
+          exported: new Date().toISOString(),
+          kpis: {containment: 41.2, hallucination: 0.7, csat: 4.6, drift: 0.18, escalation_recall: 96.4},
+          open_incidents: 1, alerts_24h: 2
+        };
+        var blob = new Blob([JSON.stringify(summary, null, 2)], {type:'application/json'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'faculty-affairs-ai-monitoring-snapshot.json';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+    });
+  });
+
+  /* ============================================================
+     PdM MONITORING CHECKLIST
+     ============================================================ */
+  var CL_KEY = 'pdm-checklist-v1';
+  var clSaved = {};
+  try { clSaved = JSON.parse(localStorage.getItem(CL_KEY) || '{}'); } catch(e){ clSaved = {}; }
+
+  var clBoxes = document.querySelectorAll('#checklistGroups input[type="checkbox"]');
+  var clRing = document.getElementById('clRing');
+  var clPct = document.getElementById('clPct');
+  var clCount = document.getElementById('clCount');
+  var CIRC_CL = 2 * Math.PI * 18;
+
+  function updateChecklist(){
+    var total = clBoxes.length, done = 0;
+    clBoxes.forEach(function(b){ if (b.checked) done++; });
+    var pct = total ? (done / total) * 100 : 0;
+    if (clRing){
+      clRing.style.strokeDasharray = CIRC_CL;
+      clRing.style.strokeDashoffset = CIRC_CL * (1 - pct / 100);
+    }
+    if (clPct) clPct.textContent = Math.round(pct) + '%';
+    if (clCount) clCount.textContent = done + ' / ' + total + ' complete';
+    /* per-group counts */
+    ['daily','weekly','monthly','quarterly','maint','part'].forEach(function(g){
+      var groupBoxes = document.querySelectorAll('#checklistGroups input[data-cl^="' + g.charAt(0) + '"]');
+      var groupDone = 0;
+      groupBoxes.forEach(function(b){ if (b.checked) groupDone++; });
+      var counter = document.querySelector('[data-cl-count="' + g + '"]');
+      if (counter) counter.textContent = groupDone + '/' + groupBoxes.length;
+    });
+  }
+
+  clBoxes.forEach(function(box){
+    var key = box.getAttribute('data-cl');
+    if (clSaved[key]) box.checked = true;
+    box.addEventListener('change', function(){
+      clSaved[key] = box.checked;
+      try { localStorage.setItem(CL_KEY, JSON.stringify(clSaved)); } catch(e){}
+      updateChecklist();
+    });
+  });
+  if (clRing) clRing.style.strokeDasharray = CIRC_CL;
+  updateChecklist();
+
+})();
+</script>
+</body>
+</html>
