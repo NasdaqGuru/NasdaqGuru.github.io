@@ -1,304 +1,1642 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Chatbot Pilot - Operational Metrics & Simulation</title>
-    <style>
-        :root {
-            --bg-primary: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --accent: #2563eb;
-            --accent-hover: #1d4ed8;
-            --border: #e2e8f0;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Faculty Affairs AI Assistant — Lifecycle Plan</title>
+<meta name="description" content="One-page lifecycle plan for the Faculty Affairs AI Assistant & Insights Hub — responsible AI for faculty operations." />
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --navy:#0B2545; --navy-2:#12345F; --navy-3:#1B3A63;
+  --teal:#1B98A0; --teal-2:#3FC1C9;
+  --gold:#F2A900; --gold-2:#FFC94A;
+  --bg:#F4F6F8; --card:#FFFFFF; --ink:#0F1B2D; --muted:#5B6B7F;
+  --line:#DCE3EA;
+  --ok:#1E9E6A; --warn:#E8A33D; --bad:#D64545; --idle:#B7C2CE;
+  --r:16px; --r-sm:10px;
+  --sh:0 8px 24px rgba(11,37,69,.08);
+  --sh-lg:0 18px 48px rgba(11,37,69,.14);
+  --max:1180px;
+  --ff:'Open Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --fh:'Montserrat','Open Sans',-apple-system,'Segoe UI',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:88px}
+body{
+  margin:0;font-family:var(--ff);color:var(--ink);background:var(--bg);
+  line-height:1.6;-webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--fh);line-height:1.2;margin:0 0 .5em;letter-spacing:-.02em}
+p{margin:0 0 1em}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+img,svg{max-width:100%}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            margin: 0;
-            padding: 24px;
-            line-height: 1.5;
-        }
+/* ============ A11Y ============ */
+.skip{
+  position:absolute;left:-9999px;top:0;background:var(--gold);color:var(--navy);
+  padding:12px 20px;font-weight:700;z-index:999;border-radius:0 0 8px 0;
+}
+.skip:focus{left:0}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+/* ============ LAYOUT ============ */
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+section{padding:76px 0;position:relative}
+section.tint{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.eyebrow{
+  font-family:var(--fh);font-size:.74rem;font-weight:800;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--teal);margin:0 0 10px;
+}
+.sec-title{font-size:clamp(1.6rem,3.4vw,2.35rem);color:var(--navy)}
+.sec-lede{color:var(--muted);font-size:1.05rem;max-width:70ch;margin-bottom:40px}
 
-        header {
-            margin-bottom: 32px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 16px;
-        }
+/* ============ TOPBAR ============ */
+.topbar{
+  position:sticky;top:0;z-index:100;background:rgba(11,37,69,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.topbar .wrap{display:flex;align-items:center;gap:20px;height:68px}
+.brand{display:flex;align-items:center;gap:11px;color:#fff;font-family:var(--fh);font-weight:800;font-size:.95rem;letter-spacing:-.01em;flex-shrink:0}
+.brand .dot{
+  width:30px;height:30px;border-radius:9px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--teal-2),var(--teal) 55%,var(--gold));
+  display:grid;place-items:center;font-size:.85rem;
+}
+.navlinks{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.navlinks::-webkit-scrollbar{display:none}
+.navlinks a{
+  color:rgba(255,255,255,.75);font-size:.82rem;font-weight:600;padding:8px 12px;
+  border-radius:8px;white-space:nowrap;transition:.2s;text-decoration:none;
+}
+.navlinks a:hover{color:#fff;background:rgba(255,255,255,.1);text-decoration:none}
+.progress-rail{position:absolute;bottom:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal-2),var(--gold));width:0;transition:width .15s linear}
 
-        h1 { margin: 0 0 8px 0; font-size: 28px; font-weight: 700; }
-        .subtitle { margin: 0; color: var(--text-muted); font-size: 16px; }
+/* ============ HERO ============ */
+.hero{
+  background:
+    radial-gradient(900px 500px at 78% 12%,rgba(27,152,160,.35),transparent 62%),
+    radial-gradient(700px 500px at 12% 92%,rgba(242,169,0,.18),transparent 60%),
+    linear-gradient(160deg,var(--navy) 0%,#071a33 100%);
+  color:#fff;padding:74px 0 84px;overflow:hidden;
+}
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:9px;background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.2);padding:7px 15px;border-radius:100px;
+  font-size:.76rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--teal-2);margin-bottom:22px;
+}
+.hero h1{font-size:clamp(2rem,4.6vw,3.15rem);margin-bottom:18px}
+.hero h1 .accent{
+  background:linear-gradient(100deg,var(--teal-2),var(--gold-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p.lede{font-size:1.08rem;color:rgba(255,255,255,.78);max-width:56ch}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.chip{
+  background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.16);
+  padding:7px 14px;border-radius:100px;font-size:.79rem;font-weight:600;color:rgba(255,255,255,.88);
+}
+.chip.gold{background:rgba(242,169,0,.16);border-color:rgba(242,169,0,.4);color:var(--gold-2)}
 
-        /* Dashboard Grid Layout */
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
+/* --- orbit visual --- */
+.orbit{position:relative;width:100%;max-width:430px;aspect-ratio:1;margin:0 auto}
+.ring{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  border-radius:50%;border:1px dashed rgba(255,255,255,.18);
+}
+.ring.r1{width:71%;height:71%;animation:spin 34s linear infinite}
+.ring.r2{width:52%;height:52%;border-color:rgba(63,193,201,.32);animation:spin 22s linear infinite reverse}
+.ring.r3{width:92%;height:92%;border-color:rgba(255,255,255,.08);animation:spin 48s linear infinite}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.orb-core{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:38%;aspect-ratio:1;border-radius:50%;
+  background:linear-gradient(140deg,var(--teal),#0d6f77);
+  box-shadow:0 0 0 10px rgba(27,152,160,.16),0 0 60px rgba(27,152,160,.5);
+  display:grid;place-items:center;text-align:center;padding:12px;
+  font-family:var(--fh);font-weight:800;font-size:.8rem;line-height:1.25;color:#fff;
+}
+.orb{
+  position:absolute;transform:translate(-50%,-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;width:96px;
+  opacity:0;animation:pop .5s cubic-bezier(.34,1.56,.64,1) forwards;
+}
+@keyframes pop{from{opacity:0;transform:translate(-50%,-50%) scale(.6)}to{opacity:1;transform:translate(-50%,-50%) scale(1)}}
+.orb i{
+  width:44px;height:44px;border-radius:13px;display:grid;place-items:center;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.22);
+  font-size:1.15rem;font-style:normal;backdrop-filter:blur(6px);
+  transition:.25s;
+}
+.orb span{font-size:.7rem;font-weight:700;color:rgba(255,255,255,.82);text-align:center;letter-spacing:.02em}
+.orb:hover i{background:var(--gold);border-color:var(--gold);transform:scale(1.12)}
 
-        @media (min-width: 768px) {
-            .grid { grid-template-columns: 1fr 2fr; }
-        }
+/* ============ CARDS / GENERIC ============ */
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:26px;box-shadow:var(--sh);transition:transform .25s,box-shadow .25s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--sh-lg)}
+.grid{display:grid;gap:22px}
+.g2{grid-template-columns:repeat(2,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:900px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}.hero .wrap{grid-template-columns:1fr;gap:36px}}
 
-        .card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
+/* ============ DECISION ============ */
+.decision-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+@media(max-width:900px){.decision-grid{grid-template-columns:1fr}}
+.funnel{display:flex;flex-direction:column;gap:10px;align-items:center}
+.funnel-row{
+  width:var(--w);background:linear-gradient(90deg,var(--navy),var(--navy-3));
+  color:#fff;border-radius:var(--r-sm);padding:14px 20px;text-align:center;
+  font-weight:700;font-size:.9rem;font-family:var(--fh);
+  opacity:0;transform:translateY(14px);transition:.55s cubic-bezier(.2,.7,.3,1);
+}
+.funnel-row.in{opacity:1;transform:none}
+.funnel-row.out{background:linear-gradient(90deg,var(--teal),#14818a)}
+.funnel-row.out.gold{background:linear-gradient(90deg,var(--gold),#d99400);color:var(--navy)}
+.funnel-row.out.slate{background:linear-gradient(90deg,#4b6076,#3a4c60)}
+.paths{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin-top:8px}
+.path{
+  background:#fff;border:2px solid var(--line);border-radius:var(--r-sm);padding:14px 10px;
+  text-align:center;font-size:.76rem;font-weight:700;color:var(--navy);
+  opacity:0;transform:translateY(14px);transition:.5s;
+}
+.path.in{opacity:1;transform:none}
+.path b{display:block;font-size:1.35rem;margin-bottom:4px}
+.path.p1{border-color:var(--teal)}
+.path.p2{border-color:var(--gold)}
+.path.p3{border-color:#8a9bb0}
 
-        .card-title {
-            margin: 0 0 20px 0;
-            font-size: 18px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+/* --- gauges --- */
+.gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:760px){.gauges{grid-template-columns:repeat(2,1fr)}}
+.gauge-card{text-align:center;padding:20px 12px}
+.gauge{width:112px;height:112px;transform:rotate(-90deg)}
+.gauge circle{fill:none;stroke-width:11;stroke-linecap:round}
+.g-bg{stroke:var(--line)}
+.g-val{stroke:var(--teal);transition:stroke-dashoffset 1.5s cubic-bezier(.3,.8,.3,1)}
+.gauge-card:nth-child(2) .g-val{stroke:var(--gold)}
+.gauge-card:nth-child(3) .g-val{stroke:#7B61FF}
+.gauge-card:nth-child(4) .g-val{stroke:var(--ok)}
+.gauge-wrap{position:relative;display:inline-grid;place-items:center}
+.gauge-num{
+  position:absolute;font-family:var(--fh);font-weight:800;font-size:1.28rem;color:var(--navy);
+}
+.gauge-label{font-size:.79rem;font-weight:700;color:var(--muted);margin-top:10px;letter-spacing:.02em}
+.gauge-sub{font-size:.68rem;color:var(--idle);text-transform:uppercase;letter-spacing:.08em;font-weight:700}
 
-        /* Simulator Controls Form */
-        .form-group {
-            margin-bottom: 16px;
-        }
+/* ============ LIFECYCLE FLOW ============ */
+.flow{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 18px;scrollbar-width:thin}
+.flow-btn{
+  position:relative;flex:1 0 168px;background:#fff;border:1.5px solid var(--line);
+  border-radius:12px;padding:18px 16px 18px 18px;text-align:left;cursor:pointer;
+  font-family:var(--ff);transition:.25s;box-shadow:0 2px 8px rgba(11,37,69,.05);
+  clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%,16px 50%);
+  padding-left:28px;
+}
+.flow-btn:first-child{clip-path:polygon(0 0,calc(100% - 16px) 0,100% 50%,calc(100% - 16px) 100%,0 100%)}
+.flow-btn:last-child{clip-path:polygon(0 0,100% 0,100% 100%,0 100%,16px 50%)}
+.flow-btn:hover{border-color:var(--teal);transform:translateY(-2px)}
+.flow-btn[aria-selected="true"]{
+  background:linear-gradient(135deg,var(--navy),var(--navy-3));border-color:var(--navy);color:#fff;
+}
+.flow-btn[aria-selected="true"] .fb-num{background:var(--gold);color:var(--navy)}
+.flow-btn[aria-selected="true"] .fb-name{color:#fff}
+.flow-btn[aria-selected="true"] .fb-ico{filter:grayscale(0) brightness(1.3)}
+.fb-num{
+  display:inline-grid;place-items:center;width:26px;height:26px;border-radius:8px;
+  background:var(--bg);color:var(--navy);font-family:var(--fh);font-weight:800;font-size:.78rem;
+  margin-bottom:9px;transition:.25s;
+}
+.fb-ico{font-size:1.1rem;display:block;margin-bottom:4px}
+.fb-name{display:block;font-size:.86rem;font-weight:700;color:var(--navy);transition:.25s}
 
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 6px;
-            color: var(--text-main);
-        }
+/* --- stage panel --- */
+.stage-panel{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:34px;box-shadow:var(--sh);animation:fade .4s ease;
+}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.sp-head{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;justify-content:space-between;margin-bottom:22px}
+.sp-head h3{font-size:1.45rem;margin:0;color:var(--navy)}
+.sp-deliv{
+  display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#EAF7F8,#F3FBFC);
+  border:1px solid #BFE5E8;color:#0d6f77;padding:9px 16px;border-radius:100px;
+  font-size:.8rem;font-weight:700;
+}
+.sp-cols{display:grid;grid-template-columns:1.4fr 1fr;gap:32px}
+@media(max-width:820px){.sp-cols{grid-template-columns:1fr;gap:22px}}
+.sp-cols h4{font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin:0 0 12px}
+.sp-list{list-style:none;padding:0;margin:0}
+.sp-list li{position:relative;padding-left:26px;margin-bottom:10px;font-size:.92rem;color:#2c3e50}
+.sp-list li::before{
+  content:'';position:absolute;left:0;top:.5em;width:9px;height:9px;border-radius:50%;
+  background:var(--teal);box-shadow:0 0 0 3px rgba(27,152,160,.16);
+}
+.exit-chips{display:flex;flex-wrap:wrap;gap:8px}
+.exit-chips span{
+  background:var(--bg);border:1px solid var(--line);border-radius:8px;
+  padding:7px 12px;font-size:.78rem;font-weight:600;color:var(--navy);
+}
+.owner-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;padding-top:18px;border-top:1px dashed var(--line)}
+.owner{
+  font-size:.72rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--muted);background:var(--bg);padding:6px 11px;border-radius:6px;
+}
 
-        .input-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+/* ============ MODEL CHART ============ */
+.metric-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:26px}
+.metric-tabs button{
+  background:#fff;border:1.5px solid var(--line);border-radius:100px;padding:9px 20px;
+  font-family:var(--ff);font-size:.83rem;font-weight:700;color:var(--muted);cursor:pointer;transition:.2s;
+}
+.metric-tabs button:hover{border-color:var(--teal);color:var(--teal)}
+.metric-tabs button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.bars{display:flex;flex-direction:column;gap:20px}
+.bar-row{display:grid;grid-template-columns:150px 1fr 92px;gap:16px;align-items:center}
+@media(max-width:640px){.bar-row{grid-template-columns:1fr;gap:6px}.bar-row .bar-val{text-align:left}}
+.bar-name{font-size:.86rem;font-weight:700;color:var(--navy)}
+.bar-track{height:30px;background:var(--bg);border-radius:8px;overflow:hidden;position:relative}
+.bar-fill{
+  height:100%;border-radius:8px;background:linear-gradient(90deg,var(--teal),var(--teal-2));
+  width:0;transition:width .8s cubic-bezier(.3,.9,.3,1);display:grid;align-items:center;
+  padding-left:12px;color:#fff;font-size:.74rem;font-weight:800;
+}
+.bar-row.best .bar-fill{background:linear-gradient(90deg,var(--navy),var(--navy-3))}
+.bar-row.best .bar-name::after{content:' ★';color:var(--gold)}
+.bar-val{font-family:var(--fh);font-weight:800;font-size:.95rem;color:var(--navy);text-align:right}
+.bar-note{
+  margin-top:22px;padding:14px 18px;background:#FFF8E6;border-left:4px solid var(--gold);
+  border-radius:0 8px 8px 0;font-size:.84rem;color:#6b5215;
+}
 
-        input[type="range"] {
-            flex: 1;
-            accent-color: var(--accent);
-        }
+/* ============ PIPELINE / ACCORDION ============ */
+.pipe{display:flex;gap:0;overflow-x:auto;margin-bottom:24px;padding-bottom:6px}
+.pipe-btn{
+  flex:1 0 160px;background:#fff;border:1.5px solid var(--line);border-right:none;
+  padding:18px 16px;cursor:pointer;font-family:var(--ff);text-align:center;transition:.25s;
+}
+.pipe-btn:first-child{border-radius:12px 0 0 12px}
+.pipe-btn:last-child{border-radius:0 12px 12px 0;border-right:1.5px solid var(--line)}
+.pipe-btn:hover{background:#F0FBFB}
+.pipe-btn[aria-expanded="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.pipe-btn[aria-expanded="true"] .pb-ico{transform:scale(1.15)}
+.pb-ico{font-size:1.4rem;display:block;margin-bottom:7px;transition:.25s}
+.pb-t{font-size:.82rem;font-weight:800;display:block}
+.pb-s{font-size:.68rem;opacity:.7;font-weight:600}
+.pipe-body{
+  display:none;background:#fff;border:1px solid var(--line);border-radius:var(--r);
+  padding:24px 28px;box-shadow:var(--sh);
+}
+.pipe-body.open{display:block;animation:fade .35s ease}
+.pipe-body ul{margin:0;padding-left:20px}
+.pipe-body li{margin-bottom:8px;font-size:.9rem}
 
-        .value-display {
-            font-family: monospace;
-            font-size: 14px;
-            font-weight: 600;
-            width: 45px;
-            text-align: right;
-            background: #f1f5f9;
-            padding: 2px 6px;
-            border-radius: 4px;
-        }
+/* ============ GATES ============ */
+.gate-grid{display:grid;gap:16px}
+.gate{
+  background:#fff;border:1px solid var(--line);border-left:5px solid var(--idle);
+  border-radius:var(--r-sm);padding:20px 24px;display:grid;
+  grid-template-columns:62px 1fr auto;gap:20px;align-items:center;transition:.3s;
+}
+.gate:hover{box-shadow:var(--sh)}
+.gate[data-status="go"]{border-left-color:var(--ok)}
+.gate[data-status="warn"]{border-left-color:var(--warn)}
+.gate[data-status="no"]{border-left-color:var(--bad)}
+@media(max-width:760px){.gate{grid-template-columns:52px 1fr;gap:14px}.gate .gate-right{grid-column:2}}
+.gate-id{
+  font-family:var(--fh);font-weight:800;font-size:1.05rem;color:var(--navy);
+  background:var(--bg);border-radius:10px;height:52px;display:grid;place-items:center;
+}
+.gate h4{margin:0 0 4px;font-size:1rem;color:var(--navy)}
+.gate p{margin:0;font-size:.84rem;color:var(--muted)}
+.gate-crit{
+  display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);
+  font-size:.85rem;
+}
+.gate.open .gate-crit{display:block;animation:fade .3s ease}
+.gate-crit ul{margin:0;padding-left:18px}
+.gate-crit li{margin-bottom:6px}
+.gate-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px}
+.status-btn{
+  border:1.5px solid var(--line);background:#fff;border-radius:100px;padding:7px 15px;
+  font-family:var(--ff);font-size:.76rem;font-weight:800;cursor:pointer;
+  display:inline-flex;align-items:center;gap:8px;transition:.2s;min-width:118px;justify-content:center;
+}
+.status-btn:hover{border-color:var(--navy)}
+.sdot{width:9px;height:9px;border-radius:50%;background:var(--idle);transition:.2s}
+.gate[data-status="go"] .sdot{background:var(--ok)}
+.gate[data-status="warn"] .sdot{background:var(--warn)}
+.gate[data-status="no"] .sdot{background:var(--bad)}
+.expand-btn{
+  background:none;border:none;color:var(--teal);font-weight:700;font-size:.8rem;
+  cursor:pointer;font-family:var(--ff);padding:2px;
+}
+.expand-btn::after{content:' ▾';transition:.2s;display:inline-block}
+.gate.open .expand-btn::after{transform:rotate(180deg)}
 
-        /* KPI Scorecard layout */
-        .kpi-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
-        }
+/* ============ RISKS ============ */
+.risk{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:0;
+  overflow:hidden;box-shadow:var(--sh);transition:.3s;border-top:4px solid var(--teal);
+}
+.risk:nth-child(2){border-top-color:var(--gold)}
+.risk:nth-child(3){border-top-color:#7B61FF}
+.risk:hover{transform:translateY(-4px);box-shadow:var(--sh-lg)}
+.risk-head{padding:24px 24px 16px;cursor:pointer;display:flex;gap:14px;align-items:flex-start}
+.risk-ico{font-size:1.6rem;line-height:1}
+.risk h4{margin:0 0 4px;font-size:1.02rem;color:var(--navy)}
+.risk .sev{font-size:.68rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--bad)}
+.risk-body{padding:0 24px 24px;font-size:.88rem;color:#33475b}
+.risk-body h5{
+  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  margin:0 0 8px;font-family:var(--fh);
+}
+.risk-body ul{margin:0 0 16px;padding-left:18px}
+.risk-body li{margin-bottom:6px}
+.owner-tag{
+  display:inline-block;background:var(--bg);border-radius:6px;padding:5px 11px;
+  font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);
+}
 
-        .kpi-card {
-            background: #f8fafc;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
-            text-align: center;
-        }
+/* ============ RACI ============ */
+.raci-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:#fff;box-shadow:var(--sh)}
+table.raci{border-collapse:collapse;width:100%;min-width:680px;font-size:.86rem}
+table.raci th,table.raci td{padding:13px 15px;text-align:center;border-bottom:1px solid var(--line)}
+table.raci thead th{
+  background:var(--navy);color:#fff;font-family:var(--fh);font-size:.74rem;
+  letter-spacing:.08em;text-transform:uppercase;font-weight:700;
+}
+table.raci tbody th{text-align:left;font-weight:700;color:var(--navy);background:#FAFBFC}
+table.raci tbody tr:last-child th,table.raci tbody tr:last-child td{border-bottom:none}
+table.raci tbody tr:hover td,table.raci tbody tr:hover th{background:#F2FAFB}
+.rc{font-family:var(--fh);font-weight:800;font-size:.78rem;width:30px;height:30px;
+  display:inline-grid;place-items:center;border-radius:8px;color:#fff}
+.rc.R{background:var(--teal)}
+.rc.A{background:var(--navy)}
+.rc.C{background:var(--gold);color:var(--navy)}
+.rc.I{background:#C3CDD8;color:#41505F}
 
-        .kpi-label {
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-            margin-bottom: 4px;
-        }
+/* ============ GANTT ============ */
+.gantt{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px;box-shadow:var(--sh);overflow-x:auto}
+.gantt-inner{min-width:760px}
+.gantt-head,.gantt-row{display:grid;grid-template-columns:180px repeat(12,1fr);align-items:center;gap:0}
+.gantt-head div{
+  font-size:.66rem;font-weight:800;color:var(--muted);text-align:center;
+  letter-spacing:.05em;text-transform:uppercase;padding:8px 0;
+}
+.gantt-head div:first-child{text-align:left}
+.gantt-row{border-top:1px solid var(--line);padding:9px 0}
+.gantt-row .g-name{font-size:.82rem;font-weight:700;color:var(--navy);padding-right:12px}
+.gantt-track{grid-column:2 / span 12;position:relative;height:26px;background:repeating-linear-gradient(90deg,transparent,transparent calc(8.333% - 1px),var(--line) calc(8.333% - 1px),var(--line) 8.333%);border-radius:6px}
+.g-bar{
+  position:absolute;top:3px;height:20px;border-radius:6px;
+  background:linear-gradient(90deg,var(--teal),var(--teal-2));
+  display:grid;align-items:center;padding-left:10px;color:#fff;font-size:.68rem;font-weight:800;
+  white-space:nowrap;overflow:hidden;width:0;transition:width .9s cubic-bezier(.3,.9,.3,1);
+}
+.g-bar.b2{background:linear-gradient(90deg,#2E6FA8,#4A90C9)}
+.g-bar.b3{background:linear-gradient(90deg,var(--navy),var(--navy-3))}
+.g-bar.b4{background:linear-gradient(90deg,#7B61FF,#A08CFF)}
+.g-bar.b5{background:linear-gradient(90deg,var(--gold),var(--gold-2));color:var(--navy)}
+.g-bar.b6{background:linear-gradient(90deg,#1E9E6A,#3FC98D)}
+.g-milestone{
+  position:absolute;top:50%;width:14px;height:14px;background:#fff;border:3px solid var(--bad);
+  transform:translate(-50%,-50%) rotate(45deg);border-radius:3px;z-index:3;cursor:help;
+}
+.g-milestone[data-gate="G1"]{border-color:#1E9E6A}
+.g-milestone[data-gate="G2"]{border-color:#E8A33D}
+.g-milestone[data-gate="G3"]{border-color:#1B98A0}
+.g-milestone[data-gate="G4"]{border-color:#7B61FF}
+.g-milestone[data-gate="G5"]{border-color:#D64545}
+.g-today{
+  position:absolute;top:-6px;bottom:-6px;width:2px;background:var(--bad);z-index:4;
+  display:none;
+}
+.g-today::after{
+  content:'TODAY';position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+  font-size:.58rem;font-weight:800;color:var(--bad);letter-spacing:.08em;
+}
 
-        .kpi-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent);
-        }
+/* ============ CTA ============ */
+.cta{
+  background:linear-gradient(150deg,var(--navy) 0%,#071a33 100%);
+  color:#fff;border-radius:var(--r);padding:52px 44px;position:relative;overflow:hidden;
+}
+.cta::after{
+  content:'';position:absolute;right:-90px;top:-90px;width:340px;height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(27,152,160,.4),transparent 68%);
+}
+.cta h3{font-size:clamp(1.4rem,3vw,2rem);margin-bottom:12px}
+.cta p{color:rgba(255,255,255,.78);max-width:60ch}
+.cta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:28px 0;position:relative;z-index:2}
+@media(max-width:760px){.cta-grid{grid-template-columns:1fr}}
+.cta-item{
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  border-radius:12px;padding:16px 20px;display:flex;gap:13px;align-items:flex-start;
+  font-size:.9rem;transition:.25s;
+}
+.cta-item:hover{background:rgba(255,255,255,.14);transform:translateX(4px)}
+.cta-item b{display:block;color:#fff;font-family:var(--fh);font-size:.9rem}
+.cta-item span{color:rgba(255,255,255,.68);font-size:.82rem}
+.cta-foot{display:flex;flex-wrap:wrap;gap:14px;align-items:center;position:relative;z-index:2}
+.btn{
+  display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:var(--navy);
+  font-weight:800;font-family:var(--fh);font-size:.87rem;padding:13px 26px;border-radius:100px;
+  border:none;cursor:pointer;transition:.25s;text-decoration:none;
+}
+.btn:hover{background:var(--gold-2);transform:translateY(-2px);box-shadow:0 10px 26px rgba(242,169,0,.3);text-decoration:none}
+.btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.35);color:#fff}
+.btn.ghost:hover{background:rgba(255,255,255,.12);box-shadow:none}
 
-        /* Mini Chart Visualizer Elements */
-        .chart-container {
-            margin-top: 16px;
-            border-top: 1px solid var(--border);
-            padding-top: 16px;
-        }
+/* ============ FOOTER ============ */
+footer{background:#071a33;color:rgba(255,255,255,.6);padding:38px 0;font-size:.82rem}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center}
+footer a{color:var(--teal-2)}
+.foot-dots{display:flex;gap:7px}
+.foot-dots i{width:9px;height:9px;border-radius:50%;background:var(--teal);opacity:.5}
+.foot-dots i:nth-child(2){background:var(--gold)}
+.foot-dots i:nth-child(3){background:#7B61FF}
 
-        .bar-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
+/* ============ REVEAL ============ */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
 
-        .bar-label {
-            width: 140px;
-            font-weight: 500;
-        }
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+  .reveal{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
 
-        .bar-track {
-            flex: 1;
-            background-color: #e2e8f0;
-            height: 16px;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .bar-fill {
-            height: 100%;
-            background-color: var(--accent);
-            transition: width 0.3s ease;
-            width: 0%;
-        }
-
-        .bar-value {
-            width: 80px;
-            text-align: right;
-            font-family: monospace;
-            font-weight: 600;
-            margin-left: 8px;
-        }
-
-        /* Badges status types */
-        .badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-        .badge-success { background: #d1fae5; color: var(--success); }
-        .badge-danger { background: #fee2e2; color: var(--danger); }
-        .badge-warning { background: #fef3c7; color: var(--warning); }
-    </style>
+/* ============ PRINT ============ */
+@media print{
+  .topbar,.cta-foot,.expand-btn,.status-btn,.metric-tabs,.flow{display:none !important}
+  body{background:#fff;font-size:10pt}
+  section{padding:16px 0;page-break-inside:avoid}
+  .hero{background:#0B2545 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:22px 0}
+  .hero .wrap{grid-template-columns:1fr}
+  .orbit{display:none}
+  .card,.gate,.risk,.stage-panel,.gantt{box-shadow:none;border:1px solid #ccc}
+  .pipe-body,.gate-crit{display:block !important}
+  a[href]::after{content:' (' attr(href) ')';font-size:8pt;color:#666}
+}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <h1>AI Chatbot Pilot Performance Center</h1>
-        <p class="subtitle">Phased Rollout Live Evaluation & Operational Savings Simulator</p>
-    </header>
+<a class="skip" href="#main">Skip to content</a>
 
-    <div class="grid">
-        <!-- Interactive Controls Simulator Card -->
-        <div class="card">
-            <h2 class="card-title">⚙️ Pilot Scenario Controls</h2>
-            
-            <div class="form-group">
-                <label for="volume">Weekly Inbound Support Volume</label>
-                <div class="input-wrapper">
-                    <input type="range" id="volume" min="1000" max="50000" step="1000" value="10000">
-                    <span class="value-display" id="v-volume">10k</span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="resolution">Bot Resolution Rate (Success)</label>
-                <div class="input-wrapper">
-                    <input type="range" id="resolution" min="10" max="95" step="1" value="45">
-                    <span class="value-display" id="v-resolution">45%</span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="escalation">Escalation Hand-off Quality</label>
-                <div class="input-wrapper">
-                    <input type="range" id="escalation" min="50" max="100" step="1" value="82">
-                    <span class="value-display" id="v-escalation">82%</span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="unsafe">Unsafe / Hallucination Rate</label>
-                <div class="input-wrapper">
-                    <input type="range" id="unsafe" min="0.0" max="5.0" step="0.1" value="0.4">
-                    <span class="value-display" id="v-unsafe">0.4%</span>
-                </div>
-            </div>
-            
-            <div style="font-size:12px; color: var(--text-muted); margin-top: 15px; font-style: italic;">
-                *Adjust sliders to stress-test your prompt structures, knowledge health, and fallback guardrails.
-            </div>
-        </div>
-
-        <!-- Dynamic Visualization Dashboard Outputs -->
-        <div class="card">
-            <h2 class="card-title">📊 Projected Operational Impact Visualizer</h2>
-            
-            <!-- Key Metric Performance Cards -->
-            <div class="kpi-grid">
-                <div class="kpi-card">
-                    <div class="kpi-label">Est. Weekly Savings</div>
-                    <div class="kpi-value" id="kpi-savings">$0</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Tickets Deflected</div>
-                    <div class="kpi-value" id="kpi-deflected">0</div>
-                </div>
-                <div class="kpi-card">
-                    <div class="kpi-label">Safety Status</div>
-                    <div id="kpi-status"><span class="badge">Checking</span></div>
-                </div>
-            </div>
-
-            <!-- Programmatic Visual Bar Charts -->
-            <div class="chart-container">
-                <h3 style="font-size: 14px; text-transform: uppercase; color: var(--text-muted); margin-bottom:16px;">Volume Resource Breakdown</h3>
-                
-                <div class="bar-row">
-                    <div class="bar-label">🤖 Resolved By Bot</div>
-                    <div class="bar-track"><div class="bar-fill" id="bar-bot" style="background-color: var(--success)"></div></div>
-                    <div class="bar-value" id="val-bot">0</div>
-                </div>
-
-                <div class="bar-row">
-                    <div class="bar-label">🧑‍💻 Human Escalated</div>
-                    <div class="bar-track"><div class="bar-fill" id="bar-human" style="background-color: var(--accent)"></div></div>
-                    <div class="bar-value" id="val-human">0</div>
-                </div>
-
-                <div class="bar-row">
-                    <div class="bar-label">⚠️ At Risk (Hallucinated)</div>
-                    <div class="bar-track"><div class="bar-fill" id="bar-risk" style="background-color: var(--danger)"></div></div>
-                    <div class="bar-value" id="val-risk">0</div>
-                </div>
-            </div>
-        </div>
+<!-- ================= TOPBAR ================= -->
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <span class="dot" aria-hidden="true">🎓</span>
+      <span>Faculty Affairs · AI Lifecycle</span>
     </div>
-</div>
+    <nav class="navlinks" aria-label="Section navigation">
+      <a href="#decision">Decision</a>
+      <a href="#lifecycle">Lifecycle</a>
+      <a href="#stages">Stages</a>
+      <a href="#gates">Gates</a>
+      <a href="#risks">Risks</a>
+      <a href="#governance">Governance</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#ask">Ask</a>
+    </nav>
+  </div>
+  <div class="progress-rail" id="rail" role="presentation"></div>
+</header>
+
+<main id="main">
+
+<!-- ================= HERO ================= -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <div>
+      <span class="hero-badge">● Lifecycle Plan · 12-Week Pilot</span>
+      <h1 id="hero-title">Faculty Affairs <span class="accent">AI Assistant</span><br>&amp; Insights Hub</h1>
+      <p class="lede">
+        Responsible AI that resolves faculty and staff inquiries, triages workflows, and turns
+        operational insight into better process, workforce planning, and faculty experience.
+      </p>
+      <div class="hero-meta">
+        <span class="chip">🎯 Containment ≥ 40%</span>
+        <span class="chip">⭐ Faculty experience ≥ 4.5/5</span>
+        <span class="chip">✅ Guidance accuracy ≥ 99%</span>
+        <span class="chip gold">🛡 Escalation recall ≥ 95%</span>
+      </div>
+      <div class="hero-meta" style="margin-top:22px">
+        <a class="btn" href="#ask">Review the ask →</a>
+        <a class="btn ghost" href="#lifecycle">Jump to lifecycle</a>
+      </div>
+    </div>
+
+    <div class="orbit" role="img" aria-label="Hub-and-spoke diagram: AI assistant at the center of six faculty affairs domains — policy, leaves, promotions, onboarding, workload, and benefits.">
+      <div class="ring r3"></div>
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="orb-core">AI<br>Assistant</div>
+
+      <div class="orb" style="top:14.3%;left:50%;animation-delay:.10s"><i>📘</i><span>Policy</span></div>
+      <div class="orb" style="top:32.1%;left:81%;animation-delay:.20s"><i>🌿</i><span>Leaves</span></div>
+      <div class="orb" style="top:67.9%;left:81%;animation-delay:.30s"><i>🏅</i><span>Promotions</span></div>
+      <div class="orb" style="top:85.7%;left:50%;animation-delay:.40s"><i>🚀</i><span>Onboarding</span></div>
+      <div class="orb" style="top:67.9%;left:19%;animation-delay:.50s"><i>⚖️</i><span>Workload</span></div>
+      <div class="orb" style="top:32.1%;left:19%;animation-delay:.60s"><i>💼</i><span>Benefits</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DECISION ================= -->
+<section id="decision" class="tint" aria-labelledby="dec-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Stage 0 · The Decision</p>
+    <h2 class="sec-title reveal" id="dec-title">One decision, three paths, measurable outcomes</h2>
+    <p class="sec-lede reveal">
+      For every inbound inquiry, the system decides <strong>auto-resolve</strong>,
+      <strong>agent-assist</strong>, or <strong>human escalation</strong> — and when to retrain or roll back.
+      Aggregated trends feed process improvement and workforce planning.
+    </p>
+
+    <div class="decision-grid">
+      <div class="card reveal">
+        <h3 style="font-size:1.05rem;color:var(--navy)">Inquiry triage funnel</h3>
+        <div class="funnel">
+          <div class="funnel-row" style="--w:100%">100% inbound inquiries</div>
+          <div class="funnel-row" style="--w:84%">Intent + policy classification</div>
+          <div class="funnel-row" style="--w:68%">Confidence &amp; risk scoring</div>
+          <div class="funnel-row out" style="--w:52%">Route decision</div>
+          <div class="paths">
+            <div class="path p1"><b>40%</b>Auto-resolve</div>
+            <div class="path p2"><b>35%</b>Agent-assist</div>
+            <div class="path p3"><b>25%</b>Human escalation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <h3 style="font-size:1.05rem;color:var(--navy);margin-bottom:18px">Target KPI dashboard</h3>
+        <div class="gauges">
+          <div class="card gauge-card">
+            <div class="gauge-wrap">
+              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="g-bg" cx="60" cy="60" r="52"></circle>
+                <circle class="g-val" cx="60" cy="60" r="52" data-pct="40"></circle>
+              </svg>
+              <span class="gauge-num">40%</span>
+            </div>
+            <div class="gauge-label">Containment</div>
+            <div class="gauge-sub">Baseline: 0%</div>
+          </div>
+          <div class="card gauge-card">
+            <div class="gauge-wrap">
+              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="g-bg" cx="60" cy="60" r="52"></circle>
+                <circle class="g-val" cx="60" cy="60" r="52" data-pct="90"></circle>
+              </svg>
+              <span class="gauge-num">4.5</span>
+            </div>
+            <div class="gauge-label">Faculty experience</div>
+            <div class="gauge-sub">out of 5.0</div>
+          </div>
+          <div class="card gauge-card">
+            <div class="gauge-wrap">
+              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="g-bg" cx="60" cy="60" r="52"></circle>
+                <circle class="g-val" cx="60" cy="60" r="52" data-pct="99"></circle>
+              </svg>
+              <span class="gauge-num">99%</span>
+            </div>
+            <div class="gauge-label">Guidance accuracy</div>
+            <div class="gauge-sub">incorrect &lt; 1%</div>
+          </div>
+          <div class="card gauge-card">
+            <div class="gauge-wrap">
+              <svg class="gauge" viewBox="0 0 120 120" aria-hidden="true">
+                <circle class="g-bg" cx="60" cy="60" r="52"></circle>
+                <circle class="g-val" cx="60" cy="60" r="52" data-pct="95"></circle>
+              </svg>
+              <span class="gauge-num">95%</span>
+            </div>
+            <div class="gauge-label">Escalation recall</div>
+            <div class="gauge-sub">no missed handoffs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LIFECYCLE FLOW ================= -->
+<section id="lifecycle" aria-labelledby="lc-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Lifecycle</p>
+    <h2 class="sec-title reveal" id="lc-title">Six stages · one deliverable each</h2>
+    <p class="sec-lede reveal">Select a stage to see its deliverable, activities, exit criteria, and owners.</p>
+
+    <div class="flow reveal" role="tablist" aria-label="Lifecycle stages" id="flowTabs">
+      <button class="flow-btn" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true" data-stage="1">
+        <span class="fb-num">01</span><span class="fb-ico">🎯</span><span class="fb-name">Problem definition</span>
+      </button>
+      <button class="flow-btn" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" data-stage="2">
+        <span class="fb-num">02</span><span class="fb-ico">🗂</span><span class="fb-name">Data readiness</span>
+      </button>
+      <button class="flow-btn" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" data-stage="3">
+        <span class="fb-num">03</span><span class="fb-ico">🧠</span><span class="fb-name">Model development</span>
+      </button>
+      <button class="flow-btn" role="tab" id="tab-4" aria-controls="panel-4" aria-selected="false" data-stage="4">
+        <span class="fb-num">04</span><span class="fb-ico">🛡</span><span class="fb-name">Validation</span>
+      </button>
+      <button class="flow-btn" role="tab" id="tab-5" aria-controls="panel-5" aria-selected="false" data-stage="5">
+        <span class="fb-num">05</span><span class="fb-ico">🚀</span><span class="fb-name">Deployment</span>
+      </button>
+      <button class="flow-btn" role="tab" id="tab-6" aria-controls="panel-6" aria-selected="false" data-stage="6">
+        <span class="fb-num">06</span><span class="fb-ico">📊</span><span class="fb-name">Monitoring</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STAGE DETAIL ================= -->
+<section id="stages" class="tint" style="padding-top:0;border-top:none" aria-label="Stage details">
+  <div class="wrap">
+
+    <!-- STAGE 1 -->
+    <div class="stage-panel" id="panel-1" role="tabpanel" aria-labelledby="tab-1" tabindex="0">
+      <div class="sp-head">
+        <div>
+          <p class="eyebrow" style="margin-bottom:6px">Stage 01</p>
+          <h3>Problem definition</h3>
+        </div>
+        <span class="sp-deliv">📄 Decision Charter &amp; KPI Tree</span>
+      </div>
+      <div class="sp-cols">
+        <div>
+          <h4>What happens</h4>
+          <ul class="sp-list">
+            <li>Define the decision: auto-resolve, agent-assist, or human escalation.</li>
+            <li>Map current-state workflows across policy, leaves, promotions, onboarding, workload, benefits.</li>
+            <li>Set decision rights, baseline metrics, targets, and guardrails.</li>
+            <li>Build the KPI tree: containment · accuracy · speed · experience · compliance.</li>
+            <li>Quantify ROI and the funding case for pilot.</li>
+          </ul>
+          <div class="owner-row">
+            <span class="owner">Owner: Faculty Affairs Strategy</span>
+            <span class="owner">Approver: VP / Dean</span>
+          </div>
+        </div>
+        <div>
+          <h4>Exit criteria</h4>
+          <div class="exit-chips">
+            <span>Decision documented</span>
+            <span>KPI measurable &amp; &gt; baseline</span>
+            <span>Named owner</span>
+            <span>ROI approved</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 2 -->
+    <div class="stage-panel" id="panel-2" role="tabpanel" aria-labelledby="tab-2" tabindex="0" hidden>
+      <div class="sp-head">
+        <div>
+          <p class="eyebrow" style="margin-bottom:6px">Stage 02</p>
+          <h3>Data readiness</h3>
+        </div>
+        <span class="sp-deliv">🗂 Data &amp; Governance Pack</span>
+      </div>
+      <div class="sp-cols">
+        <div>
+          <h4>What happens</h4>
+          <ul class="sp-list">
+            <li>Inventory sources: HRIS, faculty records, policy documents, ticket history.</li>
+            <li>Secure access approvals and role-based permissions.</li>
+            <li>Complete PII classification, DPIA, retention, and audit logging.</li>
+            <li>Score data quality to ≥ 95%; build taxonomy and intent map.</li>
+            <li>Write labeling guide; validate with inter-rater agreement κ &gt; 0.8.</li>
+          </ul>
+          <div class="owner-row">
+            <span class="owner">Owner: Data &amp; Digital Strategy</span>
+            <span class="owner">Partner: IT · Legal · Security</span>
+          </div>
+        </div>
+        <div>
+          <h4>Exit criteria</h4>
+          <div class="exit-chips">
+            <span>Access approved</span>
+            <span>Quality ≥ 95%</span>
+            <span>κ &gt; 0.8</span>
+            <span>DPIA signed</span>
+            <span>Retention defined</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 3 -->
+    <div class="stage-panel" id="panel-3" role="tabpanel" aria-labelledby="tab-3" tabindex="0" hidden>
+      <div class="sp-head">
+        <div>
+          <p class="eyebrow" style="margin-bottom:6px">Stage 03</p>
+          <h3>Model development</h3>
+        </div>
+        <span class="sp-deliv">🧠 Model Card &amp; Benchmark Report</span>
+      </div>
+      <div class="sp-cols">
+        <div>
+          <h4>What happens</h4>
+          <ul class="sp-list">
+            <li>Build baselines: rules engine, search/FAQ, and current human handling.</li>
+            <li>Build candidates: retrieval-augmented generation (RAG) over governed policy corpus.</li>
+            <li>Benchmark accuracy, hallucination, latency, cost per chat, and integration fit.</li>
+            <li>Publish a model card documenting data, limits, and intended use.</li>
+          </ul>
+          <div class="owner-row">
+            <span class="owner">Owner: ML Engineering</span>
+            <span class="owner">Partner: IT · Consultants</span>
+          </div>
+        </div>
+        <div>
+          <h4>Exit criteria</h4>
+          <div class="exit-chips">
+            <span>+10% vs baseline</span>
+            <span>Hallucination ≤ 1%</span>
+            <span>Latency &lt; 2s</span>
+            <span>Cost &lt; $0.10/chat</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 4 -->
+    <div class="stage-panel" id="panel-4" role="tabpanel" aria-labelledby="tab-4" tabindex="0" hidden>
+      <div class="sp-head">
+        <div>
+          <p class="eyebrow" style="margin-bottom:6px">Stage 04</p>
+          <h3>Validation</h3>
+        </div>
+        <span class="sp-deliv">✅ Validation Report</span>
+      </div>
+      <div class="sp-cols">
+        <div>
+          <h4>What happens</h4>
+          <ul class="sp-list">
+            <li>Evaluate against a frozen golden set of real faculty inquiries.</li>
+            <li>Red-team for prompt injection, jailbreaks, and policy misuse.</li>
+            <li>Test bias and fairness across faculty rank, department, and demographics.</li>
+            <li>Run a shadow pilot — AI answers scored, but not shown to faculty.</li>
+            <li>Obtain Legal, Security, and Accessibility sign-off.</li>
+          </ul>
+          <div class="owner-row">
+            <span class="owner">Owner: Validation &amp; Risk</span>
+            <span class="owner">Sign-off: Legal · Security</span>
+          </div>
+        </div>
+        <div>
+          <h4>Exit criteria</h4>
+          <div class="exit-chips">
+            <span>Red-team pass</span>
+            <span>Recall ≥ 95%</span>
+            <span>Incorrect &lt; 1%</span>
+            <span>No Sev-1/2 risks</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 5 -->
+    <div class="stage-panel" id="panel-5" role="tabpanel" aria-labelledby="tab-5" tabindex="0" hidden>
+      <div class="sp-head">
+        <div>
+          <p class="eyebrow" style="margin-bottom:6px">Stage 05</p>
+          <h3>Deployment</h3>
+        </div>
+        <span class="sp-deliv">🚀 Release &amp; Rollback Runbook</span>
+      </div>
+      <div class="sp-cols">
+        <div>
+          <h4>What happens</h4>
+          <ul class="sp-list">
+            <li>Integrate with CRM, ITSM, faculty portal, and HRIS.</li>
+            <li>Release progressively: canary → 2-week pilot → scale.</li>
+            <li>Ship behind feature flags with a tested rollback in under 15 minutes.</li>
+            <li>Train faculty affairs staff and pilot champions; publish AI disclosure.</li>
+          </ul>
+          <div class="owner-row">
+            <span class="owner">Owner: IT &amp; Faculty Affairs Ops</span>
+            <span class="owner">Comms: Faculty Affairs</span>
+          </div>
+        </div>
+        <div>
+          <h4>Exit criteria</h4>
+          <div class="exit-chips">
+            <span>Pilot meets KPI</span>
+            <span>Experience ≥ 4.5</span>
+            <span>Rollback &lt; 15 min</span>
+            <span>Ops owner named</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STAGE 6 -->
+    <div class="stage-panel" id="panel-6" role="tabpanel" aria-labelledby="tab-6" tabindex="0" hidden>
+      <div class="sp-head">
+        <div>
+          <p class="eyebrow" style="margin-bottom:6px">Stage 06</p>
+          <h3>Monitoring</h3>
+        </div>
+        <span class="sp-deliv">📊 Monitoring Dashboard &amp; Retraining Playbook</span>
+      </div>
+      <div class="sp-cols">
+        <div>
+          <h4>What happens</h4>
+          <ul class="sp-list">
+            <li>Track drift, hallucination rate, CSAT, containment, and escalation errors.</li>
+            <li>Alert on threshold breaches with automated incident routing.</li>
+            <li>Define retraining triggers: drift &gt; X, accuracy drop, policy change.</li>
+            <li>Feed aggregated trends into process improvement and workforce planning.</li>
+            <li>Maintain a monthly model review with named accountability.</li>
+          </ul>
+          <div class="owner-row">
+            <span class="owner">Owner: Data &amp; Digital Strategy</span>
+            <span class="owner">Partner: IT · Faculty Affairs Ops</span>
+          </div>
+        </div>
+        <div>
+          <h4>Exit criteria</h4>
+          <div class="exit-chips">
+            <span>Dashboard live</span>
+            <span>Triggers defined</span>
+            <span>Owner assigned</span>
+            <span>Monthly review set</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= MODEL CHART ================= -->
+<section id="model" aria-labelledby="model-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Stage 03 · Evidence</p>
+    <h2 class="sec-title reveal" id="model-title">Candidate models vs. baselines</h2>
+    <p class="sec-lede reveal">Toggle a metric to compare lanes. The RAG/LLM candidate must beat baseline by ≥10% relative on accuracy while staying inside guardrails.</p>
+
+    <div class="card reveal" style="padding:34px">
+      <div class="metric-tabs" role="group" aria-label="Select metric">
+        <button data-metric="accuracy" aria-pressed="true">Accuracy ↑</button>
+        <button data-metric="hallucination" aria-pressed="false">Hallucination ↓</button>
+        <button data-metric="cost" aria-pressed="false">Cost / chat ↓</button>
+        <button data-metric="latency" aria-pressed="false">Latency ↓</button>
+      </div>
+
+      <div class="bars" id="bars" aria-live="polite"></div>
+
+      <p class="bar-note">
+        <strong>Human baseline reference:</strong> 88% accuracy · 0.4% hallucination ·
+        $4.50 per interaction · ~180s first response. The AI must match human accuracy on
+        low-risk intents while escalating high-risk intents (promotion, tenure, leave, benefits) 100% of the time.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DATA PIPELINE ================= -->
+<section id="pipeline" class="tint" aria-labelledby="pipe-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Stage 02 · Data &amp; Governance</p>
+    <h2 class="sec-title reveal" id="pipe-title">Four chambers of data readiness</h2>
+    <p class="sec-lede reveal">Click a chamber to expand its checklist. All four must be green before Stage 03 begins.</p>
+
+    <div class="pipe reveal" id="pipe">
+      <button class="pipe-btn" aria-expanded="true" aria-controls="pb-1">
+        <span class="pb-ico">🗄</span><span class="pb-t">Sources</span><span class="pb-s">Inventory</span>
+      </button>
+      <button class="pipe-btn" aria-expanded="false" aria-controls="pb-2">
+        <span class="pb-ico">🔑</span><span class="pb-t">Access</span><span class="pb-s">Approvals</span>
+      </button>
+      <button class="pipe-btn" aria-expanded="false" aria-controls="pb-3">
+        <span class="pb-ico">📐</span><span class="pb-t">Quality</span><span class="pb-s">≥ 95%</span>
+      </button>
+      <button class="pipe-btn" aria-expanded="false" aria-controls="pb-4">
+        <span class="pb-ico">🛡</span><span class="pb-t">Governance</span><span class="pb-s">PII · DPIA</span>
+      </button>
+    </div>
+
+    <div class="pipe-body open" id="pb-1">
+      <h4 style="color:var(--navy);font-family:var(--fh);margin-top:0">Source inventory</h4>
+      <ul>
+        <li><strong>HRIS</strong> — appointments, ranks, tenure status, leave balances.</li>
+        <li><strong>Faculty records</strong> — promotion and reappointment dossiers, workload assignments.</li>
+        <li><strong>Policy corpus</strong> — handbooks, collective agreements, procedure documents.</li>
+        <li><strong>Ticket history</strong> — 24 months of inquiries with resolution outcomes.</li>
+      </ul>
+    </div>
+    <div class="pipe-body" id="pb-2">
+      <h4 style="color:var(--navy);font-family:var(--fh);margin-top:0">Access &amp; approvals</h4>
+      <ul>
+        <li>Formal data-sharing agreements with HRIS and IT system owners.</li>
+        <li>Role-based access control; least-privilege for model and analytics users.</li>
+        <li>Service accounts with scoped, auditable read-only permissions.</li>
+      </ul>
+    </div>
+    <div class="pipe-body" id="pb-3">
+      <h4 style="color:var(--navy);font-family:var(--fh);margin-top:0">Quality &amp; labeling</h4>
+      <ul>
+        <li>Completeness, freshness, and duplication scoring to a ≥95% threshold.</li>
+        <li>Canonical taxonomy and intent map across all six domains.</li>
+        <li>Labeling guide with dual-annotation QA; target κ &gt; 0.8.</li>
+      </ul>
+    </div>
+    <div class="pipe-body" id="pb-4">
+      <h4 style="color:var(--navy);font-family:var(--fh);margin-top:0">Governance &amp; privacy</h4>
+      <ul>
+        <li>Data classification with PII redaction before model ingestion.</li>
+        <li>DPIA completed and signed; retention schedule documented.</li>
+        <li>Immutable audit logs for every query, response, and escalation.</li>
+        <li>Workforce insights reported in aggregate only.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GATES ================= -->
+<section id="gates" aria-labelledby="gates-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Governance</p>
+    <h2 class="sec-title reveal" id="gates-title">Five stage gates — go / no-go</h2>
+    <p class="sec-lede reveal">
+      Expand a gate for acceptance criteria. Click the status chip to cycle
+      <strong>Not started → At risk → Go → No-go</strong>. Status is saved in your browser.
+    </p>
+
+    <div class="gate-grid" id="gateGrid">
+
+      <article class="gate reveal" data-status="idle" data-gate="G1">
+        <div class="gate-id">G1</div>
+        <div>
+          <h4>Problem–Solution Fit</h4>
+          <p>Sponsor approves decision, KPI, baseline, ROI, and owner.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit">
+            <ul>
+              <li>Decision and decision rights documented.</li>
+              <li>KPI measurable and strictly better than baseline.</li>
+              <li>Single accountable owner named.</li>
+              <li>No-go if scope or ownership is unclear.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="gate-right">
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+      <article class="gate reveal" data-status="idle" data-gate="G2">
+        <div class="gate-id">G2</div>
+        <div>
+          <h4>Data Readiness</h4>
+          <p>Access, quality, labeling, and privacy all cleared.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit">
+            <ul>
+              <li>All source access approved in writing.</li>
+              <li>Data quality ≥ 95%; inter-rater agreement κ &gt; 0.8.</li>
+              <li>PII classification, DPIA, and retention signed off.</li>
+              <li>No-go if privacy or retention is unresolved.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="gate-right">
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+      <article class="gate reveal" data-status="idle" data-gate="G3">
+        <div class="gate-id">G3</div>
+        <div>
+          <h4>Model Build</h4>
+          <p>Candidate beats baseline inside cost and latency limits.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit">
+            <ul>
+              <li>≥ 10% relative improvement in resolution accuracy vs baseline.</li>
+              <li>Hallucination ≤ 1%; latency &lt; 2s; cost &lt; $0.10 per chat.</li>
+              <li>Model card published with intended use and limits.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="gate-right">
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+      <article class="gate reveal" data-status="idle" data-gate="G4">
+        <div class="gate-id">G4</div>
+        <div>
+          <h4>Validation &amp; Risk</h4>
+          <p>Safety, fairness, and escalation reliability proven.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit">
+            <ul>
+              <li>Red-team pass with no open critical findings.</li>
+              <li>Escalation recall ≥ 95%; incorrect guidance &lt; 1%.</li>
+              <li>Faculty experience non-inferior to human-only in shadow pilot.</li>
+              <li>Security and Legal sign-off; no Sev-1 or Sev-2 risks.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="gate-right">
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+      <article class="gate reveal" data-status="idle" data-gate="G5">
+        <div class="gate-id">G5</div>
+        <div>
+          <h4>Deployment Pilot</h4>
+          <p>Two-week pilot meets KPI with a proven rollback.</p>
+          <button class="expand-btn" aria-expanded="false">Criteria</button>
+          <div class="gate-crit">
+            <ul>
+              <li>Containment ≥ 40% sustained across the pilot window.</li>
+              <li>Faculty experience ≥ 4.5/5.</li>
+              <li>Rollback tested end-to-end in under 15 minutes.</li>
+              <li>Operations owner assigned and on-call rota published.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="gate-right">
+          <button class="status-btn" data-cycle><span class="sdot"></span><span class="stxt">Not started</span></button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= RISKS ================= -->
+<section id="risks" class="tint" aria-labelledby="risk-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Risk Register</p>
+    <h2 class="sec-title reveal" id="risk-title">Three risks that matter most</h2>
+    <p class="sec-lede reveal">Each risk has a named owner, a mitigation set, and a signal that tells us it's materializing.</p>
+
+    <div class="grid g3">
+      <article class="risk reveal">
+        <div class="risk-head">
+          <span class="risk-ico" aria-hidden="true">🗄</span>
+          <div>
+            <h4>Data privacy &amp; PII exposure</h4>
+            <span class="sev">Severity: High</span>
+          </div>
+        </div>
+        <div class="risk-body">
+          <p>Faculty records contain sensitive personal, medical, and employment data. Improper handling risks regulatory breach and faculty trust.</p>
+          <h5>Mitigations</h5>
+          <ul>
+            <li>Data classification with PII redaction before ingestion.</li>
+            <li>Role-based access control and least-privilege service accounts.</li>
+            <li>DPIA, retention schedule, and immutable audit logs.</li>
+            <li>Workforce insights reported only in aggregate.</li>
+          </ul>
+          <h5>Early signal</h5>
+          <p style="font-size:.84rem;margin:0 0 16px">Unclassified field detected in ingestion pipeline.</p>
+          <span class="owner-tag">Owner: Data Governance · Legal</span>
+        </div>
+      </article>
+
+      <article class="risk reveal">
+        <div class="risk-head">
+          <span class="risk-ico" aria-hidden="true">🧩</span>
+          <div>
+            <h4>Hallucination &amp; incorrect guidance</h4>
+            <span class="sev">Severity: High</span>
+          </div>
+        </div>
+        <div class="risk-body">
+          <p>Confidently wrong answers about promotion timelines, leave entitlements, or benefits can cause real harm to faculty careers.</p>
+          <h5>Mitigations</h5>
+          <ul>
+            <li>Retrieval-augmented generation with mandatory citations.</li>
+            <li>Confidence thresholds with refusal and graceful fallback.</li>
+            <li>Human review for all high-risk intents.</li>
+            <li>Continuous red-teaming and adversarial evaluation.</li>
+          </ul>
+          <h5>Early signal</h5>
+          <p style="font-size:.84rem;margin:0 0 16px">Citation-missing responses or confidence below threshold trending up.</p>
+          <span class="owner-tag">Owner: ML Engineering · Validation</span>
+        </div>
+      </article>
+
+      <article class="risk reveal">
+        <div class="risk-head">
+          <span class="risk-ico" aria-hidden="true">👥</span>
+          <div>
+            <h4>Adoption &amp; trust</h4>
+            <span class="sev">Severity: Medium–High</span>
+          </div>
+        </div>
+        <div class="risk-body">
+          <p>Faculty and staff may distrust automated guidance, bypass the tool, or perceive it as replacing human judgment.</p>
+          <h5>Mitigations</h5>
+          <ul>
+            <li>Co-design with faculty and staff from Stage 01.</li>
+            <li>Pilot champions embedded in each school.</li>
+            <li>Explicit AI disclosure and one-click escalation to a human.</li>
+            <li>Publish time-savings and fairness metrics transparently.</li>
+          </ul>
+          <h5>Early signal</h5>
+          <p style="font-size:.84rem;margin:0 0 16px">Escalation-on-first-message rate rising above 30%.</p>
+          <span class="owner-tag">Owner: Faculty Affairs Ops · Comms</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GOVERNANCE / RACI ================= -->
+<section id="governance" aria-labelledby="gov-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Governance</p>
+    <h2 class="sec-title reveal" id="gov-title">RACI &amp; operating cadence</h2>
+    <p class="sec-lede reveal">
+      <strong>R</strong> = Responsible · <strong>A</strong> = Accountable ·
+      <strong>C</strong> = Consulted · <strong>I</strong> = Informed
+    </p>
+
+    <div class="raci-scroll reveal">
+      <table class="raci">
+        <caption class="sr">RACI matrix for the Faculty Affairs AI Assistant lifecycle</caption>
+        <thead>
+          <tr>
+            <th scope="col">Activity</th>
+            <th scope="col">Faculty Affairs</th>
+            <th scope="col">Data &amp; Digital</th>
+            <th scope="col">IT</th>
+            <th scope="col">Legal / Security</th>
+            <th scope="col">Consultants</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Decision charter &amp; KPI</th>
+            <td><span class="rc A">A</span></td><td><span class="rc R">R</span></td>
+            <td><span class="rc C">C</span></td><td><span class="rc I">I</span></td><td><span class="rc C">C</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Data access &amp; DPIA</th>
+            <td><span class="rc C">C</span></td><td><span class="rc R">R</span></td>
+            <td><span class="rc R">R</span></td><td><span class="rc A">A</span></td><td><span class="rc C">C</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Model build &amp; benchmark</th>
+            <td><span class="rc C">C</span></td><td><span class="rc A">A</span></td>
+            <td><span class="rc R">R</span></td><td><span class="rc I">I</span></td><td><span class="rc R">R</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Validation &amp; red-team</th>
+            <td><span class="rc C">C</span></td><td><span class="rc R">R</span></td>
+            <td><span class="rc C">C</span></td><td><span class="rc A">A</span></td><td><span class="rc C">C</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Deployment &amp; rollback</th>
+            <td><span class="rc C">C</span></td><td><span class="rc C">C</span></td>
+            <td><span class="rc A">A</span></td><td><span class="rc C">C</span></td><td><span class="rc I">I</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Monitoring &amp; retraining</th>
+            <td><span class="rc C">C</span></td><td><span class="rc A">A</span></td>
+            <td><span class="rc R">R</span></td><td><span class="rc I">I</span></td><td><span class="rc I">I</span></td>
+          </tr>
+          <tr>
+            <th scope="row">Faculty communications</th>
+            <td><span class="rc A">A</span></td><td><span class="rc C">C</span></td>
+            <td><span class="rc I">I</span></td><td><span class="rc C">C</span></td><td><span class="rc I">I</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="grid g3" style="margin-top:26px">
+      <div class="card reveal">
+        <h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">📅 Weekly steering</h4>
+        <p style="margin:0;font-size:.86rem;color:var(--muted)">Program risks, blockers, gate readiness. 30 minutes.</p>
+      </div>
+      <div class="card reveal">
+        <h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">✅ Gate sign-off</h4>
+        <p style="margin:0;font-size:.86rem;color:var(--muted)">Sponsor + Legal/Security + IT + Faculty Affairs Ops.</p>
+      </div>
+      <div class="card reveal">
+        <h4 style="color:var(--navy);font-size:.95rem;margin-bottom:6px">📈 Monthly sponsor review</h4>
+        <p style="margin:0;font-size:.86rem;color:var(--muted)">KPI performance, drift, retraining decisions, ROI.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROADMAP ================= -->
+<section id="roadmap" class="tint" aria-labelledby="road-title">
+  <div class="wrap">
+    <p class="eyebrow reveal">Timeline</p>
+    <h2 class="sec-title reveal" id="road-title">Twelve weeks to pilot</h2>
+    <p class="sec-lede reveal">Diamonds mark gate decisions. The red line tracks today.</p>
+
+    <div class="gantt reveal">
+      <div class="gantt-inner" id="gantt">
+        <div class="gantt-head">
+          <div>Stage</div>
+          <div>W1</div><div>W2</div><div>W3</div><div>W4</div><div>W5</div><div>W6</div>
+          <div>W7</div><div>W8</div><div>W9</div><div>W10</div><div>W11</div><div>W12</div>
+        </div>
+
+        <div class="gantt-row">
+          <span class="g-name">① Problem definition</span>
+          <div class="gantt-track">
+            <div class="g-bar" data-start="1" data-end="2">Charter</div>
+            <div class="g-milestone" data-gate="G1" style="left:4.16%" title="G1 · Problem–Solution Fit"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <span class="g-name">② Data readiness</span>
+          <div class="gantt-track">
+            <div class="g-bar b2" data-start="2" data-end="5">Governance pack</div>
+            <div class="g-milestone" data-gate="G2" style="left:37.5%" title="G2 · Data Readiness"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <span class="g-name">③ Model development</span>
+          <div class="gantt-track">
+            <div class="g-bar b3" data-start="4" data-end="8">Baselines + RAG</div>
+            <div class="g-milestone" data-gate="G3" style="left:62.5%" title="G3 · Model Build"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <span class="g-name">④ Validation</span>
+          <div class="gantt-track">
+            <div class="g-bar b4" data-start="7" data-end="10">Red-team + shadow</div>
+            <div class="g-milestone" data-gate="G4" style="left:79.16%" title="G4 · Validation &amp; Risk"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <span class="g-name">⑤ Deployment pilot</span>
+          <div class="gantt-track">
+            <div class="g-bar b5" data-start="9" data-end="12">Canary → Pilot</div>
+            <div class="g-milestone" data-gate="G5" style="left:95.8%" title="G5 · Deployment Pilot"></div>
+          </div>
+        </div>
+
+        <div class="gantt-row">
+          <span class="g-name">⑥ Monitoring</span>
+          <div class="gantt-track">
+            <div class="g-bar b6" data-start="10" data-end="12">Ongoing</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ASK ================= -->
+<section id="ask" aria-labelledby="ask-title">
+  <div class="wrap">
+    <div class="cta reveal">
+      <h3 id="ask-title">The ask</h3>
+      <p>Approve Stage Gate 1 and fund the four-week data readiness and governance sprint so the pilot can begin on schedule.</p>
+
+      <div class="cta-grid">
+        <div class="cta-item"><span aria-hidden="true">✅</span><div><b>Approve G1</b><span>Confirm decision, KPI, baseline, and owner.</span></div></div>
+        <div class="cta-item"><span aria-hidden="true">💰</span><div><b>Fund data sprint</b><span>Four weeks: access, quality, DPIA, taxonomy.</span></div></div>
+        <div class="cta-item"><span aria-hidden="true">🗓</span><div><b>Confirm cadence</b><span>Weekly steering and named gate signatories.</span></div></div>
+        <div class="cta-item"><span aria-hidden="true">📌</span><div><b>Next gate</b><span>G2 · Data Readiness in three weeks.</span></div></div>
+      </div>
+
+      <div class="cta-foot">
+        <a class="btn" href="#decision">Back to decision ↑</a>
+        <a class="btn ghost" href="#gates">Review gates</a>
+        <span style="font-size:.82rem;color:rgba(255,255,255,.55)">Responsible AI that strengthens faculty experience and decision-making.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <strong style="color:#fff;font-family:var(--fh)">Faculty Affairs, Data &amp; Digital Strategy</strong><br>
+      AI Assistant &amp; Insights Hub · Lifecycle Plan v1.0
+    </div>
+    <div class="foot-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <div><a href="#main">Back to top</a></div>
+  </div>
+</footer>
 
 <script>
-    // Elements references
-    const inputs = ['volume', 'resolution', 'escalation', 'unsafe'];
-    const costPerHumanTicket = 8.50; // Telecom baseline industry cost per phone/chat escalation
-    const costPerBotTicket = 0.35;   // API token execution + licensing overhead calculation
+(function(){
+  'use strict';
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function formatNumber(num) {
-        if (num >= 1000) return (num / 1000).toFixed(0) + 'k';
-        return num;
+  /* ---------- Scroll progress rail ---------- */
+  var rail = document.getElementById('rail');
+  function onScroll(){
+    var h = document.documentElement;
+    var max = h.scrollHeight - h.clientHeight;
+    var pct = max > 0 ? (h.scrollTop / max) * 100 : 0;
+    rail.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window && !reduced){
+    var ro = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          e.target.classList.add('in');
+          ro.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.12, rootMargin:'0px 0px -40px 0px'});
+    revealEls.forEach(function(el, i){
+      el.style.transitionDelay = (Math.min(i,6) * 40) + 'ms';
+      ro.observe(el);
+    });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------- Funnel rows ---------- */
+  var funnelRows = document.querySelectorAll('.funnel-row, .path');
+  if ('IntersectionObserver' in window && !reduced){
+    var fo = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){
+          var idx = Array.prototype.indexOf.call(funnelRows, e.target);
+          setTimeout(function(){ e.target.classList.add('in'); }, idx * 110);
+          fo.unobserve(e.target);
+        }
+      });
+    }, {threshold:0.3});
+    funnelRows.forEach(function(el){ fo.observe(el); });
+  } else {
+    funnelRows.forEach(function(el){ el.classList.add('in'); });
+  }
+
+  /* ---------- KPI gauges ---------- */
+  var CIRC = 2 * Math.PI * 52;
+  document.querySelectorAll('.gauge .g-val').forEach(function(c){
+    c.style.strokeDasharray = CIRC;
+    c.style.strokeDashoffset = CIRC;
+  });
+  function fillGauges(){
+    document.querySelectorAll('.gauge .g-val').forEach(function(c){
+      var pct = parseFloat(c.getAttribute('data-pct')) || 0;
+      c.style.strokeDashoffset = CIRC * (1 - pct / 100);
+    });
+  }
+  if ('IntersectionObserver' in window && !reduced){
+    var go = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting){ fillGauges(); go.disconnect(); }
+      });
+    }, {threshold:0.4});
+    var g0 = document.querySelector('.gauges');
+    if (g0) go.observe(g0);
+  } else { fillGauges(); }
+
+  /* ---------- Lifecycle tabs ---------- */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.flow-btn'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.stage-panel'));
+  function selectStage(n){
+    tabs.forEach(function(t){
+      var on = t.getAttribute('data-stage') === String(n);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+      t.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach(function(p){
+      p.hidden = (p.id !== 'panel-' + n);
+    });
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ selectStage(t.getAttribute('data-stage')); });
+    t.addEventListener('keydown', function(e){
+      var k = e.key, next = null;
+      if (k === 'ArrowRight') next = (i + 1) % tabs.length;
+      if (k === 'ArrowLeft')  next = (i - 1 + tabs.length) % tabs.length;
+      if (k === 'Home') next = 0;
+      if (k === 'End')  next = tabs.length - 1;
+      if (next !== null){
+        e.preventDefault();
+        tabs[next].focus();
+        selectStage(tabs[next].getAttribute('data-stage'));
+      }
+    });
+  });
+
+  /* ---------- Model metric chart ---------- */
+  var METRICS = {
+    accuracy: {
+      label: 'Accuracy', unit: '%', max: 100, decimals: 0, higherBetter: true,
+      target: 'Target ≥ 92%',
+      rows: [
+        {name:'Rules baseline', value:62},
+        {name:'Search / FAQ', value:71},
+        {name:'RAG + LLM ★', value:93, best:true}
+      ]
+    },
+    hallucination: {
+      label: 'Hallucination', unit: '%', max: 2, decimals: 1, higherBetter: false,
+      target: 'Target ≤ 1.0%',
+      rows: [
+        {name:'Rules baseline', value:0.0},
+        {name:'Search / FAQ', value:1.5},
+        {name:'RAG + LLM ★', value:0.9, best:true}
+      ]
+    },
+    cost: {
+      label: 'Cost per chat', unit: '¢', max: 10, decimals: 1, higherBetter: false,
+      target: 'Target ≤ 10¢',
+      rows: [
+        {name:'Rules baseline', value:0.1},
+        {name:'Search / FAQ', value:0.5},
+        {name:'RAG + LLM ★', value:8.0, best:true}
+      ]
+    },
+    latency: {
+      label: 'Latency', unit: 's', max: 3, decimals: 1, higherBetter: false,
+      target: 'Target < 2.0s',
+      rows: [
+        {name:'Rules baseline', value:0.2},
+        {name:'Search / FAQ', value:0.4},
+        {name:'RAG + LLM ★', value:1.6, best:true}
+      ]
+    }
+  };
+  var barsEl = document.getElementById('bars');
+  function fmt(v, d){ return d === 0 ? Math.round(v).toString() : v.toFixed(d); }
+  function renderMetric(key){
+    var m = METRICS[key];
+    if (!m || !barsEl) return;
+    barsEl.innerHTML = '';
+
+    m.rows.forEach(function(r){
+      var pct = Math.max(3, Math.min(100, (r.value / m.max) * 100));
+      var row = document.createElement('div');
+      row.className = 'bar-row' + (r.best ? ' best' : '');
+
+      var name = document.createElement('div');
+      name.className = 'bar-name';
+      name.textContent = r.name;
+
+      var track = document.createElement('div');
+      track.className = 'bar-track';
+      var fill = document.createElement('div');
+      fill.className = 'bar-fill';
+      track.appendChild(fill);
+
+      var val = document.createElement('div');
+      val.className = 'bar-val';
+      val.textContent = fmt(r.value, m.decimals) + m.unit;
+
+      row.appendChild(name);
+      row.appendChild(track);
+      row.appendChild(val);
+      barsEl.appendChild(row);
+
+      requestAnimationFrame(function(){ fill.style.width = pct + '%'; });
+    });
+
+    var note = document.createElement('p');
+    note.className = 'bar-note';
+    note.style.marginTop = '14px';
+    note.style.background = 'transparent';
+    note.style.border = 'none';
+    note.style.padding = '0';
+    note.style.color = 'var(--muted)';
+    note.style.fontSize = '.8rem';
+    note.textContent = m.target + (m.higherBetter ? ' · higher is better' : ' · lower is better');
+    barsEl.appendChild(note);
+  }
+  document.querySelectorAll('.metric-tabs button').forEach(function(b){
+    b.addEventListener('click', function(){
+      document.querySelectorAll('.metric-tabs button').forEach(function(x){
+        x.setAttribute('aria-pressed', x === b ? 'true' : 'false');
+      });
+      renderMetric(b.getAttribute('data-metric'));
+    });
+  });
+  renderMetric('accuracy');
+
+  /* ---------- Data pipeline accordion ---------- */
+  var pipeBtns = Array.prototype.slice.call(document.querySelectorAll('.pipe-btn'));
+  var pipeBodies = Array.prototype.slice.call(document.querySelectorAll('.pipe-body'));
+  pipeBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var targetId = btn.getAttribute('aria-controls');
+      pipeBtns.forEach(function(b){
+        var open = (b === btn);
+        b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      pipeBodies.forEach(function(p){
+        p.classList.toggle('open', p.id === targetId);
+      });
+    });
+  });
+
+  /* ---------- Gate expand + status cycle ---------- */
+  var STATUS = [
+    {key:'idle', label:'Not started'},
+    {key:'warn', label:'At risk'},
+    {key:'go',   label:'Go'},
+    {key:'no',   label:'No-go'}
+  ];
+  var STORE_KEY = 'fa-ai-gates-v1';
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch(e){ saved = {}; }
+
+  function applyStatus(gate, key){
+    var s = STATUS.filter(function(x){ return x.key === key; })[0] || STATUS[0];
+    gate.setAttribute('data-status', s.key);
+    var txt = gate.querySelector('.stxt');
+    if (txt) txt.textContent = s.label;
+  }
+
+  document.querySelectorAll('.gate').forEach(function(gate){
+    var id = gate.getAttribute('data-gate');
+
+    // expand criteria
+    var eb = gate.querySelector('.expand-btn');
+    if (eb){
+      eb.addEventListener('click', function(){
+        var open = gate.classList.toggle('open');
+        eb.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
     }
 
-    function calculateMetrics() {
-        // Retrieve slider structural values
-        const vol = parseInt(document.getElementById('volume').value);
+    // status chip
+    var sb = gate.querySelector('[data-cycle]');
+    if (sb){
+      sb.setAttribute('aria-label', 'Cycle status for gate ' + id);
+      sb.addEventListener('click', function(){
+        var cur = gate.getAttribute('data-status') || 'idle';
+        var idx = STATUS.map(function(x){ return x.key; }).indexOf(cur);
+        var next = STATUS[(idx + 1) % STATUS.length];
+        applyStatus(gate, next.key);
+        saved[id] = next.key;
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(saved)); } catch(e){}
+      });
+    }
+
+    applyStatus(gate, saved[id] || 'idle');
+  });
+
+  /* ---------- Gantt: bars + today marker ---------- */
+  var COLS = 12;
+  document.querySelectorAll('.g-bar').forEach(function(bar){
+    var s = parseInt(bar.getAttribute('data-start'), 10);
+    var e = parseInt(bar.getAttribute('data-end'), 10);
+    var leftPct = ((s - 1) / COLS) * 100;
+    var widthPct = ((e - s + 1) / COLS) * 100;
+    bar.style.left = leftPct + '%';
+    requestAnimationFrame(function(){ bar.style.width = widthPct + '%'; });
+  });
+
+  // Optional: set PILOT_START to a real date to show the "today" line.
+  var PILOT_START = null; // e.g. new Date('2026-01-05')
+  if (PILOT_START){
+    var weeksIn = (Date.now() - PILOT_START.getTime()) / (1000*60*60*24*7);
+    if (weeksIn >= 0 && weeksIn <= COLS){
+      var pct = (weeksIn / COLS) * 100;
+      document.querySelectorAll('.gantt-track').forEach(function(t){
+        var line = document.createElement('div');
+        line.className = 'g-today';
+        line.style.left = pct + '%';
+        line.style.display = 'block';
+        t.appendChild(line);
+      });
+    }
+  }
+})();
+</script>
+</body>
+</html>
